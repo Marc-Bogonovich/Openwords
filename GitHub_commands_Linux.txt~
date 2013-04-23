@@ -9,6 +9,9 @@ git push origin master
 
 how to push your local repo to the GitHub repository:
 1.navigate to the locally synced folder
-Then type the following into the command line
+  --Then type the following into the command line
 2.git init
 3.git commit -m 'name_of_commit'
+4.git push origin master
+
+5.apparently if you want all of the changes you have made in your local directory to be synced with your remote, then you will need to type the command 'git add . '
