@@ -46,6 +46,8 @@ public class MainActivity extends Activity {
         edit1 = (EditText) findViewById(R.id.act_main_edit1);
         edit2 = (EditText) findViewById(R.id.act_main_edit2);
         edit3 = (EditText) findViewById(R.id.act_main_edit3);
+        
+        //hey, I am making some changes!
 
         loadFromRemote.setOnClickListener(new View.OnClickListener() {
 
