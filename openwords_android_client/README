@@ -1,0 +1,5 @@
+This is the folder for our Android client code.
+For Android project, we only need to share the "src", "res", "libs"
+and probably "assets" folders to our git here.
+Please DO NOT commit/push any of your local files, that would sabotage
+other people's local configurations.
