@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="com.openwords"
+          android:versionCode="1"
+          android:versionName="1.0">
+    
+    <uses-sdk android:minSdkVersion="14" android:targetSdkVersion="19"/>
+    
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    
+    <supports-screens android:resizeable="true"
+                      android:smallScreens="true"
+                      android:normalScreens="true"
+                      android:largeScreens="true"
+                      android:anyDensity="true"/> 
+
+    <application android:label="@string/app_name" android:icon="@drawable/ic_launcher">
+        
+        <activity android:name=".activity.MainActivity"
+                  android:label="@string/app_name"
+                  android:theme="@android:style/Theme.Holo.Light"
+                  android:configChanges="orientation|screenSize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        
+        <activity android:name=".activity.WordListActivity"
+                  android:theme="@android:style/Theme.Holo.Light"
+                  android:configChanges="orientation|screenSize">
+        </activity>        
+        
+    </application>
+    
+</manifest>
