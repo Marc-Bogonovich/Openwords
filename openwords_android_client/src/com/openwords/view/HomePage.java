@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -22,6 +23,7 @@ import com.openwords.learningModule.TutorialPage;
 import com.openwords.learningModule.TypeEvaluate;
 import com.openwords.learningModule.WordsPage;
 import com.openwords.ui.common.ActionBarBuilderForActivity;
+import com.openwords.ui.common.DialogForSettingSelection;
 import com.openwords.util.log.LogUtil;
 
 public class HomePage extends Activity implements OnClickListener {
@@ -42,7 +44,24 @@ public class HomePage extends Activity implements OnClickListener {
                 .showFirstItem(R.drawable.ic_setting_all, new ActionBarBuilderForActivity.ActionBarItemClickAction() {
 
                     public void clicked() {
-                        Toast.makeText(HomePage.this, "Hi, I am going to open Setting", Toast.LENGTH_SHORT).show();
+                        final DialogForSettingSelection dialog[] = new DialogForSettingSelection[1];
+                        dialog[0] = new DialogForSettingSelection(HomePage.this)
+                        .addItem("Home Page")
+                        .addItem("Word Page")
+                        .addItem("Statistics")
+                        .addItem("Menu")
+                        .addItem("Log Out")
+                        .build(new AdapterView.OnItemClickListener() {
+
+                            public void onItemClick(AdapterView<?> av, View view, int position, long l) {
+                                if (position == 0) {
+                                } else if (position == 4) {
+                                    HomePage.this.finish();
+                                }
+                                dialog[0].cancel();
+                            }
+                        });
+                        dialog[0].show();
                     }
                 })
                 .showSecondItem(R.drawable.ic_setting_stat, new ActionBarBuilderForActivity.ActionBarItemClickAction() {
