@@ -1,6 +1,6 @@
 package com.openwords.view;
 
-import com.example.openwords.R;
+import com.openwords.R;
 
 import android.app.Activity;
 import android.os.Bundle;

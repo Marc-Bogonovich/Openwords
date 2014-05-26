@@ -1,9 +1,10 @@
 package com.openwords.view;
-import com.example.openwords.R;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import com.openwords.R;
 
 public class ChosenPage extends Activity {
 

@@ -1,6 +1,6 @@
 package com.openwords.view;
 
-import com.example.openwords.R;
+import com.openwords.R;
 
 import android.os.Bundle;
 import android.provider.Contacts.Settings;

@@ -7,7 +7,7 @@ import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
 
-import com.example.openwords.R;
+import com.openwords.R;
 import com.openwords.model.JSONParser;
 import com.openwords.util.UIHelper;
 

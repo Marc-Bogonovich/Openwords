@@ -1,9 +1,8 @@
 package com.openwords.learningModule;
 
-import com.example.openwords.R;
-
 import android.app.Activity;
 import android.os.Bundle;
+import com.openwords.R;
 
 public class SelfEvaluate extends Activity {
 
