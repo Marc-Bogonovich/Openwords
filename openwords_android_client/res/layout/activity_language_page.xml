@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/paragraph1_text_languagePage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/paragraph1_text_languagePage"
+        android:textColor="@color/black"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/paragraph2_text_languagePage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:text="@string/paragraph2_text_languagePage" />
+
+    <TextView
+        android:id="@+id/paragraph2_sub_text_languagePage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:text="@string/paragraph2_sub_text_languagePage" />
+
+    <Button
+        android:id="@+id/button_languagePage_moreLanguage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/button_languagePage_moreLanguage" />
+
+    <CheckBox
+        android:id="@+id/languagePage_CheckBox_franch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:text="@string/languagePage_CheckBox_franch" />
+
+
+    <CheckBox
+        android:id="@+id/languagePage_CheckBox_chinese"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/languagePage_CheckBox_chinese" />
+    
+    
+    <CheckBox
+        android:id="@+id/languagePage_CheckBox_armenian"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/languagePage_CheckBox_armenian" />
+
+    <CheckBox
+        android:id="@+id/languagePage_CheckBox_latin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/languagePage_CheckBox_latin" />
+
+    <CheckBox
+        android:id="@+id/languagePage_CheckBox_hebrew"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/languagePage_CheckBox_hebrew" />
+
+    <CheckBox
+        android:id="@+id/languagePage_CheckBox_kannada"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:text="@string/languagePage_CheckBox_kannada" />
+
+    <Button
+        android:id="@+id/languagePage_Button_chosenPage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/languagePage_Button_chosenPage" />
+
+</LinearLayout>

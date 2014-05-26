@@ -1,0 +1,80 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".MainActivity" >
+
+    <ImageView
+        android:id="@+id/logoImage"
+        android:layout_width="wrap_content"
+        android:contentDescription="@string/logoImage_description"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="39dp"
+        android:src="@drawable/openwords_logo_c_oranged_h_97" />
+
+	<CheckedTextView
+	    android:id="@+id/flashword_string_homePageLift04"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignLeft="@+id/flashword_string_homePageLift03"
+	    android:layout_alignParentBottom="true"
+	    android:text="@string/flashword_string_homePageLift04"
+	    android:textColor="@color/black"
+	    android:textSize="20sp" />
+
+	<CheckedTextView
+	    android:id="@+id/flashword_string_homePageLift01"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentBottom="true"
+	    android:layout_toRightOf="@+id/flashword_string_homePageLift04"
+	    android:text="@string/flashword_string_homePageLift01"
+	    android:textColor="@color/orange"
+	    android:textSize="40sp" />
+
+	<CheckedTextView
+	    android:id="@+id/flashword_string_homePageLift05"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentBottom="true"
+	    android:layout_alignRight="@+id/logoImage"
+	    android:text="@string/flashword_string_homePageLift05"
+	    android:textColor="@color/blue"
+	    android:textSize="32sp" />
+
+	<CheckedTextView
+	    android:id="@+id/flashword_string_homePageLift03"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentBottom="true"
+	    android:layout_alignParentLeft="true"
+	    android:text="@string/flashword_string_homePageLift03"
+	    android:textColor="@color/red"
+	    android:textSize="26sp" />
+
+	<CheckedTextView
+	    android:id="@+id/flashword_string_homePageLift02"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignBottom="@+id/flashword_string_homePageLift05"
+	    android:layout_marginRight="22dp"
+	    android:layout_toLeftOf="@+id/flashword_string_homePageLift05"
+	    android:text="@string/flashword_string_homePageLift02"
+	    android:textSize="36sp" />
+
+	<CheckedTextView
+	    android:id="@+id/flashword_string_homePageLift06"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignTop="@+id/flashword_string_homePageLift03"
+	    android:layout_toRightOf="@+id/flashword_string_homePageLift01"
+	    android:text="@string/flashword_string_homePageLift06"
+	    android:textSize="20sp" />
+
+</RelativeLayout>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Openwords</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="flashword_string_homePageLift01">word</string>
+    <string name="flashword_string_homePageLift02">字</string>
+    <string name="flashword_string_homePageLift03">mot</string>
+    <string name="flashword_string_homePageLift04">palabra</string>
+    <string name="flashword_string_homePageLift05">शब्द</string>
+    <string name="flashword_string_homePageLift06">מלה</string>
+    <string name="pushMe_start_activity_button_loginPageGo">Log in</string>
+    <string name="loginPage_Button_registerGo">Register</string>
+    <string name="loginPage_CheckBox_rememberMe">Remember me</string>
+    <string name="logoImage_description">Openwords logo</string>
+    <string name="loginPage">Please log in</string>
+    <string name="loginPage_EditText_username">Username</string>
+    <string name="loginPage_EditText_password">Password</string>
+    <string name="title_activity_loginPage">LoginPage</string>
+    <string name="title_activity_main1">MainActivity</string>
+    <string name="title_activity_homePage">HomePage</string>
+    <string name="title_activity_registerPage">LanguagePage</string>
+    <string name="title_activity_languagePage">LanguagePage</string>
+    <string name="paragraph1_text_languagePage">What language do you want to learn?</string>
+    <string name="paragraph2_text_languagePage">Choose one</string>
+    <string name="paragraph2_sub_text_languagePage">(you may choose more later)</string>
+    <string name="button_languagePage_moreLanguage">Language not on the list?</string>
+    <string name="languagePage_CheckBox_franch">(French)</string>
+    <string name="languagePage_CheckBox_chinese">(Mandarian Chinese)</string>
+    <string name="languagePage_CheckBox_armenian">(Armenian)</string>
+    <string name="languagePage_CheckBox_latin">(Latin)</string>
+    <string name="languagePage_CheckBox_hebrew">(Hebrew)</string>
+    <string name="languagePage_CheckBox_kannada">(Kannada)</string>
+    <string name="languagePage_Button_chosenPage">submit</string>
+    <string name="title_activity_register_page">RegisterPage</string>
+    <string name="registerPage_EditText_username">Enter User name</string>
+    <string name="registerPage_EditText_password">Enter password</string>
+    <string name="registerPage_EditText_password2">Re-enter password</string>
+    <string name="registerPage_Button_registerSubmit">Submit</string>
+    <string name="title_activity_chosenPage">ChosenPage</string>
+    <string name="homePage_item_home">Home Page</string>
+    <string name="homePage_item_words">Word Page</string>
+    <string name="homePage_item_stats">Statistics</string>
+    <string name="homePage_item_others">Menu</string>
+    <string name="homePage_Button_testPageGo">Go</string>
+    <string name="homePage_spinner_begin">Task spinner</string>
+
+    <string-array name="homePage_spinner_begin_array">
+        <item>Review</item>
+        <item>Self evaluation</item>
+        <item>Type evaluation</item>
+        <item>Hearing</item>
+    </string-array>
+
+    <string name="homePage_Spinner_chooseLanguage">Language spinner</string>
+
+    <string-array name="homePage_Spinner_language_array">
+        <item>中文</item>
+        <item>Française</item>
+        <item>Add more</item>
+    </string-array>
+
+    <string name="homePage_item_profile">Profile</string>
+    <string name="homePage_item_settings">Settings</string>
+    <string name="homePage_item_tutorial">Tutorial</string>
+    <string name="homePage_item_logout">Log out</string>
+    <string name="title_activity_profilePage">Profile</string>
+    <string name="title_activity_selfEvaluate">SelfEvaluate</string>
+    <string name="title_activity_wordsPage">WordsPage</string>
+    <string name="title_activity_statsPage">StatsPage</string>
+    <string name="title_activity_portalPage">PortalPage</string>
+    <string name="title_activity_review">Review</string>
+    <string name="title_activity_hearing">Hearing</string>
+    <string name="title_activity_typeEvaluate">TypeEvaluate</string>
+    <string name="title_activity_settingsPage">SettingsPage</string>
+    <string name="title_activity_tutorial_page">TutorialPage</string>
+
+</resources>

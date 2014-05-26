@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.openwords"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="7"
+        android:targetSdkVersion="17" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/WhiteNoTitleTheme" >
+        <activity
+            android:name="com.openwords.view.MainActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.openwords.view.LoginPage"
+            android:label="@string/title_activity_loginPage" >
+            <intent-filter>
+                <action android:name="android.intent.action.LoginPage" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.openwords.view.HomePage"
+            android:label="@string/title_activity_homePage"
+            android:theme="@style/Theme.AppCompat.Light" >
+            <intent-filter>
+                <action android:name="android.intent.action.homePage" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.openwords.view.ProfilePage"
+            android:label="@string/title_activity_profilePage" >
+            <intent-filter>
+                <action android:name="android.intent.action.profilePage" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.openwords.view.RegisterPage"
+            android:label="@string/title_activity_registerPage" >
+            <intent-filter>
+                <action android:name="android.intent.action.registerPage" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.openwords.view.LanguagePage"
+            android:label="@string/title_activity_languagePage" >
+            <intent-filter>
+                <action android:name="android.intent.action.languagePage" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.openwords.view.ChosenPage"
+            android:label="@string/title_activity_chosenPage" >
+            <intent-filter>
+                <action android:name="android.intent.action.chosenPage" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.openwords.learningModule.Review"
+            android:label="@string/title_activity_review" >
+            <intent-filter>
+                <action android:name="android.intent.action.reviewPage" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.openwords.learningModule.SelfEvaluate"
+            android:label="@string/title_activity_selfEvaluate" >
+            <intent-filter>
+                <action android:name="android.intent.action.selfEvaluatePage" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.openwords.learningModule.WordsPage"
+            android:label="@string/title_activity_wordsPage" >
+            <intent-filter>
+                <action android:name="android.intent.action.wordsPage" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.openwords.learningModule.StatsPage"
+            android:label="@string/title_activity_statsPage" >
+            <intent-filter>
+                <action android:name="android.intent.action.statsPage" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.openwords.learningModule.PortalPage"
+            android:label="@string/title_activity_portalPage" >
+            <intent-filter>
+                <action android:name="android.intent.action.portalPage" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.openwords.learningModule.Hearing"
+            android:label="@string/title_activity_hearing" >
+            <intent-filter>
+                <action android:name="android.intent.action.hearing" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.openwords.learningModule.TypeEvaluate"
+            android:label="@string/title_activity_typeEvaluate" >
+            <intent-filter>
+                <action android:name="android.intent.action.typeEvaluate" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.openwords.view.SettingsPage"
+            android:label="@string/title_activity_settingsPage" >
+            <intent-filter>
+                <action android:name="android.intent.action.settingsPage" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.openwords.learningModule.TutorialPage"
+            android:label="@string/title_activity_tutorial_page" >
+            <intent-filter>
+                <action android:name="android.intent.action.tutorialPage" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
