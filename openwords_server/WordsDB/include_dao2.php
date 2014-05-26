@@ -1,0 +1,57 @@
+<?php
+	//include all DAO files
+	require_once('class/sql/Connection2.class.php');
+	require_once('class/sql/ConnectionFactory2.class.php');
+	require_once('class/sql/ConnectionProperty2.class.php');
+	require_once('class/sql/QueryExecutor2.class.php');
+	require_once('class/sql/Transaction2.class.php');
+	require_once('class/sql/SqlQuery2.class.php');
+	require_once('class/core/ArrayList2.class.php');
+	require_once('class/dao/DAOFactory2.class.php');
+ 	
+	require_once('class/dao/ConnectionTagsDAO.class.php');
+	require_once('class/dto/ConnectionTag.class.php');
+	require_once('class/mysql/ConnectionTagsMySqlDAO.class.php');
+	require_once('class/mysql/ext/ConnectionTagsMySqlExtDAO.class.php');
+	require_once('class/dao/LanguagesDAO.class.php');
+	require_once('class/dto/Language.class.php');
+	require_once('class/mysql/LanguagesMySqlDAO.class.php');
+	require_once('class/mysql/ext/LanguagesMySqlExtDAO.class.php');
+	require_once('class/dao/LearnableLanguageOptionsDAO.class.php');
+	require_once('class/dto/LearnableLanguageOption.class.php');
+	require_once('class/mysql/LearnableLanguageOptionsMySqlDAO.class.php');
+	require_once('class/mysql/ext/LearnableLanguageOptionsMySqlExtDAO.class.php');
+	require_once('class/dao/RankTypesDAO.class.php');
+	require_once('class/dto/RankType.class.php');
+	require_once('class/mysql/RankTypesMySqlDAO.class.php');
+	require_once('class/mysql/ext/RankTypesMySqlExtDAO.class.php');
+	require_once('class/dao/WordAudiocallDAO.class.php');
+	require_once('class/dto/WordAudiocall.class.php');
+	require_once('class/mysql/WordAudiocallMySqlDAO.class.php');
+	require_once('class/mysql/ext/WordAudiocallMySqlExtDAO.class.php');
+	require_once('class/dao/WordConnectionsDAO.class.php');
+	require_once('class/dto/WordConnection.class.php');
+	require_once('class/mysql/WordConnectionsMySqlDAO.class.php');
+	require_once('class/mysql/ext/WordConnectionsMySqlExtDAO.class.php');
+	require_once('class/dao/WordMeaningDAO.class.php');
+	require_once('class/dto/WordMeaning.class.php');
+	require_once('class/mysql/WordMeaningMySqlDAO.class.php');
+	require_once('class/mysql/ext/WordMeaningMySqlExtDAO.class.php');
+	require_once('class/dao/WordRankDAO.class.php');
+	require_once('class/dto/WordRank.class.php');
+	require_once('class/mysql/WordRankMySqlDAO.class.php');
+	require_once('class/mysql/ext/WordRankMySqlExtDAO.class.php');
+	require_once('class/dao/WordTagsDAO.class.php');
+	require_once('class/dto/WordTag.class.php');
+	require_once('class/mysql/WordTagsMySqlDAO.class.php');
+	require_once('class/mysql/ext/WordTagsMySqlExtDAO.class.php');
+	require_once('class/dao/WordTranscriptionDAO.class.php');
+	require_once('class/dto/WordTranscription.class.php');
+	require_once('class/mysql/WordTranscriptionMySqlDAO.class.php');
+	require_once('class/mysql/ext/WordTranscriptionMySqlExtDAO.class.php');
+	require_once('class/dao/WordsDAO.class.php');
+	require_once('class/dto/Word.class.php');
+	require_once('class/mysql/WordsMySqlDAO.class.php');
+	require_once('class/mysql/ext/WordsMySqlExtDAO.class.php');
+
+?>
