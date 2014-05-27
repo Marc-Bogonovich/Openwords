@@ -8,4 +8,5 @@
     <color name="display_background">#000</color>
     <color name="my_trans_black">#80000000</color>
     <color name="my_white">#fff</color>
+    <color name="my_orange">#ff7400</color>
 </resources>
