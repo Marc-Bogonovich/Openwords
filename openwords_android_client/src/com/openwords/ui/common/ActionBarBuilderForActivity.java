@@ -37,6 +37,14 @@ public class ActionBarBuilderForActivity {
         return showItem(R.id.actionbar_item_3, R.id.actionbar_item_3_image, imageResourceId, action);
     }
 
+    public ActionBarBuilderForActivity showFourthItem(int imageResourceId, ActionBarItemClickAction action) {
+        return showItem(R.id.actionbar_item_4, R.id.actionbar_item_4_image, imageResourceId, action);
+    }
+
+    public ActionBarBuilderForActivity showFifthItem(int imageResourceId, ActionBarItemClickAction action) {
+        return showItem(R.id.actionbar_item_5, R.id.actionbar_item_5_image, imageResourceId, action);
+    }
+
     private ActionBarBuilderForActivity showItem(int layoutViewId, int imageViewId, int imageResourceId, final ActionBarItemClickAction action) {
         LinearLayout l = (LinearLayout) activity.findViewById(layoutViewId);
         ImageView iv = (ImageView) activity.findViewById(imageViewId);

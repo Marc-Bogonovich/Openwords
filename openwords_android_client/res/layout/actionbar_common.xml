@@ -19,6 +19,36 @@
                   android:textColor="@color/my_white"/>
         
     </LinearLayout>
+    
+    <LinearLayout  android:id="@+id/actionbar_item_5"
+                   android:layout_width="wrap_content"
+                   android:layout_height="match_parent"
+                   android:orientation="horizontal"
+                   android:padding="10dp"
+                   android:clickable="true"
+                   android:layout_toLeftOf="@+id/actionbar_item_4"
+                   android:visibility="gone">
+        
+        <ImageView android:id="@+id/actionbar_item_5_image"
+                   android:layout_width="20dp" 
+                   android:layout_height="20dp"/>
+                      
+    </LinearLayout>
+    
+    <LinearLayout  android:id="@+id/actionbar_item_4"
+                   android:layout_width="wrap_content"
+                   android:layout_height="match_parent"
+                   android:orientation="horizontal"
+                   android:padding="10dp"
+                   android:clickable="true"
+                   android:layout_toLeftOf="@+id/actionbar_item_3"
+                   android:visibility="gone">
+        
+        <ImageView android:id="@+id/actionbar_item_4_image"
+                   android:layout_width="20dp" 
+                   android:layout_height="20dp"/>
+                      
+    </LinearLayout>
                 
     <LinearLayout  android:id="@+id/actionbar_item_3"
                    android:layout_width="wrap_content"
