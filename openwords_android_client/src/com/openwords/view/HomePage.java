@@ -60,7 +60,7 @@ public class HomePage extends Activity implements OnClickListener {
                                 }
                                 dialog[0].cancel();
                             }
-                        });
+                        }, 10, 60);
                         dialog[0].show();
                     }
                 })

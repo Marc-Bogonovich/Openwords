@@ -2,7 +2,9 @@ package com.openwords.ui.common;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.view.Gravity;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -26,8 +28,14 @@ public class DialogForSettingSelection extends Dialog {
         items = new LinkedList<String>();
     }
 
-    public DialogForSettingSelection build(OnItemClickListener onItemClickListener) {
+    public DialogForSettingSelection build(OnItemClickListener onItemClickListener, int positionX, int positionY) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        WindowManager.LayoutParams layout = getWindow().getAttributes();
+        layout.gravity = Gravity.TOP | Gravity.RIGHT;
+        layout.x = positionX;
+        layout.y = positionY;
+
         setContentView(R.layout.dialog_setting_selection);
 
         listView = (ListView) findViewById(R.id.dialog_setting_selection_list1);
