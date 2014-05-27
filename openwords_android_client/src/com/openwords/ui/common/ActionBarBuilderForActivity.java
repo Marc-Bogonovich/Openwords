@@ -61,6 +61,31 @@ public class ActionBarBuilderForActivity {
         return showItem(R.id.actionbar_item_5, R.id.actionbar_item_5_image, imageResourceId, action);
     }
 
+    public ActionBarBuilderForActivity highlightFirstItem() {
+        highlightItem(R.id.actionbar_item_1);
+        return this;
+    }
+
+    public ActionBarBuilderForActivity highlightSecondItem() {
+        highlightItem(R.id.actionbar_item_2);
+        return this;
+    }
+
+    public ActionBarBuilderForActivity highlightThirdItem() {
+        highlightItem(R.id.actionbar_item_3);
+        return this;
+    }
+
+    public ActionBarBuilderForActivity highlightFourthItem() {
+        highlightItem(R.id.actionbar_item_4);
+        return this;
+    }
+
+    public ActionBarBuilderForActivity highlightFifthItem() {
+        highlightItem(R.id.actionbar_item_5);
+        return this;
+    }
+
     public ActionBarBuilderForActivity showBackButton(final ActionBarItemClickAction action) {
         ImageView iv = (ImageView) activity.findViewById(R.id.actionbar_back_button);
         iv.setVisibility(View.VISIBLE);
@@ -86,6 +111,11 @@ public class ActionBarBuilderForActivity {
         });
         l.setVisibility(View.VISIBLE);
         return this;
+    }
+
+    private void highlightItem(int viewId) {
+        LinearLayout v = (LinearLayout) activity.findViewById(viewId);
+        v.setBackgroundColor(activity.getResources().getColor(R.color.my_gray));
     }
 
     public interface ActionBarItemClickAction {

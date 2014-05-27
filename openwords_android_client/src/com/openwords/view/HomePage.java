@@ -40,6 +40,8 @@ public class HomePage extends Activity implements OnClickListener {
 
         //build the action bar
         new ActionBarBuilderForActivity(this)
+                .highlightSecondItem()
+                .highlightFirstItem()
                 .showBackButton(new ActionBarBuilderForActivity.ActionBarItemClickAction() {
 
                     public void clicked() {
