@@ -40,28 +40,22 @@ public class HomePage extends Activity implements OnClickListener {
 
         //build the action bar
         new ActionBarBuilderForActivity(this)
-                .showTitle(R.id.actionbar_title, R.string.title_activity_homePage)
+                .showBackButton(new ActionBarBuilderForActivity.ActionBarItemClickAction() {
+
+                    public void clicked() {
+                        Toast.makeText(HomePage.this, "Hi, the Back Button is clicked", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .showTitle(R.id.actionbar_title, R.string.title_activity_homePage, new ActionBarBuilderForActivity.ActionBarItemClickAction() {
+
+                    public void clicked() {
+                        Toast.makeText(HomePage.this, "Hi, the title is clicked", Toast.LENGTH_SHORT).show();
+                    }
+                })
                 .showFirstItem(R.drawable.ic_setting_all, new ActionBarBuilderForActivity.ActionBarItemClickAction() {
 
                     public void clicked() {
-                        final DialogForSettingSelection dialog[] = new DialogForSettingSelection[1];
-                        dialog[0] = new DialogForSettingSelection(HomePage.this)
-                        .addItem("Home Page")
-                        .addItem("Word Page")
-                        .addItem("Statistics")
-                        .addItem("Menu")
-                        .addItem("Log Out")
-                        .build(new AdapterView.OnItemClickListener() {
-
-                            public void onItemClick(AdapterView<?> av, View view, int position, long l) {
-                                if (position == 0) {
-                                } else if (position == 4) {
-                                    HomePage.this.finish();
-                                }
-                                dialog[0].cancel();
-                            }
-                        }, 10, 60);
-                        dialog[0].show();
+                        clickItemOther();
                     }
                 })
                 .showSecondItem(R.drawable.ic_setting_stat, new ActionBarBuilderForActivity.ActionBarItemClickAction() {
@@ -78,6 +72,27 @@ public class HomePage extends Activity implements OnClickListener {
         addItemsOnLanguage();
         Button testPageGo = (Button) findViewById(R.id.homePage_Button_testPageGo);
         testPageGo.setOnClickListener(this);
+    }
+
+    private void clickItemOther() {
+        final DialogForSettingSelection dialog[] = new DialogForSettingSelection[1];
+        dialog[0] = new DialogForSettingSelection(HomePage.this)
+                .addItem("Home Page")
+                .addItem("Word Page")
+                .addItem("Statistics")
+                .addItem("Menu")
+                .addItem("Log Out")
+                .build(new AdapterView.OnItemClickListener() {
+
+                    public void onItemClick(AdapterView<?> av, View view, int position, long l) {
+                        if (position == 0) {
+                        } else if (position == 4) {
+                            HomePage.this.finish();
+                        }
+                        dialog[0].cancel();
+                    }
+                }, 10, 60);
+        dialog[0].show();
     }
 
 //    @Override

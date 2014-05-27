@@ -24,7 +24,8 @@
                   android:textSize="24sp"
                   android:typeface="serif"
                   android:textStyle="bold"
-                  android:textColor="@color/my_white"/>
+                  android:textColor="@color/my_white"
+                  android:visibility="gone"/>
         
     </LinearLayout>
     

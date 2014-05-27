@@ -19,9 +19,25 @@ public class ActionBarBuilderForActivity {
         this.activity = activity;
     }
 
-    public ActionBarBuilderForActivity showTitle(int textViewId, int stringResourceId) {
+    /**
+     *
+     * @param textViewId
+     * @param stringResourceId
+     * @param action Can be null if you don't want to click the title
+     * @return
+     */
+    public ActionBarBuilderForActivity showTitle(int textViewId, int stringResourceId, final ActionBarItemClickAction action) {
         TextView tv = (TextView) activity.findViewById(textViewId);
         tv.setText(stringResourceId);
+        tv.setVisibility(View.VISIBLE);
+        if (action != null) {
+            tv.setOnClickListener(new View.OnClickListener() {
+
+                public void onClick(View view) {
+                    action.clicked();
+                }
+            });
+        }
         return this;
     }
 
@@ -43,6 +59,19 @@ public class ActionBarBuilderForActivity {
 
     public ActionBarBuilderForActivity showFifthItem(int imageResourceId, ActionBarItemClickAction action) {
         return showItem(R.id.actionbar_item_5, R.id.actionbar_item_5_image, imageResourceId, action);
+    }
+
+    public ActionBarBuilderForActivity showBackButton(final ActionBarItemClickAction action) {
+        ImageView iv = (ImageView) activity.findViewById(R.id.actionbar_back_button);
+        iv.setVisibility(View.VISIBLE);
+        iv.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View view) {
+                action.clicked();
+            }
+        });
+
+        return this;
     }
 
     private ActionBarBuilderForActivity showItem(int layoutViewId, int imageViewId, int imageResourceId, final ActionBarItemClickAction action) {
