@@ -7,20 +7,24 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
-import android.widget.Toast;
-
 import com.openwords.R;
 import com.openwords.ui.common.ActionBarBuilderForActivity;
 import com.openwords.ui.common.DialogForSettingSelection;
 import com.openwords.util.log.LogUtil;
-import com.openwords.view.actionbar.*;
-import com.openwords.view.learningModule.*;
+import com.openwords.view.actionbar.ProfilePage;
+import com.openwords.view.actionbar.SettingsPage;
+import com.openwords.view.actionbar.StatsPage;
+import com.openwords.view.actionbar.TutorialPage;
+import com.openwords.view.actionbar.WordsPage;
+import com.openwords.view.learningModule.Hearing;
+import com.openwords.view.learningModule.Review;
+import com.openwords.view.learningModule.SelfEvaluate;
+import com.openwords.view.learningModule.TypeEvaluate;
 
 public class HomePage extends Activity implements OnClickListener {
 
@@ -29,7 +33,6 @@ public class HomePage extends Activity implements OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);//for testing purpose
 
         setContentView(R.layout.activity_home_page);
@@ -58,7 +61,6 @@ public class HomePage extends Activity implements OnClickListener {
                 .showSecondItem(R.drawable.ic_actionbar_stats, new ActionBarBuilderForActivity.ActionBarItemClickAction() {
 
                     public void clicked() {
-                        //Toast.makeText(HomePage.this, "You are in the stas", Toast.LENGTH_SHORT).show();
                         statsItemClick();
                     }
                 })
@@ -70,9 +72,6 @@ public class HomePage extends Activity implements OnClickListener {
                 })
                 .showFourthItem(R.drawable.ic_actionbar_home, null);
 
-//        ActionBar actionBar = getSupportActionBar();
-//        actionBar.setDisplayShowHomeEnabled(false);
-//        actionBar.setDisplayShowTitleEnabled(false);
         addItemsOnBegin();
         addItemsOnLanguage();
         Button testPageGo = (Button) findViewById(R.id.homePage_Button_testPageGo);
@@ -90,7 +89,7 @@ public class HomePage extends Activity implements OnClickListener {
 
                     public void onItemClick(AdapterView<?> av, View view, int position, long l) {
                         if (position == 0) {
-                        } else if (position == 4) {
+                        } else if (position == 3) {
                             HomePage.this.finish();
                         }
                         dialog[0].cancel();
@@ -99,48 +98,6 @@ public class HomePage extends Activity implements OnClickListener {
         dialog[0].show();
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu items for use in the action bar
-//        MenuInflater inflater = getMenuInflater();
-//        inflater.inflate(R.menu.home_page, menu);
-//        return super.onCreateOptionsMenu(menu);
-//    }
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle item selection
-//        switch (item.getItemId()) {
-//            case R.id.homePage_item_home:
-//                Log.d("Icon click", "Home icon clicks");
-//                return true;
-//            case R.id.homePage_item_words:
-//                Log.d("Icon click", "Word icon clicks");
-//                wordsItemClick();
-//                return true;
-//            case R.id.homePage_item_stats:
-//                Log.d("Icon click", "Stats icon clicks");
-//                statsItemClick();
-//                return true;
-//            case R.id.homePage_item_profile:
-//                Log.d("Icon click", "Profile icon clicks");
-//                profileItemClick();
-//                return true;
-//            case R.id.homePage_item_settings:
-//                Log.d("Icon click", "Setting icon clicks");
-//                settingsItemClick();
-//                return true;
-//            case R.id.homePage_item_tutorial:
-//                Log.d("Icon click", "Tutorial icon clicks");
-//                tutorialItemClick();
-//                return true;
-//            case R.id.homePage_item_logout:
-//                Log.d("Icon click", "Logout icon clicks");
-//                logoutItemClick();
-//                return true;
-//            default:
-//                return super.onOptionsItemSelected(item);
-//        }
-//    }
     public void addItemsOnBegin() {
         begin = (Spinner) findViewById(R.id.homePage_Spinner_begin);
         ArrayAdapter<CharSequence> beginAdapter = ArrayAdapter.createFromResource(this, R.array.homePage_spinner_begin_array, android.R.layout.simple_spinner_item);
@@ -195,7 +152,6 @@ public class HomePage extends Activity implements OnClickListener {
 
     @Override
     public void onClick(View v) {
-        // TODO Auto-generated method stub
         switch (v.getId()) {
             case R.id.homePage_Button_testPageGo:
                 testPageButtonClick();
