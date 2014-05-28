@@ -31,8 +31,8 @@ import android.widget.Toast;
 public class RegisterPage extends Activity implements OnClickListener {
 	public static final String TAG_SUCCESS="success";
 	public static final String TAG_MESSAGE="message";
-	private static String url_user_exist = "http://geographycontest.ipage.com/OpenwordsOrg/userExist.php";
-	private static String url_user_register = "http://geographycontest.ipage.com/OpenwordsOrg/userRegister.php";
+	private static String url_user_exist = "http://geographycontest.ipage.com/OpenwordsOrg/OpenwordsDB/userExist.php";
+	private static String url_user_register = "http://geographycontest.ipage.com/OpenwordsOrg/OpenwordsDB/userRegister.php";
 	private String username = null;
 	private String password = null;
 	private ProgressDialog pDialog = null;

@@ -46,7 +46,7 @@
         </activity>
         
         <activity
-            android:name=".view.ProfilePage"
+            android:name="com.openwords.view.actionbar.ProfilePage"
             android:label="@string/title_activity_profilePage"
             android:theme="@android:style/Theme.Holo.Light"
             android:configChanges="orientation|screenSize">
@@ -71,63 +71,63 @@
         </activity>
         
         <activity
-            android:name=".learningModule.Review"
+            android:name="com.openwords.view.learningModule.Review"
             android:label="@string/title_activity_review"
             android:theme="@android:style/Theme.Holo.Light"
             android:configChanges="orientation|screenSize">
         </activity>
         
         <activity
-            android:name=".learningModule.SelfEvaluate"
+            android:name="com.openwords.view.learningModule.SelfEvaluate"
             android:label="@string/title_activity_selfEvaluate"
             android:theme="@android:style/Theme.Holo.Light"
             android:configChanges="orientation|screenSize">
         </activity>
         
         <activity
-            android:name=".learningModule.WordsPage"
+            android:name="com.openwords.view.actionbar.WordsPage"
             android:label="@string/title_activity_wordsPage"
             android:theme="@android:style/Theme.Holo.Light"
             android:configChanges="orientation|screenSize">
         </activity>
         
         <activity
-            android:name=".learningModule.StatsPage"
+            android:name="com.openwords.view.actionbar.StatsPage"
             android:label="@string/title_activity_statsPage"
             android:theme="@android:style/Theme.Holo.Light"
             android:configChanges="orientation|screenSize">
         </activity>
         
         <activity
-            android:name=".learningModule.PortalPage"
+            android:name="com.openwords.view.PortalPage"
             android:label="@string/title_activity_portalPage"
             android:theme="@android:style/Theme.Holo.Light"
             android:configChanges="orientation|screenSize">
         </activity>
         
         <activity
-            android:name=".learningModule.Hearing"
+            android:name="com.openwords.view.learningModule.Hearing"
             android:label="@string/title_activity_hearing"
             android:theme="@android:style/Theme.Holo.Light"
             android:configChanges="orientation|screenSize">
         </activity>
         
         <activity
-            android:name=".learningModule.TypeEvaluate"
+            android:name="com.openwords.view.learningModule.TypeEvaluate"
             android:label="@string/title_activity_typeEvaluate"
             android:theme="@android:style/Theme.Holo.Light"
             android:configChanges="orientation|screenSize">
         </activity>
         
         <activity
-            android:name=".view.SettingsPage"
+            android:name="com.openwords.view.actionbar.SettingsPage"
             android:label="@string/title_activity_settingsPage"
             android:theme="@android:style/Theme.Holo.Light"
             android:configChanges="orientation|screenSize">
         </activity>
         
         <activity
-            android:name=".learningModule.TutorialPage"
+            android:name="com.openwords.view.actionbar.TutorialPage"
             android:label="@string/title_activity_tutorial_page"
             android:theme="@android:style/Theme.Holo.Light"
             android:configChanges="orientation|screenSize">

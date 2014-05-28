@@ -10,6 +10,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -17,13 +18,16 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
 import com.openwords.R;
 import com.openwords.model.JSONParser;
 import com.openwords.util.UIHelper;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
@@ -117,8 +121,8 @@ public class LoginPage extends Activity implements OnClickListener {
         try {
             username = usernameField.getText().toString();
             password = passwdField.getText().toString();
-            LogUtil.logDeubg(this, "username" + username);
-            LogUtil.logDeubg(this, "passwd" + password);
+            Log.d("Login", "username " + username);
+            Log.d("Login", "passwd " + password);
             List<NameValuePair> params = new ArrayList<NameValuePair>(2);
             params.add(new BasicNameValuePair("email", username.trim()));
             params.add(new BasicNameValuePair("password", password.trim()));

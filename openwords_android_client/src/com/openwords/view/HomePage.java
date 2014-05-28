@@ -14,17 +14,13 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
+
 import com.openwords.R;
-import com.openwords.learningModule.Hearing;
-import com.openwords.learningModule.Review;
-import com.openwords.learningModule.SelfEvaluate;
-import com.openwords.learningModule.StatsPage;
-import com.openwords.learningModule.TutorialPage;
-import com.openwords.learningModule.TypeEvaluate;
-import com.openwords.learningModule.WordsPage;
 import com.openwords.ui.common.ActionBarBuilderForActivity;
 import com.openwords.ui.common.DialogForSettingSelection;
 import com.openwords.util.log.LogUtil;
+import com.openwords.view.actionbar.*;
+import com.openwords.view.learningModule.*;
 
 public class HomePage extends Activity implements OnClickListener {
 
@@ -61,9 +57,22 @@ public class HomePage extends Activity implements OnClickListener {
                     }
                 })
                 .showSecondItem(R.drawable.ic_setting_stat, new ActionBarBuilderForActivity.ActionBarItemClickAction() {
+    
+                   public void clicked() {
+ //               	Toast.makeText(HomePage.this, "You are in the stas", Toast.LENGTH_SHORT).show();
+//                        statsItemClick();
+                    }
+                })
+                .showThirdItem(R.drawable.icon_homepage_words_unselected, new ActionBarBuilderForActivity.ActionBarItemClickAction() {
 
                     public void clicked() {
-                        Toast.makeText(HomePage.this, "Hi, I am going to open Stats", Toast.LENGTH_SHORT).show();
+                        wordsItemClick();
+                    }
+                })
+                .showFourthItem(R.drawable.icon_homepage_home_selected, new ActionBarBuilderForActivity.ActionBarItemClickAction() {
+
+                    public void clicked() {
+                        Toast.makeText(HomePage.this, "You are in the HomePage", Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -79,10 +88,9 @@ public class HomePage extends Activity implements OnClickListener {
     private void clickItemOther() {
         final DialogForSettingSelection dialog[] = new DialogForSettingSelection[1];
         dialog[0] = new DialogForSettingSelection(HomePage.this)
-                .addItem("Home Page")
-                .addItem("Word Page")
-                .addItem("Statistics")
-                .addItem("Menu")
+                .addItem("Profile")
+                .addItem("Setting")
+                .addItem("Tutorial")
                 .addItem("Log Out")
                 .build(new AdapterView.OnItemClickListener() {
 
@@ -158,7 +166,8 @@ public class HomePage extends Activity implements OnClickListener {
     }
 
     public void statsItemClick() {
-        HomePage.this.startActivity(new Intent(HomePage.this, StatsPage.class));
+    	
+        //HomePage.this.startActivity(new Intent(HomePage.this, StatsPage.class));
     }
 
     public void profileItemClick() {
