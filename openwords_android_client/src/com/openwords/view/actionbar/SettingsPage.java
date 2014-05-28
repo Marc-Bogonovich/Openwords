@@ -1,11 +1,11 @@
-package com.openwords.view;
+package com.openwords.view.actionbar;
 
 import com.openwords.R;
 
 import android.app.Activity;
 import android.os.Bundle;
 
-public class ProfilePage extends Activity {
+public class SettingsPage extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -13,4 +13,3 @@ public class ProfilePage extends Activity {
 		setContentView(R.layout.activity_words_page);
 	}
 }
-

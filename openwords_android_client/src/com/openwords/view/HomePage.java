@@ -38,29 +38,29 @@ public class HomePage extends Activity implements OnClickListener {
         new ActionBarBuilderForActivity(this)
                 .highlightSecondItem()
                 .highlightFirstItem()
-                .showBackButton(new ActionBarBuilderForActivity.ActionBarItemClickAction() {
-
-                    public void clicked() {
-                        Toast.makeText(HomePage.this, "Hi, the Back Button is clicked", Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .showTitle(R.id.actionbar_title, R.string.title_activity_homePage, new ActionBarBuilderForActivity.ActionBarItemClickAction() {
-
-                    public void clicked() {
-                        Toast.makeText(HomePage.this, "Hi, the title is clicked", Toast.LENGTH_SHORT).show();
-                    }
-                })
+//                .showBackButton(new ActionBarBuilderForActivity.ActionBarItemClickAction() {
+//
+//                    public void clicked() {
+//                        Toast.makeText(HomePage.this, "Hi, the Back Button is clicked", Toast.LENGTH_SHORT).show();
+//                    }
+//                })
+//                .showTitle(R.id.actionbar_title, R.string.title_activity_homePage, new ActionBarBuilderForActivity.ActionBarItemClickAction() {
+//
+//                    public void clicked() {
+//                        Toast.makeText(HomePage.this, "Hi, the title is clicked", Toast.LENGTH_SHORT).show();
+//                    }
+//                })
                 .showFirstItem(R.drawable.ic_setting_all, new ActionBarBuilderForActivity.ActionBarItemClickAction() {
 
                     public void clicked() {
                         clickItemOther();
                     }
                 })
-                .showSecondItem(R.drawable.ic_setting_stat, new ActionBarBuilderForActivity.ActionBarItemClickAction() {
+                .showSecondItem(R.drawable.icon_homepage_stats_unselected, new ActionBarBuilderForActivity.ActionBarItemClickAction() {
     
                    public void clicked() {
- //               	Toast.makeText(HomePage.this, "You are in the stas", Toast.LENGTH_SHORT).show();
-//                        statsItemClick();
+                	//Toast.makeText(HomePage.this, "You are in the stas", Toast.LENGTH_SHORT).show();
+                        statsItemClick();
                     }
                 })
                 .showThirdItem(R.drawable.icon_homepage_words_unselected, new ActionBarBuilderForActivity.ActionBarItemClickAction() {
@@ -167,7 +167,7 @@ public class HomePage extends Activity implements OnClickListener {
 
     public void statsItemClick() {
     	
-        //HomePage.this.startActivity(new Intent(HomePage.this, StatsPage.class));
+        HomePage.this.startActivity(new Intent(HomePage.this, StatsPage.class));
     }
 
     public void profileItemClick() {

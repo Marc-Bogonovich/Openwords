@@ -1,4 +1,4 @@
-package com.openwords.learningModule;
+package com.openwords.view.learningModule;
 
 import android.app.Activity;
 import android.os.Bundle;

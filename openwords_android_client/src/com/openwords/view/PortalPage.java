@@ -1,14 +1,14 @@
-package com.openwords.learningModule;
+package com.openwords.view;
 
 import android.app.Activity;
 import android.os.Bundle;
 import com.openwords.R;
 
-public class StatsPage extends Activity {
+public class PortalPage extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_stats_page);
+        setContentView(R.layout.activity_profile_page);
     }
 }
