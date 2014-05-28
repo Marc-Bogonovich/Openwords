@@ -1,5 +1,6 @@
 package com.openwords.view;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Point;
 import android.os.Bundle;
@@ -15,12 +16,13 @@ import com.openwords.util.log.LogUtil;
 
 public class MainActivity extends Activity {
 
-    @Override
+    @SuppressLint("NewApi")
+	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE); // Hides the title and notification bar on this page
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);//for testing purpose
+        //requestWindowFeature(Window.FEATURE_NO_TITLE); // Hides the title and notification bar on this page
+        //getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        //getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);//for testing purpose
 
         setContentView(R.layout.activity_main);
         Display display = getWindowManager().getDefaultDisplay();
