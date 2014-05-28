@@ -41,22 +41,52 @@ public class ActionBarBuilderForActivity {
         return this;
     }
 
+    /**
+     *
+     * @param imageResourceId
+     * @param action Can be null if this item is not clickable
+     * @return
+     */
     public ActionBarBuilderForActivity showFirstItem(int imageResourceId, ActionBarItemClickAction action) {
         return showItem(R.id.actionbar_item_1, R.id.actionbar_item_1_image, imageResourceId, action);
     }
 
+    /**
+     *
+     * @param imageResourceId
+     * @param action Can be null if this item is not clickable
+     * @return
+     */
     public ActionBarBuilderForActivity showSecondItem(int imageResourceId, ActionBarItemClickAction action) {
         return showItem(R.id.actionbar_item_2, R.id.actionbar_item_2_image, imageResourceId, action);
     }
 
+    /**
+     *
+     * @param imageResourceId
+     * @param action Can be null if this item is not clickable
+     * @return
+     */
     public ActionBarBuilderForActivity showThirdItem(int imageResourceId, ActionBarItemClickAction action) {
         return showItem(R.id.actionbar_item_3, R.id.actionbar_item_3_image, imageResourceId, action);
     }
 
+    /**
+     *
+     * @param imageResourceId
+     * @param action Can be null if this item is not clickable
+     * @return
+     */
     public ActionBarBuilderForActivity showFourthItem(int imageResourceId, ActionBarItemClickAction action) {
         return showItem(R.id.actionbar_item_4, R.id.actionbar_item_4_image, imageResourceId, action);
     }
 
+    /**
+     *
+     * @param imageResourceId
+     * @param action Can be null if this item is not clickable
+     * @return
+     */
     public ActionBarBuilderForActivity showFifthItem(int imageResourceId, ActionBarItemClickAction action) {
         return showItem(R.id.actionbar_item_5, R.id.actionbar_item_5_image, imageResourceId, action);
     }
@@ -103,12 +133,14 @@ public class ActionBarBuilderForActivity {
         LinearLayout l = (LinearLayout) activity.findViewById(layoutViewId);
         ImageView iv = (ImageView) activity.findViewById(imageViewId);
         iv.setBackgroundResource(imageResourceId);
-        l.setOnClickListener(new View.OnClickListener() {
+        if (action != null) {
+            l.setOnClickListener(new View.OnClickListener() {
 
-            public void onClick(View view) {
-                action.clicked();
-            }
-        });
+                public void onClick(View view) {
+                    action.clicked();
+                }
+            });
+        }
         l.setVisibility(View.VISIBLE);
         return this;
     }

@@ -36,45 +36,39 @@ public class HomePage extends Activity implements OnClickListener {
 
         //build the action bar
         new ActionBarBuilderForActivity(this)
-                .highlightSecondItem()
-                .highlightFirstItem()
-//                .showBackButton(new ActionBarBuilderForActivity.ActionBarItemClickAction() {
-//
-//                    public void clicked() {
-//                        Toast.makeText(HomePage.this, "Hi, the Back Button is clicked", Toast.LENGTH_SHORT).show();
-//                    }
-//                })
-//                .showTitle(R.id.actionbar_title, R.string.title_activity_homePage, new ActionBarBuilderForActivity.ActionBarItemClickAction() {
-//
-//                    public void clicked() {
-//                        Toast.makeText(HomePage.this, "Hi, the title is clicked", Toast.LENGTH_SHORT).show();
-//                    }
-//                })
-                .showFirstItem(R.drawable.ic_setting_all, new ActionBarBuilderForActivity.ActionBarItemClickAction() {
+                .highlightFourthItem()
+                //                .showBackButton(new ActionBarBuilderForActivity.ActionBarItemClickAction() {
+                //
+                //                    public void clicked() {
+                //                        Toast.makeText(HomePage.this, "Hi, the Back Button is clicked", Toast.LENGTH_SHORT).show();
+                //                    }
+                //                })
+                //                .showTitle(R.id.actionbar_title, R.string.title_activity_homePage, new ActionBarBuilderForActivity.ActionBarItemClickAction() {
+                //
+                //                    public void clicked() {
+                //                        Toast.makeText(HomePage.this, "Hi, the title is clicked", Toast.LENGTH_SHORT).show();
+                //                    }
+                //                })
+                .showFirstItem(R.drawable.ic_actionbar_others, new ActionBarBuilderForActivity.ActionBarItemClickAction() {
 
                     public void clicked() {
                         clickItemOther();
                     }
                 })
-                .showSecondItem(R.drawable.icon_homepage_stats_unselected, new ActionBarBuilderForActivity.ActionBarItemClickAction() {
-    
-                   public void clicked() {
-                	//Toast.makeText(HomePage.this, "You are in the stas", Toast.LENGTH_SHORT).show();
+                .showSecondItem(R.drawable.ic_actionbar_stats, new ActionBarBuilderForActivity.ActionBarItemClickAction() {
+
+                    public void clicked() {
+                        //Toast.makeText(HomePage.this, "You are in the stas", Toast.LENGTH_SHORT).show();
                         statsItemClick();
                     }
                 })
-                .showThirdItem(R.drawable.icon_homepage_words_unselected, new ActionBarBuilderForActivity.ActionBarItemClickAction() {
+                .showThirdItem(R.drawable.ic_actionbar_words, new ActionBarBuilderForActivity.ActionBarItemClickAction() {
 
                     public void clicked() {
                         wordsItemClick();
                     }
                 })
-                .showFourthItem(R.drawable.icon_homepage_home_selected, new ActionBarBuilderForActivity.ActionBarItemClickAction() {
-
-                    public void clicked() {
-                        Toast.makeText(HomePage.this, "You are in the HomePage", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                .showFourthItem(R.drawable.ic_actionbar_home, null);
 
 //        ActionBar actionBar = getSupportActionBar();
 //        actionBar.setDisplayShowHomeEnabled(false);
@@ -166,7 +160,7 @@ public class HomePage extends Activity implements OnClickListener {
     }
 
     public void statsItemClick() {
-    	
+
         HomePage.this.startActivity(new Intent(HomePage.this, StatsPage.class));
     }
 
@@ -181,7 +175,6 @@ public class HomePage extends Activity implements OnClickListener {
     public void tutorialItemClick() {
         HomePage.this.startActivity(new Intent(HomePage.this, TutorialPage.class));
     }
-
 
     public void testPageButtonClick() {
         String taskPage = begin.getSelectedItem().toString();
