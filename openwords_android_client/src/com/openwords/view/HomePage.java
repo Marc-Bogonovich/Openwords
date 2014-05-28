@@ -182,9 +182,6 @@ public class HomePage extends Activity implements OnClickListener {
         HomePage.this.startActivity(new Intent(HomePage.this, TutorialPage.class));
     }
 
-    public void logoutItemClick() {
-
-    }
 
     public void testPageButtonClick() {
         String taskPage = begin.getSelectedItem().toString();

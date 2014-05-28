@@ -11,12 +11,19 @@
             backward-compatibility can go here.
         -->
     </style>
-    
 
-    <style name="WhiteNoTitleTheme" parent="@android:Theme.NoTitleBar">
-    	<item name="android:windowBackground">@color/white</item>
+    <style name="WhiteNoTitleTheme" parent="@android:style/Theme.Holo.Light">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@color/white</item>
     	<item name="android:colorBackground">@color/white</item>
-	</style>
+    </style>
+    
+    <style name="NoTitleTheme" parent="@android:style/Theme.Holo.Light">
+        <item name="android:windowNoTitle">true</item>
+        
+    </style>
+
+
 	
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
