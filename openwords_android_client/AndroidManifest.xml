@@ -60,7 +60,9 @@
         </activity>
         <activity
             android:name=".view.LanguagePage"
-            android:label="@string/title_activity_languagePage" >
+            android:theme="@style/NoTitleTheme"
+            android:label="@string/title_activity_languagePage"
+            android:configChanges="orientation|screenSize" >
         </activity>
         
         <activity

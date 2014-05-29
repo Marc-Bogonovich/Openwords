@@ -75,5 +75,11 @@
     <string name="title_activity_typeEvaluate">TypeEvaluate</string>
     <string name="title_activity_settingsPage">SettingsPage</string>
     <string name="title_activity_tutorial_page">TutorialPage</string>
+    <string name="statsPage_TextView_vocabSize">0 words</string>
+    <string name="statsPage_TextView_year">Years</string>
+    <string name="statsPage_TextView_yearNumber">0</string>
+    <string name="statsPage_TextView_month">Months</string>
+    <string name="statsPage_TextView_monthNumber">0</string>
+    <string name="statsPage_TextView_wordProcess">0/0</string>
 
 </resources>
