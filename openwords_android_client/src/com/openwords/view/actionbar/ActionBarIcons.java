@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 
+@Deprecated
 public class ActionBarIcons {
 	static Activity activity;
 	public static void builder(Activity act) {

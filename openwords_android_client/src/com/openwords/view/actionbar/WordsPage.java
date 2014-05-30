@@ -23,7 +23,8 @@ public class WordsPage extends Activity implements OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_words_page);
         
-        ActionBarIcons.builder(this);
+        //ActionBarIcons.builder(this);
+        new ActionBarBuilderForMainPages(this, ActionBarBuilderForMainPages.Words_Page);
         
         Button getNextWords = (Button) findViewById(R.id.wordsPage_Button_getNextWords);
         getNextWords.setOnClickListener(this); 
@@ -35,8 +36,8 @@ public class WordsPage extends Activity implements OnClickListener {
         viewMyWords.setOnClickListener(this); 
         ImageButton syncButton = (ImageButton) findViewById(R.id.wordsPage_ImageButton_syncButton);
         syncButton.setOnClickListener(this); 
-        nextWordsArray = new String[]{"ÎÒ I","Äã you","Ëû he"};
-        searchWordsArray = new String[]{"ÔÆ cloud","¹«Ë¾ company"};
+        nextWordsArray = new String[]{"ï¿½ï¿½ I","ï¿½ï¿½ you","ï¿½ï¿½ he"};
+        searchWordsArray = new String[]{"ï¿½ï¿½ cloud","ï¿½ï¿½Ë¾ company"};
     }
 
 	@Override
@@ -130,6 +131,18 @@ public class WordsPage extends Activity implements OnClickListener {
                }
            }).create().show();
 	}
-          
+        
+        @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this)
+                .setTitle("Really?")
+                .setMessage("Are you sure you want to log out?")
+                .setNegativeButton("No", null)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        WordsPage.super.onBackPressed();
+                    }
+                }).create().show();
+    }
 }
 
