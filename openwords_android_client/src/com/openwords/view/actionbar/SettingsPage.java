@@ -10,6 +10,7 @@ public class SettingsPage extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_words_page);
+		setContentView(R.layout.activity_settings_page);
+		BackIcons.builder(this);
 	}
 }

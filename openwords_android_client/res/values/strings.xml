@@ -86,14 +86,14 @@
 	<string name="wordsPage_Button_searchWords">Search words</string>
 	<string name="wordsPage_Button_searchWordSets">Search word sets</string>
 	<string name="wordsPage_Button_viewMyWords">View my words</string>
+	<string name="profilePage_TextView_profilePageTitle">Tell us about yourself. This will help us customize your learning experience </string>
+	<string name="profilePage_CheckBox_item1">Like to learn new stuff?</string>
+	<string name="profilePage_CheckBox_item2">A quick learner?</string>
+	<string name="profilePage_CheckBox_item3">A lot of free time?</string>
+	<string name="profilePage_CheckBox_item4">Have good long term memory?</string>
 	<!--  
-	<string name="wordsPage_TextView_nextWord">The next words</string>
-	<string name="wordsPage_Button_addNextWords">Add words</string>
 	
-	<string name="wordsPage_Button_addNewWords">Add selected words</string>
-	
-	<string name="wordsPage_EditText_searchWordSet">Search sets</string>
-	<string name="wordsPage_Button_addSelectedWords">Add selected set words</string>
+
 	<string name="wordsPage_Button_addAllSetWords">Add all set words</string>
 	-->
 </resources>

@@ -69,7 +69,8 @@ public class HomePage extends Activity implements OnClickListener {
             targetClass = Hearing.class;
         }
 
-        HomePage.this.startActivity(new Intent(HomePage.this, targetClass));
+        HomePage.this.startActivityForResult(new Intent(HomePage.this, targetClass), 0);
+        
     }
 
     @Override
