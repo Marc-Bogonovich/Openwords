@@ -45,7 +45,7 @@
     <string name="homePage_item_others">Menu</string>
     <string name="homePage_Button_testPageGo">Go</string>
     <string name="homePage_spinner_begin">Task spinner</string>
-
+	<string name="wordsPage_ImageButton_syncButton_desc">Button for sync with server</string>
     <string-array name="homePage_spinner_begin_array">
         <item>Review</item>
         <item>Self evaluation</item>
@@ -81,5 +81,19 @@
     <string name="statsPage_TextView_month">Months</string>
     <string name="statsPage_TextView_monthNumber">0</string>
     <string name="statsPage_TextView_wordProcess">0/0</string>
-
+    <string name="wordsPage_TextView_wordsPageTitle">Get new words (below)</string>
+	<string name="wordsPage_Button_getNextWords">Next words</string>
+	<string name="wordsPage_Button_searchWords">Search words</string>
+	<string name="wordsPage_Button_searchWordSets">Search word sets</string>
+	<string name="wordsPage_Button_viewMyWords">View my words</string>
+	<!--  
+	<string name="wordsPage_TextView_nextWord">The next words</string>
+	<string name="wordsPage_Button_addNextWords">Add words</string>
+	
+	<string name="wordsPage_Button_addNewWords">Add selected words</string>
+	
+	<string name="wordsPage_EditText_searchWordSet">Search sets</string>
+	<string name="wordsPage_Button_addSelectedWords">Add selected set words</string>
+	<string name="wordsPage_Button_addAllSetWords">Add all set words</string>
+	-->
 </resources>

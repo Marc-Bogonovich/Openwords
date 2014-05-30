@@ -1,16 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-<!--    <fragment android:name="com.example.news.ArticleListFragment"
-            android:id="@+id/list"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="match_parent" />
-    <fragment android:name="com.example.news.ArticleReaderFragment"
-            android:id="@+id/viewer"
-            android:layout_weight="2"
-            android:layout_width="0dp"
-            android:layout_height="match_parent" />-->
-</LinearLayout>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:layout_height="fill_parent">
+	<LinearLayout android:orientation="vertical"
+		android:layout_width="match_parent" android:layout_height="wrap_content">
+
+		<include layout="@layout/actionbar_common" />
+
+		<TextView android:id="@+id/wordsPage_TextView_nextWord"
+			android:layout_width="wrap_content" android:layout_height="wrap_content"
+			android:text="@string/wordsPage_TextView_wordsPageTitle" />
+		<Button android:id="@+id/wordsPage_Button_getNextWords"
+			android:layout_width="wrap_content" android:layout_height="wrap_content"
+			android:text="@string/wordsPage_Button_getNextWords" />
+
+		<Button android:id="@+id/wordsPage_Button_searchWords"
+			android:layout_width="wrap_content" android:layout_height="wrap_content"
+			android:text="@string/wordsPage_Button_searchWords" />
+		<Button android:id="@+id/wordsPage_Button_searchWordSets"
+			android:layout_width="wrap_content" android:layout_height="wrap_content"
+			android:text="@string/wordsPage_Button_searchWordSets" />
+		<Button android:id="@+id/wordsPage_Button_viewMyWords"
+			android:layout_width="wrap_content" android:layout_height="wrap_content"
+			android:text="@string/wordsPage_Button_viewMyWords" />
+		<ImageButton android:id="@+id/wordsPage_ImageButton_syncButton"
+			android:contentDescription="@string/wordsPage_ImageButton_syncButton_desc"
+			android:layout_width="72dp" android:layout_height="70dp"
+			android:adjustViewBounds="true" android:scaleType="fitXY"
+			android:layout_gravity="center" android:src="@drawable/icon_wordpage_syncbutton" />
+
+	</LinearLayout>
+</ScrollView>

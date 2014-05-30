@@ -20,7 +20,6 @@
     
     <style name="NoTitleTheme" parent="@android:style/Theme.Holo.Light">
         <item name="android:windowNoTitle">true</item>
-        <item name="android:colorBackground">@color/white</item>
     </style>
 
 

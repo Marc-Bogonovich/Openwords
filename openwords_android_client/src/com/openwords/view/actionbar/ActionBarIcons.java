@@ -16,7 +16,7 @@ public class ActionBarIcons {
 	public static void builder(Activity act) {
 		activity = act;
 		ActionBarBuilderForActivity actionBuilder = new ActionBarBuilderForActivity(activity);
-		Log.e("Class Name",activity.getClass().getSimpleName());
+		
 		if(activity.getClass().getSimpleName().equals("StatsPage")) {
 			actionBuilder.highlightSecondItem();
 		} else if(activity.getClass().getSimpleName().equals("WordsPage")) {
