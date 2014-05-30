@@ -7,6 +7,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -48,10 +49,10 @@ public class WordsPage extends Activity implements OnClickListener {
              break;
          case R.id.wordsPage_Button_searchWords:
              Log.d("Click","searchWords");
+             searchWordsButtonClick();
              break;
          case R.id.wordsPage_Button_searchWordSets:
              Log.d("Click","searchWordSets");
-             searchWordsButtonClick();
              break;
          case R.id.wordsPage_Button_viewMyWords:
              Log.d("Click","viewMyWords");
@@ -62,9 +63,9 @@ public class WordsPage extends Activity implements OnClickListener {
 		 }
 	}	
 	private void getNextWordsButtonClick() {
-		final ArrayList<Integer> mSelectedItems = new ArrayList();
+		final ArrayList<Integer> mSelectedItems = new ArrayList<Integer>();
 		  new AlertDialog.Builder(this)
-          .setTitle("Really?")
+          .setTitle("Next words")
           .setMultiChoiceItems(nextWordsArray, null,
                       new DialogInterface.OnMultiChoiceClickListener() {
                @Override
@@ -95,9 +96,11 @@ public class WordsPage extends Activity implements OnClickListener {
            }).create().show();
 	}
 	private void searchWordsButtonClick() {
-		final ArrayList<Integer> mSelectedItems = new ArrayList();
+		final ArrayList<Integer> mSelectedItems = new ArrayList<Integer>();
+		LayoutInflater inflater = this.getLayoutInflater();
 		  new AlertDialog.Builder(this)
-          .setTitle("Really?")
+          .setTitle("Search words")
+          .setView(inflater.inflate(R.layout.fragment_search_word, null))
           .setMultiChoiceItems(searchWordsArray, null,
                       new DialogInterface.OnMultiChoiceClickListener() {
                @Override
