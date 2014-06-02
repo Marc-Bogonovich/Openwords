@@ -91,9 +91,5 @@
 	<string name="profilePage_CheckBox_item2">A quick learner?</string>
 	<string name="profilePage_CheckBox_item3">A lot of free time?</string>
 	<string name="profilePage_CheckBox_item4">Have good long term memory?</string>
-	<!--  
-	
-
-	<string name="wordsPage_Button_addAllSetWords">Add all set words</string>
-	-->
+	<string name="selfEvaluate_ImageView_audioPlay">Icon play audio</string>
 </resources>
