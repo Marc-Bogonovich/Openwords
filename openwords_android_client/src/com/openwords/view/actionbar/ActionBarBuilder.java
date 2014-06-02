@@ -9,7 +9,7 @@ import com.openwords.ui.common.ActionBarBuilderForActivity;
 import com.openwords.ui.common.DialogForSettingSelection;
 import com.openwords.view.HomePage;
 
-public class ActionBarBuilderForMainPages {
+public class ActionBarBuilder {
 
     public static final int Home_Page = 1;
     public static final int Words_Page = 2;
@@ -17,7 +17,7 @@ public class ActionBarBuilderForMainPages {
     private final Activity activity;
     private final int currentPage;
 
-    public ActionBarBuilderForMainPages(Activity activity, int currentPage) {
+    public ActionBarBuilder(Activity activity, int currentPage) {
         this.activity = activity;
         this.currentPage = currentPage;
 
@@ -33,7 +33,7 @@ public class ActionBarBuilderForMainPages {
                 .showSecondItem(R.drawable.ic_actionbar_stats, new ActionBarBuilderForActivity.ActionBarItemClickAction() {
 
                     public void clicked() {
-                        if (ActionBarBuilderForMainPages.this.currentPage != Stats_Page) {
+                        if (ActionBarBuilder.this.currentPage != Stats_Page) {
                             statsClicked();
                         }
                     }
@@ -41,7 +41,7 @@ public class ActionBarBuilderForMainPages {
                 .showThirdItem(R.drawable.ic_actionbar_words, new ActionBarBuilderForActivity.ActionBarItemClickAction() {
 
                     public void clicked() {
-                        if (ActionBarBuilderForMainPages.this.currentPage != Words_Page) {
+                        if (ActionBarBuilder.this.currentPage != Words_Page) {
                             wordsClicked();
                         }
                     }
@@ -49,7 +49,7 @@ public class ActionBarBuilderForMainPages {
                 .showFourthItem(R.drawable.ic_actionbar_home, new ActionBarBuilderForActivity.ActionBarItemClickAction() {
 
                     public void clicked() {
-                        if (ActionBarBuilderForMainPages.this.currentPage != Home_Page) {
+                        if (ActionBarBuilder.this.currentPage != Home_Page) {
                             homeClicked();
                         }
                     }

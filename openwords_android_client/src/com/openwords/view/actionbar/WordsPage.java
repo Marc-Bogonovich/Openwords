@@ -24,7 +24,7 @@ public class WordsPage extends Activity implements OnClickListener {
         setContentView(R.layout.activity_words_page);
         
         //ActionBarIcons.builder(this);
-        new ActionBarBuilderForMainPages(this, ActionBarBuilderForMainPages.Words_Page);
+        new ActionBarBuilder(this, ActionBarBuilder.Words_Page);
         
         Button getNextWords = (Button) findViewById(R.id.wordsPage_Button_getNextWords);
         getNextWords.setOnClickListener(this); 

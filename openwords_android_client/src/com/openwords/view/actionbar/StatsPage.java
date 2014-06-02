@@ -20,11 +20,7 @@ public class StatsPage extends Activity {
 
         setContentView(R.layout.activity_stats_page);
         //build ActionBar
-        //ActionBarIcons.builder(this);
-        new ActionBarBuilderForMainPages(this, ActionBarBuilderForMainPages.Stats_Page);
-//        
-//        progressBar = (ProgressBar) findViewById(R.id.statsPage_TextView_wordProcessBar);
-//        progressBar.setProgress((int) 3);
+        new ActionBarBuilder(this, ActionBarBuilder.Stats_Page);
     }
     
     @Override

@@ -13,8 +13,7 @@ import android.widget.Button;
 import android.widget.Spinner;
 import com.openwords.R;
 import com.openwords.util.log.LogUtil;
-import com.openwords.view.actionbar.ActionBarBuilderForMainPages;
-import com.openwords.view.actionbar.ActionBarIcons;
+import com.openwords.view.actionbar.ActionBarBuilder;
 import com.openwords.view.learningModule.Hearing;
 import com.openwords.view.learningModule.Review;
 import com.openwords.view.learningModule.SelfEvaluate;
@@ -33,7 +32,7 @@ public class HomePage extends Activity implements OnClickListener {
 
         //build the action bar
         //ActionBarIcons.builder(this);
-        new ActionBarBuilderForMainPages(this, ActionBarBuilderForMainPages.Home_Page);
+        new ActionBarBuilder(this, ActionBarBuilder.Home_Page);
 
         addItemsOnBegin();
         addItemsOnLanguage();
