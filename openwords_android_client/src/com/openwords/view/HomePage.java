@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.Spinner;
 import com.openwords.R;
 import com.openwords.util.log.LogUtil;
+import com.openwords.view.actionbar.ActionBarBuilderForMainPages;
 import com.openwords.view.actionbar.ActionBarIcons;
 import com.openwords.view.learningModule.Hearing;
 import com.openwords.view.learningModule.Review;
@@ -31,7 +32,8 @@ public class HomePage extends Activity implements OnClickListener {
         setContentView(R.layout.activity_home_page);
 
         //build the action bar
-        ActionBarIcons.builder(this);
+        //ActionBarIcons.builder(this);
+        new ActionBarBuilderForMainPages(this, ActionBarBuilderForMainPages.Home_Page);
 
         addItemsOnBegin();
         addItemsOnLanguage();
@@ -70,7 +72,7 @@ public class HomePage extends Activity implements OnClickListener {
         }
 
         HomePage.this.startActivityForResult(new Intent(HomePage.this, targetClass), 0);
-        
+
     }
 
     @Override
