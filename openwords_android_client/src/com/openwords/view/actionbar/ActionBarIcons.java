@@ -63,15 +63,17 @@ public class ActionBarIcons {
 	}
 	
 	private static void homesItemClick() {
+		activity.finish();
 		activity.startActivity(new Intent(activity, HomePage.class));
     }
 	
 	private static void wordsItemClick() {
+		activity.finish();
 		activity.startActivity(new Intent(activity, WordsPage.class));
     }
 
 	private static void statsItemClick() {
-
+		activity.finish();
     	activity.startActivity(new Intent(activity, StatsPage.class));
     }
 
