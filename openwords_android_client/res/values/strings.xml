@@ -92,4 +92,5 @@
 	<string name="profilePage_CheckBox_item3">A lot of free time?</string>
 	<string name="profilePage_CheckBox_item4">Have good long term memory?</string>
 	<string name="selfEvaluate_ImageView_audioPlay">Icon play audio</string>
+	<string name="languagePage_Button_submit">Submit</string>
 </resources>

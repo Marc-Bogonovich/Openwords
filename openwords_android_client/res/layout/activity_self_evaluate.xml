@@ -17,7 +17,7 @@
 
 				<!-- auto resize font size http://stackoverflow.com/questions/5033012/auto-scale-textview-text-to-fit-within-bounds/5535672#5535672 -->
 				<TextView
-				    android:id="@+id/selfEvaluate_activity_textView_transcription"
+				    android:id="@+id/selfEvaluate_TextView_transcription"
 				    android:layout_width="fill_parent"
 				    android:layout_height="30dp"
 				    android:gravity="center"
@@ -25,16 +25,16 @@
 				    android:textColor="@color/selfEvaluate_font"
 				    android:textSize="20sp" />
 				<TextView
-				    android:id="@+id/selfEvaluate_activity_textView_problem"
+				    android:id="@+id/selfEvaluate_TextView_question"
 				    android:layout_width="fill_parent"
 				    android:layout_height="60dp"
 				    android:gravity="center"
-				    android:text="problem"
+				    android:text="question"
 				    android:textColor="@color/selfEvaluate_font"
 				    android:textSize="40sp" />
 
 				<TextView
-				    android:id="@+id/selfEvaluate_activity_textView_answer"
+				    android:id="@+id/selfEvaluate_TextView_answer"
 				    android:layout_width="fill_parent"
 				    android:layout_height="60dp"
 				    android:layout_gravity="center"
@@ -47,16 +47,16 @@
 					<requestFocus />
 				</TextView>
 
-				<Button android:id="@+id/selfEvaluate_activity_button_showAnswer"
+				<Button android:id="@+id/selfEvaluate_Button_showAnswer"
 					android:layout_width="fill_parent" android:layout_height="wrap_content"
 					android:gravity="center" android:layout_margin="20dp" android:text="show" />
 
-				<ImageView android:id="@+id/self_evaluate_activity_imageView_know"
+				<ImageView android:id="@+id/selfEvaluate_ImageView_known"
 					android:layout_width="wrap_content" android:layout_height="40dp"
 					android:layout_marginTop="15dp" android:contentDescription="@string/app_name"
 					android:layout_gravity="center" android:src="@drawable/button_self_evaluate_correct_unselected" />
 
-				<ImageView android:id="@+id/self_evaluate_activity_imageView_didntKnow"
+				<ImageView android:id="@+id/selfEvaluate_ImageView_unknown"
 					android:layout_width="wrap_content" android:layout_height="40dp"
 					android:layout_marginTop="15dp" android:contentDescription="@string/app_name"
 					android:layout_gravity="center" android:src="@drawable/button_self_evaluate_incorrect_unselected" />

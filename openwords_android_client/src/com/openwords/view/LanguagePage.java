@@ -1,53 +1,289 @@
 package com.openwords.view;
 
-import com.openwords.R;
+import java.util.ArrayList;
+import java.util.List;
 
-import android.os.Bundle;
-import android.provider.Contacts.Settings;
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.os.StrictMode;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.openwords.R;
+import com.openwords.model.JSONParser;
+import com.openwords.util.LanguagePageTool;
 
 public class LanguagePage extends Activity implements OnClickListener {
+        
+		public static final String TAG_SUCCESS="success";
+		public static final String TAG_MESSAGE="message";
+		private static String url_l2_options = "http://geographycontest.ipage.com/OpenwordsOrg/WordsDB/getLtwoOptions.php";
+        private String user_id = "userid";
+        public static ArrayList<LanguagePageTool> langlist_global = new ArrayList<LanguagePageTool>();
+        public static L2LangAdapter langadapter=null;
+        public static ListView lang_listview=null;
+        public static String url_write_l2_choice = "http://geographycontest.ipage.com/OpenwordsOrg/OpenwordsDB/writeL2Choices.php";
+        
+        
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                StrictMode.setThreadPolicy(policy);
+                super.onCreate(savedInstanceState);
+                
+                setContentView(R.layout.activity_language_page);
+                langlist_global.add(new LanguagePageTool("Bengalitest",1,false));
+                
+                // Creating a new listview object
+                lang_listview = (ListView)findViewById(R.id.language_list_view);
+                
+                runOnUiThread(new Runnable() { public void run(){getFromServer();} } );
+                //AsyncTaskRunner runner = new AsyncTaskRunner();
+                //runner.execute();
+                //Log.d("Async", "Executing the asynctask");
+                // creating an object of the custom adapter
+                L2LangAdapter langadapter = new L2LangAdapter(this, R.layout.lang_list, langlist_global);
+                // setting the custom adapter to the listview object
+                lang_listview.setAdapter(langadapter); 
+                
+                View LangButton = findViewById(R.id.langbutton);
+        	    LangButton.setOnClickListener(this);
+                
+        }
+        
+        public void onClick(View v) {
+    		switch (v.getId())
+    		{
+    		case R.id.langbutton:
+    			writeToServer(47);
+    			startActivity(new Intent(this, ChosenPage.class));
+    			//break;
+    		}
+        }
+        
+        public void getFromServer()
+        {
+                ArrayList<LanguagePageTool> langlist = new ArrayList<LanguagePageTool>();
+                try 
+                {
+                        List<NameValuePair> params = new ArrayList<NameValuePair>(2);
+                        params.add(new BasicNameValuePair("userid","47"));
+                        Log.d("User", "Passed Validation");
+                        JSONParser jsonParse = new JSONParser();
+                        JSONObject jObj = jsonParse.makeHttpRequest(url_l2_options, "POST", params);
+                        Log.d("Obj", jObj.toString());
+                        JSONArray jArr = jObj.getJSONArray("langdata");
+                        String abc = Integer.toString(jArr.length());
+                        Log.d("Array", abc);
+                        
+                        for (int i = 0; i < jArr.length(); i++) 
+                        {  // **line 2**
+                    JSONObject childJSONObject = jArr.getJSONObject(i);
+                    
+                        langlist.add(new LanguagePageTool(childJSONObject.getString("l2name"),childJSONObject.getInt("l2id"), childJSONObject.getBoolean("chosen")));
+                        //Log.d("Loop", childJSONObject.getString("l2name"));
+                        Log.d("Loop", langlist.get(i).getName());
+                     }
+                        
+                
+                }
+                        catch(Exception e)
+                        {e.printStackTrace();}
+                 langlist_global=langlist;
+        }
+        
+      //Writing options to server
+        public void writeToServer(int user)
+        {
+        	
+                String l2_ids="";
+                //-------building the selected languages parameter string
+                for(int i=0;i<langlist_global.size();i++)
+                {
+                        if(langlist_global.get(i).isSelected()==true)
+                        {
+                                l2_ids=l2_ids+langlist_global.get(i).getId()+"|";
+                        }
+                }
+                l2_ids = l2_ids.substring(0, l2_ids.length()-1);
+                
+                Log.d("L2 ids", l2_ids);
+                Log.d("L2 ids", "_"+user);
+                //------------------------------------
+                
+                String user_id=Integer.toString(user);
+                //-------------constucting parameters------------
+                List<NameValuePair> params = new ArrayList<NameValuePair>(2);
+        params.add(new BasicNameValuePair("choices",l2_ids));
+        params.add(new BasicNameValuePair("id",user_id));
+                //-----------------------------------------------
+        try{
+        JSONParser jsonParse = new JSONParser();
+        JSONObject jObj = jsonParse.makeHttpRequest(url_write_l2_choice, "POST", params);
+        
+        int success = jObj.getInt(TAG_SUCCESS);
+        String msg = jObj.getString(TAG_MESSAGE);
+        if (success == 1) {
+        	Log.d("Info","create successfully");
+        	//usernameExist = true;
+            runOnUiThread(new Runnable() {
+                public void run() {
+                    Toast.makeText(LanguagePage.this,"Preference created successfully", Toast.LENGTH_SHORT).show();
+                }
+            });
+        	}
+        } catch(Exception e)
+        {e.printStackTrace();}
+        
+        }
+        /*
+        class AsyncTaskRunner extends AsyncTask{
+                //Creating a new array list of type L2_lang
+                ArrayList<L2_lang> langlist = new ArrayList<L2_lang>();
+                protected Integer doInBackground(Object... L2_lang) {
+                        try 
+                        {
+                                List<NameValuePair> params = new ArrayList<NameValuePair>(2);
+                                params.add(new BasicNameValuePair("userid","47"));
+                                Log.d("User", "Passed Validation");
+                                JSONParser jsonParse = new JSONParser();
+                                JSONObject jObj = jsonParse.makeHttpRequest(url_l2_options, "POST", params);
+                                Log.d("Obj", jObj.toString());
+                                JSONArray jArr = jObj.getJSONArray("langdata");
+                                String abc = Integer.toString(jArr.length());
+                                Log.d("Array", abc);
+                                
+                                for (int i = 0; i < jArr.length(); i++) 
+                                {  // **line 2**
+                            JSONObject childJSONObject = jArr.getJSONObject(i);
+                            
+                                langlist.add(new L2_lang(childJSONObject.getString("l2name"),childJSONObject.getInt("l2id"), childJSONObject.getBoolean("chosen")));
+                                //Log.d("Loop", childJSONObject.getString("l2name"));
+                                Log.d("Loop", langlist.get(i).getName());
+                             }
+                        
+                        }
+                                catch(Exception e)
+                                {e.printStackTrace();}
+                         langlist_global=langlist;
+                        return 1;
+                }
+                 protected void onPostExecute(Integer result) {
+                        //langlist_global=langlist;
+                         Log.d("inonpost", "in Onpost");
+                                 lang_listview = (ListView)findViewById(R.id.language_list_view);
+                        langadapter.notifyDataSetChanged();
+                        lang_listview.setAdapter(langadapter);
+                                 
+                    }
+        }
+        
+        */
+        
+        public class L2LangAdapter extends ArrayAdapter<LanguagePageTool>
+        {
+                public L2LangAdapter(Context context, int textViewResourceId, 
+                                ArrayList<LanguagePageTool> langlist) {
+                        super(context, textViewResourceId, langlist);
+                        this.langlist = new ArrayList<LanguagePageTool>();
+                        this.langlist.addAll(langlist);
+                }
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_language_page);
-		
-		Button submitButton = (Button) findViewById(R.id.languagePage_Button_chosenPage);
-		submitButton.setOnClickListener(this);
-		
-		//List<NameValuePair> params = new ArrayList<NameValuePair>(2);
-        //params.add(new BasicNameValuePair("email",username.trim()));
-
-        //JSONParser jsonParse = new JSONParser();
-        //JSONObject jObj = jsonParse.makeHttpRequest(url_user_exist, "POST", params);
-		
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.login_page, menu);
-		return true;
-	}
-
-	@Override
-	public void onClick(View v) {
-		// TODO Auto-generated method stub
-		 switch(v.getId()) {
-		 case R.id.languagePage_Button_chosenPage:
-			 chosenPageButtonClick();
-			 break;
-		 }
-	}
-
-	private void chosenPageButtonClick() {
-		// TODO Auto-generated method stub
-		 LanguagePage.this.startActivity(new Intent(LanguagePage.this, ChosenPage.class));
-	}
+                private ArrayList<LanguagePageTool> langlist;
+        
+        private class ViewHolder {
+                   TextView name;
+                   CheckBox checked;
+        }
+        
+        public View getView(int position, View convertView, ViewGroup parent) {
+                 
+                   ViewHolder holder = null;
+                   Log.v("ConvertView", String.valueOf(position));
+                 
+                   if (convertView == null) {
+                   LayoutInflater vi = (LayoutInflater)getSystemService(
+                     Context.LAYOUT_INFLATER_SERVICE);
+                   convertView = vi.inflate(R.layout.lang_list, null);
+                 
+                   holder = new ViewHolder();
+                   holder.name = (TextView) convertView.findViewById(R.id.code);
+                   holder.checked = (CheckBox) convertView.findViewById(R.id.checkBox1);
+                   convertView.setTag(holder);
+                 
+                    holder.checked.setOnClickListener( new View.OnClickListener() {  
+                     public void onClick(View v) {  
+                    	 //L2_lang l2lang = (L2_lang) v.g 
+                    	 Log.d("Tag", "tag_"+v.getId());	
+                    	 
+                      CheckBox cb = (CheckBox) v; 
+                      //L2_lang l2lang = (L2_lang) cb.getTag(); 
+                      Log.d("chkbxid", "chkd_"+cb.isChecked());
+                      /*Toast.makeText(getApplicationContext(),
+                       "Clicked on Checkbox: " + cb.getText() +
+                       " is " + cb.isChecked(), 
+                       Toast.LENGTH_LONG).show();*/
+                      //l2lang.setSelected(cb.isChecked());
+                      for(int j=0; j<langlist_global.size();j++)
+                      {
+                    	  if (langlist_global.get(j).getId()== v.getId())
+                    	  {
+                    		  	langlist_global.get(j).setSelected(cb.isChecked());
+                    	  }
+                      }
+                      for(int k=0;k<langlist_global.size();k++)
+                      {
+                    	  Log.d("langlist", "_"+langlist_global.get(k).getId()+langlist_global.get(k).isSelected());
+                      }
+                     }  
+                    });  
+                   } 
+                   
+                   else {
+                    holder = (ViewHolder) convertView.getTag();
+                   }
+                 
+                   LanguagePageTool l2lang = langlist.get(position);
+                   holder.name.setText(" (" +  l2lang.getName() + ")");
+                   //holder.name.setText(l2lang.getId());
+                   if (l2lang.isSelected())
+                   {
+                	   Log.d("Id's", "_"+l2lang.getId());
+                   }
+                   holder.checked.setChecked(l2lang.isSelected());
+                   holder.checked.setId(l2lang.getId());
+                   holder.name.setTag(l2lang);
+                   if (l2lang.isSelected())
+                   {
+                	   Log.d("Id'sofchkbx", "_"+holder.checked.getId());
+                   }
+                 
+                   return convertView;
+                 
+        }
+}        
+        
+        @Override
+        public boolean onCreateOptionsMenu(Menu menu) {
+                // Inflate the menu; this adds items to the action bar if it is present.
+                getMenuInflater().inflate(R.menu.login_page, menu);
+                return true;
+        }
 }

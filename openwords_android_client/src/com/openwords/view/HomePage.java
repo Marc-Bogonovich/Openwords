@@ -31,7 +31,6 @@ public class HomePage extends Activity implements OnClickListener {
         setContentView(R.layout.activity_home_page);
 
         //build the action bar
-        //ActionBarIcons.builder(this);
         new ActionBarBuilder(this, ActionBarBuilder.Home_Page);
 
         addItemsOnBegin();
