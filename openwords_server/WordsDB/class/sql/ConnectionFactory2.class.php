@@ -18,6 +18,7 @@ class ConnectionFactory2{
 		if(!$conn){
 			throw new Exception('could not connect to database');
 		}
+		mysql_set_charset('utf8',$conn);
 		return $conn;
 	}
 

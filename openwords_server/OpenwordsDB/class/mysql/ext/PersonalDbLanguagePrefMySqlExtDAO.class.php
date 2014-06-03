@@ -7,18 +7,18 @@
  */
 class PersonalDbLanguagePrefMySqlExtDAO extends PersonalDbLanguagePrefMySqlDAO{
 
-	public function insertMod($user,$l2id,$l2name){
-		$sql = 'INSERT INTO personal_db_language_pref (l2_pref_name, user_id, l2_pref_id) VALUES (?, ?, ?)';
+	public function insertMod($user,$l2id){
+		$sql = 'INSERT INTO personal_db_language_pref (user_id, l2_pref_id, l2_pref_name) SELECT ?,id,language FROM owr_1_0.languages where id = ?';
 		
 		$sqlQuery = new SqlQuery($sql);
 		
-		$sqlQuery->set($l2name);
+		//$sqlQuery->set($l2name);
 	
 		$sqlQuery->setNumber($user);
 
 		$sqlQuery->setNumber($l2id);
 
-		$this->executeInsert($sqlQuery);	
+		return $this->executeInsert($sqlQuery);	
 		//$personalDbLanguagePref->id = $id;
 		//return $id;
 	}
@@ -28,6 +28,19 @@ class PersonalDbLanguagePrefMySqlExtDAO extends PersonalDbLanguagePrefMySqlDAO{
 		$sqlQuery = new SqlQuery($sql);
 		$sqlQuery->setNumber($value);
 		return $this->getList($sqlQuery);
+	}
+
+
+	/**
+ 	 * Delete record from table by user ID
+ 	 * @param personalDbLanguagePref primary key
+ 	 */
+	public function deleteByUser($userId){
+		$sql = 'DELETE FROM personal_db_language_pref WHERE user_id = ?';
+		$sqlQuery = new SqlQuery($sql);
+		$sqlQuery->setNumber($userId);
+
+		return $this->executeUpdate($sqlQuery);
 	}
 }
 ?>
