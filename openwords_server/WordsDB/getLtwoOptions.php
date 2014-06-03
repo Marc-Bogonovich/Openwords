@@ -12,10 +12,15 @@ require_once('../OpenwordsDB/include_dao.php');
 $jsonresp = array();
 $response = array();
 
-if(isset($_GET['langone']))
+
+if(isset($_POST['userid']))
 {
-	$lang = $_GET['langone'];
-	$user = $_GET['userid'];
+	$user = $_POST['userid'];
+	
+	//----getting first language of user-----------
+	$detailsRow = DAOFactory::getPersonalDbUserDetailsDAO()->load($user);
+	$lang = $detailsRow->l1PrefId;
+	//---------------------------------------------
 
 	$result = DAOFactory2::getLearnableLanguageOptionsDAO()->queryByL1Id($lang);
 	$userDet = DAOFActory::getPersonalDbLanguagePrefDAO()->queryByUser($user);
@@ -31,15 +36,15 @@ if(isset($_GET['langone']))
 		foreach($result as $row)
 		{
 			$record = array();
-			$record["l2id"] = $row->optionL2Id;
+			$record["l2id"] = (int)$row->optionL2Id;
 			$record["l2name"] = $row->optionL2Name;
 			if(in_array($row->optionL2Id,$userDetArr))
 			{
-				$record["chosen"] = 1;
+				$record["chosen"] = true;
 			}
 			else
 			{
-				$record["chosen"] = 0;
+				$record["chosen"] = false;
 			}
 			
 			//pushing to main json array
@@ -49,7 +54,7 @@ if(isset($_GET['langone']))
 	else
 	{
 		echo "noooooo";
-		array_push($jsonresp,array("l2id"=>-1,"l2name"=>"NA","chosen"=>-1));
+		array_push($jsonresp,array("l2id"=>-1,"l2name"=>"NA","chosen"=>false));
 		
 	}
 	$response["langdata"] = $jsonresp;

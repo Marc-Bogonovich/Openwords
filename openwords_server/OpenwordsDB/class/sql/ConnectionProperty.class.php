@@ -7,8 +7,8 @@
  */
 class ConnectionProperty{
 	private static $host = 'geographycontest.ipagemysql.com';
-	private static $user = 'jiguan';
-	private static $password = 'jiguan';
+	private static $user = 'maydas';
+	private static $password = 'maydas';
 	private static $database = 'openwords';
 
 	public static function getHost(){

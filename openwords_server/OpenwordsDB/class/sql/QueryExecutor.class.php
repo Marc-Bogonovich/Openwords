@@ -17,6 +17,7 @@ class QueryExecutor{
 		$transaction = Transaction::getCurrentTransaction();
 		if(!$transaction){
 			$connection = new Connection();
+			//mysql_query("SET character_set_results=utf8", $connection);
 		}else{
 			$connection = $transaction->getConnection();
 		}		

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author: Mayukh Das
  * @date: May 22, 2014
@@ -8,48 +9,48 @@
 //include database objects----
 require_once('include_dao.php');
 require_once('../WordsDB/include_dao2.php');
-$jsonresp = array();
+$response = array();
 
 
-if(isset($_GET['choices']))
+if(isset($_POST['choices']))
 {
 
-	$l2choices = $_GET['choices'];
-	$user = $_GET['id'];
-	echo $user;
+	$l2choices = $_POST['choices'];
+	$user = $_POST['id'];
+	//echo $user;
 
-	$ch = explode(":",$l2choices);
-
+	$ch = explode("|",$l2choices);
+	
+	$respdel = DAOFactory::getPersonalDbLanguagePrefDAO()->deleteByUser($user);
+	
+	$alltheresp = 0;
 	for($i = 0; $i < count($ch); $i=$i+1)
 	{
-		echo $ch[$i];
-		$lang2 = DAOFactory2::getLanguagesDAO()->load($ch[$i]);
-		$resp = DAOFactory::getPersonalDbLanguagePrefDAO()->insertMod($user,$lang2->id,$lang2->language);
-	}
-
-	
-/*
-	
-	if(isset($result))
-	{
-
-		foreach($result as $row)
+		//echo $ch[$i];
+		//$lang2 = DAOFactory2::getLanguagesDAO()->load($ch[$i]);
+		//echo $lang2->language;
+				
+		$resp = DAOFactory::getPersonalDbLanguagePrefDAO()->insertMod($user,$ch[$i]);
+		if(isset($resp))
 		{
-			$record = array();
-			$record["l2id"] = $row->optionL2Id;
-			$record["l2name"] = $row->optionL2Name;
-			
-			//pushing to main json array
-			array_push($jsonresp,$record);
+			$alltheresp = $alltheresp + 1;
 		}
-	}	
-	else
-	{
-
-		array_push($jsonresp,array("l2id"=>-1,"l2name"=>"NA"));
 		
 	}
-	echo json_encode($jsonresp);
-*/
+
+	//----building response----
+	
+	//echo $alltheresp;
+
+	if($alltheresp == count($ch)) { 
+ 		$response["success"] = 1;
+        $response["message"] = "Preference created";
+	}
+ 	else {
+		$response["success"] = 0;
+        $response["message"] = "Could not write to database";
+	}	
+
+	echo json_encode($response);
 }
 ?>
