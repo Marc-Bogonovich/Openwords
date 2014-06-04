@@ -33,9 +33,11 @@ public class LoginPage extends Activity implements OnClickListener {
     public static final String LOGTAG = "LoginPage";
     public static final String USERNAME = "username";
     public static final String PASSWORD = "password";
+    public static final String USERID = "userid";
     public static final String SAVEUSER = "pref_saveuser";
     public static final String TAG_SUCCESS = "success";
     public static final String TAG_MESSAGE = "message";
+    public static final String TAG_USERID = "userid";
     private static final String url_check_user = "http://geographycontest.ipage.com/OpenwordsOrg/OpenwordsDB/validUser.php";
     //private static String url_check_user = "http://geographycontest.ipage.com/OpenwordsOrg/validUser.php";
     private SharedPreferences settings;
@@ -129,6 +131,7 @@ public class LoginPage extends Activity implements OnClickListener {
             //Log.d("Res",jObj.toString());
             int success = jObj.getInt(TAG_SUCCESS);
             String msg = jObj.getString(TAG_MESSAGE);
+            int userid = jObj.getInt(TAG_USERID);
             LogUtil.logDeubg(this, msg);
             runOnUiThread(new Runnable() {
                 public void run() {
@@ -137,6 +140,7 @@ public class LoginPage extends Activity implements OnClickListener {
             });
             if (success == 1) {
                 LogUtil.logDeubg(this, "user found");
+                
                 runOnUiThread(new Runnable() {
                     public void run() {
                         Toast.makeText(LoginPage.this, "Login Success", Toast.LENGTH_SHORT).show();
@@ -145,8 +149,9 @@ public class LoginPage extends Activity implements OnClickListener {
                 LogUtil.logDeubg(this, "should go to next");
                 //save user preference
                 Boolean saveuser = UIHelper.getCBChecked(this, R.id.loginPage_CheckBox_rememberMe);
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putInt(USERID, userid);
                 if (saveuser) {
-                    SharedPreferences.Editor editor = settings.edit();
                     editor.putString(USERNAME, username);
                     editor.putString(PASSWORD, password);
                     editor.putBoolean(SAVEUSER, saveuser);
