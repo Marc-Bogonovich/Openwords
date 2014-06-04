@@ -4,57 +4,57 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import com.google.gson.Gson;
-import com.openwords.util.log.LogUtil;
+import com.openwords.model.UserInfo;
 
-/**
- *
- * @author hanaldo
- */
 public class OpenwordsSharedPreferences {
 
     private static final String SHARED_PREFERENCE_FILE = "openwords_preference";
+    private static SharedPreferences pref;
     public static final String APP_STARTED = "app.started";
-    private static OpenwordsSharedPreferences instance;
+    public static final String USER_INFO = "user.info";
 
-    public static OpenwordsSharedPreferences getInstance(Context context) {
-        if (instance == null) {
-            instance = new OpenwordsSharedPreferences(context);
-        }
-        return instance;
-    }
-    private SharedPreferences pref;
-
-    private OpenwordsSharedPreferences(Context context) {
+    public static void init(Context context) {
         pref = context.getSharedPreferences(SHARED_PREFERENCE_FILE, Context.MODE_PRIVATE);
     }
 
-    public void clean() {
+    public static void clean() {
         pref = null;
-        instance = null;
     }
 
-    public boolean isAppStarted() {
+    public static boolean isAppStarted() {
         return pref.getBoolean(APP_STARTED, false);
     }
 
-    public boolean setAppStarted(boolean f) {
+    public static boolean setAppStarted(boolean f) {
         Editor editor = pref.edit();
         editor.putBoolean(APP_STARTED, f);
         return editor.commit();
     }
 
-    public boolean setPreferenceItem(String itemName, PreferenceItem item) {
-        LogUtil.logDeubg(this, "Write PreferenceItem: " + item.toString());
+    public static boolean setUserInfo(UserInfo user) {
         Editor editor = pref.edit();
-        String json = new Gson().toJson(item);
-        editor.putString(itemName, json);
+        editor.putString(USER_INFO, user.toString());
         return editor.commit();
     }
 
-    public boolean removePreferenceItem(String itemName) {
+    /**
+     *
+     * @return If UserInfo not exist will then return null
+     */
+    public static UserInfo getUserInfo() {
+        String json = pref.getString(USER_INFO, null);
+        if (json == null) {
+            return null;
+        }
+        return new Gson().fromJson(json, UserInfo.class);
+    }
+
+    public static boolean removePreferenceItem(String itemName) {
         Editor editor = pref.edit();
         editor.remove(itemName);
         return editor.commit();
     }
 
+    private OpenwordsSharedPreferences() {
+    }
 }

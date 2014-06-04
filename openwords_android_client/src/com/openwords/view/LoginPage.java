@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 import com.openwords.R;
 import com.openwords.model.JSONParser;
+import com.openwords.model.UserInfo;
 import com.openwords.util.UIHelper;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
@@ -75,11 +76,19 @@ public class LoginPage extends Activity implements OnClickListener {
         Button registerButton = (Button) findViewById(R.id.loginPage_Button_registerGo);
         registerButton.setOnClickListener(this);
 
-        if (!OpenwordsSharedPreferences.getInstance(null).isAppStarted()) {
+        if (!OpenwordsSharedPreferences.isAppStarted()) {
             Intent i = new Intent(this, MainActivity.class);
             startActivity(i);
         }
-        OpenwordsSharedPreferences.getInstance(null).setAppStarted(true);
+        OpenwordsSharedPreferences.setAppStarted(true);
+
+        UserInfo user = OpenwordsSharedPreferences.getUserInfo();
+        if (user == null) {
+            Toast.makeText(LoginPage.this, "no user", Toast.LENGTH_SHORT).show();
+        } else {
+            usernameField.setText(user.getUserName());
+            passwdField.setText(user.getPass());
+        }
     }
 
 //    @Override
@@ -140,7 +149,7 @@ public class LoginPage extends Activity implements OnClickListener {
             });
             if (success == 1) {
                 LogUtil.logDeubg(this, "user found");
-                
+
                 runOnUiThread(new Runnable() {
                     public void run() {
                         Toast.makeText(LoginPage.this, "Login Success", Toast.LENGTH_SHORT).show();
@@ -148,15 +157,16 @@ public class LoginPage extends Activity implements OnClickListener {
                 });
                 LogUtil.logDeubg(this, "should go to next");
                 //save user preference
-                Boolean saveuser = UIHelper.getCBChecked(this, R.id.loginPage_CheckBox_rememberMe);
-                SharedPreferences.Editor editor = settings.edit();
-                editor.putInt(USERID, userid);
-                if (saveuser) {
-                    editor.putString(USERNAME, username);
-                    editor.putString(PASSWORD, password);
-                    editor.putBoolean(SAVEUSER, saveuser);
-                    editor.commit();
-                }
+//                Boolean saveuser = UIHelper.getCBChecked(this, R.id.loginPage_CheckBox_rememberMe);
+//                SharedPreferences.Editor editor = settings.edit();
+//                editor.putInt(USERID, userid);
+//                if (saveuser) {
+//                    editor.putString(USERNAME, username);
+//                    editor.putString(PASSWORD, password);
+//                    editor.putBoolean(SAVEUSER, saveuser);
+//                    editor.commit();
+//                }
+                OpenwordsSharedPreferences.setUserInfo(new UserInfo(userid, username, password, System.currentTimeMillis()));
                 LoginPage.this.startActivity(new Intent(LoginPage.this, HomePage.class));
             } else {
                 runOnUiThread(new Runnable() {
@@ -186,18 +196,18 @@ public class LoginPage extends Activity implements OnClickListener {
     }
 
     private void initServices() {
-        OpenwordsSharedPreferences.getInstance(this);
+        OpenwordsSharedPreferences.init(this);
     }
 
     private void cleanServices() {
-        OpenwordsSharedPreferences.getInstance(null).clean();
+        OpenwordsSharedPreferences.clean();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         LogUtil.logDeubg(this, "onDestroy");
-        OpenwordsSharedPreferences.getInstance(null).setAppStarted(false);
+        OpenwordsSharedPreferences.setAppStarted(false);
 
         cleanServices();
         Toast.makeText(this, "Bye Bye", Toast.LENGTH_SHORT).show();
