@@ -9,7 +9,9 @@ import org.json.JSONObject;
 
 import com.openwords.R;
 import com.openwords.model.JSONParser;
+import com.openwords.model.UserInfo;
 import com.openwords.util.UIHelper;
+import com.openwords.util.preference.OpenwordsSharedPreferences;
 
 import android.os.Bundle;
 import android.provider.Contacts.Settings;
@@ -31,6 +33,7 @@ import android.widget.Toast;
 public class RegisterPage extends Activity implements OnClickListener {
 	public static final String TAG_SUCCESS="success";
 	public static final String TAG_MESSAGE="message";
+	public static final String TAG_USERID="userid";
 	private static String url_user_exist = "http://geographycontest.ipage.com/OpenwordsOrg/OpenwordsDB/userExist.php";
 	private static String url_user_register = "http://geographycontest.ipage.com/OpenwordsOrg/OpenwordsDB/userRegister.php";
 	private String username = null;
@@ -190,7 +193,8 @@ public class RegisterPage extends Activity implements OnClickListener {
 	            Log.d("Res",jObj.toString());
 	            int success = jObj.getInt(TAG_SUCCESS);
 	            String msg = jObj.getString(TAG_MESSAGE);
-	            Log.d("RES",msg);
+	            int userid = jObj.getInt(TAG_USERID);
+	            Log.d("USERID",Integer.toString(userid));
 	            runOnUiThread(new Runnable() {
 	                public void run() {
 	                    pDialog.dismiss();
@@ -198,6 +202,7 @@ public class RegisterPage extends Activity implements OnClickListener {
 	            });
 	            if (success == 1) {
 	            	Log.d("Info","create successfully");
+	            	OpenwordsSharedPreferences.setUserInfo(new UserInfo(userid, username, password, System.currentTimeMillis()));
 	            	usernameExist = true;
 	                runOnUiThread(new Runnable() {
 	                    public void run() {

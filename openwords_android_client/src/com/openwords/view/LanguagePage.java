@@ -28,19 +28,21 @@ import android.widget.Toast;
 
 import com.openwords.R;
 import com.openwords.model.JSONParser;
+import com.openwords.model.UserInfo;
 import com.openwords.util.LanguagePageTool;
+import com.openwords.util.preference.OpenwordsSharedPreferences;
 
 public class LanguagePage extends Activity implements OnClickListener {
         
 		public static final String TAG_SUCCESS="success";
 		public static final String TAG_MESSAGE="message";
 		private static String url_l2_options = "http://geographycontest.ipage.com/OpenwordsOrg/WordsDB/getLtwoOptions.php";
-        private String user_id = "userid";
+		public static final String USERID = "userid";
         public static ArrayList<LanguagePageTool> langlist_global = new ArrayList<LanguagePageTool>();
         public static L2LangAdapter langadapter=null;
         public static ListView lang_listview=null;
         public static String url_write_l2_choice = "http://geographycontest.ipage.com/OpenwordsOrg/OpenwordsDB/writeL2Choices.php";
-        
+        private UserInfo userinfo;
         
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +56,9 @@ public class LanguagePage extends Activity implements OnClickListener {
                 // Creating a new listview object
                 lang_listview = (ListView)findViewById(R.id.language_list_view);
                 
+                userinfo = OpenwordsSharedPreferences.getUserInfo();
+                Log.d("UserID in LangPage",Integer.toString(userinfo.getUserId()));
+                
                 runOnUiThread(new Runnable() { public void run(){getFromServer();} } );
                 //AsyncTaskRunner runner = new AsyncTaskRunner();
                 //runner.execute();
@@ -65,14 +70,15 @@ public class LanguagePage extends Activity implements OnClickListener {
                 
                 View LangButton = findViewById(R.id.langbutton);
         	    LangButton.setOnClickListener(this);
-                
+        	    
+        	   
         }
         
         public void onClick(View v) {
     		switch (v.getId())
     		{
     		case R.id.langbutton:
-    			writeToServer(47);
+    			writeToServer(userinfo.getUserId());
     			startActivity(new Intent(this, ChosenPage.class));
     			//break;
     		}
@@ -84,7 +90,7 @@ public class LanguagePage extends Activity implements OnClickListener {
                 try 
                 {
                         List<NameValuePair> params = new ArrayList<NameValuePair>(2);
-                        params.add(new BasicNameValuePair("userid","47"));
+                        params.add(new BasicNameValuePair("userid",Integer.toString(userinfo.getUserId())));
                         Log.d("User", "Passed Validation");
                         JSONParser jsonParse = new JSONParser();
                         JSONObject jObj = jsonParse.makeHttpRequest(url_l2_options, "POST", params);
@@ -140,6 +146,7 @@ public class LanguagePage extends Activity implements OnClickListener {
         
         int success = jObj.getInt(TAG_SUCCESS);
         String msg = jObj.getString(TAG_MESSAGE);
+        
         if (success == 1) {
         	Log.d("Info","create successfully");
         	//usernameExist = true;
