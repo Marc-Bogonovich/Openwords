@@ -44,7 +44,7 @@ public class SelfEvaluate extends Activity {
 	private Animation mOutToRight;
 	private ViewFlipper mViewFlipper;
 	SharedPreferences settings;
-
+	Editor editor;
 	public static final String OPENWORDS_PREFERENCES = "OpenwordsPrefs";
 	public static final String PLATE_POSITION = "PlatePosition";
 	private LinkedList<LeafCardSelfEval> questionPool = new LinkedList<LeafCardSelfEval>();
@@ -67,7 +67,7 @@ public class SelfEvaluate extends Activity {
 		setContentView(R.layout.activity_self_evaluate);
 		//
 		settings = getSharedPreferences(OPENWORDS_PREFERENCES, 0);
-		Editor editor = settings.edit();
+		editor = settings.edit();
 		editor.putInt(PLATE_POSITION, 1);
 		editor.commit();
 		mViewFlipper = (ViewFlipper) findViewById(R.id.selfEvaluate_ViewFlipper_frame);
@@ -133,20 +133,42 @@ public class SelfEvaluate extends Activity {
 		mViewFlipper.showNext();
 		// HERE WE WILL INCREMENT UP THE PLATE POSITION
 		int nextQuestionNumber = settings.getInt(PLATE_POSITION, 0) + 1;
+		Log.e("question pool",Integer.toString(questionPool.size()));
+		Log.e("next index",Integer.toString(nextQuestionNumber));
 		if (nextQuestionNumber < questionPool.size()) {
-			Editor editor = settings.edit();
 			editor.putInt(PLATE_POSITION, nextQuestionNumber);
 			editor.commit();
 		} else {
-			Editor editor2 = settings.edit();
-			editor2.putInt(PLATE_POSITION, 1);
-			editor2.commit();
+			nextQuestionNumber = 0;
+			editor.putInt(PLATE_POSITION, 1);
+			editor.commit();
 		}
 		question.setText(questionPool.get(nextQuestionNumber).getWordLang2());
 		answer.setText(questionPool.get(nextQuestionNumber).getWordLang1());
 		Editor editor = settings.edit();
 		editor.putInt(PLATE_POSITION, nextQuestionNumber);
 		editor.commit();
+	}
+	
+	private void moveBackward(){
+		final TextView question = (TextView) findViewById(R.id.selfEvaluate_TextView_question);
+		final TextView answer = (TextView) findViewById(R.id.selfEvaluate_TextView_answer);
+
+		mViewFlipper.setInAnimation(mInFromLeft);
+		mViewFlipper.setOutAnimation(mOutToRight);
+		mViewFlipper.showPrevious();
+		// HERE WE WILL INCREMENT DOWN THE PLATE POSITION
+		int prevQuestionNumber = settings.getInt(PLATE_POSITION, 0) - 1;
+		if (prevQuestionNumber >= 0) {
+			editor.putInt(PLATE_POSITION, prevQuestionNumber);
+			editor.commit();
+		} else {
+			prevQuestionNumber = 0;
+			editor.putInt(PLATE_POSITION, 1);
+			editor.commit();
+		}
+		question.setText(questionPool.get(prevQuestionNumber).getWordLang2());
+		answer.setText(questionPool.get(prevQuestionNumber).getWordLang1());
 	}
 
 	private void initAnimations() {
@@ -209,8 +231,8 @@ public class SelfEvaluate extends Activity {
 		// will place it below
 		// THE PURPOSE OF THIS LINE IS TO TEST A CHANGE IN TEXT IN RESPONSE TO A
 		// VIEWFLIPPER
-		final public TextView textView1 = (TextView) findViewById(R.id.selfEvaluate_TextView_question);
-		final public TextView textView2 = (TextView) findViewById(R.id.selfEvaluate_TextView_answer);
+		final public TextView question = (TextView) findViewById(R.id.selfEvaluate_TextView_question);
+		final public TextView answer = (TextView) findViewById(R.id.selfEvaluate_TextView_answer);
 
 		private static final int SWIPE_MIN_DISTANCE = 60; // 120
 		private static final int SWIPE_MAX_OFF_PATH = 250;
@@ -219,45 +241,16 @@ public class SelfEvaluate extends Activity {
 		@Override
 		public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
 				float velocityY) {
-			System.out.println(" in onFling() :: ");
 			if (Math.abs(e1.getY() - e2.getY()) > SWIPE_MAX_OFF_PATH)
 				return false;
 			if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE
 					&& Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-				mViewFlipper.setInAnimation(mInFromRight);
-				mViewFlipper.setOutAnimation(mOutToLeft);
-				mViewFlipper.showNext();
-				// HERE WE WILL INCREMENT UP THE PLATE POSITION
-				// I PLACED AN IF LOOP (2013-09-15) THAT WILL REDUCE THE PLATE
-				// POSITION IF IT GETS ABOVE 16.
-				int nextQuestionNumber = settings.getInt(PLATE_POSITION, 0) + 1;
-				if (nextQuestionNumber < questionPool.size()) {
-					Editor editor = settings.edit();
-					editor.putInt(PLATE_POSITION, nextQuestionNumber);
-					editor.commit();
-				} else {
-					Editor editor2 = settings.edit();
-					editor2.putInt(PLATE_POSITION, 1);
-					editor2.commit();
-				}
-				//
-
-				// THE PURPOSE OF THIS LINE IS TO TEST A CHANGE IN TEXT IN
-				// RESPONSE TO A VIEWFLIPPER
-				textView1.setText(questionPool.get(nextQuestionNumber).getWordLang2());
-				textView2.setText(questionPool.get(nextQuestionNumber).getWordLang1());
-				// THE PURPOSE OF THIS LINE IS TO TEST WRITING THE POSITION TO
-				// THE SHARED PREFERENCES
+				 moveForward();
 
 				//
 			} else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE
 					&& Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-				mViewFlipper.setInAnimation(mInFromLeft);
-				mViewFlipper.setOutAnimation(mOutToRight);
-				mViewFlipper.showPrevious();
-				// HERE WE WILL INCREMENT DOWN THE PLATE POSITION
-				textView1.setText(questionPool.get(0).getWordLang2());
-				textView2.setText(questionPool.get(0).getWordLang1());
+				moveBackward();
 				// scrap 缇庡湅
 			}
 			return super.onFling(e1, e2, velocityX, velocityY);
