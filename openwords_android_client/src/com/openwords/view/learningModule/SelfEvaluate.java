@@ -10,6 +10,7 @@ package com.openwords.view.learningModule;
 import java.util.*;
 
 import com.openwords.R;
+import com.openwords.model.LeafCardSelfEval;
 import com.openwords.util.PlateDbHelper;
 
 import android.os.Bundle;
@@ -46,40 +47,33 @@ public class SelfEvaluate extends Activity {
 
 	public static final String OPENWORDS_PREFERENCES = "OpenwordsPrefs";
 	public static final String PLATE_POSITION = "PlatePosition";
-	private List<Map<String, String>> sample = new ArrayList<Map<String, String>>();
+	private LinkedList<LeafCardSelfEval> questionPool = new LinkedList<LeafCardSelfEval>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		Map<String, String> tmp = new HashMap<String, String>();
-		tmp.put("Question",	"人");
-		tmp.put("Answer", "man");
-		sample.add(tmp);
-		tmp = new HashMap();
-		tmp.put("Question",	"物");
-		tmp.put("Answer", "thing");
-		sample.add(tmp);
-		tmp.put("Question",	"地球");
-		tmp.put("Answer", "earth");
-		sample.add(tmp);
-		tmp.put("Question",	"时间");
-		tmp.put("Answer", "time");
-		sample.add(tmp);
-		tmp.put("Question",	"软件");
-		tmp.put("Answer", "software");
-		sample.add(tmp);
 		
-//		Log.e("Question",sample.get(0).get("Question"));
-//		Log.e("Answer",sample.get(0).get("Answer"));
-		
+		questionPool.add(new LeafCardSelfEval("人","man", "ren"));
+		questionPool.add(new LeafCardSelfEval("猫","cat", "mao"));
+		questionPool.add(new LeafCardSelfEval("地球","earth", "di qiu"));
+		questionPool.add(new LeafCardSelfEval("时间","time", "shi jian"));
+		questionPool.add(new LeafCardSelfEval("世界","world", "shi jie"));
+		questionPool.add(new LeafCardSelfEval("电脑","computer", "dian nao"));
+		questionPool.add(new LeafCardSelfEval("软件","software", "ruan jian"));
+//		Log.e("Question",questionPool.get(0).getWordLang2());
+//		Log.e("Answer",questionPool.get(0).getWordLang1());
+
 		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_self_evaluate);
 		//
 		settings = getSharedPreferences(OPENWORDS_PREFERENCES, 0);
+		Editor editor = settings.edit();
+		editor.putInt(PLATE_POSITION, 1);
+		editor.commit();
 		mViewFlipper = (ViewFlipper) findViewById(R.id.selfEvaluate_ViewFlipper_frame);
 		mViewFlipper.setDisplayedChild(0);
 		initAnimations();
-		final int startingQuestionNumber = settings.getInt(PLATE_POSITION, 1);
+		//final int startingQuestionNumber = settings.(PLATE_POSITION, 1);
 
 		PlateDbHelper myretrieverObject = new PlateDbHelper(this);
 		SQLiteDatabase db = myretrieverObject.getWritableDatabase();
@@ -131,8 +125,7 @@ public class SelfEvaluate extends Activity {
 	private void moveForward() {
 		final TextView question = (TextView) findViewById(R.id.selfEvaluate_TextView_question);
 		final TextView answer = (TextView) findViewById(R.id.selfEvaluate_TextView_answer);
-		question.setText("first last");
-		answer.setText("");
+
 
 		// Marc 2013-09-15 ADDING LINES TO ADVANCE THE PLATE
 		mViewFlipper.setInAnimation(mInFromRight);
@@ -140,6 +133,17 @@ public class SelfEvaluate extends Activity {
 		mViewFlipper.showNext();
 		// HERE WE WILL INCREMENT UP THE PLATE POSITION
 		int nextQuestionNumber = settings.getInt(PLATE_POSITION, 0) + 1;
+		if (nextQuestionNumber < questionPool.size()) {
+			Editor editor = settings.edit();
+			editor.putInt(PLATE_POSITION, nextQuestionNumber);
+			editor.commit();
+		} else {
+			Editor editor2 = settings.edit();
+			editor2.putInt(PLATE_POSITION, 1);
+			editor2.commit();
+		}
+		question.setText(questionPool.get(nextQuestionNumber).getWordLang2());
+		answer.setText(questionPool.get(nextQuestionNumber).getWordLang1());
 		Editor editor = settings.edit();
 		editor.putInt(PLATE_POSITION, nextQuestionNumber);
 		editor.commit();
@@ -227,7 +231,7 @@ public class SelfEvaluate extends Activity {
 				// I PLACED AN IF LOOP (2013-09-15) THAT WILL REDUCE THE PLATE
 				// POSITION IF IT GETS ABOVE 16.
 				int nextQuestionNumber = settings.getInt(PLATE_POSITION, 0) + 1;
-				if (nextQuestionNumber < 16) {
+				if (nextQuestionNumber < questionPool.size()) {
 					Editor editor = settings.edit();
 					editor.putInt(PLATE_POSITION, nextQuestionNumber);
 					editor.commit();
@@ -240,8 +244,8 @@ public class SelfEvaluate extends Activity {
 
 				// THE PURPOSE OF THIS LINE IS TO TEST A CHANGE IN TEXT IN
 				// RESPONSE TO A VIEWFLIPPER
-				textView1.setText("last first");
-				textView2.setText("");
+				textView1.setText(questionPool.get(nextQuestionNumber).getWordLang2());
+				textView2.setText(questionPool.get(nextQuestionNumber).getWordLang1());
 				// THE PURPOSE OF THIS LINE IS TO TEST WRITING THE POSITION TO
 				// THE SHARED PREFERENCES
 
@@ -252,8 +256,8 @@ public class SelfEvaluate extends Activity {
 				mViewFlipper.setOutAnimation(mOutToRight);
 				mViewFlipper.showPrevious();
 				// HERE WE WILL INCREMENT DOWN THE PLATE POSITION
-				textView1.setText("last last ");
-				textView2.setText("");
+				textView1.setText(questionPool.get(0).getWordLang2());
+				textView2.setText(questionPool.get(0).getWordLang1());
 				// scrap 缇庡湅
 			}
 			return super.onFling(e1, e2, velocityX, velocityY);
