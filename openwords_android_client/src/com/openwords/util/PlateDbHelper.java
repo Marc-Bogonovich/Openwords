@@ -1,7 +1,12 @@
 package com.openwords.util;
 
 
+import java.util.ArrayList;
+
+import com.openwords.dto.PlateDbDto;
+
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -31,7 +36,33 @@ public class PlateDbHelper   extends SQLiteOpenHelper{
 		db.execSQL(SQL_DELETE);
 		db.execSQL(SQL_CREATE_PLATE);
 		
-	}	
+	}
+	
+	public ArrayList<PlateDbDto> getPlate(int user)
+	{
+		SQLiteDatabase db = this.getReadableDatabase();
+		ArrayList<PlateDbDto> newPlate = new ArrayList<PlateDbDto>();
+		
+   	 
+        Cursor cursor = db.query(OpenwordsDatabaseManager.Plate_DB.TABLE_NAME, 
+        		new String[] { OpenwordsDatabaseManager.Plate_DB.CONNECTIONID,
+        		OpenwordsDatabaseManager.Plate_DB.WORDLtwo, 
+        		OpenwordsDatabaseManager.Plate_DB.WORDLone,
+        		OpenwordsDatabaseManager.Plate_DB.TRANSCRIPTION,
+        		OpenwordsDatabaseManager.Plate_DB.PERF}, null,
+                null, null, null, null, null);
+        if (cursor != null)
+            cursor.moveToFirst();
+        while(!cursor.isAfterLast())
+        {
+        	PlateDbDto newProblem = new PlateDbDto(cursor.getInt(0),cursor.getString(1),cursor.getString(2),
+        			cursor.getString(3),cursor.getInt(4));
+        	newPlate.add(newProblem);
+        	cursor.moveToNext();
+        }
+        	
+        return newPlate;
+	}
 	
 }
 
