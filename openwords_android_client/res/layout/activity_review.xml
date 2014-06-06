@@ -1,15 +1,74 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:context="${packageName}.${activityClass}"
-                android:background="#fff">
+<?xml version="1.0" encoding="UTF-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:layout_height="fill_parent"
+	android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="reviewPage" />
+	<ViewFlipper android:id="@+id/review_ViewFlipper_frame"
+		android:layout_width="fill_parent" android:layout_height="fill_parent"
+		android:layout_gravity="center_vertical" android:padding="20dp">
 
-</RelativeLayout>
+		<LinearLayout
+		    android:layout_width="match_parent"
+		    android:layout_height="match_parent"
+		    android:orientation="vertical" >
 
+			<ImageView
+			    android:id="@+id/review_ImageView_audioPlay"
+			    android:layout_width="40dp"
+			    android:layout_height="40dp"
+			    android:layout_gravity="right"
+			    android:contentDescription="@string/selfEvaluate_ImageView_audioPlay"
+			    android:src="@drawable/ic_self_evaluate_audio" />
+
+
+		    <TextView
+		        android:id="@+id/TextView02"
+		        android:layout_width="fill_parent"
+		        android:layout_height="40dp"
+		        android:ems="10"
+		        android:gravity="center"
+		        android:textColor="@color/selfEvaluate_font"
+		        android:textSize="30sp" />
+
+		    <TextView
+		        android:id="@+id/TextView01"
+		        android:layout_width="fill_parent"
+		        android:layout_height="40dp"
+		        android:ems="10"
+		        android:gravity="center"
+		        android:textColor="@color/selfEvaluate_font"
+		        android:textSize="30sp" />
+
+		    <!-- auto resize font size http://stackoverflow.com/questions/5033012/auto-scale-textview-text-to-fit-within-bounds/5535672#5535672 -->
+
+		    <TextView
+		        android:id="@+id/review_TextView_transcription"
+		        android:layout_width="fill_parent"
+		        android:layout_height="30dp"
+		        android:layout_weight="0.00"
+		        android:gravity="center"
+		        android:textColor="@color/selfEvaluate_font"
+		        android:textSize="20sp" />
+
+		    <TextView
+		        android:id="@+id/review_TextView_question"
+		        android:layout_width="fill_parent"
+		        android:layout_height="60dp"
+		        android:gravity="center"
+		        android:textColor="@color/black"
+		        android:textSize="40sp" />
+
+		    <TextView
+		        android:id="@+id/review_TextView_answer"
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="0.02"
+		        android:gravity="center"
+		        android:textColor="@color/black"
+		        android:textSize="30sp" />
+
+		    
+		</LinearLayout>
+
+	</ViewFlipper>
+</LinearLayout>
