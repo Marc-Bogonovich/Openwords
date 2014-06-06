@@ -1,4 +1,9 @@
 This is the folder for our Android client code.
+
+Please comply some common programming conventions of Java, such as: 
+http://docs.oracle.com/javase/tutorial/java/package/namingpkgs.html
+http://google-styleguide.googlecode.com/svn/trunk/javaguide.html
+
 For Android project, we only need to share the "src", "res", "libs"
 and probably "assets" folders to our git here.
 Please DO NOT commit/push any of your local files, that would sabotage
