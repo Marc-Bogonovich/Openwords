@@ -5,7 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class UserPerfDbHelper extends SQLiteOpenHelper{
-	public static final int DATABASE_VERSION = 2;
+	public static final int DATABASE_VERSION = 1;
 	public static final String DATABASE_NAME = OpenwordsDatabaseManager.UserPerfDB.TABLE_NAME+".db";
 	private static final String SQL_CREATE_PLATE = "CREATE TABLE IF NOT EXISTS " + OpenwordsDatabaseManager.Plate_DB.TABLE_NAME + " ("+OpenwordsDatabaseManager.UserPerfDB.USERID + " INTEGER,"
 			+ OpenwordsDatabaseManager.UserPerfDB.CONNECTIONID + " INTEGER," + OpenwordsDatabaseManager.UserPerfDB.TOTALCORRECT + " INTEGER," + OpenwordsDatabaseManager.UserPerfDB.TOTALSKIPPED + " INTEGER"
