@@ -89,14 +89,22 @@ public class SelfEvaluate extends Activity {
 
 		Button showAnswer = (Button) findViewById(R.id.selfEvaluate_Button_showAnswer);
 		
-		
+		final TextView question = (TextView) findViewById(R.id.selfEvaluate_TextView_question);
 		final TextView answer = (TextView) findViewById(R.id.selfEvaluate_TextView_answer);
+		final TextView transcription = (TextView) findViewById(R.id.selfEvaluate_TextView_transcription);
+		question.setText(questionPool.get(0).getWordLang2());
+		answer.setText(questionPool.get(0).getWordLang1());
+		answer.setVisibility(View.INVISIBLE);
+		transcription.setText(questionPool.get(0).getTranscription());
+		transcription.setVisibility(View.INVISIBLE);
+		Editor editor = settings.edit();
+		editor.putInt(PLATE_POSITION, 0);
+		editor.commit();
 		showAnswer.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				final int currentQuestionNumber = settings.getInt(
-						PLATE_POSITION, 1);
-				answer.setText(String.valueOf(currentQuestionNumber));
+				answer.setVisibility(View.VISIBLE);
+				transcription.setVisibility(View.VISIBLE);
 			}
 		});
 		final ImageView known = (ImageView) findViewById(R.id.selfEvaluate_ImageView_known);
@@ -125,7 +133,7 @@ public class SelfEvaluate extends Activity {
 	private void moveForward() {
 		final TextView question = (TextView) findViewById(R.id.selfEvaluate_TextView_question);
 		final TextView answer = (TextView) findViewById(R.id.selfEvaluate_TextView_answer);
-
+		final TextView transcription = (TextView) findViewById(R.id.selfEvaluate_TextView_transcription);
 
 		// Marc 2013-09-15 ADDING LINES TO ADVANCE THE PLATE
 		mViewFlipper.setInAnimation(mInFromRight);
@@ -145,6 +153,9 @@ public class SelfEvaluate extends Activity {
 		}
 		question.setText(questionPool.get(nextQuestionNumber).getWordLang2());
 		answer.setText(questionPool.get(nextQuestionNumber).getWordLang1());
+		answer.setVisibility(View.INVISIBLE);
+		transcription.setText(questionPool.get(nextQuestionNumber).getTranscription());
+		transcription.setVisibility(View.INVISIBLE);
 		Editor editor = settings.edit();
 		editor.putInt(PLATE_POSITION, nextQuestionNumber);
 		editor.commit();
@@ -153,7 +164,7 @@ public class SelfEvaluate extends Activity {
 	private void moveBackward(){
 		final TextView question = (TextView) findViewById(R.id.selfEvaluate_TextView_question);
 		final TextView answer = (TextView) findViewById(R.id.selfEvaluate_TextView_answer);
-
+		final TextView transcription = (TextView) findViewById(R.id.selfEvaluate_TextView_transcription);
 		mViewFlipper.setInAnimation(mInFromLeft);
 		mViewFlipper.setOutAnimation(mOutToRight);
 		mViewFlipper.showPrevious();
@@ -169,6 +180,9 @@ public class SelfEvaluate extends Activity {
 		}
 		question.setText(questionPool.get(prevQuestionNumber).getWordLang2());
 		answer.setText(questionPool.get(prevQuestionNumber).getWordLang1());
+		answer.setVisibility(View.INVISIBLE);
+		transcription.setText(questionPool.get(prevQuestionNumber).getTranscription());
+		transcription.setVisibility(View.INVISIBLE);
 	}
 
 	private void initAnimations() {

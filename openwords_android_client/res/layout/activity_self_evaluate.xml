@@ -21,7 +21,6 @@
 				    android:layout_width="fill_parent"
 				    android:layout_height="30dp"
 				    android:gravity="center"
-				    android:text="pin yin"
 				    android:textColor="@color/selfEvaluate_font"
 				    android:textSize="20sp" />
 				<TextView
@@ -29,35 +28,40 @@
 				    android:layout_width="fill_parent"
 				    android:layout_height="60dp"
 				    android:gravity="center"
-				    android:text="question"
-				    android:textColor="@color/selfEvaluate_font"
+				    android:textColor="@color/black"
 				    android:textSize="40sp" />
 
 				<TextView
 				    android:id="@+id/selfEvaluate_TextView_answer"
 				    android:layout_width="fill_parent"
-				    android:layout_height="60dp"
+				    android:layout_height="40dp"
 				    android:layout_gravity="center"
 				    android:ems="10"
-				    android:textColor="@color/black"
+				    android:textColor="@color/selfEvaluate_font"
 				    android:gravity="center"
-				    android:text="answer"
-				    android:textSize="40sp" >
+				    android:textSize="35sp" >
 
 					<requestFocus />
 				</TextView>
+				<TextView
+				    android:id="@+id/selfEvaluate_TextView_clarification"
+				    android:layout_width="fill_parent"
+				    android:layout_height="25dp"
+				    android:gravity="center"
+				    android:textColor="@color/selfEvaluate_font"
+				    android:textSize="20sp" />
 
 				<Button android:id="@+id/selfEvaluate_Button_showAnswer"
 					android:layout_width="fill_parent" android:layout_height="wrap_content"
-					android:gravity="center" android:layout_margin="20dp" android:text="show" />
+					android:gravity="center" android:layout_margin="10dp"  />
 
 				<ImageView android:id="@+id/selfEvaluate_ImageView_known"
-					android:layout_width="wrap_content" android:layout_height="40dp"
+					android:layout_width="wrap_content" android:layout_height="60dp"
 					android:layout_marginTop="15dp" android:contentDescription="@string/app_name"
 					android:layout_gravity="center" android:src="@drawable/button_self_evaluate_correct_unselected" />
 
 				<ImageView android:id="@+id/selfEvaluate_ImageView_unknown"
-					android:layout_width="wrap_content" android:layout_height="40dp"
+					android:layout_width="wrap_content" android:layout_height="60dp"
 					android:layout_marginTop="15dp" android:contentDescription="@string/app_name"
 					android:layout_gravity="center" android:src="@drawable/button_self_evaluate_incorrect_unselected" />
 		</LinearLayout>
