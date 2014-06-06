@@ -1,5 +1,4 @@
-package com.openwords.util;
-
+package com.openwords.DAO;
 
 import java.util.ArrayList;
 
@@ -101,4 +100,5 @@ public class PlateDbHelper   extends SQLiteOpenHelper{
 	}
 	
 }
+
 
