@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 import com.openwords.R;
 import com.openwords.model.JSONParser;
+import com.openwords.model.Plate;
 import com.openwords.model.UserInfo;
 import com.openwords.util.UIHelper;
 import com.openwords.util.log.LogUtil;
@@ -89,6 +90,14 @@ public class LoginPage extends Activity implements OnClickListener {
             usernameField.setText(user.getUserName());
             passwdField.setText(user.getPass());
         }
+
+        //TEST!!! Please delete soon
+        Plate p = new Plate(1, "test", "go", "nanan", 2, 3, this);
+        p.save();
+
+        List<Plate> ps = Plate.listAll(Plate.class);
+        Toast.makeText(LoginPage.this, "This is a test: I have " + ps.size() + " records in my plate!", Toast.LENGTH_SHORT).show();
+
     }
 
 //    @Override
