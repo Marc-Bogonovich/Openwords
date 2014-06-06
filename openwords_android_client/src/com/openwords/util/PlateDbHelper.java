@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import com.openwords.dto.PlateDbDto;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -38,10 +39,11 @@ public class PlateDbHelper   extends SQLiteOpenHelper{
 		
 	}
 	
-	public ArrayList<PlateDbDto> getPlate(int user)
+	//-----------Get plate-----------------
+	public ArrayList<PlateDbDto> getPlate()
 	{
 		SQLiteDatabase db = this.getReadableDatabase();
-		ArrayList<PlateDbDto> newPlate = new ArrayList<PlateDbDto>();
+		ArrayList<PlateDbDto> thisPlate = new ArrayList<PlateDbDto>();
 		
    	 
         Cursor cursor = db.query(OpenwordsDatabaseManager.Plate_DB.TABLE_NAME, 
@@ -49,19 +51,53 @@ public class PlateDbHelper   extends SQLiteOpenHelper{
         		OpenwordsDatabaseManager.Plate_DB.WORDLtwo, 
         		OpenwordsDatabaseManager.Plate_DB.WORDLone,
         		OpenwordsDatabaseManager.Plate_DB.TRANSCRIPTION,
-        		OpenwordsDatabaseManager.Plate_DB.PERF}, null,
+        		OpenwordsDatabaseManager.Plate_DB.PERF,
+        		OpenwordsDatabaseManager.Plate_DB.EXPOSURE}, null,
                 null, null, null, null, null);
         if (cursor != null)
             cursor.moveToFirst();
         while(!cursor.isAfterLast())
         {
         	PlateDbDto newProblem = new PlateDbDto(cursor.getInt(0),cursor.getString(1),cursor.getString(2),
-        			cursor.getString(3),cursor.getInt(4));
-        	newPlate.add(newProblem);
+        			cursor.getString(3),cursor.getInt(4), cursor.getInt(5));
+        	thisPlate.add(newProblem);
         	cursor.moveToNext();
         }
-        	
-        return newPlate;
+        db.close();	
+        return thisPlate;
+	}
+	//---------------------------------------
+	
+	public void addToPlate(PlateDbDto problem)
+	{
+		SQLiteDatabase db = this.getWritableDatabase();
+   	 
+        ContentValues values = new ContentValues();
+        values.put(OpenwordsDatabaseManager.Plate_DB.CONNECTIONID, problem.connection_id); // Contact Name
+        values.put(OpenwordsDatabaseManager.Plate_DB.WORDLtwo, problem.wordL2); // Contact Phone
+        values.put(OpenwordsDatabaseManager.Plate_DB.WORDLone, problem.wordL1);
+        values.put(OpenwordsDatabaseManager.Plate_DB.TRANSCRIPTION, problem.transcription);
+        values.put(OpenwordsDatabaseManager.Plate_DB.PERF, problem.perf);
+        values.put(OpenwordsDatabaseManager.Plate_DB.EXPOSURE, problem.exposure);
+ 
+        // Inserting Row
+        db.insert(OpenwordsDatabaseManager.Plate_DB.TABLE_NAME, null, values);
+        //Log.d("inserted", "_"+user+"_"+connection+"_"+total_correct);
+        db.close(); // Closing database connection
+	}
+	
+	public void updatePerfAndExposure(int connection_id, int perf, int exposure)
+	{
+		SQLiteDatabase db = this.getWritableDatabase();
+	   	 
+        ContentValues values = new ContentValues();
+        values.put(OpenwordsDatabaseManager.Plate_DB.PERF, perf);
+        values.put(OpenwordsDatabaseManager.Plate_DB.EXPOSURE, exposure);
+        
+        db.update(OpenwordsDatabaseManager.Plate_DB.TABLE_NAME, values, 
+        		OpenwordsDatabaseManager.Plate_DB.CONNECTIONID+"="+connection_id, null);
+        
+        db.close();
 	}
 	
 }
