@@ -11,6 +11,7 @@ public class OpenwordsDatabaseManager {
 		public static final String WORDLone = "wordL1";
 		public static final String TRANSCRIPTION = "transcriptionL2";
 		public static final String PERF = "perf";
+		public static final String EXPOSURE = "exposure";
 		
 	}
 	
