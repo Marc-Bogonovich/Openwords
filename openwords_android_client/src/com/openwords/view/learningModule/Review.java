@@ -2,13 +2,16 @@ package com.openwords.view.learningModule;
 
 import android.app.Activity;
 import android.os.Bundle;
+
 import com.openwords.R;
 
 import java.util.*;
 
 import com.openwords.R;
+import com.openwords.DAO.PlateDbHelper;
 import com.openwords.model.LeafCardSelfEval;
-import com.openwords.util.PlateDbHelper;
+
+
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -72,8 +75,8 @@ public class Review extends Activity {
 		initAnimations();
 		//final int startingQuestionNumber = settings.(PLATE_POSITION, 1);
 
-		PlateDbHelper myretrieverObject = new PlateDbHelper(this);
-		SQLiteDatabase db = myretrieverObject.getWritableDatabase();
+//		PlateDbHelper myretrieverObject = new PlateDbHelper(this);
+//		SQLiteDatabase db = myretrieverObject.getWritableDatabase();
 		// Cursor c = db.query(distinct, Plate_db, columns, selection,
 		// selectionArgs, groupBy, having, orderBy, limit, cancellationSignal);
 		// Cursor c = db.getAllRows();
