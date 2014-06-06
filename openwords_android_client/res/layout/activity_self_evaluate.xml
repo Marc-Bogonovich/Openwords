@@ -55,13 +55,17 @@
 					android:layout_width="fill_parent" android:layout_height="wrap_content"
 					android:gravity="center" android:layout_margin="10dp"  />
 
-				<ImageView android:id="@+id/selfEvaluate_ImageView_known"
-					android:layout_width="wrap_content" android:layout_height="60dp"
-					android:layout_marginTop="15dp" android:contentDescription="@string/app_name"
-					android:layout_gravity="center" android:src="@drawable/button_self_evaluate_correct_unselected" />
+				<ImageView
+				    android:id="@+id/selfEvaluate_ImageView_known"
+				    android:layout_width="200dp"
+				    android:layout_height="60dp"
+				    android:layout_gravity="center"
+				    android:layout_marginTop="15dp"
+				    android:contentDescription="@string/app_name"
+				    android:src="@drawable/button_self_evaluate_correct_unselected" />
 
 				<ImageView android:id="@+id/selfEvaluate_ImageView_unknown"
-					android:layout_width="wrap_content" android:layout_height="60dp"
+					android:layout_width="200dp" android:layout_height="60dp"
 					android:layout_marginTop="15dp" android:contentDescription="@string/app_name"
 					android:layout_gravity="center" android:src="@drawable/button_self_evaluate_incorrect_unselected" />
 		</LinearLayout>

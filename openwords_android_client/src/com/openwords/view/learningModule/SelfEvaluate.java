@@ -96,7 +96,6 @@ public class SelfEvaluate extends Activity {
 		answer.setText(questionPool.get(0).getWordLang1());
 		answer.setVisibility(View.INVISIBLE);
 		transcription.setText(questionPool.get(0).getTranscription());
-		transcription.setVisibility(View.INVISIBLE);
 
 		showAnswer.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -164,7 +163,6 @@ public class SelfEvaluate extends Activity {
 			answer.setText(questionPool.get(questionIndex).getWordLang1());
 			answer.setVisibility(View.INVISIBLE);
 			transcription.setText(questionPool.get(questionIndex).getTranscription());
-			transcription.setVisibility(View.INVISIBLE);
 		}
 	}
 	
@@ -185,7 +183,6 @@ public class SelfEvaluate extends Activity {
 			answer.setText(questionPool.get(questionIndex).getWordLang1());
 			answer.setVisibility(View.INVISIBLE);
 			transcription.setText(questionPool.get(questionIndex).getTranscription());
-			transcription.setVisibility(View.INVISIBLE);
 		}
 	}
 
@@ -245,7 +242,7 @@ public class SelfEvaluate extends Activity {
 		// VIEWFLIPPER
 		private static final int SWIPE_MIN_DISTANCE = 60; // 120
 		private static final int SWIPE_MAX_OFF_PATH = 250;
-		private static final int SWIPE_THRESHOLD_VELOCITY = 200; // 200
+		private static final int SWIPE_THRESHOLD_VELOCITY = 100; // 200
 
 		@Override
 		public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
