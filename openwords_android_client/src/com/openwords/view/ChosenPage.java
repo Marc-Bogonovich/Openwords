@@ -8,23 +8,29 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 
 import com.openwords.R;
 import com.openwords.model.JSONParser;
 import com.openwords.model.UserInfo;
+import com.openwords.util.log.LogUtil;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
 
-public class ChosenPage extends Activity {
+public class ChosenPage extends Activity{
 	private static String url_l2_chosen = "http://geographycontest.ipage.com/OpenwordsOrg/WordsDB/getLtwoOptions.php";
 	public static ArrayList<String> chosen_list = null;
 	private UserInfo userinfo;
+	
 	protected void onCreate(Bundle savedInstanceState) {
 		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -93,5 +99,11 @@ public class ChosenPage extends Activity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
+	
+    public boolean onTouchEvent(MotionEvent event) {
+    	startActivity(new Intent(this, HomePage.class));
+    	finish();
+    	return true;
+    }
 
 }
