@@ -12,7 +12,7 @@ public class UserPrefDto {
 	
 	public UserPrefDto()
 	{
-		this.user_id=0;
+		this.user_id=-1;
 		this.connection_id=0;
 		this.total_correct=0;
 		this.total_skipped=0;
