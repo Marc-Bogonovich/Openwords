@@ -23,7 +23,8 @@ if(isset($_POST['email']) && isset($_POST['password']) ) {
 
 	if(count($result) == 1) { 
  		$response["success"] = 1;
-        $response["message"] = "User exists";
+        	$response["message"] = "User exists";
+		$response["userid"] = intval($result[0]->id);
 	}
  	else {
 		$response["success"] = 0;
