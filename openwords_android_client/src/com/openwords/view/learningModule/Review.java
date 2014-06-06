@@ -49,13 +49,13 @@ public class Review extends Activity {
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		questionPool.add(new LeafCardSelfEval("Ã¤ÂºÂº","man", "ren"));
-		questionPool.add(new LeafCardSelfEval("Ã§Å’Â«","cat", "mao"));
-		questionPool.add(new LeafCardSelfEval("Ã¥Å“Â°Ã§ï¿½Æ’","earth", "di qiu"));
-		questionPool.add(new LeafCardSelfEval("Ã¦â€”Â¶Ã©â€”Â´","time", "shi jian"));
-		questionPool.add(new LeafCardSelfEval("Ã¤Â¸â€“Ã§â€¢Å’","world", "shi jie"));
-		questionPool.add(new LeafCardSelfEval("Ã§â€ÂµÃ¨â€â€˜","computer", "dian nao"));
-		questionPool.add(new LeafCardSelfEval("Ã¨Â½Â¯Ã¤Â»Â¶","software", "ruan jian"));
+		questionPool.add(new LeafCardSelfEval("ÈË","man", "ren"));
+		questionPool.add(new LeafCardSelfEval("Ã¨","cat", "mao"));
+		questionPool.add(new LeafCardSelfEval("µØÇò","earth", "di qiu"));
+		questionPool.add(new LeafCardSelfEval("Ê±¼ä","time", "shi jian"));
+		questionPool.add(new LeafCardSelfEval("ÊÀ½ç","world", "shi jie"));
+		questionPool.add(new LeafCardSelfEval("µçÄÔ","computer", "dian nao"));
+		questionPool.add(new LeafCardSelfEval("Èí¼ş","software", "ruan jian"));
 //		Log.e("Question",questionPool.get(0).getWordLang2());
 //		Log.e("Answer",questionPool.get(0).getWordLang1());
 

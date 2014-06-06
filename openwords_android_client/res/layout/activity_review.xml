@@ -7,9 +7,10 @@
 		android:layout_width="fill_parent" android:layout_height="fill_parent"
 		android:layout_gravity="center_vertical" android:padding="20dp">
 
-		<LinearLayout
+	<LinearLayout
 		    android:layout_width="match_parent"
 		    android:layout_height="match_parent"
+		    android:layout_marginTop="40dp"
 		    android:orientation="vertical" >
 
 			<ImageView
@@ -21,51 +22,31 @@
 			    android:src="@drawable/ic_self_evaluate_audio" />
 
 
-		    <TextView
-		        android:id="@+id/TextView02"
-		        android:layout_width="fill_parent"
-		        android:layout_height="40dp"
-		        android:ems="10"
-		        android:gravity="center"
-		        android:textColor="@color/selfEvaluate_font"
-		        android:textSize="30sp" />
-
-		    <TextView
-		        android:id="@+id/TextView01"
-		        android:layout_width="fill_parent"
-		        android:layout_height="40dp"
-		        android:ems="10"
-		        android:gravity="center"
-		        android:textColor="@color/selfEvaluate_font"
-		        android:textSize="30sp" />
-
-		    <!-- auto resize font size http://stackoverflow.com/questions/5033012/auto-scale-textview-text-to-fit-within-bounds/5535672#5535672 -->
 
 		    <TextView
 		        android:id="@+id/review_TextView_transcription"
 		        android:layout_width="fill_parent"
-		        android:layout_height="30dp"
-		        android:layout_weight="0.00"
+		        android:layout_height="wrap_content"
 		        android:gravity="center"
 		        android:textColor="@color/selfEvaluate_font"
-		        android:textSize="20sp" />
+		        android:textSize="30sp" />
 
 		    <TextView
 		        android:id="@+id/review_TextView_question"
 		        android:layout_width="fill_parent"
-		        android:layout_height="60dp"
+		        android:layout_height="wrap_content"
 		        android:gravity="center"
+		        android:layout_margin="20dp"
 		        android:textColor="@color/black"
-		        android:textSize="40sp" />
+		        android:textSize="60sp" />
 
 		    <TextView
 		        android:id="@+id/review_TextView_answer"
 		        android:layout_width="fill_parent"
 		        android:layout_height="wrap_content"
-		        android:layout_weight="0.02"
 		        android:gravity="center"
 		        android:textColor="@color/black"
-		        android:textSize="30sp" />
+		        android:textSize="40sp" />
 
 		    
 		</LinearLayout>
