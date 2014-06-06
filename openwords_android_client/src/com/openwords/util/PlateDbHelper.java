@@ -31,7 +31,7 @@ public class PlateDbHelper   extends SQLiteOpenHelper{
 		db.execSQL(SQL_DELETE);
 		db.execSQL(SQL_CREATE_PLATE);
 		
-	}	
+	}
 	
 }
 
