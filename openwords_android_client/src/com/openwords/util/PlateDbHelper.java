@@ -10,8 +10,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class PlateDbHelper   extends SQLiteOpenHelper{
 	public static final int DATABASE_VERSION = 1;
 	public static final String DATABASE_NAME = OpenwordsDatabaseManager.Plate_DB.TABLE_NAME+".db";
-	private static final String SQL_CREATE_PLATE = "CREATE TABLE IF NOT EXISTS " + OpenwordsDatabaseManager.Plate_DB.TABLE_NAME + " ("+OpenwordsDatabaseManager.Plate_DB._ID + " INTEGER PRIMARY KEY,"
-			+ OpenwordsDatabaseManager.Plate_DB.PROBLEM + " TEXT," + OpenwordsDatabaseManager.Plate_DB.ANSWER + " TEXT," + OpenwordsDatabaseManager.Plate_DB.PERF + " BOOLEAN"+")";
+	private static final String SQL_CREATE_PLATE = "CREATE TABLE IF NOT EXISTS " + OpenwordsDatabaseManager.Plate_DB.TABLE_NAME + " ("+OpenwordsDatabaseManager.Plate_DB.CONNECTIONID + " INTEGER,"
+			+ OpenwordsDatabaseManager.Plate_DB.WORDLtwo + " TEXT," + OpenwordsDatabaseManager.Plate_DB.WORDLone + " TEXT," + OpenwordsDatabaseManager.Plate_DB.TRANSCRIPTION + " TEXT,"
+			+ OpenwordsDatabaseManager.Plate_DB.PERF + " BOOLEAN"+")";
 	private static final String SQL_DELETE = "DROP TABLE IF EXISTS "+ OpenwordsDatabaseManager.Plate_DB.TABLE_NAME;
 	
 	public PlateDbHelper(Context john) {
