@@ -31,31 +31,39 @@
 				android:layout_width="fill_parent" android:layout_height="wrap_content"
 				android:gravity="center" android:text="answer" android:textColor="@color/my_gray"
 				android:textSize="40sp" />
-			
-            <LinearLayout android:layout_width="match_parent"
-                          android:layout_height="60dp" 
-                          android:orientation="horizontal"
-                          android:layout_marginTop="15dp">
 
-				<EditText
-				    android:id="@+id/editText1"
-				    android:layout_weight="3"
-					android:layout_width="0dp"
-                      android:layout_height="match_parent" >
+			<LinearLayout android:layout_width="match_parent"
+				android:layout_height="60dp" android:orientation="horizontal"
+				android:layout_marginTop="15dp">
+
+				<EditText android:id="@+id/editText1"
+					android:layout_weight="3" android:layout_width="0dp"
+					android:layout_height="match_parent">
 
 					<requestFocus />
 				</EditText>
 
 				<ImageView android:id="@+id/imageView1"
-					android:layout_width="0dp"
-                           android:layout_height="match_parent"
-                           android:contentDescription="@string/app_name"
+					android:layout_width="0dp" android:layout_height="match_parent"
+					android:contentDescription="@string/app_name"
 					android:layout_weight="1" android:src="@drawable/clarification_button" />
 
 			</LinearLayout>
+			<LinearLayout android:layout_width="match_parent"
+				android:layout_height="50dp" android:orientation="horizontal"
+				android:layout_marginTop="15dp">
+				<View android:layout_width="0dp" android:layout_height="match_parent"
+					android:layout_weight="1" />
 
+				<ImageView android:id="@+id/typeEvaluate_ImageView_checkButton"
+					android:layout_width="wrap_content" android:layout_height="wrap_content"
+					android:layout_weight="2"
+					android:src="@drawable/button_self_evaluate_correct_unselected" />
+				<View android:layout_width="0dp" android:layout_height="match_parent"
+					android:layout_weight="1" />
+
+			</LinearLayout>
 		</LinearLayout>
-
 
 
 	</ViewFlipper>
