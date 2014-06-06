@@ -93,4 +93,7 @@
 	<string name="profilePage_CheckBox_item4">Have good long term memory?</string>
 	<string name="selfEvaluate_ImageView_audioPlay">Icon play audio</string>
 	<string name="languagePage_Button_submit">Submit</string>
+	<string name="hearing_EditText_input">Input what you hear</string>
+	<string name="hearing_ImageView_checkButton">Showing user input</string>
+	<string name="typeEvaluate_EditText_input">Input the translation</string>
 </resources>
