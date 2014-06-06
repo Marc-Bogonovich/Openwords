@@ -31,11 +31,12 @@ if(isset($_POST['email']) && isset($_POST['password'])) {
 	$newUserPref->l1PrefId = 1;
 	$flag2 = DAOFactory::getPersonalDbUserDetailsDAO()->insertMod($newUserPref);
 	//--------------------
-	echo $flag2;
+	//echo $flag2;
 
 	if($flag) { 
  		$response["success"] = 1;
         $response["message"] = "User create successfully";
+		$response["userid"] = intval($flag);
 	}
  	else {
 		$response["success"] = 0;
