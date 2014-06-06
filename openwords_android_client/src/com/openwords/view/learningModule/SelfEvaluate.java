@@ -111,8 +111,9 @@ public class SelfEvaluate extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				known.setImageResource(R.drawable.button_self_evaluate_correct_selected);
-				unknown.setImageResource(R.drawable.button_self_evaluate_incorrect_unselected);
+				questionPool.get(questionIndex).setUserChoice(true);
+//				known.setImageResource(R.drawable.button_self_evaluate_correct_selected);
+//				unknown.setImageResource(R.drawable.button_self_evaluate_incorrect_unselected);
 				moveForward();
 			}
 		});
@@ -121,11 +122,26 @@ public class SelfEvaluate extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				known.setImageResource(R.drawable.button_self_evaluate_correct_unselected);
-				unknown.setImageResource(R.drawable.button_self_evaluate_incorrect_selected);
+				questionPool.get(questionIndex).setUserChoice(false);;
+//				known.setImageResource(R.drawable.button_self_evaluate_correct_unselected);
+//				unknown.setImageResource(R.drawable.button_self_evaluate_incorrect_selected);
 				moveForward();
 			}
 		});		
+	}
+	private void setButtonsView(Boolean userChoice) {
+		final ImageView known = (ImageView) findViewById(R.id.selfEvaluate_ImageView_known);
+		final ImageView unknown = (ImageView) findViewById(R.id.selfEvaluate_ImageView_unknown);
+		if(userChoice==null) {
+			known.setImageResource(R.drawable.button_self_evaluate_correct_unselected);
+			unknown.setImageResource(R.drawable.button_self_evaluate_incorrect_unselected);
+		} else if (userChoice) {
+			known.setImageResource(R.drawable.button_self_evaluate_correct_selected);
+			unknown.setImageResource(R.drawable.button_self_evaluate_incorrect_unselected);
+		} else {
+			known.setImageResource(R.drawable.button_self_evaluate_correct_unselected);
+			unknown.setImageResource(R.drawable.button_self_evaluate_incorrect_selected);
+		}
 	}
 	
 	private void moveForward() {
@@ -135,15 +151,15 @@ public class SelfEvaluate extends Activity {
 		final TextView answer = (TextView) findViewById(R.id.selfEvaluate_TextView_answer);
 		final TextView transcription = (TextView) findViewById(R.id.selfEvaluate_TextView_transcription);
 
-
 		mViewFlipper.setInAnimation(mInFromRight);
 		mViewFlipper.setOutAnimation(mOutToLeft);
 		mViewFlipper.showNext();
-
+		
 		if(questionIndex>=questionPool.size()) {
 			Toast.makeText(SelfEvaluate.this, "You have arrived the last", Toast.LENGTH_LONG).show();
 			questionIndex = questionPool.size()-1;
-		} else {	
+		} else {
+			setButtonsView(questionPool.get(questionIndex).getUserChoice());
 			question.setText(questionPool.get(questionIndex).getWordLang2());
 			answer.setText(questionPool.get(questionIndex).getWordLang1());
 			answer.setVisibility(View.INVISIBLE);
@@ -164,6 +180,7 @@ public class SelfEvaluate extends Activity {
 			Toast.makeText(SelfEvaluate.this, "You have arrived the last", Toast.LENGTH_LONG).show();
 			questionIndex = 0;
 		} else {
+			setButtonsView(questionPool.get(questionIndex).getUserChoice());
 			question.setText(questionPool.get(questionIndex).getWordLang2());
 			answer.setText(questionPool.get(questionIndex).getWordLang1());
 			answer.setVisibility(View.INVISIBLE);
