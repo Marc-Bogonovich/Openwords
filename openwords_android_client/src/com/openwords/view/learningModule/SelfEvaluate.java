@@ -43,8 +43,8 @@ public class SelfEvaluate extends Activity {
 	private Animation mInFromLeft;
 	private Animation mOutToRight;
 	private ViewFlipper mViewFlipper;
-	SharedPreferences settings;
-	Editor editor;
+	private SharedPreferences settings;
+	private Editor editor;
 	public static final String OPENWORDS_PREFERENCES = "OpenwordsPrefs";
 	public static final String PLATE_POSITION = "PlatePosition";
 	private LinkedList<LeafCardSelfEval> questionPool = new LinkedList<LeafCardSelfEval>();

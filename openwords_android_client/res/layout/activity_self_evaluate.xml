@@ -39,14 +39,14 @@
 				    android:ems="10"
 				    android:textColor="@color/selfEvaluate_font"
 				    android:gravity="center"
-				    android:textSize="35sp" >
+				    android:textSize="30sp" >
 
 					<requestFocus />
 				</TextView>
 				<TextView
 				    android:id="@+id/selfEvaluate_TextView_clarification"
 				    android:layout_width="fill_parent"
-				    android:layout_height="25dp"
+				    android:layout_height="wrap_content"
 				    android:gravity="center"
 				    android:textColor="@color/selfEvaluate_font"
 				    android:textSize="20sp" />
