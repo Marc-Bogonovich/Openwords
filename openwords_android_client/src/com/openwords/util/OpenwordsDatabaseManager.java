@@ -16,7 +16,7 @@ public class OpenwordsDatabaseManager {
 		
 	}
 	
-	public static abstract class WordDB implements BaseColumns{
+	public static abstract class UserWordsDB implements BaseColumns{
 		
 	}
 }
