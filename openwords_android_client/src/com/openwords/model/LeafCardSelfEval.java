@@ -1,8 +1,9 @@
 package com.openwords.model;
 
 public class LeafCardSelfEval {
-	String wordLang2, wordLang1, transcription;
-	String userChoice = null;
+	private String wordLang2, wordLang1, transcription;
+	private String userChoice = null;
+	private String connectionID; //for future use when connecting with db
 	public LeafCardSelfEval(String wordLang2, String wordLang1, String transcription) {
 		this.wordLang2 = wordLang2;
 		this.wordLang1 = wordLang1;

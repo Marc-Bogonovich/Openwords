@@ -43,15 +43,15 @@ public class SelfEvaluate extends Activity {
 	private Animation mInFromLeft;
 	private Animation mOutToRight;
 	private ViewFlipper mViewFlipper;
-	private SharedPreferences settings;
-	private Editor editor;
+	//private SharedPreferences settings;
+	//private Editor editor;
 	public static final String OPENWORDS_PREFERENCES = "OpenwordsPrefs";
 	public static final String PLATE_POSITION = "PlatePosition";
 	private LinkedList<LeafCardSelfEval> questionPool = new LinkedList<LeafCardSelfEval>();
-
+	private Integer questioIndex = 0;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		
 		questionPool.add(new LeafCardSelfEval("人","man", "ren"));
 		questionPool.add(new LeafCardSelfEval("猫","cat", "mao"));
 		questionPool.add(new LeafCardSelfEval("地球","earth", "di qiu"));
@@ -66,10 +66,10 @@ public class SelfEvaluate extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_self_evaluate);
 		//
-		settings = getSharedPreferences(OPENWORDS_PREFERENCES, 0);
-		editor = settings.edit();
-		editor.putInt(PLATE_POSITION, 1);
-		editor.commit();
+//		settings = getSharedPreferences(OPENWORDS_PREFERENCES, 0);
+//		editor = settings.edit();
+//		editor.putInt(PLATE_POSITION, 1);
+//		editor.commit();
 		mViewFlipper = (ViewFlipper) findViewById(R.id.selfEvaluate_ViewFlipper_frame);
 		mViewFlipper.setDisplayedChild(0);
 		initAnimations();
@@ -97,9 +97,7 @@ public class SelfEvaluate extends Activity {
 		answer.setVisibility(View.INVISIBLE);
 		transcription.setText(questionPool.get(0).getTranscription());
 		transcription.setVisibility(View.INVISIBLE);
-		Editor editor = settings.edit();
-		editor.putInt(PLATE_POSITION, 0);
-		editor.commit();
+
 		showAnswer.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -131,58 +129,47 @@ public class SelfEvaluate extends Activity {
 	}
 	
 	private void moveForward() {
+		questioIndex++;
+		//Log.e("Index",Integer.toString(index));
 		final TextView question = (TextView) findViewById(R.id.selfEvaluate_TextView_question);
 		final TextView answer = (TextView) findViewById(R.id.selfEvaluate_TextView_answer);
 		final TextView transcription = (TextView) findViewById(R.id.selfEvaluate_TextView_transcription);
 
-		// Marc 2013-09-15 ADDING LINES TO ADVANCE THE PLATE
+
 		mViewFlipper.setInAnimation(mInFromRight);
 		mViewFlipper.setOutAnimation(mOutToLeft);
 		mViewFlipper.showNext();
-		// HERE WE WILL INCREMENT UP THE PLATE POSITION
-		int nextQuestionNumber = settings.getInt(PLATE_POSITION, 0) + 1;
-		Log.e("question pool",Integer.toString(questionPool.size()));
-		Log.e("next index",Integer.toString(nextQuestionNumber));
-		if (nextQuestionNumber < questionPool.size()) {
-			editor.putInt(PLATE_POSITION, nextQuestionNumber);
-			editor.commit();
-		} else {
-			nextQuestionNumber = 0;
-			editor.putInt(PLATE_POSITION, 1);
-			editor.commit();
+
+		if(questioIndex>=questionPool.size()) {
+			Toast.makeText(SelfEvaluate.this, "You have arrived the last", Toast.LENGTH_LONG).show();
+			questioIndex = questionPool.size()-1;
+		} else {	
+			question.setText(questionPool.get(questioIndex).getWordLang2());
+			answer.setText(questionPool.get(questioIndex).getWordLang1());
+			answer.setVisibility(View.INVISIBLE);
+			transcription.setText(questionPool.get(questioIndex).getTranscription());
+			transcription.setVisibility(View.INVISIBLE);
 		}
-		question.setText(questionPool.get(nextQuestionNumber).getWordLang2());
-		answer.setText(questionPool.get(nextQuestionNumber).getWordLang1());
-		answer.setVisibility(View.INVISIBLE);
-		transcription.setText(questionPool.get(nextQuestionNumber).getTranscription());
-		transcription.setVisibility(View.INVISIBLE);
-		Editor editor = settings.edit();
-		editor.putInt(PLATE_POSITION, nextQuestionNumber);
-		editor.commit();
 	}
 	
 	private void moveBackward(){
+		questioIndex--;
 		final TextView question = (TextView) findViewById(R.id.selfEvaluate_TextView_question);
 		final TextView answer = (TextView) findViewById(R.id.selfEvaluate_TextView_answer);
 		final TextView transcription = (TextView) findViewById(R.id.selfEvaluate_TextView_transcription);
 		mViewFlipper.setInAnimation(mInFromLeft);
 		mViewFlipper.setOutAnimation(mOutToRight);
 		mViewFlipper.showPrevious();
-		// HERE WE WILL INCREMENT DOWN THE PLATE POSITION
-		int prevQuestionNumber = settings.getInt(PLATE_POSITION, 0) - 1;
-		if (prevQuestionNumber >= 0) {
-			editor.putInt(PLATE_POSITION, prevQuestionNumber);
-			editor.commit();
+		if (questioIndex<0) {
+			Toast.makeText(SelfEvaluate.this, "You have arrived the last", Toast.LENGTH_LONG).show();
+			questioIndex = 0;
 		} else {
-			prevQuestionNumber = 0;
-			editor.putInt(PLATE_POSITION, 1);
-			editor.commit();
+			question.setText(questionPool.get(questioIndex).getWordLang2());
+			answer.setText(questionPool.get(questioIndex).getWordLang1());
+			answer.setVisibility(View.INVISIBLE);
+			transcription.setText(questionPool.get(questioIndex).getTranscription());
+			transcription.setVisibility(View.INVISIBLE);
 		}
-		question.setText(questionPool.get(prevQuestionNumber).getWordLang2());
-		answer.setText(questionPool.get(prevQuestionNumber).getWordLang1());
-		answer.setVisibility(View.INVISIBLE);
-		transcription.setText(questionPool.get(prevQuestionNumber).getTranscription());
-		transcription.setVisibility(View.INVISIBLE);
 	}
 
 	private void initAnimations() {
@@ -190,7 +177,7 @@ public class SelfEvaluate extends Activity {
 				+1.0f, Animation.RELATIVE_TO_PARENT, 0.0f,
 				Animation.RELATIVE_TO_PARENT, 0.0f,
 				Animation.RELATIVE_TO_PARENT, 0.0f);
-		mInFromRight.setDuration(500);// originally 500, then 100, back to 500
+		mInFromRight.setDuration(500);
 		AccelerateInterpolator accelerateInterpolator = new AccelerateInterpolator();
 		mInFromRight.setInterpolator(accelerateInterpolator);
 
@@ -198,21 +185,21 @@ public class SelfEvaluate extends Activity {
 				-1.0f, Animation.RELATIVE_TO_PARENT, 0.0f,
 				Animation.RELATIVE_TO_PARENT, 0.0f,
 				Animation.RELATIVE_TO_PARENT, 0.0f);
-		mInFromLeft.setDuration(100);// 500
+		mInFromLeft.setDuration(500);
 		mInFromLeft.setInterpolator(accelerateInterpolator);
 
 		mOutToRight = new TranslateAnimation(Animation.RELATIVE_TO_PARENT,
 				0.0f, Animation.RELATIVE_TO_PARENT, +1.0f,
 				Animation.RELATIVE_TO_PARENT, 0.0f,
 				Animation.RELATIVE_TO_PARENT, 0.0f);
-		mOutToRight.setDuration(100);// 500
+		mOutToRight.setDuration(500);
 		mOutToRight.setInterpolator(accelerateInterpolator);
 
 		mOutToLeft = new TranslateAnimation(Animation.RELATIVE_TO_PARENT, 0.0f,
 				Animation.RELATIVE_TO_PARENT, -1.0f,
 				Animation.RELATIVE_TO_PARENT, 0.0f,
 				Animation.RELATIVE_TO_PARENT, 0.0f);
-		mOutToLeft.setDuration(500);// originally 500, then 100, back to 500
+		mOutToLeft.setDuration(500);
 		mOutToLeft.setInterpolator(accelerateInterpolator);
 
 		final GestureDetector gestureDetector;
@@ -232,12 +219,6 @@ public class SelfEvaluate extends Activity {
 		});
 	}
 	
-	private TextView moveFilpper(int currentPos, int direct) {
-		//It should return the previous and next text view
-		
-		return null;
-	}
-	
 
 	private class MyGestureDetector extends SimpleOnGestureListener {
 
@@ -245,12 +226,9 @@ public class SelfEvaluate extends Activity {
 		// will place it below
 		// THE PURPOSE OF THIS LINE IS TO TEST A CHANGE IN TEXT IN RESPONSE TO A
 		// VIEWFLIPPER
-		final public TextView question = (TextView) findViewById(R.id.selfEvaluate_TextView_question);
-		final public TextView answer = (TextView) findViewById(R.id.selfEvaluate_TextView_answer);
-
 		private static final int SWIPE_MIN_DISTANCE = 60; // 120
 		private static final int SWIPE_MAX_OFF_PATH = 250;
-		private static final int SWIPE_THRESHOLD_VELOCITY = 100; // 200
+		private static final int SWIPE_THRESHOLD_VELOCITY = 200; // 200
 
 		@Override
 		public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
@@ -265,7 +243,6 @@ public class SelfEvaluate extends Activity {
 			} else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE
 					&& Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
 				moveBackward();
-				// scrap 缇庡湅
 			}
 			return super.onFling(e1, e2, velocityX, velocityY);
 		}
