@@ -1,12 +1,100 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="${packageName}.${activityClass}" >
+<?xml version="1.0" encoding="UTF-8"?><LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="horizontal" >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="hearingPage" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
 
-</RelativeLayout>
+        <ImageView
+            android:id="@+id/review_ImageView_audioPlay"
+            android:layout_width="268dp"
+            android:layout_height="150dp"
+            android:contentDescription="@string/selfEvaluate_ImageView_audioPlay"
+            android:padding="20dp"
+            android:src="@drawable/ic_self_evaluate_audio" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <EditText
+                android:id="@+id/editText1"
+                android:layout_width="264dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:ems="10"
+                android:gravity="center"
+                android:text="English Word" >
+
+                <requestFocus />
+            </EditText>
+
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:src="@drawable/clarification_button" />
+
+        </LinearLayout>
+
+                                <LinearLayout android:layout_width="match_parent"
+
+                                android:layout_height="50dp" android:orientation="horizontal"
+
+                                android:layout_marginTop="15dp">
+
+                                <View android:layout_width="0dp" android:layout_height="match_parent"
+
+                                        android:layout_weight="1" />
+
+
+
+
+                                <ImageView android:id="@+id/typeEvaluate_ImageView_checkButton"
+
+                                        android:layout_width="wrap_content" android:layout_height="wrap_content"
+
+                                        android:layout_weight="2"
+
+                                        android:src="@drawable/button_self_evaluate_correct_unselected" />
+
+                                <View android:layout_width="0dp" android:layout_height="match_parent"
+
+                                        android:layout_weight="1" />
+
+
+
+
+                        </LinearLayout>
+
+        <TextView
+            android:id="@+id/review_TextView_transcription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/selfEvaluate_font"
+            android:textSize="30sp" />
+
+        <TextView
+            android:id="@+id/review_TextView_question"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textSize="60sp" />
+
+        <TextView
+            android:id="@+id/review_TextView_answer"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textSize="40sp" />
+    </LinearLayout>
+
+    </LinearLayout>
