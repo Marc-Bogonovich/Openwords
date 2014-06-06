@@ -48,7 +48,7 @@ public class SelfEvaluate extends Activity {
 	public static final String OPENWORDS_PREFERENCES = "OpenwordsPrefs";
 	public static final String PLATE_POSITION = "PlatePosition";
 	private LinkedList<LeafCardSelfEval> questionPool = new LinkedList<LeafCardSelfEval>();
-	private Integer questioIndex = 0;
+	private Integer questionIndex = 0;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -129,7 +129,7 @@ public class SelfEvaluate extends Activity {
 	}
 	
 	private void moveForward() {
-		questioIndex++;
+		questionIndex++;
 		//Log.e("Index",Integer.toString(index));
 		final TextView question = (TextView) findViewById(R.id.selfEvaluate_TextView_question);
 		final TextView answer = (TextView) findViewById(R.id.selfEvaluate_TextView_answer);
@@ -140,34 +140,34 @@ public class SelfEvaluate extends Activity {
 		mViewFlipper.setOutAnimation(mOutToLeft);
 		mViewFlipper.showNext();
 
-		if(questioIndex>=questionPool.size()) {
+		if(questionIndex>=questionPool.size()) {
 			Toast.makeText(SelfEvaluate.this, "You have arrived the last", Toast.LENGTH_LONG).show();
-			questioIndex = questionPool.size()-1;
+			questionIndex = questionPool.size()-1;
 		} else {	
-			question.setText(questionPool.get(questioIndex).getWordLang2());
-			answer.setText(questionPool.get(questioIndex).getWordLang1());
+			question.setText(questionPool.get(questionIndex).getWordLang2());
+			answer.setText(questionPool.get(questionIndex).getWordLang1());
 			answer.setVisibility(View.INVISIBLE);
-			transcription.setText(questionPool.get(questioIndex).getTranscription());
+			transcription.setText(questionPool.get(questionIndex).getTranscription());
 			transcription.setVisibility(View.INVISIBLE);
 		}
 	}
 	
 	private void moveBackward(){
-		questioIndex--;
+		questionIndex--;
 		final TextView question = (TextView) findViewById(R.id.selfEvaluate_TextView_question);
 		final TextView answer = (TextView) findViewById(R.id.selfEvaluate_TextView_answer);
 		final TextView transcription = (TextView) findViewById(R.id.selfEvaluate_TextView_transcription);
 		mViewFlipper.setInAnimation(mInFromLeft);
 		mViewFlipper.setOutAnimation(mOutToRight);
 		mViewFlipper.showPrevious();
-		if (questioIndex<0) {
+		if (questionIndex<0) {
 			Toast.makeText(SelfEvaluate.this, "You have arrived the last", Toast.LENGTH_LONG).show();
-			questioIndex = 0;
+			questionIndex = 0;
 		} else {
-			question.setText(questionPool.get(questioIndex).getWordLang2());
-			answer.setText(questionPool.get(questioIndex).getWordLang1());
+			question.setText(questionPool.get(questionIndex).getWordLang2());
+			answer.setText(questionPool.get(questionIndex).getWordLang1());
 			answer.setVisibility(View.INVISIBLE);
-			transcription.setText(questionPool.get(questioIndex).getTranscription());
+			transcription.setText(questionPool.get(questionIndex).getTranscription());
 			transcription.setVisibility(View.INVISIBLE);
 		}
 	}
