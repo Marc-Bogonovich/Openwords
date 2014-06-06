@@ -1,12 +1,14 @@
 package com.openwords.dto;
 
+import java.util.Date;
+
 public class UserPerfDirtyDto {
 	public int user_id;
 	public int connection_id;
 	public int total_correct;
 	public int total_skipped;
 	public int total_exposure;
-	public int last_time;
+	public Date last_time;
 	public int last_performance;
 	public int user_exclude;
 	
@@ -17,13 +19,13 @@ public class UserPerfDirtyDto {
 		this.total_correct=0;
 		this.total_skipped=0;
 		this.total_exposure=0;
-		this.last_time=0;
+		this.last_time=null;
 		this.last_performance=0;
 		this.user_exclude=0;
 	}
 	
 	
-	public UserPerfDirtyDto(int user_id, int connection_id, int total_correct, int total_skipped,int total_exposure, int last_time, int last_performance, int user_exclude)
+	public UserPerfDirtyDto(int user_id, int connection_id, int total_correct, int total_skipped,int total_exposure, Date last_time, int last_performance, int user_exclude)
 	{
 		this.user_id=user_id;
 		this.connection_id=connection_id;
