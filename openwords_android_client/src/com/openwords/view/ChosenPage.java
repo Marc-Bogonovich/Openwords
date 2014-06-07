@@ -46,7 +46,33 @@ public class ChosenPage extends Activity{
 		
 		ArrayAdapter<String> chosenadapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, chosen_list);
 		chosenview.setAdapter(chosenadapter);
+		/*
+		//-------test----json parameter----
+		try
+		{
+		JSONObject jo = new JSONObject();
+		JSONArray ja = new JSONArray();
+		JSONObject jParent = new JSONObject();
 		
+		jo.put("user", 1);
+		jo.put("name", new String("Mayukh"));
+		ja.put(jo);
+		
+		JSONObject jo1 = new JSONObject();
+		
+		jo1.put("user", 2);
+		jo1.put("name", new String("maydas"));
+		ja.put(jo1);
+		
+		jParent.put("params", ja);
+		
+		Log.d("display", jParent.toString());
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+	*/	
 	}
 
 	public void GetFromServer()
