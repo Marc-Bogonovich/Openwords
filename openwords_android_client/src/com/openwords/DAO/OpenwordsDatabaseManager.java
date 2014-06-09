@@ -29,7 +29,7 @@ public class OpenwordsDatabaseManager {
 		//------------------------------------------------
 		
 		//----------Dirty Performance table----------------
-		public static final String TABLE_NAME_D = "User_perf";
+		public static final String TABLE_NAME_D = "User_perf_dirty";
 		public static final String D_USERID = "user_id";
 		public static final String D_CONNECTIONID = "connection_id";
 		public static final String D_TOTALCORRECT = "total_correct";
