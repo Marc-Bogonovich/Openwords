@@ -12,7 +12,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 
 // THIS IS THE CODE CREATED BY CHRIS WHICH MANIPULATES Plate_DB
-public class PlateDbHelper   extends SQLiteOpenHelper{
+public class PlateDbHelper extends SQLiteOpenHelper{
 	public static final int DATABASE_VERSION = 1;
 	public static final String DATABASE_NAME = OpenwordsDatabaseManager.Plate_DB.TABLE_NAME+".db";
 	private static final String SQL_CREATE_PLATE = "CREATE TABLE IF NOT EXISTS " + OpenwordsDatabaseManager.Plate_DB.TABLE_NAME + " ("+OpenwordsDatabaseManager.Plate_DB.CONNECTIONID + " INTEGER,"
