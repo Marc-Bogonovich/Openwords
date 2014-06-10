@@ -50,6 +50,7 @@ public class UserWordsDbHelper extends SQLiteOpenHelper{
 		
 	}
 	
+	//******** insert records*****************
 	public void addWord(UserWordsDto uw)
 	{
 		SQLiteDatabase db = this.getWritableDatabase();
@@ -68,6 +69,7 @@ public class UserWordsDbHelper extends SQLiteOpenHelper{
 		db.close();
 	}
 	
+	//************Get all records*****************
 	public ArrayList<UserWordsDto> getAll()
 	{
 		SQLiteDatabase db = this.getReadableDatabase();
@@ -96,7 +98,7 @@ public class UserWordsDbHelper extends SQLiteOpenHelper{
 		return result;
 	}
 	
-	
+	//*****************Get records by 2nd Language***********
 	public ArrayList<UserWordsDto> getByL2(int l2_id)
 	{
 		SQLiteDatabase db = this.getReadableDatabase();
@@ -126,6 +128,7 @@ public class UserWordsDbHelper extends SQLiteOpenHelper{
 		return result;
 	}
 	
+	//*****************Get records by connection ID********
 	public ArrayList<UserWordsDto> getByConnectionId(int connection_id)
 	{
 		SQLiteDatabase db = this.getReadableDatabase();
@@ -160,6 +163,7 @@ public class UserWordsDbHelper extends SQLiteOpenHelper{
 		
 	}
 	
+	//************************** Get records from Transcription table by wordL2 ID****
 	public ArrayList<WordTranscriptionDto> getTranscriptionByWord(int wordl2_id)
 	{
 		SQLiteDatabase db = this.getReadableDatabase();
@@ -183,4 +187,16 @@ public class UserWordsDbHelper extends SQLiteOpenHelper{
 		return transObjList;
 	}
 	
+	
+	//*************** Add Transcriptions*****************************
+	public void addTranscription(int wordl2_id, String transcription)
+	{
+		SQLiteDatabase db=this.getWritableDatabase();
+		ContentValues cv = new ContentValues();
+		cv.put(OpenwordsDatabaseManager.UserWordsDB.T_WORDL2ID, wordl2_id);
+		cv.put(OpenwordsDatabaseManager.UserWordsDB.TRANSCRIPTION, transcription);
+		
+		db.insert(OpenwordsDatabaseManager.UserWordsDB.TABLE_NAME_TRANS, null, cv);
+		db.close();
+	}
 }
