@@ -3,6 +3,7 @@ package com.openwords.DAO;
 import java.util.ArrayList;
 
 import com.openwords.dto.UserWordsDto;
+import com.openwords.dto.WordTranscriptionDto;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -13,13 +14,19 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class UserWordsDbHelper extends SQLiteOpenHelper{
 
 	public static final int DATABASE_VERSION = 1;
-	public static final String DATABASE_NAME = OpenwordsDatabaseManager.UserWordsDB.TABLE_NAME;
-	private static final String SQL_CREATE = "CREATE TABLE IF NOT EXISTS " + OpenwordsDatabaseManager.UserWordsDB.CONNECTION_ID + " INTEGER,"
+	public static final String DATABASE_NAME = OpenwordsDatabaseManager.UserWordsDB.TABLE_NAME+".db";
+	private static final String SQL_CREATE = "CREATE TABLE IF NOT EXISTS "+ OpenwordsDatabaseManager.UserWordsDB.TABLE_NAME + "("
+	+ OpenwordsDatabaseManager.UserWordsDB.CONNECTION_ID + " INTEGER,"
 	+ OpenwordsDatabaseManager.UserWordsDB.WORDL2ID+" INTEGER,"+ OpenwordsDatabaseManager.UserWordsDB.WORDL2+" TEXT,"
 	+ OpenwordsDatabaseManager.UserWordsDB.WORDL1ID+" INTEGER,"+OpenwordsDatabaseManager.UserWordsDB.WORDL1+" TEXT,"
 	+ OpenwordsDatabaseManager.UserWordsDB.L2ID+" INTEGER,"+OpenwordsDatabaseManager.UserWordsDB.L2NAME+" TEXT,"
 	+ OpenwordsDatabaseManager.UserWordsDB.AUDIO+" BLOB"+")";
 	private static final String SQL_DELETE = "DROP TABLE IF EXISTS "+ OpenwordsDatabaseManager.UserWordsDB.TABLE_NAME;
+	
+	private static final String SQL_CREATE_TRANS = "CREATE TABLE IF NOT EXISTS "
+			+ OpenwordsDatabaseManager.UserWordsDB.TABLE_NAME_TRANS + "(" + OpenwordsDatabaseManager.UserWordsDB.T_WORDL2ID + " INTEGER,"
+			+OpenwordsDatabaseManager.UserWordsDB.TRANSCRIPTION + " TEXT" + ")";
+	private static final String SQL_DELETE_TRANS = "DROP TABLE IF EXISTS "+ OpenwordsDatabaseManager.UserWordsDB.TABLE_NAME_TRANS;
 	
 	public UserWordsDbHelper(Context context)
 	{
@@ -29,6 +36,7 @@ public class UserWordsDbHelper extends SQLiteOpenHelper{
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		db.execSQL(SQL_CREATE);
+		db.execSQL(SQL_CREATE_TRANS);
 		
 	}
 
@@ -36,6 +44,9 @@ public class UserWordsDbHelper extends SQLiteOpenHelper{
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		db.execSQL(SQL_DELETE);
 		db.execSQL(SQL_CREATE);
+		
+		db.execSQL(SQL_DELETE_TRANS);
+		db.execSQL(SQL_CREATE_TRANS);
 		
 	}
 	
@@ -83,6 +94,93 @@ public class UserWordsDbHelper extends SQLiteOpenHelper{
             
 		}
 		return result;
+	}
+	
+	
+	public ArrayList<UserWordsDto> getByL2(int l2_id)
+	{
+		SQLiteDatabase db = this.getReadableDatabase();
+		ArrayList<UserWordsDto> result = new ArrayList<UserWordsDto>();
+		Cursor cursor = db.query(OpenwordsDatabaseManager.UserWordsDB.TABLE_NAME, 
+				new String[] {OpenwordsDatabaseManager.UserWordsDB.CONNECTION_ID,
+				OpenwordsDatabaseManager.UserWordsDB.WORDL2ID,
+				OpenwordsDatabaseManager.UserWordsDB.WORDL2,
+				OpenwordsDatabaseManager.UserWordsDB.WORDL1ID,
+				OpenwordsDatabaseManager.UserWordsDB.WORDL1,
+				OpenwordsDatabaseManager.UserWordsDB.L2ID,
+				OpenwordsDatabaseManager.UserWordsDB.L2NAME,
+				OpenwordsDatabaseManager.UserWordsDB.AUDIO}, 
+				OpenwordsDatabaseManager.UserWordsDB.L2ID+"="+l2_id, null, null, null, null);
+		if (cursor != null)
+		{
+            cursor.moveToFirst();
+            while(!cursor.isAfterLast())
+            {
+            	UserWordsDto newWord = new UserWordsDto(cursor.getInt(0),cursor.getInt(1),
+            			cursor.getString(2),cursor.getInt(3),cursor.getString(4),cursor.getInt(5),
+            			cursor.getString(6));
+            	result.add(newWord);
+            }
+            
+		}
+		return result;
+	}
+	
+	public ArrayList<UserWordsDto> getByConnectionId(int connection_id)
+	{
+		SQLiteDatabase db = this.getReadableDatabase();
+		ArrayList<UserWordsDto> result = new ArrayList<UserWordsDto>();
+		Cursor cursor = db.query(OpenwordsDatabaseManager.UserWordsDB.TABLE_NAME, 
+				new String[] {OpenwordsDatabaseManager.UserWordsDB.CONNECTION_ID,
+				OpenwordsDatabaseManager.UserWordsDB.WORDL2ID,
+				OpenwordsDatabaseManager.UserWordsDB.WORDL2,
+				OpenwordsDatabaseManager.UserWordsDB.WORDL1ID,
+				OpenwordsDatabaseManager.UserWordsDB.WORDL1,
+				OpenwordsDatabaseManager.UserWordsDB.L2ID,
+				OpenwordsDatabaseManager.UserWordsDB.L2NAME,
+				OpenwordsDatabaseManager.UserWordsDB.AUDIO}, 
+				OpenwordsDatabaseManager.UserWordsDB.CONNECTION_ID+"="+connection_id, null, null, null, null);
+		if (cursor != null)
+		{
+            cursor.moveToFirst();
+            while(!cursor.isAfterLast())
+            {
+            	UserWordsDto newWord = new UserWordsDto(cursor.getInt(0),cursor.getInt(1),
+            			cursor.getString(2),cursor.getInt(3),cursor.getString(4),cursor.getInt(5),
+            			cursor.getString(6));
+            	result.add(newWord);
+            }
+            
+		}
+		return result;
+	}
+	
+	public void updateAudio()
+	{
+		
+	}
+	
+	public ArrayList<WordTranscriptionDto> getTranscriptionByWord(int wordl2_id)
+	{
+		SQLiteDatabase db = this.getReadableDatabase();
+		ArrayList<WordTranscriptionDto> transObjList = new ArrayList<WordTranscriptionDto>();
+		Cursor c = db.query(OpenwordsDatabaseManager.UserWordsDB.TABLE_NAME_TRANS, 
+				new String[] {OpenwordsDatabaseManager.UserWordsDB.T_WORDL2ID,
+				OpenwordsDatabaseManager.UserWordsDB.TRANSCRIPTION}, OpenwordsDatabaseManager.UserWordsDB.T_WORDL2ID+"="+wordl2_id, 
+				null, null, null, null);
+		if (c != null)
+		{
+			c.moveToFirst();
+			while(!c.isAfterLast())
+			{
+				WordTranscriptionDto transObj = new WordTranscriptionDto(c.getInt(0),c.getString(1));
+				transObjList.add(transObj);
+				
+			}
+		}
+		
+		db.close();
+		return transObjList;
 	}
 	
 }
