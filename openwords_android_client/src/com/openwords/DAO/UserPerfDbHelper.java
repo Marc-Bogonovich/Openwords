@@ -98,6 +98,37 @@ public class UserPerfDbHelper extends SQLiteOpenHelper{
 	        return result;
 		
 	}
+	
+	
+	public ArrayList<UserPerfDto> getByConnectionId(int connection_id)
+	{
+		SQLiteDatabase db = this.getReadableDatabase();
+		ArrayList<UserPerfDto> result = new ArrayList<UserPerfDto>();
+		
+		Cursor cursor = db.query(OpenwordsDatabaseManager.UserPerfDB.TABLE_NAME, 
+				new String[] {OpenwordsDatabaseManager.UserPerfDB.CONNECTIONID,
+				OpenwordsDatabaseManager.UserPerfDB.USERID,
+				OpenwordsDatabaseManager.UserPerfDB.TOTALCORRECT,
+				OpenwordsDatabaseManager.UserPerfDB.TOTALSKIPPED,
+				OpenwordsDatabaseManager.UserPerfDB.TOTALEXPOSURE,
+				OpenwordsDatabaseManager.UserPerfDB.LASTTIME,
+				OpenwordsDatabaseManager.UserPerfDB.LASTPERFORMANCE,
+				OpenwordsDatabaseManager.UserPerfDB.USEREXCLUDE}, 
+				OpenwordsDatabaseManager.UserPerfDB.CONNECTIONID+"="+connection_id, null, null, null, null);
+		 if (cursor != null)
+	            cursor.moveToFirst();
+		 while(!cursor.isAfterLast())
+	        {
+			 UserPerfDto newPerf = new UserPerfDto(cursor.getInt(0),cursor.getInt(1),cursor.getInt(2),
+	        			cursor.getInt(3),cursor.getInt(4), cursor.getInt(5),cursor.getInt(6),cursor.getInt(7));
+			 	result.add(newPerf);
+	        	cursor.moveToNext();
+	        }
+		 	
+	        db.close();	
+	        return result;
+		
+	}
 	//---------------------------------------------------------------
 	
 	

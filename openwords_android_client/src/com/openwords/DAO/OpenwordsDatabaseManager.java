@@ -42,6 +42,24 @@ public class OpenwordsDatabaseManager {
 	}
 	
 	public static abstract class UserWordsDB implements BaseColumns{
+		//----------------User Words Table----------------------
+		public static final String TABLE_NAME = "user_words";
+		//--columns
+		public static final String CONNECTION_ID = "connection_id";
+		public static final String WORDL2ID = "wordl2_id";
+		public static final String WORDL2 = "wordl2";
+		public static final String WORDL1ID = "wordl1_id";
+		public static final String WORDL1 = "wordl1";
+		public static final String L2ID = "l2_id";
+		public static final String L2NAME = "l2_name";
+		public static final String AUDIO = "audiocall";
+		
+		
+		//--------------Word Transcription----------------------
+		public static final String TABLE_NAME_TRANS = "user_word_transcription";
+		//---columns
+		public static final String T_WORDL2ID = "wordl2_id";
+		public static final String TRANSCRIPTION = "transcription";
 		
 	}
 }
