@@ -141,6 +141,12 @@
             android:configChanges="orientation|screenSize">
         </activity>
         
+        <activity
+            android:name=".test.ActivitySelfEval"
+            android:theme="@style/NoTitleTheme"
+            android:configChanges="orientation|screenSize">
+        </activity>
+        
     </application>
 
 </manifest>

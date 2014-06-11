@@ -20,11 +20,15 @@ import android.widget.Toast;
 import com.openwords.R;
 import com.openwords.model.JSONParser;
 import com.openwords.model.Plate;
+import com.openwords.model.PlateTestType;
 import com.openwords.model.UserInfo;
+import com.openwords.test.ActivitySelfEval;
+import com.openwords.tts.Speak;
 import com.openwords.util.UIHelper;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -91,10 +95,67 @@ public class LoginPage extends Activity implements OnClickListener {
             passwdField.setText(user.getPass());
         }
 
-        //TEST!!! Please delete soon
-        Plate p = new Plate(1, "test", "go", "nanan", 2, 3, this);
-        p.save();
+        Button test = (Button) findViewById(R.id.loginPage_test);
+        test.setOnClickListener(new OnClickListener() {
 
+            public void onClick(View view) {
+                List<Plate> plate = new LinkedList<Plate>();
+                long plateId = System.currentTimeMillis();
+                plate.add(new Plate(-1,
+                        Plate.Performance_Null,
+                        PlateTestType.Test_Type_Review,
+                        "",
+                        "",
+                        "人",
+                        "ren",
+                        "",
+                        "person",
+                        "bird",
+                        plateId,
+                        LoginPage.this));
+                plate.add(new Plate(-1,
+                        Plate.Performance_Null,
+                        PlateTestType.Test_Type_Self_Evaluate,
+                        "",
+                        "",
+                        "猫",
+                        "mao",
+                        "",
+                        "cat",
+                        "tiger",
+                        plateId,
+                        LoginPage.this));
+                plate.add(new Plate(-1,
+                        Plate.Performance_Null,
+                        PlateTestType.Test_Type_Self_Evaluate,
+                        "",
+                        "",
+                        "时间",
+                        "shi jian",
+                        "",
+                        "time",
+                        "clock",
+                        plateId,
+                        LoginPage.this));
+                plate.add(new Plate(-1,
+                        Plate.Performance_Null,
+                        PlateTestType.Test_Type_Self_Evaluate,
+                        "",
+                        "",
+                        "地球",
+                        "di qiu",
+                        "",
+                        "earth",
+                        "football",
+                        plateId,
+                        LoginPage.this));
+
+                ActivitySelfEval.setProblemPool(plate);
+                startActivity(new Intent(LoginPage.this, ActivitySelfEval.class));
+            }
+        });
+
+        //TEST!!! Please delete soon
         List<Plate> ps = Plate.listAll(Plate.class);
         Toast.makeText(LoginPage.this, "This is a test: I have " + ps.size() + " records in my plate!", Toast.LENGTH_SHORT).show();
 
@@ -206,10 +267,12 @@ public class LoginPage extends Activity implements OnClickListener {
 
     private void initServices() {
         OpenwordsSharedPreferences.init(this);
+        Speak.getInstance(this);
     }
 
     private void cleanServices() {
         OpenwordsSharedPreferences.clean();
+        Speak.getInstance(null).clean();
     }
 
     @Override
