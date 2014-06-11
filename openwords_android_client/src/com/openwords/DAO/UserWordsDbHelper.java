@@ -199,4 +199,18 @@ public class UserWordsDbHelper extends SQLiteOpenHelper{
 		db.insert(OpenwordsDatabaseManager.UserWordsDB.TABLE_NAME_TRANS, null, cv);
 		db.close();
 	}
+	
+	//************* Delete all user words ***************************
+	public void deleteAllUserWords()
+	{
+		SQLiteDatabase db=this.getWritableDatabase();
+		db.delete(OpenwordsDatabaseManager.UserWordsDB.TABLE_NAME,null,null);
+	}
+	
+	//************* Delete all Transcription ************************
+	public void deleteAllTranscriptions()
+	{
+		SQLiteDatabase db=this.getWritableDatabase();
+		db.delete(OpenwordsDatabaseManager.UserWordsDB.TABLE_NAME, null, null);
+	}
 }
