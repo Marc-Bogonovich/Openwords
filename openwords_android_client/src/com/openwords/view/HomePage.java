@@ -24,8 +24,6 @@ import android.widget.Spinner;
 import com.openwords.R;
 import com.openwords.model.JSONParser;
 import com.openwords.model.UserInfo;
-import com.openwords.util.HomePageTool;
-import com.openwords.util.LanguagePageTool;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
 import com.openwords.view.actionbar.ActionBarBuilder;
@@ -37,9 +35,7 @@ import com.openwords.view.learningModule.TypeEvaluate;
 public class HomePage extends Activity implements OnClickListener {
 
     private static Spinner begin, l2_dropdown;
-    public static ArrayList<HomePageTool> dropdown_list = null;
-    // Add another array of type HomePage Tool that holds the name and id of each chosen language
-    // private static ArrayList<HomePageTool> drop_down = null;
+    public static ArrayList<String> dropdown_list = null;
     private static String url_dropdown = "http://geographycontest.ipage.com/OpenwordsOrg/OpenwordsDB/homePageChooseLanguage.php";
     private UserInfo userinfo;
     
@@ -68,7 +64,7 @@ public class HomePage extends Activity implements OnClickListener {
         Button testPageGo = (Button) findViewById(R.id.homePage_Button_testPageGo);
         testPageGo.setOnClickListener(this);
         
-        ArrayAdapter<HomePageTool> dropdownadapter = new ArrayAdapter<HomePageTool>(this, android.R.layout.simple_list_item_1, android.R.id.text1, dropdown_list);
+        ArrayAdapter<String> dropdownadapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, dropdown_list);
                 l2_dropdown.setAdapter(dropdownadapter);
                 
     }
@@ -87,7 +83,7 @@ public class HomePage extends Activity implements OnClickListener {
         language.setAdapter(languageAdapter);
         */
             
-            ArrayList<HomePageTool> dropdown = new ArrayList<HomePageTool>();
+            ArrayList<String> dropdown = new ArrayList<String>();
                 try 
         {
                 List<NameValuePair> params1 = new ArrayList<NameValuePair>(2);
@@ -102,17 +98,19 @@ public class HomePage extends Activity implements OnClickListener {
                 {  // **line 2**
                         JSONObject childJSONObject = jArr.getJSONObject(i);
                         
-                        dropdown.add(new HomePageTool(childJSONObject.getString("l2name"),childJSONObject.getInt("l2id")));
+                        dropdown.add(childJSONObject.getString("l2name"));
                         //Log.d("Loop", childJSONObject.getString("l2name"));
                                Log.d("Loop", childJSONObject.getString("l2name"));
              }
+                
+        
         }
                 catch(Exception e)
                 {e.printStackTrace();}
-                //Insert add more button
-                dropdown.add(new HomePageTool("Add more", 999));
                                 dropdown_list=dropdown;
     }
+
+    
 
     public void testPageButtonClick() {
         String taskPage = begin.getSelectedItem().toString();
