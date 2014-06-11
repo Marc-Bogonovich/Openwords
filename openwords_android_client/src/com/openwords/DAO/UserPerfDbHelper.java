@@ -129,6 +129,13 @@ public class UserPerfDbHelper extends SQLiteOpenHelper{
 	        return result;
 		
 	}
+	
+	//************ Delete all**************
+	public void deleteAllUserPerf()
+	{
+		SQLiteDatabase db = this.getWritableDatabase();
+		db.delete(OpenwordsDatabaseManager.UserPerfDB.TABLE_NAME, null, null);
+	}
 	//---------------------------------------------------------------
 	
 	
