@@ -2,7 +2,7 @@ package com.openwords.DAO;
 
 import java.util.ArrayList;
 
-import com.openwords.dto.PlateDbDto;
+//import com.openwords.dto.PlateDbDto;
 import com.openwords.dto.UserPerfDto;
 
 import android.content.ContentValues;
@@ -57,14 +57,14 @@ public class UserPerfDbHelper extends SQLiteOpenHelper{
 	{
 		SQLiteDatabase db = this.getWritableDatabase();
 		ContentValues values = new ContentValues();
-        values.put(OpenwordsDatabaseManager.UserPerfDB.CONNECTIONID,Integer.toString(up.connection_id));
-        values.put(OpenwordsDatabaseManager.UserPerfDB.USERID, Integer.toString(up.user_id));
-        values.put(OpenwordsDatabaseManager.UserPerfDB.TOTALCORRECT, Integer.toString(up.total_correct));
-        values.put(OpenwordsDatabaseManager.UserPerfDB.TOTALSKIPPED, Integer.toString(up.total_skipped));
-        values.put(OpenwordsDatabaseManager.UserPerfDB.TOTALEXPOSURE, Integer.toString(up.total_skipped));
-        values.put(OpenwordsDatabaseManager.UserPerfDB.LASTTIME, Integer.toString(up.last_time));
-        values.put(OpenwordsDatabaseManager.UserPerfDB.LASTPERFORMANCE, Integer.toString(up.last_performance));
-        values.put(OpenwordsDatabaseManager.UserPerfDB.USEREXCLUDE, "");
+        values.put(OpenwordsDatabaseManager.UserPerfDB.CONNECTIONID,up.connection_id);
+        values.put(OpenwordsDatabaseManager.UserPerfDB.USERID, up.user_id);
+        values.put(OpenwordsDatabaseManager.UserPerfDB.TOTALCORRECT, up.total_correct);
+        values.put(OpenwordsDatabaseManager.UserPerfDB.TOTALSKIPPED, up.total_skipped);
+        values.put(OpenwordsDatabaseManager.UserPerfDB.TOTALEXPOSURE, up.total_exposure);
+        values.put(OpenwordsDatabaseManager.UserPerfDB.LASTTIME, up.last_time);
+        values.put(OpenwordsDatabaseManager.UserPerfDB.LASTPERFORMANCE, up.last_performance);
+        values.put(OpenwordsDatabaseManager.UserPerfDB.USEREXCLUDE, 0);
         
         db.insert(OpenwordsDatabaseManager.UserPerfDB.TABLE_NAME, null, values);
 		db.close();
@@ -95,6 +95,37 @@ public class UserPerfDbHelper extends SQLiteOpenHelper{
 	        }
 	        db.close();	
 	        
+	        return result;
+		
+	}
+	
+	
+	public ArrayList<UserPerfDto> getByConnectionId(int connection_id)
+	{
+		SQLiteDatabase db = this.getReadableDatabase();
+		ArrayList<UserPerfDto> result = new ArrayList<UserPerfDto>();
+		
+		Cursor cursor = db.query(OpenwordsDatabaseManager.UserPerfDB.TABLE_NAME, 
+				new String[] {OpenwordsDatabaseManager.UserPerfDB.CONNECTIONID,
+				OpenwordsDatabaseManager.UserPerfDB.USERID,
+				OpenwordsDatabaseManager.UserPerfDB.TOTALCORRECT,
+				OpenwordsDatabaseManager.UserPerfDB.TOTALSKIPPED,
+				OpenwordsDatabaseManager.UserPerfDB.TOTALEXPOSURE,
+				OpenwordsDatabaseManager.UserPerfDB.LASTTIME,
+				OpenwordsDatabaseManager.UserPerfDB.LASTPERFORMANCE,
+				OpenwordsDatabaseManager.UserPerfDB.USEREXCLUDE}, 
+				OpenwordsDatabaseManager.UserPerfDB.CONNECTIONID+"="+connection_id, null, null, null, null);
+		 if (cursor != null)
+	            cursor.moveToFirst();
+		 while(!cursor.isAfterLast())
+	        {
+			 UserPerfDto newPerf = new UserPerfDto(cursor.getInt(0),cursor.getInt(1),cursor.getInt(2),
+	        			cursor.getInt(3),cursor.getInt(4), cursor.getInt(5),cursor.getInt(6),cursor.getInt(7));
+			 	result.add(newPerf);
+	        	cursor.moveToNext();
+	        }
+		 	
+	        db.close();	
 	        return result;
 		
 	}

@@ -1,6 +1,6 @@
 package com.openwords.dto;
 
-import java.sql.Date;
+//import java.sql.Date;
 
 public class UserPerfDto {
 	public int user_id;
