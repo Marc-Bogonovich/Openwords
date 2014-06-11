@@ -99,57 +99,7 @@ public class LoginPage extends Activity implements OnClickListener {
         test.setOnClickListener(new OnClickListener() {
 
             public void onClick(View view) {
-                List<Plate> plate = new LinkedList<Plate>();
-                long plateId = System.currentTimeMillis();
-                plate.add(new Plate(-1,
-                        Plate.Performance_Null,
-                        PlateTestType.Test_Type_Review,
-                        "",
-                        "",
-                        "人",
-                        "ren",
-                        "",
-                        "person",
-                        "bird",
-                        plateId,
-                        LoginPage.this));
-                plate.add(new Plate(-1,
-                        Plate.Performance_Null,
-                        PlateTestType.Test_Type_Self_Evaluate,
-                        "",
-                        "",
-                        "猫",
-                        "mao",
-                        "",
-                        "cat",
-                        "tiger",
-                        plateId,
-                        LoginPage.this));
-                plate.add(new Plate(-1,
-                        Plate.Performance_Null,
-                        PlateTestType.Test_Type_Self_Evaluate,
-                        "",
-                        "",
-                        "时间",
-                        "shi jian",
-                        "",
-                        "time",
-                        "clock",
-                        plateId,
-                        LoginPage.this));
-                plate.add(new Plate(-1,
-                        Plate.Performance_Null,
-                        PlateTestType.Test_Type_Self_Evaluate,
-                        "",
-                        "",
-                        "地球",
-                        "di qiu",
-                        "",
-                        "earth",
-                        "football",
-                        plateId,
-                        LoginPage.this));
-
+                List<Plate> plate = Plate.listAll(Plate.class);
                 ActivitySelfEval.setProblemPool(plate);
                 startActivity(new Intent(LoginPage.this, ActivitySelfEval.class));
             }
@@ -158,7 +108,58 @@ public class LoginPage extends Activity implements OnClickListener {
         //TEST!!! Please delete soon
         List<Plate> ps = Plate.listAll(Plate.class);
         Toast.makeText(LoginPage.this, "This is a test: I have " + ps.size() + " records in my plate!", Toast.LENGTH_SHORT).show();
-
+        if (ps.isEmpty()) {
+            long plateId = System.currentTimeMillis();
+            new Plate(-1,
+                    Plate.Performance_Null,
+                    PlateTestType.Test_Type_Review,
+                    "",
+                    "",
+                    "人",
+                    "ren",
+                    "",
+                    "person",
+                    "bird",
+                    plateId,
+                    LoginPage.this).save();
+            new Plate(-1,
+                    Plate.Performance_Null,
+                    PlateTestType.Test_Type_Self_Evaluate,
+                    "",
+                    "",
+                    "猫",
+                    "mao",
+                    "",
+                    "cat",
+                    "tiger",
+                    plateId,
+                    LoginPage.this).save();
+            new Plate(-1,
+                    Plate.Performance_Null,
+                    PlateTestType.Test_Type_Self_Evaluate,
+                    "",
+                    "",
+                    "时间",
+                    "shi jian",
+                    "",
+                    "time",
+                    "clock",
+                    plateId,
+                    LoginPage.this).save();
+            new Plate(-1,
+                    Plate.Performance_Null,
+                    PlateTestType.Test_Type_Self_Evaluate,
+                    "",
+                    "",
+                    "地球",
+                    "di qiu",
+                    "",
+                    "earth",
+                    "football",
+                    plateId,
+                    LoginPage.this).save();
+            Toast.makeText(LoginPage.this, "We just made 4 problems for you", Toast.LENGTH_SHORT).show();
+        }
     }
 
 //    @Override

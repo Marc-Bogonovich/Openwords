@@ -14,30 +14,30 @@ import com.openwords.tts.Speak;
 import com.openwords.util.log.LogUtil;
 
 public class FragmentSelfEval extends Fragment {
-    
+
     private final int cardIndex;
     private TextView problem, transcription, answer;
     private Button showAnswer;
     private ImageView correct, incorrect, showCorrect, showIncorrect, audioPlay;
-    
+
     public FragmentSelfEval(int cardIndex) {
         this.cardIndex = cardIndex;
     }
-    
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LogUtil.logDeubg(this, "onCreate for card: " + cardIndex);
     }
-    
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LogUtil.logDeubg(this, "onCreateView for card: " + cardIndex);
-        
+
         View myFragmentView = inflater.inflate(R.layout.fragment_self_eval, container, false);
         final Plate card = ActivitySelfEval.getProblemPool().get(this.cardIndex);
-        
+
         problem = (TextView) myFragmentView.findViewById(R.id.selfEvaluate_TextView_Problem);
         transcription = (TextView) myFragmentView.findViewById(R.id.selfEvaluate_TextView_Transcription);
         answer = (TextView) myFragmentView.findViewById(R.id.selfEvaluate_TextView_Answer);
@@ -47,7 +47,7 @@ public class FragmentSelfEval extends Fragment {
         showCorrect = (ImageView) myFragmentView.findViewById(R.id.selfEvaluate_ImageView_Correct_Show);
         showIncorrect = (ImageView) myFragmentView.findViewById(R.id.selfEvaluate_ImageView_Incorrect_Show);
         audioPlay = (ImageView) myFragmentView.findViewById(R.id.selfEvaluate_ImageView_AudioPlay);
-        
+
         problem.setText(card.getProblemOne());
         transcription.setText(card.getProblemTwo());
         switch (card.getTestType()) {
@@ -59,9 +59,9 @@ public class FragmentSelfEval extends Fragment {
                 break;
         }
         showAnswer.setText("Show Me");
-        
+
         showAnswer.setOnClickListener(new View.OnClickListener() {
-            
+
             public void onClick(View view) {
                 switch (card.getTestType()) {
                     case Test_Type_Review:
@@ -73,32 +73,36 @@ public class FragmentSelfEval extends Fragment {
                 }
             }
         });
-        
+
         correct.setOnClickListener(new View.OnClickListener() {
-            
+
             public void onClick(View view) {
                 card.setPerformance(Plate.Performance_Correct);
                 correct.setImageResource(R.drawable.button_self_evaluate_correct_selected);
                 incorrect.setImageResource(R.drawable.button_self_evaluate_incorrect_unselected);
+                card.setPerformance(Plate.Performance_Correct);
+                card.save();
             }
         });
-        
+
         incorrect.setOnClickListener(new View.OnClickListener() {
-            
+
             public void onClick(View view) {
                 card.setPerformance(Plate.Performance_Incorrect);
                 correct.setImageResource(R.drawable.button_self_evaluate_correct_unselected);
                 incorrect.setImageResource(R.drawable.button_self_evaluate_incorrect_selected);
+                card.setPerformance(Plate.Performance_Incorrect);
+                card.save();
             }
         });
-        
+
         audioPlay.setOnClickListener(new View.OnClickListener() {
-            
+
             public void onClick(View view) {
                 Speak.getInstance(null).speak(card.getProblemOne());
             }
         });
-        
+
         switch (card.getPerformance()) {
             case Plate.Performance_Correct:
                 correct.setImageResource(R.drawable.button_self_evaluate_correct_selected);
@@ -111,7 +115,7 @@ public class FragmentSelfEval extends Fragment {
                 incorrect.setImageResource(R.drawable.button_self_evaluate_incorrect_unselected);
                 break;
         }
-        
+
         return myFragmentView;
     }
 }

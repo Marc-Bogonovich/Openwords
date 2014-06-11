@@ -64,6 +64,13 @@ public class Plate extends SugarRecord<Plate> {
     }
 
     public PlateTestType getTestType() {
+        if (testType == null) {
+            if (testTypeInt == PlateTestType.Test_Type_Review.getValue()) {
+                testType = PlateTestType.Test_Type_Review;
+            } else if (testTypeInt == PlateTestType.Test_Type_Self_Evaluate.getValue()) {
+                testType = PlateTestType.Test_Type_Self_Evaluate;
+            }
+        }
         return testType;
     }
 
