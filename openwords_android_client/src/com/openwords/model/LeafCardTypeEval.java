@@ -3,6 +3,7 @@ package com.openwords.model;
 public class LeafCardTypeEval {
 	private String wordLang2, wordLang1, transcription;
 	private Integer userChoice = 0;
+	private String userInput;
 	private String connectionID; //for future use when connecting with db
 	public LeafCardTypeEval(String wordLang2, String wordLang1, String transcription) {
 		this.wordLang2 = wordLang2;
@@ -32,6 +33,12 @@ public class LeafCardTypeEval {
 	}
 	public void setUserChoice(Integer userChoice) {
 		this.userChoice = userChoice;
+	}
+	public void setUserInput(String userInput) {
+		this.userInput = userInput;
+	}
+	public String getUserInput() {
+		return userInput;
 	}
 	
 }

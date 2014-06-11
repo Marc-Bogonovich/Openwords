@@ -63,29 +63,33 @@ public class TypeEvaluate extends Activity {
 		transcription = (TextView) findViewById(R.id.typeEvaluate_TextView_transcription);
 		userInput = (EditText) findViewById(R.id.typeEvaluate_EditText_input);
 		checkButton = (ImageView) findViewById(R.id.typeEvaluate_ImageView_checkButton);
-		prepareQuestion(questionIndex);
+		status = (ImageView) findViewById(R.id.typeEvaluate_ImageView_status);
+		//prepareQuestion(questionIndex);
+		setInterfaceView();
 		
 		checkButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				Integer userChoice = 0;
-				status = (ImageView) findViewById(R.id.typeEvaluate_ImageView_status);
 				
 				if(userInput!=null) {
 					//user choice 0--null 1--wrong 2--close 3--correct
-					String userInputString = userInput.getText().toString();
+					String userInputString = userInput.getText().toString().toLowerCase();
 					double similarity = WordComparsion.similarity(userInputString, questionPool.get(questionIndex).getWordLang1());
 					if(userInputString.equals(questionPool.get(questionIndex).getWordLang1())) {
 						status.setImageResource(R.drawable.ic_learning_module_correct);
+						questionPool.get(questionIndex).setUserInput(userInputString);
 						userChoice = 3;
 					} else if(similarity>=CUTOFF) {
 						status.setImageResource(R.drawable.ic_learning_module_close);
 						userChoice = 2;
+						questionPool.get(questionIndex).setUserInput(userInputString);
 						answer.setVisibility(View.VISIBLE);
 						//if want the status icon becomes null when move forward/backward, change the value of userChoice
 					} else {
 						status.setImageResource(R.drawable.ic_learning_module_incorrect);
 						userChoice = 1;
+						questionPool.get(questionIndex).setUserInput(userInputString);
 						answer.setVisibility(View.VISIBLE);
 					}
 				} else {
@@ -105,24 +109,30 @@ public class TypeEvaluate extends Activity {
 			}
 		});
     }
-    private void setButtonsView(Integer userChoice) {
-		if(userChoice.equals(0)) {
+    private void setInterfaceView() {
+    	Integer userChoice = questionPool.get(questionIndex).getUserChoice();
+    	transcription.setText(questionPool.get(questionIndex).getTranscription());
+    	question.setText(questionPool.get(questionIndex).getWordLang2());
+    	answer.setText(questionPool.get(questionIndex).getWordLang1());
+    	if(userChoice.equals(0)) {
 			status.setImageResource(R.drawable.ic_learning_module_null);
+			userInput.setText("");
+			answer.setVisibility(View.INVISIBLE);
 		} else if (userChoice.equals(3)) {
 			status.setImageResource(R.drawable.ic_learning_module_correct);
+			userInput.setText(questionPool.get(questionIndex).getUserInput());	
+			answer.setVisibility(View.INVISIBLE);
 		} else if (userChoice.equals(2)) {
 			status.setImageResource(R.drawable.ic_learning_module_close);
+			userInput.setText(questionPool.get(questionIndex).getUserInput());
+			answer.setVisibility(View.VISIBLE);
 		} else {
 			status.setImageResource(R.drawable.ic_learning_module_incorrect);
+			userInput.setText(questionPool.get(questionIndex).getUserInput());
+			answer.setVisibility(View.VISIBLE);
 		}
+		
 	}
-    private void prepareQuestion(Integer questionIndex) {
-		question.setText(questionPool.get(questionIndex).getWordLang2());
-		answer.setText(questionPool.get(questionIndex).getWordLang1());
-		answer.setVisibility(View.INVISIBLE);
-		transcription.setText(questionPool.get(questionIndex).getTranscription());
-		userInput.setText("");
-    }
     
     private void initAnimations() {
 		mInFromRight = new TranslateAnimation(Animation.RELATIVE_TO_PARENT,
@@ -173,29 +183,29 @@ public class TypeEvaluate extends Activity {
  
     private void moveForward() {
 		questionIndex++;
-		mViewFlipper.setInAnimation(mInFromRight);
-		mViewFlipper.setOutAnimation(mOutToLeft);
-		mViewFlipper.showNext();
-		setButtonsView(questionPool.get(questionIndex).getUserChoice());
 		if(questionIndex>=questionPool.size()) {
-			Toast.makeText(TypeEvaluate.this, "You have arrived the last", Toast.LENGTH_LONG).show();
+			Toast.makeText(TypeEvaluate.this, "You have arrived the last", Toast.LENGTH_SHORT).show();
 			questionIndex = questionPool.size()-1;
 		} else {
-			prepareQuestion(questionIndex);
+			mViewFlipper.setInAnimation(mInFromRight);
+			mViewFlipper.setOutAnimation(mOutToLeft);
+			mViewFlipper.showNext();
+			setInterfaceView();
+			//prepareQuestion(questionIndex);
 		}
 	}
 	
 	private void moveBackward(){
 		questionIndex--;
-		mViewFlipper.setInAnimation(mInFromLeft);
-		mViewFlipper.setOutAnimation(mOutToRight);
-		mViewFlipper.showPrevious();
-		setButtonsView(questionPool.get(questionIndex).getUserChoice());
 		if (questionIndex<0) {
-			Toast.makeText(TypeEvaluate.this, "You have arrived the last", Toast.LENGTH_LONG).show();
+			Toast.makeText(TypeEvaluate.this, "You have arrived the last", Toast.LENGTH_SHORT).show();
 			questionIndex = 0;
 		} else {
-			prepareQuestion(questionIndex);
+			mViewFlipper.setInAnimation(mInFromLeft);
+			mViewFlipper.setOutAnimation(mOutToRight);
+			mViewFlipper.showPrevious();
+			setInterfaceView();
+			//prepareQuestion(questionIndex);
 		}
 	}
 	private class MyGestureDetector extends SimpleOnGestureListener {
@@ -216,8 +226,6 @@ public class TypeEvaluate extends Activity {
 			if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE
 					&& Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
 				 moveForward();
-
-				//
 			} else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE
 					&& Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
 				moveBackward();
