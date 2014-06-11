@@ -134,11 +134,27 @@ public class UserPerfDbHelper extends SQLiteOpenHelper{
 		
 	}
 	
+	//************ get distinct user ***********
+	public int getUserFromUserPerf()
+	{
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor c = db.rawQuery("SELECT distinct user_id FROM "+OpenwordsDatabaseManager.UserPerfDB.TABLE_NAME,
+				null);
+		if(c!=null)
+		{
+			c.moveToFirst();
+			return c.getInt(0);
+		}
+		else
+			return 0;
+	}
+	
 	//************ Delete all**************
 	public void deleteAllUserPerf()
 	{
 		SQLiteDatabase db = this.getWritableDatabase();
 		db.delete(OpenwordsDatabaseManager.UserPerfDB.TABLE_NAME, null, null);
+		db.close();
 	}
 	//---------------------------------------------------------------
 	
