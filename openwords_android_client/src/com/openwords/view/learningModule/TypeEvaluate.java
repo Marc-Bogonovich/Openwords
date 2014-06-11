@@ -24,6 +24,7 @@ import android.widget.ViewFlipper;
 
 import com.openwords.R;
 import com.openwords.model.LeafCardSelfEval;
+import com.openwords.model.LeafCardTypeEval;
 import com.openwords.util.WordComparsion;
 
 
@@ -33,7 +34,7 @@ public class TypeEvaluate extends Activity {
 	private Animation mInFromLeft;
 	private Animation mOutToRight;
 	private ViewFlipper mViewFlipper;
-	private LinkedList<LeafCardSelfEval> questionPool = new LinkedList<LeafCardSelfEval>();
+	private LinkedList<LeafCardTypeEval> questionPool = new LinkedList<LeafCardTypeEval>();
 	private Integer questionIndex = 0;
 	private EditText userInput;
 	private TextView answer;
@@ -47,13 +48,13 @@ public class TypeEvaluate extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_type_evaluate);
-		questionPool.add(new LeafCardSelfEval("人","man", "ren"));
-		questionPool.add(new LeafCardSelfEval("猫","cat", "mao"));
-		questionPool.add(new LeafCardSelfEval("地球","earth", "di qiu"));
-		questionPool.add(new LeafCardSelfEval("时间","time", "shi jian"));
-		questionPool.add(new LeafCardSelfEval("世界","world", "shi jie"));
-		questionPool.add(new LeafCardSelfEval("电脑","computer", "dian nao"));
-		questionPool.add(new LeafCardSelfEval("软件","software", "ruan jian"));
+		questionPool.add(new LeafCardTypeEval("人","man", "ren"));
+		questionPool.add(new LeafCardTypeEval("猫","cat", "mao"));
+		questionPool.add(new LeafCardTypeEval("地球","earth", "di qiu"));
+		questionPool.add(new LeafCardTypeEval("时间","time", "shi jian"));
+		questionPool.add(new LeafCardTypeEval("世界","world", "shi jie"));
+		questionPool.add(new LeafCardTypeEval("电脑","computer", "dian nao"));
+		questionPool.add(new LeafCardTypeEval("软件","software", "ruan jian"));
 		mViewFlipper = (ViewFlipper) findViewById(R.id.typeEvaluate_ViewFlipper_frame);
 		mViewFlipper.setDisplayedChild(0);
 		initAnimations();
@@ -67,28 +68,29 @@ public class TypeEvaluate extends Activity {
 		checkButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Boolean userChoice = null;
+				Integer userChoice = 0;
 				status = (ImageView) findViewById(R.id.typeEvaluate_ImageView_status);
 				
 				if(userInput!=null) {
+					//user choice 0--null 1--wrong 2--close 3--correct
 					String userInputString = userInput.getText().toString();
 					double similarity = WordComparsion.similarity(userInputString, questionPool.get(questionIndex).getWordLang1());
 					if(userInputString.equals(questionPool.get(questionIndex).getWordLang1())) {
 						status.setImageResource(R.drawable.ic_learning_module_correct);
-						userChoice = true;
+						userChoice = 3;
 					} else if(similarity>=CUTOFF) {
 						status.setImageResource(R.drawable.ic_learning_module_close);
-						userChoice = false;
+						userChoice = 2;
 						answer.setVisibility(View.VISIBLE);
 						//if want the status icon becomes null when move forward/backward, change the value of userChoice
 					} else {
 						status.setImageResource(R.drawable.ic_learning_module_incorrect);
-						userChoice = false;
+						userChoice = 1;
 						answer.setVisibility(View.VISIBLE);
 					}
 				} else {
 					status.setImageResource(R.drawable.ic_learning_module_incorrect);
-					userChoice = false;
+					userChoice = 0;
 					answer.setVisibility(View.VISIBLE);
 				}
 				questionPool.get(questionIndex).setUserChoice(userChoice);
@@ -103,11 +105,13 @@ public class TypeEvaluate extends Activity {
 			}
 		});
     }
-    private void setButtonsView(Boolean userChoice) {
-		if(userChoice==null) {
+    private void setButtonsView(Integer userChoice) {
+		if(userChoice.equals(0)) {
 			status.setImageResource(R.drawable.ic_learning_module_null);
-		} else if (userChoice) {
+		} else if (userChoice.equals(3)) {
 			status.setImageResource(R.drawable.ic_learning_module_correct);
+		} else if (userChoice.equals(2)) {
+			status.setImageResource(R.drawable.ic_learning_module_close);
 		} else {
 			status.setImageResource(R.drawable.ic_learning_module_incorrect);
 		}
