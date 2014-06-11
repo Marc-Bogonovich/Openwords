@@ -121,20 +121,20 @@ public class SelfEvaluate extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				questionPool.get(questionIndex).setUserChoice(false);;
+				questionPool.get(questionIndex).setUserChoice(false);
 //				known.setImageResource(R.drawable.button_self_evaluate_correct_unselected);
 //				unknown.setImageResource(R.drawable.button_self_evaluate_incorrect_selected);
 				moveForward();
 			}
 		});		
 	}
-	private void setButtonsView(Boolean userChoice) {
+	private void setButtonsView(Boolean boolean1) {
 		final ImageView known = (ImageView) findViewById(R.id.selfEvaluate_ImageView_known);
 		final ImageView unknown = (ImageView) findViewById(R.id.selfEvaluate_ImageView_unknown);
-		if(userChoice==null) {
+		if(boolean1) {
 			known.setImageResource(R.drawable.button_self_evaluate_correct_unselected);
 			unknown.setImageResource(R.drawable.button_self_evaluate_incorrect_unselected);
-		} else if (userChoice) {
+		} else if (boolean1==null) {
 			known.setImageResource(R.drawable.button_self_evaluate_correct_selected);
 			unknown.setImageResource(R.drawable.button_self_evaluate_incorrect_unselected);
 		} else {

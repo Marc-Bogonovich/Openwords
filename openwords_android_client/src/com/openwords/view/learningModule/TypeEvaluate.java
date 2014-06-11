@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -23,6 +24,7 @@ import android.widget.ViewFlipper;
 
 import com.openwords.R;
 import com.openwords.model.LeafCardSelfEval;
+import com.openwords.util.WordComparsion;
 
 
 public class TypeEvaluate extends Activity {
@@ -39,6 +41,7 @@ public class TypeEvaluate extends Activity {
 	private TextView transcription;
 	private ImageView checkButton;
 	private ImageView status;
+	private final double CUTOFF = 0.75d;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +62,6 @@ public class TypeEvaluate extends Activity {
 		transcription = (TextView) findViewById(R.id.typeEvaluate_TextView_transcription);
 		userInput = (EditText) findViewById(R.id.typeEvaluate_EditText_input);
 		checkButton = (ImageView) findViewById(R.id.typeEvaluate_ImageView_checkButton);
-		
 		prepareQuestion(questionIndex);
 		
 		checkButton.setOnClickListener(new View.OnClickListener() {
@@ -67,19 +69,37 @@ public class TypeEvaluate extends Activity {
 			public void onClick(View v) {
 				Boolean userChoice = null;
 				status = (ImageView) findViewById(R.id.typeEvaluate_ImageView_status);
-				if(userInput!=null && userInput.equals(questionPool.get(questionIndex).getWordLang1())) {
-					status.setImageResource(R.drawable.ic_learning_module_correct);
-					userChoice = true;
+				
+				if(userInput!=null) {
+					String userInputString = userInput.getText().toString();
+					double similarity = WordComparsion.similarity(userInputString, questionPool.get(questionIndex).getWordLang1());
+					if(userInputString.equals(questionPool.get(questionIndex).getWordLang1())) {
+						status.setImageResource(R.drawable.ic_learning_module_correct);
+						userChoice = true;
+					} else if(similarity>=CUTOFF) {
+						status.setImageResource(R.drawable.ic_learning_module_close);
+						userChoice = false;
+						answer.setVisibility(View.VISIBLE);
+						//if want the status icon becomes null when move forward/backward, change the value of userChoice
+					} else {
+						status.setImageResource(R.drawable.ic_learning_module_incorrect);
+						userChoice = false;
+						answer.setVisibility(View.VISIBLE);
+					}
 				} else {
 					status.setImageResource(R.drawable.ic_learning_module_incorrect);
 					userChoice = false;
-					//if want the status icon becomes null when move forward/backward, change the value of userChoice
+					answer.setVisibility(View.VISIBLE);
 				}
 				questionPool.get(questionIndex).setUserChoice(userChoice);
-				answer = (TextView) findViewById(R.id.typeEvaluate_TextView_answer);
-				answer.setVisibility(View.INVISIBLE);
-				//new TimeoutOperation().execute("");
-				moveForward();
+				
+				Handler mHandler = new Handler();
+				mHandler.postDelayed(new Runnable() {
+		            public void run() {
+		            	moveForward();
+		            }
+		        }, 3000);
+				
 			}
 		});
     }
@@ -97,6 +117,7 @@ public class TypeEvaluate extends Activity {
 		answer.setText(questionPool.get(questionIndex).getWordLang1());
 		answer.setVisibility(View.INVISIBLE);
 		transcription.setText(questionPool.get(questionIndex).getTranscription());
+		userInput.setText("");
     }
     
     private void initAnimations() {
@@ -199,27 +220,6 @@ public class TypeEvaluate extends Activity {
 			}
 			return super.onFling(e1, e2, velocityX, velocityY);
 		}
-	}
-	private class TimeoutOperation extends AsyncTask<String, Void, Void>{
-
-	    @Override
-	    protected Void doInBackground(String... params) {
-
-	        try {
-	            Log.i("Freeze", "Going to sleep");
-	            Thread.sleep(10000);
-	        } catch (InterruptedException e) {
-	            e.printStackTrace();
-	        }
-	        return null;
-	    }
-
-	    @Override
-	    protected void onPostExecute(Void result) {
-	        Log.i("Freeze time", "This is executed after 10 seconds");
-	        //Update your layout here
-	        super.onPostExecute(result);
-	    }
 	}
 
 }
