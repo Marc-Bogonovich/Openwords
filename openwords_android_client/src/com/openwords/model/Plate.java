@@ -6,15 +6,10 @@ import com.orm.dsl.Ignore;
 
 public class Plate extends SugarRecord<Plate> {
 
-    @Ignore
-    public static final int Performance_Correct = 1;
-    @Ignore
-    public static final int Performance_Incorrect = 2;
-    @Ignore
-    public static final int Performance_Null = 0;
-
     private int connectionId;
-    private int performance;
+    @Ignore
+    private PlatePerformanceType performance;
+    private int performanceInt;
     @Ignore
     private PlateTestType testType;
     private int testTypeInt;
@@ -31,10 +26,11 @@ public class Plate extends SugarRecord<Plate> {
         super(cntxt);
     }
 
-    public Plate(int connectionId, int performance, PlateTestType testType, String audioCall, String clarification, String problemOne, String problemTwo, String problemThree, String answerOne, String answerTwo, long plateId, Context cntxt) {
+    public Plate(int connectionId, PlatePerformanceType performance, PlateTestType testType, String audioCall, String clarification, String problemOne, String problemTwo, String problemThree, String answerOne, String answerTwo, long plateId, Context cntxt) {
         super(cntxt);
         this.connectionId = connectionId;
         this.performance = performance;
+        performanceInt = performance.getValue();
         this.testType = testType;
         testTypeInt = testType.getValue();
         this.audioCall = audioCall;
@@ -55,12 +51,22 @@ public class Plate extends SugarRecord<Plate> {
         this.connectionId = connectionId;
     }
 
-    public int getPerformance() {
+    public PlatePerformanceType getPerformance() {
+        if (performance == null) {
+            if (performanceInt == PlatePerformanceType.Performance_Correct.getValue()) {
+                performance = PlatePerformanceType.Performance_Correct;
+            } else if (performanceInt == PlatePerformanceType.Performance_Incorrect.getValue()) {
+                performance = PlatePerformanceType.Performance_Incorrect;
+            } else if (performanceInt == PlatePerformanceType.Performance_Null.getValue()) {
+                performance = PlatePerformanceType.Performance_Null;
+            }
+        }
         return performance;
     }
 
-    public void setPerformance(int performance) {
+    public void setPerformance(PlatePerformanceType performance) {
         this.performance = performance;
+        performanceInt = performance.getValue();
     }
 
     public PlateTestType getTestType() {
@@ -76,6 +82,7 @@ public class Plate extends SugarRecord<Plate> {
 
     public void setTestType(PlateTestType testType) {
         this.testType = testType;
+        testTypeInt = testType.getValue();
     }
 
     public String getAudioCall() {

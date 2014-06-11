@@ -74,12 +74,5 @@
         android:layout_height="wrap_content"
         android:text="Test Self Evaluation"
         android:layout_below="@+id/loginPage_Button_loginSubmit"/>
-    
-    <Button
-        android:id="@+id/loginPage_clear"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Clear Plate"
-        android:layout_below="@+id/loginPage_test"/>
 
 </RelativeLayout>

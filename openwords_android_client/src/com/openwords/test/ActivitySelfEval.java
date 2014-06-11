@@ -57,6 +57,9 @@ public class ActivitySelfEval extends FragmentActivity {
             }
 
             public void onPageSelected(int i) {
+                if (i == getProblemPool().size()) {
+                    FragmentPlateCompletion.refreshDetails();
+                }
             }
 
             public void onPageScrollStateChanged(int i) {
@@ -65,6 +68,7 @@ public class ActivitySelfEval extends FragmentActivity {
         });
         adapter = new SelfEvaluatePagerAdapter(getSupportFragmentManager());
         pager.setAdapter(adapter);
+        pager.setPageTransformer(true, new PageTransformerSelfEval());
     }
 
     @Override
@@ -88,12 +92,16 @@ public class ActivitySelfEval extends FragmentActivity {
         @Override
         public Fragment getItem(int i) {
             LogUtil.logDeubg(this, "Request fragment: " + i);
-            return new FragmentSelfEval(i);
+            if (i >= getProblemPool().size()) {
+                return new FragmentPlateCompletion();
+            } else {
+                return new FragmentSelfEval(i);
+            }
         }
 
         @Override
         public int getCount() {
-            return getProblemPool().size();
+            return getProblemPool().size() + 1;
         }
 
     }
