@@ -99,6 +99,13 @@ public class PlateDbHelper extends SQLiteOpenHelper{
         db.close();
 	}
 	
+	//*********** Delete All***********************
+	public void deleteAll()
+	{
+		SQLiteDatabase db = this.getWritableDatabase();
+		db.delete(OpenwordsDatabaseManager.Plate_DB.TABLE_NAME, null, null);
+	}
+	
 }
 
 
