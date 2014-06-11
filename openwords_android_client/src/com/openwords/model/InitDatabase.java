@@ -48,6 +48,16 @@ public class InitDatabase {
 				e.printStackTrace();
 			}
 		}
+		else
+		{
+			//if nw connected.. to be implemented
+			if(this.userPerfDb.getCountDirty()>0)
+			{
+				//merge dirty into main user perf
+				
+				
+			}
+		}
 	}
 
 }
