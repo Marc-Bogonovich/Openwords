@@ -1,12 +1,5 @@
 package com.openwords.view.learningModule;
 
-//Marc - Lines related to the slide activity are between "//" and "//"
-
-//THESE LINES APPEAR TO BE HAVE BEEN AUTOMATICALLY GENERATED TO FIND com.openwords_alpha_04.R, but they do not appear necessary 
-//import com.openwords_alpha_05.R;
-//import com.openwords_alpha_05.SlideActivity.MyGestureDetector;
-//import com.openwords_alpha_04.R;
-
 import java.util.*;
 
 import com.openwords.R;
@@ -49,6 +42,9 @@ public class SelfEvaluate extends Activity {
 	public static final String PLATE_POSITION = "PlatePosition";
 	private LinkedList<LeafCardSelfEval> questionPool = new LinkedList<LeafCardSelfEval>();
 	private Integer questionIndex = 0;
+	private TextView question;
+	private TextView answer;
+	private TextView transcription;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -58,13 +54,12 @@ public class SelfEvaluate extends Activity {
 		questionPool.add(new LeafCardSelfEval("时间","time", "shi jian"));
 		questionPool.add(new LeafCardSelfEval("世界","world", "shi jie"));
 		questionPool.add(new LeafCardSelfEval("电脑","computer", "dian nao"));
-		questionPool.add(new LeafCardSelfEval("软件","software", "ruan jian"));
-//		Log.e("Question",questionPool.get(0).getWordLang2());
-//		Log.e("Answer",questionPool.get(0).getWordLang1());
-
-		
+		questionPool.add(new LeafCardSelfEval("软件","software", "ruan jian"));		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_self_evaluate);
+		question = (TextView) findViewById(R.id.selfEvaluate_TextView_question);
+		answer = (TextView) findViewById(R.id.selfEvaluate_TextView_answer);
+		transcription = (TextView) findViewById(R.id.selfEvaluate_TextView_transcription);
 		//
 //		settings = getSharedPreferences(OPENWORDS_PREFERENCES, 0);
 //		editor = settings.edit();
@@ -88,10 +83,6 @@ public class SelfEvaluate extends Activity {
 		// Toast.makeText(this, "This is my Toast!", Toast.LENGTH_LONG).show();
 
 		Button showAnswer = (Button) findViewById(R.id.selfEvaluate_Button_showAnswer);
-		
-		final TextView question = (TextView) findViewById(R.id.selfEvaluate_TextView_question);
-		final TextView answer = (TextView) findViewById(R.id.selfEvaluate_TextView_answer);
-		final TextView transcription = (TextView) findViewById(R.id.selfEvaluate_TextView_transcription);
 		question.setText(questionPool.get(0).getWordLang2());
 		answer.setText(questionPool.get(0).getWordLang1());
 		answer.setVisibility(View.INVISIBLE);
@@ -128,13 +119,13 @@ public class SelfEvaluate extends Activity {
 			}
 		});		
 	}
-	private void setButtonsView(Boolean boolean1) {
+	private void setButtonsView(Boolean userChoice) {
 		final ImageView known = (ImageView) findViewById(R.id.selfEvaluate_ImageView_known);
 		final ImageView unknown = (ImageView) findViewById(R.id.selfEvaluate_ImageView_unknown);
-		if(boolean1) {
+		if(userChoice==null) {
 			known.setImageResource(R.drawable.button_self_evaluate_correct_unselected);
 			unknown.setImageResource(R.drawable.button_self_evaluate_incorrect_unselected);
-		} else if (boolean1==null) {
+		} else if (userChoice) {
 			known.setImageResource(R.drawable.button_self_evaluate_correct_selected);
 			unknown.setImageResource(R.drawable.button_self_evaluate_incorrect_unselected);
 		} else {
@@ -146,18 +137,13 @@ public class SelfEvaluate extends Activity {
 	private void moveForward() {
 		questionIndex++;
 		//Log.e("Index",Integer.toString(index));
-		final TextView question = (TextView) findViewById(R.id.selfEvaluate_TextView_question);
-		final TextView answer = (TextView) findViewById(R.id.selfEvaluate_TextView_answer);
-		final TextView transcription = (TextView) findViewById(R.id.selfEvaluate_TextView_transcription);
-
-		mViewFlipper.setInAnimation(mInFromRight);
-		mViewFlipper.setOutAnimation(mOutToLeft);
-		mViewFlipper.showNext();
-		
 		if(questionIndex>=questionPool.size()) {
-			Toast.makeText(SelfEvaluate.this, "You have arrived the last", Toast.LENGTH_LONG).show();
+			Toast.makeText(SelfEvaluate.this, "You have arrived the last", Toast.LENGTH_SHORT).show();
 			questionIndex = questionPool.size()-1;
 		} else {
+			mViewFlipper.setInAnimation(mInFromRight);
+			mViewFlipper.setOutAnimation(mOutToLeft);
+			mViewFlipper.showNext();
 			setButtonsView(questionPool.get(questionIndex).getUserChoice());
 			question.setText(questionPool.get(questionIndex).getWordLang2());
 			answer.setText(questionPool.get(questionIndex).getWordLang1());
@@ -168,16 +154,14 @@ public class SelfEvaluate extends Activity {
 	
 	private void moveBackward(){
 		questionIndex--;
-		final TextView question = (TextView) findViewById(R.id.selfEvaluate_TextView_question);
-		final TextView answer = (TextView) findViewById(R.id.selfEvaluate_TextView_answer);
-		final TextView transcription = (TextView) findViewById(R.id.selfEvaluate_TextView_transcription);
-		mViewFlipper.setInAnimation(mInFromLeft);
-		mViewFlipper.setOutAnimation(mOutToRight);
-		mViewFlipper.showPrevious();
+
 		if (questionIndex<0) {
-			Toast.makeText(SelfEvaluate.this, "You have arrived the last", Toast.LENGTH_LONG).show();
+			Toast.makeText(SelfEvaluate.this, "You have arrived the first", Toast.LENGTH_SHORT).show();
 			questionIndex = 0;
 		} else {
+			mViewFlipper.setInAnimation(mInFromLeft);
+			mViewFlipper.setOutAnimation(mOutToRight);
+			mViewFlipper.showPrevious();
 			setButtonsView(questionPool.get(questionIndex).getUserChoice());
 			question.setText(questionPool.get(questionIndex).getWordLang2());
 			answer.setText(questionPool.get(questionIndex).getWordLang1());
