@@ -2,6 +2,7 @@ package com.openwords.model;
 
 import com.openwords.DAO.PlateDbHelper;
 import com.openwords.DAO.UserPerfDbHelper;
+import com.openwords.DAO.UserPerformance;
 import com.openwords.DAO.UserWordsDbHelper;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
 
@@ -42,6 +43,7 @@ public class InitDatabase {
 			try
 			{
 				//------------ for User Perf-------
+				
 				//------------ for User words and TRanscriptions-------
 			}catch(Exception e)
 			{
