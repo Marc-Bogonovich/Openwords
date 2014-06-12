@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.openwords.R;
 import com.openwords.model.JSONParser;
 import com.openwords.model.Plate;
+import com.openwords.model.PlatePerformanceType;
 import com.openwords.model.PlateTestType;
 import com.openwords.model.UserInfo;
 import com.openwords.test.ActivitySelfEval;
@@ -111,7 +112,7 @@ public class LoginPage extends Activity implements OnClickListener {
         if (ps.isEmpty()) {
             long plateId = System.currentTimeMillis();
             new Plate(-1,
-                    Plate.Performance_Null,
+                    PlatePerformanceType.Performance_Null,
                     PlateTestType.Test_Type_Review,
                     "",
                     "",
@@ -123,7 +124,7 @@ public class LoginPage extends Activity implements OnClickListener {
                     plateId,
                     LoginPage.this).save();
             new Plate(-1,
-                    Plate.Performance_Null,
+                    PlatePerformanceType.Performance_Null,
                     PlateTestType.Test_Type_Self_Evaluate,
                     "",
                     "",
@@ -135,7 +136,7 @@ public class LoginPage extends Activity implements OnClickListener {
                     plateId,
                     LoginPage.this).save();
             new Plate(-1,
-                    Plate.Performance_Null,
+                    PlatePerformanceType.Performance_Null,
                     PlateTestType.Test_Type_Self_Evaluate,
                     "",
                     "",
@@ -147,7 +148,7 @@ public class LoginPage extends Activity implements OnClickListener {
                     plateId,
                     LoginPage.this).save();
             new Plate(-1,
-                    Plate.Performance_Null,
+                    PlatePerformanceType.Performance_Null,
                     PlateTestType.Test_Type_Self_Evaluate,
                     "",
                     "",

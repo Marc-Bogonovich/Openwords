@@ -156,10 +156,67 @@ public class UserPerfDbHelper extends SQLiteOpenHelper{
 		db.delete(OpenwordsDatabaseManager.UserPerfDB.TABLE_NAME, null, null);
 		db.close();
 	}
+	
+	//*********InsertUpdate->merge********
+	public void insertUpdateMerge(UserPerfDto up)
+	{
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor readCursor = db.query(OpenwordsDatabaseManager.UserPerfDB.TABLE_NAME,
+				new String[]{OpenwordsDatabaseManager.UserPerfDB.CONNECTIONID,
+				OpenwordsDatabaseManager.UserPerfDB.USERID}, 
+				OpenwordsDatabaseManager.UserPerfDB.USERID+"="+up.user_id
+				+" AND "+OpenwordsDatabaseManager.UserPerfDB.CONNECTIONID+"="+up.connection_id,
+				null, null, null, null);
+		db.close();
+		
+		db=this.getWritableDatabase();
+		if(readCursor.getCount()>0)
+		{
+			ContentValues values = new ContentValues();
+	        values.put(OpenwordsDatabaseManager.UserPerfDB.TOTALCORRECT, up.total_correct);
+	        values.put(OpenwordsDatabaseManager.UserPerfDB.TOTALSKIPPED, up.total_skipped);
+	        values.put(OpenwordsDatabaseManager.UserPerfDB.TOTALEXPOSURE, up.total_exposure);
+	        values.put(OpenwordsDatabaseManager.UserPerfDB.LASTTIME, up.last_time);
+	        values.put(OpenwordsDatabaseManager.UserPerfDB.LASTPERFORMANCE, up.last_performance);
+	        values.put(OpenwordsDatabaseManager.UserPerfDB.USEREXCLUDE, up.user_exclude);
+	        
+	        db.update(OpenwordsDatabaseManager.UserPerfDB.TABLE_NAME, values,
+	        		OpenwordsDatabaseManager.UserPerfDB.USERID+"="+up.user_id+
+	        		" AND "+OpenwordsDatabaseManager.UserPerfDB.CONNECTIONID+"="+up.connection_id,
+	        		null);
+	        db.close();
+		}
+		else
+		{
+			ContentValues values = new ContentValues();
+	        values.put(OpenwordsDatabaseManager.UserPerfDB.CONNECTIONID,up.connection_id);
+	        values.put(OpenwordsDatabaseManager.UserPerfDB.USERID, up.user_id);
+	        values.put(OpenwordsDatabaseManager.UserPerfDB.TOTALCORRECT, up.total_correct);
+	        values.put(OpenwordsDatabaseManager.UserPerfDB.TOTALSKIPPED, up.total_skipped);
+	        values.put(OpenwordsDatabaseManager.UserPerfDB.TOTALEXPOSURE, up.total_exposure);
+	        values.put(OpenwordsDatabaseManager.UserPerfDB.LASTTIME, up.last_time);
+	        values.put(OpenwordsDatabaseManager.UserPerfDB.LASTPERFORMANCE, up.last_performance);
+	        values.put(OpenwordsDatabaseManager.UserPerfDB.USEREXCLUDE, up.user_exclude);
+	        
+	        db.insert(OpenwordsDatabaseManager.UserPerfDB.TABLE_NAME, null, values);
+	        db.close();
+		}
+			
+	}
 	//---------------------------------------------------------------
 	
 	
 	//---------CRUDs for User Perf Dirty------------------------------
+	public int getCountDirty()
+	{
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor c = db.query(OpenwordsDatabaseManager.UserPerfDB.TABLE_NAME_D,
+				new String[]{OpenwordsDatabaseManager.UserPerfDB.D_CONNECTIONID}, null, null, null, null, null);
+		int cnt = c.getCount();
+		db.close();
+		return cnt;
+	}
+	
 	
 	//----------------------------------------------------------------
 

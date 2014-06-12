@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.openwords.R;
 import com.openwords.model.Plate;
+import com.openwords.model.PlatePerformanceType;
 import com.openwords.tts.Speak;
 import com.openwords.util.log.LogUtil;
 
@@ -77,10 +78,9 @@ public class FragmentSelfEval extends Fragment {
         correct.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
-                card.setPerformance(Plate.Performance_Correct);
+                card.setPerformance(PlatePerformanceType.Performance_Correct);
                 correct.setImageResource(R.drawable.button_self_evaluate_correct_selected);
                 incorrect.setImageResource(R.drawable.button_self_evaluate_incorrect_unselected);
-                card.setPerformance(Plate.Performance_Correct);
                 card.save();
             }
         });
@@ -88,10 +88,9 @@ public class FragmentSelfEval extends Fragment {
         incorrect.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
-                card.setPerformance(Plate.Performance_Incorrect);
+                card.setPerformance(PlatePerformanceType.Performance_Incorrect);
                 correct.setImageResource(R.drawable.button_self_evaluate_correct_unselected);
                 incorrect.setImageResource(R.drawable.button_self_evaluate_incorrect_selected);
-                card.setPerformance(Plate.Performance_Incorrect);
                 card.save();
             }
         });
@@ -104,13 +103,13 @@ public class FragmentSelfEval extends Fragment {
         });
 
         switch (card.getPerformance()) {
-            case Plate.Performance_Correct:
+            case Performance_Correct:
                 correct.setImageResource(R.drawable.button_self_evaluate_correct_selected);
                 break;
-            case Plate.Performance_Incorrect:
+            case Performance_Incorrect:
                 incorrect.setImageResource(R.drawable.button_self_evaluate_incorrect_selected);
                 break;
-            case Plate.Performance_Null:
+            case Performance_Null:
                 correct.setImageResource(R.drawable.button_self_evaluate_correct_unselected);
                 incorrect.setImageResource(R.drawable.button_self_evaluate_incorrect_unselected);
                 break;
