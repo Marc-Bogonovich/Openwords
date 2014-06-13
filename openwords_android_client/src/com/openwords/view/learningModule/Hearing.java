@@ -81,12 +81,14 @@ public class Hearing extends Activity {
 						userChoice = 3;
 						question.setVisibility(View.VISIBLE);
 						answer.setVisibility(View.VISIBLE);
+						transcription.setVisibility(View.VISIBLE);
 					} else if(similarity>=CUTOFF) {
 						indicator.setImageResource(R.drawable.ic_learning_module_close);
 						userChoice = 2;
 						questionPool.get(questionIndex).setUserInput(userInputString);
 						answer.setVisibility(View.VISIBLE);
 						question.setVisibility(View.VISIBLE);
+						transcription.setVisibility(View.VISIBLE);
 						//if want the status icon becomes null when move forward/backward, change the value of userChoice
 					} else {
 						indicator.setImageResource(R.drawable.ic_learning_module_incorrect);
@@ -94,11 +96,14 @@ public class Hearing extends Activity {
 						questionPool.get(questionIndex).setUserInput(userInputString);
 						answer.setVisibility(View.VISIBLE);
 						question.setVisibility(View.VISIBLE);
+						transcription.setVisibility(View.VISIBLE);
 					}
 				} else {
 					indicator.setImageResource(R.drawable.ic_learning_module_incorrect);
 					userChoice = 0;
 					answer.setVisibility(View.VISIBLE);
+					question.setVisibility(View.VISIBLE);
+					transcription.setVisibility(View.VISIBLE);
 				}
 				questionPool.get(questionIndex).setUserChoice(userChoice);
 				
@@ -121,23 +126,27 @@ public class Hearing extends Activity {
     	if(userChoice.equals(0)) {
 			indicator.setImageResource(R.drawable.ic_learning_module_null);
 			userInput.setText("");
+			transcription.setVisibility(View.INVISIBLE);
 			answer.setVisibility(View.INVISIBLE);
 			question.setVisibility(View.INVISIBLE);
 		} else if (userChoice.equals(3)) {
 			indicator.setImageResource(R.drawable.ic_learning_module_correct);
 			userInput.setText(questionPool.get(questionIndex).getUserInput());	
 			answer.setVisibility(View.VISIBLE);
+			transcription.setVisibility(View.VISIBLE);
 			question.setVisibility(View.VISIBLE);
 		} else if (userChoice.equals(2)) {
 			indicator.setImageResource(R.drawable.ic_learning_module_close);
 			userInput.setText(questionPool.get(questionIndex).getUserInput());
 			answer.setVisibility(View.VISIBLE);
+			transcription.setVisibility(View.VISIBLE);
 			question.setVisibility(View.VISIBLE);
 		} else {
 			indicator.setImageResource(R.drawable.ic_learning_module_incorrect);
 			userInput.setText(questionPool.get(questionIndex).getUserInput());
 			answer.setVisibility(View.VISIBLE);
 			question.setVisibility(View.VISIBLE);
+			transcription.setVisibility(View.VISIBLE);
 		}
 		
 	}
