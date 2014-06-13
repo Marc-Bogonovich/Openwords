@@ -1,4 +1,4 @@
-package com.openwords.test;
+package com.openwords.selfeval;
 
 import com.openwords.model.LeafCardSelfEval;
 import java.util.List;

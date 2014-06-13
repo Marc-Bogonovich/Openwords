@@ -1,4 +1,4 @@
-package com.openwords.test;
+package com.openwords.selfeval;
 
 import android.support.v4.view.ViewPager;
 import android.view.View;

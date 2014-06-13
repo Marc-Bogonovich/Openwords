@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import com.google.gson.Gson;
 import com.openwords.model.UserInfo;
-import com.openwords.test.Progress;
+import com.openwords.selfeval.Progress;
 
 public class OpenwordsSharedPreferences {
 

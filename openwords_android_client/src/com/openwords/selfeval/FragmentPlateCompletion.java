@@ -1,4 +1,4 @@
-package com.openwords.test;
+package com.openwords.selfeval;
 
 import android.os.Bundle;
 import android.os.Handler;
