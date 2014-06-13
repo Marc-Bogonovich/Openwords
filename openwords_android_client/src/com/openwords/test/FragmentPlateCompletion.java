@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import com.openwords.R;
+import com.openwords.model.LeafCardSelfEval;
 import com.openwords.util.log.LogUtil;
 
 public class FragmentPlateCompletion extends Fragment {
@@ -71,23 +72,15 @@ public class FragmentPlateCompletion extends Fragment {
         int totalCards, totalCorrect = 0, totalSkipped = 0;
         totalCards = ActivitySelfEval.getCardsPool().size();
 
-//        for (Plate card : ActivitySelfEval.getProblemPool()) {
-//            switch (card.getTestType()) {
-//                case Test_Type_Review:
-//                    if (card.getPerformance() == PlatePerformanceType.Performance_Correct) {
-//                        totalCorrect++;
-//                    }
-//                    break;
-//                case Test_Type_Self_Evaluate:
-//                    if (card.getPerformance() == PlatePerformanceType.Performance_Incorrect) {
-//                        totalCorrect++;
-//                    }
-//                    break;
-//            }
-//            if (card.getPerformance() == PlatePerformanceType.Performance_Null) {
-//                totalSkipped++;
-//            }
-//        }
+        for (LeafCardSelfEval card : ActivitySelfEval.getCardsPool()) {
+            if (card.getUserChoice() == null) {
+                totalSkipped++;
+            } else {
+                if (card.getUserChoice()) {
+                    totalCorrect++;
+                }
+            }
+        }
         vocabSize.setText("0 + " + totalCorrect);
         performance.setText(totalCorrect + "/" + totalCards);
         skip.setText(totalSkipped + " Skipped");

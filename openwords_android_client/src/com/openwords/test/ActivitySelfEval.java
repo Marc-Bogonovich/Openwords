@@ -1,5 +1,7 @@
 package com.openwords.test;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -7,15 +9,17 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.widget.Toast;
+import com.google.gson.Gson;
 import com.openwords.R;
 import com.openwords.model.LeafCardSelfEval;
 import com.openwords.util.log.LogUtil;
+import com.openwords.util.preference.OpenwordsSharedPreferences;
 import java.util.List;
 
 public class ActivitySelfEval extends FragmentActivity {
 
     private static List<LeafCardSelfEval> CardsPool;
-    private static int CurrentCard;
+    private static int CurrentCard = -1;
 
     public static List<LeafCardSelfEval> getCardsPool() {
         return CardsPool;
@@ -23,10 +27,6 @@ public class ActivitySelfEval extends FragmentActivity {
 
     public static void setCardsPool(List<LeafCardSelfEval> CardsPool) {
         ActivitySelfEval.CardsPool = CardsPool;
-    }
-
-    public static int getCurrentCard() {
-        return CurrentCard;
     }
 
     public static void setCurrentCard(int CurrentCard) {
@@ -48,7 +48,6 @@ public class ActivitySelfEval extends FragmentActivity {
             return;
         }
 
-        CurrentCard = 0;
         pager = (ViewPager) findViewById(R.id.act_self_eval_pager);
         pager.setOffscreenPageLimit(1);
         pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -57,6 +56,7 @@ public class ActivitySelfEval extends FragmentActivity {
             }
 
             public void onPageSelected(int i) {
+                CurrentCard = i;
                 if (i == CardsPool.size()) {
                     FragmentPlateCompletion.refreshDetails();
                 }
@@ -69,6 +69,12 @@ public class ActivitySelfEval extends FragmentActivity {
         adapter = new SelfEvaluatePagerAdapter(getSupportFragmentManager());
         pager.setAdapter(adapter);
         pager.setPageTransformer(true, new PageTransformerSelfEval());
+
+        if (CurrentCard > -1 && CurrentCard < CardsPool.size()) {
+            pager.setCurrentItem(CurrentCard, true);
+        } else {
+            CurrentCard = 0;
+        }
     }
 
     @Override
@@ -81,6 +87,20 @@ public class ActivitySelfEval extends FragmentActivity {
     protected void onDestroy() {
         super.onDestroy();
         LogUtil.logDeubg(this, "onDestroy");
+    }
+
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this)
+                .setTitle("Really Quit?")
+                .setMessage("Are you sure you want to quite current Evaluation? (You progress will be saved)")
+                .setNegativeButton("No", null)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        OpenwordsSharedPreferences.setSelfEvaluationProgress(new Gson().toJson(new Progress(CardsPool, CurrentCard)));
+                        ActivitySelfEval.super.onBackPressed();
+                    }
+                }).create().show();
     }
 
     private class SelfEvaluatePagerAdapter extends FragmentPagerAdapter {
@@ -103,6 +123,5 @@ public class ActivitySelfEval extends FragmentActivity {
         public int getCount() {
             return CardsPool.size() + 1;
         }
-
     }
 }

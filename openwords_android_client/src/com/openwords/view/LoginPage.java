@@ -17,11 +17,13 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import com.google.gson.Gson;
 import com.openwords.R;
 import com.openwords.model.JSONParser;
 import com.openwords.model.LeafCardSelfEval;
 import com.openwords.model.UserInfo;
 import com.openwords.test.ActivitySelfEval;
+import com.openwords.test.Progress;
 import com.openwords.tts.Speak;
 import com.openwords.util.UIHelper;
 import com.openwords.util.log.LogUtil;
@@ -98,16 +100,44 @@ public class LoginPage extends Activity implements OnClickListener {
         test.setOnClickListener(new OnClickListener() {
 
             public void onClick(View view) {
-                List<LeafCardSelfEval> cards = new LinkedList<LeafCardSelfEval>();
-                cards.add(new LeafCardSelfEval("人", "person", "ren"));
-                cards.add(new LeafCardSelfEval("猫", "cat", "mao"));
-                cards.add(new LeafCardSelfEval("地球", "earth", "di qiu"));
-                cards.add(new LeafCardSelfEval("时间", "time", "shi jian"));
-                cards.add(new LeafCardSelfEval("世界", "world", "shi jie"));
-                cards.add(new LeafCardSelfEval("电脑", "computer", "dian nao"));
-                cards.add(new LeafCardSelfEval("软件", "software", "ruan jian"));
-                ActivitySelfEval.setCardsPool(cards);
-                startActivity(new Intent(LoginPage.this, ActivitySelfEval.class));
+                final Progress progress = OpenwordsSharedPreferences.getSelfEvaluationProgress();
+                if (progress == null) {
+                    List<LeafCardSelfEval> cards = new LinkedList<LeafCardSelfEval>();
+                    cards.add(new LeafCardSelfEval("人", "person", "ren"));
+                    cards.add(new LeafCardSelfEval("猫", "cat", "mao"));
+                    cards.add(new LeafCardSelfEval("地球", "earth", "di qiu"));
+                    cards.add(new LeafCardSelfEval("时间", "time", "shi jian"));
+                    cards.add(new LeafCardSelfEval("世界", "world", "shi jie"));
+                    cards.add(new LeafCardSelfEval("电脑", "computer", "dian nao"));
+                    cards.add(new LeafCardSelfEval("软件", "software", "ruan jian"));
+                    ActivitySelfEval.setCardsPool(cards);
+                    startActivity(new Intent(LoginPage.this, ActivitySelfEval.class));
+                } else {
+                    new AlertDialog.Builder(LoginPage.this)
+                            .setTitle("Continue?")
+                            .setMessage("You have a saved progress, do you want to continue?")
+                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface arg0, int arg1) {
+                                    List<LeafCardSelfEval> cards = new LinkedList<LeafCardSelfEval>();
+                                    cards.add(new LeafCardSelfEval("人", "person", "ren"));
+                                    cards.add(new LeafCardSelfEval("猫", "cat", "mao"));
+                                    cards.add(new LeafCardSelfEval("地球", "earth", "di qiu"));
+                                    cards.add(new LeafCardSelfEval("时间", "time", "shi jian"));
+                                    cards.add(new LeafCardSelfEval("世界", "world", "shi jie"));
+                                    cards.add(new LeafCardSelfEval("电脑", "computer", "dian nao"));
+                                    cards.add(new LeafCardSelfEval("软件", "software", "ruan jian"));
+                                    ActivitySelfEval.setCardsPool(cards);
+                                    startActivity(new Intent(LoginPage.this, ActivitySelfEval.class));
+                                }
+                            })
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface arg0, int arg1) {
+                                    ActivitySelfEval.setCardsPool(progress.getCardsPool());
+                                    ActivitySelfEval.setCurrentCard(progress.getCurrentCard());
+                                    startActivity(new Intent(LoginPage.this, ActivitySelfEval.class));
+                                }
+                            }).create().show();
+                }
             }
         });
     }
