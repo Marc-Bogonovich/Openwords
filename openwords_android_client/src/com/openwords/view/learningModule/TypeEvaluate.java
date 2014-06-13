@@ -42,7 +42,7 @@ public class TypeEvaluate extends Activity {
 	private TextView transcription;
 	private ImageView checkButton;
 	private ImageView status;
-	private final double CUTOFF = 0.75d;
+	private final double CUTOFF = 0.75f;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
