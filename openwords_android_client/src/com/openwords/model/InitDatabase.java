@@ -1,63 +1,67 @@
 package com.openwords.model;
 
-import com.openwords.DAO.PlateDbHelper;
-import com.openwords.DAO.UserPerfDbHelper;
-import com.openwords.DAO.UserWordsDbHelper;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import com.openwords.DAO.UserPerformanceDirty;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
 
 import android.content.Context;
 
 public class InitDatabase {
 	public static String url_get_user_perf_from_server = "";
-	public Context context;
-	public PlateDbHelper plateDb;
-	public UserPerfDbHelper userPerfDb;
-	public UserWordsDbHelper userWordsDb;
+	public static String url_writeback_user_perf = "";
+	public static UserInfo user;
 	
-	public InitDatabase(Context c)
+	public static void checkAndRefresh()
 	{
-		this.context = c;
-	}
-	
-	public void CreateDatabase()
-	{
-		this.plateDb = new PlateDbHelper(this.context);
-		this.userPerfDb = new UserPerfDbHelper(this.context);
-		this.userWordsDb = new UserWordsDbHelper(this.context);
-	}
-	
-	public void RefreshTables()
-	{
-		int userId = OpenwordsSharedPreferences.getUserInfo().getUserId();
-		int userIdFromDb = this.userPerfDb.getUserFromUserPerf();
+		user=OpenwordsSharedPreferences.getUserInfo();
+		int userId = user.getUserId();
+		List<UserPerformanceDirty> dirtyPerf = UserPerformanceDirty.findByUser(userId);
 		
-		if(userId != userIdFromDb)
+		//if Dirty performance has records for this user
+		if(dirtyPerf.size()>0)
 		{
-			this.plateDb.deleteAll();
-			this.userPerfDb.deleteAllUserPerf();
-			this.userWordsDb.deleteAllUserWords();
-			this.userWordsDb.deleteAllTranscriptions();
-			
-			//-----read from server-----
 			try
 			{
-				//------------ for User Perf-------
-				//------------ for User words and TRanscriptions-------
+				
+				JSONArray ja = new JSONArray();
+				JSONObject jParent = new JSONObject();
+				
+				for(int i=0;i<dirtyPerf.size();i++)
+				{
+					JSONObject jo = new JSONObject();
+					jo.put("connection_id", dirtyPerf.get(i).connection_id);
+					jo.put("user_id", dirtyPerf.get(i).user_id);
+					jo.put("total_correct", dirtyPerf.get(i).total_correct);
+					jo.put("total_skipped", dirtyPerf.get(i).total_skipped);
+					jo.put("total_exposure", dirtyPerf.get(i).total_exposure);
+					jo.put("time", dirtyPerf.get(i).last_time);
+					jo.put("last_perf", dirtyPerf.get(i).last_performance);
+					jo.put("user_ex", dirtyPerf.get(i).user_exclude);
+					
+					ja.put(jo);
+				}
+				
+				jParent.put("data", ja);
+				
+				List<NameValuePair> params1 = new ArrayList<NameValuePair>();
+				params1.add(new BasicNameValuePair("params",jParent.toString()));
+				JSONParser jsonParse = new JSONParser();
+                JSONObject jObj = jsonParse.makeHttpRequest(url_writeback_user_perf, "POST", params1);
+                if(jObj.getInt("success")==1)
+                	UserPerformanceDirty.deleteByUser(userId);
 			}catch(Exception e)
-			{
-				e.printStackTrace();
-			}
+			{ e.printStackTrace();}
 		}
-		else
-		{
-			//if nw connected.. to be implemented
-			if(this.userPerfDb.getCountDirty()>0)
-			{
-				//merge dirty into main user perf
-				
-				
-			}
-		}
+		//------------------------------
+		
+		
 	}
 
 }
