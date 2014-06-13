@@ -142,7 +142,7 @@
         </activity>
         
         <activity
-            android:name=".test.ActivitySelfEval"
+            android:name=".selfeval.ActivitySelfEval"
             android:theme="@style/NoTitleTheme"
             android:configChanges="orientation|screenSize">
         </activity>
