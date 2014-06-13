@@ -20,6 +20,11 @@ public class ActivitySelfEval extends FragmentActivity {
 
     private static List<LeafCardSelfEval> CardsPool;
     private static int CurrentCard = -1;
+    private static ActivitySelfEval instance;
+
+    public static ActivitySelfEval getInstance() {
+        return instance;
+    }
 
     public static List<LeafCardSelfEval> getCardsPool() {
         return CardsPool;
@@ -38,6 +43,7 @@ public class ActivitySelfEval extends FragmentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        instance = this;
         super.onCreate(savedInstanceState);
         LogUtil.logDeubg(this, "onCreate");
         setContentView(R.layout.activity_self_eval);
@@ -75,6 +81,10 @@ public class ActivitySelfEval extends FragmentActivity {
         } else {
             CurrentCard = 0;
         }
+    }
+
+    public ViewPager getPager() {
+        return pager;
     }
 
     @Override
