@@ -21,6 +21,7 @@ import android.widget.ArrayAdapter;
 import android.widget.GridView;
 
 import com.openwords.R;
+import com.openwords.DAO.UserPerformanceDirty;
 import com.openwords.model.JSONParser;
 import com.openwords.model.UserInfo;
 import com.openwords.util.log.LogUtil;
@@ -46,6 +47,15 @@ public class ChosenPage extends Activity{
 		
 		ArrayAdapter<String> chosenadapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, chosen_list);
 		chosenview.setAdapter(chosenadapter);
+		
+		
+		//***********db test********
+		UserPerformanceDirty upd = new UserPerformanceDirty(this);
+		upd.connection_id=3;
+		upd.user_id=OpenwordsSharedPreferences.getUserInfo().getUserId();
+		upd.save();
+		//************************
+		
 		/*
 		//-------test----json parameter----
 		try
