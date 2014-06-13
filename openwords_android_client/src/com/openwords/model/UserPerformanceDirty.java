@@ -1,4 +1,4 @@
-package com.openwords.DAO;
+package com.openwords.model;
 
 import java.util.List;
 

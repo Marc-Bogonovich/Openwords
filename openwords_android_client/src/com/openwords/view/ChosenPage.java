@@ -21,9 +21,9 @@ import android.widget.ArrayAdapter;
 import android.widget.GridView;
 
 import com.openwords.R;
-import com.openwords.DAO.UserPerformanceDirty;
 import com.openwords.model.JSONParser;
 import com.openwords.model.UserInfo;
+import com.openwords.model.UserPerformanceDirty;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
 
@@ -50,6 +50,7 @@ public class ChosenPage extends Activity{
 		
 		
 		//***********db test********
+		
 		UserPerformanceDirty upd = new UserPerformanceDirty(this);
 		upd.connection_id=3;
 		upd.user_id=OpenwordsSharedPreferences.getUserInfo().getUserId();
