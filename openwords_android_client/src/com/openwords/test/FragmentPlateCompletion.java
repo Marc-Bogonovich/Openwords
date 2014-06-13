@@ -10,8 +10,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import com.openwords.R;
-import com.openwords.model.Plate;
-import com.openwords.model.PlatePerformanceType;
 import com.openwords.util.log.LogUtil;
 
 public class FragmentPlateCompletion extends Fragment {
@@ -71,26 +69,25 @@ public class FragmentPlateCompletion extends Fragment {
     private void refresh() {
         LogUtil.logDeubg(this, "refresh");
         int totalCards, totalCorrect = 0, totalSkipped = 0;
-        totalCards = ActivitySelfEval.getProblemPool().size();
+        totalCards = ActivitySelfEval.getCardsPool().size();
 
-        for (Plate card : ActivitySelfEval.getProblemPool()) {
-            switch (card.getTestType()) {
-                case Test_Type_Review:
-                    if (card.getPerformance() == PlatePerformanceType.Performance_Correct) {
-                        totalCorrect++;
-                    }
-                    break;
-                case Test_Type_Self_Evaluate:
-                    if (card.getPerformance() == PlatePerformanceType.Performance_Incorrect) {
-                        totalCorrect++;
-                    }
-                    break;
-            }
-            if (card.getPerformance() == PlatePerformanceType.Performance_Null) {
-                totalSkipped++;
-            }
-        }
-
+//        for (Plate card : ActivitySelfEval.getProblemPool()) {
+//            switch (card.getTestType()) {
+//                case Test_Type_Review:
+//                    if (card.getPerformance() == PlatePerformanceType.Performance_Correct) {
+//                        totalCorrect++;
+//                    }
+//                    break;
+//                case Test_Type_Self_Evaluate:
+//                    if (card.getPerformance() == PlatePerformanceType.Performance_Incorrect) {
+//                        totalCorrect++;
+//                    }
+//                    break;
+//            }
+//            if (card.getPerformance() == PlatePerformanceType.Performance_Null) {
+//                totalSkipped++;
+//            }
+//        }
         vocabSize.setText("0 + " + totalCorrect);
         performance.setText(totalCorrect + "/" + totalCards);
         skip.setText(totalSkipped + " Skipped");

@@ -19,9 +19,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 import com.openwords.R;
 import com.openwords.model.JSONParser;
-import com.openwords.model.Plate;
-import com.openwords.model.PlatePerformanceType;
-import com.openwords.model.PlateTestType;
+import com.openwords.model.LeafCardSelfEval;
 import com.openwords.model.UserInfo;
 import com.openwords.test.ActivitySelfEval;
 import com.openwords.tts.Speak;
@@ -100,67 +98,18 @@ public class LoginPage extends Activity implements OnClickListener {
         test.setOnClickListener(new OnClickListener() {
 
             public void onClick(View view) {
-                List<Plate> plate = Plate.listAll(Plate.class);
-                ActivitySelfEval.setProblemPool(plate);
+                List<LeafCardSelfEval> cards = new LinkedList<LeafCardSelfEval>();
+                cards.add(new LeafCardSelfEval("人", "person", "ren"));
+                cards.add(new LeafCardSelfEval("猫", "cat", "mao"));
+                cards.add(new LeafCardSelfEval("地球", "earth", "di qiu"));
+                cards.add(new LeafCardSelfEval("时间", "time", "shi jian"));
+                cards.add(new LeafCardSelfEval("世界", "world", "shi jie"));
+                cards.add(new LeafCardSelfEval("电脑", "computer", "dian nao"));
+                cards.add(new LeafCardSelfEval("软件", "software", "ruan jian"));
+                ActivitySelfEval.setCardsPool(cards);
                 startActivity(new Intent(LoginPage.this, ActivitySelfEval.class));
             }
         });
-
-        //TEST!!! Please delete soon
-        List<Plate> ps = Plate.listAll(Plate.class);
-        Toast.makeText(LoginPage.this, "This is a test: I have " + ps.size() + " records in my plate!", Toast.LENGTH_SHORT).show();
-        if (ps.isEmpty()) {
-            long plateId = System.currentTimeMillis();
-            new Plate(-1,
-                    PlatePerformanceType.Performance_Null,
-                    PlateTestType.Test_Type_Review,
-                    "",
-                    "",
-                    "人",
-                    "ren",
-                    "",
-                    "person",
-                    "bird",
-                    plateId,
-                    LoginPage.this).save();
-            new Plate(-1,
-                    PlatePerformanceType.Performance_Null,
-                    PlateTestType.Test_Type_Self_Evaluate,
-                    "",
-                    "",
-                    "猫",
-                    "mao",
-                    "",
-                    "cat",
-                    "tiger",
-                    plateId,
-                    LoginPage.this).save();
-            new Plate(-1,
-                    PlatePerformanceType.Performance_Null,
-                    PlateTestType.Test_Type_Self_Evaluate,
-                    "",
-                    "",
-                    "时间",
-                    "shi jian",
-                    "",
-                    "time",
-                    "clock",
-                    plateId,
-                    LoginPage.this).save();
-            new Plate(-1,
-                    PlatePerformanceType.Performance_Null,
-                    PlateTestType.Test_Type_Self_Evaluate,
-                    "",
-                    "",
-                    "地球",
-                    "di qiu",
-                    "",
-                    "earth",
-                    "football",
-                    plateId,
-                    LoginPage.this).save();
-            Toast.makeText(LoginPage.this, "We just made 4 problems for you", Toast.LENGTH_SHORT).show();
-        }
     }
 
 //    @Override

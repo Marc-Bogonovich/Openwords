@@ -1,7 +1,6 @@
 package com.openwords.view.learningModule;
 
 import com.openwords.dto.UserPerfDto;
-import com.openwords.model.Plate;
 
 public class WordSelection {
 	private double weight_correctness = 0.35d;

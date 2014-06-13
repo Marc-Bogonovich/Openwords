@@ -8,29 +8,29 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.widget.Toast;
 import com.openwords.R;
-import com.openwords.model.Plate;
+import com.openwords.model.LeafCardSelfEval;
 import com.openwords.util.log.LogUtil;
 import java.util.List;
 
 public class ActivitySelfEval extends FragmentActivity {
 
-    private static List<Plate> ProblemPool;
-    private static int CurrentQuestion;
+    private static List<LeafCardSelfEval> CardsPool;
+    private static int CurrentCard;
 
-    public static List<Plate> getProblemPool() {
-        return ProblemPool;
+    public static List<LeafCardSelfEval> getCardsPool() {
+        return CardsPool;
     }
 
-    public static void setProblemPool(List<Plate> ProblemPool) {
-        ActivitySelfEval.ProblemPool = ProblemPool;
+    public static void setCardsPool(List<LeafCardSelfEval> CardsPool) {
+        ActivitySelfEval.CardsPool = CardsPool;
     }
 
-    public static int getCurrentQuestion() {
-        return CurrentQuestion;
+    public static int getCurrentCard() {
+        return CurrentCard;
     }
 
-    public static void setCurrentQuestion(int CurrentQuestion) {
-        ActivitySelfEval.CurrentQuestion = CurrentQuestion;
+    public static void setCurrentCard(int CurrentCard) {
+        ActivitySelfEval.CurrentCard = CurrentCard;
     }
 
     private ViewPager pager;
@@ -42,13 +42,13 @@ public class ActivitySelfEval extends FragmentActivity {
         LogUtil.logDeubg(this, "onCreate");
         setContentView(R.layout.activity_self_eval);
 
-        if (getProblemPool() == null) {
+        if (CardsPool == null) {
             Toast.makeText(this, "Please give your cards first", Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
 
-        setCurrentQuestion(0);
+        CurrentCard = 0;
         pager = (ViewPager) findViewById(R.id.act_self_eval_pager);
         pager.setOffscreenPageLimit(1);
         pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -57,7 +57,7 @@ public class ActivitySelfEval extends FragmentActivity {
             }
 
             public void onPageSelected(int i) {
-                if (i == getProblemPool().size()) {
+                if (i == CardsPool.size()) {
                     FragmentPlateCompletion.refreshDetails();
                 }
             }
@@ -92,7 +92,7 @@ public class ActivitySelfEval extends FragmentActivity {
         @Override
         public Fragment getItem(int i) {
             LogUtil.logDeubg(this, "Request fragment: " + i);
-            if (i >= getProblemPool().size()) {
+            if (i >= CardsPool.size()) {
                 return new FragmentPlateCompletion();
             } else {
                 return new FragmentSelfEval(i);
@@ -101,7 +101,7 @@ public class ActivitySelfEval extends FragmentActivity {
 
         @Override
         public int getCount() {
-            return getProblemPool().size() + 1;
+            return CardsPool.size() + 1;
         }
 
     }
