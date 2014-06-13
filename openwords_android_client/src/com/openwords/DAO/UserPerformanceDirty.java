@@ -44,5 +44,16 @@ public class UserPerformanceDirty extends SugarRecord<UserPerformanceDirty> {
 				Integer.toString(user_id));
 		return result;
 	}
-
+	
+	public static List<UserPerformanceDirty> findByUser(int user_id)
+	{
+		List<UserPerformanceDirty> result = UserPerformanceDirty.find(UserPerformanceDirty.class, "user_id=?",
+				Integer.toString(user_id));
+		return result;
+	}
+	
+	public static void deleteByUser(int user_id)
+	{
+		UserPerformanceDirty.executeQuery("Delete from user_performance_dirty where user_id=?", Integer.toString(user_id));
+	}
 }
