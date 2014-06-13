@@ -5,6 +5,7 @@ import java.util.*;
 import com.openwords.R;
 import com.openwords.DAO.PlateDbHelper;
 import com.openwords.model.LeafCardSelfEval;
+import com.openwords.util.preference.DebouncedOnClickListener;
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -36,6 +37,7 @@ public class SelfEvaluate extends Activity {
 	private Animation mInFromLeft;
 	private Animation mOutToRight;
 	private ViewFlipper mViewFlipper;
+	private final int mDuration = 500;
 	//private SharedPreferences settings;
 	//private Editor editor;
 	public static final String OPENWORDS_PREFERENCES = "OpenwordsPrefs";
@@ -97,9 +99,10 @@ public class SelfEvaluate extends Activity {
 		});
 		final ImageView known = (ImageView) findViewById(R.id.selfEvaluate_ImageView_known);
 		final ImageView unknown = (ImageView) findViewById(R.id.selfEvaluate_ImageView_unknown);
-		known.setOnClickListener(new View.OnClickListener() {
+		known.setOnClickListener(new DebouncedOnClickListener(mDuration) {
+
 			@Override
-			public void onClick(View v) {
+			public void onDebouncedClick(View v) {
 				// TODO Auto-generated method stub
 				questionPool.get(questionIndex).setUserChoice(true);
 //				known.setImageResource(R.drawable.button_self_evaluate_correct_selected);
@@ -107,10 +110,11 @@ public class SelfEvaluate extends Activity {
 				moveForward();
 			}
 		});
+
 		
-		unknown.setOnClickListener(new View.OnClickListener() {
+		unknown.setOnClickListener(new DebouncedOnClickListener(mDuration) {
 			@Override
-			public void onClick(View v) {
+			public void onDebouncedClick(View v) {
 				// TODO Auto-generated method stub
 				questionPool.get(questionIndex).setUserChoice(false);
 //				known.setImageResource(R.drawable.button_self_evaluate_correct_unselected);
@@ -175,7 +179,7 @@ public class SelfEvaluate extends Activity {
 				+1.0f, Animation.RELATIVE_TO_PARENT, 0.0f,
 				Animation.RELATIVE_TO_PARENT, 0.0f,
 				Animation.RELATIVE_TO_PARENT, 0.0f);
-		mInFromRight.setDuration(500);
+		mInFromRight.setDuration(mDuration);
 		AccelerateInterpolator accelerateInterpolator = new AccelerateInterpolator();
 		mInFromRight.setInterpolator(accelerateInterpolator);
 
@@ -183,21 +187,21 @@ public class SelfEvaluate extends Activity {
 				-1.0f, Animation.RELATIVE_TO_PARENT, 0.0f,
 				Animation.RELATIVE_TO_PARENT, 0.0f,
 				Animation.RELATIVE_TO_PARENT, 0.0f);
-		mInFromLeft.setDuration(500);
+		mInFromLeft.setDuration(mDuration);
 		mInFromLeft.setInterpolator(accelerateInterpolator);
 
 		mOutToRight = new TranslateAnimation(Animation.RELATIVE_TO_PARENT,
 				0.0f, Animation.RELATIVE_TO_PARENT, +1.0f,
 				Animation.RELATIVE_TO_PARENT, 0.0f,
 				Animation.RELATIVE_TO_PARENT, 0.0f);
-		mOutToRight.setDuration(500);
+		mOutToRight.setDuration(mDuration);
 		mOutToRight.setInterpolator(accelerateInterpolator);
 
 		mOutToLeft = new TranslateAnimation(Animation.RELATIVE_TO_PARENT, 0.0f,
 				Animation.RELATIVE_TO_PARENT, -1.0f,
 				Animation.RELATIVE_TO_PARENT, 0.0f,
 				Animation.RELATIVE_TO_PARENT, 0.0f);
-		mOutToLeft.setDuration(500);
+		mOutToLeft.setDuration(mDuration);
 		mOutToLeft.setInterpolator(accelerateInterpolator);
 
 		final GestureDetector gestureDetector;
