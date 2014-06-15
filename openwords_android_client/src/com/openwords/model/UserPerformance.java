@@ -37,9 +37,9 @@ public class UserPerformance extends SugarRecord<UserPerformance> {
 		this.user_exclude=user_exclude;
 	}
 	
-	public static List<UserPerformance> findByUserConnection(int user_id, int connection_id)
+	public static List<UserPerformance> findByUserConnectionUser(int user_id, int connection_id)
 	{
-		List<UserPerformance> result = UserPerformance.find(UserPerformance.class, "connection=? and user_id=?", Integer.toString(connection_id),
+		List<UserPerformance> result = UserPerformance.find(UserPerformance.class, "connectionid=? and userid=?", Integer.toString(connection_id),
 				Integer.toString(user_id));
 		return result;
 	}

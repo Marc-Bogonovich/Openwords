@@ -37,11 +37,9 @@ public class InitDatabase {
 					JSONObject jo = new JSONObject();
 					jo.put("connection_id", dirtyPerf.get(i).connection_id);
 					jo.put("user_id", dirtyPerf.get(i).user_id);
-					jo.put("total_correct", dirtyPerf.get(i).total_correct);
-					jo.put("total_skipped", dirtyPerf.get(i).total_skipped);
-					jo.put("total_exposure", dirtyPerf.get(i).total_exposure);
-					jo.put("time", dirtyPerf.get(i).last_time);
-					jo.put("last_perf", dirtyPerf.get(i).last_performance);
+					jo.put("type", dirtyPerf.get(i).type);
+					jo.put("perf", dirtyPerf.get(i).performance);
+					jo.put("time", dirtyPerf.get(i).time);
 					jo.put("user_ex", dirtyPerf.get(i).user_exclude);
 					
 					ja.put(jo);
