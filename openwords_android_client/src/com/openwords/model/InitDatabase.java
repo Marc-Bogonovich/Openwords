@@ -15,6 +15,7 @@ import android.content.Context;
 public class InitDatabase {
 	public static String url_get_user_perf_from_server = "";
 	public static String url_writeback_user_perf = "http://geographycontest.ipage.com/OpenwordsOrg/OpenwordsDB/writeBackUserPerf.php";
+	public static String url_get_user_words="";
 	public static UserInfo user;
 	
 	public static void checkAndRefresh()
@@ -66,6 +67,28 @@ public class InitDatabase {
 		
 		
 		//deleting all User words data 
+	}
+	
+	public static void loadUserWords(int languageTwoId, int userId)
+	{
+		try
+		{
+			List<NameValuePair> params1 = new ArrayList<NameValuePair>();
+			params1.add(new BasicNameValuePair("language",Integer.toString(languageTwoId)));
+			params1.add(new BasicNameValuePair("user",Integer.toString(userId)));
+			JSONParser jsonParse = new JSONParser();
+			JSONObject jObj = jsonParse.makeHttpRequest(url_get_user_words, "POST", params1);
+			
+			JSONArray jArr = jObj.getJSONArray("words");
+			for(int i=0;i<jArr.length();i++)
+			{
+				JSONObject childObj = jArr.getJSONObject(i);
+				//rest of the code to be written
+			}
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 	}
 
 }
