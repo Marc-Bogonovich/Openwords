@@ -158,6 +158,15 @@ public class HomePage extends Activity implements OnClickListener {
         String taskPage = begin.getSelectedItem().toString();
         LogUtil.logDeubg(this, "Task: " + taskPage);
         Class targetClass = HomePage.class;
+        
+        /*
+        // Set the last user id here
+        int last_userid;
+        last_userid = userinfo.getUserId();
+        userinfo.setLast_userid(last_userid);
+        Log.d("Last UID", Integer.toString(userinfo.getLast_userid()));
+        */
+        
         // Set the language id for the shared preferences here
         userinfo.setLang_id(homelang_id); 
         Log.d("Shared Preferences Language ID", Integer.toString(userinfo.getLang_id()));
