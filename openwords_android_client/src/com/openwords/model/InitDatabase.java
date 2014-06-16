@@ -45,7 +45,7 @@ public class InitDatabase {
 					ja.put(jo);
 				}
 				
-				jParent.put("data", ja);
+				jParent.put("data", ja); //packing records as JSON object
 				
 				List<NameValuePair> params1 = new ArrayList<NameValuePair>();
 				params1.add(new BasicNameValuePair("params",jParent.toString()));
