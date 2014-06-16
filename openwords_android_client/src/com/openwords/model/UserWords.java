@@ -16,7 +16,8 @@ public class UserWords extends SugarRecord<UserWords> {
 	String wordLOne;
 	int lTwoId;
 	String lTwoName;
-	Blob audiocall;	
+	String audiocall;	
+	boolean fresh;
 	public UserWords(Context ctx) {
 		super(ctx);
 		// TODO Auto-generated constructor stub
@@ -29,7 +30,7 @@ public class UserWords extends SugarRecord<UserWords> {
 	String wordL1,
 	int l2Id,
 	String l2Name,
-	Blob audiocall)
+	String audiocall)
 	{
 		super(ctx);
 		this.connectionId=connectionId;
@@ -40,12 +41,18 @@ public class UserWords extends SugarRecord<UserWords> {
 		this.lTwoId=l2Id;
 		this.lTwoName=l2Name;
 		this.audiocall=audiocall;
+		this.fresh=true;
 	}
 	
 	public static List<UserWords> findByConnection(int connection_id)
 	{
-		List<UserWords> words = UserWords.find(UserWords.class, "connection_id=", Integer.toString(connection_id));
+		List<UserWords> words = UserWords.find(UserWords.class, "connection_id=?", Integer.toString(connection_id));
 		return words;
+	}
+	
+	public static void setFreshToStale(int connection_id)
+	{
+		UserWords.executeQuery("UPDATE user_words SET fresh=false where connection_id=?", Integer.toString(connection_id));
 	}
 
 }

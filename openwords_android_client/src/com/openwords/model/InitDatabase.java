@@ -16,10 +16,10 @@ import android.content.Context;
 public class InitDatabase {
 	public static String url_get_user_perf_from_server = "";
 	public static String url_writeback_user_perf = "http://geographycontest.ipage.com/OpenwordsOrg/OpenwordsDB/writeBackUserPerf.php";
-	public static String url_get_user_words="";
+	public static String url_get_user_words="http://geographycontest.ipage.com/OpenwordsOrg/OpenwordsDB/getUserWordsRecords.php";
 	public static UserInfo user;
 	
-	public static void checkAndRefresh()
+	public static void checkAndRefreshPerf()
 	{
 		user=OpenwordsSharedPreferences.getUserInfo();
 		int userId = user.getUserId();
@@ -70,7 +70,7 @@ public class InitDatabase {
 		//deleting all User words data 
 	}
 	
-	public static void loadUserWords(int languageTwoId, int userId)
+	public static void loadUserWords(Context ctx, int languageTwoId, int userId)
 	{
 		try
 		{
@@ -84,7 +84,13 @@ public class InitDatabase {
 			for(int i=0;i<jArr.length();i++)
 			{
 				JSONObject childObj = jArr.getJSONObject(i);
-				//rest of the code to be written...
+				UserWords uw = new UserWords(ctx,childObj.getInt("connection_id"),
+						childObj.getInt("wordl2id"),childObj.getString("wordl2name"),
+						childObj.getInt("wordl1id"),childObj.getString("wordl1name"),
+						childObj.getInt("l2id"),childObj.getString("l2name"),"");
+				uw.save();
+				
+				//rest of the code to be written for word transcription...
 			}
 		}catch(Exception e)
 		{
