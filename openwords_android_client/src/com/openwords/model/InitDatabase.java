@@ -12,6 +12,7 @@ import com.openwords.util.InternetCheck;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
 
 import android.content.Context;
+import android.util.Log;
 
 public class InitDatabase {
 	public static String url_get_user_perf_from_server = "";
@@ -99,7 +100,7 @@ public class InitDatabase {
 		}
 	}
 	
-	public static void writeBackUserWords(Context ctx)
+	public static void writeBackUserWords()
 	{
 		List<UserWords> uwList = UserWords.listAll(UserWords.class);
 		if (uwList.size()>0)
@@ -128,7 +129,8 @@ public class InitDatabase {
 				JSONParser jsonParse = new JSONParser();
 				JSONObject jObj = jsonParse.makeHttpRequest(url_writeback_user_words, "POST", params1);
                 if(jObj.getInt("success")==1)
-                	UserWords.deleteAll(UserWords.class);
+                	//UserWords.deleteAll(UserWords.class);
+                	Log.d("writeback", "success");
 			
 				
 			}catch(Exception e)
