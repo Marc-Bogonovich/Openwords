@@ -17,6 +17,7 @@ public class InitDatabase {
 	public static String url_get_user_perf_from_server = "";
 	public static String url_writeback_user_perf = "http://geographycontest.ipage.com/OpenwordsOrg/OpenwordsDB/writeBackUserPerf.php";
 	public static String url_get_user_words="http://geographycontest.ipage.com/OpenwordsOrg/OpenwordsDB/getUserWordsRecords.php";
+	public static String url_writeback_user_words="http://geographycontest.ipage.com/OpenwordsOrg/OpenwordsDB/writeBackUserWords.php";
 	public static UserInfo user;
 	
 	public static void checkAndRefreshPerf()
@@ -87,7 +88,7 @@ public class InitDatabase {
 				UserWords uw = new UserWords(ctx,childObj.getInt("connection_id"),
 						childObj.getInt("wordl2id"),childObj.getString("wordl2name"),
 						childObj.getInt("wordl1id"),childObj.getString("wordl1name"),
-						childObj.getInt("l2id"),childObj.getString("l2name"),"");
+						childObj.getInt("l2id"),childObj.getString("l2name"),childObj.getString("audiocall"));
 				uw.save();
 				
 				//rest of the code to be written for word transcription...
@@ -95,6 +96,45 @@ public class InitDatabase {
 		}catch(Exception e)
 		{
 			e.printStackTrace();
+		}
+	}
+	
+	public static void writeBackUserWords(Context ctx)
+	{
+		List<UserWords> uwList = UserWords.listAll(UserWords.class);
+		if (uwList.size()>0)
+		{
+			try
+			{
+				JSONArray ja = new JSONArray();
+				JSONObject jParent = new JSONObject();
+				for(int i=0;i<uwList.size();i++)
+				{
+					JSONObject rec = new JSONObject();
+					rec.put("connection_id", uwList.get(i).connectionId);
+					rec.put("user_id", OpenwordsSharedPreferences.getUserInfo().getUserId());
+					rec.put("wordl2id", uwList.get(i).wordLTwoId);
+					rec.put("wordl1id", uwList.get(i).wordLOneId);
+					rec.put("l2id", uwList.get(i).lTwoId);
+					
+					ja.put(rec);
+				}
+				jParent.put("data", ja);
+				
+				
+				//building params
+				List<NameValuePair> params1 = new ArrayList<NameValuePair>();
+				params1.add(new BasicNameValuePair("params",jParent.toString()));
+				JSONParser jsonParse = new JSONParser();
+				JSONObject jObj = jsonParse.makeHttpRequest(url_writeback_user_words, "POST", params1);
+                if(jObj.getInt("success")==1)
+                	UserWords.deleteAll(UserWords.class);
+			
+				
+			}catch(Exception e)
+			{
+				e.printStackTrace();
+			}
 		}
 	}
 
