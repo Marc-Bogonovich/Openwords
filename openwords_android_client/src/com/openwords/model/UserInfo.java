@@ -7,7 +7,10 @@ public class UserInfo {
     private int userId;
     private String userName, pass;
     private long lastLoginTime;
-
+    // Add last user
+    // Add variable for learning module language id
+    private int lang_id;
+    
     public UserInfo(String userName, String pass) {
         this.userName = userName;
         this.pass = pass;
@@ -24,6 +27,14 @@ public class UserInfo {
         this.userName = userName;
         this.pass = pass;
         this.lastLoginTime = lastLoginTime;
+    }
+    
+    public UserInfo(int lang_id, int userId, String userName, String pass, long lastLoginTime) {
+        this.userId = userId;
+        this.userName = userName;
+        this.pass = pass;
+        this.lastLoginTime = lastLoginTime;
+        this.lang_id = lang_id;
     }
 
     public int getUserId() {
@@ -62,4 +73,12 @@ public class UserInfo {
     public String toString() {
         return new Gson().toJson(this);
     }
+
+	public int getLang_id() {
+		return lang_id;
+	}
+
+	public void setLang_id(int lang_id) {
+		this.lang_id = lang_id;
+	}
 }
