@@ -96,4 +96,5 @@
 	<string name="hearing_EditText_input">Input what you hear</string>
 	<string name="hearing_ImageView_checkButton">Showing user input</string>
 	<string name="typeEvaluate_EditText_input">Input the translation</string>
+	<string name="profilePage_TextView_preknowledge">How many words do you already know?</string>
 </resources>
