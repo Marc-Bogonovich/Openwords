@@ -14,14 +14,14 @@ import android.content.Context;
 
 public class InitDatabase {
 	public static String url_get_user_perf_from_server = "";
-	public static String url_writeback_user_perf = "";
+	public static String url_writeback_user_perf = "http://geographycontest.ipage.com/OpenwordsOrg/OpenwordsDB/writeBackUserPerf.php";
 	public static UserInfo user;
 	
 	public static void checkAndRefresh()
 	{
 		user=OpenwordsSharedPreferences.getUserInfo();
 		int userId = user.getUserId();
-		List<UserPerformanceDirty> dirtyPerf = UserPerformanceDirty.findByUser(userId);
+		List<UserPerformanceDirty> dirtyPerf = UserPerformanceDirty.listAll(UserPerformanceDirty.class);
 		
 		//if Dirty performance has records for this user
 		if(dirtyPerf.size()>0)
@@ -58,7 +58,14 @@ public class InitDatabase {
 		}
 		//------------------------------
 		
+		//deleting all user performance data for particular user
+		List<UserPerformance> upList = UserPerformance.findByUser(userId);
+		if(upList.size()!=0)
+			UserPerformance.deleteByUser(userId);
 		
+		
+		
+		//deleting all User words data 
 	}
 
 }

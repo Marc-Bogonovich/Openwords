@@ -37,11 +37,23 @@ public class UserPerformance extends SugarRecord<UserPerformance> {
 		this.user_exclude=user_exclude;
 	}
 	
-	public static List<UserPerformance> findByUserConnectionUser(int user_id, int connection_id)
+	public static List<UserPerformance> findByUserConnection(int user_id, int connection_id)
 	{
 		List<UserPerformance> result = UserPerformance.find(UserPerformance.class, "connectionid=? and userid=?", Integer.toString(connection_id),
 				Integer.toString(user_id));
 		return result;
+	}
+	
+	public static List<UserPerformance> findByUser(int user_id)
+	{
+		List<UserPerformance> result = UserPerformance.find(UserPerformance.class, "userid=?",
+				Integer.toString(user_id));
+		return result;
+	}
+	
+	public static void deleteByUser(int user_id)
+	{
+		UserPerformance.deleteAll(UserPerformance.class, "userid=?", Integer.toString(user_id));
 	}
 
 }
