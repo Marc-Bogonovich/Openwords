@@ -44,6 +44,7 @@ public class HomePage extends Activity implements OnClickListener {
     public static ArrayList<HomePageTool> dropdown_list = null;
     public static ArrayList<String> strArr=null;
     public static int pos=-1;
+    public int homelang_id;
     // Add another array of type HomePage Tool that holds the name and id of each chosen language
     // private static ArrayList<HomePageTool> drop_down = null;
     private static String url_dropdown = "http://geographycontest.ipage.com/OpenwordsOrg/OpenwordsDB/homePageChooseLanguage.php";
@@ -90,6 +91,7 @@ public class HomePage extends Activity implements OnClickListener {
                         Log.d("whatever", Integer.toString(position));
                         pos=position;
                         Log.d("ID", Integer.toString(dropdown_list.get(position).getId()));
+                        homelang_id = dropdown_list.get(position).getId();
                     }
                 	@Override
                     public void onNothingSelected(AdapterView<?> parentView) {
@@ -100,9 +102,7 @@ public class HomePage extends Activity implements OnClickListener {
                 );
         //Log.d("ID",Integer.toString(dropdown_list.get(pos).getId()));        
     }
-    
-    
-
+ 
     public void addItemsOnBegin() {
         begin = (Spinner) findViewById(R.id.homePage_Spinner_begin);
         ArrayAdapter<CharSequence> beginAdapter = ArrayAdapter.createFromResource(this, R.array.homePage_spinner_begin_array, android.R.layout.simple_spinner_item);
@@ -158,6 +158,10 @@ public class HomePage extends Activity implements OnClickListener {
         String taskPage = begin.getSelectedItem().toString();
         LogUtil.logDeubg(this, "Task: " + taskPage);
         Class targetClass = HomePage.class;
+        // Set the language id for the shared preferences here
+        userinfo.setLang_id(homelang_id); 
+        Log.d("Shared Preferences Language ID", Integer.toString(userinfo.getLang_id()));
+        
         if (taskPage.equals("Review")) {
             targetClass = Review.class;
         } else if (taskPage.equals("Self evaluation")) {
