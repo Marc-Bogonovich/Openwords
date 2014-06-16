@@ -10,13 +10,14 @@ import com.orm.SugarRecord;
 public class UserWords extends SugarRecord<UserWords> {
 
 	int connectionId;
-	int wordL2Id;
-	String wordL2;
-	int wordL1Id;
-	String wordL1;
-	int l2Id;
-	String l2Name;
-	Blob audiocall;	
+	int wordLTwoId;
+	String wordLTwo;
+	int wordLOneId;
+	String wordLOne;
+	int lTwoId;
+	String lTwoName;
+	String audiocall;	
+	boolean fresh;
 	public UserWords(Context ctx) {
 		super(ctx);
 		// TODO Auto-generated constructor stub
@@ -29,23 +30,29 @@ public class UserWords extends SugarRecord<UserWords> {
 	String wordL1,
 	int l2Id,
 	String l2Name,
-	Blob audiocall)
+	String audiocall)
 	{
 		super(ctx);
 		this.connectionId=connectionId;
-		this.wordL1Id=wordL2Id;
-		this.wordL2=wordL2;
-		this.wordL1Id=wordL1Id;
-		this.wordL1=wordL1;
-		this.l2Id=l2Id;
-		this.l2Name=l2Name;
+		this.wordLTwoId=wordL2Id;
+		this.wordLTwo=wordL2;
+		this.wordLOneId=wordL1Id;
+		this.wordLOne=wordL1;
+		this.lTwoId=l2Id;
+		this.lTwoName=l2Name;
 		this.audiocall=audiocall;
+		this.fresh=true;
 	}
 	
 	public static List<UserWords> findByConnection(int connection_id)
 	{
-		List<UserWords> words = UserWords.find(UserWords.class, "connection_id=", Integer.toString(connection_id));
+		List<UserWords> words = UserWords.find(UserWords.class, "connection_id=?", Integer.toString(connection_id));
 		return words;
+	}
+	
+	public static void setFreshToStale(int connection_id)
+	{
+		UserWords.executeQuery("UPDATE user_words SET fresh=false where connection_id=?", Integer.toString(connection_id));
 	}
 
 }

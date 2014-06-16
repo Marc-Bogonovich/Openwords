@@ -8,6 +8,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import com.openwords.util.InternetCheck;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
 
 import android.content.Context;
@@ -15,9 +16,10 @@ import android.content.Context;
 public class InitDatabase {
 	public static String url_get_user_perf_from_server = "";
 	public static String url_writeback_user_perf = "http://geographycontest.ipage.com/OpenwordsOrg/OpenwordsDB/writeBackUserPerf.php";
+	public static String url_get_user_words="http://geographycontest.ipage.com/OpenwordsOrg/OpenwordsDB/getUserWordsRecords.php";
 	public static UserInfo user;
 	
-	public static void checkAndRefresh()
+	public static void checkAndRefreshPerf()
 	{
 		user=OpenwordsSharedPreferences.getUserInfo();
 		int userId = user.getUserId();
@@ -66,6 +68,34 @@ public class InitDatabase {
 		
 		
 		//deleting all User words data 
+	}
+	
+	public static void loadUserWords(Context ctx, int languageTwoId, int userId)
+	{
+		try
+		{
+			List<NameValuePair> params1 = new ArrayList<NameValuePair>();
+			params1.add(new BasicNameValuePair("language",Integer.toString(languageTwoId)));
+			params1.add(new BasicNameValuePair("user",Integer.toString(userId)));
+			JSONParser jsonParse = new JSONParser();
+			JSONObject jObj = jsonParse.makeHttpRequest(url_get_user_words, "POST", params1);
+			
+			JSONArray jArr = jObj.getJSONArray("words");
+			for(int i=0;i<jArr.length();i++)
+			{
+				JSONObject childObj = jArr.getJSONObject(i);
+				UserWords uw = new UserWords(ctx,childObj.getInt("connection_id"),
+						childObj.getInt("wordl2id"),childObj.getString("wordl2name"),
+						childObj.getInt("wordl1id"),childObj.getString("wordl1name"),
+						childObj.getInt("l2id"),childObj.getString("l2name"),"");
+				uw.save();
+				
+				//rest of the code to be written for word transcription...
+			}
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 	}
 
 }
