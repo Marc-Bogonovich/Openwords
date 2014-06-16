@@ -11,11 +11,13 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -57,7 +59,6 @@ public class LoginPage extends Activity implements OnClickListener {
     private String password;
     private EditText usernameField;
     private EditText passwdField;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -263,6 +264,7 @@ public class LoginPage extends Activity implements OnClickListener {
         OpenwordsSharedPreferences.clean();
         Speak.getInstance(null).clean();
     }
+
 
     @Override
     protected void onDestroy() {

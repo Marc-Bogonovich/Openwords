@@ -13,6 +13,10 @@ import com.openwords.model.LeafCardSelfEval;
 
 
 
+
+
+import com.openwords.util.preference.DebouncedOnClickListener;
+
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
@@ -42,7 +46,9 @@ public class Review extends Activity {
 	private Animation mOutToLeft;
 	private Animation mInFromLeft;
 	private Animation mOutToRight;
+	private int mDuration = 500;
 	private ViewFlipper mViewFlipper;
+    private ImageView audioPlay;
 	//private SharedPreferences settings;
 	//private Editor editor;
 	public static final String OPENWORDS_PREFERENCES = "OpenwordsPrefs";
@@ -65,29 +71,31 @@ public class Review extends Activity {
 		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_review);
-		//
-//		settings = getSharedPreferences(OPENWORDS_PREFERENCES, 0);
-//		editor = settings.edit();
-//		editor.putInt(PLATE_POSITION, 1);
-//		editor.commit();
+		findViewById(R.id.review_View_actionBarBlank).setOnClickListener(new DebouncedOnClickListener(mDuration) {
+			@Override
+			public void onDebouncedClick(View v) {
+				Log.d("Click", "actionBarBlank");
+				moveForward();
+			}
+		});
+		findViewById(R.id.review_LinearLayout_content).setOnClickListener(new DebouncedOnClickListener(mDuration) {
+			@Override
+			public void onDebouncedClick(View v) {
+				Log.d("Click", "content");
+				moveForward();
+			}
+		});
+		
+		audioPlay = (ImageView) findViewById(R.id.review_ImageView_audioPlay);
+		audioPlay.setOnClickListener(new DebouncedOnClickListener(mDuration) {
+			@Override
+			public void onDebouncedClick(View v) {
+				Log.d("Click", "Audio button clicks");
+			}
+		});
 		mViewFlipper = (ViewFlipper) findViewById(R.id.review_ViewFlipper_frame);
 		mViewFlipper.setDisplayedChild(0);
 		initAnimations();
-		//final int startingQuestionNumber = settings.(PLATE_POSITION, 1);
-
-//		PlateDbHelper myretrieverObject = new PlateDbHelper(this);
-//		SQLiteDatabase db = myretrieverObject.getWritableDatabase();
-		// Cursor c = db.query(distinct, Plate_db, columns, selection,
-		// selectionArgs, groupBy, having, orderBy, limit, cancellationSignal);
-		// Cursor c = db.getAllRows();
-		// public String getData() {
-		//
-		// }
-
-		// TESTING THE TOAST THING
-		// Toast.makeText(this, "This is my Toast!", Toast.LENGTH_LONG).show();
-
-	
 		
 		final TextView question = (TextView) findViewById(R.id.review_TextView_question);
 		final TextView answer = (TextView) findViewById(R.id.review_TextView_answer);
@@ -151,7 +159,7 @@ public class Review extends Activity {
 				+1.0f, Animation.RELATIVE_TO_PARENT, 0.0f,
 				Animation.RELATIVE_TO_PARENT, 0.0f,
 				Animation.RELATIVE_TO_PARENT, 0.0f);
-		mInFromRight.setDuration(500);
+		mInFromRight.setDuration(mDuration);
 		AccelerateInterpolator accelerateInterpolator = new AccelerateInterpolator();
 		mInFromRight.setInterpolator(accelerateInterpolator);
 
@@ -159,21 +167,21 @@ public class Review extends Activity {
 				-1.0f, Animation.RELATIVE_TO_PARENT, 0.0f,
 				Animation.RELATIVE_TO_PARENT, 0.0f,
 				Animation.RELATIVE_TO_PARENT, 0.0f);
-		mInFromLeft.setDuration(500);
+		mInFromLeft.setDuration(mDuration);
 		mInFromLeft.setInterpolator(accelerateInterpolator);
 
 		mOutToRight = new TranslateAnimation(Animation.RELATIVE_TO_PARENT,
 				0.0f, Animation.RELATIVE_TO_PARENT, +1.0f,
 				Animation.RELATIVE_TO_PARENT, 0.0f,
 				Animation.RELATIVE_TO_PARENT, 0.0f);
-		mOutToRight.setDuration(500);
+		mOutToRight.setDuration(mDuration);
 		mOutToRight.setInterpolator(accelerateInterpolator);
 
 		mOutToLeft = new TranslateAnimation(Animation.RELATIVE_TO_PARENT, 0.0f,
 				Animation.RELATIVE_TO_PARENT, -1.0f,
 				Animation.RELATIVE_TO_PARENT, 0.0f,
 				Animation.RELATIVE_TO_PARENT, 0.0f);
-		mOutToLeft.setDuration(500);
+		mOutToLeft.setDuration(mDuration);
 		mOutToLeft.setInterpolator(accelerateInterpolator);
 
 		final GestureDetector gestureDetector;
@@ -221,5 +229,6 @@ public class Review extends Activity {
 			return super.onFling(e1, e2, velocityX, velocityY);
 		}
 	}
+	
 
 }
