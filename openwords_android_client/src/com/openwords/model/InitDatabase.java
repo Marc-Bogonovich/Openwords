@@ -8,6 +8,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import com.openwords.util.InternetCheck;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
 
 import android.content.Context;

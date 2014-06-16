@@ -10,12 +10,12 @@ import com.orm.SugarRecord;
 public class UserWords extends SugarRecord<UserWords> {
 
 	int connectionId;
-	int wordL2Id;
-	String wordL2;
-	int wordL1Id;
-	String wordL1;
-	int l2Id;
-	String l2Name;
+	int wordLTwoId;
+	String wordLTwo;
+	int wordLOneId;
+	String wordLOne;
+	int lTwoId;
+	String lTwoName;
 	Blob audiocall;	
 	public UserWords(Context ctx) {
 		super(ctx);
@@ -33,12 +33,12 @@ public class UserWords extends SugarRecord<UserWords> {
 	{
 		super(ctx);
 		this.connectionId=connectionId;
-		this.wordL1Id=wordL2Id;
-		this.wordL2=wordL2;
-		this.wordL1Id=wordL1Id;
-		this.wordL1=wordL1;
-		this.l2Id=l2Id;
-		this.l2Name=l2Name;
+		this.wordLTwoId=wordL2Id;
+		this.wordLTwo=wordL2;
+		this.wordLOneId=wordL1Id;
+		this.wordLOne=wordL1;
+		this.lTwoId=l2Id;
+		this.lTwoName=l2Name;
 		this.audiocall=audiocall;
 	}
 	
