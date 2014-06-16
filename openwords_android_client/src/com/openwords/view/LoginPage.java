@@ -17,6 +17,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
 import com.google.gson.Gson;
 import com.openwords.R;
 import com.openwords.model.JSONParser;
@@ -25,12 +26,15 @@ import com.openwords.model.UserInfo;
 import com.openwords.selfeval.ActivitySelfEval;
 import com.openwords.selfeval.Progress;
 import com.openwords.tts.Speak;
+import com.openwords.util.InternetCheck;
 import com.openwords.util.UIHelper;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
@@ -165,13 +169,17 @@ public class LoginPage extends Activity implements OnClickListener {
     }
 
     private void loginButtonClick() {
-        pDialog = ProgressDialog.show(LoginPage.this, "",
-                "Validating user...", true);
-        new Thread(new Runnable() {
-            public void run() {
-                login();
-            }
-        }).start();
+    	if(InternetCheck.checkConn(LoginPage.this)) {
+    		pDialog = ProgressDialog.show(LoginPage.this, "",
+    				"Validating user...", true);
+    		new Thread(new Runnable() {
+    			public void run() {
+    				login();
+    			}
+    		}).start();
+    	} else {
+    		 Toast.makeText(LoginPage.this, "Cannot get access to internet", Toast.LENGTH_SHORT).show();
+    	}
     }
 
     void login() {
