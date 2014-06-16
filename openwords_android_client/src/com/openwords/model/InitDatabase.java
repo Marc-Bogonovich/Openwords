@@ -83,7 +83,7 @@ public class InitDatabase {
 			for(int i=0;i<jArr.length();i++)
 			{
 				JSONObject childObj = jArr.getJSONObject(i);
-				//rest of the code to be written
+				//rest of the code to be written..
 			}
 		}catch(Exception e)
 		{
