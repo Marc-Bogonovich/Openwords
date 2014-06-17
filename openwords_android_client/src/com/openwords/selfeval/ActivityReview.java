@@ -22,7 +22,7 @@ import java.util.List;
 public class ActivityReview extends FragmentActivity {
 
     private static List<LeafCardSelfEval> CardsPool;
-    private static int CurrentCard = -1;
+    private static int CurrentCard = 0;
     private static ActivityReview instance;
 
     public static ActivityReview getInstance() {
@@ -83,6 +83,7 @@ public class ActivityReview extends FragmentActivity {
             pager.setCurrentItem(CurrentCard, true);
         } else {
             CurrentCard = 0;
+            Toast.makeText(ActivityReview.this, "You have arrived the last", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -130,9 +131,6 @@ public class ActivityReview extends FragmentActivity {
 //            } else {
 //                return new FragmentSelfEval(i);
 //            }
-            if(i>=CardsPool.size()) {
-            	i = CardsPool.size()-1;
-            }
             return new FragmentReview(i);
         }
 

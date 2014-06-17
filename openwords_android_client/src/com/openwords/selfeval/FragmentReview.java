@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.openwords.R;
 import com.openwords.model.LeafCardSelfEval;
 import com.openwords.tts.Speak;
@@ -55,6 +56,17 @@ public class FragmentReview extends Fragment {
 
             public void onClick(View view) {
                 Speak.getInstance(null).speak(card.getWordLang2());
+            }
+        });
+        
+        myFragmentView.findViewById(R.id.review_View_ActionBarBlank).setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                ActivityReview.getInstance().getPager().setCurrentItem(cardIndex + 1, true);
+            }
+        });
+        myFragmentView.findViewById(R.id.review_LinearLayout_Content).setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                ActivityReview.getInstance().getPager().setCurrentItem(cardIndex + 1, true);
             }
         });
 
