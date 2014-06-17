@@ -146,6 +146,11 @@
             android:theme="@style/NoTitleTheme"
             android:configChanges="orientation|screenSize">
         </activity>
+                <activity
+            android:name=".selfeval.ActivityReview"
+            android:theme="@style/NoTitleTheme"
+            android:configChanges="orientation|screenSize">
+        </activity>
         
     </application>
 
