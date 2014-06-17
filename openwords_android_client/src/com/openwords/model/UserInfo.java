@@ -8,6 +8,7 @@ public class UserInfo {
     private String userName, pass;
     private long lastLoginTime;
     // Add last user
+    private int last_userid;
     // Add variable for learning module language id
     private int lang_id;
     
@@ -35,6 +36,15 @@ public class UserInfo {
         this.pass = pass;
         this.lastLoginTime = lastLoginTime;
         this.lang_id = lang_id;
+    }
+    
+    public UserInfo(int last_userid, int lang_id, int userId, String userName, String pass, long lastLoginTime) {
+        this.userId = userId;
+        this.userName = userName;
+        this.pass = pass;
+        this.lastLoginTime = lastLoginTime;
+        this.lang_id = lang_id;
+        this.setLast_userid(last_userid);
     }
 
     public int getUserId() {
@@ -80,5 +90,13 @@ public class UserInfo {
 
 	public void setLang_id(int lang_id) {
 		this.lang_id = lang_id;
+	}
+
+	public int getLast_userid() {
+		return last_userid;
+	}
+
+	public void setLast_userid(int last_userid) {
+		this.last_userid = last_userid;
 	}
 }
