@@ -151,7 +151,16 @@
             android:theme="@style/NoTitleTheme"
             android:configChanges="orientation|screenSize">
         </activity>
-        
+                        <activity
+            android:name=".selfeval.ActivityHearing"
+            android:theme="@style/NoTitleTheme"
+            android:configChanges="orientation|screenSize">
+        </activity>
+                        <activity
+            android:name=".selfeval.ActivityTypeEval"
+            android:theme="@style/NoTitleTheme"
+            android:configChanges="orientation|screenSize">
+        </activity>
     </application>
 
 </manifest>

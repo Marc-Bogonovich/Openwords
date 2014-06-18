@@ -47,7 +47,7 @@ public class TypeEvaluate extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_type_evaluate);
+        //setContentView(R.layout.activity_type_evaluate);
 		questionPool.add(new LeafCardTypeEval("»À","man", "ren"));
 		questionPool.add(new LeafCardTypeEval("√®","cat", "mao"));
 		questionPool.add(new LeafCardTypeEval("µÿ«Ú","earth", "di qiu"));

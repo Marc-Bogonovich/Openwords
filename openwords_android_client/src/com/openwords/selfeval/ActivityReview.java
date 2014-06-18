@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.openwords.R;
+import com.openwords.model.LeafCard;
 import com.openwords.model.LeafCardSelfEval;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
@@ -21,7 +22,7 @@ import java.util.List;
 
 public class ActivityReview extends FragmentActivity {
 
-    private static List<LeafCardSelfEval> CardsPool;
+    private static List<LeafCard> CardsPool;
     private static int CurrentCard = 0;
     private static ActivityReview instance;
 
@@ -29,11 +30,11 @@ public class ActivityReview extends FragmentActivity {
         return instance;
     }
 
-    public static List<LeafCardSelfEval> getCardsPool() {
+    public static List<LeafCard> getCardsPool() {
         return CardsPool;
     }
 
-    public static void setCardsPool(List<LeafCardSelfEval> CardsPool) {
+    public static void setCardsPool(List<LeafCard> CardsPool) {
         ActivityReview.CardsPool = CardsPool;
     }
 
@@ -66,9 +67,6 @@ public class ActivityReview extends FragmentActivity {
 
             public void onPageSelected(int i) {
                 CurrentCard = i;
-//                if (i == CardsPool.size()) {
-//                    FragmentPlateCompletion.refreshDetails();
-//                }
             }
 
             public void onPageScrollStateChanged(int i) {

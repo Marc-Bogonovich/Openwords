@@ -3,6 +3,7 @@ package com.openwords.selfeval;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.openwords.R;
+import com.openwords.model.LeafCard;
 import com.openwords.model.LeafCardSelfEval;
 import com.openwords.tts.Speak;
 import com.openwords.util.log.LogUtil;
@@ -38,7 +40,8 @@ public class FragmentReview extends Fragment {
         LogUtil.logDeubg(this, "onCreateView for card: " + cardIndex);
 
         View myFragmentView = inflater.inflate(R.layout.fragment_review, container, false);
-        final LeafCardSelfEval card = ActivityReview.getCardsPool().get(this.cardIndex);
+        Log.e("size",Integer.toString(ActivityReview.getCardsPool().size()));
+        final LeafCard card = ActivityReview.getCardsPool().get(this.cardIndex);
 
         problem = (TextView) myFragmentView.findViewById(R.id.review_TextView_Question);
         transcription = (TextView) myFragmentView.findViewById(R.id.review_TextView_Transcription);

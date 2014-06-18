@@ -43,7 +43,7 @@ public class Hearing extends Activity {
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_hearing);
+       // setContentView(R.layout.activity_hearing);
 		questionPool.add(new LeafCardHearing("»À","man", "ren"));
 		questionPool.add(new LeafCardHearing("√®","cat", "mao"));
 		questionPool.add(new LeafCardHearing("µÿ«Ú","earth", "di qiu"));
