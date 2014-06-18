@@ -27,29 +27,25 @@ import android.widget.Button;
 import android.widget.Spinner;
 
 import com.openwords.R;
+import com.openwords.learningmodule.ActivityHearing;
+import com.openwords.learningmodule.ActivityReview;
+import com.openwords.learningmodule.ActivitySelfEval;
+import com.openwords.learningmodule.ActivityTypeEval;
+import com.openwords.learningmodule.HearingProgress;
+import com.openwords.learningmodule.Progress;
+import com.openwords.learningmodule.SelfEvalProgress;
+import com.openwords.learningmodule.TypeEvalProgress;
 import com.openwords.model.JSONParser;
 import com.openwords.model.LeafCard;
 import com.openwords.model.LeafCardHearing;
 import com.openwords.model.LeafCardSelfEval;
 import com.openwords.model.LeafCardTypeEval;
 import com.openwords.model.UserInfo;
-import com.openwords.selfeval.ActivityHearing;
-import com.openwords.selfeval.ActivityReview;
-import com.openwords.selfeval.ActivitySelfEval;
-import com.openwords.selfeval.ActivityTypeEval;
-import com.openwords.selfeval.HearingProgress;
-import com.openwords.selfeval.Progress;
-import com.openwords.selfeval.SelfEvalProgress;
-import com.openwords.selfeval.TypeEvalProgress;
 import com.openwords.util.HomePageTool;
 import com.openwords.util.LanguagePageTool;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
 import com.openwords.view.actionbar.ActionBarBuilder;
-import com.openwords.view.learningModule.Hearing;
-import com.openwords.view.learningModule.Review;
-import com.openwords.view.learningModule.SelfEvaluate;
-import com.openwords.view.learningModule.TypeEvaluate;
 
 public class HomePage extends Activity implements OnClickListener {
 
@@ -305,7 +301,6 @@ public class HomePage extends Activity implements OnClickListener {
                         }).create().show();
             }
         } else if (taskPage.equals("Hearing")) {
-            //targetClass = Hearing.class;
         	final HearingProgress progress = OpenwordsSharedPreferences.getHearingProgress();
             if (progress == null) {
                 List<LeafCardHearing> cards = new LinkedList<LeafCardHearing>();
@@ -338,16 +333,13 @@ public class HomePage extends Activity implements OnClickListener {
                         })
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface arg0, int arg1) {
-                            	//ActivityHearing.setCardsPool(progress.getCardsPool());
-                            	//ActivityHearing.setCurrentCard(progress.getCurrentCard());
+                            	ActivityHearing.setCardsPool(progress.getCardsPool());
+                            	ActivityHearing.setCurrentCard(progress.getCurrentCard());
                                 startActivity(new Intent(HomePage.this, ActivityHearing.class));
                             }
                         }).create().show();
             }
         }
-
-        //HomePage.this.startActivityForResult(new Intent(HomePage.this, targetClass), 0);
-
     }
 
     @Override

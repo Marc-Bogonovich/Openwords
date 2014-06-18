@@ -9,32 +9,32 @@
 		<LinearLayout android:layout_width="match_parent"
 			android:layout_height="40dp" android:orientation="horizontal"
 			android:layout_marginTop="15dp">
-			<View android:id="@+id/review_View_ActionBarBlank"
+			<View android:id="@+id/review_View_actionBarBlank"
 				android:layout_width="0dp" android:layout_height="match_parent"
 				android:layout_weight="4" />
 
-			<ImageView android:id="@+id/review_ImageView_AudioPlay"
+			<ImageView android:id="@+id/review_ImageView_audioPlay"
 				android:layout_width="0dp" android:layout_height="match_parent"
 				android:layout_weight="1" android:contentDescription="@string/selfEvaluate_ImageView_audioPlay"
 				android:src="@drawable/ic_self_evaluate_audio" />
 
 		</LinearLayout>
 
-		<LinearLayout android:id="@+id/review_LinearLayout_Content"
+		<LinearLayout android:id="@+id/review_LinearLayout_content"
 			android:layout_width="match_parent" android:layout_height="fill_parent"
 			android:orientation="vertical">
 
-			<TextView android:id="@+id/review_TextView_Transcription"
+			<TextView android:id="@+id/review_TextView_transcription"
 				android:layout_width="fill_parent" android:layout_height="wrap_content"
 				android:layout_marginTop="40dp" android:gravity="center"
 				android:textColor="@color/selfEvaluate_font" android:textSize="30sp" />
 
-			<TextView android:id="@+id/review_TextView_Question"
+			<TextView android:id="@+id/review_TextView_question"
 				android:layout_width="fill_parent" android:layout_height="wrap_content"
 				android:layout_margin="20dp" android:gravity="center"
 				android:textColor="@color/black" android:textSize="60sp" />
 
-			<TextView android:id="@+id/review_TextView_Answer"
+			<TextView android:id="@+id/review_TextView_answer"
 				android:layout_width="fill_parent" android:layout_height="wrap_content"
 				android:gravity="center" android:textColor="@color/black"
 				android:textSize="40sp" />

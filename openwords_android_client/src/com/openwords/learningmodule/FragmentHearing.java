@@ -1,4 +1,4 @@
-package com.openwords.selfeval;
+package com.openwords.learningmodule;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -19,18 +19,16 @@ import com.openwords.model.LeafCardSelfEval;
 import com.openwords.tts.Speak;
 import com.openwords.util.WordComparsion;
 import com.openwords.util.log.LogUtil;
-import com.openwords.view.learningModule.Hearing;
 
 @SuppressLint("ValidFragment")
 public class FragmentHearing extends Fragment {
 
     private final int cardIndex;
     private TextView question, transcription, answer;
-    private Button showAnswer;
     private ImageView checkButton, indicator, audioPlayButton;
     private EditText userInput;
 	private final double CUTOFF = 0.75f;
-    
+    private LeafCardHearing card;
     @SuppressLint("ValidFragment")
 	public FragmentHearing(int cardIndex) {
         this.cardIndex = cardIndex;
@@ -47,8 +45,8 @@ public class FragmentHearing extends Fragment {
         super.onCreate(savedInstanceState);
         LogUtil.logDeubg(this, "onCreateView for card: " + cardIndex);
 
-        View myFragmentView = inflater.inflate(R.layout.fragment_self_eval, container, false);
-        final LeafCardHearing card = ActivityHearing.getCardsPool().get(this.cardIndex);
+        View myFragmentView = inflater.inflate(R.layout.fragment_hearing, container, false);
+        card = ActivityHearing.getCardsPool().get(this.cardIndex);
 
         answer = (TextView) myFragmentView.findViewById(R.id.hearing_TextView_answer);
 		question = (TextView) myFragmentView.findViewById(R.id.hearing_TextView_question);
@@ -57,7 +55,7 @@ public class FragmentHearing extends Fragment {
 		checkButton = (ImageView) myFragmentView.findViewById(R.id.hearing_ImageView_checkButton);
 		indicator = (ImageView) myFragmentView.findViewById(R.id.hearing_ImageView_indicator);
 		audioPlayButton = (ImageView) myFragmentView.findViewById(R.id.hearing_ImageView_audioPlay);
-		
+		setInterfaceView(); 
 		checkButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -104,7 +102,7 @@ public class FragmentHearing extends Fragment {
 				Handler mHandler = new Handler();
 				mHandler.postDelayed(new Runnable() {
 		            public void run() {
-		            	 ActivitySelfEval.getInstance().getPager().setCurrentItem(cardIndex + 1, true);
+		            	 ActivityHearing.getInstance().getPager().setCurrentItem(cardIndex + 1, true);
 		            }
 		        }, 3000);
 				
@@ -119,4 +117,37 @@ public class FragmentHearing extends Fragment {
 		
 		return myFragmentView;
     }
+    
+    private void setInterfaceView() {
+    	Integer userChoice = card.getUserChoice();
+    	transcription.setText(card.getTranscription());
+    	question.setText(card.getWordLang2());
+    	answer.setText(card.getWordLang1());
+    	// 0 -- null 1-- wrong 2-- close 3--correct
+    	if(userChoice.equals(0)) {
+			indicator.setImageResource(R.drawable.ic_learning_module_null);
+			userInput.setText("");
+			transcription.setVisibility(View.INVISIBLE);
+			answer.setVisibility(View.INVISIBLE);
+			question.setVisibility(View.INVISIBLE);
+		} else if (userChoice.equals(3)) {
+			indicator.setImageResource(R.drawable.ic_learning_module_correct);
+			userInput.setText(card.getUserInput());	
+			answer.setVisibility(View.VISIBLE);
+			transcription.setVisibility(View.VISIBLE);
+			question.setVisibility(View.VISIBLE);
+		} else if (userChoice.equals(2)) {
+			indicator.setImageResource(R.drawable.ic_learning_module_close);
+			userInput.setText(card.getUserInput());
+			answer.setVisibility(View.VISIBLE);
+			transcription.setVisibility(View.VISIBLE);
+			question.setVisibility(View.VISIBLE);
+		} else {
+			indicator.setImageResource(R.drawable.ic_learning_module_incorrect);
+			userInput.setText(card.getUserInput());
+			answer.setVisibility(View.VISIBLE);
+			question.setVisibility(View.VISIBLE);
+			transcription.setVisibility(View.VISIBLE);
+		}
+	}
 }

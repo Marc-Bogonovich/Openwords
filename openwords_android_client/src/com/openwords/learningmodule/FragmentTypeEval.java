@@ -1,4 +1,4 @@
-package com.openwords.selfeval;
+package com.openwords.learningmodule;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;

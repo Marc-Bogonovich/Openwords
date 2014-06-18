@@ -1,4 +1,4 @@
-package com.openwords.selfeval;
+package com.openwords.learningmodule;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -23,7 +23,7 @@ public class FragmentReview extends Fragment {
     private final int cardIndex;
     private TextView problem, transcription, answer;
     private ImageView audioPlay;
-
+    private LeafCard card;
     public FragmentReview(int cardIndex) {
         this.cardIndex = cardIndex;
     }
@@ -41,13 +41,13 @@ public class FragmentReview extends Fragment {
 
         View myFragmentView = inflater.inflate(R.layout.fragment_review, container, false);
         Log.e("size",Integer.toString(ActivityReview.getCardsPool().size()));
-        final LeafCard card = ActivityReview.getCardsPool().get(this.cardIndex);
+        card = ActivityReview.getCardsPool().get(this.cardIndex);
 
-        problem = (TextView) myFragmentView.findViewById(R.id.review_TextView_Question);
-        transcription = (TextView) myFragmentView.findViewById(R.id.review_TextView_Transcription);
-        answer = (TextView) myFragmentView.findViewById(R.id.review_TextView_Answer);
+        problem = (TextView) myFragmentView.findViewById(R.id.review_TextView_question);
+        transcription = (TextView) myFragmentView.findViewById(R.id.review_TextView_transcription);
+        answer = (TextView) myFragmentView.findViewById(R.id.review_TextView_answer);
      
-        audioPlay = (ImageView) myFragmentView.findViewById(R.id.review_ImageView_AudioPlay);
+        audioPlay = (ImageView) myFragmentView.findViewById(R.id.review_ImageView_audioPlay);
 
         problem.setText(card.getWordLang2());
         answer.setText(card.getWordLang1());
@@ -62,12 +62,12 @@ public class FragmentReview extends Fragment {
             }
         });
         
-        myFragmentView.findViewById(R.id.review_View_ActionBarBlank).setOnClickListener(new View.OnClickListener() {
+        myFragmentView.findViewById(R.id.review_View_actionBarBlank).setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 ActivityReview.getInstance().getPager().setCurrentItem(cardIndex + 1, true);
             }
         });
-        myFragmentView.findViewById(R.id.review_LinearLayout_Content).setOnClickListener(new View.OnClickListener() {
+        myFragmentView.findViewById(R.id.review_LinearLayout_content).setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 ActivityReview.getInstance().getPager().setCurrentItem(cardIndex + 1, true);
             }

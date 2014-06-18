@@ -142,22 +142,22 @@
         </activity>
         
         <activity
-            android:name=".selfeval.ActivitySelfEval"
+            android:name="com.openwords.learningmodule.ActivitySelfEval"
             android:theme="@style/NoTitleTheme"
             android:configChanges="orientation|screenSize">
         </activity>
                 <activity
-            android:name=".selfeval.ActivityReview"
+            android:name="com.openwords.learningmodule.ActivityReview"
             android:theme="@style/NoTitleTheme"
             android:configChanges="orientation|screenSize">
         </activity>
                         <activity
-            android:name=".selfeval.ActivityHearing"
+            android:name="com.openwords.learningmodule.ActivityHearing"
             android:theme="@style/NoTitleTheme"
             android:configChanges="orientation|screenSize">
         </activity>
                         <activity
-            android:name=".selfeval.ActivityTypeEval"
+            android:name="com.openwords.learningmodule.ActivityTypeEval"
             android:theme="@style/NoTitleTheme"
             android:configChanges="orientation|screenSize">
         </activity>

@@ -1,4 +1,4 @@
-package com.openwords.selfeval;
+package com.openwords.learningmodule;
 
 import com.openwords.model.LeafCard;
 

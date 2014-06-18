@@ -22,12 +22,12 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.openwords.R;
+import com.openwords.learningmodule.ActivitySelfEval;
+import com.openwords.learningmodule.Progress;
+import com.openwords.learningmodule.SelfEvalProgress;
 import com.openwords.model.JSONParser;
 import com.openwords.model.LeafCardSelfEval;
 import com.openwords.model.UserInfo;
-import com.openwords.selfeval.ActivitySelfEval;
-import com.openwords.selfeval.Progress;
-import com.openwords.selfeval.SelfEvalProgress;
 import com.openwords.tts.Speak;
 import com.openwords.util.InternetCheck;
 import com.openwords.util.UIHelper;

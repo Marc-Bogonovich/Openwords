@@ -6,13 +6,13 @@ import android.content.SharedPreferences.Editor;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.openwords.learningmodule.ActivityReview;
+import com.openwords.learningmodule.ActivitySelfEval;
+import com.openwords.learningmodule.HearingProgress;
+import com.openwords.learningmodule.Progress;
+import com.openwords.learningmodule.SelfEvalProgress;
+import com.openwords.learningmodule.TypeEvalProgress;
 import com.openwords.model.UserInfo;
-import com.openwords.selfeval.ActivityReview;
-import com.openwords.selfeval.ActivitySelfEval;
-import com.openwords.selfeval.HearingProgress;
-import com.openwords.selfeval.Progress;
-import com.openwords.selfeval.SelfEvalProgress;
-import com.openwords.selfeval.TypeEvalProgress;
 
 public class OpenwordsSharedPreferences {
 

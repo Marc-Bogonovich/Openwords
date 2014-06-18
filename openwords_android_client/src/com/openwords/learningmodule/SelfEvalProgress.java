@@ -1,25 +1,25 @@
-package com.openwords.selfeval;
+package com.openwords.learningmodule;
 
 import com.openwords.model.LeafCard;
-import com.openwords.model.LeafCardHearing;
+import com.openwords.model.LeafCardSelfEval;
 
 import java.util.List;
 
-public class HearingProgress {
+public class SelfEvalProgress {
 
-    private List<LeafCardHearing> cardsPool;
+    private List<LeafCardSelfEval> cardsPool;
     private int currentCard;
 
-    public HearingProgress(List<LeafCardHearing> cardsPool, int currentCard) {
+    public SelfEvalProgress(List<LeafCardSelfEval> cardsPool, int currentCard) {
         this.cardsPool = cardsPool;
         this.currentCard = currentCard;
     }
 
-    public List<LeafCardHearing> getCardsPool() {
+    public List<LeafCardSelfEval> getCardsPool() {
         return cardsPool;
     }
 
-    public void setCardsPool(List<LeafCardHearing> cardsPool) {
+    public void setCardsPool(List<LeafCardSelfEval> cardsPool) {
         this.cardsPool = cardsPool;
     }
 

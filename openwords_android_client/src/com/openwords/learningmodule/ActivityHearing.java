@@ -1,4 +1,4 @@
-package com.openwords.selfeval;
+package com.openwords.learningmodule;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -9,47 +9,44 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.widget.Toast;
-
 import com.google.gson.Gson;
 import com.openwords.R;
-import com.openwords.model.LeafCardSelfEval;
-import com.openwords.model.LeafCardTypeEval;
+import com.openwords.model.LeafCardHearing;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
-
 import java.util.List;
 
-public class ActivityTypeEval extends FragmentActivity {
+public class ActivityHearing extends FragmentActivity {
 
-    private static List<LeafCardTypeEval> CardsPool;
+    private static List<LeafCardHearing> CardsPool;
     private static int CurrentCard = -1;
-    private static ActivityTypeEval instance;
+    private static ActivityHearing instance;
 
-    public static ActivityTypeEval getInstance() {
+    public static ActivityHearing getInstance() {
         return instance;
     }
 
-    public static List<LeafCardTypeEval> getCardsPool() {
+    public static List<LeafCardHearing> getCardsPool() {
         return CardsPool;
     }
 
-    public static void setCardsPool(List<LeafCardTypeEval> CardsPool) {
-        ActivityTypeEval.CardsPool = CardsPool;
+    public static void setCardsPool(List<LeafCardHearing> CardsPool) {
+        ActivityHearing.CardsPool = CardsPool;
     }
 
     public static void setCurrentCard(int CurrentCard) {
-        ActivityTypeEval.CurrentCard = CurrentCard;
+        ActivityHearing.CurrentCard = CurrentCard;
     }
 
     private ViewPager pager;
-    private TypeEvaluatePagerAdapter adapter;
+    private HearingPagerAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         instance = this;
         super.onCreate(savedInstanceState);
         LogUtil.logDeubg(this, "onCreate");
-        setContentView(R.layout.activity_type_eval);
+        setContentView(R.layout.activity_hear);
 
         if (CardsPool == null) {
             Toast.makeText(this, "Please give your cards first", Toast.LENGTH_SHORT).show();
@@ -57,7 +54,7 @@ public class ActivityTypeEval extends FragmentActivity {
             return;
         }
 
-        pager = (ViewPager) findViewById(R.id.act_type_eval_pager);
+        pager = (ViewPager) findViewById(R.id.act_hearing_pager);
         pager.setOffscreenPageLimit(1);
         pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
@@ -75,7 +72,7 @@ public class ActivityTypeEval extends FragmentActivity {
 
             }
         });
-        adapter = new TypeEvaluatePagerAdapter(getSupportFragmentManager());
+        adapter = new HearingPagerAdapter(getSupportFragmentManager());
         pager.setAdapter(adapter);
         pager.setPageTransformer(true, new PageTransformerSelfEval());
 
@@ -110,15 +107,15 @@ public class ActivityTypeEval extends FragmentActivity {
                 .setNegativeButton("No", null)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface arg0, int arg1) {
-                        OpenwordsSharedPreferences.setTypeEvaluationProgress(new Gson().toJson(new TypeEvalProgress(CardsPool, CurrentCard)));
-                        ActivityTypeEval.super.onBackPressed();
+                        OpenwordsSharedPreferences.setHearingProgress(new Gson().toJson(new HearingProgress(CardsPool, CurrentCard)));
+                        ActivityHearing.super.onBackPressed();
                     }
                 }).create().show();
     }
 
-    private class TypeEvaluatePagerAdapter extends FragmentPagerAdapter {
+    private class HearingPagerAdapter extends FragmentPagerAdapter {
 
-        TypeEvaluatePagerAdapter(FragmentManager fm) {
+    	HearingPagerAdapter(FragmentManager fm) {
             super(fm);
         }
 
@@ -128,13 +125,13 @@ public class ActivityTypeEval extends FragmentActivity {
             if (i >= CardsPool.size()) {
                 return new FragmentPlateCompletion();
             } else {
-                return new FragmentTypeEval(i);
+                return new FragmentHearing(i);
             }
         }
 
         @Override
         public int getCount() {
-            return CardsPool.size();
+            return CardsPool.size() + 1;
         }
     }
 }

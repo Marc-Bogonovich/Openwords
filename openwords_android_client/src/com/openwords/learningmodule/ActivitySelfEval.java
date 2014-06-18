@@ -1,4 +1,4 @@
-package com.openwords.selfeval;
+package com.openwords.learningmodule;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -8,45 +8,48 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.widget.Toast;
+
 import com.google.gson.Gson;
 import com.openwords.R;
-import com.openwords.model.LeafCardHearing;
+import com.openwords.model.LeafCardSelfEval;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
+
 import java.util.List;
 
-public class ActivityHearing extends FragmentActivity {
+public class ActivitySelfEval extends FragmentActivity {
 
-    private static List<LeafCardHearing> CardsPool;
+    private static List<LeafCardSelfEval> CardsPool;
     private static int CurrentCard = -1;
-    private static ActivityHearing instance;
+    private static ActivitySelfEval instance;
 
-    public static ActivityHearing getInstance() {
+    public static ActivitySelfEval getInstance() {
         return instance;
     }
 
-    public static List<LeafCardHearing> getCardsPool() {
+    public static List<LeafCardSelfEval> getCardsPool() {
         return CardsPool;
     }
 
-    public static void setCardsPool(List<LeafCardHearing> CardsPool) {
-        ActivityHearing.CardsPool = CardsPool;
+    public static void setCardsPool(List<LeafCardSelfEval> CardsPool) {
+        ActivitySelfEval.CardsPool = CardsPool;
     }
 
     public static void setCurrentCard(int CurrentCard) {
-        ActivityHearing.CurrentCard = CurrentCard;
+        ActivitySelfEval.CurrentCard = CurrentCard;
     }
 
     private ViewPager pager;
-    private HearingPagerAdapter adapter;
+    private SelfEvaluatePagerAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         instance = this;
         super.onCreate(savedInstanceState);
         LogUtil.logDeubg(this, "onCreate");
-        setContentView(R.layout.activity_hear);
+        setContentView(R.layout.activity_self_eval);
 
         if (CardsPool == null) {
             Toast.makeText(this, "Please give your cards first", Toast.LENGTH_SHORT).show();
@@ -54,7 +57,7 @@ public class ActivityHearing extends FragmentActivity {
             return;
         }
 
-        pager = (ViewPager) findViewById(R.id.act_hearing_pager);
+        pager = (ViewPager) findViewById(R.id.act_self_eval_pager);
         pager.setOffscreenPageLimit(1);
         pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
@@ -72,7 +75,7 @@ public class ActivityHearing extends FragmentActivity {
 
             }
         });
-        adapter = new HearingPagerAdapter(getSupportFragmentManager());
+        adapter = new SelfEvaluatePagerAdapter(getSupportFragmentManager());
         pager.setAdapter(adapter);
         pager.setPageTransformer(true, new PageTransformerSelfEval());
 
@@ -103,19 +106,21 @@ public class ActivityHearing extends FragmentActivity {
     public void onBackPressed() {
         new AlertDialog.Builder(this)
                 .setTitle("Really Quit?")
-                .setMessage("Are you sure you want to quite current Evaluation? (You progress will be saved)")
+                .setMessage("Are you sure you want to quite current Evaluation? (You progress will be saved) Current card:"+CurrentCard)
                 .setNegativeButton("No", null)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface arg0, int arg1) {
-                      //  OpenwordsSharedPreferences.setHearingProgress(new Gson().toJson(new Progress(CardsPool, CurrentCard)));
-                        ActivityHearing.super.onBackPressed();
+                    	Log.e("Json",new Gson().toJson(new SelfEvalProgress(CardsPool, CurrentCard)));
+                       OpenwordsSharedPreferences.setSelfEvaluationProgress(new Gson().toJson(new SelfEvalProgress(CardsPool, CurrentCard)));
+                       Log.e("CurrentCard", Integer.toString(OpenwordsSharedPreferences.getSelfEvaluationProgress().getCurrentCard()));
+                       ActivitySelfEval.super.onBackPressed();
                     }
                 }).create().show();
     }
 
-    private class HearingPagerAdapter extends FragmentPagerAdapter {
+    private class SelfEvaluatePagerAdapter extends FragmentPagerAdapter {
 
-    	HearingPagerAdapter(FragmentManager fm) {
+        SelfEvaluatePagerAdapter(FragmentManager fm) {
             super(fm);
         }
 

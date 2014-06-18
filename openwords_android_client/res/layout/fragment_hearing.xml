@@ -62,23 +62,6 @@
 			<View android:layout_width="0dp" android:layout_height="match_parent"
 				android:layout_weight="1" />
 		</LinearLayout>
-<!--  
-		<TextView android:id="@+id/review_TextView_transcription"
-			android:layout_width="match_parent" android:layout_height="wrap_content"
-			android:gravity="center" android:layout_marginTop="10dp"
-			android:textColor="@color/selfEvaluate_font"
-			android:textSize="20sp" />
-
-		<TextView android:id="@+id/review_TextView_question"
-			android:layout_width="fill_parent" android:layout_height="wrap_content"
-			android:layout_margin="5dp" android:gravity="center" 
-			android:textColor="@color/my_gray" android:textSize="40sp" />
-
-		<TextView android:id="@+id/review_TextView_answer"
-			android:layout_width="fill_parent" android:layout_height="wrap_content"
-			android:gravity="center"  android:textColor="@color/my_gray"
-			android:textSize="30sp" />
-			-->
 
 	</LinearLayout>
 </ViewFlipper>

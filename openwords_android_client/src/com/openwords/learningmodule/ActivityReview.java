@@ -1,4 +1,4 @@
-package com.openwords.selfeval;
+package com.openwords.learningmodule;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
