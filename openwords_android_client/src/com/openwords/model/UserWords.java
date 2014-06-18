@@ -1,6 +1,6 @@
 package com.openwords.model;
 
-import java.sql.Blob;
+//import java.sql.Blob;
 import java.util.List;
 
 import android.content.Context;
