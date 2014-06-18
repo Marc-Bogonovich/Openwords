@@ -82,7 +82,7 @@ public class InitDatabase {
 				
 				//deleting all user performance data for particular user
 				UserPerformance.deleteByUser(userId);
-				
+				//Loading user performance summary
 				List<UserWords> uwListLocal = UserWords.listAll(UserWords.class);
 				for(int i=0;i<uwListLocal.size();i++)
 				{
@@ -109,7 +109,7 @@ public class InitDatabase {
 			JSONParser jsonParse = new JSONParser();
 			JSONObject jObj = jsonParse.makeHttpRequest(url_get_user_perf_summary, "POST", params1);
 			
-			JSONArray jArr = jObj.getJSONArray("words");
+			JSONArray jArr = jObj.getJSONArray("data");
 			for(int i=0;i<jArr.length();i++)
 			{
 				JSONObject childObj = jArr.getJSONObject(i);
