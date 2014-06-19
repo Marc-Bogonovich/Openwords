@@ -52,6 +52,13 @@
         </activity>
         
         <activity
+            android:name=".view.actionbar.NextWords"
+            android:label="@string/title_activity_NextWords"
+            android:theme="@android:style/Theme.Dialog"
+            android:configChanges="orientation|screenSize">
+        </activity>
+        
+        <activity
             android:name="com.openwords.view.actionbar.ProfilePage"
             android:label="@string/title_activity_profilePage"
             android:theme="@style/NoTitleTheme"

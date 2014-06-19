@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -46,7 +47,7 @@ public class WordsPage extends Activity implements OnClickListener {
 		 switch (v.getId()) {
          case R.id.wordsPage_Button_getNextWords:
              Log.d("Click","Next words");
-             getNextWordsButtonClick();
+             WordsPage.this.startActivity(new Intent(WordsPage.this, NextWords.class));
              break;
          case R.id.wordsPage_Button_searchWords:
              Log.d("Click","searchWords");
@@ -62,7 +63,9 @@ public class WordsPage extends Activity implements OnClickListener {
              Log.d("Click","syncButton");
              break;
 		 }
-	}	
+	}
+	
+	/*
 	private void getNextWordsButtonClick() {
 		final ArrayList<Integer> mSelectedItems = new ArrayList<Integer>();
 		  new AlertDialog.Builder(this)
@@ -96,6 +99,8 @@ public class WordsPage extends Activity implements OnClickListener {
                }
            }).create().show();
 	}
+	*/
+	
 	private void searchWordsButtonClick() {
 		final ArrayList<Integer> mSelectedItems = new ArrayList<Integer>();
 		LayoutInflater inflater = this.getLayoutInflater();

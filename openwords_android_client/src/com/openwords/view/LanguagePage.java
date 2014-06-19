@@ -39,7 +39,7 @@ public class LanguagePage extends Activity implements OnClickListener {
 		private static String url_l2_options = "http://geographycontest.ipage.com/OpenwordsOrg/WordsDB/getLtwoOptions.php";
 		public static final String USERID = "userid";
         public static ArrayList<LanguagePageTool> langlist_global = new ArrayList<LanguagePageTool>();
-        public static L2LangAdapter langadapter=null;
+        //public static L2LangAdapter langadapter=null;
         public static ListView lang_listview=null;
         public static String url_write_l2_choice = "http://geographycontest.ipage.com/OpenwordsOrg/OpenwordsDB/writeL2Choices.php";
         private UserInfo userinfo;
