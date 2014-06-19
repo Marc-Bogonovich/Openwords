@@ -42,23 +42,23 @@ public class FragmentSelfEval extends Fragment {
         View myFragmentView = inflater.inflate(R.layout.fragment_self_eval, container, false);
         card = ActivitySelfEval.getCardsPool().get(this.cardIndex);
 
-        problem = (TextView) myFragmentView.findViewById(R.id.selfEvaluate_TextView_problem);
+        problem = (TextView) myFragmentView.findViewById(R.id.selfEvaluate_TextView_question);
         transcription = (TextView) myFragmentView.findViewById(R.id.selfEvaluate_TextView_transcription);
         answer = (TextView) myFragmentView.findViewById(R.id.selfEvaluate_TextView_answer);
         showAnswer = (Button) myFragmentView.findViewById(R.id.selfEvaluate_Button_showAnswer);
-        correct = (ImageView) myFragmentView.findViewById(R.id.selfEvaluate_ImageView_correct);
-        incorrect = (ImageView) myFragmentView.findViewById(R.id.selfEvaluate_ImageView_incorrect);
+        correct = (ImageView) myFragmentView.findViewById(R.id.selfEvaluate_ImageView_known);
+        incorrect = (ImageView) myFragmentView.findViewById(R.id.selfEvaluate_ImageView_unknown);
         audioPlay = (ImageView) myFragmentView.findViewById(R.id.selfEvaluate_ImageView_audioPlay);
 
         problem.setText(card.getWordLang2());
         answer.setText(card.getWordLang1());
         transcription.setText(card.getTranscription());
-        showAnswer.setText("Show Me");
 
         showAnswer.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
                 answer.setVisibility(View.VISIBLE);
+                transcription.setVisibility(View.VISIBLE);
             }
         });
 

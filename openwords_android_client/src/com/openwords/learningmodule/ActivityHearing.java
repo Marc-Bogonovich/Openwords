@@ -131,7 +131,7 @@ public class ActivityHearing extends FragmentActivity {
 
         @Override
         public int getCount() {
-            return CardsPool.size() + 1;
+            return CardsPool.size();
         }
     }
 }
