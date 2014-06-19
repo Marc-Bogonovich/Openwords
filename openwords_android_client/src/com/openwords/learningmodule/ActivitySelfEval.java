@@ -104,18 +104,20 @@ public class ActivitySelfEval extends FragmentActivity {
 
     @Override
     public void onBackPressed() {
-        new AlertDialog.Builder(this)
-                .setTitle("Really Quit?")
-                .setMessage("Are you sure you want to quite current Evaluation? (You progress will be saved) Current card:"+CurrentCard)
-                .setNegativeButton("No", null)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface arg0, int arg1) {
-                    	Log.e("Json",new Gson().toJson(new SelfEvalProgress(CardsPool, CurrentCard)));
-                       OpenwordsSharedPreferences.setSelfEvaluationProgress(new Gson().toJson(new SelfEvalProgress(CardsPool, CurrentCard)));
-                       Log.e("CurrentCard", Integer.toString(OpenwordsSharedPreferences.getSelfEvaluationProgress().getCurrentCard()));
-                       ActivitySelfEval.super.onBackPressed();
-                    }
-                }).create().show();
+    	 OpenwordsSharedPreferences.setSelfEvaluationProgress(new Gson().toJson(new SelfEvalProgress(CardsPool, CurrentCard)));
+    	 ActivitySelfEval.super.onBackPressed();
+    	 //        new AlertDialog.Builder(this)
+//                .setTitle("Really Quit?")
+//                .setMessage("Are you sure you want to quite current Evaluation? (You progress will be saved) Current card:"+CurrentCard)
+//                .setNegativeButton("No", null)
+//                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface arg0, int arg1) {
+//                    	Log.e("Json",new Gson().toJson(new SelfEvalProgress(CardsPool, CurrentCard)));
+//                       OpenwordsSharedPreferences.setSelfEvaluationProgress(new Gson().toJson(new SelfEvalProgress(CardsPool, CurrentCard)));
+//                       Log.e("CurrentCard", Integer.toString(OpenwordsSharedPreferences.getSelfEvaluationProgress().getCurrentCard()));
+//                       ActivitySelfEval.super.onBackPressed();
+//                    }
+//                }).create().show();
     }
 
     private class SelfEvaluatePagerAdapter extends FragmentPagerAdapter {

@@ -104,16 +104,18 @@ public class ActivityTypeEval extends FragmentActivity {
 
     @Override
     public void onBackPressed() {
-        new AlertDialog.Builder(this)
-                .setTitle("Really Quit?")
-                .setMessage("Are you sure you want to quite current Evaluation? (You progress will be saved)")
-                .setNegativeButton("No", null)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface arg0, int arg1) {
-                        OpenwordsSharedPreferences.setTypeEvaluationProgress(new Gson().toJson(new TypeEvalProgress(CardsPool, CurrentCard)));
-                        ActivityTypeEval.super.onBackPressed();
-                    }
-                }).create().show();
+    	OpenwordsSharedPreferences.setTypeEvaluationProgress(new Gson().toJson(new TypeEvalProgress(CardsPool, CurrentCard)));
+    	ActivityTypeEval.super.onBackPressed();
+    	//        new AlertDialog.Builder(this)
+//                .setTitle("Really Quit?")
+//                .setMessage("Are you sure you want to quite current Evaluation? (You progress will be saved)")
+//                .setNegativeButton("No", null)
+//                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface arg0, int arg1) {
+//                        OpenwordsSharedPreferences.setTypeEvaluationProgress(new Gson().toJson(new TypeEvalProgress(CardsPool, CurrentCard)));
+//                        ActivityTypeEval.super.onBackPressed();
+//                    }
+//                }).create().show();
     }
 
     private class TypeEvaluatePagerAdapter extends FragmentPagerAdapter {

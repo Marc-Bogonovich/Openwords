@@ -223,121 +223,128 @@ public class HomePage extends Activity implements OnClickListener {
         } else if (taskPage.equals("Self evaluation")) {
             //targetClass = SelfEvaluate.class;
         	final SelfEvalProgress progress = OpenwordsSharedPreferences.getSelfEvaluationProgress();
-            if (progress == null) {
-                List<LeafCardSelfEval> cards = new LinkedList<LeafCardSelfEval>();
-                cards.add(new LeafCardSelfEval("人", "person", "ren"));
-                cards.add(new LeafCardSelfEval("猫", "cat", "mao"));
-                cards.add(new LeafCardSelfEval("地球", "earth", "di qiu"));
-                cards.add(new LeafCardSelfEval("时间", "time", "shi jian"));
-                cards.add(new LeafCardSelfEval("世界", "world", "shi jie"));
-                cards.add(new LeafCardSelfEval("电脑", "computer", "dian nao"));
-                cards.add(new LeafCardSelfEval("软件", "software", "ruan jian"));
-                ActivitySelfEval.setCardsPool(cards);
+        	List<LeafCardSelfEval> cards = new LinkedList<LeafCardSelfEval>();
+            cards.add(new LeafCardSelfEval("人", "person", "ren"));
+            cards.add(new LeafCardSelfEval("猫", "cat", "mao"));
+            cards.add(new LeafCardSelfEval("地球", "earth", "di qiu"));
+            cards.add(new LeafCardSelfEval("时间", "time", "shi jian"));
+            cards.add(new LeafCardSelfEval("世界", "world", "shi jie"));
+            cards.add(new LeafCardSelfEval("电脑", "computer", "dian nao"));
+            cards.add(new LeafCardSelfEval("软件", "software", "ruan jian"));
+            ActivitySelfEval.setCardsPool(cards);
+        	if (progress == null) {  
                 startActivity(new Intent(HomePage.this, ActivitySelfEval.class));
             } else {
-                new AlertDialog.Builder(HomePage.this)
-                        .setTitle("Continue?")
-                        .setMessage("You have a saved progress, do you want to continue? Current card: "+progress.getCurrentCard())
-                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface arg0, int arg1) {
-                                List<LeafCardSelfEval> cards = new LinkedList<LeafCardSelfEval>();
-                                cards.add(new LeafCardSelfEval("人", "person", "ren"));
-                                cards.add(new LeafCardSelfEval("猫", "cat", "mao"));
-                                cards.add(new LeafCardSelfEval("地球", "earth", "di qiu"));
-                                cards.add(new LeafCardSelfEval("时间", "time", "shi jian"));
-                                cards.add(new LeafCardSelfEval("世界", "world", "shi jie"));
-                                cards.add(new LeafCardSelfEval("电脑", "computer", "dian nao"));
-                                cards.add(new LeafCardSelfEval("软件", "software", "ruan jian"));
-                                ActivitySelfEval.setCardsPool(cards);
-                                startActivity(new Intent(HomePage.this, ActivitySelfEval.class));
-                            }
-                        })
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface arg0, int arg1) {
-                                ActivitySelfEval.setCardsPool(progress.getCardsPool());
-                                ActivitySelfEval.setCurrentCard(progress.getCurrentCard());
-                                startActivity(new Intent(HomePage.this, ActivitySelfEval.class));
-                            }
-                        }).create().show();
+            	ActivitySelfEval.setCurrentCard(progress.getCurrentCard());
+                startActivity(new Intent(HomePage.this, ActivitySelfEval.class)); 
+//                new AlertDialog.Builder(HomePage.this)
+//                        .setTitle("Continue?")
+//                        .setMessage("You have a saved progress, do you want to continue? Current card: "+progress.getCurrentCard())
+//                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+//                            public void onClick(DialogInterface arg0, int arg1) {
+//                                List<LeafCardSelfEval> cards = new LinkedList<LeafCardSelfEval>();
+//                                cards.add(new LeafCardSelfEval("人", "person", "ren"));
+//                                cards.add(new LeafCardSelfEval("猫", "cat", "mao"));
+//                                cards.add(new LeafCardSelfEval("地球", "earth", "di qiu"));
+//                                cards.add(new LeafCardSelfEval("时间", "time", "shi jian"));
+//                                cards.add(new LeafCardSelfEval("世界", "world", "shi jie"));
+//                                cards.add(new LeafCardSelfEval("电脑", "computer", "dian nao"));
+//                                cards.add(new LeafCardSelfEval("软件", "software", "ruan jian"));
+//                                ActivitySelfEval.setCardsPool(cards);
+//                                startActivity(new Intent(HomePage.this, ActivitySelfEval.class));
+//                            }
+//                        })
+//                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+//                            public void onClick(DialogInterface arg0, int arg1) {
+//                                ActivitySelfEval.setCardsPool(progress.getCardsPool());
+//                                ActivitySelfEval.setCurrentCard(progress.getCurrentCard());
+//                                startActivity(new Intent(HomePage.this, ActivitySelfEval.class));
+//                            }
+//                        }).create().show();
             }
         } else if (taskPage.equals("Type evaluation")) {
             //targetClass = TypeEvaluate.class;
         	final TypeEvalProgress progress = OpenwordsSharedPreferences.getTypeEvaluationProgress();
-            if (progress == null) {
-                List<LeafCardTypeEval> cards = new LinkedList<LeafCardTypeEval>();
-                cards.add(new LeafCardTypeEval("人", "person", "ren"));
-                cards.add(new LeafCardTypeEval("猫", "cat", "mao"));
-                cards.add(new LeafCardTypeEval("地球", "earth", "di qiu"));
-                cards.add(new LeafCardTypeEval("时间", "time", "shi jian"));
-                cards.add(new LeafCardTypeEval("世界", "world", "shi jie"));
-                cards.add(new LeafCardTypeEval("电脑", "computer", "dian nao"));
-                cards.add(new LeafCardTypeEval("软件", "software", "ruan jian"));
+            List<LeafCardTypeEval> cards = new LinkedList<LeafCardTypeEval>();
+            cards.add(new LeafCardTypeEval("人", "person", "ren"));
+            cards.add(new LeafCardTypeEval("猫", "cat", "mao"));
+            cards.add(new LeafCardTypeEval("地球", "earth", "di qiu"));
+            cards.add(new LeafCardTypeEval("时间", "time", "shi jian"));
+            cards.add(new LeafCardTypeEval("世界", "world", "shi jie"));
+            cards.add(new LeafCardTypeEval("电脑", "computer", "dian nao"));
+            cards.add(new LeafCardTypeEval("软件", "software", "ruan jian"));
+        	if (progress == null) {
                 ActivityTypeEval.setCardsPool(cards);
                 startActivity(new Intent(HomePage.this, ActivityTypeEval.class));
             } else {
-                new AlertDialog.Builder(HomePage.this)
-                        .setTitle("Continue?")
-                        .setMessage("You have a saved progress, do you want to continue?")
-                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface arg0, int arg1) {
-                                List<LeafCardTypeEval> cards = new LinkedList<LeafCardTypeEval>();
-                                cards.add(new LeafCardTypeEval("人", "person", "ren"));
-                                cards.add(new LeafCardTypeEval("猫", "cat", "mao"));
-                                cards.add(new LeafCardTypeEval("地球", "earth", "di qiu"));
-                                cards.add(new LeafCardTypeEval("时间", "time", "shi jian"));
-                                cards.add(new LeafCardTypeEval("世界", "world", "shi jie"));
-                                cards.add(new LeafCardTypeEval("电脑", "computer", "dian nao"));
-                                cards.add(new LeafCardTypeEval("软件", "software", "ruan jian"));
-                                ActivityTypeEval.setCardsPool(cards);
-                                startActivity(new Intent(HomePage.this, ActivityTypeEval.class));
-                            }
-                        })
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface arg0, int arg1) {
-                            	ActivityTypeEval.setCardsPool(progress.getCardsPool());
-                                ActivityTypeEval.setCurrentCard(progress.getCurrentCard());
-                                startActivity(new Intent(HomePage.this, ActivityTypeEval.class));
-                            }
-                        }).create().show();
+            	ActivityTypeEval.setCardsPool(progress.getCardsPool());
+                ActivityTypeEval.setCurrentCard(progress.getCurrentCard());
+                startActivity(new Intent(HomePage.this, ActivityTypeEval.class));
+//                new AlertDialog.Builder(HomePage.this)
+//                        .setTitle("Continue?")
+//                        .setMessage("You have a saved progress, do you want to continue?")
+//                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+//                            public void onClick(DialogInterface arg0, int arg1) {
+//                                List<LeafCardTypeEval> cards = new LinkedList<LeafCardTypeEval>();
+//                                cards.add(new LeafCardTypeEval("人", "person", "ren"));
+//                                cards.add(new LeafCardTypeEval("猫", "cat", "mao"));
+//                                cards.add(new LeafCardTypeEval("地球", "earth", "di qiu"));
+//                                cards.add(new LeafCardTypeEval("时间", "time", "shi jian"));
+//                                cards.add(new LeafCardTypeEval("世界", "world", "shi jie"));
+//                                cards.add(new LeafCardTypeEval("电脑", "computer", "dian nao"));
+//                                cards.add(new LeafCardTypeEval("软件", "software", "ruan jian"));
+//                                ActivityTypeEval.setCardsPool(cards);
+//                                startActivity(new Intent(HomePage.this, ActivityTypeEval.class));
+//                            }
+//                        })
+//                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+//                            public void onClick(DialogInterface arg0, int arg1) {
+//                            	ActivityTypeEval.setCardsPool(progress.getCardsPool());
+//                                ActivityTypeEval.setCurrentCard(progress.getCurrentCard());
+//                                startActivity(new Intent(HomePage.this, ActivityTypeEval.class));
+//                            }
+//                        }).create().show();
             }
         } else if (taskPage.equals("Hearing")) {
         	final HearingProgress progress = OpenwordsSharedPreferences.getHearingProgress();
-            if (progress == null) {
-                List<LeafCardHearing> cards = new LinkedList<LeafCardHearing>();
-                cards.add(new LeafCardHearing("人", "person", "ren"));
-                cards.add(new LeafCardHearing("猫", "cat", "mao"));
-                cards.add(new LeafCardHearing("地球", "earth", "di qiu"));
-                cards.add(new LeafCardHearing("时间", "time", "shi jian"));
-                cards.add(new LeafCardHearing("世界", "world", "shi jie"));
-                cards.add(new LeafCardHearing("电脑", "computer", "dian nao"));
-                cards.add(new LeafCardHearing("软件", "software", "ruan jian"));
-                ActivityHearing.setCardsPool(cards);
+            List<LeafCardHearing> cards = new LinkedList<LeafCardHearing>();
+            cards.add(new LeafCardHearing("人", "person", "ren"));
+            cards.add(new LeafCardHearing("猫", "cat", "mao"));
+            cards.add(new LeafCardHearing("地球", "earth", "di qiu"));
+            cards.add(new LeafCardHearing("时间", "time", "shi jian"));
+            cards.add(new LeafCardHearing("世界", "world", "shi jie"));
+            cards.add(new LeafCardHearing("电脑", "computer", "dian nao"));
+            cards.add(new LeafCardHearing("软件", "software", "ruan jian"));
+            ActivityHearing.setCardsPool(cards);
+        	if (progress == null) {
                 startActivity(new Intent(HomePage.this, ActivityHearing.class));
             } else {
-                new AlertDialog.Builder(HomePage.this)
-                        .setTitle("Continue?")
-                        .setMessage("You have a saved progress, do you want to continue?")
-                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface arg0, int arg1) {
-                                List<LeafCardHearing> cards = new LinkedList<LeafCardHearing>();
-                                cards.add(new LeafCardHearing("人", "person", "ren"));
-                                cards.add(new LeafCardHearing("猫", "cat", "mao"));
-                                cards.add(new LeafCardHearing("地球", "earth", "di qiu"));
-                                cards.add(new LeafCardHearing("时间", "time", "shi jian"));
-                                cards.add(new LeafCardHearing("世界", "world", "shi jie"));
-                                cards.add(new LeafCardHearing("电脑", "computer", "dian nao"));
-                                cards.add(new LeafCardHearing("软件", "software", "ruan jian"));
-                                ActivityHearing.setCardsPool(cards);
-                                startActivity(new Intent(HomePage.this, ActivityHearing.class));
-                            }
-                        })
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface arg0, int arg1) {
-                            	ActivityHearing.setCardsPool(progress.getCardsPool());
-                            	ActivityHearing.setCurrentCard(progress.getCurrentCard());
-                                startActivity(new Intent(HomePage.this, ActivityHearing.class));
-                            }
-                        }).create().show();
+            	ActivityHearing.setCurrentCard(progress.getCurrentCard());
+                startActivity(new Intent(HomePage.this, ActivityHearing.class));     
+//                new AlertDialog.Builder(HomePage.this)
+//                        .setTitle("Continue?")
+//                        .setMessage("You have a saved progress, do you want to continue?")
+//                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+//                            public void onClick(DialogInterface arg0, int arg1) {
+//                                List<LeafCardHearing> cards = new LinkedList<LeafCardHearing>();
+//                                cards.add(new LeafCardHearing("人", "person", "ren"));
+//                                cards.add(new LeafCardHearing("猫", "cat", "mao"));
+//                                cards.add(new LeafCardHearing("地球", "earth", "di qiu"));
+//                                cards.add(new LeafCardHearing("时间", "time", "shi jian"));
+//                                cards.add(new LeafCardHearing("世界", "world", "shi jie"));
+//                                cards.add(new LeafCardHearing("电脑", "computer", "dian nao"));
+//                                cards.add(new LeafCardHearing("软件", "software", "ruan jian"));
+//                                ActivityHearing.setCardsPool(cards);
+//                                startActivity(new Intent(HomePage.this, ActivityHearing.class));
+//                            }
+//                        })
+//                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+//                            public void onClick(DialogInterface arg0, int arg1) {
+//                            	ActivityHearing.setCardsPool(progress.getCardsPool());
+//                            	ActivityHearing.setCurrentCard(progress.getCurrentCard());
+//                                startActivity(new Intent(HomePage.this, ActivityHearing.class));
+//                            }
+//                        }).create().show();
             }
         }
     }

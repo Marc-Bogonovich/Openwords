@@ -101,16 +101,18 @@ public class ActivityHearing extends FragmentActivity {
 
     @Override
     public void onBackPressed() {
-        new AlertDialog.Builder(this)
-                .setTitle("Really Quit?")
-                .setMessage("Are you sure you want to quite current Evaluation? (You progress will be saved)")
-                .setNegativeButton("No", null)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface arg0, int arg1) {
-                        OpenwordsSharedPreferences.setHearingProgress(new Gson().toJson(new HearingProgress(CardsPool, CurrentCard)));
-                        ActivityHearing.super.onBackPressed();
-                    }
-                }).create().show();
+    	OpenwordsSharedPreferences.setHearingProgress(new Gson().toJson(new HearingProgress(CardsPool, CurrentCard)));
+    	ActivityHearing.super.onBackPressed();
+    	//        new AlertDialog.Builder(this)
+//                .setTitle("Really Quit?")
+//                .setMessage("Are you sure you want to quite current Evaluation? (You progress will be saved)")
+//                .setNegativeButton("No", null)
+//                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface arg0, int arg1) {
+//                        OpenwordsSharedPreferences.setHearingProgress(new Gson().toJson(new HearingProgress(CardsPool, CurrentCard)));
+//                        ActivityHearing.super.onBackPressed();
+//                    }
+//                }).create().show();
     }
 
     private class HearingPagerAdapter extends FragmentPagerAdapter {
