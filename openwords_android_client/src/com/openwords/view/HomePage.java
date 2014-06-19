@@ -227,6 +227,8 @@ public class HomePage extends Activity implements OnClickListener {
             }
         } else if (taskPage.equals("Self evaluation")) {
             //targetClass = SelfEvaluate.class;
+        	InitDatabase.checkAndRefreshPerf(this, 1);
+        	
         	final SelfEvalProgress progress = OpenwordsSharedPreferences.getSelfEvaluationProgress();
         	List<LeafCardSelfEval> cards = new LinkedList<LeafCardSelfEval>();
             cards.add(new LeafCardSelfEval("»À", "person", "ren"));
@@ -269,6 +271,8 @@ public class HomePage extends Activity implements OnClickListener {
             }
         } else if (taskPage.equals("Type evaluation")) {
             //targetClass = TypeEvaluate.class;
+        	InitDatabase.checkAndRefreshPerf(this, 2);
+        	
         	final TypeEvalProgress progress = OpenwordsSharedPreferences.getTypeEvaluationProgress();
             List<LeafCardTypeEval> cards = new LinkedList<LeafCardTypeEval>();
             cards.add(new LeafCardTypeEval("»À", "person", "ren"));
@@ -311,6 +315,8 @@ public class HomePage extends Activity implements OnClickListener {
 //                        }).create().show();
             }
         } else if (taskPage.equals("Hearing")) {
+        	InitDatabase.checkAndRefreshPerf(this, 3);
+        	
         	final HearingProgress progress = OpenwordsSharedPreferences.getHearingProgress();
             List<LeafCardHearing> cards = new LinkedList<LeafCardHearing>();
             cards.add(new LeafCardHearing("»À", "person", "ren"));
