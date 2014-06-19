@@ -35,6 +35,7 @@ import com.openwords.learningmodule.HearingProgress;
 import com.openwords.learningmodule.Progress;
 import com.openwords.learningmodule.SelfEvalProgress;
 import com.openwords.learningmodule.TypeEvalProgress;
+import com.openwords.model.InitDatabase;
 import com.openwords.model.JSONParser;
 import com.openwords.model.LeafCard;
 import com.openwords.model.LeafCardHearing;
@@ -101,6 +102,9 @@ public class HomePage extends Activity implements OnClickListener {
                         pos=position;
                         Log.d("ID", Integer.toString(dropdown_list.get(position).getId()));
                         homelang_id = dropdown_list.get(position).getId();
+                        UserInfo user = OpenwordsSharedPreferences.getUserInfo();
+                        user.setLang_id(homelang_id);
+                        OpenwordsSharedPreferences.setUserInfo(user);
                     }
                 	@Override
                     public void onNothingSelected(AdapterView<?> parentView) {
@@ -175,11 +179,12 @@ public class HomePage extends Activity implements OnClickListener {
         */
         
         // Set the language id for the shared preferences here
-        userinfo.setLang_id(homelang_id); 
+        //userinfo.setLang_id(homelang_id); 
         Log.d("Shared Preferences Language ID", Integer.toString(userinfo.getLang_id()));
         
         if (taskPage.equals("Review")) {
             //targetClass = Review.class;
+        	InitDatabase.checkAndRefreshPerf(this, 0);
         	final Progress progress = OpenwordsSharedPreferences.getReviewProgress();
             if (progress == null) {
                 List<LeafCard> cards = new LinkedList<LeafCard>();

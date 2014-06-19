@@ -78,7 +78,7 @@ public class InitDatabase {
 			if(userId!=prevUser || user.getLang_id()!=uwList.get(0).lTwoId)
 			{
 				UserWords.deleteAll(UserWords.class);
-				InitDatabase.loadUserWords(ctx, 2, userId);
+				InitDatabase.loadUserWords(ctx, OpenwordsSharedPreferences.getUserInfo().getLang_id(), userId);
 				
 				//deleting all user performance data for particular user
 				UserPerformance.deleteByUser(userId);
