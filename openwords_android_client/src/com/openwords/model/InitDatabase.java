@@ -78,7 +78,7 @@ public class InitDatabase {
 			if(userId!=prevUser || user.getLang_id()!=uwList.get(0).lTwoId)
 			{
 				UserWords.deleteAll(UserWords.class);
-				InitDatabase.loadUserWords(ctx, user.getLang_id(), userId);
+				InitDatabase.loadUserWords(ctx, 2, userId);
 				
 				//deleting all user performance data for particular user
 				UserPerformance.deleteByUser(userId);
@@ -100,6 +100,7 @@ public class InitDatabase {
 	
 	public static void loadPerformanceSummary(Context ctx,int user,int con,int mod){
 		
+		Log.d("paramsInPerfSum", "="+user+con+mod);
 		try
 		{
 			List<NameValuePair> params1 = new ArrayList<NameValuePair>();
@@ -108,19 +109,21 @@ public class InitDatabase {
 			params1.add(new BasicNameValuePair("module",Integer.toString(mod)));
 			JSONParser jsonParse = new JSONParser();
 			JSONObject jObj = jsonParse.makeHttpRequest(url_get_user_perf_summary, "POST", params1);
-			
+			if(jObj.getInt("success")==1)
+			{
 			JSONArray jArr = jObj.getJSONArray("data");
 			for(int i=0;i<jArr.length();i++)
 			{
 				JSONObject childObj = jArr.getJSONObject(i);
 				
-				UserPerformance upRec = new UserPerformance(childObj.getInt("userid"),
-						childObj.getInt("connectionid"), childObj.getInt("total_correct"),
+				UserPerformance upRec = new UserPerformance(childObj.getInt("connectionid"),childObj.getInt("userid"),
+						 childObj.getInt("total_correct"),
 						childObj.getInt("totalSkipped"), childObj.getInt("total_expose"),
 						childObj.getInt("last_time"), childObj.getInt("last_performance"),
 						0,ctx);
 				upRec.save();
 			}
+			}else{Log.d("message", jObj.getString("message"));}
 	
 		}catch(Exception e)
 		{
@@ -130,6 +133,7 @@ public class InitDatabase {
 	
 	public static void loadUserWords(Context ctx, int languageTwoId, int userId)
 	{
+			Log.d("params", "_"+languageTwoId+userId);
 		try
 		{
 			List<NameValuePair> params1 = new ArrayList<NameValuePair>();
@@ -138,7 +142,9 @@ public class InitDatabase {
 			JSONParser jsonParse = new JSONParser();
 			JSONObject jObj = jsonParse.makeHttpRequest(url_get_user_words, "POST", params1);
 			
-			JSONArray jArr = jObj.getJSONArray("words");
+			if(jObj.getInt("success")==1)
+			{
+			JSONArray jArr = jObj.getJSONArray("data");
 			for(int i=0;i<jArr.length();i++)
 			{
 				JSONObject childObj = jArr.getJSONObject(i);
@@ -150,6 +156,7 @@ public class InitDatabase {
 				
 				//rest of the code to be written for word transcription...
 			}
+			}else{Log.d("message", jObj.getString("data"));}
 		}catch(Exception e)
 		{
 			e.printStackTrace();
