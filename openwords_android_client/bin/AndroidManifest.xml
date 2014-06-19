@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="com.openwords"
+          android:versionCode="1"
+          android:versionName="1.0">
+    
+    <uses-sdk android:minSdkVersion="11"
+              android:targetSdkVersion="19"/>
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <supports-screens android:resizeable="true"
+                      android:smallScreens="true"
+                      android:normalScreens="true"
+                      android:largeScreens="true"
+                      android:anyDensity="true"/> 
+
+    <application android:allowBackup="true"
+                 android:icon="@drawable/ic_launcher"
+                 android:label="@string/app_name"
+                 android:name="com.orm.SugarApp">
+        
+        <meta-data android:name="DATABASE" android:value="openwords_v1.db" />
+        <meta-data android:name="VERSION" android:value="1" />
+        <meta-data android:name="QUERY_LOG" android:value="true" />
+        <meta-data android:name="DOMAIN_PACKAGE_NAME" android:value="com.openwords.model" />
+        
+        <activity
+            android:name=".view.LoginPage"
+            android:label="@string/app_name"
+            android:theme="@style/NoTitleTheme"
+            android:configChanges="orientation|screenSize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        
+        <activity
+            android:name=".view.MainActivity"
+            android:label="@string/title_activity_loginPage"
+            android:theme="@style/NoTitleTheme"
+            android:configChanges="orientation|screenSize">
+        </activity>
+        
+        <activity
+            android:name=".view.HomePage"
+            android:label="@string/title_activity_homePage"
+            android:theme="@style/NoTitleTheme"
+            android:configChanges="orientation|screenSize">
+        </activity>
+        
+        <activity
+            android:name=".view.actionbar.NextWords"
+            android:label="@string/title_activity_NextWords"
+            android:theme="@android:style/Theme.Dialog"
+            android:configChanges="orientation|screenSize">
+        </activity>
+        
+        <activity
+            android:name="com.openwords.view.actionbar.ProfilePage"
+            android:label="@string/title_activity_profilePage"
+            android:theme="@style/NoTitleTheme"
+            android:configChanges="orientation|screenSize">
+        </activity>
+        
+        <activity
+            android:name=".view.RegisterPage"
+            android:label="@string/title_activity_registerPage"
+            android:theme="@style/NoTitleTheme"
+            android:configChanges="orientation|screenSize">
+        </activity>
+        <activity
+            android:name=".view.LanguagePage"
+            android:theme="@style/NoTitleTheme"
+            android:label="@string/title_activity_languagePage"
+            android:configChanges="orientation|screenSize" >
+        </activity>
+        
+        <activity
+            android:name=".view.ChosenPage"
+            android:label="@string/title_activity_chosenPage"
+            android:theme="@style/NoTitleTheme"
+            android:configChanges="orientation|screenSize">
+        </activity>
+        
+        <activity
+            android:name="com.openwords.view.learningModule.Review"
+            android:label="@string/title_activity_review"
+            android:theme="@style/NoTitleTheme"
+            android:configChanges="orientation|screenSize">
+        </activity>
+        
+        <activity
+            android:name="com.openwords.view.learningModule.SelfEvaluate"
+            android:label="@string/title_activity_selfEvaluate"
+            android:theme="@style/NoTitleTheme"
+            android:configChanges="orientation|screenSize">
+        </activity>
+        
+        <activity
+            android:name="com.openwords.view.actionbar.WordsPage"
+            android:label="@string/title_activity_wordsPage"
+            android:theme="@style/NoTitleTheme"
+            android:configChanges="orientation|screenSize">
+        </activity>
+        
+        <activity
+            android:name="com.openwords.view.actionbar.StatsPage"
+            android:label="@string/title_activity_statsPage"
+            android:theme="@style/NoTitleTheme"
+            android:configChanges="orientation|screenSize">
+        </activity>
+        
+        <activity
+            android:name="com.openwords.view.PortalPage"
+            android:label="@string/title_activity_portalPage"
+            android:theme="@style/NoTitleTheme"
+            android:configChanges="orientation|screenSize">
+        </activity>
+        
+        <activity
+            android:name="com.openwords.view.learningModule.Hearing"
+            android:label="@string/title_activity_hearing"
+            android:theme="@style/NoTitleTheme"
+            android:configChanges="orientation|screenSize">
+        </activity>
+        
+        <activity
+            android:name="com.openwords.view.learningModule.TypeEvaluate"
+            android:label="@string/title_activity_typeEvaluate"
+            android:theme="@style/NoTitleTheme"
+            android:configChanges="orientation|screenSize">
+        </activity>
+        
+        <activity
+            android:name="com.openwords.view.actionbar.SettingsPage"
+            android:label="@string/title_activity_settingsPage"
+            android:theme="@style/NoTitleTheme"
+            android:configChanges="orientation|screenSize">
+        </activity>
+        
+        <activity
+            android:name="com.openwords.view.actionbar.TutorialPage"
+            android:label="@string/title_activity_tutorial_page"
+            android:theme="@style/NoTitleTheme"
+            android:configChanges="orientation|screenSize">
+        </activity>
+        
+        <activity
+            android:name="com.openwords.learningmodule.ActivitySelfEval"
+            android:theme="@style/NoTitleTheme"
+            android:configChanges="orientation|screenSize">
+        </activity>
+                <activity
+            android:name="com.openwords.learningmodule.ActivityReview"
+            android:theme="@style/NoTitleTheme"
+            android:configChanges="orientation|screenSize">
+        </activity>
+                        <activity
+            android:name="com.openwords.learningmodule.ActivityHearing"
+            android:theme="@style/NoTitleTheme"
+            android:configChanges="orientation|screenSize">
+        </activity>
+                        <activity
+            android:name="com.openwords.learningmodule.ActivityTypeEval"
+            android:theme="@style/NoTitleTheme"
+            android:configChanges="orientation|screenSize">
+        </activity>
+    </application>
+
+</manifest>
