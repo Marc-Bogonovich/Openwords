@@ -22,11 +22,12 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.openwords.R;
+import com.openwords.learningmodule.ActivitySelfEval;
+import com.openwords.learningmodule.Progress;
+import com.openwords.learningmodule.SelfEvalProgress;
 import com.openwords.model.JSONParser;
 import com.openwords.model.LeafCardSelfEval;
 import com.openwords.model.UserInfo;
-import com.openwords.selfeval.ActivitySelfEval;
-import com.openwords.selfeval.Progress;
 import com.openwords.tts.Speak;
 import com.openwords.util.InternetCheck;
 import com.openwords.util.UIHelper;
@@ -105,7 +106,7 @@ public class LoginPage extends Activity implements OnClickListener {
         test.setOnClickListener(new OnClickListener() {
 
             public void onClick(View view) {
-                final Progress progress = OpenwordsSharedPreferences.getSelfEvaluationProgress();
+                final SelfEvalProgress progress = OpenwordsSharedPreferences.getSelfEvaluationProgress();
                 if (progress == null) {
                     List<LeafCardSelfEval> cards = new LinkedList<LeafCardSelfEval>();
                     cards.add(new LeafCardSelfEval("人", "person", "ren"));
@@ -137,8 +138,8 @@ public class LoginPage extends Activity implements OnClickListener {
                             })
                             .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface arg0, int arg1) {
-                                    ActivitySelfEval.setCardsPool(progress.getCardsPool());
-                                    ActivitySelfEval.setCurrentCard(progress.getCurrentCard());
+                               //     ActivitySelfEval.setCardsPool(progress.getCardsPool());
+                              //      ActivitySelfEval.setCurrentCard(progress.getCurrentCard());
                                     startActivity(new Intent(LoginPage.this, ActivitySelfEval.class));
                                 }
                             }).create().show();

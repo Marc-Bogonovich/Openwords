@@ -1,5 +1,6 @@
-package com.openwords.selfeval;
+package com.openwords.learningmodule;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -13,14 +14,17 @@ import com.openwords.model.LeafCardSelfEval;
 import com.openwords.tts.Speak;
 import com.openwords.util.log.LogUtil;
 
+@SuppressLint("ValidFragment")
 public class FragmentSelfEval extends Fragment {
 
     private final int cardIndex;
     private TextView problem, transcription, answer;
     private Button showAnswer;
     private ImageView correct, incorrect, audioPlay;
-
-    public FragmentSelfEval(int cardIndex) {
+    private LeafCardSelfEval card;
+    
+    @SuppressLint("ValidFragment")
+	public FragmentSelfEval(int cardIndex) {
         this.cardIndex = cardIndex;
     }
 
@@ -36,25 +40,25 @@ public class FragmentSelfEval extends Fragment {
         LogUtil.logDeubg(this, "onCreateView for card: " + cardIndex);
 
         View myFragmentView = inflater.inflate(R.layout.fragment_self_eval, container, false);
-        final LeafCardSelfEval card = ActivitySelfEval.getCardsPool().get(this.cardIndex);
+        card = ActivitySelfEval.getCardsPool().get(this.cardIndex);
 
-        problem = (TextView) myFragmentView.findViewById(R.id.selfEvaluate_TextView_Problem);
-        transcription = (TextView) myFragmentView.findViewById(R.id.selfEvaluate_TextView_Transcription);
-        answer = (TextView) myFragmentView.findViewById(R.id.selfEvaluate_TextView_Answer);
-        showAnswer = (Button) myFragmentView.findViewById(R.id.selfEvaluate_Button_ShowAnswer);
-        correct = (ImageView) myFragmentView.findViewById(R.id.selfEvaluate_ImageView_Correct);
-        incorrect = (ImageView) myFragmentView.findViewById(R.id.selfEvaluate_ImageView_Incorrect);
-        audioPlay = (ImageView) myFragmentView.findViewById(R.id.selfEvaluate_ImageView_AudioPlay);
+        problem = (TextView) myFragmentView.findViewById(R.id.selfEvaluate_TextView_question);
+        transcription = (TextView) myFragmentView.findViewById(R.id.selfEvaluate_TextView_transcription);
+        answer = (TextView) myFragmentView.findViewById(R.id.selfEvaluate_TextView_answer);
+        showAnswer = (Button) myFragmentView.findViewById(R.id.selfEvaluate_Button_showAnswer);
+        correct = (ImageView) myFragmentView.findViewById(R.id.selfEvaluate_ImageView_known);
+        incorrect = (ImageView) myFragmentView.findViewById(R.id.selfEvaluate_ImageView_unknown);
+        audioPlay = (ImageView) myFragmentView.findViewById(R.id.selfEvaluate_ImageView_audioPlay);
 
         problem.setText(card.getWordLang2());
         answer.setText(card.getWordLang1());
         transcription.setText(card.getTranscription());
-        showAnswer.setText("Show Me");
 
         showAnswer.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
                 answer.setVisibility(View.VISIBLE);
+                transcription.setVisibility(View.VISIBLE);
             }
         });
 
