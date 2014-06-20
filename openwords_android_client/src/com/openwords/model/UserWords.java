@@ -9,15 +9,15 @@ import com.orm.SugarRecord;
 
 public class UserWords extends SugarRecord<UserWords> {
 
-	int connectionId;
-	int wordLTwoId;
-	String wordLTwo;
-	int wordLOneId;
-	String wordLOne;
-	int lTwoId;
-	String lTwoName;
-	String audiocall;	
-	boolean fresh;
+	public int connectionId;
+	public int wordLTwoId;
+	public String wordLTwo;
+	public int wordLOneId;
+	public String wordLOne;
+	public int lTwoId;
+	public String lTwoName;
+	public String audiocall;	
+	public boolean fresh;
 	public UserWords(Context ctx) {
 		super(ctx);
 		// TODO Auto-generated constructor stub

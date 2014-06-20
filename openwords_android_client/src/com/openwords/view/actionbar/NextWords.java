@@ -6,10 +6,12 @@ import java.util.List;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.openwords.R;
 import com.openwords.model.JSONParser;
+import com.openwords.model.UserWords;
 import com.openwords.util.WordsPageTool;
 
 import android.annotation.SuppressLint;
@@ -34,6 +36,7 @@ public class NextWords extends Activity implements OnClickListener{
 	private static String nextwords_url = "http://geographycontest.ipage.com/OpenwordsOrg/WordsDB/wordsPageGetWordList.php";
 	public static ListView words_listview=null;
 	public static ArrayList<WordsPageTool> wordslist = new ArrayList<WordsPageTool>();
+	public static JSONArray jArrMain;
 	
 	 protected void onCreate(Bundle savedInstanceState) {
 		 	StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -69,9 +72,31 @@ public class NextWords extends Activity implements OnClickListener{
     		{
 			case R.id.WP_OkButton:
 				Toast.makeText(getApplicationContext(), "Ok Clicked", Toast.LENGTH_SHORT).show();
+				
+				for(int j=0;j<wordslist.size();j++)
+				{
+					//downloading words
+					if(wordslist.get(j).isChecked_word())
+					{
+						try {
+							JSONObject c=jArrMain.getJSONObject(j);
+							UserWords uwRec = new UserWords(this,c.getInt("connection_id"),
+									c.getInt("wordl1"),c.getString("wordl1_text"),c.getInt("wordl2"),
+									c.getString("wordl2_text"),c.getInt("l2id"),c.getString("l2name"),c.getString("audio"));
+							uwRec.save();
+							
+						} catch (JSONException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						
+					}
+				}
 				break;
 			case R.id.WP_CancelButton:
 				Toast.makeText(getApplicationContext(), "Cancel Clicked", Toast.LENGTH_SHORT).show();
+				List<UserWords> uwlst = UserWords.listAll(UserWords.class);
+				Log.d("data in user words", uwlst.get(0).wordLTwo);
 				break;
     		}
 		}    
@@ -94,7 +119,7 @@ public class NextWords extends Activity implements OnClickListener{
                         JSONArray jArr = jObj.getJSONArray("data");
                         String abc = Integer.toString(jArr.length());
                         Log.d("Array", abc);
-                        
+                        jArrMain = jArr;
                         for (int i = 0; i < jArr.length(); i++) 
                         {  // **line 2**
                         	JSONObject childJSONObject = jArr.getJSONObject(i);
