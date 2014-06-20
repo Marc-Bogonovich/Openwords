@@ -55,5 +55,11 @@ public class UserPerformance extends SugarRecord<UserPerformance> {
 	{
 		UserPerformance.deleteAll(UserPerformance.class, "userid=?", Integer.toString(user_id));
 	}
+	
+	public String toString() {
+		return "connection_id: "+connection_id+";user_id: "+user_id+";total_correct: "+
+				total_correct+";total_skipped:"+total_skipped+";total_exposure: "+total_exposure+";last_time: "+last_time+
+				";last_performance"+last_performance;
+	}
 
 }
