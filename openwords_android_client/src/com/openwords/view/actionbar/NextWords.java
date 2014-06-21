@@ -13,6 +13,7 @@ import com.openwords.R;
 import com.openwords.model.JSONParser;
 import com.openwords.model.UserWords;
 import com.openwords.util.WordsPageTool;
+import com.openwords.util.preference.OpenwordsSharedPreferences;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -33,10 +34,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class NextWords extends Activity implements OnClickListener{
+	private static String url_write_downloaded_words_to_server = "http://geographycontest.ipage.com/OpenwordsOrg/OpenwordsDB/setUserWords.php";
 	private static String nextwords_url = "http://geographycontest.ipage.com/OpenwordsOrg/WordsDB/wordsPageGetWordList.php";
 	public static ListView words_listview=null;
 	public static ArrayList<WordsPageTool> wordslist = new ArrayList<WordsPageTool>();
 	public static JSONArray jArrMain;
+	public static String ConIds = "";
 	
 	 protected void onCreate(Bundle savedInstanceState) {
 		 	StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -53,7 +56,7 @@ public class NextWords extends Activity implements OnClickListener{
             WordListAdapter wordsadapter = new WordListAdapter(this, R.layout.nextwords_adapter, wordslist);
             // setting the custom adapter to the listview object
             words_listview.setAdapter(wordsadapter);
-            Log.d("adapter", wordsadapter.getItem(2).getWord1()+wordsadapter.getItemId(2));
+            //Log.d("adapter", wordsadapter.getItem(2).getWord1()+wordsadapter.getItemId(0));
 	        //ActionBarIcons.builder(this);
 	        //new ActionBarBuilder(this, ActionBarBuilder.Words_Page);
             
@@ -73,6 +76,7 @@ public class NextWords extends Activity implements OnClickListener{
 			case R.id.WP_OkButton:
 				Toast.makeText(getApplicationContext(), "Ok Clicked", Toast.LENGTH_SHORT).show();
 				
+				ConIds="";
 				for(int j=0;j<wordslist.size();j++)
 				{
 					//downloading words
@@ -85,6 +89,11 @@ public class NextWords extends Activity implements OnClickListener{
 									c.getString("wordl2_text"),c.getInt("l2id"),c.getString("l2name"),c.getString("audio"));
 							uwRec.save();
 							
+							//concatenating connection ids
+							if(ConIds.length()==0)
+								ConIds = ConIds + c.getInt("connection_id");
+							else
+								ConIds = ConIds + "|" + c.getInt("connection_id");
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -92,6 +101,13 @@ public class NextWords extends Activity implements OnClickListener{
 						
 					}
 				}
+				
+				//sending information to server
+				new Thread(new Runnable() {
+	                public void run() {
+	                	updateWordsOnServer(ConIds,getUnixTime());                          
+	                }
+	              }).start(); 
 				break;
 			case R.id.WP_CancelButton:
 				Toast.makeText(getApplicationContext(), "Cancel Clicked", Toast.LENGTH_SHORT).show();
@@ -101,15 +117,47 @@ public class NextWords extends Activity implements OnClickListener{
     		}
 		}    
 	 
+		public void updateWordsOnServer(String conIds, long dTime)
+		{
+			try
+			{
+				int user = OpenwordsSharedPreferences.getUserInfo().getUserId();
+				int langTwo = OpenwordsSharedPreferences.getUserInfo().getLang_id();
+				List<NameValuePair> params = new ArrayList<NameValuePair>();
+	            params.add(new BasicNameValuePair("conid", conIds));
+	            params.add(new BasicNameValuePair("dtime", Long.toString(dTime)));
+	            params.add(new BasicNameValuePair("user",Integer.toString(user)));
+	            params.add(new BasicNameValuePair("lTwo",Integer.toString(langTwo)));
+	            JSONParser jsonParse = new JSONParser();
+                JSONObject jObj = jsonParse.makeHttpRequest(url_write_downloaded_words_to_server, "POST", params);
+                
+                if(jObj.getInt("success")==1)
+                	Log.d("Message From Server", jObj.getString("message"));
+	            
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+            
+			
+		}
+		
+		//get time in UNIX TIME
+		public long getUnixTime()
+		{
+			long unixTime = System.currentTimeMillis() / 1000L;
+			return unixTime;
+		}
 	  public void getFromServer()
         {
                 ArrayList<WordsPageTool> words_list = new ArrayList<WordsPageTool>();
                 try 
                 {
                         List<NameValuePair> params = new ArrayList<NameValuePair>(3);
-                        params.add(new BasicNameValuePair("user", "47"));
+                        params.add(new BasicNameValuePair("user", Integer.toString(OpenwordsSharedPreferences.getUserInfo().getUserId())));
                         params.add(new BasicNameValuePair("langOne", "1"));
-                        params.add(new BasicNameValuePair("langTwo", "2"));
+                        params.add(new BasicNameValuePair("langTwo", Integer.toString(OpenwordsSharedPreferences.getUserInfo().getLang_id())));
                         Log.d("User", "47");
                         JSONParser jsonParse = new JSONParser();
                         JSONObject jObj = jsonParse.makeHttpRequest(nextwords_url, "POST", params);
