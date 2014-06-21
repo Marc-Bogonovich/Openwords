@@ -4,10 +4,10 @@ import android.content.Context;
 
 import com.orm.SugarRecord;
 
-public class InsertData extends SugarRecord<UserPerformance>{
+public class InsertData{
 
 	public InsertData(Context arg0) {
-		super(arg0);
+		
 		// TODO Auto-generated constructor stub
 		UserPerformance record = new UserPerformance(4,226,10,1,11,2,130455,0,arg0);
 		record.save();

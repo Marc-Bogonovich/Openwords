@@ -107,12 +107,14 @@ public class NextWords extends Activity implements OnClickListener{
 	                public void run() {
 	                	updateWordsOnServer(ConIds,getUnixTime());                          
 	                }
-	              }).start(); 
+	              }).start();
+				finish();
 				break;
 			case R.id.WP_CancelButton:
 				Toast.makeText(getApplicationContext(), "Cancel Clicked", Toast.LENGTH_SHORT).show();
-				List<UserWords> uwlst = UserWords.listAll(UserWords.class);
-				Log.d("data in user words", uwlst.get(0).wordLTwo);
+				//List<UserWords> uwlst = UserWords.listAll(UserWords.class);
+				//Log.d("data in user words", uwlst.get(0).wordLTwo);
+				finish();
 				break;
     		}
 		}    
