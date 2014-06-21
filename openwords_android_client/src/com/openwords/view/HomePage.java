@@ -16,6 +16,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.provider.Contacts.Intents.Insert;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -23,6 +24,7 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Button;
 import android.widget.Spinner;
 
@@ -35,7 +37,9 @@ import com.openwords.learningmodule.HearingProgress;
 import com.openwords.learningmodule.Progress;
 import com.openwords.learningmodule.SelfEvalProgress;
 import com.openwords.learningmodule.TypeEvalProgress;
+import com.openwords.model.InsertData;
 import com.openwords.model.InitDatabase;
+import com.openwords.model.InsertData;
 import com.openwords.model.JSONParser;
 import com.openwords.model.LeafCard;
 import com.openwords.model.LeafCardHearing;
@@ -44,6 +48,7 @@ import com.openwords.model.LeafCardTypeEval;
 import com.openwords.model.UserInfo;
 import com.openwords.util.HomePageTool;
 import com.openwords.util.LanguagePageTool;
+import com.openwords.util.WordSelectionAlg;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
 import com.openwords.view.actionbar.ActionBarBuilder;
@@ -185,6 +190,9 @@ public class HomePage extends Activity implements OnClickListener {
         if (taskPage.equals("Review")) {
             //targetClass = Review.class;
         	InitDatabase.checkAndRefreshPerf(this, 0);
+        	//new InsertData(HomePage.this);
+        	List<Integer> list = new WordSelectionAlg(HomePage.this).pickup(3);
+        	for(Integer i : list) Log.e("List", i+"");
         	final Progress progress = OpenwordsSharedPreferences.getReviewProgress();
             if (progress == null) {
                 List<LeafCard> cards = new LinkedList<LeafCard>();
