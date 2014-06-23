@@ -227,7 +227,9 @@ public class LoginPage extends Activity implements OnClickListener {
 //                    editor.putBoolean(SAVEUSER, saveuser);
 //                    editor.commit();
 //                }
-                int lu = OpenwordsSharedPreferences.getUserInfo().getUserId();
+                int lu =0;
+                if(OpenwordsSharedPreferences.getUserInfo()!=null)
+                	lu = OpenwordsSharedPreferences.getUserInfo().getUserId();
                 OpenwordsSharedPreferences.setUserInfo(new UserInfo(lu,0,userid, username, password, System.currentTimeMillis()));
                 LoginPage.this.startActivity(new Intent(LoginPage.this, HomePage.class));
             } else {
