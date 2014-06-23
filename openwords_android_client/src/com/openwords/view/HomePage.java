@@ -53,6 +53,8 @@ import com.openwords.util.WordSelectionAlg;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
 import com.openwords.view.actionbar.ActionBarBuilder;
+import com.openwords.view.actionbar.NextWords;
+import com.openwords.view.actionbar.WordsPage;
 
 public class HomePage extends Activity implements OnClickListener {
 
@@ -107,10 +109,16 @@ public class HomePage extends Activity implements OnClickListener {
                         Log.d("whatever", Integer.toString(position));
                         pos=position;
                         Log.d("ID", Integer.toString(dropdown_list.get(position).getId()));
+                        if(dropdown_list.get(position).getId()==999)
+                        {
+                        	//Toast.makeText(getApplicationContext(), "Please Wait...", Toast.LENGTH_SHORT).show();
+                        	HomePage.this.startActivity(new Intent(HomePage.this, LanguagePage.class));
+                        }
                         homelang_id = dropdown_list.get(position).getId();
                         UserInfo user = OpenwordsSharedPreferences.getUserInfo();
                         user.setLang_id(homelang_id);
                         OpenwordsSharedPreferences.setUserInfo(user);
+                        
                     }
                 	@Override
                     public void onNothingSelected(AdapterView<?> parentView) {
