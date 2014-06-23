@@ -16,6 +16,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.provider.Contacts.Intents.Insert;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -23,6 +24,7 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -36,7 +38,9 @@ import com.openwords.learningmodule.HearingProgress;
 import com.openwords.learningmodule.Progress;
 import com.openwords.learningmodule.SelfEvalProgress;
 import com.openwords.learningmodule.TypeEvalProgress;
+import com.openwords.model.InsertData;
 import com.openwords.model.InitDatabase;
+import com.openwords.model.InsertData;
 import com.openwords.model.JSONParser;
 import com.openwords.model.LeafCard;
 import com.openwords.model.LeafCardHearing;
@@ -45,6 +49,7 @@ import com.openwords.model.LeafCardTypeEval;
 import com.openwords.model.UserInfo;
 import com.openwords.util.HomePageTool;
 import com.openwords.util.LanguagePageTool;
+import com.openwords.util.WordSelectionAlg;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
 import com.openwords.view.actionbar.ActionBarBuilder;
@@ -192,8 +197,15 @@ public class HomePage extends Activity implements OnClickListener {
         Log.d("Shared Preferences Language ID", Integer.toString(userinfo.getLang_id()));
         
         if (taskPage.equals("Review")) {
-            //targetClass = Review.class;
         	InitDatabase.checkAndRefreshPerf(this, 0);
+        	new InsertData(this);
+        	//new InsertData(HomePage.this);
+        	List<Integer> list = new WordSelectionAlg(HomePage.this).pickup(3);
+        	if(list==null) {
+        		Toast.makeText(HomePage.this, "Please select word first",Toast.LENGTH_LONG).show();
+        		return;
+        	}
+        	for(Integer i : list) Log.e("List", i+"");
         	final Progress progress = OpenwordsSharedPreferences.getReviewProgress();
             if (progress == null) {
                 List<LeafCard> cards = new LinkedList<LeafCard>();
@@ -237,7 +249,7 @@ public class HomePage extends Activity implements OnClickListener {
         } else if (taskPage.equals("Self evaluation")) {
             //targetClass = SelfEvaluate.class;
         	InitDatabase.checkAndRefreshPerf(this, 1);
-        	
+        	new InsertData(this);
         	final SelfEvalProgress progress = OpenwordsSharedPreferences.getSelfEvaluationProgress();
         	List<LeafCardSelfEval> cards = new LinkedList<LeafCardSelfEval>();
             cards.add(new LeafCardSelfEval("»À", "person", "ren"));
@@ -281,7 +293,7 @@ public class HomePage extends Activity implements OnClickListener {
         } else if (taskPage.equals("Type evaluation")) {
             //targetClass = TypeEvaluate.class;
         	InitDatabase.checkAndRefreshPerf(this, 2);
-        	
+        	new InsertData(this);
         	final TypeEvalProgress progress = OpenwordsSharedPreferences.getTypeEvaluationProgress();
             List<LeafCardTypeEval> cards = new LinkedList<LeafCardTypeEval>();
             cards.add(new LeafCardTypeEval("»À", "person", "ren"));
@@ -325,7 +337,7 @@ public class HomePage extends Activity implements OnClickListener {
             }
         } else if (taskPage.equals("Hearing")) {
         	InitDatabase.checkAndRefreshPerf(this, 3);
-        	
+        	new InsertData(this);
         	final HearingProgress progress = OpenwordsSharedPreferences.getHearingProgress();
             List<LeafCardHearing> cards = new LinkedList<LeafCardHearing>();
             cards.add(new LeafCardHearing("»À", "person", "ren"));

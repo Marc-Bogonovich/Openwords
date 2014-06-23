@@ -20,7 +20,7 @@ public class InitDatabase {
 	public static String url_get_user_words="http://geographycontest.ipage.com/OpenwordsOrg/OpenwordsDB/getUserWordsRecords.php";
 	public static String url_writeback_user_words="http://geographycontest.ipage.com/OpenwordsOrg/OpenwordsDB/writeBackUserWords.php";
 	public static UserInfo user;
-	//----
+	//-----
 	public static void checkAndRefreshPerf(Context ctx, int module)
 	{
 		user=OpenwordsSharedPreferences.getUserInfo();
