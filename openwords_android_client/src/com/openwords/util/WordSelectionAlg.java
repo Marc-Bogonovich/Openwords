@@ -57,11 +57,12 @@ public class WordSelectionAlg extends SugarRecord<UserPerformance> {
 	}
 	
 	public List<Integer> pickup(int size) {
+		//perform = UserPerformance.listAll(UserPerformance.class);
 		perform = UserPerformance.findByUser(user_id);
 		if(perform==null || perform.size()==0) {
 			return null;
 		}
-		Log.e("findByUser return size",""+perform.size());
+		Log.e("findByUser return size",""+perform.size()+"--"+perform.get(0).connection_id);
 		weightTable = new HashMap<Integer, Double>();
 		for(UserPerformance item : perform) {
 			double weight = calcWeight(item);
