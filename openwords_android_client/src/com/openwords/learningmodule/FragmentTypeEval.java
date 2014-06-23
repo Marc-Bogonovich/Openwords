@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +21,8 @@ import com.openwords.tts.Speak;
 import com.openwords.util.WordComparsion;
 import com.openwords.util.log.LogUtil;
 
-@SuppressLint("ValidFragment")
+@SuppressWarnings("unused")
+@SuppressLint({ "ValidFragment", "DefaultLocale" })
 public class FragmentTypeEval extends Fragment {
 
     private final int cardIndex;
@@ -60,8 +63,45 @@ public class FragmentTypeEval extends Fragment {
 		audioPlayButton = (ImageView) myFragmentView.findViewById(R.id.typeEvaluate_ImageView_audioPlay);
 		setInterfaceView();
 		
+		answer.setVisibility(View.INVISIBLE);
+		
+		userInput.addTextChangedListener(new TextWatcher(){
+			public void beforeTextChanged(CharSequence s, int start, int count, int after){}
+	        public void afterTextChanged(Editable s){}
+			@SuppressLint("DefaultLocale") @Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				 {
+						Integer userChoice = 0;
+						
+						if(userInput!=null) {
+							status.setImageResource(R.drawable.ic_learning_module_null);
+							//user choice 0--null 1--wrong 2--close 3--correct
+							String userInputString = userInput.getText().toString().toLowerCase();
+							double similarity = WordComparsion.similarity(userInputString, card.getWordLang1());
+							if(userInputString.equals(card.getWordLang1())) {
+								status.setImageResource(R.drawable.ic_learning_module_correct);
+								card.setUserInput(userInputString);
+								userChoice = 3;
+								Handler mHandler = new Handler();
+								mHandler.postDelayed(new Runnable() {
+						            public void run() {
+						            	ActivityTypeEval.getInstance().getPager().setCurrentItem(cardIndex + 1, true);
+						            }
+						        }, 3000);
+						} else {
+							answer.setVisibility(View.INVISIBLE);
+							status.setImageResource(R.drawable.ic_learning_module_null);
+							userChoice = 0;
+							//answer.setVisibility(View.VISIBLE);
+						}
+						card.setUserChoice(userChoice);
+
+					}
+			}
+		}});
+		
 		checkButton.setOnClickListener(new View.OnClickListener() {
-			@Override
+			@SuppressLint("DefaultLocale") @Override
 			public void onClick(View v) {
 				Integer userChoice = 0;
 				
@@ -122,15 +162,15 @@ public class FragmentTypeEval extends Fragment {
 			answer.setVisibility(View.INVISIBLE);
 		} else if (userChoice.equals(3)) {
 			status.setImageResource(R.drawable.ic_learning_module_correct);
-			userInput.setText(card.getUserInput());	
+			userInput.setText("");	
 			answer.setVisibility(View.INVISIBLE);
 		} else if (userChoice.equals(2)) {
 			status.setImageResource(R.drawable.ic_learning_module_close);
-			userInput.setText(card.getUserInput());
+			userInput.setText("");
 			answer.setVisibility(View.VISIBLE);
 		} else {
 			status.setImageResource(R.drawable.ic_learning_module_incorrect);
-			userInput.setText(card.getUserInput());
+			userInput.setText("");
 			answer.setVisibility(View.VISIBLE);
 		}
 		
