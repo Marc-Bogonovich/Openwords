@@ -190,6 +190,7 @@ public class HomePage extends Activity implements OnClickListener {
         
         if (taskPage.equals("Review")) {
         	InitDatabase.checkAndRefreshPerf(this, 0);
+        	new InsertData(this);
         	//new InsertData(HomePage.this);
         	List<Integer> list = new WordSelectionAlg(HomePage.this).pickup(3);
         	if(list==null) {
@@ -240,7 +241,7 @@ public class HomePage extends Activity implements OnClickListener {
         } else if (taskPage.equals("Self evaluation")) {
             //targetClass = SelfEvaluate.class;
         	InitDatabase.checkAndRefreshPerf(this, 1);
-        	
+        	new InsertData(this);
         	final SelfEvalProgress progress = OpenwordsSharedPreferences.getSelfEvaluationProgress();
         	List<LeafCardSelfEval> cards = new LinkedList<LeafCardSelfEval>();
             cards.add(new LeafCardSelfEval("»À", "person", "ren"));
@@ -284,7 +285,7 @@ public class HomePage extends Activity implements OnClickListener {
         } else if (taskPage.equals("Type evaluation")) {
             //targetClass = TypeEvaluate.class;
         	InitDatabase.checkAndRefreshPerf(this, 2);
-        	
+        	new InsertData(this);
         	final TypeEvalProgress progress = OpenwordsSharedPreferences.getTypeEvaluationProgress();
             List<LeafCardTypeEval> cards = new LinkedList<LeafCardTypeEval>();
             cards.add(new LeafCardTypeEval("»À", "person", "ren"));
@@ -328,7 +329,7 @@ public class HomePage extends Activity implements OnClickListener {
             }
         } else if (taskPage.equals("Hearing")) {
         	InitDatabase.checkAndRefreshPerf(this, 3);
-        	
+        	new InsertData(this);
         	final HearingProgress progress = OpenwordsSharedPreferences.getHearingProgress();
             List<LeafCardHearing> cards = new LinkedList<LeafCardHearing>();
             cards.add(new LeafCardHearing("»À", "person", "ren"));

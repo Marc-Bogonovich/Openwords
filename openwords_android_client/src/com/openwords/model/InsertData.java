@@ -22,6 +22,12 @@ public class InsertData{
 		record.save();
 		record = new UserPerformance(12,226,1,10,11,2,12950,0,arg0);
 		record.save();
+		record = new UserPerformance(13,226,1,10,11,2,12950,0,arg0);
+		record.save();
+		record = new UserPerformance(14,226,1,10,11,2,12950,0,arg0);
+		record.save();
+		record = new UserPerformance(15,226,1,10,11,2,12950,0,arg0);
+		record.save();
 	}
 
 }
