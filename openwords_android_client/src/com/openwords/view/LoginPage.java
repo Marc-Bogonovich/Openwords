@@ -109,13 +109,13 @@ public class LoginPage extends Activity implements OnClickListener {
                 final SelfEvalProgress progress = OpenwordsSharedPreferences.getSelfEvaluationProgress();
                 if (progress == null) {
                     List<LeafCardSelfEval> cards = new LinkedList<LeafCardSelfEval>();
-                    cards.add(new LeafCardSelfEval("人", "person", "ren"));
-                    cards.add(new LeafCardSelfEval("猫", "cat", "mao"));
-                    cards.add(new LeafCardSelfEval("地球", "earth", "di qiu"));
-                    cards.add(new LeafCardSelfEval("时间", "time", "shi jian"));
-                    cards.add(new LeafCardSelfEval("世界", "world", "shi jie"));
-                    cards.add(new LeafCardSelfEval("电脑", "computer", "dian nao"));
-                    cards.add(new LeafCardSelfEval("软件", "software", "ruan jian"));
+                    cards.add(new LeafCardSelfEval("äºº", "person", "ren"));
+                    cards.add(new LeafCardSelfEval("çŒ«", "cat", "mao"));
+                    cards.add(new LeafCardSelfEval("åœ°ç�ƒ", "earth", "di qiu"));
+                    cards.add(new LeafCardSelfEval("æ—¶é—´", "time", "shi jian"));
+                    cards.add(new LeafCardSelfEval("ä¸–ç•Œ", "world", "shi jie"));
+                    cards.add(new LeafCardSelfEval("ç”µè„‘", "computer", "dian nao"));
+                    cards.add(new LeafCardSelfEval("è½¯ä»¶", "software", "ruan jian"));
                     ActivitySelfEval.setCardsPool(cards);
                     startActivity(new Intent(LoginPage.this, ActivitySelfEval.class));
                 } else {
@@ -125,13 +125,13 @@ public class LoginPage extends Activity implements OnClickListener {
                             .setNegativeButton("No", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface arg0, int arg1) {
                                     List<LeafCardSelfEval> cards = new LinkedList<LeafCardSelfEval>();
-                                    cards.add(new LeafCardSelfEval("人", "person", "ren"));
-                                    cards.add(new LeafCardSelfEval("猫", "cat", "mao"));
-                                    cards.add(new LeafCardSelfEval("地球", "earth", "di qiu"));
-                                    cards.add(new LeafCardSelfEval("时间", "time", "shi jian"));
-                                    cards.add(new LeafCardSelfEval("世界", "world", "shi jie"));
-                                    cards.add(new LeafCardSelfEval("电脑", "computer", "dian nao"));
-                                    cards.add(new LeafCardSelfEval("软件", "software", "ruan jian"));
+                                    cards.add(new LeafCardSelfEval("äºº", "person", "ren"));
+                                    cards.add(new LeafCardSelfEval("çŒ«", "cat", "mao"));
+                                    cards.add(new LeafCardSelfEval("åœ°ç�ƒ", "earth", "di qiu"));
+                                    cards.add(new LeafCardSelfEval("æ—¶é—´", "time", "shi jian"));
+                                    cards.add(new LeafCardSelfEval("ä¸–ç•Œ", "world", "shi jie"));
+                                    cards.add(new LeafCardSelfEval("ç”µè„‘", "computer", "dian nao"));
+                                    cards.add(new LeafCardSelfEval("è½¯ä»¶", "software", "ruan jian"));
                                     ActivitySelfEval.setCardsPool(cards);
                                     startActivity(new Intent(LoginPage.this, ActivitySelfEval.class));
                                 }
@@ -227,7 +227,8 @@ public class LoginPage extends Activity implements OnClickListener {
 //                    editor.putBoolean(SAVEUSER, saveuser);
 //                    editor.commit();
 //                }
-                OpenwordsSharedPreferences.setUserInfo(new UserInfo(userid, username, password, System.currentTimeMillis()));
+                int lu = OpenwordsSharedPreferences.getUserInfo().getLast_userid();
+                OpenwordsSharedPreferences.setUserInfo(new UserInfo(lu,0,userid, username, password, System.currentTimeMillis()));
                 LoginPage.this.startActivity(new Intent(LoginPage.this, HomePage.class));
             } else {
                 runOnUiThread(new Runnable() {
