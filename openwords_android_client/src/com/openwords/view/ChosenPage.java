@@ -51,10 +51,10 @@ public class ChosenPage extends Activity{
 		
 		//***********db test********
 		
-		UserPerformanceDirty upd = new UserPerformanceDirty(this);
-		upd.connection_id=3;
-		upd.user_id=OpenwordsSharedPreferences.getUserInfo().getUserId();
-		upd.save();
+		//UserPerformanceDirty upd = new UserPerformanceDirty(this);
+		//upd.connection_id=3;
+		//upd.user_id=OpenwordsSharedPreferences.getUserInfo().getUserId();
+		//upd.save();
 		//************************
 		
 		/*
