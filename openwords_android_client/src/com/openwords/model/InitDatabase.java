@@ -82,14 +82,16 @@ public class InitDatabase {
 				
 				//deleting all user performance data for particular user
 				UserPerformance.deleteByUser(userId);
-				//Loading user performance summary
-				List<UserWords> uwListLocal = UserWords.listAll(UserWords.class);
-				for(int i=0;i<uwListLocal.size();i++)
-				{
-					
-					InitDatabase.loadPerformanceSummary(ctx,userId,uwListLocal.get(i).connectionId,module);
-				}
 				
+				
+				
+			}
+			//Loading user performance summary
+			List<UserWords> uwListLocal = UserWords.listAll(UserWords.class);
+			for(int i=0;i<uwListLocal.size();i++)
+			{
+				
+				InitDatabase.loadPerformanceSummary(ctx,userId,uwListLocal.get(i).connectionId,module);
 			}
 		}
 		else
@@ -101,12 +103,17 @@ public class InitDatabase {
 	public static void loadPerformanceSummary(Context ctx,int user,int con,int mod){
 		
 		Log.d("paramsInPerfSum", "="+user+con+mod);
+		
+		List<UserPerformance> upTempList = UserPerformance.findByUserConnection(user, con);
+		if(upTempList.size()!=0)
+			//Log.d("..", "");
+			UserPerformance.deleteByUserConnection(user, con);
 		try
 		{
 			List<NameValuePair> params1 = new ArrayList<NameValuePair>();
 			params1.add(new BasicNameValuePair("user",Integer.toString(user)));
 			params1.add(new BasicNameValuePair("connectionid",Integer.toString(con)));
-			params1.add(new BasicNameValuePair("module",Integer.toString(mod)));
+			//params1.add(new BasicNameValuePair("module",Integer.toString(mod)));
 			JSONParser jsonParse = new JSONParser();
 			JSONObject jObj = jsonParse.makeHttpRequest(url_get_user_perf_summary, "POST", params1);
 			if(jObj.getInt("success")==1)
@@ -116,8 +123,8 @@ public class InitDatabase {
 			{
 				JSONObject childObj = jArr.getJSONObject(i);
 				
-				UserPerformance upRec = new UserPerformance(childObj.getInt("connectionid"),childObj.getInt("userid"),
-						 childObj.getInt("total_correct"),
+				UserPerformance upRec = new UserPerformance(childObj.getInt("connectionid"),childObj.getInt("userid"),childObj.getInt("module"),
+						 childObj.getInt("total_correct"), childObj.getInt("total_close"),
 						childObj.getInt("totalSkipped"), childObj.getInt("total_expose"),
 						childObj.getInt("last_time"), childObj.getInt("last_performance"),
 						0,ctx);

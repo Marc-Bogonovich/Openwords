@@ -11,7 +11,9 @@ public class UserPerformance extends SugarRecord<UserPerformance> {
 	
 	public int connection_id;
 	public int user_id;
+	public int module;
 	public int total_correct;
+	public int total_close;
 	public int total_skipped;
 	public int total_exposure;
 	public int last_time;
@@ -23,13 +25,14 @@ public class UserPerformance extends SugarRecord<UserPerformance> {
 	}
 	
 	//override constructor
-	public UserPerformance(int connection_id,int user_id, 
+	public UserPerformance(int connection_id,int user_id,
 			int total_correct, int total_skipped, int total_exposure, int last_time,
 			int last_performance, int user_exclude, Context c)
 	{
 		super(c);
 		this.connection_id=connection_id;
 		this.user_id=user_id;
+		this.module = 0;
 		this.total_correct=total_correct;
 		this.total_skipped=total_skipped;
 		this.total_exposure=total_exposure;
@@ -37,6 +40,24 @@ public class UserPerformance extends SugarRecord<UserPerformance> {
 		this.last_performance=last_performance;
 		this.user_exclude=user_exclude;
 	}
+	
+	//override constructor
+		public UserPerformance(int connection_id,int user_id, int module, int total_close,
+				int total_correct, int total_skipped, int total_exposure, int last_time,
+				int last_performance, int user_exclude, Context c)
+		{
+			super(c);
+			this.connection_id=connection_id;
+			this.user_id=user_id;
+			this.module = module;
+			this.total_correct=total_correct;
+			this.total_close=total_close;
+			this.total_skipped=total_skipped;
+			this.total_exposure=total_exposure;
+			this.last_time=last_time;
+			this.last_performance=last_performance;
+			this.user_exclude=user_exclude;
+		}
 	
 	public static List<UserPerformance> findByUserConnection(int user_id, int connection_id)
 	{
@@ -48,7 +69,7 @@ public class UserPerformance extends SugarRecord<UserPerformance> {
 	public static List<UserPerformance> findByUser(int user_id)
 	{
 		List<UserPerformance> result = UserPerformance.find(UserPerformance.class, "userid="+user_id);
-		Log.d("size of result", Integer.toString(result.size()));
+		//Log.d("size of result", Integer.toString(result.size()));
 		return result;
 	}
 	
@@ -56,6 +77,12 @@ public class UserPerformance extends SugarRecord<UserPerformance> {
 	{
 		UserPerformance.deleteAll(UserPerformance.class, "userid=?", Integer.toString(user_id));
 	}
+	public static void deleteByUserConnection(int user_id, int connection_id)
+	{
+		UserPerformance.deleteAll(UserPerformance.class, "userid=? AND connectionid=?", Integer.toString(user_id),
+				Integer.toString(connection_id));
+	}
+	
 	
 	public String toString() {
 		return "connection_id: "+connection_id+";user_id: "+user_id+";total_correct: "+
