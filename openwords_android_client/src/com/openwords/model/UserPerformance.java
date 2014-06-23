@@ -3,6 +3,7 @@ package com.openwords.model;
 import java.util.List;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.orm.SugarRecord;
 
@@ -46,8 +47,8 @@ public class UserPerformance extends SugarRecord<UserPerformance> {
 	
 	public static List<UserPerformance> findByUser(int user_id)
 	{
-		List<UserPerformance> result = UserPerformance.find(UserPerformance.class, "userid=?",
-				Integer.toString(user_id));
+		List<UserPerformance> result = UserPerformance.find(UserPerformance.class, "userid="+user_id);
+		Log.d("size of result", Integer.toString(result.size()));
 		return result;
 	}
 	

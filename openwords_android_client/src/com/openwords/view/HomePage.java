@@ -211,32 +211,35 @@ public class HomePage extends Activity implements OnClickListener {
                 ActivityReview.setCardsPool(cards);
                 startActivity(new Intent(HomePage.this, ActivityReview.class));
             } else {
-                new AlertDialog.Builder(HomePage.this)
-                        .setTitle("Continue?")
-                        .setMessage("You have a saved progress, do you want to continue?")
-                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface arg0, int arg1) {
-                                List<LeafCard> cards = new LinkedList<LeafCard>();
-                                cards.add(new LeafCardSelfEval("人", "person", "ren"));
-                                cards.add(new LeafCardSelfEval("猫", "cat", "mao"));
-                                cards.add(new LeafCardSelfEval("地球", "earth", "di qiu"));
-                                cards.add(new LeafCardSelfEval("时间", "time", "shi jian"));
-                                cards.add(new LeafCardSelfEval("世界", "world", "shi jie"));
-                                cards.add(new LeafCardSelfEval("电脑", "computer", "dian nao"));
-                                cards.add(new LeafCardSelfEval("软件", "software", "ruan jian"));
-                                ActivityReview.setCardsPool(cards);
-                                startActivity(new Intent(HomePage.this, ActivityReview.class));
-                            }
-                        })
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface arg0, int arg1) {
-                            	ActivityReview.setCardsPool(progress.getCardsPool());
-                            	Log.e("aa","after");
-                            	
-                            	ActivityReview.setCurrentCard(progress.getCurrentCard());
-                                startActivity(new Intent(HomePage.this, ActivityReview.class));
-                            }
-                        }).create().show();
+            	ActivityReview.setCardsPool(progress.getCardsPool());
+            	
+            	ActivityReview.setCurrentCard(progress.getCurrentCard());
+                startActivity(new Intent(HomePage.this, ActivityReview.class));
+//                new AlertDialog.Builder(HomePage.this)
+//                        .setTitle("Continue?")
+//                        .setMessage("You have a saved progress, do you want to continue?")
+//                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+//                            public void onClick(DialogInterface arg0, int arg1) {
+//                                List<LeafCard> cards = new LinkedList<LeafCard>();
+//                                cards.add(new LeafCardSelfEval("人", "person", "ren"));
+//                                cards.add(new LeafCardSelfEval("猫", "cat", "mao"));
+//                                cards.add(new LeafCardSelfEval("地球", "earth", "di qiu"));
+//                                cards.add(new LeafCardSelfEval("时间", "time", "shi jian"));
+//                                cards.add(new LeafCardSelfEval("世界", "world", "shi jie"));
+//                                cards.add(new LeafCardSelfEval("电脑", "computer", "dian nao"));
+//                                cards.add(new LeafCardSelfEval("软件", "software", "ruan jian"));
+//                                ActivityReview.setCardsPool(cards);
+//                                startActivity(new Intent(HomePage.this, ActivityReview.class));
+//                            }
+//                        })
+//                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+//                            public void onClick(DialogInterface arg0, int arg1) {
+//                            	ActivityReview.setCardsPool(progress.getCardsPool());
+//                            	
+//                            	ActivityReview.setCurrentCard(progress.getCurrentCard());
+//                                startActivity(new Intent(HomePage.this, ActivityReview.class));
+//                            }
+//                        }).create().show();
             }
         } else if (taskPage.equals("Self evaluation")) {
             //targetClass = SelfEvaluate.class;
