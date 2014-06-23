@@ -1,5 +1,8 @@
-package com.openwords.util;
 
+package com.openwords.util;
+/*
+ * @author: Guan
+ */
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,17 +33,6 @@ public class WordSelectionAlg extends SugarRecord<UserPerformance> {
 	}
 	
 	
-	private void getWeightTable() {
-		perform = UserPerformance.findByUser(user_id);
-		Log.e("findByUser return size",""+perform.size());
-		weightTable = new HashMap<Integer, Double>();
-		for(UserPerformance item : perform) {
-			double weight = calcWeight(item);
-			weightTable.put(item.connection_id, weight);
-			Log.d(item.connection_id+" weight",Double.toString(weight));
-		}
-	}
-	
 	private double calcWeight(UserPerformance perform) {
 		double wrongRate = (perform.total_exposure - perform.total_correct) / (double)perform.total_exposure;
 		double skipRate = (perform.total_skipped) / (double)perform.total_exposure;
@@ -52,20 +44,30 @@ public class WordSelectionAlg extends SugarRecord<UserPerformance> {
 		long currentTime = System.currentTimeMillis() / 1000L;
 		long timeGap = currentTime - perform.last_time;
 		long dayGap = timeGap/3600/24;
-		int timeIndex = (int) (Math.log(dayGap)/Math.log(2));
+		int timeFactor = (int) (Math.log(dayGap)/Math.log(2));
 		double weight = wrongRate*10*weightOfWrong 
 				+ skipRate*10*weightOfskip 
 				+ lastTimeIndicator*5*weightOfLastPerformance
-				+ timeIndex*weightOfLastTime;
+				+ timeFactor*weightOfLastTime;
 		Log.d("wrong", Double.toString(wrongRate*10*weightOfWrong ));
 		Log.d("skip", Double.toString(skipRate*10*weightOfskip ));
 		Log.d("perfromance", Double.toString(lastTimeIndicator*5*weightOfLastPerformance ));
-		Log.d("time", Double.toString( timeIndex*weightOfLastTime ));
+		Log.d("time", Double.toString( timeFactor*weightOfLastTime ));
 		return weight;
 	}
 	
 	public List<Integer> pickup(int size) {
-		getWeightTable();
+		perform = UserPerformance.findByUser(user_id);
+		if(perform==null || perform.size()==0) {
+			return null;
+		}
+		Log.e("findByUser return size",""+perform.size());
+		weightTable = new HashMap<Integer, Double>();
+		for(UserPerformance item : perform) {
+			double weight = calcWeight(item);
+			weightTable.put(item.connection_id, weight);
+			Log.d(item.connection_id+" weight",Double.toString(weight));
+		}
 		double totalWeight = 0.0d;
 		for (UserPerformance item : perform)
 		{
@@ -90,3 +92,4 @@ public class WordSelectionAlg extends SugarRecord<UserPerformance> {
 	
 	
 }
+

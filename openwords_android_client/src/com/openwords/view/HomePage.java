@@ -27,6 +27,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.openwords.R;
 import com.openwords.learningmodule.ActivityHearing;
@@ -188,10 +189,13 @@ public class HomePage extends Activity implements OnClickListener {
         Log.d("Shared Preferences Language ID", Integer.toString(userinfo.getLang_id()));
         
         if (taskPage.equals("Review")) {
-            //targetClass = Review.class;
         	InitDatabase.checkAndRefreshPerf(this, 0);
         	//new InsertData(HomePage.this);
         	List<Integer> list = new WordSelectionAlg(HomePage.this).pickup(3);
+        	if(list==null) {
+        		Toast.makeText(HomePage.this, "Please select word first",Toast.LENGTH_LONG).show();
+        		return;
+        	}
         	for(Integer i : list) Log.e("List", i+"");
         	final Progress progress = OpenwordsSharedPreferences.getReviewProgress();
             if (progress == null) {
