@@ -24,7 +24,7 @@ public class WordTranscription extends SugarRecord<WordTranscription>{
 	
 	public List<WordTranscription> findByWord(int wordL2Id)
 	{
-		List<WordTranscription> trans = WordTranscription.find(WordTranscription.class, "word_l2_id=?", Integer.toString(wordL2Id));
+		List<WordTranscription> trans = WordTranscription.find(WordTranscription.class, "word_l2_id="+wordL2Id);
 		return trans;
 	}
 

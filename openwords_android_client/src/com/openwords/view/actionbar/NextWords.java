@@ -51,7 +51,7 @@ public class NextWords extends Activity implements OnClickListener{
             words_listview = (ListView)findViewById(R.id.nextwords_listview);
             
 	        runOnUiThread(new Runnable() { public void run(){getFromServer();} } );
-	        Log.d("dataOnMain", wordslist.get(0).getWord1());
+	        //Log.d("dataOnMain", wordslist.get(0).getWord1());
 	        //wordslist.add(0, new WordsPageTool(99, "wordl2", "wordl1", true));           
             WordListAdapter wordsadapter = new WordListAdapter(this, R.layout.nextwords_adapter, wordslist);
             // setting the custom adapter to the listview object

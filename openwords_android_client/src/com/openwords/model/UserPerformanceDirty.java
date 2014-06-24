@@ -36,20 +36,18 @@ public class UserPerformanceDirty extends SugarRecord<UserPerformanceDirty> {
 	
 	public static List<UserPerformanceDirty> findByUserConnection(int user_id, int connection_id)
 	{
-		List<UserPerformanceDirty> result = UserPerformanceDirty.find(UserPerformanceDirty.class, "connectionid=? and userid=?", Integer.toString(connection_id),
-				Integer.toString(user_id));
+		List<UserPerformanceDirty> result = UserPerformanceDirty.find(UserPerformanceDirty.class, "connectionid="+connection_id+" and userid="+user_id);
 		return result;
 	}
 	
 	public static List<UserPerformanceDirty> findByUser(int user_id)
 	{
-		List<UserPerformanceDirty> result = UserPerformanceDirty.find(UserPerformanceDirty.class, "userid=?",
-				Integer.toString(user_id));
+		List<UserPerformanceDirty> result = UserPerformanceDirty.find(UserPerformanceDirty.class, "userid="+user_id);
 		return result;
 	}
 	
 	public static void deleteByUser(int user_id)
 	{
-		UserPerformanceDirty.executeQuery("Delete from user_performance_dirty where userid=?", Integer.toString(user_id));
+		UserPerformanceDirty.executeQuery("Delete from user_performance_dirty where userid="+user_id);
 	}
 }

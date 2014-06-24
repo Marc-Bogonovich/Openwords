@@ -46,13 +46,13 @@ public class UserWords extends SugarRecord<UserWords> {
 	
 	public static List<UserWords> findByConnection(int connection_id)
 	{
-		List<UserWords> words = UserWords.find(UserWords.class, "connection_id=?", Integer.toString(connection_id));
+		List<UserWords> words = UserWords.find(UserWords.class, "connection_id="+connection_id);
 		return words;
 	}
 	
 	public static void setFreshToStale(int connection_id)
 	{
-		UserWords.executeQuery("UPDATE user_words SET fresh=false where connection_id=?", Integer.toString(connection_id));
+		UserWords.executeQuery("UPDATE user_words SET fresh=false where connection_id="+connection_id);
 	}
 
 }

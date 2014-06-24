@@ -75,11 +75,11 @@ public class InitDatabase {
 				
 			
 			//deleting all User words data
-			if(userId!=prevUser || user.getLang_id()!=uwList.get(0).lTwoId)
+			if(userId!=prevUser || user.getLang_id()!=((uwList.size()==0)?-1:uwList.get(0).lTwoId))
 			{
 				UserWords.deleteAll(UserWords.class);
 				InitDatabase.loadUserWords(ctx, OpenwordsSharedPreferences.getUserInfo().getLang_id(), userId);
-				
+				Log.d("place", "loading user words");
 				//deleting all user performance data for particular user
 				UserPerformance.deleteByUser(userId);
 				
