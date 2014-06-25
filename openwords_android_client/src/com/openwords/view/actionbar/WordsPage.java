@@ -1,6 +1,13 @@
 package com.openwords.view.actionbar;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -17,12 +24,21 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 
 import com.openwords.R;
+import com.openwords.model.JSONParser;
+import com.openwords.model.UserWords;
+import com.openwords.util.TimeConvertor;
+import com.openwords.util.WordsPageTool;
+import com.openwords.util.preference.OpenwordsSharedPreferences;
 
 public class WordsPage extends Activity implements OnClickListener {
 	private String[] nextWordsArray;
+	private static String url_write_downloaded_words_to_server = "http://geographycontest.ipage.com/OpenwordsOrg/OpenwordsDB/setUserWords.php";
+	private static String search_words_url = "http://geographycontest.ipage.com/OpenwordsOrg/WordsDB/wordsPageSearchWord.php";
 	private static String[] searchWordsArray;
 	public static AlertDialog.Builder dg;
 	public static final ArrayList<Integer> mSelectedItems = new ArrayList<Integer>();
+	private static JSONArray jArrMain;
+	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +58,8 @@ public class WordsPage extends Activity implements OnClickListener {
         ImageButton syncButton = (ImageButton) findViewById(R.id.wordsPage_ImageButton_syncButton);
         syncButton.setOnClickListener(this); 
         nextWordsArray = new String[]{"�� I","�� you","�� he"};
-        searchWordsArray = new String[]{"�� cloud","��˾ company"};
+        //searchWordsArray = new String[]{"�� cloud","��˾ company"};
+        searchWordsArray=null;
     }
 
 	@Override
@@ -136,12 +153,14 @@ public class WordsPage extends Activity implements OnClickListener {
                public void onClick(DialogInterface dialog, int id) {
                    // User clicked OK, so save the mSelectedItems results somewhere
                    // or return them to the component that opened the dialog
+            	   updateUserWords();
                    dialog.dismiss();
                }
            });
            dg.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                @Override
                public void onClick(DialogInterface dialog, int id) {
+            	searchWordsArray=null;
                 dialog.dismiss();
                }
            });
@@ -154,6 +173,7 @@ public class WordsPage extends Activity implements OnClickListener {
 	     		   //testmethod();
 	     		   Log.d("text", ed.getText().toString());
 	     		   dialog.dismiss();
+	     		  searchWordFromServer(ed.getText().toString());
 	     		   searchWordsButtonClick(0,ed.getText().toString());
 			}
 		});
@@ -164,6 +184,92 @@ public class WordsPage extends Activity implements OnClickListener {
 	//
 	public void searchWordFromServer(String searchText)
 	{
+		ArrayList<String> words_list = new ArrayList<String>();
+		try 
+        {
+                List<NameValuePair> params = new ArrayList<NameValuePair>(3);
+                params.add(new BasicNameValuePair("user", Integer.toString(OpenwordsSharedPreferences.getUserInfo().getUserId())));
+                params.add(new BasicNameValuePair("langOne", "1"));
+                params.add(new BasicNameValuePair("langTwo", Integer.toString(OpenwordsSharedPreferences.getUserInfo().getLang_id())));
+                params.add(new BasicNameValuePair("searchText", searchText));
+                //Log.d("User", "47");
+                JSONParser jsonParse = new JSONParser();
+                JSONObject jObj = jsonParse.makeHttpRequest(search_words_url, "POST", params);
+                Log.d("Obj", jObj.toString());
+                if(jObj.getInt("success")==1)
+                {
+	                JSONArray jArr = jObj.getJSONArray("data");
+	                String abc = Integer.toString(jArr.length());
+	                Log.d("Array", abc);
+	                jArrMain = jArr;
+	                for (int i = 0; i < jArr.length(); i++) 
+	                {  // **line 2**
+	                	JSONObject childJSONObject = jArr.getJSONObject(i);
+	            
+	                	words_list.add(childJSONObject.getString("wordl1_text")+"   <---->   "+childJSONObject.getString("wordl2_text"));
+	                	//Log.d("Loop", childJSONObject.getString("wordl1_text"));
+	                	Log.d("Loop", words_list.get(i));
+	                }
+                }else{words_list.add(new String("No Words found"));}
+                
+        }
+                catch(Exception e)
+                {e.printStackTrace();}
+		searchWordsArray = new String[words_list.size()];
+		words_list.toArray(searchWordsArray);
+	}
+	
+	//update user words
+	public void updateUserWords()
+	{
+		String conIds="";
+		for(int i=0;i<mSelectedItems.size();i++)
+		{
+			try {
+				JSONObject c=jArrMain.getJSONObject(mSelectedItems.get(i));
+				UserWords uwRec = new UserWords(this,c.getInt("connection_id"),
+						c.getInt("wordl1"),c.getString("wordl1_text"),c.getInt("wordl2"),
+						c.getString("wordl2_text"),c.getInt("l2id"),c.getString("l2name"),c.getString("audio"));
+				uwRec.save();
+				
+				//concatenating connection ids
+				if(conIds.length()==0)
+					conIds = conIds + c.getInt("connection_id");
+				else
+					conIds = conIds + "|" + c.getInt("connection_id");
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		this.updateWordsOnServer(conIds,TimeConvertor.getUnixTime());
+		
+		searchWordsArray=null;
+	}
+	
+	public void updateWordsOnServer(String conIds, long dTime)
+	{
+		try
+		{
+			int user = OpenwordsSharedPreferences.getUserInfo().getUserId();
+			int langTwo = OpenwordsSharedPreferences.getUserInfo().getLang_id();
+			List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("conid", conIds));
+            params.add(new BasicNameValuePair("dtime", Long.toString(dTime)));
+            params.add(new BasicNameValuePair("user",Integer.toString(user)));
+            params.add(new BasicNameValuePair("lTwo",Integer.toString(langTwo)));
+            JSONParser jsonParse = new JSONParser();
+            JSONObject jObj = jsonParse.makeHttpRequest(url_write_downloaded_words_to_server, "POST", params);
+            
+            if(jObj.getInt("success")==1)
+            	Log.d("Message From Server", jObj.getString("message"));
+            
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+        
 		
 	}
         
