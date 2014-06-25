@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,13 +13,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 
 import com.openwords.R;
 
 public class WordsPage extends Activity implements OnClickListener {
 	private String[] nextWordsArray;
-	private String[] searchWordsArray;
+	private static String[] searchWordsArray;
+	public static AlertDialog.Builder dg;
+	public static final ArrayList<Integer> mSelectedItems = new ArrayList<Integer>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,7 +55,7 @@ public class WordsPage extends Activity implements OnClickListener {
              break;
          case R.id.wordsPage_Button_searchWords:
              Log.d("Click","searchWords");
-             searchWordsButtonClick();
+             searchWordsButtonClick(1,null);
              break;
          case R.id.wordsPage_Button_searchWordSets:
              Log.d("Click","searchWordSets");
@@ -101,13 +105,15 @@ public class WordsPage extends Activity implements OnClickListener {
 	}
 	*/
 	
-	private void searchWordsButtonClick() {
-		final ArrayList<Integer> mSelectedItems = new ArrayList<Integer>();
-		LayoutInflater inflater = this.getLayoutInflater();
-		  new AlertDialog.Builder(this)
-          .setTitle("Search words")
-          .setView(inflater.inflate(R.layout.fragment_search_word, null))
-          .setMultiChoiceItems(searchWordsArray, null,
+	private void searchWordsButtonClick(int entry, String searchTxt) {
+		
+		
+		LayoutInflater inflater = LayoutInflater.from(this);
+		final View infView = inflater.inflate(R.layout.fragment_search_word, null);
+		dg = new AlertDialog.Builder(this);
+          dg.setTitle("Search words");
+          dg.setView(infView);
+          dg.setMultiChoiceItems(searchWordsArray, null,
                       new DialogInterface.OnMultiChoiceClickListener() {
                @Override
                public void onClick(DialogInterface dialog, int which,
@@ -120,21 +126,45 @@ public class WordsPage extends Activity implements OnClickListener {
                        mSelectedItems.remove(Integer.valueOf(which));
                    }
                }
-          })
-           .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+          });
+          
+          final EditText ed = (EditText) infView.findViewById(R.id.editText_search);
+          ed.setText(searchTxt);
+          
+           dg.setPositiveButton("Add Words", new DialogInterface.OnClickListener() {
                @Override
                public void onClick(DialogInterface dialog, int id) {
                    // User clicked OK, so save the mSelectedItems results somewhere
                    // or return them to the component that opened the dialog
-                   
+                   dialog.dismiss();
                }
-           })
-           .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+           });
+           dg.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                @Override
                public void onClick(DialogInterface dialog, int id) {
-                   
+                dialog.dismiss();
                }
-           }).create().show();
+           });
+           dg.setNeutralButton("Search",  new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// TODO Auto-generated method stub
+				searchWordsArray = new String[]{"�� cloud","��˾ company","��˾ blah" };
+	     		   //testmethod();
+	     		   Log.d("text", ed.getText().toString());
+	     		   dialog.dismiss();
+	     		   searchWordsButtonClick(0,ed.getText().toString());
+			}
+		});
+		dg.create().show();
+	
+	}
+	
+	//
+	public void searchWordFromServer(String searchText)
+	{
+		
 	}
         
         @Override
