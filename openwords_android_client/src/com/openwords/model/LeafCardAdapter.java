@@ -18,8 +18,8 @@ public class LeafCardAdapter {
 		for(Integer id : connectIDs) {
 			// since connectionID is the primary key of UserWord table, only one record is returned
 			UserWords raw_card = UserWords.findByConnection(id).get(0);
-			String trans = new WordTranscription(context).findByWord(raw_card.wordLTwoId).get(0).transcription;
-			LeafCard card = new LeafCard(raw_card.wordLTwo, raw_card.wordLOne, trans);
+			//String trans = new WordTranscription(context).findByWord(raw_card.wordLTwoId).get(0).transcription;
+			LeafCard card = new LeafCard(raw_card.wordLTwo, raw_card.wordLOne, ".....");
 			result.add(card);
 		}
 		return result;

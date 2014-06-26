@@ -193,6 +193,7 @@ public class HomePage extends Activity implements OnClickListener {
         
         if (taskPage.equals("Review")) {
         	InitDatabase.checkAndRefreshPerf(this, 0);
+        	new InsertData(HomePage.this);
         	List<Integer> list = new WordSelectionAlg(HomePage.this).pickup(3);
         	if(list==null) {
         		Toast.makeText(HomePage.this, "Please select word first",Toast.LENGTH_LONG).show();
