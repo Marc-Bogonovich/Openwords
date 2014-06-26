@@ -55,7 +55,7 @@ public class WordsPage extends Activity implements OnClickListener {
         searchWordSets.setOnClickListener(this); 
         Button viewMyWords = (Button) findViewById(R.id.wordsPage_Button_viewMyWords);
         viewMyWords.setOnClickListener(this); 
-        ImageButton syncButton = (ImageButton) findViewById(R.id.wordsPage_ImageButton_syncButton);
+        ImageButton syncButton = (ImageButton) findViewById(R.id.wordsPage_ImageView_syncButton);
         syncButton.setOnClickListener(this); 
         nextWordsArray = new String[]{"�� I","�� you","�� he"};
         //searchWordsArray = new String[]{"�� cloud","��˾ company"};
@@ -80,7 +80,7 @@ public class WordsPage extends Activity implements OnClickListener {
          case R.id.wordsPage_Button_viewMyWords:
              Log.d("Click","viewMyWords");
              break;
-         case R.id.wordsPage_ImageButton_syncButton:
+         case R.id.wordsPage_ImageView_syncButton:
              Log.d("Click","syncButton");
              break;
 		 }
