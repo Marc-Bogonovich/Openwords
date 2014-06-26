@@ -36,7 +36,7 @@ public class WordsPage extends Activity implements OnClickListener {
 	private static String search_words_url = "http://geographycontest.ipage.com/OpenwordsOrg/WordsDB/wordsPageSearchWord.php";
 	private static String[] searchWordsArray;
 	public static AlertDialog.Builder dg;
-	public static final ArrayList<Integer> mSelectedItems = new ArrayList<Integer>();
+	public static ArrayList<Integer> mSelectedItems = new ArrayList<Integer>();
 	private static JSONArray jArrMain;
 	
     @Override
@@ -123,8 +123,7 @@ public class WordsPage extends Activity implements OnClickListener {
 	*/
 	
 	private void searchWordsButtonClick(int entry, String searchTxt) {
-		
-		
+		mSelectedItems = new ArrayList<Integer>();
 		LayoutInflater inflater = LayoutInflater.from(this);
 		final View infView = inflater.inflate(R.layout.fragment_search_word, null);
 		dg = new AlertDialog.Builder(this);
