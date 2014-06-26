@@ -17,11 +17,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import com.openwords.R;
 import com.openwords.model.JSONParser;
@@ -55,7 +58,16 @@ public class WordsPage extends Activity implements OnClickListener {
         searchWordSets.setOnClickListener(this); 
         Button viewMyWords = (Button) findViewById(R.id.wordsPage_Button_viewMyWords);
         viewMyWords.setOnClickListener(this); 
-        ImageButton syncButton = (ImageButton) findViewById(R.id.wordsPage_ImageView_syncButton);
+        final ImageView syncButton = (ImageView) findViewById(R.id.wordsPage_ImageView_syncButton);
+        syncButton.setOnTouchListener(new OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+            	syncButton.setImageResource(R.drawable.icon_wordpage_syncbutton_unpressed);
+				return false;
+            }
+            
+        });
         syncButton.setOnClickListener(this); 
         nextWordsArray = new String[]{"�� I","�� you","�� he"};
         //searchWordsArray = new String[]{"�� cloud","��˾ company"};

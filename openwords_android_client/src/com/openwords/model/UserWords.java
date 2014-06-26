@@ -50,6 +50,12 @@ public class UserWords extends SugarRecord<UserWords> {
 		return words;
 	}
 	
+	public static List<UserWords> findByLanguage(int language2id)
+	{
+		List<UserWords> words = UserWords.find(UserWords.class, "l_two_id="+language2id);
+		return words;
+	}
+	
 	public static void setFreshToStale(int connection_id)
 	{
 		UserWords.executeQuery("UPDATE user_words SET fresh=false where connection_id="+connection_id);

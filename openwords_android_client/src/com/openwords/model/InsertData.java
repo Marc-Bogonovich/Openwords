@@ -9,25 +9,43 @@ public class InsertData{
 	public InsertData(Context arg0) {
 		
 		// TODO Auto-generated constructor stub
-		UserPerformance record = new UserPerformance(4,266,10,1,11,2,130455,0,arg0);
-		record.save();
-		record = new UserPerformance(5,266,10,1,12,2,130500,0,arg0);
-		record.save();
-		record = new UserPerformance(6,266,11,0,11,2,130455,0,arg0);
-		record.save();
-		//bad stuff
-		record = new UserPerformance(10,266,1,1,11,2,130000,0,arg0);
-		record.save();
-		record = new UserPerformance(11,266,0,1,11,2,128800,0,arg0);
-		record.save();
-		record = new UserPerformance(12,266,1,10,11,2,12950,0,arg0);
-		record.save();
-		record = new UserPerformance(13,266,1,10,11,2,12950,0,arg0);
-		record.save();
-		record = new UserPerformance(14,266,1,9,10,2,12950,0,arg0);
-		record.save();
-		record = new UserPerformance(15,266,1,5,6,2,12950,0,arg0);
-		record.save();
+		//UserWords(Context ctx, int connectionId, int wordL2Id, String wordL2, int wordL1Id, String wordL1, int l2Id, String l2Name, String audiocall
+		new UserWords(arg0, 1,1,"mao",100,"cat",2,"chinese",null).save();
+		new UserWords(arg0, 1,1,"Ã¨",101,"cat",2,"chinese",null).save();
+		new UserWords(arg0, 2,2,"Äñ",102,"bird",2,"chinese",null).save();
+		new UserWords(arg0, 3,3,"Ê÷",103,"tree",2,"chinese",null).save();
+		new UserWords(arg0, 4,4,"»¨",104,"flower",2,"chinese",null).save();
+		new UserWords(arg0, 5,5,"Ë®",105,"water",2,"chinese",null).save();
+		new UserWords(arg0, 6,6,"Âí",106,"horse",2,"chinese",null).save();
+		new UserWords(arg0, 7,7,"µØÍ¼",107,"map",2,"chinese",null).save();
+		new UserWords(arg0, 8,8,"Ì«Ñô",108,"sun",2,"chinese",null).save();
+		new UserWords(arg0, 9,9,"ÔÂÁÁ",109,"moon",2,"chinese",null).save();
+		new UserWords(arg0, 10,10,"ÐÇ",110,"star",2,"chinese",null).save();
+		new UserWords(arg0, 11,11,"µçÄÔ",111,"computer",2,"chinese",null).save();
+		new UserWords(arg0, 12,12,"¹·",112,"dog",2,"chinese",null).save();
+		new UserWords(arg0, 13,13,"Èí¼þ",113,"software",2,"chinese",null).save();
+		new UserWords(arg0, 14,14,"Ç¦±Ê",114,"pencil",2,"chinese",null).save();
+		new UserWords(arg0, 15,15,"¸Ö±Ê",115,"pen",2,"chinese",null).save();
+		new UserWords(arg0, 16,16,"ºø",116,"pot",2,"chinese",null).save();
+		//UserPerformance(Context c, int connection_id, int user_id, int total_correct, int total_skipped, int total_exposure, int last_time, int last_performance, int user_exclude)
+		new UserPerformance(arg0, 4,266,10,1,11,2,130455,0).save();
+		new UserPerformance(arg0, 1,266,1,1,20,130455,2,0).save();
+		new UserPerformance(arg0, 2,266,2,3,20,130455,2,0).save();
+		new UserPerformance(arg0, 3,266,3,1,20,130455,2,0).save();
+		new UserPerformance(arg0, 4,266,4,1,20,130455,2,0).save();
+		new UserPerformance(arg0, 5,266,5,1,20,130455,2,0).save();
+		new UserPerformance(arg0, 6,266,6,1,20,130455,2,0).save();
+		new UserPerformance(arg0, 7,266,7,1,20,130455,2,0).save();
+		new UserPerformance(arg0, 8,266,8,1,20,130455,2,0).save();
+		new UserPerformance(arg0, 9,266,9,1,20,130455,2,0).save();
+		new UserPerformance(arg0, 10,266,10,1,20,130455,2,0).save();
+		new UserPerformance(arg0, 11,266,11,1,20,130455,2,0).save();
+		new UserPerformance(arg0, 12,266,12,1,20,130455,2,0).save();
+		new UserPerformance(arg0, 13,266,13,1,20,130455,2,0).save();
+		new UserPerformance(arg0, 14,266,14,1,20,130455,2,0).save();
+		new UserPerformance(arg0, 15,266,15,1,20,130455,2,0).save();
+		new UserPerformance(arg0, 16,266,16,1,20,130455,2,0).save();
+
 	}
 
 }

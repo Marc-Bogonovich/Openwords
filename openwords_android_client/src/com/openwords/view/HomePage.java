@@ -43,8 +43,10 @@ import com.openwords.model.InitDatabase;
 import com.openwords.model.InsertData;
 import com.openwords.model.JSONParser;
 import com.openwords.model.LeafCard;
+import com.openwords.model.LeafCardAdapter;
 import com.openwords.model.LeafCardHearing;
 import com.openwords.model.LeafCardSelfEval;
+import com.openwords.model.LeafCardSelfEvalAdapter;
 import com.openwords.model.LeafCardTypeEval;
 import com.openwords.model.UserInfo;
 import com.openwords.util.HomePageTool;
@@ -67,6 +69,7 @@ public class HomePage extends Activity implements OnClickListener {
     // private static ArrayList<HomePageTool> drop_down = null;
     private static String url_dropdown = "http://geographycontest.ipage.com/OpenwordsOrg/OpenwordsDB/homePageChooseLanguage.php";
     private UserInfo userinfo;
+    private int SIZE = 10;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,6 +120,7 @@ public class HomePage extends Activity implements OnClickListener {
                         homelang_id = dropdown_list.get(position).getId();
                         UserInfo user = OpenwordsSharedPreferences.getUserInfo();
                         user.setLang_id(homelang_id);
+                        Toast.makeText(HomePage.this, "Current language id" + homelang_id, Toast.LENGTH_SHORT).show();
                         OpenwordsSharedPreferences.setUserInfo(user);
                         
                     }
@@ -137,15 +141,6 @@ public class HomePage extends Activity implements OnClickListener {
         begin.setAdapter(beginAdapter);
     }
     
-   /* public class HomeAdapter extends ArrayAdapter<HomePageTool>
-    {
-            public HomeAdapter(Context context, int textViewResourceId, 
-                            ArrayList<HomePageTool> langlist) {
-                    super(context, textViewResourceId, langlist);
-                    this.langlist = new ArrayList<LanguagePageTool>();
-                    this.langlist.addAll(langlist);
-            }
-*/
     public void readFromServer() {
             /*
         ArrayAdapter<CharSequence> languageAdapter = ArrayAdapter.createFromResource(this, R.array.homePage_Spinner_language_array, android.R.layout.simple_spinner_item);
@@ -198,8 +193,6 @@ public class HomePage extends Activity implements OnClickListener {
         
         if (taskPage.equals("Review")) {
         	InitDatabase.checkAndRefreshPerf(this, 0);
-        	new InsertData(this);
-        	//new InsertData(HomePage.this);
         	List<Integer> list = new WordSelectionAlg(HomePage.this).pickup(3);
         	if(list==null) {
         		Toast.makeText(HomePage.this, "Please select word first",Toast.LENGTH_LONG).show();
@@ -208,60 +201,18 @@ public class HomePage extends Activity implements OnClickListener {
         	for(Integer i : list) Log.e("List", i+"");
         	final Progress progress = OpenwordsSharedPreferences.getReviewProgress();
             if (progress == null) {
-                List<LeafCard> cards = new LinkedList<LeafCard>();
-                cards.add(new LeafCardSelfEval("人", "person", "ren"));
-                cards.add(new LeafCardSelfEval("猫", "cat", "mao"));
-                cards.add(new LeafCardSelfEval("地球", "earth", "di qiu"));
-                cards.add(new LeafCardSelfEval("时间", "time", "shi jian"));
-                cards.add(new LeafCardSelfEval("世界", "world", "shi jie"));
-                cards.add(new LeafCardSelfEval("电脑", "computer", "dian nao"));
-                cards.add(new LeafCardSelfEval("软件", "software", "ruan jian"));
+                List<LeafCard> cards = new LeafCardAdapter(HomePage.this).getList(SIZE);
                 ActivityReview.setCardsPool(cards);
                 startActivity(new Intent(HomePage.this, ActivityReview.class));
             } else {
             	ActivityReview.setCardsPool(progress.getCardsPool());
-            	
             	ActivityReview.setCurrentCard(progress.getCurrentCard());
                 startActivity(new Intent(HomePage.this, ActivityReview.class));
-//                new AlertDialog.Builder(HomePage.this)
-//                        .setTitle("Continue?")
-//                        .setMessage("You have a saved progress, do you want to continue?")
-//                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
-//                            public void onClick(DialogInterface arg0, int arg1) {
-//                                List<LeafCard> cards = new LinkedList<LeafCard>();
-//                                cards.add(new LeafCardSelfEval("人", "person", "ren"));
-//                                cards.add(new LeafCardSelfEval("猫", "cat", "mao"));
-//                                cards.add(new LeafCardSelfEval("地球", "earth", "di qiu"));
-//                                cards.add(new LeafCardSelfEval("时间", "time", "shi jian"));
-//                                cards.add(new LeafCardSelfEval("世界", "world", "shi jie"));
-//                                cards.add(new LeafCardSelfEval("电脑", "computer", "dian nao"));
-//                                cards.add(new LeafCardSelfEval("软件", "software", "ruan jian"));
-//                                ActivityReview.setCardsPool(cards);
-//                                startActivity(new Intent(HomePage.this, ActivityReview.class));
-//                            }
-//                        })
-//                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-//                            public void onClick(DialogInterface arg0, int arg1) {
-//                            	ActivityReview.setCardsPool(progress.getCardsPool());
-//                            	
-//                            	ActivityReview.setCurrentCard(progress.getCurrentCard());
-//                                startActivity(new Intent(HomePage.this, ActivityReview.class));
-//                            }
-//                        }).create().show();
             }
         } else if (taskPage.equals("Self evaluation")) {
-            //targetClass = SelfEvaluate.class;
         	InitDatabase.checkAndRefreshPerf(this, 1);
-        	new InsertData(this);
         	final SelfEvalProgress progress = OpenwordsSharedPreferences.getSelfEvaluationProgress();
-        	List<LeafCardSelfEval> cards = new LinkedList<LeafCardSelfEval>();
-            cards.add(new LeafCardSelfEval("人", "person", "ren"));
-            cards.add(new LeafCardSelfEval("猫", "cat", "mao"));
-            cards.add(new LeafCardSelfEval("地球", "earth", "di qiu"));
-            cards.add(new LeafCardSelfEval("时间", "time", "shi jian"));
-            cards.add(new LeafCardSelfEval("世界", "world", "shi jie"));
-            cards.add(new LeafCardSelfEval("电脑", "computer", "dian nao"));
-            cards.add(new LeafCardSelfEval("软件", "software", "ruan jian"));
+        	List<LeafCardSelfEval> cards =  new LeafCardSelfEvalAdapter(HomePage.this).getList(SIZE);
             ActivitySelfEval.setCardsPool(cards);
         	if (progress == null) {  
                 startActivity(new Intent(HomePage.this, ActivitySelfEval.class));
@@ -296,7 +247,6 @@ public class HomePage extends Activity implements OnClickListener {
         } else if (taskPage.equals("Type evaluation")) {
             //targetClass = TypeEvaluate.class;
         	InitDatabase.checkAndRefreshPerf(this, 2);
-        	new InsertData(this);
         	final TypeEvalProgress progress = OpenwordsSharedPreferences.getTypeEvaluationProgress();
             List<LeafCardTypeEval> cards = new LinkedList<LeafCardTypeEval>();
             cards.add(new LeafCardTypeEval("人", "person", "ren"));
@@ -340,7 +290,7 @@ public class HomePage extends Activity implements OnClickListener {
             }
         } else if (taskPage.equals("Hearing")) {
         	InitDatabase.checkAndRefreshPerf(this, 3);
-        	new InsertData(this);
+        	new InsertData(HomePage.this);
         	final HearingProgress progress = OpenwordsSharedPreferences.getHearingProgress();
             List<LeafCardHearing> cards = new LinkedList<LeafCardHearing>();
             cards.add(new LeafCardHearing("人", "person", "ren"));

@@ -57,8 +57,9 @@ public class WordSelectionAlg extends SugarRecord<UserPerformance> {
 	}
 	
 	public List<Integer> pickup(int size) {
+		int languageID = OpenwordsSharedPreferences.getUserInfo().getLang_id();
 		//perform = UserPerformance.listAll(UserPerformance.class);
-		perform = UserPerformance.findByUser(user_id);
+		perform = UserPerformance.findByUserLanguage(user_id, languageID);
 		if(perform==null || perform.size()==0) {
 			return null;
 		}

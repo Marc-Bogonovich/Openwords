@@ -1,5 +1,6 @@
 package com.openwords.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
@@ -25,9 +26,9 @@ public class UserPerformance extends SugarRecord<UserPerformance> {
 	}
 	
 	//override constructor
-	public UserPerformance(int connection_id,int user_id,
+	public UserPerformance(Context c, int connection_id,int user_id,
 			int total_correct, int total_skipped, int total_exposure, int last_time,
-			int last_performance, int user_exclude, Context c)
+			int last_performance, int user_exclude)
 	{
 		super(c);
 		this.connection_id=connection_id;
@@ -69,6 +70,15 @@ public class UserPerformance extends SugarRecord<UserPerformance> {
 	{
 		List<UserPerformance> result = UserPerformance.find(UserPerformance.class, "userid="+user_id);
 		//Log.d("size of result", Integer.toString(result.size()));
+		return result;
+	}
+	
+	public static List<UserPerformance> findByUserLanguage(int user_id, int language_id) {
+		List<UserWords> wordlist = UserWords.findByLanguage(language_id);
+		List<UserPerformance> result = new ArrayList<UserPerformance>();
+		for(UserWords word : wordlist) {
+			result.add(UserPerformance.find(UserPerformance.class, "userid="+user_id+" and connectionid="+word.connectionId).get(0));
+		}
 		return result;
 	}
 	
