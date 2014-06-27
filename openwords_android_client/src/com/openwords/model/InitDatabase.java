@@ -61,7 +61,15 @@ public class InitDatabase {
 					JSONParser jsonParse = new JSONParser();
 	                JSONObject jObj = jsonParse.makeHttpRequest(url_writeback_user_perf, "POST", params1);
 	                if(jObj.getInt("success")==1)
+	                {
 	                	UserPerformanceDirty.deleteByUser(userId);
+	                	
+	                	for(int i=0;i<dirtyPerf.size();i++)
+						{
+	                		InitDatabase.loadPerformanceSummary(ctx,userId,dirtyPerf.get(i).connection_id,module);
+						}
+	                	
+	                }
 				}catch(Exception e)
 				{ e.printStackTrace();}
 			}
@@ -83,16 +91,16 @@ public class InitDatabase {
 				//deleting all user performance data for particular user
 				UserPerformance.deleteByUser(userId);
 				
-				
+				List<UserWords> uwListLocal = UserWords.listAll(UserWords.class);
+				for(int i=0;i<uwListLocal.size();i++)
+				{
+					
+					InitDatabase.loadPerformanceSummary(ctx,userId,uwListLocal.get(i).connectionId,module);
+				}
 				
 			}
 			//Loading user performance summary
-			List<UserWords> uwListLocal = UserWords.listAll(UserWords.class);
-			for(int i=0;i<uwListLocal.size();i++)
-			{
-				
-				InitDatabase.loadPerformanceSummary(ctx,userId,uwListLocal.get(i).connectionId,module);
-			}
+			
 		}
 		else
 		{
