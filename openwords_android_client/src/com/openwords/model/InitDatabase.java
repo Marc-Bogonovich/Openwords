@@ -75,7 +75,7 @@ public class InitDatabase {
 				
 			
 			//deleting all User words data
-			if(userId!=prevUser || user.getLang_id()!=((uwList.size()==0)?-1:uwList.get(0).lTwoId))
+			if(userId!=prevUser)
 			{
 				UserWords.deleteAll(UserWords.class);
 				InitDatabase.loadUserWords(ctx, OpenwordsSharedPreferences.getUserInfo().getLang_id(), userId);
