@@ -11,7 +11,7 @@ public class InsertData{
 		// TODO Auto-generated constructor stub
 		//UserWords(Context ctx, int connectionId, int wordL2Id, String wordL2, int wordL1Id, String wordL1, int l2Id, String l2Name, String audiocall
 		new UserWords(arg0, 1,1,"猫",101,"cat",2,"chinese",null).save();
-		new WordTranscription(arg0, 1, "xiang").save();;
+		new WordTranscription(arg0, 1, "mao").save();;
 		new UserWords(arg0, 2,2,"鸟",102,"bird",2,"chinese",null).save();
 		new WordTranscription(arg0, 2, "niao").save();
 		new UserWords(arg0, 3,3,"树",103,"tree",2,"chinese",null).save();
@@ -42,8 +42,8 @@ public class InsertData{
 		new WordTranscription(arg0, 15, "gang bi").save();
 		new UserWords(arg0, 16,16,"壶",116,"pot",2,"chinese",null).save();
 		new WordTranscription(arg0, 16, "hu").save();
-		//UserPerformance(Context c, int connection_id, int user_id, int total_correct, int total_skipped, int total_exposure, int last_time, int last_performance, int user_exclude)
-		new UserPerformance(arg0, 4,266,10,1,11,2,130455,0).save();
+		//UserPerformance(Context c, int connection_id, int user_id, int total_correct, int total_skipped, 
+		//int total_exposure, int last_time, int last_performance, int user_exclude)
 		new UserPerformance(arg0, 1,266,1,1,20,130455,2,0).save();
 		new UserPerformance(arg0, 2,266,2,3,20,130455,2,0).save();
 		new UserPerformance(arg0, 3,266,3,1,20,130455,2,0).save();

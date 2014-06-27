@@ -66,8 +66,8 @@ public class WordSelectionAlg extends SugarRecord<UserPerformance> {
 		weightTable = new HashMap<Integer, Double>();
 		for(UserPerformance item : perform) {
 			double weight = calcWeight(item);
+			Log.e("Weight Table",item.connection_id+" "+weight);
 			weightTable.put(item.connection_id, weight);
-			Log.d(item.connection_id+" weight",Double.toString(weight));
 		}
 		double totalWeight = 0.0d;
 		for (UserPerformance item : perform)
@@ -77,13 +77,17 @@ public class WordSelectionAlg extends SugarRecord<UserPerformance> {
 		// Now choose a random item
 		double random = Math.random() * totalWeight;
 		List<Integer> result = new ArrayList<Integer>();
+		int lastConnID = -1;
 		for(int i=0;i<size;i++) {
 			int randomIndex = -1;
 			for (int j = 0; j < perform.size(); j++) {
+				
 			    random -= weightTable.get(perform.get(j).connection_id);
 			    if (random <= 0.0d) {
-			    	if(j==randomIndex) continue;
+			    	if(perform.get(j).connection_id==lastConnID) continue;
 			        randomIndex = j;
+			        lastConnID = perform.get(j).connection_id;
+			        Log.d("Selected connection_id",""+perform.get(j).connection_id);
 			        break;
 			    }
 			}
