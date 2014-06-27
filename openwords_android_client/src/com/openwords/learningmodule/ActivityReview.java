@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -41,7 +42,6 @@ public class ActivityReview extends FragmentActivity {
     public static void setCurrentCard(int CurrentCard) {
         ActivityReview.CurrentCard = CurrentCard;
     }
-
     private ViewPager pager;
     private ReviewAdapter adapter;
 

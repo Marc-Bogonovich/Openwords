@@ -75,18 +75,22 @@ public class WordSelectionAlg extends SugarRecord<UserPerformance> {
 		    totalWeight += weightTable.get(item.connection_id);
 		}
 		// Now choose a random item
-		double random = Math.random() * totalWeight;
+
 		List<Integer> result = new ArrayList<Integer>();
-		int lastConnID = -1;
+		double lastConnID = -1;
 		for(int i=0;i<size;i++) {
 			int randomIndex = -1;
+			double random = Math.random() * totalWeight;
+			Log.e("Random val",random+"");
+			Log.e("Total weight",totalWeight+"");
+		    outerloop:
 			for (int j = 0; j < perform.size(); j++) {
-				
 			    random -= weightTable.get(perform.get(j).connection_id);
 			    if (random <= 0.0d) {
-			    	if(perform.get(j).connection_id==lastConnID) continue;
 			        randomIndex = j;
-			        lastConnID = perform.get(j).connection_id;
+			        if(perform.get(j).connection_id==lastConnID) {
+			        	break outerloop;
+			        } else lastConnID = perform.get(j).connection_id;
 			        Log.d("Selected connection_id",""+perform.get(j).connection_id);
 			        break;
 			    }

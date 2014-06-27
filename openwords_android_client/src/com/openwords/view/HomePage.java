@@ -182,16 +182,6 @@ public class HomePage extends Activity implements OnClickListener {
     public void testPageButtonClick() {
         String taskPage = begin.getSelectedItem().toString();
         LogUtil.logDeubg(this, "Task: " + taskPage);
-        /*
-        // Set the last user id here
-        int last_userid;
-        last_userid = userinfo.getUserId();
-        userinfo.setLast_userid(last_userid);
-        Log.d("Last UID", Integer.toString(userinfo.getLast_userid()));
-        */
-        
-        // Set the language id for the shared preferences here
-        //userinfo.setLang_id(homelang_id); 
         Log.d("Shared Preferences Language ID", Integer.toString(userinfo.getLang_id()));
         
         if (taskPage.equals("Review")) {
@@ -200,15 +190,13 @@ public class HomePage extends Activity implements OnClickListener {
         	WordTranscription.deleteAll(WordTranscription.class);
         	UserWords.deleteAll(UserWords.class);
         	new InsertData(HomePage.this);
-        	List<Integer> list = new WordSelectionAlg(HomePage.this).pickup(3);
-        	if(list==null) {
-        		Toast.makeText(HomePage.this, "Please select word first",Toast.LENGTH_LONG).show();
-        		return;
-        	}
-        	for(Integer i : list) Log.e("List", i+"");
         	final Progress progress = OpenwordsSharedPreferences.getReviewProgress();
-            if (progress == null) {
+            if (true || progress == null) {
                 List<LeafCard> cards = new LeafCardAdapter(HomePage.this).getList(SIZE);
+            	if(cards==null) {
+            		Toast.makeText(HomePage.this, "Please select word first",Toast.LENGTH_LONG).show();
+            		return;
+            	}
                 ActivityReview.setCardsPool(cards);
                 startActivity(new Intent(HomePage.this, ActivityReview.class));
             } else {

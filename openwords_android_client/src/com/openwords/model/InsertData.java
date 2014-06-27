@@ -44,22 +44,38 @@ public class InsertData{
 		new WordTranscription(arg0, 16, "hu").save();
 		//UserPerformance(Context c, int connection_id, int user_id, int total_correct, int total_skipped, 
 		//int total_exposure, int last_time, int last_performance, int user_exclude)
-		new UserPerformance(arg0, 1,266,1,1,20,130455,2,0).save();
-		new UserPerformance(arg0, 2,266,2,3,20,130455,2,0).save();
-		new UserPerformance(arg0, 3,266,3,1,20,130455,2,0).save();
-		new UserPerformance(arg0, 4,266,4,1,20,130455,2,0).save();
-		new UserPerformance(arg0, 5,266,5,1,20,130455,2,0).save();
-		new UserPerformance(arg0, 6,266,6,1,20,130455,2,0).save();
-		new UserPerformance(arg0, 7,266,7,1,20,130455,2,0).save();
-		new UserPerformance(arg0, 8,266,8,1,20,130455,2,0).save();
-		new UserPerformance(arg0, 9,266,9,1,20,130455,2,0).save();
-		new UserPerformance(arg0, 10,266,10,1,20,130455,2,0).save();
-		new UserPerformance(arg0, 11,266,11,1,20,130455,2,0).save();
-		new UserPerformance(arg0, 12,266,12,1,20,130455,2,0).save();
-		new UserPerformance(arg0, 13,266,13,1,20,130455,2,0).save();
-		new UserPerformance(arg0, 14,266,14,1,20,130455,2,0).save();
-		new UserPerformance(arg0, 15,266,15,1,20,130455,2,0).save();
-		new UserPerformance(arg0, 16,266,16,1,20,130455,2,0).save();
+//		new UserPerformance(arg0, 1,266,1,1,20,130455,2,0).save();
+//		new UserPerformance(arg0, 2,266,2,3,20,130455,2,0).save();
+//		new UserPerformance(arg0, 3,266,3,1,20,130455,2,0).save();
+//		new UserPerformance(arg0, 4,266,4,1,20,130455,2,0).save();
+//		new UserPerformance(arg0, 5,266,5,1,20,130455,2,0).save();
+//		new UserPerformance(arg0, 6,266,6,1,20,130455,2,0).save();
+//		new UserPerformance(arg0, 7,266,7,1,20,130455,2,0).save();
+//		new UserPerformance(arg0, 8,266,8,1,20,130455,2,0).save();
+//		new UserPerformance(arg0, 9,266,9,1,20,130455,2,0).save();
+//		new UserPerformance(arg0, 10,266,10,1,20,130455,2,0).save();
+//		new UserPerformance(arg0, 11,266,11,1,20,130455,2,0).save();
+//		new UserPerformance(arg0, 12,266,12,1,20,130455,2,0).save();
+//		new UserPerformance(arg0, 13,266,13,1,20,130455,2,0).save();
+//		new UserPerformance(arg0, 14,266,14,1,20,130455,2,0).save();
+//		new UserPerformance(arg0, 15,266,15,1,20,130455,2,0).save();
+//		new UserPerformance(arg0, 16,266,16,1,20,130455,2,0).save();
+		new UserPerformance(arg0, 1,266,3,0,20,130455,2,0).save();
+		new UserPerformance(arg0, 2,266,3,0,20,130455,2,0).save();
+		new UserPerformance(arg0, 3,266,3,0,20,130455,2,0).save();
+		new UserPerformance(arg0, 4,266,3,0,20,130455,2,0).save();
+		new UserPerformance(arg0, 5,266,3,0,20,130455,2,0).save();
+		new UserPerformance(arg0, 6,266,3,0,20,130455,2,0).save();
+		new UserPerformance(arg0, 7,266,3,0,20,130455,2,0).save();
+		new UserPerformance(arg0, 8,266,3,0,20,130455,2,0).save();
+		new UserPerformance(arg0, 9,266,3,0,20,130455,2,0).save();
+		new UserPerformance(arg0, 10,266,3,0,20,130455,2,0).save();
+		new UserPerformance(arg0, 11,266,3,0,20,130455,2,0).save();
+		new UserPerformance(arg0, 12,266,3,0,20,130455,2,0).save();
+		new UserPerformance(arg0, 13,266,3,0,20,130455,2,0).save();
+		new UserPerformance(arg0, 14,266,3,0,20,130455,2,0).save();
+		new UserPerformance(arg0, 15,266,3,0,20,130455,2,0).save();
+		new UserPerformance(arg0, 16,266,3,0,20,130455,2,0).save();
 
 	}
 

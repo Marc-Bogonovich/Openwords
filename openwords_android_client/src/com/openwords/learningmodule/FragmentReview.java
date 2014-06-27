@@ -53,14 +53,18 @@ public class FragmentReview extends Fragment {
         answer.setText(card.getWordLang1());
         transcription.setText(card.getTranscription());
 
+        if(card.getAudioURL()==null) {
+        	audioPlay.setImageResource(R.drawable.ic_self_evaluate_audio_null);
+        } else {
+            audioPlay.setOnClickListener(new View.OnClickListener() {
+
+                public void onClick(View view) {
+                    Speak.getInstance(null).speak(card.getWordLang2());
+                }
+            });
+        }
 
 
-        audioPlay.setOnClickListener(new View.OnClickListener() {
-
-            public void onClick(View view) {
-                Speak.getInstance(null).speak(card.getWordLang2());
-            }
-        });
         
         myFragmentView.findViewById(R.id.review_View_actionBarBlank).setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
