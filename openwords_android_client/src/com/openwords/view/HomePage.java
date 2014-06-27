@@ -49,6 +49,9 @@ import com.openwords.model.LeafCardSelfEval;
 import com.openwords.model.LeafCardSelfEvalAdapter;
 import com.openwords.model.LeafCardTypeEval;
 import com.openwords.model.UserInfo;
+import com.openwords.model.UserPerformance;
+import com.openwords.model.UserWords;
+import com.openwords.model.WordTranscription;
 import com.openwords.util.HomePageTool;
 import com.openwords.util.LanguagePageTool;
 import com.openwords.util.WordSelectionAlg;
@@ -193,6 +196,9 @@ public class HomePage extends Activity implements OnClickListener {
         
         if (taskPage.equals("Review")) {
         	InitDatabase.checkAndRefreshPerf(this, 0);
+        	UserPerformance.deleteAll(UserPerformance.class);
+        	WordTranscription.deleteAll(WordTranscription.class);
+        	UserWords.deleteAll(UserWords.class);
         	new InsertData(HomePage.this);
         	List<Integer> list = new WordSelectionAlg(HomePage.this).pickup(3);
         	if(list==null) {
@@ -226,13 +232,13 @@ public class HomePage extends Activity implements OnClickListener {
 //                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
 //                            public void onClick(DialogInterface arg0, int arg1) {
 //                                List<LeafCardSelfEval> cards = new LinkedList<LeafCardSelfEval>();
-//                                cards.add(new LeafCardSelfEval("ÈË", "person", "ren"));
+//                                cards.add(new LeafCardSelfEval("ï¿½ï¿½", "person", "ren"));
 //                                cards.add(new LeafCardSelfEval("Ã¨", "cat", "mao"));
-//                                cards.add(new LeafCardSelfEval("µØÇò", "earth", "di qiu"));
-//                                cards.add(new LeafCardSelfEval("Ê±¼ä", "time", "shi jian"));
-//                                cards.add(new LeafCardSelfEval("ÊÀ½ç", "world", "shi jie"));
-//                                cards.add(new LeafCardSelfEval("µçÄÔ", "computer", "dian nao"));
-//                                cards.add(new LeafCardSelfEval("Èí¼þ", "software", "ruan jian"));
+//                                cards.add(new LeafCardSelfEval("ï¿½ï¿½ï¿½ï¿½", "earth", "di qiu"));
+//                                cards.add(new LeafCardSelfEval("Ê±ï¿½ï¿½", "time", "shi jian"));
+//                                cards.add(new LeafCardSelfEval("ï¿½ï¿½ï¿½ï¿½", "world", "shi jie"));
+//                                cards.add(new LeafCardSelfEval("ï¿½ï¿½ï¿½ï¿½", "computer", "dian nao"));
+//                                cards.add(new LeafCardSelfEval("ï¿½ï¿½ï¿½", "software", "ruan jian"));
 //                                ActivitySelfEval.setCardsPool(cards);
 //                                startActivity(new Intent(HomePage.this, ActivitySelfEval.class));
 //                            }
@@ -250,13 +256,13 @@ public class HomePage extends Activity implements OnClickListener {
         	InitDatabase.checkAndRefreshPerf(this, 2);
         	final TypeEvalProgress progress = OpenwordsSharedPreferences.getTypeEvaluationProgress();
             List<LeafCardTypeEval> cards = new LinkedList<LeafCardTypeEval>();
-            cards.add(new LeafCardTypeEval("ÈË", "person", "ren"));
+            cards.add(new LeafCardTypeEval("ï¿½ï¿½", "person", "ren"));
             cards.add(new LeafCardTypeEval("Ã¨", "cat", "mao"));
-            cards.add(new LeafCardTypeEval("µØÇò", "earth", "di qiu"));
-            cards.add(new LeafCardTypeEval("Ê±¼ä", "time", "shi jian"));
-            cards.add(new LeafCardTypeEval("ÊÀ½ç", "world", "shi jie"));
-            cards.add(new LeafCardTypeEval("µçÄÔ", "computer", "dian nao"));
-            cards.add(new LeafCardTypeEval("Èí¼þ", "software", "ruan jian"));
+            cards.add(new LeafCardTypeEval("ï¿½ï¿½ï¿½ï¿½", "earth", "di qiu"));
+            cards.add(new LeafCardTypeEval("Ê±ï¿½ï¿½", "time", "shi jian"));
+            cards.add(new LeafCardTypeEval("ï¿½ï¿½ï¿½ï¿½", "world", "shi jie"));
+            cards.add(new LeafCardTypeEval("ï¿½ï¿½ï¿½ï¿½", "computer", "dian nao"));
+            cards.add(new LeafCardTypeEval("ï¿½ï¿½ï¿½", "software", "ruan jian"));
         	if (progress == null) {
                 ActivityTypeEval.setCardsPool(cards);
                 startActivity(new Intent(HomePage.this, ActivityTypeEval.class));
@@ -270,13 +276,13 @@ public class HomePage extends Activity implements OnClickListener {
 //                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
 //                            public void onClick(DialogInterface arg0, int arg1) {
 //                                List<LeafCardTypeEval> cards = new LinkedList<LeafCardTypeEval>();
-//                                cards.add(new LeafCardTypeEval("ÈË", "person", "ren"));
+//                                cards.add(new LeafCardTypeEval("ï¿½ï¿½", "person", "ren"));
 //                                cards.add(new LeafCardTypeEval("Ã¨", "cat", "mao"));
-//                                cards.add(new LeafCardTypeEval("µØÇò", "earth", "di qiu"));
-//                                cards.add(new LeafCardTypeEval("Ê±¼ä", "time", "shi jian"));
-//                                cards.add(new LeafCardTypeEval("ÊÀ½ç", "world", "shi jie"));
-//                                cards.add(new LeafCardTypeEval("µçÄÔ", "computer", "dian nao"));
-//                                cards.add(new LeafCardTypeEval("Èí¼þ", "software", "ruan jian"));
+//                                cards.add(new LeafCardTypeEval("ï¿½ï¿½ï¿½ï¿½", "earth", "di qiu"));
+//                                cards.add(new LeafCardTypeEval("Ê±ï¿½ï¿½", "time", "shi jian"));
+//                                cards.add(new LeafCardTypeEval("ï¿½ï¿½ï¿½ï¿½", "world", "shi jie"));
+//                                cards.add(new LeafCardTypeEval("ï¿½ï¿½ï¿½ï¿½", "computer", "dian nao"));
+//                                cards.add(new LeafCardTypeEval("ï¿½ï¿½ï¿½", "software", "ruan jian"));
 //                                ActivityTypeEval.setCardsPool(cards);
 //                                startActivity(new Intent(HomePage.this, ActivityTypeEval.class));
 //                            }
@@ -294,13 +300,13 @@ public class HomePage extends Activity implements OnClickListener {
         	new InsertData(HomePage.this);
         	final HearingProgress progress = OpenwordsSharedPreferences.getHearingProgress();
             List<LeafCardHearing> cards = new LinkedList<LeafCardHearing>();
-            cards.add(new LeafCardHearing("ÈË", "person", "ren"));
+            cards.add(new LeafCardHearing("ï¿½ï¿½", "person", "ren"));
             cards.add(new LeafCardHearing("Ã¨", "cat", "mao"));
-            cards.add(new LeafCardHearing("µØÇò", "earth", "di qiu"));
-            cards.add(new LeafCardHearing("Ê±¼ä", "time", "shi jian"));
-            cards.add(new LeafCardHearing("ÊÀ½ç", "world", "shi jie"));
-            cards.add(new LeafCardHearing("µçÄÔ", "computer", "dian nao"));
-            cards.add(new LeafCardHearing("Èí¼þ", "software", "ruan jian"));
+            cards.add(new LeafCardHearing("ï¿½ï¿½ï¿½ï¿½", "earth", "di qiu"));
+            cards.add(new LeafCardHearing("Ê±ï¿½ï¿½", "time", "shi jian"));
+            cards.add(new LeafCardHearing("ï¿½ï¿½ï¿½ï¿½", "world", "shi jie"));
+            cards.add(new LeafCardHearing("ï¿½ï¿½ï¿½ï¿½", "computer", "dian nao"));
+            cards.add(new LeafCardHearing("ï¿½ï¿½ï¿½", "software", "ruan jian"));
             ActivityHearing.setCardsPool(cards);
         	if (progress == null) {
                 startActivity(new Intent(HomePage.this, ActivityHearing.class));
@@ -313,13 +319,13 @@ public class HomePage extends Activity implements OnClickListener {
 //                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
 //                            public void onClick(DialogInterface arg0, int arg1) {
 //                                List<LeafCardHearing> cards = new LinkedList<LeafCardHearing>();
-//                                cards.add(new LeafCardHearing("ÈË", "person", "ren"));
+//                                cards.add(new LeafCardHearing("ï¿½ï¿½", "person", "ren"));
 //                                cards.add(new LeafCardHearing("Ã¨", "cat", "mao"));
-//                                cards.add(new LeafCardHearing("µØÇò", "earth", "di qiu"));
-//                                cards.add(new LeafCardHearing("Ê±¼ä", "time", "shi jian"));
-//                                cards.add(new LeafCardHearing("ÊÀ½ç", "world", "shi jie"));
-//                                cards.add(new LeafCardHearing("µçÄÔ", "computer", "dian nao"));
-//                                cards.add(new LeafCardHearing("Èí¼þ", "software", "ruan jian"));
+//                                cards.add(new LeafCardHearing("ï¿½ï¿½ï¿½ï¿½", "earth", "di qiu"));
+//                                cards.add(new LeafCardHearing("Ê±ï¿½ï¿½", "time", "shi jian"));
+//                                cards.add(new LeafCardHearing("ï¿½ï¿½ï¿½ï¿½", "world", "shi jie"));
+//                                cards.add(new LeafCardHearing("ï¿½ï¿½ï¿½ï¿½", "computer", "dian nao"));
+//                                cards.add(new LeafCardHearing("ï¿½ï¿½ï¿½", "software", "ruan jian"));
 //                                ActivityHearing.setCardsPool(cards);
 //                                startActivity(new Intent(HomePage.this, ActivityHearing.class));
 //                            }

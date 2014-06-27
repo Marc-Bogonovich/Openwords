@@ -58,7 +58,6 @@ public class WordSelectionAlg extends SugarRecord<UserPerformance> {
 	
 	public List<Integer> pickup(int size) {
 		int languageID = OpenwordsSharedPreferences.getUserInfo().getLang_id();
-		//perform = UserPerformance.listAll(UserPerformance.class);
 		perform = UserPerformance.findByUserLanguage(user_id, languageID);
 		if(perform==null || perform.size()==0) {
 			return null;
@@ -83,6 +82,7 @@ public class WordSelectionAlg extends SugarRecord<UserPerformance> {
 			for (int j = 0; j < perform.size(); j++) {
 			    random -= weightTable.get(perform.get(j).connection_id);
 			    if (random <= 0.0d) {
+			    	if(j==randomIndex) continue;
 			        randomIndex = j;
 			        break;
 			    }

@@ -2,7 +2,10 @@ package com.openwords.model;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import android.content.Context;
+import android.util.Log;
+
 import com.openwords.util.WordSelectionAlg;
 
 public class LeafCardAdapter {
@@ -18,8 +21,9 @@ public class LeafCardAdapter {
 		for(Integer id : connectIDs) {
 			// since connectionID is the primary key of UserWord table, only one record is returned
 			UserWords raw_card = UserWords.findByConnection(id).get(0);
-			//String trans = new WordTranscription(context).findByWord(raw_card.wordLTwoId).get(0).transcription;
-			LeafCard card = new LeafCard(raw_card.wordLTwo, raw_card.wordLOne, ".....");
+			String trans = new WordTranscription(context).findByWord(raw_card.wordLTwoId).get(0).transcription;
+			Log.d("Trans",raw_card.wordLOne+"");
+			LeafCard card = new LeafCard(raw_card.wordLTwo, raw_card.wordLOne, trans);
 			result.add(card);
 		}
 		return result;
