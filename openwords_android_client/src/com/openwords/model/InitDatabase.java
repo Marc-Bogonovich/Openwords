@@ -30,7 +30,7 @@ public class InitDatabase {
 		List<UserWords> uwList = UserWords.listAll(UserWords.class);
 		
 		boolean connected = InternetCheck.checkConn(ctx);
-		//if Dirty performance has records for this user
+		//if Dirty performance has records for this user...
 		if(dirtyPerf.size()>0)
 		{
 			if(connected==true)
