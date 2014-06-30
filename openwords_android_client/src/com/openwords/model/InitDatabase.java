@@ -86,6 +86,7 @@ public class InitDatabase {
 			if(userId!=prevUser)
 			{
 				UserWords.deleteAll(UserWords.class);
+				WordTranscription.deleteAll(WordTranscription.class);
 				InitDatabase.loadUserWords(ctx, OpenwordsSharedPreferences.getUserInfo().getLang_id(), userId);
 				Log.d("place", "loading user words");
 				//deleting all user performance data for particular user
@@ -169,6 +170,9 @@ public class InitDatabase {
 						childObj.getInt("l2id"),childObj.getString("l2name"),childObj.getString("audiocall"));
 				uw.save();
 				
+				//loading transcription
+				
+				WordTranscription.insertMerge(ctx, childObj.getInt("wordl2id"), childObj.getString("trans"));
 				//rest of the code to be written for word transcription...
 			}
 			}else{Log.d("message", jObj.getString("data"));}
