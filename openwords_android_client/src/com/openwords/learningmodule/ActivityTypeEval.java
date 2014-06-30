@@ -67,7 +67,7 @@ public class ActivityTypeEval extends FragmentActivity {
             public void onPageSelected(int i) {
                 CurrentCard = i;
                 if (i == CardsPool.size()) {
-                    FragmentPlateCompletion.refreshDetails();
+                    FragmentPCSelfEval.refreshDetails();
                 }
             }
 
@@ -128,7 +128,7 @@ public class ActivityTypeEval extends FragmentActivity {
         public Fragment getItem(int i) {
             LogUtil.logDeubg(this, "Request fragment: " + i);
             if (i >= CardsPool.size()) {
-                return new FragmentPlateCompletion();
+                return new FragmentPCSelfEval();
             } else {
                 return new FragmentTypeEval(i);
             }

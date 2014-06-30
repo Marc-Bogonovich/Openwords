@@ -2,6 +2,7 @@ package com.openwords.learningmodule;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.Region.Op;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -126,17 +127,18 @@ public class ActivityReview extends FragmentActivity {
         @Override
         public Fragment getItem(int i) {
             LogUtil.logDeubg(this, "Request fragment: " + i);
-//            if (i >= CardsPool.size()) {
-//                return new FragmentPlateCompletion();
-//            } else {
-//                return new FragmentSelfEval(i);
-//            }
-            return new FragmentReview(i);
+            if (i >= CardsPool.size()) {
+
+                return new FragmentPCReview();
+            } else {
+            	return new FragmentReview(i);
+            }
+            //return new FragmentReview(i);
         }
 
         @Override
         public int getCount() {
-            return CardsPool.size();
+            return CardsPool.size() + 1;
         }
     }
     private class PageTransformerReview implements ViewPager.PageTransformer {
