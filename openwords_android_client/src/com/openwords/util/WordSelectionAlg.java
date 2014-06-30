@@ -88,7 +88,7 @@ public class WordSelectionAlg extends SugarRecord<UserPerformance> {
 			    if (random <= 0.0d) {
 			        randomIndex = j;
 			        if(perform.get(j).connection_id==lastConnID) {
-			        	break outerloop;
+			        	continue outerloop;
 			        } else lastConnID = perform.get(j).connection_id;
 			        Log.d("Selected connection_id",""+perform.get(j).connection_id);
 			        break;
