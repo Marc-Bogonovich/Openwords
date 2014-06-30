@@ -29,7 +29,6 @@ public class WordSelectionAlg extends SugarRecord<UserPerformance> {
 		super(arg0);
 		// TODO Auto-generated constructor stub
 		user_id = OpenwordsSharedPreferences.getUserInfo().getUserId();
-		
 	}
 	
 	

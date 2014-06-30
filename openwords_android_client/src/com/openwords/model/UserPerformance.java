@@ -8,7 +8,7 @@ import android.util.Log;
 
 import com.orm.SugarRecord;
 
-public class UserPerformance extends SugarRecord<UserPerformance> {
+public class UserPerformance extends SugarRecord<UserPerformance>  {
 	
 	public int connection_id;
 	public int user_id;
@@ -76,8 +76,10 @@ public class UserPerformance extends SugarRecord<UserPerformance> {
 	public static List<UserPerformance> findByUserLanguage(int user_id, int language_id) {
 		List<UserWords> wordlist = UserWords.findByLanguage(language_id);
 		List<UserPerformance> result = new ArrayList<UserPerformance>();
-		for(UserWords word : wordlist) {
-			result.add(UserPerformance.find(UserPerformance.class, "userid="+user_id+" and connectionid="+word.connectionId).get(0));
+		if(wordlist!=null) {
+			for(UserWords word : wordlist) {
+				result.add(UserPerformance.find(UserPerformance.class, "userid="+user_id+" and connectionid="+word.connectionId).get(0));
+			}
 		}
 		return result;
 	}

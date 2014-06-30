@@ -192,11 +192,13 @@ public class HomePage extends Activity implements OnClickListener {
         	new InsertData(HomePage.this);
         	final Progress progress = OpenwordsSharedPreferences.getReviewProgress();
             if (true || progress == null) {
-                List<LeafCard> cards = new LeafCardAdapter(HomePage.this).getList(SIZE);
-            	if(cards==null) {
+            	List<LeafCard> cards;
+                try{
+                	cards = new LeafCardAdapter(HomePage.this).getList(SIZE);
+                } catch (IndexOutOfBoundsException e) {
             		Toast.makeText(HomePage.this, "Please select word first",Toast.LENGTH_LONG).show();
             		return;
-            	}
+                }
                 ActivityReview.setCardsPool(cards);
                 startActivity(new Intent(HomePage.this, ActivityReview.class));
             } else {
@@ -214,30 +216,6 @@ public class HomePage extends Activity implements OnClickListener {
             } else {
             	ActivitySelfEval.setCurrentCard(progress.getCurrentCard());
                 startActivity(new Intent(HomePage.this, ActivitySelfEval.class)); 
-//                new AlertDialog.Builder(HomePage.this)
-//                        .setTitle("Continue?")
-//                        .setMessage("You have a saved progress, do you want to continue? Current card: "+progress.getCurrentCard())
-//                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
-//                            public void onClick(DialogInterface arg0, int arg1) {
-//                                List<LeafCardSelfEval> cards = new LinkedList<LeafCardSelfEval>();
-//                                cards.add(new LeafCardSelfEval("��", "person", "ren"));
-//                                cards.add(new LeafCardSelfEval("è", "cat", "mao"));
-//                                cards.add(new LeafCardSelfEval("����", "earth", "di qiu"));
-//                                cards.add(new LeafCardSelfEval("ʱ��", "time", "shi jian"));
-//                                cards.add(new LeafCardSelfEval("����", "world", "shi jie"));
-//                                cards.add(new LeafCardSelfEval("����", "computer", "dian nao"));
-//                                cards.add(new LeafCardSelfEval("���", "software", "ruan jian"));
-//                                ActivitySelfEval.setCardsPool(cards);
-//                                startActivity(new Intent(HomePage.this, ActivitySelfEval.class));
-//                            }
-//                        })
-//                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-//                            public void onClick(DialogInterface arg0, int arg1) {
-//                                ActivitySelfEval.setCardsPool(progress.getCardsPool());
-//                                ActivitySelfEval.setCurrentCard(progress.getCurrentCard());
-//                                startActivity(new Intent(HomePage.this, ActivitySelfEval.class));
-//                            }
-//                        }).create().show();
             }
         } else if (taskPage.equals("Type evaluation")) {
             //targetClass = TypeEvaluate.class;
