@@ -42,6 +42,8 @@ public class InsertData{
 		new WordTranscription(arg0, 15, "gang bi").save();
 		new UserWords(arg0, 16,16,"壶",116,"pot",2,"chinese",null).save();
 		new WordTranscription(arg0, 16, "hu").save();
+        new UserWords(arg0, 17,17,"字典",117,"dictionary",2,"chinese",null).save();
+		new WordTranscription(arg0, 17, "zìdiǎn").save();
 		//UserPerformance(Context c, int connection_id, int user_id, int total_correct, int total_skipped, 
 		//int total_exposure, int last_time, int last_performance, int user_exclude)
 //		new UserPerformance(arg0, 1,266,1,1,20,130455,2,0).save();
@@ -76,6 +78,7 @@ public class InsertData{
 		new UserPerformance(arg0, 14,266,3,0,20,130455,2,0).save();
 		new UserPerformance(arg0, 15,266,3,0,20,130455,2,0).save();
 		new UserPerformance(arg0, 16,266,3,0,20,130455,2,0).save();
+        new UserPerformance(arg0, 17,266,3,0,20,130455,2,0).save();
 
 	}
 
