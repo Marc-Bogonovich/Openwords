@@ -29,6 +29,7 @@ import android.widget.ImageView;
 import com.openwords.R;
 import com.openwords.model.JSONParser;
 import com.openwords.model.UserWords;
+import com.openwords.model.WordTranscription;
 import com.openwords.util.TimeConvertor;
 import com.openwords.util.WordsPageTool;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
@@ -242,6 +243,9 @@ public class WordsPage extends Activity implements OnClickListener {
 						c.getInt("wordl1"),c.getString("wordl1_text"),c.getInt("wordl2"),
 						c.getString("wordl2_text"),c.getInt("l2id"),c.getString("l2name"),c.getString("audio"));
 				uwRec.save();
+				
+				//writing word transcriptions.
+				WordTranscription.insertMerge(this, c.getInt("wordl2"), c.getString("trans"));
 				
 				//concatenating connection ids
 				if(conIds.length()==0)
