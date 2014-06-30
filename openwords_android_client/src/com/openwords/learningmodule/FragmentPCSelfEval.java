@@ -63,10 +63,6 @@ public class FragmentPCSelfEval extends Fragment {
         nextPlate = (Button) myFragmentView.findViewById(R.id.plc_button_NextPlate);
         exit = (Button) myFragmentView.findViewById(R.id.plc_button_Exit);
 
-        newWords.setText("Ready for new words!");
-        nextPlate.setText("Next Plate");
-        exit.setText("Exit");
-
         refresh();
 
         return myFragmentView;

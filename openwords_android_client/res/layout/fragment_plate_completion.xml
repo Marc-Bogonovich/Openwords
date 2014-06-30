@@ -68,7 +68,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:text="@string/plateCompletion_Button_home"
-                android:textSize="30sp"/>
+                android:textSize="20sp"/>
         
     </LinearLayout>
     

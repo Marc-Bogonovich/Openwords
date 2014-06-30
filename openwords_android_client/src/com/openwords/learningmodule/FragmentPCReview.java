@@ -64,10 +64,6 @@ public class FragmentPCReview extends Fragment {
         nextPlate = (Button) myFragmentView.findViewById(R.id.plc_button_NextPlate);
         exit = (Button) myFragmentView.findViewById(R.id.plc_button_Exit);
 
-        newWords.setText("Get new words");
-        nextPlate.setText("Next Plate");
-        exit.setText("Home");
-
         refresh();
 
         return myFragmentView;
