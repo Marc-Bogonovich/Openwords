@@ -52,6 +52,12 @@ public class UserPerformanceDirty extends SugarRecord<UserPerformanceDirty> {
 		return result;
 	}
 	
+	public static List<UserPerformanceDirty> findByTime(int user, long time)
+	{
+		List<UserPerformanceDirty> result = UserPerformanceDirty.find(UserPerformanceDirty.class, "userid="+user+" and time >="+time);
+		return result;
+	}
+	
 	
 	public static void deleteByUser(int user_id)
 	{

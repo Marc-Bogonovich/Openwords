@@ -206,6 +206,7 @@ public class InitDatabase {
 	
 	public static void updateLocalPerformanceSummary(Context ctx)
 	{
+		List<UserPerformanceDirty> dirtyPerf = UserPerformanceDirty.findByTime(userId, OpenwordsSharedPreferences.getUserInfo().getLastPerfUpd());
 		for(int i=0;i<dirtyPerf.size();i++)
 		{
     		//InitDatabase.loadPerformanceSummary(ctx,userId,dirtyPerf.get(i).connection_id,module);

@@ -1,6 +1,7 @@
 package com.openwords.model;
 
 import com.google.gson.Gson;
+import com.openwords.util.TimeConvertor;
 
 public class UserInfo {
 
@@ -16,12 +17,14 @@ public class UserInfo {
     public UserInfo(String userName, String pass) {
         this.userName = userName;
         this.pass = pass;
+        this.last_perf_upd = TimeConvertor.getUnixTime();
     }
 
     public UserInfo(String userName, String pass, long lastLoginTime) {
         this.userName = userName;
         this.pass = pass;
         this.lastLoginTime = lastLoginTime;
+        this.last_perf_upd = TimeConvertor.getUnixTime();
     }
 
     public UserInfo(int userId, String userName, String pass, long lastLoginTime) {
@@ -29,6 +32,7 @@ public class UserInfo {
         this.userName = userName;
         this.pass = pass;
         this.lastLoginTime = lastLoginTime;
+        this.last_perf_upd = TimeConvertor.getUnixTime();
     }
     
     public UserInfo(int lang_id, int userId, String userName, String pass, long lastLoginTime) {
@@ -37,6 +41,7 @@ public class UserInfo {
         this.pass = pass;
         this.lastLoginTime = lastLoginTime;
         this.lang_id = lang_id;
+        this.last_perf_upd = TimeConvertor.getUnixTime();
     }
     
     public UserInfo(int last_userid, int lang_id, int userId, String userName, String pass, long lastLoginTime) {
@@ -46,6 +51,7 @@ public class UserInfo {
         this.lastLoginTime = lastLoginTime;
         this.lang_id = lang_id;
         this.setLast_userid(last_userid);
+        this.last_perf_upd = TimeConvertor.getUnixTime();
     }
 
     public int getUserId() {
