@@ -99,6 +99,20 @@ public class UserPerformance extends SugarRecord<UserPerformance>  {
 		UserPerformance.deleteAll(UserPerformance.class, "userid="+user_id+" AND connectionid="+connection_id);
 	}
 	
+	public static void updateById(Long id, int perf, int time)
+	{
+		switch(perf)
+		{
+		case 0:	UserPerformance.executeQuery("update user_performance set totalexposure=totalexposure+1,"
+				+ " lasttime="+time+",lastperformance="+perf+" where id="+id);
+		case 1: UserPerformance.executeQuery("update user_performance set totalskipped=totalskipped+1,"
+				+ "totalexposure=totalexposure+1, lasttime="+time+",lastperformance="+perf+" where id="+id);
+		case 2: UserPerformance.executeQuery("update user_performance set totalclose=totalclose+1,"
+				+ "totalexposure=totalexposure+1, lasttime="+time+",lastperformance="+perf+" where id="+id);
+		case 3: UserPerformance.executeQuery("update user_performance set totalcorrect=totalcorrect+1,"
+				+ "totalexposure=totalexposure+1, lasttime="+time+",lastperformance="+perf+" where id="+id);
+		}
+	}
 	
 	public String toString() {
 		return "connection_id: "+connection_id+";user_id: "+user_id+";total_correct: "+

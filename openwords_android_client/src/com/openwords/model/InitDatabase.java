@@ -9,6 +9,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.openwords.util.InternetCheck;
+import com.openwords.util.TimeConvertor;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
 
 import android.content.Context;
@@ -20,13 +21,16 @@ public class InitDatabase {
 	public static String url_get_user_words="http://geographycontest.ipage.com/OpenwordsOrg/OpenwordsDB/getUserWordsRecords.php";
 	public static String url_writeback_user_words="http://geographycontest.ipage.com/OpenwordsOrg/OpenwordsDB/writeBackUserWords.php";
 	public static UserInfo user;
+	public static int userId;
+	public static int prevUser;
+	public static List<UserPerformanceDirty> dirtyPerf;
 	//-----
 	public static void checkAndRefreshPerf(Context ctx, int module)
 	{
 		user=OpenwordsSharedPreferences.getUserInfo();
-		int userId = user.getUserId();
-		int prevUser = user.getLast_userid();
-		List<UserPerformanceDirty> dirtyPerf = UserPerformanceDirty.listAll(UserPerformanceDirty.class);
+		userId = user.getUserId();
+		prevUser = user.getLast_userid();
+		dirtyPerf = UserPerformanceDirty.listAll(UserPerformanceDirty.class);
 		List<UserWords> uwList = UserWords.listAll(UserWords.class);
 		
 		boolean connected = InternetCheck.checkConn(ctx);
@@ -35,46 +39,23 @@ public class InitDatabase {
 		{
 			if(connected==true)
 			{
-				try
-				{
-					
-					JSONArray ja = new JSONArray();
-					JSONObject jParent = new JSONObject();
-					
-					for(int i=0;i<dirtyPerf.size();i++)
-					{
-						JSONObject jo = new JSONObject();
-						jo.put("connection_id", dirtyPerf.get(i).connection_id);
-						jo.put("user_id", dirtyPerf.get(i).user_id);
-						jo.put("type", dirtyPerf.get(i).type);
-						jo.put("perf", dirtyPerf.get(i).performance);
-						jo.put("time", dirtyPerf.get(i).time);
-						jo.put("user_ex", dirtyPerf.get(i).user_exclude);
-						
-						ja.put(jo);
-					}
-					
-					jParent.put("data", ja); //packing records as JSON object
-					
-					List<NameValuePair> params1 = new ArrayList<NameValuePair>();
-					params1.add(new BasicNameValuePair("params",jParent.toString()));
-					JSONParser jsonParse = new JSONParser();
-	                JSONObject jObj = jsonParse.makeHttpRequest(url_writeback_user_perf, "POST", params1);
-	                if(jObj.getInt("success")==1)
+				int success = InitDatabase.writeBackUserPerformance();
+	                if(success==1)
 	                {
 	                	UserPerformanceDirty.deleteByUser(userId);
-	                	
-	                	for(int i=0;i<dirtyPerf.size();i++)
-						{
-	                		InitDatabase.loadPerformanceSummary(ctx,userId,dirtyPerf.get(i).connection_id,module);
-						}
-	                	
+	                	                	
 	                }
-				}catch(Exception e)
-				{ e.printStackTrace();}
+				
 			}
 			else
 			{Log.d("msg", "not connected");}
+			
+			//Updating summary----------------------
+			/*for(int i=0;i<dirtyPerf.size();i++)
+			{
+        		InitDatabase.loadPerformanceSummary(ctx,userId,dirtyPerf.get(i).connection_id,module);
+			}*/
+			InitDatabase.updateLocalPerformanceSummary(ctx);
 		}
 		//------------------------------
 		
@@ -182,6 +163,87 @@ public class InitDatabase {
 		}
 	}
 	
+	//write back user performance to server.
+	public static int writeBackUserPerformance()
+	{
+		 int success = 0;
+		try
+		{
+			
+			JSONArray ja = new JSONArray();
+			JSONObject jParent = new JSONObject();
+			
+			for(int i=0;i<dirtyPerf.size();i++)
+			{
+				JSONObject jo = new JSONObject();
+				jo.put("connection_id", dirtyPerf.get(i).connection_id);
+				jo.put("user_id", dirtyPerf.get(i).user_id);
+				jo.put("type", dirtyPerf.get(i).type);
+				jo.put("perf", dirtyPerf.get(i).performance);
+				jo.put("time", dirtyPerf.get(i).time);
+				jo.put("user_ex", dirtyPerf.get(i).user_exclude);
+				
+				ja.put(jo);
+			}
+			
+			jParent.put("data", ja); //packing records as JSON object
+			
+			List<NameValuePair> params1 = new ArrayList<NameValuePair>();
+			params1.add(new BasicNameValuePair("params",jParent.toString()));
+			JSONParser jsonParse = new JSONParser();
+            JSONObject jObj = jsonParse.makeHttpRequest(url_writeback_user_perf, "POST", params1);
+            success = jObj.getInt("success");
+           
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		 return success;
+	}
+	
+	
+	//method for updating summary --------------
+	
+	public static void updateLocalPerformanceSummary(Context ctx)
+	{
+		for(int i=0;i<dirtyPerf.size();i++)
+		{
+    		//InitDatabase.loadPerformanceSummary(ctx,userId,dirtyPerf.get(i).connection_id,module);
+			List<UserPerformance> upList = UserPerformance.findByUserConnectionModule(userId, dirtyPerf.get(i).connection_id, dirtyPerf.get(i).type);
+			if(upList.size()>0) //if record exists then update
+			{
+				UserPerformance.updateById(upList.get(0).getId(), dirtyPerf.get(i).performance, dirtyPerf.get(i).time);
+			}
+			else //else insert
+			{
+				int totSkp=0,totClose=0,totExp=0,totCor=0;
+				switch(dirtyPerf.get(i).performance)
+				{
+				case 0: totExp=1;
+				case 1: totSkp=1; totExp=1;
+				case 2: totClose=1; totExp=1;
+				case 3: totCor=1; totExp=1;
+				}
+				
+				UserPerformance up = new UserPerformance(dirtyPerf.get(i).connection_id,
+						dirtyPerf.get(i).user_id,dirtyPerf.get(i).type,totClose,totCor,totSkp,totExp,
+						dirtyPerf.get(i).time,dirtyPerf.get(i).performance,0,ctx);
+				up.save();
+			
+			}
+		}
+		
+		
+		//updating last update time.-------
+		UserInfo uInf = OpenwordsSharedPreferences.getUserInfo();
+		uInf.setLastPerfUpd(TimeConvertor.getUnixTime());
+		OpenwordsSharedPreferences.setUserInfo(uInf);
+	}
+	
+	
+	
+	
+	/////////////////////////////////////////////////////////////////
 	public static void writeBackUserWords()
 	{
 		List<UserWords> uwList = UserWords.listAll(UserWords.class);
