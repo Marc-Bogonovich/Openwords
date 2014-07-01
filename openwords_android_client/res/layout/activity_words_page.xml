@@ -16,21 +16,24 @@
 			<Button android:id="@+id/wordsPage_Button_getNextWords"
 			    android:layout_marginTop="10dp"
 				android:layout_width="wrap_content" android:layout_height="wrap_content"
+				android:background="@drawable/button_custom"
 				android:text="@string/wordsPage_Button_getNextWords" />
 
 			<Button android:id="@+id/wordsPage_Button_searchWords"
 			    android:layout_marginTop="10dp"
 				android:layout_width="wrap_content" android:layout_height="wrap_content"
 				android:textColor="#404040" android:textSize="20sp"
-				android:background="@drawable/buttonshape" android:text="@string/wordsPage_Button_searchWords" />
+				android:background="@drawable/button_custom" android:text="@string/wordsPage_Button_searchWords" />
 
 			<Button android:id="@+id/wordsPage_Button_searchWordSets"
 			    android:layout_marginTop="10dp"
 				android:layout_width="wrap_content" android:layout_height="wrap_content"
+				android:background="@drawable/button_custom"
 				android:text="@string/wordsPage_Button_searchWordSets" />
 			<Button android:id="@+id/wordsPage_Button_viewMyWords"
 			    android:layout_marginTop="10dp"
 				android:layout_width="wrap_content" android:layout_height="wrap_content"
+				android:background="@drawable/button_custom"
 				android:text="@string/wordsPage_Button_viewMyWords" />
 		</LinearLayout>
 
