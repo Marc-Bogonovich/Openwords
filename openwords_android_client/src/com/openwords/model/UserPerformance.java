@@ -84,6 +84,12 @@ public class UserPerformance extends SugarRecord<UserPerformance>  {
 		return result;
 	}
 	
+	public static List<UserPerformance> findByUserConnectionModule(int user, int con,int module)
+	{
+		List<UserPerformance> upList = UserPerformance.find(UserPerformance.class, "userid="+user+" and connectionid="+con+" and module="+module);
+		return upList;
+	}
+	
 	public static void deleteByUser(int user_id)
 	{
 		UserPerformance.deleteAll(UserPerformance.class, "userid="+user_id);
