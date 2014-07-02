@@ -248,8 +248,8 @@ public class NextWords extends Activity implements OnClickListener{
                    }
                  
                    WordsPageTool word = words_list.get(position);
-                   holder1.name1.setText(" (" +  word.getWord1() + ")");
-                   holder1.name2.setText(" (" +  word.getWord2() + ")");
+                   holder1.name1.setText(" " +  word.getWord1() + " ");
+                   holder1.name2.setText("  " +  word.getWord2() + " ");
                    holder1.checked.setId(word.getId());
                    holder1.checked.setChecked(true);
                    
