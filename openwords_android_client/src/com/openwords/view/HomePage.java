@@ -202,7 +202,7 @@ public class HomePage extends Activity implements OnClickListener {
     			public void run() {
     	        	InitDatabase.checkAndRefreshPerf(HomePage.this, 0, 1);
     	        	final Progress progress = OpenwordsSharedPreferences.getReviewProgress();
-    	            if (true || progress == null) {
+    	            if (progress == null) {
 
     	                cards = new LeafCardAdapter(HomePage.this).getList(SIZE);
     	                if(cards.size()<=1){
@@ -233,7 +233,7 @@ public class HomePage extends Activity implements OnClickListener {
     			public void run() {
     	        	InitDatabase.checkAndRefreshPerf(HomePage.this, 1, 1);
     	        	final SelfEvalProgress progress = OpenwordsSharedPreferences.getSelfEvaluationProgress();
-    	            if (true || progress == null) {
+    	            if (progress == null) {
 
     	                cards = new LeafCardSelfEvalAdapter(HomePage.this).getList(SIZE);
     	                if(cards.size()<=1){
@@ -271,7 +271,7 @@ public class HomePage extends Activity implements OnClickListener {
     			public void run() {
     	        	InitDatabase.checkAndRefreshPerf(HomePage.this, 2, 1);
     	        	final TypeEvalProgress progress = OpenwordsSharedPreferences.getTypeEvaluationProgress();
-    	            if (true || progress == null) {
+    	            if (progress == null) {
 
     	                cards = new LeafCardTypeEvalAdapter(HomePage.this).getList(SIZE);
     	                if(cards.size()<=1){

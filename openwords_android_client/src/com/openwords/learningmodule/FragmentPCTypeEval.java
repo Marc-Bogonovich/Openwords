@@ -37,6 +37,7 @@ public class FragmentPCTypeEval extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        OpenwordsSharedPreferences.setTypeEvaluationProgress(null);
         user_id = OpenwordsSharedPreferences.getUserInfo().getUserId();
         LogUtil.logDeubg(this, "onCreate");
 

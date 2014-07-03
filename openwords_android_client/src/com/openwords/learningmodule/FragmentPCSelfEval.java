@@ -40,6 +40,7 @@ public class FragmentPCSelfEval extends Fragment {
     	
         super.onCreate(savedInstanceState);
         LogUtil.logDeubg(this, "onCreate");
+        OpenwordsSharedPreferences.setSelfEvaluationProgress(null);
         user_id = OpenwordsSharedPreferences.getUserInfo().getUserId();
         RefreshHandler = new Handler() {
             @Override
