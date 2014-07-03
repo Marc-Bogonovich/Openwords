@@ -76,11 +76,11 @@ public class UserPerformance extends SugarRecord<UserPerformance>  {
 	public static List<UserPerformance> findByUserLanguage(int user_id, int language_id) {
 		List<UserWords> wordlist = UserWords.findByLanguage(language_id);
 		List<UserPerformance> result = new ArrayList<UserPerformance>();
-		if(wordlist!=null) {
 			for(UserWords word : wordlist) {
-				result.add(UserPerformance.find(UserPerformance.class, "userid="+user_id+" and connectionid="+word.connectionId).get(0));
+				List<UserPerformance> perform = UserPerformance.find(UserPerformance.class, "userid="+user_id+" and connectionid="+word.connectionId);
+				if(perform.size()==0) break;
+				else result.add(perform.get(0));
 			}
-		}
 		return result;
 	}
 	

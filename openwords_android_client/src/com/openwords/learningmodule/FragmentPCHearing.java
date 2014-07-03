@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.openwords.R;
 import com.openwords.model.LeafCardHearing;
 import com.openwords.model.LeafCardSelfEval;
+import com.openwords.model.UserPerformanceDirty;
 import com.openwords.util.log.LogUtil;
 
 public class FragmentPCHearing extends Fragment {
@@ -83,6 +84,8 @@ public class FragmentPCHearing extends Fragment {
                 }
             }
         }
+        
+        
         vocabSize.setText("0 + " + totalCorrect);
         performance.setText(totalCorrect + "/" + totalCards);
         skip.setText(totalSkipped + " Skipped");
