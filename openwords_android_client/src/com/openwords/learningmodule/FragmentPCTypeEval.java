@@ -17,12 +17,14 @@ import android.widget.TextView;
 import com.openwords.R;
 import com.openwords.model.LeafCardSelfEval;
 import com.openwords.model.LeafCardTypeEval;
+import com.openwords.model.UserPerformanceDirty;
 import com.openwords.util.log.LogUtil;
+import com.openwords.util.preference.OpenwordsSharedPreferences;
 
 public class FragmentPCTypeEval extends Fragment {
 
     private static Handler RefreshHandler;
-
+    private int user_id;
     public static void refreshDetails() {
         if (RefreshHandler != null) {
             RefreshHandler.sendEmptyMessage(0);
@@ -35,6 +37,7 @@ public class FragmentPCTypeEval extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        user_id = OpenwordsSharedPreferences.getUserInfo().getUserId();
         LogUtil.logDeubg(this, "onCreate");
 
         RefreshHandler = new Handler() {
@@ -75,6 +78,9 @@ public class FragmentPCTypeEval extends Fragment {
         totalCards = ActivityTypeEval.getCardsPool().size();
 
         for (LeafCardTypeEval card : ActivityTypeEval.getCardsPool()) {
+        	//type -- module index : review -- 0, self -- 1, type -- 2, hearing -- 3
+        	//performance : 0 -- null, 1 -- wrong, 2 -- close, 3 -- right
+        	new UserPerformanceDirty(card.getConnectionId(),user_id,2,card.getLastTime(),card.getUserChoice(),0,getActivity().getApplicationContext()).save();
             if (card.getUserChoice() == 0) {
                 totalSkipped++;
             } else {

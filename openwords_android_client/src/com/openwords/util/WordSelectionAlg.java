@@ -10,6 +10,7 @@ import java.util.List;
 import android.content.Context;
 import android.util.Log;
 
+import com.openwords.model.InitDatabase;
 import com.openwords.model.UserPerformance;
 import com.openwords.model.UserWords;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
@@ -81,6 +82,7 @@ public class WordSelectionAlg extends SugarRecord<UserPerformance> {
 			for(int i=0;i<userWord.size();i++) {
 				result.add(userWord.get(i).connectionId);
 				UserWords.setFreshToStale(userWord.get(i).connectionId);
+				InitDatabase.updateBackUserWords(user_id, userWord.get(i).connectionId, false);
 			}
 		}
 		size = size - result.size();
