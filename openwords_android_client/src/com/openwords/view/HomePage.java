@@ -196,26 +196,31 @@ public class HomePage extends Activity implements OnClickListener {
     				"Assemble the leaf cards", true);
 
     		new Thread(new Runnable() {
+            	List<LeafCard> cards;
     			public void run() {
     	        	InitDatabase.checkAndRefreshPerf(HomePage.this, 0);
     	        	final Progress progress = OpenwordsSharedPreferences.getReviewProgress();
     	            if (true || progress == null) {
-    	            	List<LeafCard> cards;
-    	                try{
-    	                	cards = new LeafCardAdapter(HomePage.this).getList(SIZE);
-    	                } catch (IndexOutOfBoundsException e) {
-    	            		Toast.makeText(HomePage.this, "Please select word first",Toast.LENGTH_LONG).show();
-    	            		return;
+
+    	                cards = new LeafCardAdapter(HomePage.this).getList(SIZE);
+    	                if(cards.size()<=1){
+        	                runOnUiThread(new Runnable() {                
+        	                    @Override
+        	                    public void run() {
+        	                        Toast.makeText(HomePage.this, "Please select word first", Toast.LENGTH_SHORT).show();
+        	                    }
+        	                });
+    	                } else {
+    	                	ActivityReview.setCardsPool(cards);
+        	                startActivity(new Intent(HomePage.this, ActivityReview.class));
     	                }
-    	                pDialog.dismiss();
-    	                ActivityReview.setCardsPool(cards);
-    	                startActivity(new Intent(HomePage.this, ActivityReview.class));
     	            } else {
-    	            	pDialog.dismiss();
     	            	ActivityReview.setCardsPool(progress.getCardsPool());
     	            	ActivityReview.setCurrentCard(progress.getCurrentCard());
     	                startActivity(new Intent(HomePage.this, ActivityReview.class));
     	            }
+    	            pDialog.dismiss();
+
     			}
     		}).start();
         	

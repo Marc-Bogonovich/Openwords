@@ -59,20 +59,18 @@ public class WordSelectionAlg extends SugarRecord<UserPerformance> {
 	
 	public List<Integer> pickup(int size) {
 		int languageID = OpenwordsSharedPreferences.getUserInfo().getLang_id();
-		
+		List<Integer> result = new ArrayList<Integer>();
 		
 		
 		
 		try {
-			
-		} catch (Exception e){
-			
+			perform = UserPerformance.findByUserLanguage(user_id, languageID);
+		} catch (IndexOutOfBoundsException e){
+			Log.e("WordSelectAlg","No data in user performance, uid:"+user_id+" language id:"+languageID);
 		}
-		
-		
-		perform = UserPerformance.findByUserLanguage(user_id, languageID);
+
 		if(perform==null || perform.size()==0) {
-			return null;
+			return result;
 		}
 		Log.e("findByUser return size",""+perform.size()+"--"+perform.get(0).connection_id);
 		weightTable = new HashMap<Integer, Double>();
@@ -88,7 +86,7 @@ public class WordSelectionAlg extends SugarRecord<UserPerformance> {
 		}
 		// Now choose a random item
 
-		List<Integer> result = new ArrayList<Integer>();
+
 		double lastConnID = -1;
 		for(int i=0;i<size;i++) {
 			int randomIndex = -1;
