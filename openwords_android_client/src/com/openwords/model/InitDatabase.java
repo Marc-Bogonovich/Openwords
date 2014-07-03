@@ -219,12 +219,19 @@ public class InitDatabase {
 			else //else insert
 			{
 				int totSkp=0,totClose=0,totExp=0,totCor=0;
-				switch(dirtyPerf.get(i).performance)
+				if(dirtyPerf.get(i).type>0)
 				{
-				case 0: totExp=1;
-				case 1: totSkp=1; totExp=1;
-				case 2: totClose=1; totExp=1;
-				case 3: totCor=1; totExp=1;
+					switch(dirtyPerf.get(i).performance)
+					{
+					case 0: totExp=1;
+					case 1: totSkp=1; totExp=1;
+					case 2: totClose=1; totExp=1;
+					case 3: totCor=1; totExp=1;
+					}
+				}
+				else
+				{
+					totExp=1;
 				}
 				
 				UserPerformance up = new UserPerformance(dirtyPerf.get(i).connection_id,
