@@ -193,30 +193,41 @@ public class LoginPage extends Activity implements OnClickListener {
             List<NameValuePair> params = new ArrayList<NameValuePair>(2);
             params.add(new BasicNameValuePair("email", username.trim()));
             params.add(new BasicNameValuePair("password", password.trim()));
+            Log.e("LoginPage","Marker");
             for (NameValuePair i : params) {
                 LogUtil.logDeubg(this, "params: " + i.toString());
             }
             JSONParser jsonParse = new JSONParser();
-            JSONObject jObj = jsonParse.makeHttpRequest(url_check_user, "POST", params);
-            //Log.d("Res",jObj.toString());
-            int success = jObj.getInt(TAG_SUCCESS);
-            String msg = jObj.getString(TAG_MESSAGE);
-            int userid = jObj.getInt(TAG_USERID);
-            LogUtil.logDeubg(this, msg);
+            JSONObject jObj;
+            int success = 0;
+            int userid = -1;
+            String msg = "";
+            try{
+            	jObj = jsonParse.makeHttpRequest(url_check_user, "POST", params);
+                success = jObj.getInt(TAG_SUCCESS);
+                Log.e("LoginPage","Marker"+success);
+                msg = jObj.getString(TAG_MESSAGE);
+                userid = jObj.getInt(TAG_USERID);
+            } catch (Exception e) {
+            	e.printStackTrace();
+            	Toast.makeText(LoginPage.this, "Invalid user", Toast.LENGTH_SHORT).show();
+            	return;
+            }
+
             runOnUiThread(new Runnable() {
                 public void run() {
                     pDialog.dismiss();
                 }
             });
-            if (success == 1) {
-                LogUtil.logDeubg(this, "user found");
 
+            if (success == 1) {
+//                LogUtil.logDeubg(this, "user found");
                 runOnUiThread(new Runnable() {
                     public void run() {
                         Toast.makeText(LoginPage.this, "Login Success", Toast.LENGTH_SHORT).show();
                     }
                 });
-                LogUtil.logDeubg(this, "should go to next");
+//                LogUtil.logDeubg(this, "should go to next");
                 //save user preference
 //                Boolean saveuser = UIHelper.getCBChecked(this, R.id.loginPage_CheckBox_rememberMe);
 //                SharedPreferences.Editor editor = settings.edit();
@@ -232,7 +243,7 @@ public class LoginPage extends Activity implements OnClickListener {
                 	lu = OpenwordsSharedPreferences.getUserInfo().getUserId();
                 OpenwordsSharedPreferences.setUserInfo(new UserInfo(lu,0,userid, username, password, System.currentTimeMillis()));
                 LoginPage.this.startActivity(new Intent(LoginPage.this, HomePage.class));
-            } else {
+            } else if (success == 0) { 
                 runOnUiThread(new Runnable() {
                     public void run() {
                         Toast.makeText(LoginPage.this, "Invalid user", Toast.LENGTH_SHORT).show();
