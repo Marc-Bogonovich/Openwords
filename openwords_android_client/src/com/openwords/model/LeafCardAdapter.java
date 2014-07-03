@@ -16,7 +16,7 @@ public class LeafCardAdapter {
 	}
 
 	public List<LeafCard> getList(int size) {
-		List<Integer> connectIDs = new WordSelectionAlg(context).pickup(size);
+		List<Integer> connectIDs = new WordSelectionAlg(context).pickup(size, null);
 		Log.d("Selected list",connectIDs.toString());
 		List<LeafCard> result = new ArrayList<LeafCard>();
 		for(Integer id : connectIDs) {

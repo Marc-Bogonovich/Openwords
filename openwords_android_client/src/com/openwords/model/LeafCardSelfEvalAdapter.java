@@ -13,7 +13,7 @@ public class LeafCardSelfEvalAdapter {
 	}
 
 	public List<LeafCardSelfEval> getList(int size) {
-		List<Integer> connectIDs = new WordSelectionAlg(context).pickup(size);
+		List<Integer> connectIDs = new WordSelectionAlg(context).pickup(size, null);
 		List<LeafCardSelfEval> result = new ArrayList<LeafCardSelfEval>();
 		for(Integer id : connectIDs) {
 			// since connectionID is the primary key of UserWord table, only one record is returned

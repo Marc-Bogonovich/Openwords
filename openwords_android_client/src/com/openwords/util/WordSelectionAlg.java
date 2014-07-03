@@ -57,11 +57,18 @@ public class WordSelectionAlg extends SugarRecord<UserPerformance> {
 		return weight;
 	}
 	
-	public List<Integer> pickup(int size) {
+	public List<Integer> pickup(int size, Boolean hasAudio) {
 		int languageID = OpenwordsSharedPreferences.getUserInfo().getLang_id();
 		List<Integer> result = new ArrayList<Integer>();
 		
-		userWord = UserWords.findFresh();
+		if(hasAudio!=null && hasAudio.equals(true)) {
+			userWord = UserWords.findFreshWithAudio();
+			perform = UserPerformance.findByUserLanguageWithAudio(user_id, languageID);
+		} else { //no requirement for audio
+			userWord = UserWords.findFresh();
+			perform = UserPerformance.findByUserLanguage(user_id, languageID);
+		}
+		
 		Log.d("WordSelectAlg","UserWord size:"+userWord.size());
 		if(userWord.size()>=size) {
 			for(int i=0;i<size;i++) {
@@ -78,7 +85,7 @@ public class WordSelectionAlg extends SugarRecord<UserPerformance> {
 		}
 		size = size - result.size();
 		
-		perform = UserPerformance.findByUserLanguage(user_id, languageID);
+		
 		if(perform.size()==0) {
 			Log.e("WordSelectionAlg","No data in perform uid:"+user_id+" languageID:"+languageID);
 			return result;

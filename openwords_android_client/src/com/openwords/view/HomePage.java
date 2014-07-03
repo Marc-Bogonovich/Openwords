@@ -46,9 +46,11 @@ import com.openwords.model.JSONParser;
 import com.openwords.model.LeafCard;
 import com.openwords.model.LeafCardAdapter;
 import com.openwords.model.LeafCardHearing;
+import com.openwords.model.LeafCardHearingAdapter;
 import com.openwords.model.LeafCardSelfEval;
 import com.openwords.model.LeafCardSelfEvalAdapter;
 import com.openwords.model.LeafCardTypeEval;
+import com.openwords.model.LeafCardTypeEvalAdapter;
 import com.openwords.model.UserInfo;
 import com.openwords.model.UserPerformance;
 import com.openwords.model.UserWords;
@@ -185,15 +187,15 @@ public class HomePage extends Activity implements OnClickListener {
         String taskPage = begin.getSelectedItem().toString();
         LogUtil.logDeubg(this, "Task: " + taskPage);
         Log.d("Shared Preferences Language ID", Integer.toString(userinfo.getLang_id()));
-        
+    	pDialog = ProgressDialog.show(HomePage.this, "",
+				"Assemble the leaf cards", true);
         if (taskPage.equals("Review")) {
 //        	InitDatabase.checkAndRefreshPerf(this, 0);
 //        	UserPerformance.deleteAll(UserPerformance.class);
 //        	WordTranscription.deleteAll(WordTranscription.class);
 //        	UserWords.deleteAll(UserWords.class);
 //        	new InsertData(HomePage.this);
-    		pDialog = ProgressDialog.show(HomePage.this, "",
-    				"Assemble the leaf cards", true);
+    	
 
     		new Thread(new Runnable() {
             	List<LeafCard> cards;
@@ -220,110 +222,140 @@ public class HomePage extends Activity implements OnClickListener {
     	                startActivity(new Intent(HomePage.this, ActivityReview.class));
     	            }
     	            pDialog.dismiss();
-
     			}
     		}).start();
         	
         	
 
         } else if (taskPage.equals("Self evaluation")) {
-        	InitDatabase.checkAndRefreshPerf(this, 1, 1);
-        	final SelfEvalProgress progress = OpenwordsSharedPreferences.getSelfEvaluationProgress();
-        	List<LeafCardSelfEval> cards =  new LeafCardSelfEvalAdapter(HomePage.this).getList(SIZE);
-            ActivitySelfEval.setCardsPool(cards);
-        	if (progress == null) {  
-                startActivity(new Intent(HomePage.this, ActivitySelfEval.class));
-            } else {
-            	ActivitySelfEval.setCurrentCard(progress.getCurrentCard());
-                startActivity(new Intent(HomePage.this, ActivitySelfEval.class)); 
-            }
+    		new Thread(new Runnable() {
+            	List<LeafCardSelfEval> cards;
+    			public void run() {
+    	        	InitDatabase.checkAndRefreshPerf(HomePage.this, 1, 1);
+    	        	final SelfEvalProgress progress = OpenwordsSharedPreferences.getSelfEvaluationProgress();
+    	            if (true || progress == null) {
+
+    	                cards = new LeafCardSelfEvalAdapter(HomePage.this).getList(SIZE);
+    	                if(cards.size()<=1){
+        	                runOnUiThread(new Runnable() {                
+        	                    @Override
+        	                    public void run() {
+        	                        Toast.makeText(HomePage.this, "Please select word first", Toast.LENGTH_SHORT).show();
+        	                    }
+        	                });
+    	                } else {
+    	                	ActivitySelfEval.setCardsPool(cards);
+        	                startActivity(new Intent(HomePage.this, ActivitySelfEval.class));
+    	                }
+    	            } else {
+    	            	ActivitySelfEval.setCardsPool(progress.getCardsPool());
+    	            	ActivitySelfEval.setCurrentCard(progress.getCurrentCard());
+    	                startActivity(new Intent(HomePage.this, ActivitySelfEval.class));
+    	            }
+    	            pDialog.dismiss();
+    			}
+    		}).start();
+
+//        	final SelfEvalProgress progress = OpenwordsSharedPreferences.getSelfEvaluationProgress();
+//        	List<LeafCardSelfEval> cards =  new LeafCardSelfEvalAdapter(HomePage.this).getList(SIZE);
+//            ActivitySelfEval.setCardsPool(cards);
+//        	if (progress == null) {  
+//                startActivity(new Intent(HomePage.this, ActivitySelfEval.class));
+//            } else {
+//            	ActivitySelfEval.setCurrentCard(progress.getCurrentCard());
+//                startActivity(new Intent(HomePage.this, ActivitySelfEval.class)); 
+//            }
         } else if (taskPage.equals("Type evaluation")) {
-            //targetClass = TypeEvaluate.class;
-        	InitDatabase.checkAndRefreshPerf(this, 2, 1);
-        	final TypeEvalProgress progress = OpenwordsSharedPreferences.getTypeEvaluationProgress();
-            List<LeafCardTypeEval> cards = new LinkedList<LeafCardTypeEval>();
-            cards.add(new LeafCardTypeEval("��", "person", "ren"));
-            cards.add(new LeafCardTypeEval("è", "cat", "mao"));
-            cards.add(new LeafCardTypeEval("����", "earth", "di qiu"));
-            cards.add(new LeafCardTypeEval("ʱ��", "time", "shi jian"));
-            cards.add(new LeafCardTypeEval("����", "world", "shi jie"));
-            cards.add(new LeafCardTypeEval("����", "computer", "dian nao"));
-            cards.add(new LeafCardTypeEval("���", "software", "ruan jian"));
-        	if (progress == null) {
-                ActivityTypeEval.setCardsPool(cards);
-                startActivity(new Intent(HomePage.this, ActivityTypeEval.class));
-            } else {
-            	ActivityTypeEval.setCardsPool(progress.getCardsPool());
-                ActivityTypeEval.setCurrentCard(progress.getCurrentCard());
-                startActivity(new Intent(HomePage.this, ActivityTypeEval.class));
-//                new AlertDialog.Builder(HomePage.this)
-//                        .setTitle("Continue?")
-//                        .setMessage("You have a saved progress, do you want to continue?")
-//                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
-//                            public void onClick(DialogInterface arg0, int arg1) {
-//                                List<LeafCardTypeEval> cards = new LinkedList<LeafCardTypeEval>();
-//                                cards.add(new LeafCardTypeEval("��", "person", "ren"));
-//                                cards.add(new LeafCardTypeEval("è", "cat", "mao"));
-//                                cards.add(new LeafCardTypeEval("����", "earth", "di qiu"));
-//                                cards.add(new LeafCardTypeEval("ʱ��", "time", "shi jian"));
-//                                cards.add(new LeafCardTypeEval("����", "world", "shi jie"));
-//                                cards.add(new LeafCardTypeEval("����", "computer", "dian nao"));
-//                                cards.add(new LeafCardTypeEval("���", "software", "ruan jian"));
-//                                ActivityTypeEval.setCardsPool(cards);
-//                                startActivity(new Intent(HomePage.this, ActivityTypeEval.class));
-//                            }
-//                        })
-//                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-//                            public void onClick(DialogInterface arg0, int arg1) {
-//                            	ActivityTypeEval.setCardsPool(progress.getCardsPool());
-//                                ActivityTypeEval.setCurrentCard(progress.getCurrentCard());
-//                                startActivity(new Intent(HomePage.this, ActivityTypeEval.class));
-//                            }
-//                        }).create().show();
-            }
+    		new Thread(new Runnable() {
+            	List<LeafCardTypeEval> cards;
+    			public void run() {
+    	        	InitDatabase.checkAndRefreshPerf(HomePage.this, 2, 1);
+    	        	final TypeEvalProgress progress = OpenwordsSharedPreferences.getTypeEvaluationProgress();
+    	            if (true || progress == null) {
+
+    	                cards = new LeafCardTypeEvalAdapter(HomePage.this).getList(SIZE);
+    	                if(cards.size()<=1){
+        	                runOnUiThread(new Runnable() {                
+        	                    @Override
+        	                    public void run() {
+        	                        Toast.makeText(HomePage.this, "Please select word first", Toast.LENGTH_SHORT).show();
+        	                    }
+        	                });
+    	                } else {
+    	                	ActivityTypeEval.setCardsPool(cards);
+        	                startActivity(new Intent(HomePage.this, ActivityTypeEval.class));
+    	                }
+    	            } else {
+    	            	ActivityTypeEval.setCardsPool(progress.getCardsPool());
+    	            	ActivityTypeEval.setCurrentCard(progress.getCurrentCard());
+    	                startActivity(new Intent(HomePage.this, ActivityTypeEval.class));
+    	            }
+    	            pDialog.dismiss();
+    			}
+    		}).start();
         } else if (taskPage.equals("Hearing")) {
-        	InitDatabase.checkAndRefreshPerf(this, 3, 1);
-        	new InsertData(HomePage.this);
-        	final HearingProgress progress = OpenwordsSharedPreferences.getHearingProgress();
-            List<LeafCardHearing> cards = new LinkedList<LeafCardHearing>();
-            cards.add(new LeafCardHearing("��", "person", "ren"));
-            cards.add(new LeafCardHearing("è", "cat", "mao"));
-            cards.add(new LeafCardHearing("����", "earth", "di qiu"));
-            cards.add(new LeafCardHearing("ʱ��", "time", "shi jian"));
-            cards.add(new LeafCardHearing("����", "world", "shi jie"));
-            cards.add(new LeafCardHearing("����", "computer", "dian nao"));
-            cards.add(new LeafCardHearing("���", "software", "ruan jian"));
-            ActivityHearing.setCardsPool(cards);
-        	if (progress == null) {
-                startActivity(new Intent(HomePage.this, ActivityHearing.class));
-            } else {
-            	ActivityHearing.setCurrentCard(progress.getCurrentCard());
-                startActivity(new Intent(HomePage.this, ActivityHearing.class));     
-//                new AlertDialog.Builder(HomePage.this)
-//                        .setTitle("Continue?")
-//                        .setMessage("You have a saved progress, do you want to continue?")
-//                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
-//                            public void onClick(DialogInterface arg0, int arg1) {
-//                                List<LeafCardHearing> cards = new LinkedList<LeafCardHearing>();
-//                                cards.add(new LeafCardHearing("��", "person", "ren"));
-//                                cards.add(new LeafCardHearing("è", "cat", "mao"));
-//                                cards.add(new LeafCardHearing("����", "earth", "di qiu"));
-//                                cards.add(new LeafCardHearing("ʱ��", "time", "shi jian"));
-//                                cards.add(new LeafCardHearing("����", "world", "shi jie"));
-//                                cards.add(new LeafCardHearing("����", "computer", "dian nao"));
-//                                cards.add(new LeafCardHearing("���", "software", "ruan jian"));
-//                                ActivityHearing.setCardsPool(cards);
-//                                startActivity(new Intent(HomePage.this, ActivityHearing.class));
-//                            }
-//                        })
-//                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-//                            public void onClick(DialogInterface arg0, int arg1) {
-//                            	ActivityHearing.setCardsPool(progress.getCardsPool());
-//                            	ActivityHearing.setCurrentCard(progress.getCurrentCard());
-//                                startActivity(new Intent(HomePage.this, ActivityHearing.class));
-//                            }
-//                        }).create().show();
-            }
+
+    		new Thread(new Runnable() {
+            	List<LeafCardHearing> cards;
+    			public void run() {
+    	        	InitDatabase.checkAndRefreshPerf(HomePage.this, 3, 1);
+    	        	final HearingProgress progress = OpenwordsSharedPreferences.getHearingProgress();
+    	            if (true || progress == null) {
+
+    	                cards = new LeafCardHearingAdapter(HomePage.this).getList(SIZE);
+    	                if(cards.size()<=1){
+        	                runOnUiThread(new Runnable() {                
+        	                    @Override
+        	                    public void run() {
+        	                        Toast.makeText(HomePage.this, "No word with audio", Toast.LENGTH_SHORT).show();
+        	                    }
+        	                });
+    	                } else {
+    	                	ActivityHearing.setCardsPool(cards);
+        	                startActivity(new Intent(HomePage.this, ActivityHearing.class));
+    	                }
+    	            } else {
+    	            	ActivityHearing.setCardsPool(progress.getCardsPool());
+    	            	ActivityHearing.setCurrentCard(progress.getCurrentCard());
+    	                startActivity(new Intent(HomePage.this, ActivityHearing.class));
+    	            }
+    	            pDialog.dismiss();
+    			}
+    		}).start();
+//        	new InsertData(HomePage.this);
+//        	final HearingProgress progress = OpenwordsSharedPreferences.getHearingProgress();
+//            List<LeafCardHearing> cards = new LinkedList<LeafCardHearing>();
+//            ActivityHearing.setCardsPool(cards);
+//        	if (progress == null) {
+//                startActivity(new Intent(HomePage.this, ActivityHearing.class));
+//            } else {
+//            	ActivityHearing.setCurrentCard(progress.getCurrentCard());
+//                startActivity(new Intent(HomePage.this, ActivityHearing.class));     
+////                new AlertDialog.Builder(HomePage.this)
+////                        .setTitle("Continue?")
+////                        .setMessage("You have a saved progress, do you want to continue?")
+////                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+////                            public void onClick(DialogInterface arg0, int arg1) {
+////                                List<LeafCardHearing> cards = new LinkedList<LeafCardHearing>();
+////                                cards.add(new LeafCardHearing("��", "person", "ren"));
+////                                cards.add(new LeafCardHearing("è", "cat", "mao"));
+////                                cards.add(new LeafCardHearing("����", "earth", "di qiu"));
+////                                cards.add(new LeafCardHearing("ʱ��", "time", "shi jian"));
+////                                cards.add(new LeafCardHearing("����", "world", "shi jie"));
+////                                cards.add(new LeafCardHearing("����", "computer", "dian nao"));
+////                                cards.add(new LeafCardHearing("���", "software", "ruan jian"));
+////                                ActivityHearing.setCardsPool(cards);
+////                                startActivity(new Intent(HomePage.this, ActivityHearing.class));
+////                            }
+////                        })
+////                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+////                            public void onClick(DialogInterface arg0, int arg1) {
+////                            	ActivityHearing.setCardsPool(progress.getCardsPool());
+////                            	ActivityHearing.setCurrentCard(progress.getCurrentCard());
+////                                startActivity(new Intent(HomePage.this, ActivityHearing.class));
+////                            }
+////                        }).create().show();
+//            }
         }
     }
 

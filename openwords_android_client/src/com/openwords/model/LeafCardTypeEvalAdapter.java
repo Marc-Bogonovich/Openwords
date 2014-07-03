@@ -13,7 +13,7 @@ public class LeafCardTypeEvalAdapter {
 	}
 
 	public List<LeafCardTypeEval> getList(int size) {
-		List<Integer> connectIDs = new WordSelectionAlg(context).pickup(size);
+		List<Integer> connectIDs = new WordSelectionAlg(context).pickup(size, null);
 		List<LeafCardTypeEval> result = new ArrayList<LeafCardTypeEval>();
 		for(Integer id : connectIDs) {
 			// since connectionID is the primary key of UserWord table, only one record is returned

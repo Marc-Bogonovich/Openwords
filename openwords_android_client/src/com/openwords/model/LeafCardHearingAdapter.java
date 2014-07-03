@@ -13,7 +13,7 @@ public class LeafCardHearingAdapter {
 	}
 
 	public List<LeafCardHearing> getList(int size) {
-		List<Integer> connectIDs = new WordSelectionAlg(context).pickup(size);
+		List<Integer> connectIDs = new WordSelectionAlg(context).pickup(size, true);
 		List<LeafCardHearing> result = new ArrayList<LeafCardHearing>();
 		for(Integer id : connectIDs) {
 			// since connectionID is the primary key of UserWord table, only one record is returned
