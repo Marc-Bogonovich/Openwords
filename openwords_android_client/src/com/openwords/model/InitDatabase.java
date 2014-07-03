@@ -148,7 +148,8 @@ public class InitDatabase {
 				UserWords uw = new UserWords(ctx,childObj.getInt("connection_id"),
 						childObj.getInt("wordl2id"),childObj.getString("wordl2name"),
 						childObj.getInt("wordl1id"),childObj.getString("wordl1name"),
-						childObj.getInt("l2id"),childObj.getString("l2name"),childObj.getString("audiocall"));
+						childObj.getInt("l2id"),childObj.getString("l2name"),childObj.getString("audiocall"),
+						childObj.getBoolean("fresh"));
 				uw.save();
 				
 				//loading transcription
@@ -245,32 +246,18 @@ public class InitDatabase {
 	
 	
 	/////////////////////////////////////////////////////////////////
-	public static void writeBackUserWords()
+	public static void updateBackUserWords(int user,int connection, boolean fresh)
 	{
-		List<UserWords> uwList = UserWords.listAll(UserWords.class);
-		if (uwList.size()>0)
-		{
+		
 			try
 			{
-				JSONArray ja = new JSONArray();
-				JSONObject jParent = new JSONObject();
-				for(int i=0;i<uwList.size();i++)
-				{
-					JSONObject rec = new JSONObject();
-					rec.put("connection_id", uwList.get(i).connectionId);
-					rec.put("user_id", OpenwordsSharedPreferences.getUserInfo().getUserId());
-					rec.put("wordl2id", uwList.get(i).wordLTwoId);
-					rec.put("wordl1id", uwList.get(i).wordLOneId);
-					rec.put("l2id", uwList.get(i).lTwoId);
-					
-					ja.put(rec);
-				}
-				jParent.put("data", ja);
 				
 				
 				//building params
 				List<NameValuePair> params1 = new ArrayList<NameValuePair>();
-				params1.add(new BasicNameValuePair("params",jParent.toString()));
+				params1.add(new BasicNameValuePair("user",Integer.toString(user)));
+				params1.add(new BasicNameValuePair("con",Integer.toString(connection)));
+				params1.add(new BasicNameValuePair("fresh",Boolean.toString(fresh)));
 				JSONParser jsonParse = new JSONParser();
 				JSONObject jObj = jsonParse.makeHttpRequest(url_writeback_user_words, "POST", params1);
                 if(jObj.getInt("success")==1)
@@ -282,7 +269,7 @@ public class InitDatabase {
 			{
 				e.printStackTrace();
 			}
-		}
+		
 	}
 
 }
