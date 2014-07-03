@@ -35,7 +35,7 @@ public class InitDatabase {
 		
 		boolean connected = InternetCheck.checkConn(ctx);
 		//if Dirty performance has records for this user...
-		if(dirtyPerf.size()>0 && override==1)
+		if(dirtyPerf.size()>0)
 		{
 			if(connected==true)
 			{
