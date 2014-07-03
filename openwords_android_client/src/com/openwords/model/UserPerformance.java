@@ -90,6 +90,18 @@ public class UserPerformance extends SugarRecord<UserPerformance>  {
 		return upList;
 	}
 	
+	public static List<UserPerformance> findByUserLanguageWithAudio(int user_id, int language_id)
+	{
+		List<UserWords> wordlist = UserWords.findByLanguageWithAudio(language_id);
+		List<UserPerformance> result = new ArrayList<UserPerformance>();
+			for(UserWords word : wordlist) {
+				List<UserPerformance> perform = UserPerformance.find(UserPerformance.class, "userid="+user_id+" and connectionid="+word.connectionId);
+				if(perform.size()==0) break;
+				else result.add(perform.get(0));
+			}
+		return result;
+	}
+	
 	public static void deleteByUser(int user_id)
 	{
 		UserPerformance.deleteAll(UserPerformance.class, "userid="+user_id);
