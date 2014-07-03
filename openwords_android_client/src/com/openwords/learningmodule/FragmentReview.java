@@ -15,6 +15,7 @@ import com.openwords.R;
 import com.openwords.model.LeafCard;
 import com.openwords.model.LeafCardSelfEval;
 import com.openwords.tts.Speak;
+import com.openwords.util.TimeConvertor;
 import com.openwords.util.log.LogUtil;
 
 @SuppressLint("ValidFragment")
@@ -52,7 +53,7 @@ public class FragmentReview extends Fragment {
         problem.setText(card.getWordLang2());
         answer.setText(card.getWordLang1());
         transcription.setText(card.getTranscription());
-
+        card.setLastTime(TimeConvertor.getUnixTime());
         if(card.getAudioURL()==null) {
         	audioPlay.setImageResource(R.drawable.ic_self_evaluate_audio_null);
         } else {

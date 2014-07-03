@@ -9,9 +9,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.openwords.R;
 import com.openwords.model.LeafCardSelfEval;
 import com.openwords.tts.Speak;
+import com.openwords.util.TimeConvertor;
 import com.openwords.util.log.LogUtil;
 
 @SuppressLint("ValidFragment")
@@ -53,6 +55,7 @@ public class FragmentSelfEval extends Fragment {
         problem.setText(card.getWordLang2());
         answer.setText(card.getWordLang1());
         transcription.setText(card.getTranscription());
+        card.setLastTime(TimeConvertor.getUnixTime());
 
         showAnswer.setOnClickListener(new View.OnClickListener() {
 

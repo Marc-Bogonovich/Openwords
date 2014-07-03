@@ -17,6 +17,7 @@ import com.openwords.R;
 import com.openwords.model.LeafCardHearing;
 import com.openwords.model.LeafCardSelfEval;
 import com.openwords.tts.Speak;
+import com.openwords.util.TimeConvertor;
 import com.openwords.util.WordComparsion;
 import com.openwords.util.log.LogUtil;
 
@@ -124,6 +125,7 @@ public class FragmentHearing extends Fragment {
     	question.setText(card.getWordLang2());
     	answer.setText(card.getWordLang1());
     	// 0 -- null 1-- wrong 2-- close 3--correct
+        card.setLastTime(TimeConvertor.getUnixTime());
     	if(userChoice.equals(0)) {
 			indicator.setImageResource(R.drawable.ic_learning_module_null);
 			userInput.setText("");

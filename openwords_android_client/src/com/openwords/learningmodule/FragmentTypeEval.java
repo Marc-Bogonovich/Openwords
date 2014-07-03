@@ -18,6 +18,7 @@ import com.openwords.R;
 import com.openwords.model.LeafCardSelfEval;
 import com.openwords.model.LeafCardTypeEval;
 import com.openwords.tts.Speak;
+import com.openwords.util.TimeConvertor;
 import com.openwords.util.WordComparsion;
 import com.openwords.util.log.LogUtil;
 
@@ -62,7 +63,7 @@ public class FragmentTypeEval extends Fragment {
 		status = (ImageView) myFragmentView.findViewById(R.id.typeEvaluate_ImageView_status);
 		audioPlayButton = (ImageView) myFragmentView.findViewById(R.id.typeEvaluate_ImageView_audioPlay);
 		setInterfaceView();
-		
+        card.setLastTime(TimeConvertor.getUnixTime());
 		answer.setVisibility(View.INVISIBLE);
 		
 		userInput.addTextChangedListener(new TextWatcher(){

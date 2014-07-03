@@ -4,6 +4,7 @@ public class LeafCard {
 	private String wordLang2, wordLang1, transcription;
 	private String audioURL;
 	private int connectionId; 
+	private long lastTime;
 	
 	public LeafCard(String wordLang2, String wordLang1, String transcription) {
 		this.wordLang2 = wordLang2;
@@ -50,5 +51,14 @@ public class LeafCard {
 	public void setConnectionId(int connectionId) {
 		this.connectionId = connectionId;
 	}
+
+	public long getLastTime() {
+		return lastTime;
+	}
+
+	public void setLastTime(long lastTime) {
+		this.lastTime = lastTime;
+	}
+	
 	
 }
