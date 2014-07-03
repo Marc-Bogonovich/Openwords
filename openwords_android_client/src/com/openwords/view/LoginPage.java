@@ -102,50 +102,50 @@ public class LoginPage extends Activity implements OnClickListener {
             passwdField.setText(user.getPass());
         }
 
-        Button test = (Button) findViewById(R.id.loginPage_test);
-        test.setOnClickListener(new OnClickListener() {
-
-            public void onClick(View view) {
-                final SelfEvalProgress progress = OpenwordsSharedPreferences.getSelfEvaluationProgress();
-                if (progress == null) {
-                    List<LeafCardSelfEval> cards = new LinkedList<LeafCardSelfEval>();
-                    cards.add(new LeafCardSelfEval("äºº", "person", "ren"));
-                    cards.add(new LeafCardSelfEval("çŒ«", "cat", "mao"));
-                    cards.add(new LeafCardSelfEval("åœ°ç�ƒ", "earth", "di qiu"));
-                    cards.add(new LeafCardSelfEval("æ—¶é—´", "time", "shi jian"));
-                    cards.add(new LeafCardSelfEval("ä¸–ç•Œ", "world", "shi jie"));
-                    cards.add(new LeafCardSelfEval("ç”µè„‘", "computer", "dian nao"));
-                    cards.add(new LeafCardSelfEval("è½¯ä»¶", "software", "ruan jian"));
-                    ActivitySelfEval.setCardsPool(cards);
-                    startActivity(new Intent(LoginPage.this, ActivitySelfEval.class));
-                } else {
-                    new AlertDialog.Builder(LoginPage.this)
-                            .setTitle("Continue?")
-                            .setMessage("You have a saved progress, do you want to continue?")
-                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface arg0, int arg1) {
-                                    List<LeafCardSelfEval> cards = new LinkedList<LeafCardSelfEval>();
-                                    cards.add(new LeafCardSelfEval("äºº", "person", "ren"));
-                                    cards.add(new LeafCardSelfEval("çŒ«", "cat", "mao"));
-                                    cards.add(new LeafCardSelfEval("åœ°ç�ƒ", "earth", "di qiu"));
-                                    cards.add(new LeafCardSelfEval("æ—¶é—´", "time", "shi jian"));
-                                    cards.add(new LeafCardSelfEval("ä¸–ç•Œ", "world", "shi jie"));
-                                    cards.add(new LeafCardSelfEval("ç”µè„‘", "computer", "dian nao"));
-                                    cards.add(new LeafCardSelfEval("è½¯ä»¶", "software", "ruan jian"));
-                                    ActivitySelfEval.setCardsPool(cards);
-                                    startActivity(new Intent(LoginPage.this, ActivitySelfEval.class));
-                                }
-                            })
-                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface arg0, int arg1) {
-                               //     ActivitySelfEval.setCardsPool(progress.getCardsPool());
-                              //      ActivitySelfEval.setCurrentCard(progress.getCurrentCard());
-                                    startActivity(new Intent(LoginPage.this, ActivitySelfEval.class));
-                                }
-                            }).create().show();
-                }
-            }
-        });
+//        Button test = (Button) findViewById(R.id.loginPage_test);
+//        test.setOnClickListener(new OnClickListener() {
+//
+//            public void onClick(View view) {
+//                final SelfEvalProgress progress = OpenwordsSharedPreferences.getSelfEvaluationProgress();
+//                if (progress == null) {
+//                    List<LeafCardSelfEval> cards = new LinkedList<LeafCardSelfEval>();
+//                    cards.add(new LeafCardSelfEval("äºº", "person", "ren"));
+//                    cards.add(new LeafCardSelfEval("çŒ«", "cat", "mao"));
+//                    cards.add(new LeafCardSelfEval("åœ°ç�ƒ", "earth", "di qiu"));
+//                    cards.add(new LeafCardSelfEval("æ—¶é—´", "time", "shi jian"));
+//                    cards.add(new LeafCardSelfEval("ä¸–ç•Œ", "world", "shi jie"));
+//                    cards.add(new LeafCardSelfEval("ç”µè„‘", "computer", "dian nao"));
+//                    cards.add(new LeafCardSelfEval("è½¯ä»¶", "software", "ruan jian"));
+//                    ActivitySelfEval.setCardsPool(cards);
+//                    startActivity(new Intent(LoginPage.this, ActivitySelfEval.class));
+//                } else {
+//                    new AlertDialog.Builder(LoginPage.this)
+//                            .setTitle("Continue?")
+//                            .setMessage("You have a saved progress, do you want to continue?")
+//                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+//                                public void onClick(DialogInterface arg0, int arg1) {
+//                                    List<LeafCardSelfEval> cards = new LinkedList<LeafCardSelfEval>();
+//                                    cards.add(new LeafCardSelfEval("äºº", "person", "ren"));
+//                                    cards.add(new LeafCardSelfEval("çŒ«", "cat", "mao"));
+//                                    cards.add(new LeafCardSelfEval("åœ°ç�ƒ", "earth", "di qiu"));
+//                                    cards.add(new LeafCardSelfEval("æ—¶é—´", "time", "shi jian"));
+//                                    cards.add(new LeafCardSelfEval("ä¸–ç•Œ", "world", "shi jie"));
+//                                    cards.add(new LeafCardSelfEval("ç”µè„‘", "computer", "dian nao"));
+//                                    cards.add(new LeafCardSelfEval("è½¯ä»¶", "software", "ruan jian"));
+//                                    ActivitySelfEval.setCardsPool(cards);
+//                                    startActivity(new Intent(LoginPage.this, ActivitySelfEval.class));
+//                                }
+//                            })
+//                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+//                                public void onClick(DialogInterface arg0, int arg1) {
+//                               //     ActivitySelfEval.setCardsPool(progress.getCardsPool());
+//                              //      ActivitySelfEval.setCurrentCard(progress.getCurrentCard());
+//                                    startActivity(new Intent(LoginPage.this, ActivitySelfEval.class));
+//                                }
+//                            }).create().show();
+//                }
+//            }
+//        });
     }
 
 //    @Override
