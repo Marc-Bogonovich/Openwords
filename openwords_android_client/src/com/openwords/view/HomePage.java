@@ -198,7 +198,7 @@ public class HomePage extends Activity implements OnClickListener {
     		new Thread(new Runnable() {
             	List<LeafCard> cards;
     			public void run() {
-    	        	InitDatabase.checkAndRefreshPerf(HomePage.this, 0);
+    	        	InitDatabase.checkAndRefreshPerf(HomePage.this, 0, 1);
     	        	final Progress progress = OpenwordsSharedPreferences.getReviewProgress();
     	            if (true || progress == null) {
 
@@ -227,7 +227,7 @@ public class HomePage extends Activity implements OnClickListener {
         	
 
         } else if (taskPage.equals("Self evaluation")) {
-        	InitDatabase.checkAndRefreshPerf(this, 1);
+        	InitDatabase.checkAndRefreshPerf(this, 1, 1);
         	final SelfEvalProgress progress = OpenwordsSharedPreferences.getSelfEvaluationProgress();
         	List<LeafCardSelfEval> cards =  new LeafCardSelfEvalAdapter(HomePage.this).getList(SIZE);
             ActivitySelfEval.setCardsPool(cards);
@@ -239,7 +239,7 @@ public class HomePage extends Activity implements OnClickListener {
             }
         } else if (taskPage.equals("Type evaluation")) {
             //targetClass = TypeEvaluate.class;
-        	InitDatabase.checkAndRefreshPerf(this, 2);
+        	InitDatabase.checkAndRefreshPerf(this, 2, 1);
         	final TypeEvalProgress progress = OpenwordsSharedPreferences.getTypeEvaluationProgress();
             List<LeafCardTypeEval> cards = new LinkedList<LeafCardTypeEval>();
             cards.add(new LeafCardTypeEval("��", "person", "ren"));
@@ -282,7 +282,7 @@ public class HomePage extends Activity implements OnClickListener {
 //                        }).create().show();
             }
         } else if (taskPage.equals("Hearing")) {
-        	InitDatabase.checkAndRefreshPerf(this, 3);
+        	InitDatabase.checkAndRefreshPerf(this, 3, 1);
         	new InsertData(HomePage.this);
         	final HearingProgress progress = OpenwordsSharedPreferences.getHearingProgress();
             List<LeafCardHearing> cards = new LinkedList<LeafCardHearing>();
