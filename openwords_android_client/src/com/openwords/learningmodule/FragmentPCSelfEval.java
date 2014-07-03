@@ -15,12 +15,16 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.openwords.R;
+import com.openwords.model.LeafCard;
 import com.openwords.model.LeafCardSelfEval;
+import com.openwords.model.UserPerformanceDirty;
 import com.openwords.util.log.LogUtil;
+import com.openwords.util.preference.OpenwordsSharedPreferences;
 
 public class FragmentPCSelfEval extends Fragment {
 
     private static Handler RefreshHandler;
+    private int user_id;
 
     public static void refreshDetails() {
         if (RefreshHandler != null) {
@@ -33,9 +37,10 @@ public class FragmentPCSelfEval extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+    	
         super.onCreate(savedInstanceState);
         LogUtil.logDeubg(this, "onCreate");
-
+        user_id = OpenwordsSharedPreferences.getUserInfo().getUserId();
         RefreshHandler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
@@ -72,8 +77,16 @@ public class FragmentPCSelfEval extends Fragment {
         LogUtil.logDeubg(this, "refresh");
         int totalCards, totalCorrect = 0, totalSkipped = 0;
         totalCards = ActivitySelfEval.getCardsPool().size();
+        
 
         for (LeafCardSelfEval card : ActivitySelfEval.getCardsPool()) {
+        	//type -- module index : review -- 0, self -- 1, type -- 2, hearing -- 3
+        	//performance : 0 -- null, 1 -- wrong, 2 -- close, 3 -- right
+        	int performance = 0;
+        	if(card.getUserChoice()==null) performance = 0;
+        	else if(card.getUserChoice().equals(true)) performance = 3;
+        	else performance = 1;
+        	new UserPerformanceDirty(card.getConnectionId(),user_id,1,card.getLastTime(),performance,0,getActivity().getApplicationContext()).save();
             if (card.getUserChoice() == null) {
                 totalSkipped++;
             } else {

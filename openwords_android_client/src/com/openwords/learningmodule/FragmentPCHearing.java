@@ -19,11 +19,12 @@ import com.openwords.model.LeafCardHearing;
 import com.openwords.model.LeafCardSelfEval;
 import com.openwords.model.UserPerformanceDirty;
 import com.openwords.util.log.LogUtil;
+import com.openwords.util.preference.OpenwordsSharedPreferences;
 
 public class FragmentPCHearing extends Fragment {
 
     private static Handler RefreshHandler;
-
+    private int user_id;
     public static void refreshDetails() {
         if (RefreshHandler != null) {
             RefreshHandler.sendEmptyMessage(0);
@@ -37,7 +38,7 @@ public class FragmentPCHearing extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LogUtil.logDeubg(this, "onCreate");
-
+        user_id = OpenwordsSharedPreferences.getUserInfo().getUserId();
         RefreshHandler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
@@ -76,6 +77,9 @@ public class FragmentPCHearing extends Fragment {
         totalCards = ActivitySelfEval.getCardsPool().size();
 
         for (LeafCardHearing card : ActivityHearing.getCardsPool()) {
+        	//type -- module index : review -- 0, self -- 1, type -- 2, hearing -- 3
+        	//performance : 0 -- null, 1 -- wrong, 2 -- close, 3 -- right
+        	new UserPerformanceDirty(card.getConnectionId(),user_id,3,card.getLastTime(),card.getUserChoice(),0,getActivity().getApplicationContext()).save();
             if (card.getUserChoice() == 0) {
                 totalSkipped++;
             } else {
@@ -89,7 +93,7 @@ public class FragmentPCHearing extends Fragment {
         vocabSize.setText("0 + " + totalCorrect);
         performance.setText(totalCorrect + "/" + totalCards);
         skip.setText(totalSkipped + " Skipped");
-        birthday.setText("1st Birthday");
+        birthday.setText("___ Birthday");
         birthdayDetail.setText("");
         evaluation.setText("");
     }

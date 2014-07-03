@@ -17,11 +17,14 @@ import android.widget.TextView;
 import com.openwords.R;
 import com.openwords.model.LeafCard;
 import com.openwords.model.LeafCardSelfEval;
+import com.openwords.model.UserPerformanceDirty;
 import com.openwords.util.log.LogUtil;
+import com.openwords.util.preference.OpenwordsSharedPreferences;
 
 public class FragmentPCReview extends Fragment {
 
     private static Handler RefreshHandler;
+    private int user_id;
 
     public static void refreshDetails() {
         if (RefreshHandler != null) {
@@ -36,7 +39,7 @@ public class FragmentPCReview extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LogUtil.logDeubg(this, "onCreate");
-
+        user_id = OpenwordsSharedPreferences.getUserInfo().getUserId();
         RefreshHandler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
@@ -74,20 +77,16 @@ public class FragmentPCReview extends Fragment {
         int totalCards = 0;
         totalCards = ActivityReview.getCardsPool().size();
 
-//        for (LeafCard card : ActivityReview.getCardsPool()) {
-//            if (card.getUserChoice() == null) {
-//                totalSkipped++;
-//            } else {
-//                if (card.getUserChoice()) {
-//                    totalCorrect++;
-//                }
-//            }
-//        }
+        for (LeafCard card : ActivityReview.getCardsPool()) {
+        	new UserPerformanceDirty(card.getConnectionId(),user_id,0,card.getLastTime(),0,0,getActivity().getApplicationContext()).save();
+        }
         vocabSize.setText("329"); //wait for varun figure out how to count how many word the user know
         performance.setText(totalCards + "/" + totalCards);
         skip.setText("");
         birthday.setText("");
         birthdayDetail.setText("");
         evaluation.setText("");
+        
+        
     }
 }
