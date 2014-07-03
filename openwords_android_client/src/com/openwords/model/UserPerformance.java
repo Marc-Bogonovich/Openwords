@@ -17,7 +17,7 @@ public class UserPerformance extends SugarRecord<UserPerformance>  {
 	public int total_close;
 	public int total_skipped;
 	public int total_exposure;
-	public int last_time;
+	public long last_time;
 	public int last_performance;
 	public int user_exclude;
 	public UserPerformance(Context context) {
@@ -27,7 +27,7 @@ public class UserPerformance extends SugarRecord<UserPerformance>  {
 	
 	//override constructor
 	public UserPerformance(Context c, int connection_id,int user_id,
-			int total_correct, int total_skipped, int total_exposure, int last_time,
+			int total_correct, int total_skipped, int total_exposure, long last_time,
 			int last_performance, int user_exclude)
 	{
 		super(c);
@@ -44,7 +44,7 @@ public class UserPerformance extends SugarRecord<UserPerformance>  {
 	
 	//override constructor
 		public UserPerformance(int connection_id,int user_id, int module, int total_close,
-				int total_correct, int total_skipped, int total_exposure, int last_time,
+				int total_correct, int total_skipped, int total_exposure, long last_time,
 				int last_performance, int user_exclude, Context c)
 		{
 			super(c);
@@ -99,7 +99,7 @@ public class UserPerformance extends SugarRecord<UserPerformance>  {
 		UserPerformance.deleteAll(UserPerformance.class, "userid="+user_id+" AND connectionid="+connection_id);
 	}
 	
-	public static void updateById(Long id, int perf, int time)
+	public static void updateById(Long id, int perf, long time)
 	{
 		switch(perf)
 		{

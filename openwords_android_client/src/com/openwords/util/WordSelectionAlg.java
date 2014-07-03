@@ -11,6 +11,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.openwords.model.UserPerformance;
+import com.openwords.model.UserWords;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
 import com.orm.SugarRecord;
 
@@ -23,6 +24,7 @@ public class WordSelectionAlg extends SugarRecord<UserPerformance> {
 	private final double weightOfLastTime = 0.3;
 	private final double weightOfLastPerformance = 0.3;
 	List<UserPerformance> perform;
+	List<UserWords> userWord;
 	HashMap<Integer, Double> weightTable;
 	
 	public WordSelectionAlg(Context arg0) {
@@ -57,6 +59,17 @@ public class WordSelectionAlg extends SugarRecord<UserPerformance> {
 	
 	public List<Integer> pickup(int size) {
 		int languageID = OpenwordsSharedPreferences.getUserInfo().getLang_id();
+		
+		
+		
+		
+		try {
+			
+		} catch (Exception e){
+			
+		}
+		
+		
 		perform = UserPerformance.findByUserLanguage(user_id, languageID);
 		if(perform==null || perform.size()==0) {
 			return null;

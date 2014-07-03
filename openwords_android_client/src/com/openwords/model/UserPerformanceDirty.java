@@ -12,7 +12,7 @@ public class UserPerformanceDirty extends SugarRecord<UserPerformanceDirty> {
 	public int user_id;
 	public int type;
 	public int performance;
-	public int time;
+	public long time;
 	public int user_exclude;
 	
 	public UserPerformanceDirty(Context context) {
@@ -21,7 +21,7 @@ public class UserPerformanceDirty extends SugarRecord<UserPerformanceDirty> {
 	}
 	
 	public UserPerformanceDirty(int connection_id,int user_id, int type,
-			int last_time, int performance,
+			long last_time, int performance,
 			 int user_exclude, Context c)
 	{	
 		super(c);

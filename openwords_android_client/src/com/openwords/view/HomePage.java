@@ -11,6 +11,7 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -68,6 +69,7 @@ public class HomePage extends Activity implements OnClickListener {
     public static ArrayList<String> strArr=null;
     public static int pos=-1;
     public int homelang_id;
+    private ProgressDialog pDialog = null;
     // Add another array of type HomePage Tool that holds the name and id of each chosen language
     // private static ArrayList<HomePageTool> drop_down = null;
     private static String url_dropdown = "http://geographycontest.ipage.com/OpenwordsOrg/OpenwordsDB/homePageChooseLanguage.php";
@@ -185,27 +187,40 @@ public class HomePage extends Activity implements OnClickListener {
         Log.d("Shared Preferences Language ID", Integer.toString(userinfo.getLang_id()));
         
         if (taskPage.equals("Review")) {
-        	InitDatabase.checkAndRefreshPerf(this, 0);
-        	UserPerformance.deleteAll(UserPerformance.class);
-        	WordTranscription.deleteAll(WordTranscription.class);
-        	UserWords.deleteAll(UserWords.class);
-        	new InsertData(HomePage.this);
-        	final Progress progress = OpenwordsSharedPreferences.getReviewProgress();
-            if (true || progress == null) {
-            	List<LeafCard> cards;
-                try{
-                	cards = new LeafCardAdapter(HomePage.this).getList(SIZE);
-                } catch (IndexOutOfBoundsException e) {
-            		Toast.makeText(HomePage.this, "Please select word first",Toast.LENGTH_LONG).show();
-            		return;
-                }
-                ActivityReview.setCardsPool(cards);
-                startActivity(new Intent(HomePage.this, ActivityReview.class));
-            } else {
-            	ActivityReview.setCardsPool(progress.getCardsPool());
-            	ActivityReview.setCurrentCard(progress.getCurrentCard());
-                startActivity(new Intent(HomePage.this, ActivityReview.class));
-            }
+//        	InitDatabase.checkAndRefreshPerf(this, 0);
+//        	UserPerformance.deleteAll(UserPerformance.class);
+//        	WordTranscription.deleteAll(WordTranscription.class);
+//        	UserWords.deleteAll(UserWords.class);
+//        	new InsertData(HomePage.this);
+    		pDialog = ProgressDialog.show(HomePage.this, "",
+    				"Assemble the leaf cards", true);
+
+    		new Thread(new Runnable() {
+    			public void run() {
+    	        	InitDatabase.checkAndRefreshPerf(HomePage.this, 0);
+    	        	final Progress progress = OpenwordsSharedPreferences.getReviewProgress();
+    	            if (true || progress == null) {
+    	            	List<LeafCard> cards;
+    	                try{
+    	                	cards = new LeafCardAdapter(HomePage.this).getList(SIZE);
+    	                } catch (IndexOutOfBoundsException e) {
+    	            		Toast.makeText(HomePage.this, "Please select word first",Toast.LENGTH_LONG).show();
+    	            		return;
+    	                }
+    	                pDialog.dismiss();
+    	                ActivityReview.setCardsPool(cards);
+    	                startActivity(new Intent(HomePage.this, ActivityReview.class));
+    	            } else {
+    	            	pDialog.dismiss();
+    	            	ActivityReview.setCardsPool(progress.getCardsPool());
+    	            	ActivityReview.setCurrentCard(progress.getCurrentCard());
+    	                startActivity(new Intent(HomePage.this, ActivityReview.class));
+    	            }
+    			}
+    		}).start();
+        	
+        	
+
         } else if (taskPage.equals("Self evaluation")) {
         	InitDatabase.checkAndRefreshPerf(this, 1);
         	final SelfEvalProgress progress = OpenwordsSharedPreferences.getSelfEvaluationProgress();
