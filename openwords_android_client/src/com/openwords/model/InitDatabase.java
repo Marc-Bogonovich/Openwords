@@ -25,7 +25,7 @@ public class InitDatabase {
 	public static int prevUser;
 	public static List<UserPerformanceDirty> dirtyPerf;
 	//-----
-	public static void checkAndRefreshPerf(Context ctx, int module)
+	public static void checkAndRefreshPerf(Context ctx, int module, int override)
 	{
 		user=OpenwordsSharedPreferences.getUserInfo();
 		userId = user.getUserId();
@@ -35,7 +35,7 @@ public class InitDatabase {
 		
 		boolean connected = InternetCheck.checkConn(ctx);
 		//if Dirty performance has records for this user...
-		if(dirtyPerf.size()>0)
+		if(dirtyPerf.size()>0 && override==1)
 		{
 			if(connected==true)
 			{
@@ -64,7 +64,7 @@ public class InitDatabase {
 				
 			
 			//deleting all User words data
-			if(userId!=prevUser)
+			if(userId!=prevUser || override == 1)
 			{
 				UserWords.deleteAll(UserWords.class);
 				WordTranscription.deleteAll(WordTranscription.class);
