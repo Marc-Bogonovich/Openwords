@@ -79,7 +79,7 @@ public class FragmentPCHearing extends Fragment {
         for (LeafCardHearing card : ActivityHearing.getCardsPool()) {
         	//type -- module index : review -- 0, self -- 1, type -- 2, hearing -- 3
         	//performance : 0 -- null, 1 -- wrong, 2 -- close, 3 -- right
-        	new UserPerformanceDirty(card.getConnectionId(),user_id,2,card.getLastTime(),card.getUserChoice(),0,getActivity().getApplicationContext()).save();
+        	new UserPerformanceDirty(card.getConnectionId(),user_id,3,card.getLastTime(),card.getUserChoice(),0,getActivity().getApplicationContext()).save();
             if (card.getUserChoice() == 0) {
                 totalSkipped++;
             } else {
@@ -93,7 +93,7 @@ public class FragmentPCHearing extends Fragment {
         vocabSize.setText("0 + " + totalCorrect);
         performance.setText(totalCorrect + "/" + totalCards);
         skip.setText(totalSkipped + " Skipped");
-        birthday.setText("1st Birthday");
+        birthday.setText("___ Birthday");
         birthdayDetail.setText("");
         evaluation.setText("");
     }
