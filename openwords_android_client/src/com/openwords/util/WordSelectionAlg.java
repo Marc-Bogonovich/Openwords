@@ -61,17 +61,26 @@ public class WordSelectionAlg extends SugarRecord<UserPerformance> {
 		int languageID = OpenwordsSharedPreferences.getUserInfo().getLang_id();
 		List<Integer> result = new ArrayList<Integer>();
 		
-		
+		userWord = UserWords.findFresh();
+		if(userWord.size()>=size) {
+			for(int i=0;i<size;i++) {
+				result.add(userWord.get(i).connectionId);
+			}
+			return result;
+		} else {
+			for(int i=0;i<userWord.size();i++) {
+				result.add(userWord.get(i).connectionId);
+			}
+		}
+		size = size - result.size();
 		
 		try {
 			perform = UserPerformance.findByUserLanguage(user_id, languageID);
 		} catch (IndexOutOfBoundsException e){
 			Log.e("WordSelectAlg","No data in user performance, uid:"+user_id+" language id:"+languageID);
-		}
-
-		if(perform==null || perform.size()==0) {
 			return result;
 		}
+
 		Log.e("findByUser return size",""+perform.size()+"--"+perform.get(0).connection_id);
 		weightTable = new HashMap<Integer, Double>();
 		for(UserPerformance item : perform) {
