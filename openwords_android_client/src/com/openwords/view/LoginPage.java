@@ -202,6 +202,7 @@ public class LoginPage extends Activity implements OnClickListener {
             int success = 0;
             int userid = -1;
             String msg = "";
+            boolean flag = true;
             try{
             	jObj = jsonParse.makeHttpRequest(url_check_user, "POST", params);
                 success = jObj.getInt(TAG_SUCCESS);
@@ -209,17 +210,24 @@ public class LoginPage extends Activity implements OnClickListener {
                 msg = jObj.getString(TAG_MESSAGE);
                 userid = jObj.getInt(TAG_USERID);
             } catch (Exception e) {
+            	Log.e("LoginPage","Cannot parse JSON, possible server error");
             	e.printStackTrace();
-            	Toast.makeText(LoginPage.this, "Invalid user", Toast.LENGTH_SHORT).show();
-            	return;
+            	flag = false;
             }
-
             runOnUiThread(new Runnable() {
                 public void run() {
                     pDialog.dismiss();
                 }
             });
+            if(flag==false) {
 
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                    	Toast.makeText(LoginPage.this, "Server error", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                return;
+            }
             if (success == 1) {
 //                LogUtil.logDeubg(this, "user found");
                 runOnUiThread(new Runnable() {

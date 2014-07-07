@@ -22,6 +22,7 @@ import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -129,11 +130,31 @@ public class RegisterPage extends Activity implements OnClickListener {
             params.add(new BasicNameValuePair("email",username.trim()));
 
             JSONParser jsonParse = new JSONParser();
-            JSONObject jObj = jsonParse.makeHttpRequest(url_user_exist, "POST", params);
-            //Log.d("Res",jObj.toString());
-            int success = jObj.getInt(TAG_SUCCESS);
-            String msg = jObj.getString(TAG_MESSAGE);
-            Log.d("RES",msg);
+            boolean flag = true;
+            int success = 0;
+            try {
+                JSONObject jObj = jsonParse.makeHttpRequest(url_user_exist, "POST", params);
+                //Log.d("Res",jObj.toString());
+                success = jObj.getInt(TAG_SUCCESS);
+                String msg = jObj.getString(TAG_MESSAGE);
+                Log.d("RES",msg);
+            } catch (Exception e) {
+            	flag = false;
+            	e.printStackTrace();
+            }
+            
+            if(flag==false) {
+
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                    	Toast toast = Toast.makeText(RegisterPage.this, "Server error", Toast.LENGTH_SHORT);
+                    	toast.setGravity(Gravity.TOP , 0, 0);
+                    	toast.show();
+                    }
+                });
+                return;
+            }
+
 //            runOnUiThread(new Runnable() {
 //                public void run() {
 //                    pDialog.dismiss();
@@ -144,7 +165,9 @@ public class RegisterPage extends Activity implements OnClickListener {
             	usernameExist = false;
                 runOnUiThread(new Runnable() {
                     public void run() {
-                        Toast.makeText(RegisterPage.this,"Username OK", Toast.LENGTH_SHORT).show();
+                        Toast toast = Toast.makeText(RegisterPage.this,"Username OK", Toast.LENGTH_SHORT);
+                    	toast.setGravity(Gravity.TOP , 0, 0);
+                    	toast.show();
                     }
                 });
 
