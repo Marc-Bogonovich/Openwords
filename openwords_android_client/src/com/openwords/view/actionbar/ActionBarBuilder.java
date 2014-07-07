@@ -4,16 +4,19 @@ import android.app.Activity;
 import android.content.Intent;
 import android.view.View;
 import android.widget.AdapterView;
+
 import com.openwords.R;
 import com.openwords.ui.common.ActionBarBuilderForActivity;
 import com.openwords.ui.common.DialogForSettingSelection;
 import com.openwords.view.HomePage;
+import com.openwords.view.PortalPage;
 
 public class ActionBarBuilder {
 
     public static final int Home_Page = 1;
     public static final int Words_Page = 2;
     public static final int Stats_Page = 3;
+    public static final int Portal_Page = 4;
     private final Activity activity;
     private final int currentPage;
 
@@ -30,7 +33,15 @@ public class ActionBarBuilder {
                         otherClicked();
                     }
                 })
-                .showSecondItem(R.drawable.ic_actionbar_stats, new ActionBarBuilderForActivity.ActionBarItemClickAction() {
+                .showSecondItem(R.drawable.ic_actionbar_portal, new ActionBarBuilderForActivity.ActionBarItemClickAction() {
+
+                    public void clicked() {
+                        if (ActionBarBuilder.this.currentPage != Portal_Page) {
+                            statsClicked();
+                        }
+                    }
+                })
+                .showThirdItem(R.drawable.ic_actionbar_stats, new ActionBarBuilderForActivity.ActionBarItemClickAction() {
 
                     public void clicked() {
                         if (ActionBarBuilder.this.currentPage != Stats_Page) {
@@ -38,7 +49,7 @@ public class ActionBarBuilder {
                         }
                     }
                 })
-                .showThirdItem(R.drawable.ic_actionbar_words, new ActionBarBuilderForActivity.ActionBarItemClickAction() {
+                .showFourthItem(R.drawable.ic_actionbar_words, new ActionBarBuilderForActivity.ActionBarItemClickAction() {
 
                     public void clicked() {
                         if (ActionBarBuilder.this.currentPage != Words_Page) {
@@ -46,7 +57,7 @@ public class ActionBarBuilder {
                         }
                     }
                 })
-                .showFourthItem(R.drawable.ic_actionbar_home, new ActionBarBuilderForActivity.ActionBarItemClickAction() {
+                .showFifthItem(R.drawable.ic_actionbar_home, new ActionBarBuilderForActivity.ActionBarItemClickAction() {
 
                     public void clicked() {
                         if (ActionBarBuilder.this.currentPage != Home_Page) {
