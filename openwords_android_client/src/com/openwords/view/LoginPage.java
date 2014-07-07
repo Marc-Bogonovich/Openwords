@@ -254,7 +254,7 @@ public class LoginPage extends Activity implements OnClickListener {
             } else if (success == 0) { 
                 runOnUiThread(new Runnable() {
                     public void run() {
-                        Toast.makeText(LoginPage.this, "Invalid user", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginPage.this, "Username/Password incorrect", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
