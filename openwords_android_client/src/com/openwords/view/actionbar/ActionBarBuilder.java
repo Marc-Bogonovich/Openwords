@@ -9,7 +9,6 @@ import com.openwords.R;
 import com.openwords.ui.common.ActionBarBuilderForActivity;
 import com.openwords.ui.common.DialogForSettingSelection;
 import com.openwords.view.HomePage;
-import com.openwords.view.PortalPage;
 
 public class ActionBarBuilder {
 
@@ -37,7 +36,7 @@ public class ActionBarBuilder {
 
                     public void clicked() {
                         if (ActionBarBuilder.this.currentPage != Portal_Page) {
-                            statsClicked();
+                        	portalClicked();
                         }
                     }
                 })
@@ -93,6 +92,14 @@ public class ActionBarBuilder {
         activity.finish();
         activity.overridePendingTransition(0, 0);
         Intent i = new Intent(activity, WordsPage.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        activity.startActivity(i);
+    }
+    
+    private void portalClicked() {
+        activity.finish();
+        activity.overridePendingTransition(0, 0);
+        Intent i = new Intent(activity, PortalPage.class);
         i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         activity.startActivity(i);
     }

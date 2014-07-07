@@ -114,7 +114,7 @@
         </activity>
         
         <activity
-            android:name="com.openwords.view.PortalPage"
+            android:name="com.openwords.view.actionbar.PortalPage"
             android:label="@string/title_activity_portalPage"
             android:theme="@style/NoTitleTheme"
             android:configChanges="orientation|screenSize">
