@@ -1,9 +1,11 @@
 package com.openwords.learningmodule;
 
 import java.lang.ref.WeakReference;
+import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -11,21 +13,25 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.openwords.R;
 import com.openwords.model.LeafCard;
+import com.openwords.model.LeafCardAdapter;
 import com.openwords.model.LeafCardSelfEval;
+import com.openwords.model.LeafCardSelfEvalAdapter;
 import com.openwords.model.UserPerformanceDirty;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
+import com.openwords.view.actionbar.WordsPage;
 
 public class FragmentPCSelfEval extends Fragment {
-
+    private int SIZE = 10;
     private static Handler RefreshHandler;
     private int user_id;
-
+	private Activity activity;
     public static void refreshDetails() {
         if (RefreshHandler != null) {
             RefreshHandler.sendEmptyMessage(0);
@@ -57,7 +63,7 @@ public class FragmentPCSelfEval extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LogUtil.logDeubg(this, "onCreateView");
-
+        activity = getActivity();
         View myFragmentView = inflater.inflate(R.layout.fragment_plate_completion, container, false);
         vocabSize = (TextView) myFragmentView.findViewById(R.id.plc_TextView_VocabSize);
         performance = (TextView) myFragmentView.findViewById(R.id.plc_TextView_Performance);
@@ -68,7 +74,28 @@ public class FragmentPCSelfEval extends Fragment {
         newWords = (Button) myFragmentView.findViewById(R.id.plc_button_NewWords);
         nextPlate = (Button) myFragmentView.findViewById(R.id.plc_button_NextPlate);
         exit = (Button) myFragmentView.findViewById(R.id.plc_button_Exit);
-
+        newWords.setOnClickListener(new OnClickListener() {
+            public void onClick(View view) {
+	             getActivity().finish();
+	             Intent i = new Intent(activity, WordsPage.class);
+	             i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+	             activity.startActivity(i);
+            }
+    });
+    
+    nextPlate.setOnClickListener(new OnClickListener() {
+        public void onClick(View view) {
+             getActivity().finish();
+             List<LeafCardSelfEval> cards = new LeafCardSelfEvalAdapter(getActivity()).getList(SIZE);
+             ActivitySelfEval.setCardsPool(cards);
+             startActivity(new Intent(getActivity(), ActivitySelfEval.class));
+        }
+});
+    exit.setOnClickListener(new OnClickListener() {
+        public void onClick(View view) {
+             getActivity().finish();
+        }
+});
         refresh();
 
         return myFragmentView;

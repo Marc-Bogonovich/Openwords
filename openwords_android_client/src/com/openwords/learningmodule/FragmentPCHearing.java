@@ -1,6 +1,7 @@
 package com.openwords.learningmodule;
 
 import java.lang.ref.WeakReference;
+import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
@@ -17,7 +18,10 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.openwords.R;
+import com.openwords.model.LeafCard;
+import com.openwords.model.LeafCardAdapter;
 import com.openwords.model.LeafCardHearing;
+import com.openwords.model.LeafCardHearingAdapter;
 import com.openwords.model.LeafCardSelfEval;
 import com.openwords.model.UserPerformanceDirty;
 import com.openwords.util.log.LogUtil;
@@ -29,6 +33,7 @@ public class FragmentPCHearing extends Fragment {
 	private Activity activity;
     private static Handler RefreshHandler;
     private int user_id;
+    private int SIZE = 10;
     public static void refreshDetails() {
         if (RefreshHandler != null) {
             RefreshHandler.sendEmptyMessage(0);
@@ -80,6 +85,19 @@ public class FragmentPCHearing extends Fragment {
    	             activity.startActivity(i);
    	            }
    	    });
+        nextPlate.setOnClickListener(new OnClickListener() {
+            public void onClick(View view) {
+	             getActivity().finish();
+	             List<LeafCardHearing> cards = new LeafCardHearingAdapter(getActivity()).getList(SIZE);
+                 ActivityHearing.setCardsPool(cards);
+                 startActivity(new Intent(getActivity(), ActivityHearing.class));
+            }
+    });
+        exit.setOnClickListener(new OnClickListener() {
+            public void onClick(View view) {
+	             getActivity().finish();
+            }
+    });
 
         refresh();
 
