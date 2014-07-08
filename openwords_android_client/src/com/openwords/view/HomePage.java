@@ -66,7 +66,7 @@ public class HomePage extends Activity implements OnClickListener {
     
     
     //-----------
-    private static int language_position;
+    private static int language_position=-1;
     //-----------
 
     @Override
@@ -150,7 +150,9 @@ public class HomePage extends Activity implements OnClickListener {
         }
         );
         //Log.d("ID",Integer.toString(dropdown_list.get(pos).getId()));  
-        l2_dropdown.setSelection(language_position);
+        
+        if(language_position != -1)
+        	l2_dropdown.setSelection(language_position);
     }
 
     public void addItemsOnBegin() {
@@ -210,7 +212,7 @@ public class HomePage extends Activity implements OnClickListener {
                 List<LeafCard> cards;
 
                 public void run() {
-                    InitDatabase.checkAndRefreshPerf(HomePage.this, 0, 1);
+                    //InitDatabase.checkAndRefreshPerf(HomePage.this, 0, 1);
                     final Progress progress = OpenwordsSharedPreferences.getReviewProgress();
                     if (progress == null) {
 
@@ -240,7 +242,7 @@ public class HomePage extends Activity implements OnClickListener {
                 List<LeafCardSelfEval> cards;
 
                 public void run() {
-                    InitDatabase.checkAndRefreshPerf(HomePage.this, 1, 1);
+                    //InitDatabase.checkAndRefreshPerf(HomePage.this, 1, 1);
                     final SelfEvalProgress progress = OpenwordsSharedPreferences.getSelfEvaluationProgress();
                     if (progress == null) {
 
@@ -279,7 +281,7 @@ public class HomePage extends Activity implements OnClickListener {
                 List<LeafCardTypeEval> cards;
 
                 public void run() {
-                    InitDatabase.checkAndRefreshPerf(HomePage.this, 2, 1);
+                    //InitDatabase.checkAndRefreshPerf(HomePage.this, 2, 1);
                     final TypeEvalProgress progress = OpenwordsSharedPreferences.getTypeEvaluationProgress();
                     if (progress == null) {
 
@@ -309,7 +311,7 @@ public class HomePage extends Activity implements OnClickListener {
                 List<LeafCardHearing> cards;
 
                 public void run() {
-                    InitDatabase.checkAndRefreshPerf(HomePage.this, 3, 1);
+                    //InitDatabase.checkAndRefreshPerf(HomePage.this, 3, 1);
                     final HearingProgress progress = OpenwordsSharedPreferences.getHearingProgress();
                     if (true || progress == null) {
 
