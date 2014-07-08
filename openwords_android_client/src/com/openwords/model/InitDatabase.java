@@ -55,6 +55,8 @@ public class InitDatabase {
 			{
         		InitDatabase.loadPerformanceSummary(ctx,userId,dirtyPerf.get(i).connection_id,module);
 			}*/
+			
+			
 			InitDatabase.updateLocalPerformanceSummary(ctx);
 		}
 		//------------------------------
@@ -66,6 +68,7 @@ public class InitDatabase {
 			//deleting all User words data
 			if(userId!=prevUser || override == 1)
 			{
+				Log.d("checkpoint1", "----before delete---");
 				UserWords.deleteAll(UserWords.class);
 				WordTranscription.deleteAll(WordTranscription.class);
 				InitDatabase.loadUserWords(ctx, OpenwordsSharedPreferences.getUserInfo().getLang_id(), userId);
