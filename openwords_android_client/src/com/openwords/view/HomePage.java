@@ -63,6 +63,11 @@ public class HomePage extends Activity implements OnClickListener {
     private UserInfo userinfo;
     private int SIZE = 10;
     private ActionBarBuilder actionBar;
+    
+    
+    //-----------
+    private static int language_position;
+    //-----------
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,6 +112,11 @@ public class HomePage extends Activity implements OnClickListener {
         strArr = new ArrayList<String>();
         for (int i = 0; i < dropdown_list.size(); i++) {
             strArr.add(dropdown_list.get(i).getName());
+            if(dropdown_list.get(i).getId()==OpenwordsSharedPreferences.getUserInfo().getLang_id())
+            {
+            	language_position=i;
+            }
+            
         }
 
         ArrayAdapter<String> dropdownadapter = new ArrayAdapter<String>(HomePage.this, android.R.layout.simple_list_item_1, android.R.id.text1, strArr);
@@ -139,7 +149,8 @@ public class HomePage extends Activity implements OnClickListener {
             }
         }
         );
-        //Log.d("ID",Integer.toString(dropdown_list.get(pos).getId()));      
+        //Log.d("ID",Integer.toString(dropdown_list.get(pos).getId()));  
+        l2_dropdown.setSelection(language_position);
     }
 
     public void addItemsOnBegin() {
