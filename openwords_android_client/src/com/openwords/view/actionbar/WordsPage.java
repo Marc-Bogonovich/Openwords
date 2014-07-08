@@ -42,6 +42,7 @@ public class WordsPage extends Activity implements OnClickListener {
 	public static AlertDialog.Builder dg;
 	public static ArrayList<Integer> mSelectedItems = new ArrayList<Integer>();
 	private static JSONArray jArrMain;
+        private ActionBarBuilder actionBar;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +50,7 @@ public class WordsPage extends Activity implements OnClickListener {
         setContentView(R.layout.activity_words_page);
         
         //ActionBarIcons.builder(this);
-        new ActionBarBuilder(this, ActionBarBuilder.Words_Page);
+        actionBar = new ActionBarBuilder(this, ActionBarBuilder.Words_Page);
         
         Button getNextWords = (Button) findViewById(R.id.wordsPage_Button_getNextWords);
         getNextWords.setOnClickListener(this); 
@@ -287,6 +288,12 @@ public class WordsPage extends Activity implements OnClickListener {
         
 		
 	}
+        
+        @Override
+    protected void onResume() {
+        super.onResume();
+        actionBar.checkSetting();
+    }
         
         @Override
     public void onBackPressed() {

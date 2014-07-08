@@ -13,6 +13,13 @@ import com.openwords.R;
  */
 public class ActionBarBuilderForActivity {
 
+    public static final Integer[][] ButtonResources = new Integer[][]{
+        new Integer[]{R.id.actionbar_item_1, R.id.actionbar_item_1_image},
+        new Integer[]{R.id.actionbar_item_2, R.id.actionbar_item_2_image},
+        new Integer[]{R.id.actionbar_item_3, R.id.actionbar_item_3_image},
+        new Integer[]{R.id.actionbar_item_4, R.id.actionbar_item_4_image},
+        new Integer[]{R.id.actionbar_item_5, R.id.actionbar_item_5_image}
+    };
     private final Activity activity;
 
     public ActionBarBuilderForActivity(Activity activity) {
@@ -43,76 +50,17 @@ public class ActionBarBuilderForActivity {
 
     /**
      *
+     * @param index the index of item in ButtonResources
      * @param imageResourceId
      * @param action Can be null if this item is not clickable
      * @return
      */
-    public ActionBarBuilderForActivity showFirstItem(int imageResourceId, ActionBarItemClickAction action) {
-        return showItem(R.id.actionbar_item_1, R.id.actionbar_item_1_image, imageResourceId, action);
+    public ActionBarBuilderForActivity showButtonItem(int index, int imageResourceId, ActionBarItemClickAction action) {
+        return showItem(ButtonResources[index][0], ButtonResources[index][1], imageResourceId, action);
     }
 
-    /**
-     *
-     * @param imageResourceId
-     * @param action Can be null if this item is not clickable
-     * @return
-     */
-    public ActionBarBuilderForActivity showSecondItem(int imageResourceId, ActionBarItemClickAction action) {
-        return showItem(R.id.actionbar_item_2, R.id.actionbar_item_2_image, imageResourceId, action);
-    }
-
-    /**
-     *
-     * @param imageResourceId
-     * @param action Can be null if this item is not clickable
-     * @return
-     */
-    public ActionBarBuilderForActivity showThirdItem(int imageResourceId, ActionBarItemClickAction action) {
-        return showItem(R.id.actionbar_item_3, R.id.actionbar_item_3_image, imageResourceId, action);
-    }
-
-    /**
-     *
-     * @param imageResourceId
-     * @param action Can be null if this item is not clickable
-     * @return
-     */
-    public ActionBarBuilderForActivity showFourthItem(int imageResourceId, ActionBarItemClickAction action) {
-        return showItem(R.id.actionbar_item_4, R.id.actionbar_item_4_image, imageResourceId, action);
-    }
-
-    /**
-     *
-     * @param imageResourceId
-     * @param action Can be null if this item is not clickable
-     * @return
-     */
-    public ActionBarBuilderForActivity showFifthItem(int imageResourceId, ActionBarItemClickAction action) {
-        return showItem(R.id.actionbar_item_5, R.id.actionbar_item_5_image, imageResourceId, action);
-    }
-
-    public ActionBarBuilderForActivity highlightFirstItem() {
-        highlightItem(R.id.actionbar_item_1);
-        return this;
-    }
-
-    public ActionBarBuilderForActivity highlightSecondItem() {
-        highlightItem(R.id.actionbar_item_2);
-        return this;
-    }
-
-    public ActionBarBuilderForActivity highlightThirdItem() {
-        highlightItem(R.id.actionbar_item_3);
-        return this;
-    }
-
-    public ActionBarBuilderForActivity highlightFourthItem() {
-        highlightItem(R.id.actionbar_item_4);
-        return this;
-    }
-
-    public ActionBarBuilderForActivity highlightFifthItem() {
-        highlightItem(R.id.actionbar_item_5);
+    public ActionBarBuilderForActivity highlightButtonItem(int index) {
+        highlightItem(ButtonResources[index][0]);
         return this;
     }
 
@@ -148,6 +96,14 @@ public class ActionBarBuilderForActivity {
     private void highlightItem(int viewId) {
         LinearLayout v = (LinearLayout) activity.findViewById(viewId);
         v.setBackgroundColor(activity.getResources().getColor(R.color.my_gray));
+    }
+
+    public void hideItem(int index) {
+        activity.findViewById(ButtonResources[index][0]).setVisibility(View.GONE);
+    }
+
+    public void reshowItem(int index) {
+        activity.findViewById(ButtonResources[index][0]).setVisibility(View.VISIBLE);
     }
 
     public interface ActionBarItemClickAction {

@@ -18,13 +18,13 @@ public class BackIcons {
 		ActionBarBuilderForActivity actionBuilder = new ActionBarBuilderForActivity(activity);
 		Integer targetTitle = R.string.title_activity_homePage;
 		if(activity.getClass().getSimpleName().equals("ProfilePage")) {
-			actionBuilder.highlightSecondItem();
+			actionBuilder.highlightButtonItem(1);
 			targetTitle = R.string.title_activity_profilePage;
 		} else if(activity.getClass().getSimpleName().equals("SettingsPage")) {
-			actionBuilder.highlightThirdItem();
+			actionBuilder.highlightButtonItem(2);
 			targetTitle = R.string.title_activity_settingsPage;
 		} else if(activity.getClass().getSimpleName().equals("TutorialPage")) {
-			actionBuilder.highlightFourthItem();		
+			actionBuilder.highlightButtonItem(3);
 			targetTitle = R.string.title_activity_tutorial_page;
 		}
 		actionBuilder.showBackButton(new ActionBarBuilderForActivity.ActionBarItemClickAction() {

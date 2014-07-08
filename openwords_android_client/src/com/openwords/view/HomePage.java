@@ -1,23 +1,13 @@
 package com.openwords.view;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
-import android.provider.Contacts.Intents.Insert;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -26,10 +16,8 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
-
 import com.openwords.R;
 import com.openwords.learningmodule.ActivityHearing;
 import com.openwords.learningmodule.ActivityReview;
@@ -39,9 +27,7 @@ import com.openwords.learningmodule.HearingProgress;
 import com.openwords.learningmodule.Progress;
 import com.openwords.learningmodule.SelfEvalProgress;
 import com.openwords.learningmodule.TypeEvalProgress;
-import com.openwords.model.InsertData;
 import com.openwords.model.InitDatabase;
-import com.openwords.model.InsertData;
 import com.openwords.model.JSONParser;
 import com.openwords.model.LeafCard;
 import com.openwords.model.LeafCardAdapter;
@@ -52,24 +38,23 @@ import com.openwords.model.LeafCardSelfEvalAdapter;
 import com.openwords.model.LeafCardTypeEval;
 import com.openwords.model.LeafCardTypeEvalAdapter;
 import com.openwords.model.UserInfo;
-import com.openwords.model.UserPerformance;
-import com.openwords.model.UserWords;
-import com.openwords.model.WordTranscription;
 import com.openwords.util.HomePageTool;
-import com.openwords.util.LanguagePageTool;
-import com.openwords.util.WordSelectionAlg;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
 import com.openwords.view.actionbar.ActionBarBuilder;
-import com.openwords.view.actionbar.NextWords;
-import com.openwords.view.actionbar.WordsPage;
+import java.util.ArrayList;
+import java.util.List;
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class HomePage extends Activity implements OnClickListener {
 
     private static Spinner begin, l2_dropdown;
     public static ArrayList<HomePageTool> dropdown_list = null;
-    public static ArrayList<String> strArr=null;
-    public static int pos=-1;
+    public static ArrayList<String> strArr = null;
+    public static int pos = -1;
     public int homelang_id;
     private ProgressDialog pDialog = null;
     // Add another array of type HomePage Tool that holds the name and id of each chosen language
@@ -77,184 +62,194 @@ public class HomePage extends Activity implements OnClickListener {
     private static String url_dropdown = "http://geographycontest.ipage.com/OpenwordsOrg/OpenwordsDB/homePageChooseLanguage.php";
     private UserInfo userinfo;
     private int SIZE = 10;
-    
+    private ActionBarBuilder actionBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-        
+
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);//for testing purpose
 
         setContentView(R.layout.activity_home_page);
 
         //building the action bar
-        new ActionBarBuilder(this, ActionBarBuilder.Home_Page);
-        
+        actionBar = new ActionBarBuilder(this, ActionBarBuilder.Home_Page);
+
         // Creating the drop down object
         l2_dropdown = (Spinner) findViewById(R.id.homePage_Spinner_chooseLanguage);
-        
+
         userinfo = OpenwordsSharedPreferences.getUserInfo();
-        Log.d("UserID in LangPage",Integer.toString(userinfo.getUserId()));
-        
-        runOnUiThread(new Runnable() { public void run(){readFromServer();} } );
-      
+        Log.d("UserID in LangPage", Integer.toString(userinfo.getUserId()));
+
+        runOnUiThread(new Runnable() {//Please stop spawning tasks on UI Thread, use AsyncTask instead, unless you don't want user to touch anything before the page is completely rendered, then please prompt a progress dialog
+            public void run() {
+                readFromServer();
+            }
+        });
+
+        //for example:
+        /*new AsyncTask<Void, Void, Void>() {
+
+         @Override
+         protected Void doInBackground(Void... paramss) {
+         readFromServer();
+         ......and any asynchronous tasks
+         return null;
+         }
+         }.execute();*/
         addItemsOnBegin();
         Button testPageGo = (Button) findViewById(R.id.homePage_Button_testPageGo);
-        testPageGo.setOnClickListener(this);
-        
-        
+        testPageGo.setOnClickListener(HomePage.this);
+
         //------creating string array-----
         strArr = new ArrayList<String>();
-        for(int i=0;i<dropdown_list.size();i++)
-        {
-        	strArr.add(dropdown_list.get(i).getName());
+        for (int i = 0; i < dropdown_list.size(); i++) {
+            strArr.add(dropdown_list.get(i).getName());
         }
-        
-        ArrayAdapter<String> dropdownadapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, strArr);
-                l2_dropdown.setAdapter(dropdownadapter);
-                l2_dropdown.setOnItemSelectedListener(new OnItemSelectedListener(){
-                	@Override
-                	public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                        Log.d("whatever", Integer.toString(position));
-                        pos=position;
-                        Log.d("ID", Integer.toString(dropdown_list.get(position).getId()));
-                        if(dropdown_list.get(position).getId()==999)
-                        {
-                        	//Toast.makeText(getApplicationContext(), "Please Wait...", Toast.LENGTH_SHORT).show();
-                        	HomePage.this.startActivity(new Intent(HomePage.this, LanguagePage.class));
-                        }
-                        homelang_id = dropdown_list.get(position).getId();
-                        UserInfo user = OpenwordsSharedPreferences.getUserInfo();
-                        user.setLang_id(homelang_id);
-                        Toast.makeText(HomePage.this, "Current language id" + homelang_id, Toast.LENGTH_SHORT).show();
-                        OpenwordsSharedPreferences.setUserInfo(user);
-                        
-                    }
-                	@Override
-                    public void onNothingSelected(AdapterView<?> parentView) {
-                        // your code here
-                		Log.d("whatever", "_nothing");
-                    }
+
+        ArrayAdapter<String> dropdownadapter = new ArrayAdapter<String>(HomePage.this, android.R.layout.simple_list_item_1, android.R.id.text1, strArr);
+        l2_dropdown.setAdapter(dropdownadapter);
+        l2_dropdown.setOnItemSelectedListener(new OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                Log.d("whatever", Integer.toString(position));
+                pos = position;
+                Log.d("ID", Integer.toString(dropdown_list.get(position).getId()));
+                if (dropdown_list.get(position).getId() == 999) {
+                    //Toast.makeText(getApplicationContext(), "Please Wait...", Toast.LENGTH_SHORT).show();
+                    HomePage.this.startActivity(new Intent(HomePage.this, LanguagePage.class));
                 }
-                );
-        //Log.d("ID",Integer.toString(dropdown_list.get(pos).getId()));        
+                homelang_id = dropdown_list.get(position).getId();
+                UserInfo user = OpenwordsSharedPreferences.getUserInfo();
+                user.setLang_id(homelang_id);
+                Toast.makeText(HomePage.this, "Current language id" + homelang_id, Toast.LENGTH_SHORT).show();
+                OpenwordsSharedPreferences.setUserInfo(user);
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // your code here
+                Log.d("whatever", "_nothing");
+            }
+        }
+        );
+        //Log.d("ID",Integer.toString(dropdown_list.get(pos).getId()));      
     }
- 
+
     public void addItemsOnBegin() {
         begin = (Spinner) findViewById(R.id.homePage_Spinner_begin);
         ArrayAdapter<CharSequence> beginAdapter = ArrayAdapter.createFromResource(this, R.array.homePage_spinner_begin_array, android.R.layout.simple_spinner_item);
         beginAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         begin.setAdapter(beginAdapter);
     }
-    
+
     public void readFromServer() {
-            /*
-        ArrayAdapter<CharSequence> languageAdapter = ArrayAdapter.createFromResource(this, R.array.homePage_Spinner_language_array, android.R.layout.simple_spinner_item);
-        languageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        language.setAdapter(languageAdapter);
-        */
-            
-            ArrayList<HomePageTool> dropdown = new ArrayList<HomePageTool>();
-                try 
-        {
-                List<NameValuePair> params1 = new ArrayList<NameValuePair>(2);
-                params1.add(new BasicNameValuePair("userid",Integer.toString(userinfo.getUserId())));
-                Log.d("User", "Passed Validation");
-                JSONParser jsonParse = new JSONParser();
-                JSONObject jObj = jsonParse.makeHttpRequest(url_dropdown, "POST", params1);
-                Log.d("Obj", jObj.toString());
-                JSONArray jArr = jObj.getJSONArray("language");
-                
-                for (int i = 0; i < jArr.length(); i++) 
-                {  // **line 2**
-                        JSONObject childJSONObject = jArr.getJSONObject(i);
-                        
-                        dropdown.add(new HomePageTool(childJSONObject.getString("l2name"),childJSONObject.getInt("l2id")));
-                        
-                        //Log.d("Loop", childJSONObject.getString("l2name"));
-                               //Log.d("Loop", childJSONObject.getString("l2name"));
-             }
+        /*
+         ArrayAdapter<CharSequence> languageAdapter = ArrayAdapter.createFromResource(this, R.array.homePage_Spinner_language_array, android.R.layout.simple_spinner_item);
+         languageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+         language.setAdapter(languageAdapter);
+         */
+
+        ArrayList<HomePageTool> dropdown = new ArrayList<HomePageTool>();
+        try {
+            List<NameValuePair> params1 = new ArrayList<NameValuePair>(2);
+            params1.add(new BasicNameValuePair("userid", Integer.toString(userinfo.getUserId())));
+            Log.d("User", "Passed Validation");
+            JSONParser jsonParse = new JSONParser();
+            JSONObject jObj = jsonParse.makeHttpRequest(url_dropdown, "POST", params1);
+            Log.d("Obj", jObj.toString());
+            JSONArray jArr = jObj.getJSONArray("language");
+
+            for (int i = 0; i < jArr.length(); i++) {  // **line 2**
+                JSONObject childJSONObject = jArr.getJSONObject(i);
+
+                dropdown.add(new HomePageTool(childJSONObject.getString("l2name"), childJSONObject.getInt("l2id")));
+
+                //Log.d("Loop", childJSONObject.getString("l2name"));
+                //Log.d("Loop", childJSONObject.getString("l2name"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-                catch(Exception e)
-                {e.printStackTrace();}
-                //Insert add more button
-                dropdown.add(new HomePageTool("Add more", 999));
-                                dropdown_list=dropdown;
+        //Insert add more button
+        dropdown.add(new HomePageTool("Add more", 999));
+        dropdown_list = dropdown;
     }
 
     public void testPageButtonClick() {
         String taskPage = begin.getSelectedItem().toString();
         LogUtil.logDeubg(this, "Task: " + taskPage);
         Log.d("Shared Preferences Language ID", Integer.toString(userinfo.getLang_id()));
-    	pDialog = ProgressDialog.show(HomePage.this, "",
-				"Assemble the leaf cards", true);
+        pDialog = ProgressDialog.show(HomePage.this, "",
+                "Assemble the leaf cards", true);
         if (taskPage.equals("Review")) {
 //        	InitDatabase.checkAndRefreshPerf(this, 0);
 //        	UserPerformance.deleteAll(UserPerformance.class);
 //        	WordTranscription.deleteAll(WordTranscription.class);
 //        	UserWords.deleteAll(UserWords.class);
 //        	new InsertData(HomePage.this);
-    	
 
-    		new Thread(new Runnable() {
-            	List<LeafCard> cards;
-    			public void run() {
-    	        	InitDatabase.checkAndRefreshPerf(HomePage.this, 0, 1);
-    	        	final Progress progress = OpenwordsSharedPreferences.getReviewProgress();
-    	            if (progress == null) {
+            new Thread(new Runnable() {
+                List<LeafCard> cards;
 
-    	                cards = new LeafCardAdapter(HomePage.this).getList(SIZE);
-    	                if(cards.size()<=1){
-        	                runOnUiThread(new Runnable() {                
-        	                    @Override
-        	                    public void run() {
-        	                        Toast.makeText(HomePage.this, "Please select word first", Toast.LENGTH_SHORT).show();
-        	                    }
-        	                });
-    	                } else {
-    	                	ActivityReview.setCardsPool(cards);
-        	                startActivity(new Intent(HomePage.this, ActivityReview.class));
-    	                }
-    	            } else {
-    	            	ActivityReview.setCardsPool(progress.getCardsPool());
-    	            	ActivityReview.setCurrentCard(progress.getCurrentCard());
-    	                startActivity(new Intent(HomePage.this, ActivityReview.class));
-    	            }
-    	            pDialog.dismiss();
-    			}
-    		}).start();
-        	
-        	
+                public void run() {
+                    InitDatabase.checkAndRefreshPerf(HomePage.this, 0, 1);
+                    final Progress progress = OpenwordsSharedPreferences.getReviewProgress();
+                    if (progress == null) {
+
+                        cards = new LeafCardAdapter(HomePage.this).getList(SIZE);
+                        if (cards.size() <= 1) {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(HomePage.this, "Please select word first", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        } else {
+                            ActivityReview.setCardsPool(cards);
+                            startActivity(new Intent(HomePage.this, ActivityReview.class));
+                        }
+                    } else {
+                        ActivityReview.setCardsPool(progress.getCardsPool());
+                        ActivityReview.setCurrentCard(progress.getCurrentCard());
+                        startActivity(new Intent(HomePage.this, ActivityReview.class));
+                    }
+                    pDialog.dismiss();
+                }
+            }).start();
 
         } else if (taskPage.equals("Self evaluation")) {
-    		new Thread(new Runnable() {
-            	List<LeafCardSelfEval> cards;
-    			public void run() {
-    	        	InitDatabase.checkAndRefreshPerf(HomePage.this, 1, 1);
-    	        	final SelfEvalProgress progress = OpenwordsSharedPreferences.getSelfEvaluationProgress();
-    	            if (progress == null) {
+            new Thread(new Runnable() {
+                List<LeafCardSelfEval> cards;
 
-    	                cards = new LeafCardSelfEvalAdapter(HomePage.this).getList(SIZE);
-    	                if(cards.size()<=1){
-        	                runOnUiThread(new Runnable() {                
-        	                    @Override
-        	                    public void run() {
-        	                        Toast.makeText(HomePage.this, "Please select word first", Toast.LENGTH_SHORT).show();
-        	                    }
-        	                });
-    	                } else {
-    	                	ActivitySelfEval.setCardsPool(cards);
-        	                startActivity(new Intent(HomePage.this, ActivitySelfEval.class));
-    	                }
-    	            } else {
-    	            	ActivitySelfEval.setCardsPool(progress.getCardsPool());
-    	            	ActivitySelfEval.setCurrentCard(progress.getCurrentCard());
-    	                startActivity(new Intent(HomePage.this, ActivitySelfEval.class));
-    	            }
-    	            pDialog.dismiss();
-    			}
-    		}).start();
+                public void run() {
+                    InitDatabase.checkAndRefreshPerf(HomePage.this, 1, 1);
+                    final SelfEvalProgress progress = OpenwordsSharedPreferences.getSelfEvaluationProgress();
+                    if (progress == null) {
+
+                        cards = new LeafCardSelfEvalAdapter(HomePage.this).getList(SIZE);
+                        if (cards.size() <= 1) {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(HomePage.this, "Please select word first", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        } else {
+                            ActivitySelfEval.setCardsPool(cards);
+                            startActivity(new Intent(HomePage.this, ActivitySelfEval.class));
+                        }
+                    } else {
+                        ActivitySelfEval.setCardsPool(progress.getCardsPool());
+                        ActivitySelfEval.setCurrentCard(progress.getCurrentCard());
+                        startActivity(new Intent(HomePage.this, ActivitySelfEval.class));
+                    }
+                    pDialog.dismiss();
+                }
+            }).start();
 
 //        	final SelfEvalProgress progress = OpenwordsSharedPreferences.getSelfEvaluationProgress();
 //        	List<LeafCardSelfEval> cards =  new LeafCardSelfEvalAdapter(HomePage.this).getList(SIZE);
@@ -266,62 +261,64 @@ public class HomePage extends Activity implements OnClickListener {
 //                startActivity(new Intent(HomePage.this, ActivitySelfEval.class)); 
 //            }
         } else if (taskPage.equals("Type evaluation")) {
-    		new Thread(new Runnable() {
-            	List<LeafCardTypeEval> cards;
-    			public void run() {
-    	        	InitDatabase.checkAndRefreshPerf(HomePage.this, 2, 1);
-    	        	final TypeEvalProgress progress = OpenwordsSharedPreferences.getTypeEvaluationProgress();
-    	            if (progress == null) {
+            new Thread(new Runnable() {
+                List<LeafCardTypeEval> cards;
 
-    	                cards = new LeafCardTypeEvalAdapter(HomePage.this).getList(SIZE);
-    	                if(cards.size()<=1){
-        	                runOnUiThread(new Runnable() {                
-        	                    @Override
-        	                    public void run() {
-        	                        Toast.makeText(HomePage.this, "Please select word first", Toast.LENGTH_SHORT).show();
-        	                    }
-        	                });
-    	                } else {
-    	                	ActivityTypeEval.setCardsPool(cards);
-        	                startActivity(new Intent(HomePage.this, ActivityTypeEval.class));
-    	                }
-    	            } else {
-    	            	ActivityTypeEval.setCardsPool(progress.getCardsPool());
-    	            	ActivityTypeEval.setCurrentCard(progress.getCurrentCard());
-    	                startActivity(new Intent(HomePage.this, ActivityTypeEval.class));
-    	            }
-    	            pDialog.dismiss();
-    			}
-    		}).start();
+                public void run() {
+                    InitDatabase.checkAndRefreshPerf(HomePage.this, 2, 1);
+                    final TypeEvalProgress progress = OpenwordsSharedPreferences.getTypeEvaluationProgress();
+                    if (progress == null) {
+
+                        cards = new LeafCardTypeEvalAdapter(HomePage.this).getList(SIZE);
+                        if (cards.size() <= 1) {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(HomePage.this, "Please select word first", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        } else {
+                            ActivityTypeEval.setCardsPool(cards);
+                            startActivity(new Intent(HomePage.this, ActivityTypeEval.class));
+                        }
+                    } else {
+                        ActivityTypeEval.setCardsPool(progress.getCardsPool());
+                        ActivityTypeEval.setCurrentCard(progress.getCurrentCard());
+                        startActivity(new Intent(HomePage.this, ActivityTypeEval.class));
+                    }
+                    pDialog.dismiss();
+                }
+            }).start();
         } else if (taskPage.equals("Hearing")) {
 
-    		new Thread(new Runnable() {
-            	List<LeafCardHearing> cards;
-    			public void run() {
-    	        	InitDatabase.checkAndRefreshPerf(HomePage.this, 3, 1);
-    	        	final HearingProgress progress = OpenwordsSharedPreferences.getHearingProgress();
-    	            if (true || progress == null) {
+            new Thread(new Runnable() {
+                List<LeafCardHearing> cards;
 
-    	                cards = new LeafCardHearingAdapter(HomePage.this).getList(SIZE);
-    	                if(cards.size()<=1){
-        	                runOnUiThread(new Runnable() {                
-        	                    @Override
-        	                    public void run() {
-        	                        Toast.makeText(HomePage.this, "No word with audio", Toast.LENGTH_SHORT).show();
-        	                    }
-        	                });
-    	                } else {
-    	                	ActivityHearing.setCardsPool(cards);
-        	                startActivity(new Intent(HomePage.this, ActivityHearing.class));
-    	                }
-    	            } else {
-    	            	ActivityHearing.setCardsPool(progress.getCardsPool());
-    	            	ActivityHearing.setCurrentCard(progress.getCurrentCard());
-    	                startActivity(new Intent(HomePage.this, ActivityHearing.class));
-    	            }
-    	            pDialog.dismiss();
-    			}
-    		}).start();
+                public void run() {
+                    InitDatabase.checkAndRefreshPerf(HomePage.this, 3, 1);
+                    final HearingProgress progress = OpenwordsSharedPreferences.getHearingProgress();
+                    if (true || progress == null) {
+
+                        cards = new LeafCardHearingAdapter(HomePage.this).getList(SIZE);
+                        if (cards.size() <= 1) {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(HomePage.this, "No word with audio", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        } else {
+                            ActivityHearing.setCardsPool(cards);
+                            startActivity(new Intent(HomePage.this, ActivityHearing.class));
+                        }
+                    } else {
+                        ActivityHearing.setCardsPool(progress.getCardsPool());
+                        ActivityHearing.setCurrentCard(progress.getCurrentCard());
+                        startActivity(new Intent(HomePage.this, ActivityHearing.class));
+                    }
+                    pDialog.dismiss();
+                }
+            }).start();
 //        	new InsertData(HomePage.this);
 //        	final HearingProgress progress = OpenwordsSharedPreferences.getHearingProgress();
 //            List<LeafCardHearing> cards = new LinkedList<LeafCardHearing>();
@@ -360,13 +357,19 @@ public class HomePage extends Activity implements OnClickListener {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        actionBar.checkSetting();
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.homePage_Button_testPageGo:
                 testPageButtonClick();
                 break;
             //case R.id.homePage_Spinner_chooseLanguage:
-            	//Log.d("whatever", Integer.toString(l2_dropdown.getSelectedItemPosition()));
+            //Log.d("whatever", Integer.toString(l2_dropdown.getSelectedItemPosition()));
         }
     }
 

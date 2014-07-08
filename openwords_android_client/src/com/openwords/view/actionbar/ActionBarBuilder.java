@@ -4,10 +4,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.view.View;
 import android.widget.AdapterView;
-
 import com.openwords.R;
 import com.openwords.ui.common.ActionBarBuilderForActivity;
 import com.openwords.ui.common.DialogForSettingSelection;
+import com.openwords.util.preference.OpenwordsSharedPreferences;
 import com.openwords.view.HomePage;
 
 public class ActionBarBuilder {
@@ -18,29 +18,30 @@ public class ActionBarBuilder {
     public static final int Portal_Page = 4;
     private final Activity activity;
     private final int currentPage;
+    private ActionBarBuilderForActivity builder;
 
     public ActionBarBuilder(Activity activity, int currentPage) {
         this.activity = activity;
         this.currentPage = currentPage;
 
-        ActionBarBuilderForActivity builder = new ActionBarBuilderForActivity(activity);
+        builder = new ActionBarBuilderForActivity(activity);
 
         builder
-                .showFirstItem(R.drawable.ic_actionbar_others, new ActionBarBuilderForActivity.ActionBarItemClickAction() {
+                .showButtonItem(0, R.drawable.ic_actionbar_others, new ActionBarBuilderForActivity.ActionBarItemClickAction() {
 
                     public void clicked() {
                         otherClicked();
                     }
                 })
-                .showSecondItem(R.drawable.ic_actionbar_portal, new ActionBarBuilderForActivity.ActionBarItemClickAction() {
+                .showButtonItem(1, R.drawable.ic_actionbar_portal, new ActionBarBuilderForActivity.ActionBarItemClickAction() {
 
                     public void clicked() {
                         if (ActionBarBuilder.this.currentPage != Portal_Page) {
-                        	portalClicked();
+                            portalClicked();
                         }
                     }
                 })
-                .showThirdItem(R.drawable.ic_actionbar_stats, new ActionBarBuilderForActivity.ActionBarItemClickAction() {
+                .showButtonItem(2, R.drawable.ic_actionbar_stats, new ActionBarBuilderForActivity.ActionBarItemClickAction() {
 
                     public void clicked() {
                         if (ActionBarBuilder.this.currentPage != Stats_Page) {
@@ -48,7 +49,7 @@ public class ActionBarBuilder {
                         }
                     }
                 })
-                .showFourthItem(R.drawable.ic_actionbar_words, new ActionBarBuilderForActivity.ActionBarItemClickAction() {
+                .showButtonItem(3, R.drawable.ic_actionbar_words, new ActionBarBuilderForActivity.ActionBarItemClickAction() {
 
                     public void clicked() {
                         if (ActionBarBuilder.this.currentPage != Words_Page) {
@@ -56,7 +57,7 @@ public class ActionBarBuilder {
                         }
                     }
                 })
-                .showFifthItem(R.drawable.ic_actionbar_home, new ActionBarBuilderForActivity.ActionBarItemClickAction() {
+                .showButtonItem(4, R.drawable.ic_actionbar_home, new ActionBarBuilderForActivity.ActionBarItemClickAction() {
 
                     public void clicked() {
                         if (ActionBarBuilder.this.currentPage != Home_Page) {
@@ -67,16 +68,29 @@ public class ActionBarBuilder {
 
         switch (this.currentPage) {
             case Home_Page:
-                builder.highlightFourthItem();
+                builder.highlightButtonItem(4);
                 break;
             case Words_Page:
-                builder.highlightThirdItem();
+                builder.highlightButtonItem(3);
                 break;
             case Stats_Page:
-                builder.highlightSecondItem();
+                builder.highlightButtonItem(2);
+                break;
+            case Portal_Page:
+                builder.highlightButtonItem(1);
                 break;
             default:
                 break;
+        }
+
+        checkSetting();
+    }
+
+    public void checkSetting() {
+        if (OpenwordsSharedPreferences.getHidePortal()) {
+            builder.hideItem(1);
+        } else {
+            builder.reshowItem(1);
         }
     }
 
@@ -95,7 +109,7 @@ public class ActionBarBuilder {
         i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         activity.startActivity(i);
     }
-    
+
     private void portalClicked() {
         activity.finish();
         activity.overridePendingTransition(0, 0);

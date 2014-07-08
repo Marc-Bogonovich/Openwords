@@ -3,11 +3,7 @@ package com.openwords.util.preference;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.util.Log;
-
 import com.google.gson.Gson;
-import com.openwords.learningmodule.ActivityReview;
-import com.openwords.learningmodule.ActivitySelfEval;
 import com.openwords.learningmodule.HearingProgress;
 import com.openwords.learningmodule.Progress;
 import com.openwords.learningmodule.SelfEvalProgress;
@@ -24,7 +20,8 @@ public class OpenwordsSharedPreferences {
     public static final String REVIEW_PROGRESS = "app.review.progress";
     public static final String HEARING_PROGRESS = "app.hearing.progress";
     public static final String TYPE_EVALUATION_PROGRESS = "app.typeeval.progress";
-    
+    public static final String HIDE_PORTAL = "app.hide.portal";
+
     public static void init(Context context) {
         pref = context.getSharedPreferences(SHARED_PREFERENCE_FILE, Context.MODE_PRIVATE);
     }
@@ -60,7 +57,7 @@ public class OpenwordsSharedPreferences {
         }
         return new Gson().fromJson(json, UserInfo.class);
     }
-    
+
     public static boolean setReviewProgress(String json) {
         Editor editor = pref.edit();
         editor.putString(REVIEW_PROGRESS, json);
@@ -74,21 +71,21 @@ public class OpenwordsSharedPreferences {
         }
         return new Gson().fromJson(json, Progress.class);
     }
-    
+
     public static SelfEvalProgress getSelfEvaluationProgress() {
-    	 String json = pref.getString(SELF_EVALUATION_PROGRESS, null);
-         if (json == null) {
-             return null;
-         }
-         return new Gson().fromJson(json, SelfEvalProgress.class);
+        String json = pref.getString(SELF_EVALUATION_PROGRESS, null);
+        if (json == null) {
+            return null;
+        }
+        return new Gson().fromJson(json, SelfEvalProgress.class);
     }
-    
+
     public static boolean setSelfEvaluationProgress(String json) {
         Editor editor = pref.edit();
         editor.putString(SELF_EVALUATION_PROGRESS, json);
         return editor.commit();
     }
-    
+
     public static TypeEvalProgress getTypeEvaluationProgress() {
         String json = pref.getString(TYPE_EVALUATION_PROGRESS, null);
         if (json == null) {
@@ -96,12 +93,13 @@ public class OpenwordsSharedPreferences {
         }
         return new Gson().fromJson(json, TypeEvalProgress.class);
     }
-    
+
     public static boolean setTypeEvaluationProgress(String json) {
         Editor editor = pref.edit();
         editor.putString(TYPE_EVALUATION_PROGRESS, json);
         return editor.commit();
     }
+
     public static boolean setHearingProgress(String json) {
         Editor editor = pref.edit();
         editor.putString(HEARING_PROGRESS, json);
@@ -114,6 +112,17 @@ public class OpenwordsSharedPreferences {
             return null;
         }
         return new Gson().fromJson(json, HearingProgress.class);
+    }
+
+    public static boolean getHidePortal() {
+        boolean hide = pref.getBoolean(HIDE_PORTAL, false);
+        return hide;
+    }
+
+    public static boolean setHidePortal(boolean hide) {
+        Editor editor = pref.edit();
+        editor.putBoolean(HIDE_PORTAL, hide);
+        return editor.commit();
     }
 
     public static boolean removePreferenceItem(String itemName) {

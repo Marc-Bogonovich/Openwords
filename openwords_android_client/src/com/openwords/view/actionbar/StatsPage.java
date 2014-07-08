@@ -6,23 +6,30 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.WindowManager;
 import android.widget.ProgressBar;
-
 import com.openwords.R;
 
 public class StatsPage extends Activity {
-	ProgressBar progressBar;
+
+    private ProgressBar progressBar;
+    private ActionBarBuilder actionBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-    
+
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);//for testing purpose
 
         setContentView(R.layout.activity_stats_page);
         //build ActionBar
-        new ActionBarBuilder(this, ActionBarBuilder.Stats_Page);
+        actionBar = new ActionBarBuilder(this, ActionBarBuilder.Stats_Page);
     }
-    
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        actionBar.checkSetting();
+    }
+
     @Override
     public void onBackPressed() {
         new AlertDialog.Builder(this)
