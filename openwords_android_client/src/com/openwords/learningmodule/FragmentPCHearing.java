@@ -4,6 +4,7 @@ import java.lang.ref.WeakReference;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -11,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -20,9 +22,11 @@ import com.openwords.model.LeafCardSelfEval;
 import com.openwords.model.UserPerformanceDirty;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
+import com.openwords.view.HomePage;
+import com.openwords.view.actionbar.WordsPage;
 
 public class FragmentPCHearing extends Fragment {
-
+	private Activity activity;
     private static Handler RefreshHandler;
     private int user_id;
     public static void refreshDetails() {
@@ -39,6 +43,7 @@ public class FragmentPCHearing extends Fragment {
         super.onCreate(savedInstanceState);
         LogUtil.logDeubg(this, "onCreate");
         OpenwordsSharedPreferences.setHearingProgress(null);
+        activity = getActivity();
         user_id = OpenwordsSharedPreferences.getUserInfo().getUserId();
         RefreshHandler = new Handler() {
             @Override
@@ -66,6 +71,15 @@ public class FragmentPCHearing extends Fragment {
         newWords = (Button) myFragmentView.findViewById(R.id.plc_button_NewWords);
         nextPlate = (Button) myFragmentView.findViewById(R.id.plc_button_NextPlate);
         exit = (Button) myFragmentView.findViewById(R.id.plc_button_Exit);
+        
+        newWords.setOnClickListener(new OnClickListener() {
+   	            public void onClick(View view) {
+   	            	getActivity().finish();
+   	             Intent i = new Intent(activity, WordsPage.class);
+   	             i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+   	             activity.startActivity(i);
+   	            }
+   	    });
 
         refresh();
 

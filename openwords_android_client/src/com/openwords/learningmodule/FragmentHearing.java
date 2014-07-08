@@ -68,36 +68,28 @@ public class FragmentHearing extends Fragment {
 					double similarity = Math.max(WordComparsion.similarity(userInputString, card.getWordLang1()),
 							WordComparsion.similarity(userInputString, card.getWordLang2()));
 					if(userInputString.equals(card.getWordLang1()) || 
-							userInputString.equals(card.getWordLang2())) {
+							userInputString.equals(card.getWordLang2())) { // if user type lang1 or lang2
 						indicator.setImageResource(R.drawable.ic_learning_module_correct);
 						card.setUserInput(userInputString);
 						userChoice = 3;
-						question.setVisibility(View.VISIBLE);
-						answer.setVisibility(View.VISIBLE);
-						transcription.setVisibility(View.VISIBLE);
-					} else if(similarity>=CUTOFF) {
+					} else if(similarity>=CUTOFF) { //user input is close enough
 						indicator.setImageResource(R.drawable.ic_learning_module_close);
 						userChoice = 2;
 						card.setUserInput(userInputString);
-						answer.setVisibility(View.VISIBLE);
-						question.setVisibility(View.VISIBLE);
-						transcription.setVisibility(View.VISIBLE);
 						//if want the status icon becomes null when move forward/backward, change the value of userChoice
-					} else {
+					} else { //user input is wrong completely
 						indicator.setImageResource(R.drawable.ic_learning_module_incorrect);
 						userChoice = 1;
 						card.setUserInput(userInputString);
-						answer.setVisibility(View.VISIBLE);
-						question.setVisibility(View.VISIBLE);
-						transcription.setVisibility(View.VISIBLE);
 					}
-				} else {
+				} else { //user input is null
 					indicator.setImageResource(R.drawable.ic_learning_module_incorrect);
 					userChoice = 0;
-					answer.setVisibility(View.VISIBLE);
-					question.setVisibility(View.VISIBLE);
-					transcription.setVisibility(View.VISIBLE);
+
 				}
+				question.setVisibility(View.VISIBLE);
+				answer.setVisibility(View.VISIBLE);
+				transcription.setVisibility(View.VISIBLE);
 				card.setUserChoice(userChoice);
 				
 				Handler mHandler = new Handler();
