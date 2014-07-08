@@ -25,6 +25,7 @@ import com.openwords.R;
 import com.openwords.learningmodule.ActivitySelfEval;
 import com.openwords.learningmodule.Progress;
 import com.openwords.learningmodule.SelfEvalProgress;
+import com.openwords.model.InitDatabase;
 import com.openwords.model.JSONParser;
 import com.openwords.model.LeafCardSelfEval;
 import com.openwords.model.UserInfo;
@@ -109,13 +110,13 @@ public class LoginPage extends Activity implements OnClickListener {
 //                final SelfEvalProgress progress = OpenwordsSharedPreferences.getSelfEvaluationProgress();
 //                if (progress == null) {
 //                    List<LeafCardSelfEval> cards = new LinkedList<LeafCardSelfEval>();
-//                    cards.add(new LeafCardSelfEval("äºº", "person", "ren"));
-//                    cards.add(new LeafCardSelfEval("çŒ«", "cat", "mao"));
-//                    cards.add(new LeafCardSelfEval("åœ°ç�ƒ", "earth", "di qiu"));
-//                    cards.add(new LeafCardSelfEval("æ—¶é—´", "time", "shi jian"));
-//                    cards.add(new LeafCardSelfEval("ä¸–ç•Œ", "world", "shi jie"));
-//                    cards.add(new LeafCardSelfEval("ç”µè„‘", "computer", "dian nao"));
-//                    cards.add(new LeafCardSelfEval("è½¯ä»¶", "software", "ruan jian"));
+//                    cards.add(new LeafCardSelfEval("Ã¤ÂºÂº", "person", "ren"));
+//                    cards.add(new LeafCardSelfEval("Ã§Å’Â«", "cat", "mao"));
+//                    cards.add(new LeafCardSelfEval("Ã¥Å“Â°Ã§ï¿½Æ’", "earth", "di qiu"));
+//                    cards.add(new LeafCardSelfEval("Ã¦â€”Â¶Ã©â€”Â´", "time", "shi jian"));
+//                    cards.add(new LeafCardSelfEval("Ã¤Â¸â€“Ã§â€¢Å’", "world", "shi jie"));
+//                    cards.add(new LeafCardSelfEval("Ã§â€�ÂµÃ¨â€žâ€˜", "computer", "dian nao"));
+//                    cards.add(new LeafCardSelfEval("Ã¨Â½Â¯Ã¤Â»Â¶", "software", "ruan jian"));
 //                    ActivitySelfEval.setCardsPool(cards);
 //                    startActivity(new Intent(LoginPage.this, ActivitySelfEval.class));
 //                } else {
@@ -125,13 +126,13 @@ public class LoginPage extends Activity implements OnClickListener {
 //                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
 //                                public void onClick(DialogInterface arg0, int arg1) {
 //                                    List<LeafCardSelfEval> cards = new LinkedList<LeafCardSelfEval>();
-//                                    cards.add(new LeafCardSelfEval("äºº", "person", "ren"));
-//                                    cards.add(new LeafCardSelfEval("çŒ«", "cat", "mao"));
-//                                    cards.add(new LeafCardSelfEval("åœ°ç�ƒ", "earth", "di qiu"));
-//                                    cards.add(new LeafCardSelfEval("æ—¶é—´", "time", "shi jian"));
-//                                    cards.add(new LeafCardSelfEval("ä¸–ç•Œ", "world", "shi jie"));
-//                                    cards.add(new LeafCardSelfEval("ç”µè„‘", "computer", "dian nao"));
-//                                    cards.add(new LeafCardSelfEval("è½¯ä»¶", "software", "ruan jian"));
+//                                    cards.add(new LeafCardSelfEval("Ã¤ÂºÂº", "person", "ren"));
+//                                    cards.add(new LeafCardSelfEval("Ã§Å’Â«", "cat", "mao"));
+//                                    cards.add(new LeafCardSelfEval("Ã¥Å“Â°Ã§ï¿½Æ’", "earth", "di qiu"));
+//                                    cards.add(new LeafCardSelfEval("Ã¦â€”Â¶Ã©â€”Â´", "time", "shi jian"));
+//                                    cards.add(new LeafCardSelfEval("Ã¤Â¸â€“Ã§â€¢Å’", "world", "shi jie"));
+//                                    cards.add(new LeafCardSelfEval("Ã§â€�ÂµÃ¨â€žâ€˜", "computer", "dian nao"));
+//                                    cards.add(new LeafCardSelfEval("Ã¨Â½Â¯Ã¤Â»Â¶", "software", "ruan jian"));
 //                                    ActivitySelfEval.setCardsPool(cards);
 //                                    startActivity(new Intent(LoginPage.this, ActivitySelfEval.class));
 //                                }
@@ -250,6 +251,15 @@ public class LoginPage extends Activity implements OnClickListener {
                 if(OpenwordsSharedPreferences.getUserInfo()!=null)
                 	lu = OpenwordsSharedPreferences.getUserInfo().getUserId();
                 OpenwordsSharedPreferences.setUserInfo(new UserInfo(lu,0,userid, username, password, System.currentTimeMillis()));
+                
+                /* ********************************
+                 * Refreshing User's data on client (if needed)
+                 * ********************************
+                 * */
+                InitDatabase.checkAndRefreshPerf(this, 0, 0);
+                
+                //---------------------------------------
+                
                 LoginPage.this.startActivity(new Intent(LoginPage.this, HomePage.class));
             } else if (success == 0) { 
                 runOnUiThread(new Runnable() {
