@@ -117,15 +117,18 @@ public class HomePage extends Activity implements OnClickListener {
                 Log.d("whatever", Integer.toString(position));
                 pos = position;
                 Log.d("ID", Integer.toString(dropdown_list.get(position).getId()));
-                if (dropdown_list.get(position).getId() == 999) {
+                if (dropdown_list.get(position).getId() == -999) {
                     //Toast.makeText(getApplicationContext(), "Please Wait...", Toast.LENGTH_SHORT).show();
                     HomePage.this.startActivity(new Intent(HomePage.this, LanguagePage.class));
                 }
+                else
+                {
                 homelang_id = dropdown_list.get(position).getId();
                 UserInfo user = OpenwordsSharedPreferences.getUserInfo();
                 user.setLang_id(homelang_id);
-                Toast.makeText(HomePage.this, "Current language id" + homelang_id, Toast.LENGTH_SHORT).show();
+                Toast.makeText(HomePage.this, "Chosen language id: " + homelang_id, Toast.LENGTH_SHORT).show();
                 OpenwordsSharedPreferences.setUserInfo(user);
+                }
 
             }
 
@@ -175,7 +178,7 @@ public class HomePage extends Activity implements OnClickListener {
             e.printStackTrace();
         }
         //Insert add more button
-        dropdown.add(new HomePageTool("Add more", 999));
+        dropdown.add(new HomePageTool("Add more", -999));
         dropdown_list = dropdown;
     }
 
