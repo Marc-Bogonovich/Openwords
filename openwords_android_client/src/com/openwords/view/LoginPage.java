@@ -256,7 +256,11 @@ public class LoginPage extends Activity implements OnClickListener {
                  * Refreshing User's data on client (if needed)
                  * ********************************
                  * */
-                InitDatabase.checkAndRefreshPerf(this, 0, 0);
+                new Thread(new Runnable(){
+                	public void run()
+                	{InitDatabase.checkAndRefreshPerf(LoginPage.this, 0, 0);}
+                }).start();
+                
                 
                 //---------------------------------------
                 
