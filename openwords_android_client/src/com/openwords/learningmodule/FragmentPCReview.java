@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.openwords.R;
+import com.openwords.model.InitDatabase;
 import com.openwords.model.LeafCard;
 import com.openwords.model.LeafCardAdapter;
 import com.openwords.model.LeafCardSelfEval;
@@ -115,6 +116,12 @@ public class FragmentPCReview extends Fragment {
 
         	new UserPerformanceDirty(card.getConnectionId(),user_id,0,card.getLastTime(),3,0,getActivity().getApplicationContext()).save();
         }
+        
+        new Thread(new Runnable(){
+        	public void run()
+        	{InitDatabase.updateLocalPerformanceSummary(getActivity().getApplicationContext());}
+        }).start();
+        
         vocabSize.setText("329"); //wait for varun figure out how to count how many word the user know
         performance.setText(totalCards + "/" + totalCards);
         skip.setText("");

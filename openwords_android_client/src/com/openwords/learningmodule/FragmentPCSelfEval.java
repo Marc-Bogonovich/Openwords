@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.openwords.R;
+import com.openwords.model.InitDatabase;
 import com.openwords.model.LeafCard;
 import com.openwords.model.LeafCardAdapter;
 import com.openwords.model.LeafCardSelfEval;
@@ -123,6 +124,12 @@ public class FragmentPCSelfEval extends Fragment {
                 }
             }
         }
+        
+        new Thread(new Runnable(){
+        	public void run()
+        	{InitDatabase.updateLocalPerformanceSummary(getActivity().getApplicationContext());}
+        }).start();
+        
         vocabSize.setText("0 + " + totalCorrect);
         performance.setText(totalCorrect + "/" + totalCards);
         skip.setText(totalSkipped + " Skipped");
