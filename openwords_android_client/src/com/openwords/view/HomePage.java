@@ -66,7 +66,7 @@ public class HomePage extends Activity implements OnClickListener {
     
     
     //-----------
-    private static int language_position;
+    private static int language_position=-1;
     //-----------
 
     @Override
@@ -150,7 +150,9 @@ public class HomePage extends Activity implements OnClickListener {
         }
         );
         //Log.d("ID",Integer.toString(dropdown_list.get(pos).getId()));  
-        l2_dropdown.setSelection(language_position);
+        
+        if(language_position != -1)
+        	l2_dropdown.setSelection(language_position);
     }
 
     public void addItemsOnBegin() {
