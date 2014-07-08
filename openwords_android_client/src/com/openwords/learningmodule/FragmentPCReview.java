@@ -111,7 +111,9 @@ public class FragmentPCReview extends Fragment {
         totalCards = ActivityReview.getCardsPool().size();
 
         for (LeafCard card : ActivityReview.getCardsPool()) {
-        	new UserPerformanceDirty(card.getConnectionId(),user_id,0,card.getLastTime(),0,0,getActivity().getApplicationContext()).save();
+        	//(int connection_id, int user_id, int type, long last_time, int performance, int user_exclude, Context c)
+
+        	new UserPerformanceDirty(card.getConnectionId(),user_id,0,card.getLastTime(),3,0,getActivity().getApplicationContext()).save();
         }
         vocabSize.setText("329"); //wait for varun figure out how to count how many word the user know
         performance.setText(totalCards + "/" + totalCards);

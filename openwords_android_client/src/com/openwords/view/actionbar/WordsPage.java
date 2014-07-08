@@ -27,6 +27,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.openwords.R;
+import com.openwords.model.InitDatabase;
 import com.openwords.model.JSONParser;
 import com.openwords.model.UserWords;
 import com.openwords.model.WordTranscription;
@@ -42,7 +43,7 @@ public class WordsPage extends Activity implements OnClickListener {
 	public static AlertDialog.Builder dg;
 	public static ArrayList<Integer> mSelectedItems = new ArrayList<Integer>();
 	private static JSONArray jArrMain;
-        private ActionBarBuilder actionBar;
+    private ActionBarBuilder actionBar;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +67,7 @@ public class WordsPage extends Activity implements OnClickListener {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
             	syncButton.setImageResource(R.drawable.icon_wordpage_syncbutton_unpressed);
+            	InitDatabase.checkAndRefreshPerf(WordsPage.this, 0, 1);
 				return false;
             }
             

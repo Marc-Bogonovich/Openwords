@@ -313,7 +313,7 @@ public class HomePage extends Activity implements OnClickListener {
                 public void run() {
                     //InitDatabase.checkAndRefreshPerf(HomePage.this, 3, 1);
                     final HearingProgress progress = OpenwordsSharedPreferences.getHearingProgress();
-                    if (true || progress == null) {
+                    if (progress == null) {
 
                         cards = new LeafCardHearingAdapter(HomePage.this).getList(SIZE);
                         if (cards.size() <= 1) {

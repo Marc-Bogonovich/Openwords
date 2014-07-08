@@ -24,7 +24,7 @@ public class SettingsPage extends Activity {
             public void onClick(View view) {
                 boolean hide = OpenwordsSharedPreferences.getHidePortal();
                 OpenwordsSharedPreferences.setHidePortal(!hide);
-                Toast.makeText(SettingsPage.this, "Hide Portal is set to " + !hide, Toast.LENGTH_LONG).show();
+                Toast.makeText(SettingsPage.this, "Hide Portal is set to " + hide, Toast.LENGTH_LONG).show();
             }
         });
     }
