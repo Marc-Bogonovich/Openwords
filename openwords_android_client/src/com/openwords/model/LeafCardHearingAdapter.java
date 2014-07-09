@@ -19,7 +19,7 @@ public class LeafCardHearingAdapter {
 			// since connectionID is the primary key of UserWord table, only one record is returned
 			UserWords raw_card = UserWords.findByConnection(id).get(0);
 			String trans = new WordTranscription(context).findByWord(raw_card.wordLTwoId).get(0).transcription;
-			LeafCardHearing card = new LeafCardHearing(raw_card.wordLTwo, raw_card.wordLOne, trans);
+			LeafCardHearing card = new LeafCardHearing(raw_card.connectionId, raw_card.wordLTwo, raw_card.wordLOne, trans);
 			result.add(card);
 		}
 		return result;

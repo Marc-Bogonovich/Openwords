@@ -6,7 +6,8 @@ public class LeafCard {
 	private int connectionId; 
 	private long lastTime;
 	
-	public LeafCard(String wordLang2, String wordLang1, String transcription) {
+	public LeafCard(int connectionId, String wordLang2, String wordLang1, String transcription) {
+		this.connectionId = connectionId;
 		this.wordLang2 = wordLang2;
 		this.wordLang1 = wordLang1;
 		this.transcription = transcription;

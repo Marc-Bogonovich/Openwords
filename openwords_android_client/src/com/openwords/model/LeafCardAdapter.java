@@ -24,7 +24,7 @@ public class LeafCardAdapter {
 			UserWords raw_card = UserWords.findByConnection(id).get(0);
 			String trans = new WordTranscription(context).findByWord(raw_card.wordLTwoId).get(0).transcription;
 			Log.d("Trans",raw_card.wordLOne+"");
-			LeafCard card = new LeafCard(raw_card.wordLTwo, raw_card.wordLOne, trans);
+			LeafCard card = new LeafCard(raw_card.connectionId, raw_card.wordLTwo, raw_card.wordLOne, trans);
 			card.setAudioURL(raw_card.audiocall);
 			result.add(card);
 		}

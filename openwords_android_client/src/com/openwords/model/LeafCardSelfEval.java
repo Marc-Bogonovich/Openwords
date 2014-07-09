@@ -4,8 +4,8 @@ public class LeafCardSelfEval extends LeafCard {
 
     private Boolean userChoice;
     
-    public LeafCardSelfEval(String wordLang2, String wordLang1, String transcription) {
-    	super(wordLang2, wordLang1, transcription);
+    public LeafCardSelfEval(int connectionId, String wordLang2, String wordLang1, String transcription) {
+    	super(connectionId, wordLang2, wordLang1, transcription);
     }
 
     public Boolean getUserChoice() {

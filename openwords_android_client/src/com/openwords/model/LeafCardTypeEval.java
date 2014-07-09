@@ -3,9 +3,9 @@ package com.openwords.model;
 public class LeafCardTypeEval extends LeafCard {
 	private Integer userChoice = 0;
 	private String userInput;
-	public LeafCardTypeEval(String wordLang2, String wordLang1,
+	public LeafCardTypeEval(int connectionId, String wordLang2, String wordLang1,
 			String transcription) {
-		super(wordLang2, wordLang1, transcription);
+		super(connectionId, wordLang2, wordLang1, transcription);
 		// TODO Auto-generated constructor stub
 	}
 	public Integer getUserChoice() {

@@ -4,9 +4,9 @@ public class LeafCardHearing extends LeafCard {
 	private Integer userChoice = 0;
 	private String userInput;
 
-	public LeafCardHearing(String wordLang2, String wordLang1,
+	public LeafCardHearing(int connectionId, String wordLang2, String wordLang1,
 			String transcription) {
-		super(wordLang2, wordLang1, transcription);
+		super(connectionId, wordLang2, wordLang1, transcription);
 	}
 
 	public Integer getUserChoice() {
