@@ -1,3 +1,10 @@
+/* --------------------------------------------------------------------
+ * Author: Mayukh Das
+ * Purpose: Class file for USER_PERFORMANCE table on client
+ * Components: Constructors, Custom functions
+ * --------------------------------------------------------------------
+ * */
+
 package com.openwords.model;
 
 import java.util.ArrayList;
@@ -58,19 +65,25 @@ public class UserPerformance extends SugarRecord<UserPerformance>  {
 			this.user_exclude=user_exclude;
 		}
 	
+	//************ Method to Find Performance records by User & connection ID*********
 	public static List<UserPerformance> findByUserConnection(int user_id, int connection_id)
 	{
 		List<UserPerformance> result = UserPerformance.find(UserPerformance.class, "connectionid="+connection_id+" and userid="+user_id);
 		return result;
 	}
+	//********************************************************************************
 	
+	//*********** Method to Find Performance records by User *************************
 	public static List<UserPerformance> findByUser(int user_id)
 	{
 		List<UserPerformance> result = UserPerformance.find(UserPerformance.class, "userid="+user_id);
 		//Log.d("size of result", Integer.toString(result.size()));
 		return result;
 	}
+	//********************************************************************************
 	
+	
+	//************ Method to Find Performance records by User & 2nd Language *********
 	public static List<UserPerformance> findByUserLanguage(int user_id, int language_id) {
 		List<UserWords> wordlist = UserWords.findByLanguage(language_id);
 		List<UserPerformance> result = new ArrayList<UserPerformance>();
@@ -81,12 +94,17 @@ public class UserPerformance extends SugarRecord<UserPerformance>  {
 			}
 		return result;
 	}
+	//********************************************************************************
 	
+	
+	//*** Method to Find Performance records by User, connection ID and learning module *********
 	public static List<UserPerformance> findByUserConnectionModule(int user, int con,int module)
 	{
 		List<UserPerformance> upList = UserPerformance.find(UserPerformance.class, "userid="+user+" and connectionid="+con+" and module="+module);
 		return upList;
 	}
+	//********************************************************************************
+	
 	
 	public static List<UserPerformance> findByUserLanguageWithAudio(int user_id, int language_id)
 	{
