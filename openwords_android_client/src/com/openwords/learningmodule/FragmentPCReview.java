@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -113,7 +114,7 @@ public class FragmentPCReview extends Fragment {
 
         for (LeafCard card : ActivityReview.getCardsPool()) {
         	//(int connection_id, int user_id, int type, long last_time, int performance, int user_exclude, Context c)
-
+        	Log.d("connectionid in leaf card", Integer.toString(card.getConnectionId()));
         	new UserPerformanceDirty(card.getConnectionId(),user_id,0,card.getLastTime(),3,0,getActivity().getApplicationContext()).save();
         }
         

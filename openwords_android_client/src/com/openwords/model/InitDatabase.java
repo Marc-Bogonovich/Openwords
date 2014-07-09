@@ -39,6 +39,7 @@ public class InitDatabase {
 		{
 			if(connected==true)
 			{
+				Log.d("chkpnt0", "before write back perf");
 				int success = InitDatabase.writeBackUserPerformance();
 	                if(success==1)
 	                {
@@ -191,7 +192,7 @@ public class InitDatabase {
 			}
 			
 			jParent.put("data", ja); //packing records as JSON object
-			
+			Log.d("while writing back user perf******",jParent.toString());
 			List<NameValuePair> params1 = new ArrayList<NameValuePair>();
 			params1.add(new BasicNameValuePair("params",jParent.toString()));
 			JSONParser jsonParse = new JSONParser();
@@ -215,6 +216,7 @@ public class InitDatabase {
 		{
     		//InitDatabase.loadPerformanceSummary(ctx,userId,dirtyPerf.get(i).connection_id,module);
 			List<UserPerformance> upList = UserPerformance.findByUserConnectionModule(userId, dirtyPerf.get(i).connection_id, dirtyPerf.get(i).type);
+			Log.d("data indirty", Integer.toString(dirtyPerf.get(0).user_id));
 			if(upList.size()>0) //if record exists then update
 			{
 				UserPerformance.updateById(upList.get(0).getId(), dirtyPerf.get(i).performance, dirtyPerf.get(i).time);
