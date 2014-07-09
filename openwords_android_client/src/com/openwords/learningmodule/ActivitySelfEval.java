@@ -22,7 +22,7 @@ import java.util.List;
 public class ActivitySelfEval extends FragmentActivity {
 
     private static List<LeafCardSelfEval> CardsPool;
-    private static int CurrentCard = -1;
+    private static int CurrentCard = 0;
     private static ActivitySelfEval instance;
 
     public static ActivitySelfEval getInstance() {

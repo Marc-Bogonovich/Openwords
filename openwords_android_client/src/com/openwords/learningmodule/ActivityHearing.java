@@ -19,7 +19,7 @@ import java.util.List;
 public class ActivityHearing extends FragmentActivity {
 
     private static List<LeafCardHearing> CardsPool;
-    private static int CurrentCard = -1;
+    private static int CurrentCard = 0;
     private static ActivityHearing instance;
 
     public static ActivityHearing getInstance() {

@@ -22,7 +22,7 @@ import java.util.List;
 public class ActivityTypeEval extends FragmentActivity {
 
     private static List<LeafCardTypeEval> CardsPool;
-    private static int CurrentCard = -1;
+    private static int CurrentCard = 0;
     private static ActivityTypeEval instance;
 
     public static ActivityTypeEval getInstance() {
@@ -128,7 +128,7 @@ public class ActivityTypeEval extends FragmentActivity {
         public Fragment getItem(int i) {
             LogUtil.logDeubg(this, "Request fragment: " + i);
             if (i >= CardsPool.size()) {
-                return new FragmentPCSelfEval();
+                return new FragmentPCTypeEval();
             } else {
                 return new FragmentTypeEval(i);
             }
@@ -136,7 +136,7 @@ public class ActivityTypeEval extends FragmentActivity {
 
         @Override
         public int getCount() {
-            return CardsPool.size();
+            return CardsPool.size() + 1;
         }
     }
 }
