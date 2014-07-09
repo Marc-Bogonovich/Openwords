@@ -82,7 +82,7 @@ public class ActivityReview extends FragmentActivity {
             pager.setCurrentItem(CurrentCard, true);
         } else {
             CurrentCard = 0;
-            Toast.makeText(ActivityReview.this, "You have arrived the last", Toast.LENGTH_SHORT).show();
+            
         }
     }
 
