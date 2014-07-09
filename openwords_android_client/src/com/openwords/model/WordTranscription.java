@@ -10,12 +10,12 @@ public class WordTranscription extends SugarRecord<WordTranscription>{
 
 	int wordLTwoId;
 	String transcription;
-	public WordTranscription(Context ctx) {
+	public WordTranscription() {
 		
 		// TODO Auto-generated constructor stub
 	}
 	
-	public WordTranscription(Context ctx, int wordl2Id, String transcription)
+	public WordTranscription(int wordl2Id, String transcription)
 	{
 		
 		this.wordLTwoId=wordl2Id;
@@ -28,12 +28,12 @@ public class WordTranscription extends SugarRecord<WordTranscription>{
 		return trans;
 	}
 	
-	public static void insertMerge(Context ctx, int word, String trans)
+	public static void insertMerge(int word, String trans)
 	{
 		List<WordTranscription> wtExist = findByWord(word);
 		if (wtExist.size()==0)
 		{
-			WordTranscription wt= new WordTranscription(ctx,word,trans);
+			WordTranscription wt= new WordTranscription(word,trans);
 			wt.save();
 		}
 	}

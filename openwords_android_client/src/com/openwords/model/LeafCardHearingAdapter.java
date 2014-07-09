@@ -13,12 +13,12 @@ public class LeafCardHearingAdapter {
 	}
 
 	public List<LeafCardHearing> getList(int size) {
-		List<Integer> connectIDs = new WordSelectionAlg(context).pickup(size, true);
+		List<Integer> connectIDs = new WordSelectionAlg().pickup(size, true);
 		List<LeafCardHearing> result = new ArrayList<LeafCardHearing>();
 		for(Integer id : connectIDs) {
 			// since connectionID is the primary key of UserWord table, only one record is returned
 			UserWords raw_card = UserWords.findByConnection(id).get(0);
-			String trans = new WordTranscription(context).findByWord(raw_card.wordLTwoId).get(0).transcription;
+			String trans = new WordTranscription().findByWord(raw_card.wordLTwoId).get(0).transcription;
 			LeafCardHearing card = new LeafCardHearing(raw_card.connectionId, raw_card.wordLTwo, raw_card.wordLOne, trans);
 			result.add(card);
 		}

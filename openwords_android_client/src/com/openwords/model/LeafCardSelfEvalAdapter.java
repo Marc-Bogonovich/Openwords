@@ -13,12 +13,12 @@ public class LeafCardSelfEvalAdapter {
 	}
 
 	public List<LeafCardSelfEval> getList(int size) {
-		List<Integer> connectIDs = new WordSelectionAlg(context).pickup(size, null);
+		List<Integer> connectIDs = new WordSelectionAlg().pickup(size, null);
 		List<LeafCardSelfEval> result = new ArrayList<LeafCardSelfEval>();
 		for(Integer id : connectIDs) {
 			// since connectionID is the primary key of UserWord table, only one record is returned
 			UserWords raw_card = UserWords.findByConnection(id).get(0);
-			String trans = new WordTranscription(context).findByWord(raw_card.wordLTwoId).get(0).transcription;
+			String trans = new WordTranscription().findByWord(raw_card.wordLTwoId).get(0).transcription;
 			LeafCardSelfEval card = new LeafCardSelfEval(raw_card.connectionId, raw_card.wordLTwo, raw_card.wordLOne, trans);
 			result.add(card);
 		}

@@ -16,13 +16,13 @@ public class LeafCardAdapter {
 	}
 
 	public List<LeafCard> getList(int size) {
-		List<Integer> connectIDs = new WordSelectionAlg(context).pickup(size, null);
+		List<Integer> connectIDs = new WordSelectionAlg().pickup(size, null);
 		Log.d("Selected list",connectIDs.toString());
 		List<LeafCard> result = new ArrayList<LeafCard>();
 		for(Integer id : connectIDs) {
 			// since connectionID is the primary key of UserWord table, only one record is returned
 			UserWords raw_card = UserWords.findByConnection(id).get(0);
-			String trans = new WordTranscription(context).findByWord(raw_card.wordLTwoId).get(0).transcription;
+			String trans = new WordTranscription().findByWord(raw_card.wordLTwoId).get(0).transcription;
 			Log.d("Trans",raw_card.wordLOne+"");
 			LeafCard card = new LeafCard(raw_card.connectionId, raw_card.wordLTwo, raw_card.wordLOne, trans);
 			card.setAudioURL(raw_card.audiocall);

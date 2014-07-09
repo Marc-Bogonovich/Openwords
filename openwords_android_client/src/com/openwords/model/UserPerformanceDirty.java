@@ -15,7 +15,7 @@ public class UserPerformanceDirty extends SugarRecord<UserPerformanceDirty> {
 	public long time;
 	public int user_exclude;
 	
-	public UserPerformanceDirty(Context context) {
+	public UserPerformanceDirty() {
 		
 		// TODO Auto-generated constructor stub
 	}

@@ -28,7 +28,7 @@ public class WordSelectionAlg extends SugarRecord<UserPerformance> {
 	List<UserWords> userWord;
 	HashMap<Integer, Double> weightTable;
 	
-	public WordSelectionAlg(Context arg0) {
+	public WordSelectionAlg() {
 		
 		// TODO Auto-generated constructor stub
 		user_id = OpenwordsSharedPreferences.getUserInfo().getUserId();

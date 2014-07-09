@@ -20,12 +20,12 @@ public class UserPerformance extends SugarRecord<UserPerformance>  {
 	public long last_time;
 	public int last_performance;
 	public int user_exclude;
-	public UserPerformance(Context context) {
+	public UserPerformance() {
 		// TODO Auto-generated constructor stub
 	}
 	
 	//override constructor
-	public UserPerformance(Context c, int connection_id,int user_id,
+	public UserPerformance(int connection_id,int user_id,
 			int total_correct, int total_skipped, int total_exposure, long last_time,
 			int last_performance, int user_exclude)
 	{

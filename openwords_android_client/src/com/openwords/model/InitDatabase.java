@@ -158,7 +158,7 @@ public class InitDatabase {
 				
 				//loading transcription
 				
-				WordTranscription.insertMerge(ctx, childObj.getInt("wordl2id"), childObj.getString("trans"));
+				WordTranscription.insertMerge(childObj.getInt("wordl2id"), childObj.getString("trans"));
 				//rest of the code to be written for word transcription...
 			}
 			}else{Log.d("message", jObj.getString("data"));}

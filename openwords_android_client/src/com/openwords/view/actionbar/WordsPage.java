@@ -242,13 +242,13 @@ public class WordsPage extends Activity implements OnClickListener {
 		{
 			try {
 				JSONObject c=jArrMain.getJSONObject(mSelectedItems.get(i));
-				UserWords uwRec = new UserWords(this,c.getInt("connection_id"),
+				UserWords uwRec = new UserWords(c.getInt("connection_id"),
 						c.getInt("wordl1"),c.getString("wordl1_text"),c.getInt("wordl2"),
 						c.getString("wordl2_text"),c.getInt("l2id"),c.getString("l2name"),c.getString("audio"));
 				uwRec.save();
 				
 				//writing word transcriptions.
-				WordTranscription.insertMerge(this, c.getInt("wordl2"), c.getString("trans"));
+				WordTranscription.insertMerge(c.getInt("wordl2"), c.getString("trans"));
 				
 				//concatenating connection ids
 				if(conIds.length()==0)

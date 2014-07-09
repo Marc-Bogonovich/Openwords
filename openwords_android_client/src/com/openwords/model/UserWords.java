@@ -18,12 +18,12 @@ public class UserWords extends SugarRecord<UserWords> {
 	public String lTwoName;
 	public String audiocall;	
 	public boolean fresh;
-	public UserWords(Context ctx) {
+	public UserWords() {
 		
 		// TODO Auto-generated constructor stub
 	}
 	
-	public UserWords(Context ctx, int connectionId,
+	public UserWords(int connectionId,
 	int wordL2Id,
 	String wordL2,
 	int wordL1Id,
