@@ -1,9 +1,10 @@
 /* --------------------------------------------------------------------
  * Author: Mayukh Das
- * Purpose: Class file for USER_PERFORMANCE table on client
+ * Purpose: Class file for USER_PERFORMANCE table on client 
+ * 			(stores summarized performances)
  * Components: Constructors, Custom functions
  * --------------------------------------------------------------------
- * */
+ */
 
 package com.openwords.model;
 
@@ -106,6 +107,8 @@ public class UserPerformance extends SugarRecord<UserPerformance>  {
 	//********************************************************************************
 	
 	
+	
+	//*** Method to Find Performance records by User and 2nd Language w/ Audio *********
 	public static List<UserPerformance> findByUserLanguageWithAudio(int user_id, int language_id)
 	{
 		List<UserWords> wordlist = UserWords.findByLanguageWithAudio(language_id);
@@ -117,16 +120,25 @@ public class UserPerformance extends SugarRecord<UserPerformance>  {
 			}
 		return result;
 	}
+	//********************************************************************************
 	
+	//************ Method to delete Performance records by User ************************
 	public static void deleteByUser(int user_id)
 	{
 		UserPerformance.deleteAll(UserPerformance.class, "userid="+user_id);
 	}
+	//********************************************************************************
+	
+	
+	//************ Method to delete Performance records by User & Connection ID *******
 	public static void deleteByUserConnection(int user_id, int connection_id)
 	{
 		UserPerformance.deleteAll(UserPerformance.class, "userid="+user_id+" AND connectionid="+connection_id);
 	}
+	//********************************************************************************
 	
+	
+	//************ Method to update Performance records by ID  ************************
 	public static void updateById(Long id, int perf, long time)
 	{
 		switch(perf)
@@ -141,6 +153,7 @@ public class UserPerformance extends SugarRecord<UserPerformance>  {
 				+ "totalexposure=totalexposure+1, lasttime="+time+",lastperformance="+perf+" where id="+id);
 		}
 	}
+	//********************************************************************************
 	
 	public String toString() {
 		return "connection_id: "+connection_id+";user_id: "+user_id+";total_correct: "+
