@@ -19,7 +19,7 @@ public class UserWords extends SugarRecord<UserWords> {
 	public String audiocall;	
 	public boolean fresh;
 	public UserWords(Context ctx) {
-		super(ctx);
+		
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -32,7 +32,7 @@ public class UserWords extends SugarRecord<UserWords> {
 	String l2Name,
 	String audiocall)
 	{
-		super(ctx);
+		
 		this.connectionId=connectionId;
 		this.wordLTwoId=wordL2Id;
 		this.wordLTwo=wordL2;
@@ -54,7 +54,7 @@ public class UserWords extends SugarRecord<UserWords> {
 			String audiocall,
 			boolean fresh)
 			{
-				super(ctx);
+				
 				this.connectionId=connectionId;
 				this.wordLTwoId=wordL2Id;
 				this.wordLTwo=wordL2;

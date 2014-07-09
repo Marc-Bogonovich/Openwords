@@ -11,13 +11,13 @@ public class WordTranscription extends SugarRecord<WordTranscription>{
 	int wordLTwoId;
 	String transcription;
 	public WordTranscription(Context ctx) {
-		super(ctx);
+		
 		// TODO Auto-generated constructor stub
 	}
 	
 	public WordTranscription(Context ctx, int wordl2Id, String transcription)
 	{
-		super(ctx);
+		
 		this.wordLTwoId=wordl2Id;
 		this.transcription=transcription;
 	}

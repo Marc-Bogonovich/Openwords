@@ -21,7 +21,6 @@ public class UserPerformance extends SugarRecord<UserPerformance>  {
 	public int last_performance;
 	public int user_exclude;
 	public UserPerformance(Context context) {
-		super(context);
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -30,7 +29,6 @@ public class UserPerformance extends SugarRecord<UserPerformance>  {
 			int total_correct, int total_skipped, int total_exposure, long last_time,
 			int last_performance, int user_exclude)
 	{
-		super(c);
 		this.connection_id=connection_id;
 		this.user_id=user_id;
 		this.module = 0;
@@ -47,7 +45,7 @@ public class UserPerformance extends SugarRecord<UserPerformance>  {
 				int total_correct, int total_skipped, int total_exposure, long last_time,
 				int last_performance, int user_exclude, Context c)
 		{
-			super(c);
+			
 			this.connection_id=connection_id;
 			this.user_id=user_id;
 			this.module = module;

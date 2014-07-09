@@ -16,7 +16,7 @@ public class UserPerformanceDirty extends SugarRecord<UserPerformanceDirty> {
 	public int user_exclude;
 	
 	public UserPerformanceDirty(Context context) {
-		super(context);
+		
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -24,7 +24,7 @@ public class UserPerformanceDirty extends SugarRecord<UserPerformanceDirty> {
 			long last_time, int performance,
 			 int user_exclude, Context c)
 	{	
-		super(c);
+		
 		this.connection_id=connection_id;
 		this.user_id=user_id;
 		this.type=type;
