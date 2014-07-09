@@ -39,13 +39,13 @@ public class WordSelectionAlg extends SugarRecord<UserPerformance> {
 		double wrongRate = (perform.total_exposure - perform.total_correct) / (double)perform.total_exposure;
 		double skipRate = (perform.total_skipped) / (double)perform.total_exposure;
 		double lastTimeIndicator = 1; //null
-		if(perform.last_performance==3) lastTimeIndicator = -1; //last time is correct
-		else if(perform.last_performance==2) lastTimeIndicator = -0.5; //close
-		else if(perform.last_performance==1) lastTimeIndicator = 2; //wrong
+		if(perform.last_performance==3) lastTimeIndicator = 1; //last time is correct
+		else if(perform.last_performance==2) lastTimeIndicator = 2; //close
+		else if(perform.last_performance==1) lastTimeIndicator = 4; //wrong
 		
 		long currentTime = System.currentTimeMillis() / 1000L;
 		long timeGap = currentTime - perform.last_time;
-		long dayGap = timeGap/3600/24;
+		long dayGap = Math.max(timeGap/3600/24, 1);
 		int timeFactor = (int) (Math.log(dayGap)/Math.log(2));
 		double weight = wrongRate*10*weightOfWrong 
 				+ skipRate*10*weightOfskip 
@@ -71,6 +71,7 @@ public class WordSelectionAlg extends SugarRecord<UserPerformance> {
 		}
 		
 		Log.d("WordSelectAlg","UserWord size:"+userWord.size());
+		Log.d("WordSelectAlg","Perform size:"+perform.size());
 		if(userWord.size()>=size) {
 			for(int i=0;i<size;i++) {
 				int random = (int) (Math.random() * userWord.size());
