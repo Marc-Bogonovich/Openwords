@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -80,6 +81,7 @@ public class FragmentPCTypeEval extends Fragment {
         newWords.setOnClickListener(new OnClickListener() {
             public void onClick(View view) {
 	             getActivity().finish();
+	             saveRecord();
 	             Intent i = new Intent(activity, WordsPage.class);
 	             i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 	             activity.startActivity(i);
@@ -89,6 +91,7 @@ public class FragmentPCTypeEval extends Fragment {
     nextPlate.setOnClickListener(new OnClickListener() {
         public void onClick(View view) {
              getActivity().finish();
+             saveRecord();
              List<LeafCardTypeEval> cards = new LeafCardTypeEvalAdapter(getActivity()).getList(SIZE);
              ActivityTypeEval.setCardsPool(cards);
              startActivity(new Intent(getActivity(), ActivityTypeEval.class));
@@ -97,22 +100,33 @@ public class FragmentPCTypeEval extends Fragment {
     exit.setOnClickListener(new OnClickListener() {
         public void onClick(View view) {
              getActivity().finish();
+             saveRecord();
         }
 });
         refresh();
 
         return myFragmentView;
     }
+    
+    private void saveRecord() {
+    	//type -- module index : review -- 0, self -- 1, type -- 2, hearing -- 3
+    	//performance : 0 -- null, 1 -- wrong, 2 -- close, 3 -- right\
+    	Log.d("FragmentPCTypeEval","Save Record");
+    	for (LeafCardTypeEval card : ActivityTypeEval.getCardsPool()) {
+    		new UserPerformanceDirty(card.getConnectionId(),user_id,2,card.getLastTime(),card.getUserChoice(),0,getActivity().getApplicationContext()).save();
+    	}
+    }
 
+    //when view pager get the second last page, this page, as last page, will be pre-loaded.
+    //if place save data back to database into oncreate or other automatically executed function, writing will be run twice
+    //encapsulate it into a function, and it would be called for any operation (i.e. click the button)
     private void refresh() {
         LogUtil.logDeubg(this, "refresh");
         int totalCards, totalCorrect = 0, totalSkipped = 0;
         totalCards = ActivityTypeEval.getCardsPool().size();
 
         for (LeafCardTypeEval card : ActivityTypeEval.getCardsPool()) {
-        	//type -- module index : review -- 0, self -- 1, type -- 2, hearing -- 3
-        	//performance : 0 -- null, 1 -- wrong, 2 -- close, 3 -- right
-        	new UserPerformanceDirty(card.getConnectionId(),user_id,2,card.getLastTime(),card.getUserChoice(),0,getActivity().getApplicationContext()).save();
+        	
             if (card.getUserChoice() == 0) {
                 totalSkipped++;
             } else {

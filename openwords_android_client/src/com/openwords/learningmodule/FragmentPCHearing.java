@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -81,22 +82,25 @@ public class FragmentPCHearing extends Fragment {
         newWords.setOnClickListener(new OnClickListener() {
    	            public void onClick(View view) {
    	            	getActivity().finish();
-   	             Intent i = new Intent(activity, WordsPage.class);
-   	             i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-   	             activity.startActivity(i);
+   	            	saveRecord();
+   	            	Intent i = new Intent(activity, WordsPage.class);
+   	            	i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+   	            	activity.startActivity(i);
    	            }
    	    });
         nextPlate.setOnClickListener(new OnClickListener() {
             public void onClick(View view) {
 	             getActivity().finish();
+	             saveRecord();
 	             List<LeafCardHearing> cards = new LeafCardHearingAdapter(getActivity()).getList(SIZE);
                  ActivityHearing.setCardsPool(cards);
-                 startActivity(new Intent(getActivity(), ActivityHearing.class));
+                 startActivity(new Intent(getActivity(), ActivityHearing.class));         
             }
     });
         exit.setOnClickListener(new OnClickListener() {
             public void onClick(View view) {
 	             getActivity().finish();
+	             saveRecord();
             }
     });
 
@@ -104,7 +108,18 @@ public class FragmentPCHearing extends Fragment {
 
         return myFragmentView;
     }
+    
+    //when view pager get the second last page, this page, as last page, will be pre-loaded.
+    //if place save data back to database into oncreate or other automatically executed function, writing will be run twice
+    //encapsulate it into a function, and it would be called for any operation (i.e. click the button)
+    private void saveRecord() {
+    	Log.d("FragmentPCHearing","Save Record");
+    	for (LeafCardHearing card : ActivityHearing.getCardsPool()) {
+    		new UserPerformanceDirty(card.getConnectionId(),user_id,3,card.getLastTime(),card.getUserChoice(),0,getActivity().getApplicationContext()).save();
+    	}
+	}
 
+    //calculate the total number of correctness
     private void refresh() {
         LogUtil.logDeubg(this, "refresh");
         int totalCards, totalCorrect = 0, totalSkipped = 0;
@@ -113,7 +128,6 @@ public class FragmentPCHearing extends Fragment {
         for (LeafCardHearing card : ActivityHearing.getCardsPool()) {
         	//type -- module index : review -- 0, self -- 1, type -- 2, hearing -- 3
         	//performance : 0 -- null, 1 -- wrong, 2 -- close, 3 -- right
-        	new UserPerformanceDirty(card.getConnectionId(),user_id,3,card.getLastTime(),card.getUserChoice(),0,getActivity().getApplicationContext()).save();
             if (card.getUserChoice() == 0) {
                 totalSkipped++;
             } else {

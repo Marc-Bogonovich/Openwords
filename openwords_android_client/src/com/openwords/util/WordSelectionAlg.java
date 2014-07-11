@@ -16,8 +16,7 @@ import com.openwords.model.UserWords;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
 import com.orm.SugarRecord;
 
-public class WordSelectionAlg extends SugarRecord<UserPerformance> {
-	private int user_id;
+public class WordSelectionAlg extends SugarRecord<UserPerformance> implements WSAinterface {
 	//Higher the weight more likely the word be selected
 	private final double weightOfWrong = 0.3;
 	private final double weightOfskip = 0.3;
@@ -27,12 +26,6 @@ public class WordSelectionAlg extends SugarRecord<UserPerformance> {
 	List<UserPerformance> perform;
 	List<UserWords> userWord;
 	HashMap<Integer, Double> weightTable;
-	
-	public WordSelectionAlg() {
-		
-		// TODO Auto-generated constructor stub
-		user_id = OpenwordsSharedPreferences.getUserInfo().getUserId();
-	}
 	
 	
 	private double calcWeight(UserPerformance perform) {

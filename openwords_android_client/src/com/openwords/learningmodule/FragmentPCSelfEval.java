@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,6 +79,7 @@ public class FragmentPCSelfEval extends Fragment {
         newWords.setOnClickListener(new OnClickListener() {
             public void onClick(View view) {
 	             getActivity().finish();
+	             saveRecord();
 	             Intent i = new Intent(activity, WordsPage.class);
 	             i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 	             activity.startActivity(i);
@@ -87,6 +89,7 @@ public class FragmentPCSelfEval extends Fragment {
     nextPlate.setOnClickListener(new OnClickListener() {
         public void onClick(View view) {
              getActivity().finish();
+             saveRecord();
              List<LeafCardSelfEval> cards = new LeafCardSelfEvalAdapter(getActivity()).getList(SIZE);
              ActivitySelfEval.setCardsPool(cards);
              startActivity(new Intent(getActivity(), ActivitySelfEval.class));
@@ -95,12 +98,29 @@ public class FragmentPCSelfEval extends Fragment {
     exit.setOnClickListener(new OnClickListener() {
         public void onClick(View view) {
              getActivity().finish();
+             saveRecord();
         }
 });
         refresh();
 
         return myFragmentView;
     }
+    
+    //when view pager get the second last page, this page, as last page, will be pre-loaded.
+    //if place save data back to database into oncreate or other automatically executed function, writing will be run twice
+    //encapsulate it into a function, and it would be called for any operation (i.e. click the button)
+    private void saveRecord() {
+    	Log.d("FragmentPCSelfEval","Save Record");
+    	for (LeafCardSelfEval card : ActivitySelfEval.getCardsPool()) {
+        	//type -- module index : review -- 0, self -- 1, type -- 2, hearing -- 3
+        	//performance : 0 -- null, 1 -- wrong, 2 -- close, 3 -- right
+    		int performance = 0;
+        	if(card.getUserChoice()==null) performance = 0;
+        	else if(card.getUserChoice().equals(true)) performance = 3;
+        	else performance = 1;
+    		new UserPerformanceDirty(card.getConnectionId(),user_id,1,card.getLastTime(),performance,0,getActivity().getApplicationContext()).save();
+    	}
+	}
 
     private void refresh() {
         LogUtil.logDeubg(this, "refresh");
@@ -109,13 +129,6 @@ public class FragmentPCSelfEval extends Fragment {
         
 
         for (LeafCardSelfEval card : ActivitySelfEval.getCardsPool()) {
-        	//type -- module index : review -- 0, self -- 1, type -- 2, hearing -- 3
-        	//performance : 0 -- null, 1 -- wrong, 2 -- close, 3 -- right
-        	int performance = 0;
-        	if(card.getUserChoice()==null) performance = 0;
-        	else if(card.getUserChoice().equals(true)) performance = 3;
-        	else performance = 1;
-        	new UserPerformanceDirty(card.getConnectionId(),user_id,1,card.getLastTime(),performance,0,getActivity().getApplicationContext()).save();
             if (card.getUserChoice() == null) {
                 totalSkipped++;
             } else {

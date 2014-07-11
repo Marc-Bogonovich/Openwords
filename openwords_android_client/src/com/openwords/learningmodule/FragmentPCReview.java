@@ -82,6 +82,7 @@ public class FragmentPCReview extends Fragment {
         newWords.setOnClickListener(new OnClickListener() {
 	            public void onClick(View view) {
 		             getActivity().finish();
+		             saveRecord();
 		             Intent i = new Intent(activity, WordsPage.class);
 		             i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 		             activity.startActivity(i);
@@ -91,6 +92,7 @@ public class FragmentPCReview extends Fragment {
         nextPlate.setOnClickListener(new OnClickListener() {
             public void onClick(View view) {
 	             getActivity().finish();
+	             saveRecord();
 	             List<LeafCard> cards = new LeafCardAdapter(getActivity()).getList(SIZE);
                  ActivityReview.setCardsPool(cards);
                  startActivity(new Intent(getActivity(), ActivityReview.class));
@@ -99,6 +101,7 @@ public class FragmentPCReview extends Fragment {
         exit.setOnClickListener(new OnClickListener() {
             public void onClick(View view) {
 	             getActivity().finish();
+	             saveRecord();
             }
     });
 
@@ -106,17 +109,22 @@ public class FragmentPCReview extends Fragment {
 
         return myFragmentView;
     }
+    
+    //when view pager get the second last page, this page, as last page, will be pre-loaded.
+    //if place save data back to database into oncreate or other automatically executed function, writing will be run twice
+    //encapsulate it into a function, and it would be called for any operation (i.e. click the button)
+    private void saveRecord() {
+    	Log.d("FragmentPCReview","Save Record");
+        for (LeafCard card : ActivityReview.getCardsPool()) {
+        	//(int connection_id, int user_id, int type, long last_time, int performance, int user_exclude, Context c)
+        	new UserPerformanceDirty(card.getConnectionId(),user_id,0,card.getLastTime(),3,0,getActivity().getApplicationContext()).save();
+        }
+    }
 
     private void refresh() {
         LogUtil.logDeubg(this, "refresh");
         int totalCards = 0;
         totalCards = ActivityReview.getCardsPool().size();
-
-        for (LeafCard card : ActivityReview.getCardsPool()) {
-        	//(int connection_id, int user_id, int type, long last_time, int performance, int user_exclude, Context c)
-        	Log.d("connectionid in leaf card", Integer.toString(card.getConnectionId()));
-        	new UserPerformanceDirty(card.getConnectionId(),user_id,0,card.getLastTime(),3,0,getActivity().getApplicationContext()).save();
-        }
         
         new Thread(new Runnable(){
         	public void run()
