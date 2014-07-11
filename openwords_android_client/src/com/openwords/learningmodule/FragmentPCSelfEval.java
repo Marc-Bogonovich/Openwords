@@ -120,6 +120,12 @@ public class FragmentPCSelfEval extends Fragment {
         	else performance = 1;
     		new UserPerformanceDirty(card.getConnectionId(),user_id,1,card.getLastTime(),performance,0,getActivity().getApplicationContext()).save();
     	}
+    	
+
+        new Thread(new Runnable(){
+        	public void run()
+        	{InitDatabase.updateLocalPerformanceSummary(getActivity().getApplicationContext());}
+        }).start();
 	}
 
     private void refresh() {
@@ -138,10 +144,6 @@ public class FragmentPCSelfEval extends Fragment {
             }
         }
         
-        new Thread(new Runnable(){
-        	public void run()
-        	{InitDatabase.updateLocalPerformanceSummary(getActivity().getApplicationContext());}
-        }).start();
         
         vocabSize.setText("0 + " + totalCorrect);
         performance.setText(totalCorrect + "/" + totalCards);

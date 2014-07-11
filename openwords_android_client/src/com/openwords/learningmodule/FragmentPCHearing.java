@@ -117,6 +117,11 @@ public class FragmentPCHearing extends Fragment {
     	for (LeafCardHearing card : ActivityHearing.getCardsPool()) {
     		new UserPerformanceDirty(card.getConnectionId(),user_id,3,card.getLastTime(),card.getUserChoice(),0,getActivity().getApplicationContext()).save();
     	}
+    	
+    	new Thread(new Runnable(){
+        	public void run()
+        	{InitDatabase.updateLocalPerformanceSummary(getActivity().getApplicationContext());}
+        }).start();
 	}
 
     //calculate the total number of correctness
@@ -137,10 +142,7 @@ public class FragmentPCHearing extends Fragment {
             }
         }
         
-        new Thread(new Runnable(){
-        	public void run()
-        	{InitDatabase.updateLocalPerformanceSummary(getActivity().getApplicationContext());}
-        }).start();
+        
         
         vocabSize.setText("0 + " + totalCorrect);
         performance.setText(totalCorrect + "/" + totalCards);

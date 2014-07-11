@@ -21,6 +21,7 @@ import android.widget.ArrayAdapter;
 import android.widget.GridView;
 
 import com.openwords.R;
+import com.openwords.model.InitDatabase;
 import com.openwords.model.JSONParser;
 import com.openwords.model.UserInfo;
 import com.openwords.model.UserPerformanceDirty;
@@ -84,6 +85,14 @@ public class ChosenPage extends Activity{
 			e.printStackTrace();
 		}
 	*/	
+		new Thread(new Runnable(){
+			public void run()
+			{
+				InitDatabase.checkAndRefreshPerf(ChosenPage.this, 0, 0);
+			}
+		}).start();
+				
+				
 	}
 
 	public void GetFromServer()

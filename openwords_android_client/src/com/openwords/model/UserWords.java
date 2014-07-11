@@ -24,10 +24,10 @@ public class UserWords extends SugarRecord<UserWords> {
 	}
 	
 	public UserWords(int connectionId,
-	int wordL2Id,
-	String wordL2,
 	int wordL1Id,
 	String wordL1,
+	int wordL2Id,
+	String wordL2,
 	int l2Id,
 	String l2Name,
 	String audiocall)
@@ -41,13 +41,14 @@ public class UserWords extends SugarRecord<UserWords> {
 		this.lTwoId=l2Id;
 		this.lTwoName=l2Name;
 		this.audiocall=audiocall;
+		this.fresh=1;
 	}
 	
 	public UserWords(int connectionId,
-			int wordL2Id,
-			String wordL2,
 			int wordL1Id,
 			String wordL1,
+			int wordL2Id,
+			String wordL2,
 			int l2Id,
 			String l2Name,
 			String audiocall,

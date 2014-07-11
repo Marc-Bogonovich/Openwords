@@ -70,6 +70,7 @@ public class WordSelectionAlg extends SugarRecord<UserPerformance> implements WS
 				int random = (int) (Math.random() * userWord.size());
 				result.add(userWord.get(random).connectionId);
 				UserWords.setFreshToStale(userWord.get(random).connectionId);
+				InitDatabase.updateBackUserWords(user_id, userWord.get(i).connectionId, 0);
 			}
 			return result;
 		} else {

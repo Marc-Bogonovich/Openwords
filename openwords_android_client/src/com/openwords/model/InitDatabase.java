@@ -153,8 +153,8 @@ public class InitDatabase {
 			{
 				JSONObject childObj = jArr.getJSONObject(i);
 				UserWords uw = new UserWords(childObj.getInt("connection_id"),
-						childObj.getInt("wordl2id"),childObj.getString("wordl2name"),
 						childObj.getInt("wordl1id"),childObj.getString("wordl1name"),
+						childObj.getInt("wordl2id"),childObj.getString("wordl2name"),
 						childObj.getInt("l2id"),childObj.getString("l2name"),childObj.getString("audiocall"),
 						childObj.getInt("fresh"));
 				uw.save();
@@ -222,10 +222,12 @@ public class InitDatabase {
 			Log.d("data indirty", Integer.toString(dirtyPerf.get(0).user_id));
 			if(upList.size()>0) //if record exists then update
 			{
+				//Log.d("Place in local perf sum", "UPDATE");
 				UserPerformance.updateById(upList.get(0).getId(), dirtyPerf.get(i).performance, dirtyPerf.get(i).time);
 			}
 			else //else insert
 			{
+				//Log.d("Place in local perf sum", "INSERT");
 				int totSkp=0,totClose=0,totExp=0,totCor=0;
 				if(dirtyPerf.get(i).type>0)
 				{
@@ -255,6 +257,9 @@ public class InitDatabase {
 		UserInfo uInf = OpenwordsSharedPreferences.getUserInfo();
 		uInf.setLastPerfUpd(TimeConvertor.getUnixTime());
 		OpenwordsSharedPreferences.setUserInfo(uInf);
+		
+		//List<UserPerformance> upList=UserPerformance.findByUser(OpenwordsSharedPreferences.getUserInfo().getUserId());
+		//Log.d("UP size", Integer.toString(upList.size()));
 	}
 	
 	

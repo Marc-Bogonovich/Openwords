@@ -214,8 +214,8 @@ public class HomePage extends Activity implements OnClickListener {
         	
         	//UserWords.setStaleToFresh(5);
         	
-        	List<UserWords> uw=UserWords.listAll(UserWords.class);
-        	Log.d("*Data In User Words******", uw.get(4).connectionId+uw.get(4).wordLOne+uw.get(4).fresh);
+        	//List<UserWords> uw=UserWords.listAll(UserWords.class);
+        	//Log.d("*Data In User Words******", uw.get(0).connectionId+uw.get(0).wordLOne+uw.get(0).fresh);
 
             new Thread(new Runnable() {
                 List<LeafCard> cards;
