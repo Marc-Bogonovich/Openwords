@@ -1,3 +1,11 @@
+/*
+ * ------------------------------------------------------------------------------
+ * Author		:	Mayukh Das
+ * Description 	:	This class file contains methods for Refreshing a Syncing
+ * 					data with server where and when necessary
+ * ------------------------------------------------------------------------------
+ */
+
 package com.openwords.model;
 
 import java.util.ArrayList;
@@ -51,18 +59,13 @@ public class InitDatabase {
 			else
 			{Log.d("msg", "not connected");}
 			
-			//Updating summary----------------------
-			/*for(int i=0;i<dirtyPerf.size();i++)
-			{
-        		InitDatabase.loadPerformanceSummary(ctx,userId,dirtyPerf.get(i).connection_id,module);
-			}*/
-			
-			
+			//Updating summary performance----------------------
+						
 			InitDatabase.updateLocalPerformanceSummary(ctx);
 		}
 		//------------------------------
 		
-		if(connected==true)
+		if(connected==true) //if internet connection is available.
 		{
 				
 			
@@ -149,11 +152,11 @@ public class InitDatabase {
 			for(int i=0;i<jArr.length();i++)
 			{
 				JSONObject childObj = jArr.getJSONObject(i);
-				UserWords uw = new UserWords(ctx,childObj.getInt("connection_id"),
+				UserWords uw = new UserWords(childObj.getInt("connection_id"),
 						childObj.getInt("wordl2id"),childObj.getString("wordl2name"),
 						childObj.getInt("wordl1id"),childObj.getString("wordl1name"),
 						childObj.getInt("l2id"),childObj.getString("l2name"),childObj.getString("audiocall"),
-						childObj.getBoolean("fresh"));
+						childObj.getInt("fresh"));
 				uw.save();
 				
 				//loading transcription
@@ -258,7 +261,7 @@ public class InitDatabase {
 	
 	
 	/////////////////////////////////////////////////////////////////
-	public static void updateBackUserWords(int user,int connection, boolean fresh)
+	public static void updateBackUserWords(int user,int connection, int fresh)
 	{
 		
 			try
@@ -269,7 +272,7 @@ public class InitDatabase {
 				List<NameValuePair> params1 = new ArrayList<NameValuePair>();
 				params1.add(new BasicNameValuePair("user",Integer.toString(user)));
 				params1.add(new BasicNameValuePair("con",Integer.toString(connection)));
-				params1.add(new BasicNameValuePair("fresh",Boolean.toString(fresh)));
+				params1.add(new BasicNameValuePair("fresh",Integer.toString(fresh)));
 				JSONParser jsonParse = new JSONParser();
 				JSONObject jObj = jsonParse.makeHttpRequest(url_writeback_user_words, "POST", params1);
                 if(jObj.getInt("success")==1)

@@ -40,7 +40,7 @@ public class RandomSelectAlg implements WSAinterface {
 			for(int i=0;i<userWord.size();i++) {
 				result.add(userWord.get(i).connectionId);
 				UserWords.setFreshToStale(userWord.get(i).connectionId);
-				InitDatabase.updateBackUserWords(user_id, userWord.get(i).connectionId, false);
+				InitDatabase.updateBackUserWords(user_id, userWord.get(i).connectionId, 0);
 			}
 		}
 		size = size - result.size();
