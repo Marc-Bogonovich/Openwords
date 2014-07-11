@@ -25,6 +25,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Spinner;
 
 import com.openwords.R;
 import com.openwords.model.InitDatabase;
@@ -95,6 +96,7 @@ public class WordsPage extends Activity implements OnClickListener {
              break;
          case R.id.wordsPage_Button_viewMyWords:
              Log.d("Click","viewMyWords");
+             viewWordsButtonClick();
              break;
          case R.id.wordsPage_ImageView_syncButton:
              Log.d("Click","syncButton");
@@ -194,6 +196,45 @@ public class WordsPage extends Activity implements OnClickListener {
 		});
 		dg.create().show();
 	
+	}
+	
+	
+	private void viewWordsButtonClick() {
+		final List<UserWords> userwords = UserWords.findByLanguage(OpenwordsSharedPreferences.getUserInfo().getLang_id());
+		CharSequence[] wordList = new String[userwords.size()];
+		mSelectedItems = new ArrayList<Integer>();
+		for(int i=0;i<userwords.size();i++) {
+			wordList[i] = userwords.get(i).wordLTwo;
+			if(userwords.get(i).fresh) { //if this word is fresh
+				mSelectedItems.add(i);
+			}
+		}
+		dg = new AlertDialog.Builder(this);
+          dg.setTitle("View words");
+          dg.setMultiChoiceItems(wordList, null,
+                      new DialogInterface.OnMultiChoiceClickListener() {
+               @Override
+               public void onClick(DialogInterface dialog, int which,
+                       boolean isChecked) {
+                   if (isChecked) {
+                       // If the user checked the item, add it to the selected items
+                       mSelectedItems.add(which);
+                   } else if (mSelectedItems.contains(which)) {
+                       // Else, if the item is already in the array, remove it 
+                       mSelectedItems.remove(Integer.valueOf(which));
+                   }
+               }
+           })
+    // Set the action buttons
+           .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+               @Override
+               public void onClick(DialogInterface dialog, int id) {
+            	   dialog.dismiss();
+               }
+           });
+
+          dg.create().show();;
+
 	}
 	
 	//
