@@ -244,7 +244,7 @@ public class WordsPage extends Activity implements OnClickListener {
 		mSelectedItems = new ArrayList<Integer>();
 		for(int i=0;i<userwords.size();i++) {
 			wordList[i] = userwords.get(i).wordLTwo;
-			if(userwords.get(i).fresh) { //if this word is fresh
+			if(userwords.get(i).fresh==1) { //if this word is fresh
 				mSelectedItems.add(i);
 			}
 		}

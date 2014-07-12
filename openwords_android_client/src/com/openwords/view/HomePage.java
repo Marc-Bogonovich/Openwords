@@ -18,6 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
+
 import com.openwords.R;
 import com.openwords.learningmodule.ActivityHearing;
 import com.openwords.learningmodule.ActivityReview;
@@ -38,12 +39,15 @@ import com.openwords.model.LeafCardSelfEvalAdapter;
 import com.openwords.model.LeafCardTypeEval;
 import com.openwords.model.LeafCardTypeEvalAdapter;
 import com.openwords.model.UserInfo;
+import com.openwords.model.UserWords;
 import com.openwords.util.HomePageTool;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
 import com.openwords.view.actionbar.ActionBarBuilder;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
@@ -207,6 +211,11 @@ public class HomePage extends Activity implements OnClickListener {
 //        	WordTranscription.deleteAll(WordTranscription.class);
 //        	UserWords.deleteAll(UserWords.class);
 //        	new InsertData(HomePage.this);
+        	
+        	//UserWords.setStaleToFresh(5);
+        	
+        	//List<UserWords> uw=UserWords.listAll(UserWords.class);
+        	//Log.d("*Data In User Words******", uw.get(0).connectionId+uw.get(0).wordLOne+uw.get(0).fresh);
 
             new Thread(new Runnable() {
                 List<LeafCard> cards;

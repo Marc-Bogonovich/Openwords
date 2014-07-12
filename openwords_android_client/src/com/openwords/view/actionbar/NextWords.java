@@ -87,8 +87,10 @@ public class NextWords extends Activity implements OnClickListener{
 							JSONObject c=jArrMain.getJSONObject(j);
 							UserWords uwRec = new UserWords(c.getInt("connection_id"),
 									c.getInt("wordl1"),c.getString("wordl1_text"),c.getInt("wordl2"),
-									c.getString("wordl2_text"),c.getInt("l2id"),c.getString("l2name"),c.getString("audio"));
+									c.getString("wordl2_text"),c.getInt("l2id"),c.getString("l2name"),c.getString("audio"),1);
 							uwRec.save();
+							
+							Log.d("**inserted word", c.getString("wordl1_text")+c.getString("trans"));
 							
 							//writing transcription
 							WordTranscription.insertMerge(c.getInt("wordl2"), c.getString("trans"));
@@ -106,6 +108,8 @@ public class NextWords extends Activity implements OnClickListener{
 					}
 				}
 				
+				//List<UserWords> uw = UserWords.listAll(UserWords.class);
+				//Log.d("**Inserted Words", ""+uw.get(0).wordLOne+uw.get(0).fresh);
 				//sending information to server
 				new Thread(new Runnable() {
 	                public void run() {

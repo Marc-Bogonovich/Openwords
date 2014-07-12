@@ -115,6 +115,11 @@ public class FragmentPCTypeEval extends Fragment {
     	for (LeafCardTypeEval card : ActivityTypeEval.getCardsPool()) {
     		new UserPerformanceDirty(card.getConnectionId(),user_id,2,card.getLastTime(),card.getUserChoice(),0,getActivity().getApplicationContext()).save();
     	}
+    	
+    	new Thread(new Runnable(){
+        	public void run()
+        	{InitDatabase.updateLocalPerformanceSummary(getActivity().getApplicationContext());}
+        }).start();
     }
 
     //when view pager get the second last page, this page, as last page, will be pre-loaded.
@@ -136,10 +141,7 @@ public class FragmentPCTypeEval extends Fragment {
             }
         }
         
-        new Thread(new Runnable(){
-        	public void run()
-        	{InitDatabase.updateLocalPerformanceSummary(getActivity().getApplicationContext());}
-        }).start();
+        
         
         vocabSize.setText("0 + " + totalCorrect);
         performance.setText(totalCorrect + "/" + totalCards);

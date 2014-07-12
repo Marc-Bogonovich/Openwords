@@ -3,6 +3,7 @@ package com.openwords.model;
 import java.util.List;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.orm.SugarRecord;
 
@@ -36,6 +37,7 @@ public class WordTranscription extends SugarRecord<WordTranscription>{
 			WordTranscription wt= new WordTranscription(word,trans);
 			wt.save();
 		}
+		Log.d("trans insert", "inserted");
 	}
 
 }

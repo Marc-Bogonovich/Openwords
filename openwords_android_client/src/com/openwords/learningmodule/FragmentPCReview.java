@@ -119,6 +119,11 @@ public class FragmentPCReview extends Fragment {
         	//(int connection_id, int user_id, int type, long last_time, int performance, int user_exclude, Context c)
         	new UserPerformanceDirty(card.getConnectionId(),user_id,0,card.getLastTime(),3,0,getActivity().getApplicationContext()).save();
         }
+        
+        new Thread(new Runnable(){
+        	public void run()
+        	{InitDatabase.updateLocalPerformanceSummary(getActivity().getApplicationContext());}
+        }).start();
     }
 
     private void refresh() {
@@ -126,10 +131,7 @@ public class FragmentPCReview extends Fragment {
         int totalCards = 0;
         totalCards = ActivityReview.getCardsPool().size();
         
-        new Thread(new Runnable(){
-        	public void run()
-        	{InitDatabase.updateLocalPerformanceSummary(getActivity().getApplicationContext());}
-        }).start();
+        
         
         vocabSize.setText("329"); //wait for varun figure out how to count how many word the user know
         performance.setText(totalCards + "/" + totalCards);

@@ -17,17 +17,17 @@ public class UserWords extends SugarRecord<UserWords> {
 	public int lTwoId;
 	public String lTwoName;
 	public String audiocall;	
-	public boolean fresh;
+	public int fresh;
 	public UserWords() {
 		
 		// TODO Auto-generated constructor stub
 	}
 	
 	public UserWords(int connectionId,
-	int wordL2Id,
-	String wordL2,
 	int wordL1Id,
 	String wordL1,
+	int wordL2Id,
+	String wordL2,
 	int l2Id,
 	String l2Name,
 	String audiocall)
@@ -41,18 +41,18 @@ public class UserWords extends SugarRecord<UserWords> {
 		this.lTwoId=l2Id;
 		this.lTwoName=l2Name;
 		this.audiocall=audiocall;
-		this.fresh=true;
+		this.fresh=1;
 	}
 	
-	public UserWords(Context ctx, int connectionId,
-			int wordL2Id,
-			String wordL2,
+	public UserWords(int connectionId,
 			int wordL1Id,
 			String wordL1,
+			int wordL2Id,
+			String wordL2,
 			int l2Id,
 			String l2Name,
 			String audiocall,
-			boolean fresh)
+			int fresh)
 			{
 				
 				this.connectionId=connectionId;
@@ -86,19 +86,24 @@ public class UserWords extends SugarRecord<UserWords> {
 	
 	public static List<UserWords> findFresh()
 	{
-		List<UserWords> uw = UserWords.find(UserWords.class, "fresh='true'");
+		List<UserWords> uw = UserWords.find(UserWords.class, "fresh=1");
 		return uw;
 	}
 	
 	public static List<UserWords> findFreshWithAudio()
 	{
-		List<UserWords> uw = UserWords.find(UserWords.class, "fresh='true' and audiocall<>'null'");
+		List<UserWords> uw = UserWords.find(UserWords.class, "fresh=1 and audiocall<>'null'");
 		return uw;
+	}
+	
+	public static void setStaleToFresh(int connection_id)
+	{
+		UserWords.executeQuery("UPDATE user_words SET fresh=1 where connection_id="+connection_id);
 	}
 	
 	public static void setFreshToStale(int connection_id)
 	{
-		UserWords.executeQuery("UPDATE user_words SET fresh='false' where connection_id="+connection_id);
+		UserWords.executeQuery("UPDATE user_words SET fresh=0 where connection_id="+connection_id);
 	}
 
 }
