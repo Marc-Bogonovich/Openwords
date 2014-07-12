@@ -12,8 +12,11 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,6 +29,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.openwords.R;
 import com.openwords.model.InitDatabase;
@@ -65,10 +69,45 @@ public class WordsPage extends Activity implements OnClickListener {
         final ImageView syncButton = (ImageView) findViewById(R.id.wordsPage_ImageView_syncButton);
         syncButton.setOnTouchListener(new OnTouchListener() {
 
+
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-            	syncButton.setImageResource(R.drawable.icon_wordpage_syncbutton_unpressed);
-            	InitDatabase.checkAndRefreshPerf(WordsPage.this, 0, 1);
+            	syncButton.setImageResource(R.drawable.icon_wordpage_syncbutton_pressed);
+            	v.setEnabled(false);
+            	AsyncTask<Void, Void, Boolean> task = new AsyncTask<Void, Void, Boolean>() {
+            		ProgressDialog progress;
+					@Override
+					protected void onPreExecute() {
+						progress = new ProgressDialog(WordsPage.this);
+						progress.setMessage("Synchronizing with server...");
+						progress.setCancelable(false);
+						progress.setIndeterminate(true);
+						progress.show();
+					}
+						
+					@Override
+					protected Boolean doInBackground(Void... arg0) {
+						//We could modify this function to return a boolean value
+						InitDatabase.checkAndRefreshPerf(WordsPage.this, 0, 1);
+						return true;
+					}
+					
+					@Override
+					protected void onPostExecute(Boolean result) {
+						if (progress!=null) {
+							progress.dismiss();
+							if(result.equals(true)) {
+								Toast.makeText(WordsPage.this, "Push code to the server successfully", Toast.LENGTH_SHORT).show();
+							} else {
+								Toast.makeText(WordsPage.this, "Cannot connect with the server", Toast.LENGTH_SHORT).show();
+							}
+							
+							syncButton.setEnabled(true);
+							syncButton.setImageResource(R.drawable.icon_wordpage_syncbutton_unpressed);
+						}
+					}
+            	};
+            	task.execute((Void[])null);
 				return false;
             }
             
@@ -351,4 +390,5 @@ public class WordsPage extends Activity implements OnClickListener {
                 }).create().show();
     }
 }
+
 
