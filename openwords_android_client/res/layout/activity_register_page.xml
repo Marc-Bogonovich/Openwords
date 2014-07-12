@@ -70,6 +70,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/registerPage_EditText_password2"
                 android:layout_centerHorizontal="true"
+                android:background="@drawable/button_custom"
                 android:layout_marginTop="20dp"
                 android:text="@string/registerPage_Button_registerSubmit" />
         </LinearLayout>

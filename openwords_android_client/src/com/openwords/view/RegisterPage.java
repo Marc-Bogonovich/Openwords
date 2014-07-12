@@ -175,7 +175,9 @@ public class RegisterPage extends Activity implements OnClickListener {
             	usernameExist = true;
             	  runOnUiThread(new Runnable() {
                       public void run() {
-                          Toast.makeText(RegisterPage.this,"Username exists", Toast.LENGTH_SHORT).show();
+                    	  Toast toast = Toast.makeText(RegisterPage.this,"Username exists", Toast.LENGTH_SHORT);
+                          toast.setGravity(Gravity.TOP , 0, 0);
+                          toast.show();
                       }
                   });            
             }

@@ -86,24 +86,24 @@ public class UserWords extends SugarRecord<UserWords> {
 	
 	public static List<UserWords> findFresh()
 	{
-		List<UserWords> uw = UserWords.find(UserWords.class, "fresh=1");
+		List<UserWords> uw = UserWords.find(UserWords.class, "fresh='1'");
 		return uw;
 	}
 	
 	public static List<UserWords> findFreshWithAudio()
 	{
-		List<UserWords> uw = UserWords.find(UserWords.class, "fresh=1 and audiocall<>'null'");
+		List<UserWords> uw = UserWords.find(UserWords.class, "fresh='1' and audiocall<>'null'");
 		return uw;
 	}
 	
 	public static void setStaleToFresh(int connection_id)
 	{
-		UserWords.executeQuery("UPDATE user_words SET fresh=1 where connection_id="+connection_id);
+		UserWords.executeQuery("UPDATE user_words SET fresh='1' where connection_id="+connection_id);
 	}
 	
 	public static void setFreshToStale(int connection_id)
 	{
-		UserWords.executeQuery("UPDATE user_words SET fresh=0 where connection_id="+connection_id);
+		UserWords.executeQuery("UPDATE user_words SET fresh='0' where connection_id="+connection_id);
 	}
 
 }

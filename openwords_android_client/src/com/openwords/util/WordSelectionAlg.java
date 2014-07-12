@@ -117,10 +117,10 @@ public class WordSelectionAlg extends SugarRecord<UserPerformance> implements WS
 			        if(perform.get(j).connection_id==lastConnID) {
 			        	continue outerloop;
 			        } else lastConnID = perform.get(j).connection_id;
-			        Log.d("Selected connection_id",""+perform.get(j).connection_id);
 			        break;
 			    }
 			}
+			Log.d("Selected connection_id",""+perform.get(randomIndex).connection_id);
 			result.add(perform.get(randomIndex).connection_id);
 		}
 		return result;
