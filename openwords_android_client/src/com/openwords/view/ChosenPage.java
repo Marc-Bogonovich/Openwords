@@ -93,7 +93,7 @@ public class ChosenPage extends Activity{
 			}
 		}).start();
 			*/
-		
+		// Refrshing User Data --- in Aysnc Task
 		new RefreshData().execute();
 				
 	}
