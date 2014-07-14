@@ -104,7 +104,7 @@ public class ActivityTypeEval extends FragmentActivity {
 
     @Override
     public void onBackPressed() {
-    	OpenwordsSharedPreferences.setTypeEvaluationProgress(new Gson().toJson(new TypeEvalProgress(CardsPool, CurrentCard)));
+    	OpenwordsSharedPreferences.setTypeEvaluationProgress(new Gson().toJson(new ProgressTypeEval(CardsPool, CurrentCard)));
     	ActivityTypeEval.super.onBackPressed();
     	//        new AlertDialog.Builder(this)
 //                .setTitle("Really Quit?")

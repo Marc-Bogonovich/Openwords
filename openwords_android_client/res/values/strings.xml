@@ -21,7 +21,7 @@
     <string name="title_activity_NextWords">NextWords</string>
     <string name="title_activity_main1">MainActivity</string>
     <string name="title_activity_homePage">HomePage</string>
-    <string name="title_activity_registerPage">LanguagePage</string>
+    <string name="title_activity_registerPage">RegisterPage</string>
     <string name="title_activity_languagePage">LanguagePage</string>
     <string name="paragraph1_text_languagePage">What language do you want to learn?</string>
     <string name="paragraph2_text_languagePage">Choose one</string>
@@ -55,12 +55,6 @@
     </string-array>
 
     <string name="homePage_Spinner_chooseLanguage">Language spinner</string>
-
-    <string-array name="homePage_Spinner_language_array">
-        <item>中文</item>
-        <item>Française</item>
-        <item>Add more</item>
-    </string-array>
 
     <string name="homePage_item_profile">Profile</string>
     <string name="homePage_item_settings">Settings</string>

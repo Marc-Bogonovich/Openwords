@@ -36,7 +36,7 @@ public class WordSelectionAlg extends SugarRecord<UserPerformance> implements WS
 		else if(perform.last_performance==2) lastTimeIndicator = 2; //close
 		else if(perform.last_performance==1) lastTimeIndicator = 4; //wrong
 		
-		long currentTime = System.currentTimeMillis() / 1000L;
+		long currentTime = TimeConvertor.getUnixTime() / 1000L;
 		long timeGap = currentTime - perform.last_time;
 		long dayGap = Math.max(timeGap/3600/24, 1);
 		int timeFactor = (int) (Math.log(dayGap)/Math.log(2));

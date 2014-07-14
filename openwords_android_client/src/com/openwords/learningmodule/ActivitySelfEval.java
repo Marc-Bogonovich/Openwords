@@ -104,7 +104,7 @@ public class ActivitySelfEval extends FragmentActivity {
 
     @Override
     public void onBackPressed() {
-    	 OpenwordsSharedPreferences.setSelfEvaluationProgress(new Gson().toJson(new SelfEvalProgress(CardsPool, CurrentCard)));
+    	 OpenwordsSharedPreferences.setSelfEvaluationProgress(new Gson().toJson(new ProgressSelfEval(CardsPool, CurrentCard)));
     	 ActivitySelfEval.super.onBackPressed();
     	 //        new AlertDialog.Builder(this)
 //                .setTitle("Really Quit?")

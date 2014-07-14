@@ -104,7 +104,7 @@ public class ActivityReview extends FragmentActivity {
 
     @Override
     public void onBackPressed() {
-    	 OpenwordsSharedPreferences.setReviewProgress(new Gson().toJson(new Progress(CardsPool, CurrentCard)));
+    	 OpenwordsSharedPreferences.setReviewProgress(new Gson().toJson(new ProgressReview(CardsPool, CurrentCard)));
     	 ActivityReview.super.onBackPressed();
     	 //        new AlertDialog.Builder(this)
 //                .setTitle("Really Quit?")
