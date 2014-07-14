@@ -51,48 +51,7 @@ public class ChosenPage extends Activity{
 		chosenview.setAdapter(chosenadapter);
 		
 		
-		//***********db test********
 		
-		//UserPerformanceDirty upd = new UserPerformanceDirty(this);
-		//upd.connection_id=3;
-		//upd.user_id=OpenwordsSharedPreferences.getUserInfo().getUserId();
-		//upd.save();
-		//************************
-		
-		/*
-		//-------test----json parameter----
-		try
-		{
-		JSONObject jo = new JSONObject();
-		JSONArray ja = new JSONArray();
-		JSONObject jParent = new JSONObject();
-		
-		jo.put("user", 1);
-		jo.put("name", new String("Mayukh"));
-		ja.put(jo);
-		
-		JSONObject jo1 = new JSONObject();
-		
-		jo1.put("user", 2);
-		jo1.put("name", new String("maydas"));
-		ja.put(jo1);
-		
-		jParent.put("params", ja);
-		
-		Log.d("display", jParent.toString());
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-		}
-	*/	/*
-		new Thread(new Runnable(){
-			public void run()
-			{
-				InitDatabase.checkAndRefreshPerf(ChosenPage.this, 0, 0);
-			}
-		}).start();
-			*/
 		// Refrshing User Data --- in Aysnc Task
 		new RefreshData().execute();
 				
