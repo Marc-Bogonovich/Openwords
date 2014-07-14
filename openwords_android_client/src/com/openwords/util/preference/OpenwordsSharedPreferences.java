@@ -4,10 +4,10 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import com.google.gson.Gson;
-import com.openwords.learningmodule.HearingProgress;
-import com.openwords.learningmodule.Progress;
-import com.openwords.learningmodule.SelfEvalProgress;
-import com.openwords.learningmodule.TypeEvalProgress;
+import com.openwords.learningmodule.ProgressHearing;
+import com.openwords.learningmodule.ProgressReview;
+import com.openwords.learningmodule.ProgressSelfEval;
+import com.openwords.learningmodule.ProgressTypeEval;
 import com.openwords.model.UserInfo;
 
 public class OpenwordsSharedPreferences {
@@ -64,20 +64,20 @@ public class OpenwordsSharedPreferences {
         return editor.commit();
     }
 
-    public static Progress getReviewProgress() {
+    public static ProgressReview getReviewProgress() {
         String json = pref.getString(REVIEW_PROGRESS, null);
         if (json == null) {
             return null;
         }
-        return new Gson().fromJson(json, Progress.class);
+        return new Gson().fromJson(json, ProgressReview.class);
     }
 
-    public static SelfEvalProgress getSelfEvaluationProgress() {
+    public static ProgressSelfEval getSelfEvaluationProgress() {
         String json = pref.getString(SELF_EVALUATION_PROGRESS, null);
         if (json == null) {
             return null;
         }
-        return new Gson().fromJson(json, SelfEvalProgress.class);
+        return new Gson().fromJson(json, ProgressSelfEval.class);
     }
 
     public static boolean setSelfEvaluationProgress(String json) {
@@ -86,12 +86,12 @@ public class OpenwordsSharedPreferences {
         return editor.commit();
     }
 
-    public static TypeEvalProgress getTypeEvaluationProgress() {
+    public static ProgressTypeEval getTypeEvaluationProgress() {
         String json = pref.getString(TYPE_EVALUATION_PROGRESS, null);
         if (json == null) {
             return null;
         }
-        return new Gson().fromJson(json, TypeEvalProgress.class);
+        return new Gson().fromJson(json, ProgressTypeEval.class);
     }
 
     public static boolean setTypeEvaluationProgress(String json) {
@@ -106,12 +106,12 @@ public class OpenwordsSharedPreferences {
         return editor.commit();
     }
 
-    public static HearingProgress getHearingProgress() {
+    public static ProgressHearing getHearingProgress() {
         String json = pref.getString(HEARING_PROGRESS, null);
         if (json == null) {
             return null;
         }
-        return new Gson().fromJson(json, HearingProgress.class);
+        return new Gson().fromJson(json, ProgressHearing.class);
     }
 
     public static boolean getHidePortal() {

@@ -12,32 +12,22 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Toast;
-
-import com.google.gson.Gson;
 import com.openwords.R;
-import com.openwords.learningmodule.ActivitySelfEval;
-import com.openwords.learningmodule.Progress;
-import com.openwords.learningmodule.SelfEvalProgress;
 import com.openwords.model.InitDatabase;
 import com.openwords.model.JSONParser;
-import com.openwords.model.LeafCardSelfEval;
 import com.openwords.model.UserInfo;
 import com.openwords.tts.Speak;
 import com.openwords.util.InternetCheck;
 import com.openwords.util.UIHelper;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
-
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.http.NameValuePair;

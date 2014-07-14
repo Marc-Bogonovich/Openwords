@@ -24,10 +24,10 @@ import com.openwords.learningmodule.ActivityHearing;
 import com.openwords.learningmodule.ActivityReview;
 import com.openwords.learningmodule.ActivitySelfEval;
 import com.openwords.learningmodule.ActivityTypeEval;
-import com.openwords.learningmodule.HearingProgress;
-import com.openwords.learningmodule.Progress;
-import com.openwords.learningmodule.SelfEvalProgress;
-import com.openwords.learningmodule.TypeEvalProgress;
+import com.openwords.learningmodule.ProgressHearing;
+import com.openwords.learningmodule.ProgressReview;
+import com.openwords.learningmodule.ProgressSelfEval;
+import com.openwords.learningmodule.ProgressTypeEval;
 import com.openwords.model.InitDatabase;
 import com.openwords.model.JSONParser;
 import com.openwords.model.LeafCard;
@@ -44,6 +44,7 @@ import com.openwords.util.HomePageTool;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
 import com.openwords.view.actionbar.ActionBarBuilder;
+import com.openwords.view.actionbar.WordsPage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -91,23 +92,24 @@ public class HomePage extends Activity implements OnClickListener {
 
         userinfo = OpenwordsSharedPreferences.getUserInfo();
         Log.d("UserID in LangPage", Integer.toString(userinfo.getUserId()));
+        
+        pDialog = ProgressDialog.show(HomePage.this, "",
+                "Load information from the server", true);
 
         runOnUiThread(new Runnable() {//Please stop spawning tasks on UI Thread, use AsyncTask instead, unless you don't want user to touch anything before the page is completely rendered, then please prompt a progress dialog
             public void run() {
                 readFromServer();
+                pDialog.dismiss();
             }
         });
 
-        //for example:
-        /*new AsyncTask<Void, Void, Void>() {
-
-         @Override
-         protected Void doInBackground(Void... paramss) {
-         readFromServer();
-         ......and any asynchronous tasks
-         return null;
-         }
-         }.execute();*/
+//       new AsyncTask<Void, Void, Void>() {
+//         @Override
+//         protected Void doInBackground(Void... params) {
+//        	 readFromServer();
+//        	 return null;
+//         	}
+//         }.execute((Void[])null);
         addItemsOnBegin();
         Button testPageGo = (Button) findViewById(R.id.homePage_Button_testPageGo);
         testPageGo.setOnClickListener(HomePage.this);
@@ -122,7 +124,7 @@ public class HomePage extends Activity implements OnClickListener {
             }
             
         }
-
+        //insert item into chooseLanguage spinner
         ArrayAdapter<String> dropdownadapter = new ArrayAdapter<String>(HomePage.this, android.R.layout.simple_list_item_1, android.R.id.text1, strArr);
         l2_dropdown.setAdapter(dropdownadapter);
         l2_dropdown.setOnItemSelectedListener(new OnItemSelectedListener() {
@@ -222,7 +224,7 @@ public class HomePage extends Activity implements OnClickListener {
 
                 public void run() {
                     //InitDatabase.checkAndRefreshPerf(HomePage.this, 0, 1);
-                    final Progress progress = OpenwordsSharedPreferences.getReviewProgress();
+                    final ProgressReview progress = OpenwordsSharedPreferences.getReviewProgress();
                     if (progress == null) {
 
                         cards = new LeafCardAdapter(HomePage.this).getList(SIZE);
@@ -252,7 +254,7 @@ public class HomePage extends Activity implements OnClickListener {
 
                 public void run() {
                     //InitDatabase.checkAndRefreshPerf(HomePage.this, 1, 1);
-                    final SelfEvalProgress progress = OpenwordsSharedPreferences.getSelfEvaluationProgress();
+                    final ProgressSelfEval progress = OpenwordsSharedPreferences.getSelfEvaluationProgress();
                     if (progress == null) {
 
                         cards = new LeafCardSelfEvalAdapter(HomePage.this).getList(SIZE);
@@ -291,7 +293,7 @@ public class HomePage extends Activity implements OnClickListener {
 
                 public void run() {
                     //InitDatabase.checkAndRefreshPerf(HomePage.this, 2, 1);
-                    final TypeEvalProgress progress = OpenwordsSharedPreferences.getTypeEvaluationProgress();
+                    final ProgressTypeEval progress = OpenwordsSharedPreferences.getTypeEvaluationProgress();
                     if (progress == null) {
 
                         cards = new LeafCardTypeEvalAdapter(HomePage.this).getList(SIZE);
@@ -321,7 +323,7 @@ public class HomePage extends Activity implements OnClickListener {
 
                 public void run() {
                     //InitDatabase.checkAndRefreshPerf(HomePage.this, 3, 1);
-                    final HearingProgress progress = OpenwordsSharedPreferences.getHearingProgress();
+                    final ProgressHearing progress = OpenwordsSharedPreferences.getHearingProgress();
                     if (progress == null) {
 
                         cards = new LeafCardHearingAdapter(HomePage.this).getList(SIZE);
