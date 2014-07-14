@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.method.PasswordTransformationMethod;
@@ -260,8 +261,8 @@ public class LoginPage extends Activity implements OnClickListener {
                 	public void run()
                 	{InitDatabase.checkAndRefreshPerf(LoginPage.this, 0, 0);}
                 }).start();*/
-                InitDatabase.checkAndRefreshPerf(LoginPage.this, 0, 0);
-                
+                //InitDatabase.checkAndRefreshPerf(LoginPage.this, 0, 0);
+                new RefreshData().execute();
                 
                 //---------------------------------------
                 
@@ -313,4 +314,27 @@ public class LoginPage extends Activity implements OnClickListener {
         cleanServices();
         Toast.makeText(this, "Bye Bye", Toast.LENGTH_SHORT).show();
     }
+    
+    //********************* AYSNC TASK for refreshing data in background **********************
+		 private class RefreshData extends AsyncTask<Void, Void, Void> {
+			 @Override
+				protected Void doInBackground(Void... arg0) {
+					// TODO Auto-generated method stub
+				 Log.d("******in asynctasck", "yes");
+				 InitDatabase.checkAndRefreshPerf(LoginPage.this, 0, 0);
+					return null;
+				}
+		
+		     protected void onProgressUpdate(Integer... progress) {
+		         //setProgressPercent(progress[0]);
+		     }
+		
+		     protected void onPostExecute(Long result) {
+		         //showDialog("Refreshed");
+		    	 Log.d("Refresh Complete", "yes");
+		     }
+
+			
+		 }
+     
 }

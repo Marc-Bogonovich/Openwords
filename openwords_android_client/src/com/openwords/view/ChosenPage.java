@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.Log;
@@ -84,14 +85,16 @@ public class ChosenPage extends Activity{
 		{
 			e.printStackTrace();
 		}
-	*/	
+	*/	/*
 		new Thread(new Runnable(){
 			public void run()
 			{
 				InitDatabase.checkAndRefreshPerf(ChosenPage.this, 0, 0);
 			}
 		}).start();
-				
+			*/
+		
+		new RefreshData().execute();
 				
 	}
 
@@ -151,5 +154,27 @@ public class ChosenPage extends Activity{
     	finish();
     	return true;
     }
+    
+  //********************* AYSNC TASK for refreshing data in background **********************
+	 private class RefreshData extends AsyncTask<Void, Void, Void> {
+		 @Override
+			protected Void doInBackground(Void... arg0) {
+				// TODO Auto-generated method stub
+			 Log.d("******in asynctasck", "yes");
+			 InitDatabase.checkAndRefreshPerf(ChosenPage.this, 0, 0);
+				return null;
+			}
+	
+	     protected void onProgressUpdate(Integer... progress) {
+	         //setProgressPercent(progress[0]);
+	     }
+	
+	     protected void onPostExecute(Long result) {
+	         //showDialog("Refreshed");
+	    	 Log.d("Refresh Complete", "yes");
+	     }
+
+		
+	 }
 
 }
