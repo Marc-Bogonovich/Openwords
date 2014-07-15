@@ -31,7 +31,7 @@ import com.openwords.learningmodule.ProgressTypeEval;
 import com.openwords.model.InitDatabase;
 import com.openwords.model.JSONParser;
 import com.openwords.model.LeafCard;
-import com.openwords.model.LeafCardAdapter;
+import com.openwords.model.LeafCardReviewAdapter;
 import com.openwords.model.LeafCardHearing;
 import com.openwords.model.LeafCardHearingAdapter;
 import com.openwords.model.LeafCardSelfEval;
@@ -46,7 +46,6 @@ import com.openwords.util.WordsPageTool;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
 import com.openwords.view.actionbar.ActionBarBuilder;
-import com.openwords.view.actionbar.WordsPage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -167,6 +166,8 @@ public class HomePage extends Activity implements OnClickListener {
         
         if(language_position != -1)
         	l2_dropdown.setSelection(language_position);
+        
+
     }
 
     public void addItemsOnBegin() {
@@ -269,7 +270,7 @@ public class HomePage extends Activity implements OnClickListener {
                     final ProgressReview progress = OpenwordsSharedPreferences.getReviewProgress();
                     if (progress == null) {
 
-                        cards = new LeafCardAdapter(HomePage.this).getList(SIZE);
+                        cards = new LeafCardReviewAdapter().getList(SIZE);
                         if (cards.size() <= 1) {
                             runOnUiThread(new Runnable() {
                                 @Override
@@ -299,7 +300,7 @@ public class HomePage extends Activity implements OnClickListener {
                     final ProgressSelfEval progress = OpenwordsSharedPreferences.getSelfEvaluationProgress();
                     if (progress == null) {
 
-                        cards = new LeafCardSelfEvalAdapter(HomePage.this).getList(SIZE);
+                        cards = new LeafCardSelfEvalAdapter().getList(SIZE);
                         if (cards.size() <= 1) {
                             runOnUiThread(new Runnable() {
                                 @Override
@@ -338,7 +339,7 @@ public class HomePage extends Activity implements OnClickListener {
                     final ProgressTypeEval progress = OpenwordsSharedPreferences.getTypeEvaluationProgress();
                     if (progress == null) {
 
-                        cards = new LeafCardTypeEvalAdapter(HomePage.this).getList(SIZE);
+                        cards = new LeafCardTypeEvalAdapter().getList(SIZE);
                         if (cards.size() <= 1) {
                             runOnUiThread(new Runnable() {
                                 @Override
@@ -368,7 +369,7 @@ public class HomePage extends Activity implements OnClickListener {
                     final ProgressHearing progress = OpenwordsSharedPreferences.getHearingProgress();
                     if (progress == null) {
 
-                        cards = new LeafCardHearingAdapter(HomePage.this).getList(SIZE);
+                        cards = new LeafCardHearingAdapter().getList(SIZE);
                         if (cards.size() <= 1) {
                             runOnUiThread(new Runnable() {
                                 @Override

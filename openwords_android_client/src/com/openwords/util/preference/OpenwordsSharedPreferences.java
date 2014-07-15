@@ -1,14 +1,21 @@
 package com.openwords.util.preference;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+
 import com.google.gson.Gson;
 import com.openwords.learningmodule.ProgressHearing;
 import com.openwords.learningmodule.ProgressReview;
 import com.openwords.learningmodule.ProgressSelfEval;
 import com.openwords.learningmodule.ProgressTypeEval;
 import com.openwords.model.UserInfo;
+import com.openwords.util.RandomSelectAlg;
+import com.openwords.util.WSAinterface;
+import com.openwords.util.WordSelectionAlg;
 
 public class OpenwordsSharedPreferences {
 
@@ -21,8 +28,24 @@ public class OpenwordsSharedPreferences {
     public static final String HEARING_PROGRESS = "app.hearing.progress";
     public static final String TYPE_EVALUATION_PROGRESS = "app.typeeval.progress";
     public static final String HIDE_PORTAL = "app.hide.portal";
+    private static final int ALG_INDEX = 0;
+    private static List<WSAinterface> wordSelectionAlgList = new ArrayList<WSAinterface>();
 
-    public static void init(Context context) {
+	public static List<WSAinterface> getWordSelectionAlgList() {
+		return wordSelectionAlgList;
+	}
+
+	//add new algorithm
+	public static void addSelectionAlg(
+		WSAinterface wordSelectionAlg) {
+		OpenwordsSharedPreferences.wordSelectionAlgList.add(wordSelectionAlg);
+	}
+
+	public static int getAlgIndex() {
+		return ALG_INDEX;
+	}
+
+	public static void init(Context context) {
         pref = context.getSharedPreferences(SHARED_PREFERENCE_FILE, Context.MODE_PRIVATE);
     }
 

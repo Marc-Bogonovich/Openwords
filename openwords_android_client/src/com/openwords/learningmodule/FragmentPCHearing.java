@@ -20,15 +20,11 @@ import android.widget.TextView;
 
 import com.openwords.R;
 import com.openwords.model.InitDatabase;
-import com.openwords.model.LeafCard;
-import com.openwords.model.LeafCardAdapter;
 import com.openwords.model.LeafCardHearing;
 import com.openwords.model.LeafCardHearingAdapter;
-import com.openwords.model.LeafCardSelfEval;
 import com.openwords.model.UserPerformanceDirty;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
-import com.openwords.view.HomePage;
 import com.openwords.view.actionbar.WordsPage;
 
 public class FragmentPCHearing extends Fragment {
@@ -92,7 +88,7 @@ public class FragmentPCHearing extends Fragment {
             public void onClick(View view) {
 	             getActivity().finish();
 	             saveRecord();
-	             List<LeafCardHearing> cards = new LeafCardHearingAdapter(getActivity()).getList(SIZE);
+	             List<LeafCardHearing> cards = new LeafCardHearingAdapter().getList(SIZE);
                  ActivityHearing.setCardsPool(cards);
                  startActivity(new Intent(getActivity(), ActivityHearing.class));         
             }

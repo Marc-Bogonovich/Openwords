@@ -18,15 +18,19 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
 import com.openwords.R;
 import com.openwords.model.InitDatabase;
 import com.openwords.model.JSONParser;
 import com.openwords.model.UserInfo;
 import com.openwords.tts.Speak;
 import com.openwords.util.InternetCheck;
+import com.openwords.util.RandomSelectAlg;
 import com.openwords.util.UIHelper;
+import com.openwords.util.WordSelectionAlg;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -85,7 +89,9 @@ public class LoginPage extends Activity implements OnClickListener {
             startActivity(i);
         }
         OpenwordsSharedPreferences.setAppStarted(true);
-
+        //add word algorithm
+        OpenwordsSharedPreferences.addSelectionAlg(new WordSelectionAlg());
+        OpenwordsSharedPreferences.addSelectionAlg(new RandomSelectAlg());
         UserInfo user = OpenwordsSharedPreferences.getUserInfo();
         if (user == null) {
             Toast.makeText(LoginPage.this, "no user", Toast.LENGTH_SHORT).show();

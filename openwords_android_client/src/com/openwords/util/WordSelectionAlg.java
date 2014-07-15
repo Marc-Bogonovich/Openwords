@@ -44,10 +44,10 @@ public class WordSelectionAlg extends SugarRecord<UserPerformance> implements WS
 				+ skipRate*10*weightOfskip 
 				+ lastTimeIndicator*5*weightOfLastPerformance
 				+ timeFactor*weightOfLastTime;
-		Log.d("wrong", Double.toString(wrongRate*10*weightOfWrong ));
-		Log.d("skip", Double.toString(skipRate*10*weightOfskip ));
-		Log.d("perfromance", Double.toString(lastTimeIndicator*5*weightOfLastPerformance ));
-		Log.d("time", Double.toString( timeFactor*weightOfLastTime ));
+//		Log.d("wrong", Double.toString(wrongRate*10*weightOfWrong ));
+//		Log.d("skip", Double.toString(skipRate*10*weightOfskip ));
+//		Log.d("perfromance", Double.toString(lastTimeIndicator*5*weightOfLastPerformance ));
+//		Log.d("time", Double.toString( timeFactor*weightOfLastTime ));
 		return weight;
 	}
 	
@@ -120,12 +120,15 @@ public class WordSelectionAlg extends SugarRecord<UserPerformance> implements WS
 			        break;
 			    }
 			}
-			Log.d("Selected connection_id",""+perform.get(randomIndex).connection_id);
+			Log.d("Last ID:"+lastConnID+",Selected connection_id",""+perform.get(randomIndex).connection_id);
 			result.add(perform.get(randomIndex).connection_id);
 		}
 		return result;
 	}
 	
+	public String toString() {
+		return "Word Selection Alg -- repeat";
+	}
 	
 }
 

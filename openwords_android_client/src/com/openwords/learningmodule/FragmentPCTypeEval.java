@@ -1,10 +1,8 @@
 package com.openwords.learningmodule;
 
-import java.lang.ref.WeakReference;
 import java.util.List;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -20,9 +18,6 @@ import android.widget.TextView;
 
 import com.openwords.R;
 import com.openwords.model.InitDatabase;
-import com.openwords.model.LeafCard;
-import com.openwords.model.LeafCardAdapter;
-import com.openwords.model.LeafCardSelfEval;
 import com.openwords.model.LeafCardTypeEval;
 import com.openwords.model.LeafCardTypeEvalAdapter;
 import com.openwords.model.UserPerformanceDirty;
@@ -92,7 +87,7 @@ public class FragmentPCTypeEval extends Fragment {
         public void onClick(View view) {
              getActivity().finish();
              saveRecord();
-             List<LeafCardTypeEval> cards = new LeafCardTypeEvalAdapter(getActivity()).getList(SIZE);
+             List<LeafCardTypeEval> cards = new LeafCardTypeEvalAdapter().getList(SIZE);
              ActivityTypeEval.setCardsPool(cards);
              startActivity(new Intent(getActivity(), ActivityTypeEval.class));
         }

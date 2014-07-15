@@ -2,18 +2,15 @@ package com.openwords.model;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import android.content.Context;
+
 import com.openwords.util.WordSelectionAlg;
 
-public class LeafCardTypeEvalAdapter {
-	private Context context;
-	
-	public LeafCardTypeEvalAdapter(Context context) {
-		this.context = context;
-	}
+public class LeafCardTypeEvalAdapter extends LeafCardAdapter {
 
 	public List<LeafCardTypeEval> getList(int size) {
-		List<Integer> connectIDs = new WordSelectionAlg().pickup(size, null);
+		List<Integer> connectIDs = wordSelectionAlg.get(algIndex).pickup(size, null);
 		List<LeafCardTypeEval> result = new ArrayList<LeafCardTypeEval>();
 		for(Integer id : connectIDs) {
 			// since connectionID is the primary key of UserWord table, only one record is returned

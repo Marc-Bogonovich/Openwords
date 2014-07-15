@@ -5,15 +5,10 @@ import java.util.List;
 import android.content.Context;
 import com.openwords.util.WordSelectionAlg;
 
-public class LeafCardHearingAdapter {
-	private Context context;
-	
-	public LeafCardHearingAdapter(Context context) {
-		this.context = context;
-	}
+public class LeafCardHearingAdapter extends LeafCardAdapter {
 
 	public List<LeafCardHearing> getList(int size) {
-		List<Integer> connectIDs = new WordSelectionAlg().pickup(size, true);
+		List<Integer> connectIDs = wordSelectionAlg.get(algIndex).pickup(size, true);
 		List<LeafCardHearing> result = new ArrayList<LeafCardHearing>();
 		for(Integer id : connectIDs) {
 			// since connectionID is the primary key of UserWord table, only one record is returned

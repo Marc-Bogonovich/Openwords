@@ -51,5 +51,9 @@ public class RandomSelectAlg implements WSAinterface {
 		}
 		return result;
 	}
+	
+	public String toString() {
+		return "Random selected algorithm";
+	}
 
 }
