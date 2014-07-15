@@ -149,7 +149,7 @@ public class HomePage extends Activity implements OnClickListener {
                 user.setLang_id(homelang_id);
                 Toast.makeText(HomePage.this, "Chosen language id: " + homelang_id, Toast.LENGTH_SHORT).show();
                 OpenwordsSharedPreferences.setUserInfo(user);
-                
+                Log.d("saved Lang", ""+OpenwordsSharedPreferences.getUserInfo().getLang_id());
                 //getting first x words if not present----
                 new GetFirstWords().execute();
                 }
@@ -230,7 +230,9 @@ public class HomePage extends Activity implements OnClickListener {
                     String abc = Integer.toString(jArr.length());
                     Log.d("Array", abc);
                     jArrMain = jArr;
-                    }else{words_list.add(0, new WordsPageTool(99, "wordl2", "wordl1", true));}
+                    
+                    Log.d("sizeeeeee", ""+jArrMain.length());
+                    }
                     
             }
                     catch(Exception e)
