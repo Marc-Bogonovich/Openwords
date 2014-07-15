@@ -22,7 +22,7 @@ import com.openwords.model.LeafCard;
 import com.openwords.model.LeafCardReviewAdapter;
 import com.openwords.model.UserPerformanceDirty;
 import com.openwords.util.log.LogUtil;
-import com.openwords.util.preference.OpenwordsSharedPreferences;;
+import com.openwords.util.preference.OpenwordsSharedPreferences;
 import com.openwords.view.actionbar.WordsPage;
 
 public class FragmentPCReview extends Fragment {
