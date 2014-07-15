@@ -271,7 +271,7 @@ public class HomePage extends Activity implements OnClickListener {
                     if (progress == null) {
 
                         cards = new LeafCardReviewAdapter().getList(SIZE);
-                        if (cards.size() <= 1) {
+                        if (cards.size() <= 0) {
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
