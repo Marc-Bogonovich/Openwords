@@ -42,6 +42,7 @@ import com.openwords.model.UserInfo;
 import com.openwords.model.UserWords;
 import com.openwords.model.WordTranscription;
 import com.openwords.util.HomePageTool;
+import com.openwords.util.TimeConvertor;
 import com.openwords.util.WordsPageTool;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
@@ -59,6 +60,7 @@ import org.json.JSONObject;
 public class HomePage extends Activity implements OnClickListener {
 
 	private static JSONArray jArrMain;
+	private static String url_write_downloaded_words_to_server = "http://geographycontest.ipage.com/OpenwordsOrg/OpenwordsDB/setUserWords.php";
 	private static String nextwords_url = "http://geographycontest.ipage.com/OpenwordsOrg/WordsDB/wordsPageGetWordList.php";
 	private static Spinner begin, l2_dropdown;
     public static ArrayList<HomePageTool> dropdown_list = null;
@@ -240,7 +242,32 @@ public class HomePage extends Activity implements OnClickListener {
                     {e.printStackTrace();}     
     }
     //---------------------------------------------------------------------------------------------
-
+    //------------update downloaded word on server----------------------------------------------
+    public void updateWordsOnServer(String conIds, long dTime)
+	{
+		try
+		{
+			int user = OpenwordsSharedPreferences.getUserInfo().getUserId();
+			int langTwo = OpenwordsSharedPreferences.getUserInfo().getLang_id();
+			List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("conid", conIds));
+            params.add(new BasicNameValuePair("dtime", Long.toString(dTime)));
+            params.add(new BasicNameValuePair("user",Integer.toString(user)));
+            params.add(new BasicNameValuePair("lTwo",Integer.toString(langTwo)));
+            JSONParser jsonParse = new JSONParser();
+            JSONObject jObj = jsonParse.makeHttpRequest(url_write_downloaded_words_to_server, "POST", params);
+            
+            if(jObj.getInt("success")==1)
+            	Log.d("Message From Server", jObj.getString("message"));
+            
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+        
+		
+	}
     
     
     
@@ -468,6 +495,7 @@ public class HomePage extends Activity implements OnClickListener {
 			 {
 				 getFirstWordsFromServer();
 				 
+				 String conIds="";
 				 for(int i=0;i<jArrMain.length();i++)
 				 {
 					 try {
@@ -481,6 +509,15 @@ public class HomePage extends Activity implements OnClickListener {
 							WordTranscription t = new WordTranscription(c.getInt("wordl2"),c.getString("trans"));
 							t.save();
 							
+							if(conIds=="")
+							{
+								conIds=conIds+c.getInt("connection_id");
+							}
+							else
+							{
+								conIds=conIds+"|"+c.getInt("connection_id");
+							}
+							
 							Log.d("word", c.getString("wordl1_text"));
 						
 					} catch (Exception e) {
@@ -489,6 +526,8 @@ public class HomePage extends Activity implements OnClickListener {
 					}
 					 
 				 }
+				 //update on server
+				 updateWordsOnServer(conIds, TimeConvertor.getUnixTime());
 			 }
 				return null;
 			}
