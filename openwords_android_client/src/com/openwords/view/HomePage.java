@@ -328,7 +328,7 @@ public class HomePage extends Activity implements OnClickListener {
                     if (progress == null) {
 
                         cards = new LeafCardSelfEvalAdapter().getList(SIZE);
-                        if (cards.size() <= 1) {
+                        if (cards.size() <= 0) {
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
@@ -367,7 +367,7 @@ public class HomePage extends Activity implements OnClickListener {
                     if (progress == null) {
 
                         cards = new LeafCardTypeEvalAdapter().getList(SIZE);
-                        if (cards.size() <= 1) {
+                        if (cards.size() <= 0) {
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
@@ -397,7 +397,7 @@ public class HomePage extends Activity implements OnClickListener {
                     if (progress == null) {
 
                         cards = new LeafCardHearingAdapter().getList(SIZE);
-                        if (cards.size() <= 1) {
+                        if (cards.size() <= 0) {
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
