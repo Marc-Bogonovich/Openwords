@@ -40,7 +40,9 @@ import com.openwords.model.LeafCardTypeEval;
 import com.openwords.model.LeafCardTypeEvalAdapter;
 import com.openwords.model.UserInfo;
 import com.openwords.model.UserWords;
+import com.openwords.model.WordTranscription;
 import com.openwords.util.HomePageTool;
+import com.openwords.util.WordsPageTool;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
 import com.openwords.view.actionbar.ActionBarBuilder;
@@ -52,11 +54,14 @@ import java.util.List;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class HomePage extends Activity implements OnClickListener {
 
-    private static Spinner begin, l2_dropdown;
+	private static JSONArray jArrMain;
+	private static String nextwords_url = "http://geographycontest.ipage.com/OpenwordsOrg/WordsDB/wordsPageGetWordList.php";
+	private static Spinner begin, l2_dropdown;
     public static ArrayList<HomePageTool> dropdown_list = null;
     public static ArrayList<String> strArr = null;
     public static int pos = -1;
@@ -144,6 +149,9 @@ public class HomePage extends Activity implements OnClickListener {
                 user.setLang_id(homelang_id);
                 Toast.makeText(HomePage.this, "Chosen language id: " + homelang_id, Toast.LENGTH_SHORT).show();
                 OpenwordsSharedPreferences.setUserInfo(user);
+                
+                //getting first x words if not present----
+                new GetFirstWords().execute();
                 }
 
             }
@@ -200,7 +208,39 @@ public class HomePage extends Activity implements OnClickListener {
         dropdown.add(new HomePageTool("Add more", -999));
         dropdown_list = dropdown;
     }
+    
+    
+    //-------- Getting first 10 words from server for a language -----------------
+    public void getFirstWordsFromServer()
+    {
+            ArrayList<WordsPageTool> words_list = new ArrayList<WordsPageTool>();
+            try 
+            {
+                    List<NameValuePair> params = new ArrayList<NameValuePair>(3);
+                    params.add(new BasicNameValuePair("user", Integer.toString(OpenwordsSharedPreferences.getUserInfo().getUserId())));
+                    params.add(new BasicNameValuePair("langOne", "1"));
+                    params.add(new BasicNameValuePair("langTwo", Integer.toString(OpenwordsSharedPreferences.getUserInfo().getLang_id())));
+                    Log.d("User", "47");
+                    JSONParser jsonParse = new JSONParser();
+                    JSONObject jObj = jsonParse.makeHttpRequest(nextwords_url, "POST", params);
+                    Log.d("Obj", jObj.toString());
+                    if(jObj.getInt("success")==1)
+                    {
+                    JSONArray jArr = jObj.getJSONArray("data");
+                    String abc = Integer.toString(jArr.length());
+                    Log.d("Array", abc);
+                    jArrMain = jArr;
+                    }else{words_list.add(0, new WordsPageTool(99, "wordl2", "wordl1", true));}
+                    
+            }
+                    catch(Exception e)
+                    {e.printStackTrace();}     
+    }
+    //---------------------------------------------------------------------------------------------
 
+    
+    
+    
     public void testPageButtonClick() {
         String taskPage = begin.getSelectedItem().toString();
         LogUtil.logDeubg(this, "Task: " + taskPage);
@@ -412,4 +452,59 @@ public class HomePage extends Activity implements OnClickListener {
                     }
                 }).create().show();
     }
+   
+ //----------- Async Task to get first 10 words   
+    private class GetFirstWords extends AsyncTask<Void, Void, Void> {
+		 @Override
+			protected Void doInBackground(Void... arg0) {
+				// TODO Auto-generated method stub
+			 Log.d("******in asynctasck", "yes");
+			 int langId = OpenwordsSharedPreferences.getUserInfo().getLang_id();
+			 List<UserWords> existList = UserWords.findByLanguage(langId);
+			 if(existList.size()==0)
+			 {
+				 getFirstWordsFromServer();
+				 
+				 for(int i=0;i<jArrMain.length();i++)
+				 {
+					 try {
+							JSONObject c = jArrMain.getJSONObject(i);
+							 
+							UserWords newUw = new UserWords(c.getInt("connection_id"),c.getInt("wordl1"),
+										 c.getString("wordl1_text"),c.getInt("wordl2"),c.getString("wordl2_text"),
+										 c.getInt("l2id"),c.getString("l2name"),c.getString("audio"),1);
+							newUw.save();
+							
+							WordTranscription t = new WordTranscription(c.getInt("wordl2"),c.getString("trans"));
+							t.save();
+							
+							Log.d("word", c.getString("wordl1_text"));
+						
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					 
+				 }
+			 }
+				return null;
+			}
+	
+	     protected void onProgressUpdate(Integer... progress) {
+	         //setProgressPercent(progress[0]);
+	     }
+	
+	     protected void onPostExecute(Long result) {
+	         //showDialog("Refreshed");
+	    	 Log.d("Refresh Complete", "yes");
+	     }
+
+		
+	 }
+    
 }
+
+
+	
+
+	
