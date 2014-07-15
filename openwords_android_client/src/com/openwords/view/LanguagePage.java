@@ -78,8 +78,17 @@ public class LanguagePage extends Activity implements OnClickListener {
     		switch (v.getId())
     		{
     		case R.id.langbutton:
-    			writeToServer(userinfo.getUserId());
-    			startActivity(new Intent(this, ChosenPage.class));
+    			int success = writeToServer(userinfo.getUserId());
+    			if(success == 1)
+    				startActivity(new Intent(this, ChosenPage.class));
+    			else
+    			{
+    				runOnUiThread(new Runnable() {
+                        public void run() {
+                        	Toast.makeText(LanguagePage.this, "You must select at least one", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+    			}
     			//break;
     		}
         }
@@ -116,49 +125,59 @@ public class LanguagePage extends Activity implements OnClickListener {
         }
         
       //Writing options to server
-        public void writeToServer(int user)
+        public int writeToServer(int user)
         {
         	
                 String l2_ids="";
+                int selected=0;
                 //-------building the selected languages parameter string
                 for(int i=0;i<langlist_global.size();i++)
                 {
                         if(langlist_global.get(i).isSelected()==true)
                         {
                                 l2_ids=l2_ids+langlist_global.get(i).getId()+"|";
+                                selected++;
                         }
                 }
-                l2_ids = l2_ids.substring(0, l2_ids.length()-1);
                 
-                Log.d("L2 ids", l2_ids);
-                Log.d("L2 ids", "_"+user);
-                //------------------------------------
-                
-                String user_id=Integer.toString(user);
-                //-------------constucting parameters------------
-                List<NameValuePair> params = new ArrayList<NameValuePair>(2);
-        params.add(new BasicNameValuePair("choices",l2_ids));
-        params.add(new BasicNameValuePair("id",user_id));
-                //-----------------------------------------------
-        try{
-        JSONParser jsonParse = new JSONParser();
-        JSONObject jObj = jsonParse.makeHttpRequest(url_write_l2_choice, "POST", params);
-        
-        int success = jObj.getInt(TAG_SUCCESS);
-        String msg = jObj.getString(TAG_MESSAGE);
-        
-        if (success == 1) {
-        	Log.d("Info","create successfully");
-        	//usernameExist = true;
-            runOnUiThread(new Runnable() {
-                public void run() {
-                    Toast.makeText(LanguagePage.this,"Preference created successfully", Toast.LENGTH_SHORT).show();
+                if(selected!=0)
+                {
+	                l2_ids = l2_ids.substring(0, l2_ids.length()-1);
+	                
+	                Log.d("L2 ids", l2_ids);
+	                Log.d("L2 ids", "_"+user);
+	                //------------------------------------
+	                
+	                String user_id=Integer.toString(user);
+	                //-------------constucting parameters------------
+	                List<NameValuePair> params = new ArrayList<NameValuePair>(2);
+			        params.add(new BasicNameValuePair("choices",l2_ids));
+			        params.add(new BasicNameValuePair("id",user_id));
+			                //-----------------------------------------------
+			        try{
+			        JSONParser jsonParse = new JSONParser();
+			        JSONObject jObj = jsonParse.makeHttpRequest(url_write_l2_choice, "POST", params);
+			        
+			        int success = jObj.getInt(TAG_SUCCESS);
+			        String msg = jObj.getString(TAG_MESSAGE);
+			        
+			        if (success == 1) {
+			        	Log.d("Info","create successfully");
+			        	//usernameExist = true;
+			            runOnUiThread(new Runnable() {
+			                public void run() {
+			                    Toast.makeText(LanguagePage.this,"Preference created successfully", Toast.LENGTH_SHORT).show();
+			                }
+			            });
+			        	}
+			        return 1;
+			        } catch(Exception e)
+			        {e.printStackTrace(); return 0;}
                 }
-            });
-        	}
-        } catch(Exception e)
-        {e.printStackTrace();}
-        
+                else
+                {
+                	return 0;
+                }
         }
         /*
         class AsyncTaskRunner extends AsyncTask{
