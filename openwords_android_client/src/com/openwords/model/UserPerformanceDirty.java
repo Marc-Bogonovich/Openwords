@@ -74,7 +74,7 @@ public class UserPerformanceDirty extends SugarRecord<UserPerformanceDirty> {
 	//************ Method to Find Performance records by User & Time ****************
 	public static List<UserPerformanceDirty> findByTime(int user, long time)
 	{
-		List<UserPerformanceDirty> result = UserPerformanceDirty.find(UserPerformanceDirty.class, "userid="+user+" and time >="+time);
+		List<UserPerformanceDirty> result = UserPerformanceDirty.find(UserPerformanceDirty.class, "time >="+time);
 		return result;
 	}
 	//********************************************************************************

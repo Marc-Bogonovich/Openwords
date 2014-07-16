@@ -53,6 +53,16 @@ public class UserInfo {
         this.setLast_userid(last_userid);
         this.last_perf_upd = TimeConvertor.getUnixTime();
     }
+    public UserInfo(int last_userid, int lang_id, int userId, String userName, String pass, long lastLoginTime, long lastUpd) {
+        this.userId = userId;
+        this.userName = userName;
+        this.pass = pass;
+        this.lastLoginTime = lastLoginTime;
+        this.lang_id = lang_id;
+        this.setLast_userid(last_userid);
+        this.last_perf_upd = lastUpd;
+    }
+
 
     public int getUserId() {
         return userId;

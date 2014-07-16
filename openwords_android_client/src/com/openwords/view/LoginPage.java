@@ -26,6 +26,7 @@ import com.openwords.model.UserInfo;
 import com.openwords.tts.Speak;
 import com.openwords.util.InternetCheck;
 import com.openwords.util.RandomSelectAlg;
+import com.openwords.util.TimeConvertor;
 import com.openwords.util.UIHelper;
 import com.openwords.util.WordSelectionAlg;
 import com.openwords.util.log.LogUtil;
@@ -245,9 +246,13 @@ public class LoginPage extends Activity implements OnClickListener {
 //                    editor.commit();
 //                }
                 int lu =0;
+                long lupd = 0;
                 if(OpenwordsSharedPreferences.getUserInfo()!=null)
+                {
                 	lu = OpenwordsSharedPreferences.getUserInfo().getUserId();
-                OpenwordsSharedPreferences.setUserInfo(new UserInfo(lu,0,userid, username, password, System.currentTimeMillis()));
+                	lupd = OpenwordsSharedPreferences.getUserInfo().getLastPerfUpd();
+                }
+                OpenwordsSharedPreferences.setUserInfo(new UserInfo(lu,0,userid, username, password, System.currentTimeMillis(),lupd));
                 
                 /* ********************************
                  * Refreshing User's data on client (if needed)

@@ -43,6 +43,9 @@ public class InitDatabase {
 		
 		boolean connected = InternetCheck.checkConn(ctx);
 		//if Dirty performance has records for this user...
+		
+		Log.d("last upd time", ""+OpenwordsSharedPreferences.getUserInfo().getLastPerfUpd());
+		
 		if(dirtyPerf.size()>0)
 		{
 			//Updating summary performance----------------------
@@ -223,7 +226,7 @@ public class InitDatabase {
 		for(int i=0;i<dirtyPerf.size();i++)
 		{
     		//InitDatabase.loadPerformanceSummary(ctx,userId,dirtyPerf.get(i).connection_id,module);
-			List<UserPerformance> upList = UserPerformance.findByUserConnectionModule(userId, dirtyPerf.get(i).connection_id, dirtyPerf.get(i).type);
+			List<UserPerformance> upList = UserPerformance.findByUserConnectionModule(dirtyPerf.get(i).user_id, dirtyPerf.get(i).connection_id, dirtyPerf.get(i).type);
 			Log.d("data indirty", Integer.toString(dirtyPerf.get(0).user_id));
 			if(upList.size()>0) //if record exists then update
 			{
