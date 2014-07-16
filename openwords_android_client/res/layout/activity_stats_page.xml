@@ -1,69 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="match_parent" android:layout_height="match_parent"
-	android:background="#fff"
-	android:orientation="vertical">
-	<include layout="@layout/actionbar_common"/>
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="#fff"
+    android:orientation="vertical">
+    <include layout="@layout/actionbar_common"/>
 
-	<TextView
-	    android:id="@+id/statsPage_TextView_vocabSize"
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
-	    android:gravity="left"
-	    android:padding="10dp"
-	    android:text="@string/statsPage_TextView_vocabSize" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        android:padding="10dp" >
 
-	<RelativeLayout
-	    android:layout_width="match_parent"
-	    android:layout_height="50dp"
-	    android:orientation="horizontal"
-	    android:padding="10dp" >
+        <TextView android:id="@+id/statsPage_TextView_language"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true" android:layout_centerVertical="true"
+            android:text="@string/statsPage_TextView_language" />
 
-		<TextView android:id="@+id/statsPage_TextView_year"
-			android:layout_width="wrap_content" android:layout_height="wrap_content"
-			android:layout_alignParentLeft="true" android:layout_centerVertical="true"
-			android:text="@string/statsPage_TextView_year" />
+        <TextView android:id="@+id/statsPage_TextView_languageName"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true" android:layout_centerVertical="true"
+            android:text="Chinese" />
 
-		<TextView android:id="@+id/statsPage_TextView_yearNumber"
-			android:layout_width="wrap_content" android:layout_height="wrap_content"
-			android:layout_centerHorizontal="true" android:layout_centerVertical="true"
-			android:text="@string/statsPage_TextView_yearNumber" />
+    </RelativeLayout>
 
-	</RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        android:padding="10dp" >
 
-	<RelativeLayout
-	    android:layout_width="match_parent"
-	    android:layout_height="50dp"
-	    android:padding="10dp" >
+        <TextView android:id="@+id/statsPage_TextView_wordLearnt"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true" android:layout_centerVertical="true"
+            android:text="@string/statsPage_TextView_wordLearnt" />
 
-		<TextView
-		    android:id="@+id/statsPage_TextView_month"
-			android:layout_width="wrap_content" android:layout_height="wrap_content"
-			android:layout_alignParentLeft="true" android:layout_centerVertical="true"
-		    android:text="@string/statsPage_TextView_month" />
+        <TextView android:id="@+id/statsPage_TextView_wordProcess"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true" android:layout_centerVertical="true"
+            android:text="@string/statsPage_TextView_wordProcess" />
 
-		<TextView
-		    android:id="@+id/statsPage_TextView_"
-			android:layout_width="wrap_content" android:layout_height="wrap_content"
-			android:layout_centerHorizontal="true" android:layout_centerVertical="true"
-		    android:text="@string/statsPage_TextView_monthNumber" />
+    </RelativeLayout>
 
-	</RelativeLayout>
+    <ProgressBar
+        android:id="@+id/statsPage_TextView_wordProcessBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_gravity="center"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:max = "100"
+        android:layout_alignParentLeft = "true"
+        android:padding="10dp"
+        android:progressDrawable = "@drawable/progressbar"
+        />
 
-	<ProgressBar
-	    android:id="@+id/statsPage_TextView_wordProcessBar"
-	    style="?android:attr/progressBarStyleHorizontal"
-	    android:layout_gravity="center"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:padding="10dp" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        android:padding="10dp" >
 
-	<TextView
-	    android:id="@+id/statsPage_TextView_wordProcess"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:padding="10dp"
-	    android:layout_gravity="center"
-	    android:text="@string/statsPage_TextView_wordProcess" />
+        <TextView android:id="@+id/statsPage_TextView_ageDescription"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true" android:layout_centerVertical="true"
+            android:text="@string/statsPage_TextView_ageDescription" />
+        <TextView
+            android:id="@+id/statsPage_TextView_age"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true" android:layout_centerVertical="true"/>
+
+    </RelativeLayout>
 
 </LinearLayout>

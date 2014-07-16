@@ -5,13 +5,19 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.WindowManager;
+import android.widget.TextView;
 import android.widget.ProgressBar;
 import com.openwords.R;
+import android.os.Handler;
 
 public class StatsPage extends Activity {
 
+    private TextView text;
     private ProgressBar progressBar;
+    private int mProgressStatus = 0;
     private ActionBarBuilder actionBar;
+
+    private Handler progressHandler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,8 +26,27 @@ public class StatsPage extends Activity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);//for testing purpose
 
         setContentView(R.layout.activity_stats_page);
+
+        text = (TextView) findViewById(R.id.statsPage_TextView_age);
+
+        text.setText("0 " + "years , " + "1 " + "months ");
+
         //build ActionBar
         actionBar = new ActionBarBuilder(this, ActionBarBuilder.Stats_Page);
+
+        progressBar = (ProgressBar) findViewById(R.id.statsPage_TextView_wordProcessBar);
+
+        new Thread(new Runnable() {
+            public void run() {
+                mProgressStatus = 50;
+                //Update the progress bar
+                progressHandler.post(new Runnable() {
+                    public void run() {
+                        progressBar.setProgress(mProgressStatus);
+                    }
+                });
+            }
+        }).start();
     }
 
     @Override
