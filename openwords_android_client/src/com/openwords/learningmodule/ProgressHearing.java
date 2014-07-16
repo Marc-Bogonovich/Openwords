@@ -9,10 +9,20 @@ public class ProgressHearing {
 
     private List<LeafCardHearing> cardsPool;
     private int currentCard;
+    private int languageID;
 
-    public ProgressHearing(List<LeafCardHearing> cardsPool, int currentCard) {
+	public int getLanguageID() {
+		return languageID;
+	}
+
+	public void setLanguageID(int languageID) {
+		this.languageID = languageID;
+	}
+
+	public ProgressHearing(List<LeafCardHearing> cardsPool, int currentCard, int languageID) {
         this.cardsPool = cardsPool;
         this.currentCard = currentCard;
+        this.languageID = languageID;
     }
 
     public List<LeafCardHearing> getCardsPool() {

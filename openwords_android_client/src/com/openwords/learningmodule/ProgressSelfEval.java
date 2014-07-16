@@ -9,10 +9,20 @@ public class ProgressSelfEval {
 
     private List<LeafCardSelfEval> cardsPool;
     private int currentCard;
+    private int languageID;
 
-    public ProgressSelfEval(List<LeafCardSelfEval> cardsPool, int currentCard) {
+    public int getLanguageID() {
+		return languageID;
+	}
+
+	public void setLanguageID(int languageID) {
+		this.languageID = languageID;
+	}
+
+	public ProgressSelfEval(List<LeafCardSelfEval> cardsPool, int currentCard, int languageID ) {
         this.cardsPool = cardsPool;
         this.currentCard = currentCard;
+        this.languageID = languageID;
     }
 
     public List<LeafCardSelfEval> getCardsPool() {

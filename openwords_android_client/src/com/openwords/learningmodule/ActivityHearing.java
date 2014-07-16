@@ -101,7 +101,8 @@ public class ActivityHearing extends FragmentActivity {
 
     @Override
     public void onBackPressed() {
-    	OpenwordsSharedPreferences.setHearingProgress(new Gson().toJson(new ProgressHearing(CardsPool, CurrentCard)));
+    	int languageID = OpenwordsSharedPreferences.getUserInfo().getLang_id();
+    	OpenwordsSharedPreferences.setHearingProgress(new Gson().toJson(new ProgressHearing(CardsPool, CurrentCard, languageID)));
     	ActivityHearing.super.onBackPressed();
     	//        new AlertDialog.Builder(this)
 //                .setTitle("Really Quit?")

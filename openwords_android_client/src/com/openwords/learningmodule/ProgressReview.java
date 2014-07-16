@@ -8,20 +8,20 @@ public class ProgressReview {
 
     private List<LeafCard> cardsPool;
     private int currentCard;
-    private int langageID;
-    
-	public int getLangageID() {
-		return langageID;
+    private int languageID;
+   
+	public int getLanguageID() {
+		return languageID;
 	}
 
-	public void setLangageID(int langageID) {
-		this.langageID = langageID;
+	public void setLanguageID(int languageID) {
+		this.languageID = languageID;
 	}
 
 	public ProgressReview(List<LeafCard> cardsPool, int currentCard, int languageID) {
         this.cardsPool = cardsPool;
         this.currentCard = currentCard;
-        this.langageID = languageID;
+        this.languageID = languageID;
     }
 
     public List<LeafCard> getCardsPool() {

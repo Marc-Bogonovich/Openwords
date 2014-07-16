@@ -35,7 +35,8 @@ public class BackIcons {
         .showTitle(R.id.actionbar_title, targetTitle, new ActionBarBuilderForActivity.ActionBarItemClickAction() {
 
             public void clicked() {
-               Toast.makeText(activity, "Hi, the title is clicked", Toast.LENGTH_SHORT).show();
+            	activity.finish();
+               //Toast.makeText(activity, "Hi, the title is clicked", Toast.LENGTH_SHORT).show();
             }
         });
 	}

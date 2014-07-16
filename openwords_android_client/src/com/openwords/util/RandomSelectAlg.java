@@ -53,7 +53,7 @@ public class RandomSelectAlg implements WSAinterface {
 	}
 	
 	public String toString() {
-		return "Random selected algorithm";
+		return "Random selection algorithm";
 	}
 
 }

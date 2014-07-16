@@ -29,7 +29,7 @@ public class SettingsPage extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings_page);
         //BackIcons.builder(this);
-        ActionBarBuilder actionBar = new ActionBarBuilder(this, ActionBarBuilder.Home_Page);
+        BackIcons.builder(this);
         buttonTest = (Button) findViewById(R.id.settingsPage_button_test);
         buttonTest.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
