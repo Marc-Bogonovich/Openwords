@@ -112,7 +112,7 @@ public class ChosenPage extends Activity{
     	Intent returnIntent = new Intent();
     	setResult(RESULT_OK,returnIntent);
     	finish(); //finish current page
-    	//startActivity(new Intent(this, HomePage.class)); //in the activity stack, the HomePage exists
+    	ChosenPage.this.startActivity(new Intent(ChosenPage.this, HomePage.class)); //in the activity stack, the HomePage exists
     	return true;
     }
     

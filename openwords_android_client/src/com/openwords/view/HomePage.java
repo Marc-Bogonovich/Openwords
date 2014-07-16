@@ -82,6 +82,7 @@ public class HomePage extends Activity implements OnClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+    	Log.e("HomePage","onCreate");
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
@@ -141,7 +142,8 @@ public class HomePage extends Activity implements OnClickListener {
                 Log.d("ID", Integer.toString(dropdown_list.get(position).getId()));
                 if (dropdown_list.get(position).getId() == -999) {
                     //Toast.makeText(getApplicationContext(), "Please Wait...", Toast.LENGTH_SHORT).show();
-                    HomePage.this.startActivity(new Intent(HomePage.this, LanguagePage.class));
+                    finish();
+                	HomePage.this.startActivity(new Intent(HomePage.this, LanguagePage.class));
                 }
                 else
                 {
