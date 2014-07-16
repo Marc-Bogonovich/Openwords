@@ -110,13 +110,7 @@ public class HomePage extends Activity implements OnClickListener {
             }
         });
 
-//       new AsyncTask<Void, Void, Void>() {
-//         @Override
-//         protected Void doInBackground(Void... params) {
-//        	 readFromServer();
-//        	 return null;
-//         	}
-//         }.execute((Void[])null);
+
         addItemsOnBegin();
         Button testPageGo = (Button) findViewById(R.id.homePage_Button_testPageGo);
         testPageGo.setOnClickListener(HomePage.this);
@@ -153,7 +147,7 @@ public class HomePage extends Activity implements OnClickListener {
                 Toast.makeText(HomePage.this, "Chosen language id: " + homelang_id, Toast.LENGTH_SHORT).show();
                 OpenwordsSharedPreferences.setUserInfo(user);
                 Log.d("saved Lang", ""+OpenwordsSharedPreferences.getUserInfo().getLang_id());
-                //getting first x words if not present----
+                //-----getting first x words if not present----
                 new GetFirstWords().execute();
                 }
 
@@ -540,7 +534,7 @@ public class HomePage extends Activity implements OnClickListener {
 	
 	     protected void onPostExecute(Long result) {
 	         //showDialog("Refreshed");
-	    	 Log.d("Refresh Complete", "yes");
+	    	 //Log.d("Refresh Complete", "yes");
 	     }
 
 		
