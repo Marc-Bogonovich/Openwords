@@ -410,40 +410,6 @@ public class HomePage extends Activity implements OnClickListener {
                     pDialog.dismiss();
                 }
             }).start();
-//        	new InsertData(HomePage.this);
-//        	final HearingProgress progress = OpenwordsSharedPreferences.getHearingProgress();
-//            List<LeafCardHearing> cards = new LinkedList<LeafCardHearing>();
-//            ActivityHearing.setCardsPool(cards);
-//        	if (progress == null) {
-//                startActivity(new Intent(HomePage.this, ActivityHearing.class));
-//            } else {
-//            	ActivityHearing.setCurrentCard(progress.getCurrentCard());
-//                startActivity(new Intent(HomePage.this, ActivityHearing.class));     
-////                new AlertDialog.Builder(HomePage.this)
-////                        .setTitle("Continue?")
-////                        .setMessage("You have a saved progress, do you want to continue?")
-////                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
-////                            public void onClick(DialogInterface arg0, int arg1) {
-////                                List<LeafCardHearing> cards = new LinkedList<LeafCardHearing>();
-////                                cards.add(new LeafCardHearing("��", "person", "ren"));
-////                                cards.add(new LeafCardHearing("è", "cat", "mao"));
-////                                cards.add(new LeafCardHearing("����", "earth", "di qiu"));
-////                                cards.add(new LeafCardHearing("ʱ��", "time", "shi jian"));
-////                                cards.add(new LeafCardHearing("����", "world", "shi jie"));
-////                                cards.add(new LeafCardHearing("����", "computer", "dian nao"));
-////                                cards.add(new LeafCardHearing("���", "software", "ruan jian"));
-////                                ActivityHearing.setCardsPool(cards);
-////                                startActivity(new Intent(HomePage.this, ActivityHearing.class));
-////                            }
-////                        })
-////                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-////                            public void onClick(DialogInterface arg0, int arg1) {
-////                            	ActivityHearing.setCardsPool(progress.getCardsPool());
-////                            	ActivityHearing.setCurrentCard(progress.getCurrentCard());
-////                                startActivity(new Intent(HomePage.this, ActivityHearing.class));
-////                            }
-////                        }).create().show();
-//            }
         }
     }
 

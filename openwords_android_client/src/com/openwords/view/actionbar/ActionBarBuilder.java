@@ -138,13 +138,19 @@ public class ActionBarBuilder {
                     public void onItemClick(AdapterView<?> av, View view, int position, long l) {
                         switch (position) {
                             case 0:
-                                activity.startActivity(new Intent(activity, ProfilePage.class));
+                            	Intent i = new Intent(activity, ProfilePage.class);
+                            	i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                activity.startActivity(i);
                                 break;
                             case 1:
-                                activity.startActivity(new Intent(activity, SettingsPage.class));
+                            	i = new Intent(activity, SettingsPage.class);
+                            	i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                activity.startActivity(i);
                                 break;
                             case 2:
-                                activity.startActivity(new Intent(activity, TutorialPage.class));
+                            	i = new Intent(activity, TutorialPage.class);
+                            	i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                activity.startActivity(i);
                                 break;
                             case 3:
                                 activity.finish();
