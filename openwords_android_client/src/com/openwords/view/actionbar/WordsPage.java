@@ -377,18 +377,18 @@ public class WordsPage extends Activity implements OnClickListener {
         actionBar.checkSetting();
     }
         
-        @Override
-    public void onBackPressed() {
-        new AlertDialog.Builder(this)
-                .setTitle("Really?")
-                .setMessage("Are you sure you want to log out?")
-                .setNegativeButton("No", null)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface arg0, int arg1) {
-                        WordsPage.super.onBackPressed();
-                    }
-                }).create().show();
-    }
+//        @Override
+//    public void onBackPressed() {
+//        new AlertDialog.Builder(this)
+//                .setTitle("Really?")
+//                .setMessage("Are you sure you want to log out?")
+//                .setNegativeButton("No", null)
+//                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface arg0, int arg1) {
+//                        WordsPage.super.onBackPressed();
+//                    }
+//                }).create().show();
+//    }
 }
 
 

@@ -9,6 +9,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -17,8 +18,10 @@ import android.os.StrictMode;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
@@ -27,15 +30,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.openwords.R;
+import com.openwords.model.InitDatabase;
 import com.openwords.model.JSONParser;
 import com.openwords.model.UserInfo;
 import com.openwords.util.LanguagePageTool;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
+import com.openwords.view.actionbar.WordsPage;
 
-public class LanguagePage extends Activity implements OnClickListener {
+public class LanguagePage extends Activity {
         
 		public static final String TAG_SUCCESS="success";
 		public static final String TAG_MESSAGE="message";
+		private int requestcode = 0;
 		private static String url_l2_options = "http://geographycontest.ipage.com/OpenwordsOrg/WordsDB/getLtwoOptions.php";
 		public static final String USERID = "userid";
         public static ArrayList<LanguagePageTool> langlist_global = new ArrayList<LanguagePageTool>();
@@ -68,30 +74,72 @@ public class LanguagePage extends Activity implements OnClickListener {
                 // setting the custom adapter to the listview object
                 lang_listview.setAdapter(langadapter); 
                 
-                View LangButton = findViewById(R.id.langbutton);
-        	    LangButton.setOnClickListener(this);
-        	    
-        	   
-        }
+                final View langButton = findViewById(R.id.langbutton);
+        	    //langButton.setOnClickListener(this);
+                langButton.setOnTouchListener(new OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {               
+                    	langButton.setEnabled(false);
+                    	AsyncTask<Void, Void, Boolean> task = new AsyncTask<Void, Void, Boolean>() {
+                    		ProgressDialog progress;
+        					@Override
+        					protected void onPreExecute() {
+        						progress = new ProgressDialog(LanguagePage.this);
+        						progress.setMessage("Synchronizing with server...");
+        						progress.setCancelable(false);
+        						progress.setIndeterminate(true);
+        						progress.show();
+        					}
+        						
+        					@Override
+        					protected Boolean doInBackground(Void... arg0) {
+        						//We could modify this function to return a boolean value
+        						return writeToServer(userinfo.getUserId());
+        					}
+        					
+        					@Override
+        					protected void onPostExecute(Boolean result) {
+        						if (progress!=null) {
+        							progress.dismiss();
+        							if(result.equals(true)) {
+
+        								startActivityForResult(new Intent(LanguagePage.this.getApplicationContext(), ChosenPage.class), requestcode);
+        							} else {
+        								Toast.makeText(LanguagePage.this, "You must select at least one", Toast.LENGTH_SHORT).show();
+        							}
+        							
+        							langButton.setEnabled(true);
+        						}
+        					}
+                    	};
+                    	task.execute((Void[])null);
+        				return false;
+                    }
+                    
+                });
+            }
         
-        public void onClick(View v) {
-    		switch (v.getId())
-    		{
-    		case R.id.langbutton:
-    			int success = writeToServer(userinfo.getUserId());
-    			if(success == 1)
-    				startActivity(new Intent(this, ChosenPage.class));
-    			else
-    			{
-    				runOnUiThread(new Runnable() {
-                        public void run() {
-                        	Toast.makeText(LanguagePage.this, "You must select at least one", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-    			}
-    			//break;
-    		}
-        }
+//        public void onClick(View v) {
+//    		switch (v.getId())
+//    		{
+//    		case R.id.langbutton:
+//    			
+//    			int success = writeToServer(userinfo.getUserId());
+//    			if(success == 1) {
+//    				finish();
+//    				startActivity(new Intent(LanguagePage.this.getApplicationContext(), ChosenPage.class));
+//    			}
+//    			else
+//    			{
+//    				runOnUiThread(new Runnable() {
+//                        public void run() {
+//                        	Toast.makeText(LanguagePage.this, "You must select at least one", Toast.LENGTH_SHORT).show();
+//                        }
+//                    });
+//    			}
+//    			//break;
+//    		}
+//        }
         
         public void getFromServer()
         {
@@ -114,7 +162,7 @@ public class LanguagePage extends Activity implements OnClickListener {
                     
                         langlist.add(new LanguagePageTool(childJSONObject.getString("l2name"),childJSONObject.getInt("l2id"), childJSONObject.getBoolean("chosen")));
                         //Log.d("Loop", childJSONObject.getString("l2name"));
-                        Log.d("Loop", langlist.get(i).getName());
+                        //Log.d("Loop", langlist.get(i).getName());
                      }
                         
                 
@@ -125,7 +173,7 @@ public class LanguagePage extends Activity implements OnClickListener {
         }
         
       //Writing options to server
-        public int writeToServer(int user)
+        public boolean writeToServer(int user)
         {
         	
                 String l2_ids="";
@@ -170,13 +218,13 @@ public class LanguagePage extends Activity implements OnClickListener {
 			                }
 			            });
 			        	}
-			        return 1;
+			        return true;
 			        } catch(Exception e)
-			        {e.printStackTrace(); return 0;}
+			        {e.printStackTrace(); return false;}
                 }
                 else
                 {
-                	return 0;
+                	return false;
                 }
         }
         /*
@@ -311,5 +359,15 @@ public class LanguagePage extends Activity implements OnClickListener {
                 // Inflate the menu; this adds items to the action bar if it is present.
                 getMenuInflater().inflate(R.menu.login_page, menu);
                 return true;
+        }
+        
+        @Override
+        protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+            if (requestCode == 0) {
+                if(resultCode == RESULT_OK){
+                    finish();
+                }
+            }
         }
 }

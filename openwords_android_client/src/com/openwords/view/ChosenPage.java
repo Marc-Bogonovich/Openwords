@@ -109,8 +109,10 @@ public class ChosenPage extends Activity{
 	}
 	
     public boolean onTouchEvent(MotionEvent event) {
-    	startActivity(new Intent(this, HomePage.class));
-    	finish();
+    	Intent returnIntent = new Intent();
+    	setResult(RESULT_OK,returnIntent);
+    	finish(); //finish current page
+    	//startActivity(new Intent(this, HomePage.class)); //in the activity stack, the HomePage exists
     	return true;
     }
     
