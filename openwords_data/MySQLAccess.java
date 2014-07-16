@@ -19,7 +19,8 @@ import java.sql.Statement;
 public class MySQLAccess { 
     private Connection connect = null;
     private Statement statement = null;
-    final private String table = "english_italian"; 
+    final private String table = "english_languages"; 
+    String insertCommand;
     
     public void connectDatabase() throws Exception {    
         Class.forName("com.mysql.jdbc.Driver");
@@ -27,8 +28,12 @@ public class MySQLAccess {
         this.statement = this.connect.createStatement();        
     }
     
-    public void writeDatabase(int wordID, String L1Word, String tr1, String L2Word, String tr2 ) throws Exception {
-        this.statement.executeUpdate("insert into wiktionary_raw." + table + " values (" + wordID + ", '" + L1Word + "', '" + tr1 + "', '" + L2Word + "', '" + tr2 + "')");
+    public void writeDatabase(int wordID, String L1Word, String grammerType, int defID, String meaning, String lang, String L2Word, String tr ) throws Exception {
+        L2Word = reviseString.escapeSingleQuote(L2Word);
+        tr = reviseString.escapeSingleQuote(tr);
+        meaning = reviseString.escapeSingleQuote(meaning);
+        insertCommand = "insert into wiktionary_raw."+ table + " values(" + wordID + ", '" + L1Word + "', '" + grammerType + "', " + defID +", '" + meaning + "', '" + lang + "', '" + L2Word + "', '" + tr + "')";
+        this.statement.executeUpdate(insertCommand);
     }
     
     public void close() throws Exception {
