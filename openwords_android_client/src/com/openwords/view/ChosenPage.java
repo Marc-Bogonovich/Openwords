@@ -113,7 +113,7 @@ public class ChosenPage extends Activity{
     	setResult(RESULT_OK,returnIntent);
     	finish(); //finish current page
     	ChosenPage.this.startActivity(new Intent(ChosenPage.this, HomePage.class)); //in the activity stack, the HomePage exists
-    	return true;
+    	return false;
     }
     
   //********************* AYSNC TASK for refreshing data in background **********************

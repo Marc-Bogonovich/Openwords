@@ -28,7 +28,7 @@ public class OpenwordsSharedPreferences {
     public static final String HEARING_PROGRESS = "app.hearing.progress";
     public static final String TYPE_EVALUATION_PROGRESS = "app.typeeval.progress";
     public static final String HIDE_PORTAL = "app.hide.portal";
-    private static final int ALG_INDEX = 0;
+    private static int ALG_INDEX = 0;
     private static List<WSAinterface> wordSelectionAlgList = new ArrayList<WSAinterface>();
 
 	public static List<WSAinterface> getWordSelectionAlgList() {
@@ -45,6 +45,10 @@ public class OpenwordsSharedPreferences {
 		return ALG_INDEX;
 	}
 
+	public static void setAlgIndex(int index) {
+		ALG_INDEX = index;
+	}
+	
 	public static void init(Context context) {
         pref = context.getSharedPreferences(SHARED_PREFERENCE_FILE, Context.MODE_PRIVATE);
     }

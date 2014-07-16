@@ -98,4 +98,5 @@
 	<string name="plateCompletion_Button_home">Home</string>
 	<string name="WP_ok">Ok</string>
 	<string name="WP_Cancel">Cancel</string>
+	<string name="settingsPage_TextView_WSA">Please select selection algorithm</string>
 </resources>
