@@ -110,13 +110,7 @@ public class HomePage extends Activity implements OnClickListener {
             }
         });
 
-//       new AsyncTask<Void, Void, Void>() {
-//         @Override
-//         protected Void doInBackground(Void... params) {
-//        	 readFromServer();
-//        	 return null;
-//         	}
-//         }.execute((Void[])null);
+
         addItemsOnBegin();
         Button testPageGo = (Button) findViewById(R.id.homePage_Button_testPageGo);
         testPageGo.setOnClickListener(HomePage.this);
@@ -540,7 +534,7 @@ public class HomePage extends Activity implements OnClickListener {
 	
 	     protected void onPostExecute(Long result) {
 	         //showDialog("Refreshed");
-	    	 Log.d("Refresh Complete", "yes");
+	    	 //Log.d("Refresh Complete", "yes");
 	     }
 
 		
