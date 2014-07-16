@@ -45,13 +45,20 @@ public class InitDatabase {
 		//if Dirty performance has records for this user...
 		if(dirtyPerf.size()>0)
 		{
+			//Updating summary performance----------------------
+			
+			InitDatabase.updateLocalPerformanceSummary(ctx);
+			//-------------------------------------------------
+			
 			if(connected==true)
 			{
 				Log.d("chkpnt0", "before write back perf");
 				int success = InitDatabase.writeBackUserPerformance();
+				
+				Log.d("After writing back : success =", ""+success);
 	                if(success==1)
 	                {
-	                	UserPerformanceDirty.deleteByUser(userId);
+	                	UserPerformanceDirty.deleteAll(UserPerformanceDirty.class);
 	                	                	
 	                }
 				
@@ -59,9 +66,7 @@ public class InitDatabase {
 			else
 			{Log.d("msg", "not connected");}
 			
-			//Updating summary performance----------------------
-						
-			InitDatabase.updateLocalPerformanceSummary(ctx);
+			
 		}
 		//------------------------------
 		
@@ -250,6 +255,11 @@ public class InitDatabase {
 				up.save();
 			
 			}
+			
+			//--- Changing Last update time---------------------------------------------
+			UserInfo u = OpenwordsSharedPreferences.getUserInfo(); //getting object
+			u.setLastPerfUpd(TimeConvertor.getUnixTime()); //update time
+			OpenwordsSharedPreferences.setUserInfo(u); //Setting object back
 		}
 		
 		
