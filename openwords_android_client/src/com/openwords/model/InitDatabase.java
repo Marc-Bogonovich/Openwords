@@ -230,12 +230,12 @@ public class InitDatabase {
 			Log.d("data indirty", Integer.toString(dirtyPerf.get(0).user_id));
 			if(upList.size()>0) //if record exists then update
 			{
-				//Log.d("Place in local perf sum", "UPDATE");
+				Log.d("Place in local perf sum", ""+upList.size()+"..."+upList.get(0).getId());
 				UserPerformance.updateById(upList.get(0).getId(), dirtyPerf.get(i).performance, dirtyPerf.get(i).time);
 			}
 			else //else insert
 			{
-				//Log.d("Place in local perf sum", "INSERT");
+				Log.d("Place in local perf sum", "INSERT");
 				int totSkp=0,totClose=0,totExp=0,totCor=0;
 				if(dirtyPerf.get(i).type>0)
 				{
