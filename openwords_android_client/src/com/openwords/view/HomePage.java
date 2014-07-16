@@ -147,7 +147,7 @@ public class HomePage extends Activity implements OnClickListener {
                 Toast.makeText(HomePage.this, "Chosen language id: " + homelang_id, Toast.LENGTH_SHORT).show();
                 OpenwordsSharedPreferences.setUserInfo(user);
                 Log.d("saved Lang", ""+OpenwordsSharedPreferences.getUserInfo().getLang_id());
-                //getting first x words if not present----
+                //-----getting first x words if not present----
                 new GetFirstWords().execute();
                 }
 
