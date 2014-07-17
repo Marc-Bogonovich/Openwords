@@ -83,7 +83,6 @@ public class HomePage extends Activity implements OnClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-    	Log.e("HomePage","onCreate");
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         
@@ -99,10 +98,9 @@ public class HomePage extends Activity implements OnClickListener {
         l2_dropdown = (Spinner) findViewById(R.id.homePage_Spinner_chooseLanguage);
 
         userinfo = OpenwordsSharedPreferences.getUserInfo();
-        Log.d("UserID in LangPage", Integer.toString(userinfo.getUserId()));
         
-        pDialog = ProgressDialog.show(HomePage.this, "",
-                "Load information from the server", true);
+        pDialog = ProgressDialog.show(HomePage.this, "Please wait",
+                "Loading information from the server", true);
 
         runOnUiThread(new Runnable() {//Please stop spawning tasks on UI Thread, use AsyncTask instead, unless you don't want user to touch anything before the page is completely rendered, then please prompt a progress dialog
             public void run() {
@@ -179,7 +177,6 @@ public class HomePage extends Activity implements OnClickListener {
         try {
             List<NameValuePair> params1 = new ArrayList<NameValuePair>(2);
             params1.add(new BasicNameValuePair("userid", Integer.toString(userinfo.getUserId())));
-            Log.d("User", "Passed Validation");
             JSONParser jsonParse = new JSONParser();
             JSONObject jObj = jsonParse.makeHttpRequest(url_dropdown, "POST", params1);
             Log.d("Obj", jObj.toString());

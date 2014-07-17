@@ -9,7 +9,6 @@ import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.TextView;
 import com.openwords.R;
-import com.openwords.util.log.LogUtil;
 
 public class MainActivity extends Activity {
 
@@ -52,7 +51,6 @@ public class MainActivity extends Activity {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        LogUtil.logDeubg(this, "You Clicked screen");
         finish();
         return super.onTouchEvent(event);
     }

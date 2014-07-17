@@ -5,11 +5,9 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
@@ -18,7 +16,6 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import com.openwords.R;
 import com.openwords.model.InitDatabase;
 import com.openwords.model.JSONParser;
@@ -26,7 +23,6 @@ import com.openwords.model.UserInfo;
 import com.openwords.tts.Speak;
 import com.openwords.util.InternetCheck;
 import com.openwords.util.RandomSelectAlg;
-import com.openwords.util.TimeConvertor;
 import com.openwords.util.UIHelper;
 import com.openwords.util.WordSelectionAlg;
 import com.openwords.util.log.LogUtil;
@@ -225,7 +221,8 @@ public class LoginPage extends Activity implements OnClickListener {
                 .setMessage("Are you sure you want to exit?")
                 .setNegativeButton("No", null)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface arg0, int arg1) {      
+                    public void onClick(DialogInterface arg0, int arg1) {
+                    	//when exit, remember user's choice
                         Boolean saveuser = UIHelper.getCBChecked(LoginPage.this, R.id.loginPage_CheckBox_rememberMe);
                         if (saveuser) {
                         	OpenwordsSharedPreferences.setSaveUser(true);
@@ -263,7 +260,7 @@ public class LoginPage extends Activity implements OnClickListener {
 			 @Override
 				protected Void doInBackground(Void... arg0) {
 					// TODO Auto-generated method stub
-				 Log.d("******in asynctasck", "yes");
+				 
 				 InitDatabase.checkAndRefreshPerf(LoginPage.this, 0, 0);
 					return null;
 				}

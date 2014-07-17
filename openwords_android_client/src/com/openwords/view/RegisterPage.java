@@ -65,7 +65,6 @@ public class RegisterPage extends Activity implements OnClickListener {
 		usernameField.setOnFocusChangeListener(new OnFocusChangeListener() {          
 	        public void onFocusChange(View v, boolean hasFocus) {
 	            if(!hasFocus) {
-	            	Log.d("Focus","Lost focus");
 	            	validUsername();
 	            }
 	        }
@@ -113,7 +112,6 @@ public class RegisterPage extends Activity implements OnClickListener {
 	        if(identicalPassword()) {
 	    		pDialog = ProgressDialog.show(RegisterPage.this, "", 
 	                    "Writing to database...", true);
-	        	Log.d("Info","Go to register");
 				 new Thread(new Runnable() {
 		                public void run() {
 		                    register();                          
@@ -137,7 +135,7 @@ public class RegisterPage extends Activity implements OnClickListener {
                 //Log.d("Res",jObj.toString());
                 success = jObj.getInt(TAG_SUCCESS);
                 String msg = jObj.getString(TAG_MESSAGE);
-                Log.d("RES",msg);
+                Log.d("RegisterPage","Return info: "+msg);
             } catch (Exception e) {
             	flag = false;
             	e.printStackTrace();
@@ -161,11 +159,11 @@ public class RegisterPage extends Activity implements OnClickListener {
 //                }
 //            });
             if (success == 1) {
-            	Log.d("Info","user doesn't exist");
+            	//Log.d("RegisterPage","user doesn't exist");
             	usernameExist = false;
                 runOnUiThread(new Runnable() {
                     public void run() {
-                        Toast toast = Toast.makeText(RegisterPage.this,"Username OK", Toast.LENGTH_SHORT);
+                        Toast toast = Toast.makeText(RegisterPage.this,"Username is valid", Toast.LENGTH_SHORT);
                     	toast.setGravity(Gravity.TOP , 0, 0);
                     	toast.show();
                     }
@@ -197,11 +195,11 @@ public class RegisterPage extends Activity implements OnClickListener {
 		} else {
 			runOnUiThread(new Runnable() {
 				public void run() {
-					Toast.makeText(RegisterPage.this,"Password inconsist", Toast.LENGTH_SHORT).show();
+					Toast.makeText(RegisterPage.this,"Passwords are inconsistent", Toast.LENGTH_SHORT).show();
 				}
 			});
 		}
-		Log.d("Info","passwd are not same");
+		Log.d("Info","passwd are different");
 		return false;
 	}
 	
@@ -211,8 +209,6 @@ public class RegisterPage extends Activity implements OnClickListener {
 	            List<NameValuePair> params = new ArrayList<NameValuePair>(2);
 	            params.add(new BasicNameValuePair("email",username.trim()));
 	            params.add(new BasicNameValuePair("password",password.trim()));
-	            Log.d("username",username);
-	            Log.d("password",password);
 	            JSONParser jsonParse = new JSONParser();
 	            JSONObject jObj = jsonParse.makeHttpRequest(url_user_register, "POST", params);
 	            Log.d("Res",jObj.toString());
