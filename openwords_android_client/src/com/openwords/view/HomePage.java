@@ -67,6 +67,7 @@ public class HomePage extends Activity implements OnClickListener {
     public static ArrayList<String> strArr = null;
     public static int pos = -1;
     public int homelang_id;
+    public String homelang_name;
     private ProgressDialog pDialog = null;
     // Add another array of type HomePage Tool that holds the name and id of each chosen language
     // private static ArrayList<HomePageTool> drop_down = null;
@@ -127,7 +128,7 @@ public class HomePage extends Activity implements OnClickListener {
         }
         //insert item into chooseLanguage spinner
         ArrayAdapter<String> dropdownadapter = new ArrayAdapter<String>(HomePage.this, android.R.layout.simple_list_item_1, android.R.id.text1, strArr);
-        l2_dropdown.setAdapter(dropdownadapter); 
+        l2_dropdown.setAdapter(dropdownadapter);
         l2_dropdown.setOnItemSelectedListener(new OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
@@ -136,16 +137,20 @@ public class HomePage extends Activity implements OnClickListener {
                 Log.d("ID", Integer.toString(dropdown_list.get(position).getId()));
                 if (dropdown_list.get(position).getId() == -999) {
                     //Toast.makeText(getApplicationContext(), "Please Wait...", Toast.LENGTH_SHORT).show();
+                   
                 	HomePage.this.startActivity(new Intent(HomePage.this, LanguagePage.class));
                 }
                 else
                 {
                 homelang_id = dropdown_list.get(position).getId();
+                homelang_name = dropdown_list.get(position).getName(); //new
                 UserInfo user = OpenwordsSharedPreferences.getUserInfo();
                 user.setLang_id(homelang_id);
+                user.setLang_Name(homelang_name); //new
                 Toast.makeText(HomePage.this, "Chosen language id: " + homelang_id, Toast.LENGTH_SHORT).show();
                 OpenwordsSharedPreferences.setUserInfo(user);
-                Log.d("saved Lang", ""+OpenwordsSharedPreferences.getUserInfo().getLang_id());
+                Log.d("saved Lang", ""+OpenwordsSharedPreferences.getUserInfo().getLang_id()
+                		+OpenwordsSharedPreferences.getUserInfo().getLang_Name()); //new
                 //-----getting first x words if not present----
                 new GetFirstWords().execute();
                 }
