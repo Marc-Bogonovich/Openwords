@@ -101,58 +101,9 @@ public class LoginPage extends Activity implements OnClickListener {
             passwdField.setText(user.getPass());
         }
 
-//        Button test = (Button) findViewById(R.id.loginPage_test);
-//        test.setOnClickListener(new OnClickListener() {
-//
-//            public void onClick(View view) {
-//                final SelfEvalProgress progress = OpenwordsSharedPreferences.getSelfEvaluationProgress();
-//                if (progress == null) {
-//                    List<LeafCardSelfEval> cards = new LinkedList<LeafCardSelfEval>();
-//                    cards.add(new LeafCardSelfEval("Ã¤ÂºÂº", "person", "ren"));
-//                    cards.add(new LeafCardSelfEval("Ã§Å’Â«", "cat", "mao"));
-//                    cards.add(new LeafCardSelfEval("Ã¥Å“Â°Ã§ï¿½Æ’", "earth", "di qiu"));
-//                    cards.add(new LeafCardSelfEval("Ã¦â€”Â¶Ã©â€”Â´", "time", "shi jian"));
-//                    cards.add(new LeafCardSelfEval("Ã¤Â¸â€“Ã§â€¢Å’", "world", "shi jie"));
-//                    cards.add(new LeafCardSelfEval("Ã§â€�ÂµÃ¨â€žâ€˜", "computer", "dian nao"));
-//                    cards.add(new LeafCardSelfEval("Ã¨Â½Â¯Ã¤Â»Â¶", "software", "ruan jian"));
-//                    ActivitySelfEval.setCardsPool(cards);
-//                    startActivity(new Intent(LoginPage.this, ActivitySelfEval.class));
-//                } else {
-//                    new AlertDialog.Builder(LoginPage.this)
-//                            .setTitle("Continue?")
-//                            .setMessage("You have a saved progress, do you want to continue?")
-//                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
-//                                public void onClick(DialogInterface arg0, int arg1) {
-//                                    List<LeafCardSelfEval> cards = new LinkedList<LeafCardSelfEval>();
-//                                    cards.add(new LeafCardSelfEval("Ã¤ÂºÂº", "person", "ren"));
-//                                    cards.add(new LeafCardSelfEval("Ã§Å’Â«", "cat", "mao"));
-//                                    cards.add(new LeafCardSelfEval("Ã¥Å“Â°Ã§ï¿½Æ’", "earth", "di qiu"));
-//                                    cards.add(new LeafCardSelfEval("Ã¦â€”Â¶Ã©â€”Â´", "time", "shi jian"));
-//                                    cards.add(new LeafCardSelfEval("Ã¤Â¸â€“Ã§â€¢Å’", "world", "shi jie"));
-//                                    cards.add(new LeafCardSelfEval("Ã§â€�ÂµÃ¨â€žâ€˜", "computer", "dian nao"));
-//                                    cards.add(new LeafCardSelfEval("Ã¨Â½Â¯Ã¤Â»Â¶", "software", "ruan jian"));
-//                                    ActivitySelfEval.setCardsPool(cards);
-//                                    startActivity(new Intent(LoginPage.this, ActivitySelfEval.class));
-//                                }
-//                            })
-//                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-//                                public void onClick(DialogInterface arg0, int arg1) {
-//                               //     ActivitySelfEval.setCardsPool(progress.getCardsPool());
-//                              //      ActivitySelfEval.setCurrentCard(progress.getCurrentCard());
-//                                    startActivity(new Intent(LoginPage.this, ActivitySelfEval.class));
-//                                }
-//                            }).create().show();
-//                }
-//            }
-//        });
+
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.home_page, menu);
-//        return true;
-//    }
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.loginPage_Button_loginSubmit:

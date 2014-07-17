@@ -126,7 +126,7 @@ public class HomePage extends Activity implements OnClickListener {
             }
             
         }
-        //insert item into chooseLanguage spinner
+        //insert items into chooseLanguage spinner
         ArrayAdapter<String> dropdownadapter = new ArrayAdapter<String>(HomePage.this, android.R.layout.simple_list_item_1, android.R.id.text1, strArr);
         l2_dropdown.setAdapter(dropdownadapter);
         l2_dropdown.setOnItemSelectedListener(new OnItemSelectedListener() {
@@ -136,8 +136,6 @@ public class HomePage extends Activity implements OnClickListener {
                 pos = position;
                 Log.d("ID", Integer.toString(dropdown_list.get(position).getId()));
                 if (dropdown_list.get(position).getId() == -999) {
-                    //Toast.makeText(getApplicationContext(), "Please Wait...", Toast.LENGTH_SHORT).show();
-                   
                 	HomePage.this.startActivity(new Intent(HomePage.this, LanguagePage.class));
                 }
                 else
@@ -147,7 +145,6 @@ public class HomePage extends Activity implements OnClickListener {
                 UserInfo user = OpenwordsSharedPreferences.getUserInfo();
                 user.setLang_id(homelang_id);
                 user.setLang_Name(homelang_name); //new
-                Toast.makeText(HomePage.this, "Chosen language id: " + homelang_id, Toast.LENGTH_SHORT).show();
                 OpenwordsSharedPreferences.setUserInfo(user);
                 Log.d("saved Lang", ""+OpenwordsSharedPreferences.getUserInfo().getLang_id()
                 		+OpenwordsSharedPreferences.getUserInfo().getLang_Name()); //new
@@ -159,12 +156,9 @@ public class HomePage extends Activity implements OnClickListener {
 
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
-                // your code here
-                Log.d("whatever", "_nothing");
             }
         }
         );
-        //Log.d("ID",Integer.toString(dropdown_list.get(pos).getId()));  
         
         if(language_position != -1)
         	l2_dropdown.setSelection(language_position);
@@ -180,11 +174,6 @@ public class HomePage extends Activity implements OnClickListener {
     }
 
     public void readFromServer() {
-        /*
-         ArrayAdapter<CharSequence> languageAdapter = ArrayAdapter.createFromResource(this, R.array.homePage_Spinner_language_array, android.R.layout.simple_spinner_item);
-         languageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-         language.setAdapter(languageAdapter);
-         */
 
         ArrayList<HomePageTool> dropdown = new ArrayList<HomePageTool>();
         try {
@@ -223,7 +212,6 @@ public class HomePage extends Activity implements OnClickListener {
                     params.add(new BasicNameValuePair("user", Integer.toString(OpenwordsSharedPreferences.getUserInfo().getUserId())));
                     params.add(new BasicNameValuePair("langOne", "1"));
                     params.add(new BasicNameValuePair("langTwo", Integer.toString(OpenwordsSharedPreferences.getUserInfo().getLang_id())));
-                    Log.d("User", "47");
                     JSONParser jsonParse = new JSONParser();
                     JSONObject jObj = jsonParse.makeHttpRequest(nextwords_url, "POST", params);
                     Log.d("Obj", jObj.toString());
@@ -276,23 +264,12 @@ public class HomePage extends Activity implements OnClickListener {
         pDialog = ProgressDialog.show(HomePage.this, "",
                 "Assembling leaf cards", true);
         if (taskPage.equals("Review")) {
-//        	InitDatabase.checkAndRefreshPerf(this, 0);
-//        	UserPerformance.deleteAll(UserPerformance.class);
-//        	WordTranscription.deleteAll(WordTranscription.class);
-//        	UserWords.deleteAll(UserWords.class);
-//        	new InsertData(HomePage.this);
-        	
-        	//UserWords.setStaleToFresh(5);
-        	
-        	//List<UserWords> uw=UserWords.listAll(UserWords.class);
-        	//Log.d("*Data In User Words******", uw.get(0).connectionId+uw.get(0).wordLOne+uw.get(0).fresh);
-
             new Thread(new Runnable() {
                 List<LeafCard> cards;
 
                 public void run() {
-                    //InitDatabase.checkAndRefreshPerf(HomePage.this, 0, 1);
                     final ProgressReview progress = OpenwordsSharedPreferences.getReviewProgress();
+                    //check if there is a unfinished progress before AND the progress is using the same language
                     if (progress == null || progress.getLanguageID()!=OpenwordsSharedPreferences.getUserInfo().getLang_id()) {
                     	SIZE = OpenwordsSharedPreferences.getLeafCardSize();
                         cards = new LeafCardReviewAdapter().getList(SIZE);
@@ -321,7 +298,6 @@ public class HomePage extends Activity implements OnClickListener {
                 List<LeafCardSelfEval> cards;
 
                 public void run() {
-                    //InitDatabase.checkAndRefreshPerf(HomePage.this, 1, 1);
                     final ProgressSelfEval progress = OpenwordsSharedPreferences.getSelfEvaluationProgress();
                     if (progress == null || progress.getLanguageID()!=OpenwordsSharedPreferences.getUserInfo().getLang_id()) {
                     	SIZE = OpenwordsSharedPreferences.getLeafCardSize();
@@ -345,22 +321,11 @@ public class HomePage extends Activity implements OnClickListener {
                     pDialog.dismiss();
                 }
             }).start();
-
-//        	final SelfEvalProgress progress = OpenwordsSharedPreferences.getSelfEvaluationProgress();
-//        	List<LeafCardSelfEval> cards =  new LeafCardSelfEvalAdapter(HomePage.this).getList(SIZE);
-//            ActivitySelfEval.setCardsPool(cards);
-//        	if (progress == null) {  
-//                startActivity(new Intent(HomePage.this, ActivitySelfEval.class));
-//            } else {
-//            	ActivitySelfEval.setCurrentCard(progress.getCurrentCard());
-//                startActivity(new Intent(HomePage.this, ActivitySelfEval.class)); 
-//            }
         } else if (taskPage.equals("Type evaluation")) {
             new Thread(new Runnable() {
                 List<LeafCardTypeEval> cards;
 
                 public void run() {
-                    //InitDatabase.checkAndRefreshPerf(HomePage.this, 2, 1);
                     final ProgressTypeEval progress = OpenwordsSharedPreferences.getTypeEvaluationProgress();
                     if (progress == null || progress.getLanguageID()!=OpenwordsSharedPreferences.getUserInfo().getLang_id()) {
                     	SIZE = OpenwordsSharedPreferences.getLeafCardSize();
@@ -390,7 +355,6 @@ public class HomePage extends Activity implements OnClickListener {
                 List<LeafCardHearing> cards;
 
                 public void run() {
-                    //InitDatabase.checkAndRefreshPerf(HomePage.this, 3, 1);
                     final ProgressHearing progress = OpenwordsSharedPreferences.getHearingProgress();
                     if (progress == null || progress.getLanguageID()!=OpenwordsSharedPreferences.getUserInfo().getLang_id()) {
                     	SIZE = OpenwordsSharedPreferences.getLeafCardSize();
@@ -429,8 +393,6 @@ public class HomePage extends Activity implements OnClickListener {
             case R.id.homePage_Button_testPageGo:
                 testPageButtonClick();
                 break;
-            //case R.id.homePage_Spinner_chooseLanguage:
-            //Log.d("whatever", Integer.toString(l2_dropdown.getSelectedItemPosition()));
         }
     }
 
