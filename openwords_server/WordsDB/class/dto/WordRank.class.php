@@ -8,9 +8,9 @@
 	class WordRank{
 		
 		var $id;
-		var $wordId;
-		var $rank;
-		var $rankType;
-		
+		var $wordId;
+		var $rank;
+		var $rankType;
+		
 	}
 ?>

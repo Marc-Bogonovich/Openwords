@@ -8,8 +8,8 @@
 	class Word{
 		
 		var $id;
-		var $languageId;
-		var $word;
-		
+		var $languageId;
+		var $word;
+		
 	}
 ?>

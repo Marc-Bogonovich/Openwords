@@ -3,13 +3,13 @@
 	 * Object represents table 'roles'
 	 *
      	 * @author: http://phpdao.com
-     	 * @date: 2014-05-19 16:06	 
+     	 * @date: 2014-07-03 10:57	 
 	 */
 	class Role{
 		
 		var $id;
-		var $name;
-		var $description;
-		
+		var $name;
+		var $description;
+		
 	}
 ?>

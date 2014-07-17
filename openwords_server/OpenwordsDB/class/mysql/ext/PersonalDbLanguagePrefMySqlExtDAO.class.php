@@ -8,7 +8,7 @@
 class PersonalDbLanguagePrefMySqlExtDAO extends PersonalDbLanguagePrefMySqlDAO{
 
 	public function insertMod($user,$l2id){
-		$sql = 'INSERT INTO personal_db_language_pref (user_id, l2_pref_id, l2_pref_name) SELECT ?,id,language FROM owr_1_0.languages where id = ?';
+		$sql = 'INSERT INTO personal_db_language_pref (user_id, l2_pref_id, l2_pref_name) SELECT ?,id,language FROM oworg_owr_1_0.languages where id = ?';
 		
 		$sqlQuery = new SqlQuery($sql);
 		

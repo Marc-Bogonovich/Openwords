@@ -8,8 +8,8 @@
 	class ConnectionTag{
 		
 		var $id;
-		var $tieId;
-		var $tag;
-		
+		var $tieId;
+		var $tag;
+		
 	}
 ?>

@@ -3,7 +3,7 @@
  * Class that operate on table 'user_performance'. Database Mysql.
  *
  * @author: http://phpdao.com
- * @date: 2014-05-19 16:06
+ * @date: 2014-07-03 10:57
  */
 class UserPerformanceMySqlDAO implements UserPerformanceDAO{
 
@@ -13,12 +13,10 @@ class UserPerformanceMySqlDAO implements UserPerformanceDAO{
 	 * @param String $id primary key
 	 * @return UserPerformanceMySql 
 	 */
-	public function load($userId, $connectionId){
-		$sql = 'SELECT * FROM user_performance WHERE user_id = ?  AND connection_id = ? ';
+	public function load($id){
+		$sql = 'SELECT * FROM user_performance WHERE id = ?';
 		$sqlQuery = new SqlQuery($sql);
-		$sqlQuery->setNumber($userId);
-		$sqlQuery->setNumber($connectionId);
-
+		$sqlQuery->setNumber($id);
 		return $this->getRow($sqlQuery);
 	}
 
@@ -46,12 +44,10 @@ class UserPerformanceMySqlDAO implements UserPerformanceDAO{
  	 * Delete record from table
  	 * @param userPerformance primary key
  	 */
-	public function delete($userId, $connectionId){
-		$sql = 'DELETE FROM user_performance WHERE user_id = ?  AND connection_id = ? ';
+	public function delete($id){
+		$sql = 'DELETE FROM user_performance WHERE id = ?';
 		$sqlQuery = new SqlQuery($sql);
-		$sqlQuery->setNumber($userId);
-		$sqlQuery->setNumber($connectionId);
-
+		$sqlQuery->setNumber($id);
 		return $this->executeUpdate($sqlQuery);
 	}
 	
@@ -61,24 +57,19 @@ class UserPerformanceMySqlDAO implements UserPerformanceDAO{
  	 * @param UserPerformanceMySql userPerformance
  	 */
 	public function insert($userPerformance){
-		$sql = 'INSERT INTO user_performance (total_correct, total_skipped, total_exposure, last_time, last_performance, user_exclude, user_id, connection_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
+		$sql = 'INSERT INTO user_performance (user_id, connection_id, type, performance, time, user_exclude) VALUES (?, ?, ?, ?, ?, ?)';
 		$sqlQuery = new SqlQuery($sql);
 		
-		$sqlQuery->setNumber($userPerformance->totalCorrect);
-		$sqlQuery->setNumber($userPerformance->totalSkipped);
-		$sqlQuery->setNumber($userPerformance->totalExposure);
-		$sqlQuery->set($userPerformance->lastTime);
-		$sqlQuery->setNumber($userPerformance->lastPerformance);
+		$sqlQuery->setNumber($userPerformance->userId);
+		$sqlQuery->setNumber($userPerformance->connectionId);
+		$sqlQuery->setNumber($userPerformance->type);
+		$sqlQuery->setNumber($userPerformance->performance);
+		$sqlQuery->setNumber($userPerformance->time);
 		$sqlQuery->setNumber($userPerformance->userExclude);
 
-		
-		$sqlQuery->setNumber($userPerformance->userId);
-
-		$sqlQuery->setNumber($userPerformance->connectionId);
-
-		$this->executeInsert($sqlQuery);	
+		$id = $this->executeInsert($sqlQuery);	
 		//$userPerformance->id = $id;
-		//return $id;
+		return $id;
 	}
 	
 	/**
@@ -87,21 +78,17 @@ class UserPerformanceMySqlDAO implements UserPerformanceDAO{
  	 * @param UserPerformanceMySql userPerformance
  	 */
 	public function update($userPerformance){
-		$sql = 'UPDATE user_performance SET total_correct = ?, total_skipped = ?, total_exposure = ?, last_time = ?, last_performance = ?, user_exclude = ? WHERE user_id = ?  AND connection_id = ? ';
+		$sql = 'UPDATE user_performance SET user_id = ?, connection_id = ?, type = ?, performance = ?, time = ?, user_exclude = ? WHERE id = ?';
 		$sqlQuery = new SqlQuery($sql);
 		
-		$sqlQuery->setNumber($userPerformance->totalCorrect);
-		$sqlQuery->setNumber($userPerformance->totalSkipped);
-		$sqlQuery->setNumber($userPerformance->totalExposure);
-		$sqlQuery->set($userPerformance->lastTime);
-		$sqlQuery->setNumber($userPerformance->lastPerformance);
+		$sqlQuery->setNumber($userPerformance->userId);
+		$sqlQuery->setNumber($userPerformance->connectionId);
+		$sqlQuery->setNumber($userPerformance->type);
+		$sqlQuery->setNumber($userPerformance->performance);
+		$sqlQuery->set($userPerformance->time);
 		$sqlQuery->setNumber($userPerformance->userExclude);
 
-		
-		$sqlQuery->setNumber($userPerformance->userId);
-
-		$sqlQuery->setNumber($userPerformance->connectionId);
-
+		$sqlQuery->setNumber($userPerformance->id);
 		return $this->executeUpdate($sqlQuery);
 	}
 
@@ -114,38 +101,38 @@ class UserPerformanceMySqlDAO implements UserPerformanceDAO{
 		return $this->executeUpdate($sqlQuery);
 	}
 
-	public function queryByTotalCorrect($value){
-		$sql = 'SELECT * FROM user_performance WHERE total_correct = ?';
+	public function queryByUserId($value){
+		$sql = 'SELECT * FROM user_performance WHERE user_id = ?';
 		$sqlQuery = new SqlQuery($sql);
 		$sqlQuery->setNumber($value);
 		return $this->getList($sqlQuery);
 	}
 
-	public function queryByTotalSkipped($value){
-		$sql = 'SELECT * FROM user_performance WHERE total_skipped = ?';
+	public function queryByConnectionId($value){
+		$sql = 'SELECT * FROM user_performance WHERE connection_id = ?';
 		$sqlQuery = new SqlQuery($sql);
 		$sqlQuery->setNumber($value);
 		return $this->getList($sqlQuery);
 	}
 
-	public function queryByTotalExposure($value){
-		$sql = 'SELECT * FROM user_performance WHERE total_exposure = ?';
+	public function queryByType($value){
+		$sql = 'SELECT * FROM user_performance WHERE type = ?';
 		$sqlQuery = new SqlQuery($sql);
 		$sqlQuery->setNumber($value);
 		return $this->getList($sqlQuery);
 	}
 
-	public function queryByLastTime($value){
-		$sql = 'SELECT * FROM user_performance WHERE last_time = ?';
+	public function queryByPerformance($value){
+		$sql = 'SELECT * FROM user_performance WHERE performance = ?';
+		$sqlQuery = new SqlQuery($sql);
+		$sqlQuery->setNumber($value);
+		return $this->getList($sqlQuery);
+	}
+
+	public function queryByTime($value){
+		$sql = 'SELECT * FROM user_performance WHERE time = ?';
 		$sqlQuery = new SqlQuery($sql);
 		$sqlQuery->set($value);
-		return $this->getList($sqlQuery);
-	}
-
-	public function queryByLastPerformance($value){
-		$sql = 'SELECT * FROM user_performance WHERE last_performance = ?';
-		$sqlQuery = new SqlQuery($sql);
-		$sqlQuery->setNumber($value);
 		return $this->getList($sqlQuery);
 	}
 
@@ -157,38 +144,38 @@ class UserPerformanceMySqlDAO implements UserPerformanceDAO{
 	}
 
 
-	public function deleteByTotalCorrect($value){
-		$sql = 'DELETE FROM user_performance WHERE total_correct = ?';
+	public function deleteByUserId($value){
+		$sql = 'DELETE FROM user_performance WHERE user_id = ?';
 		$sqlQuery = new SqlQuery($sql);
 		$sqlQuery->setNumber($value);
 		return $this->executeUpdate($sqlQuery);
 	}
 
-	public function deleteByTotalSkipped($value){
-		$sql = 'DELETE FROM user_performance WHERE total_skipped = ?';
+	public function deleteByConnectionId($value){
+		$sql = 'DELETE FROM user_performance WHERE connection_id = ?';
 		$sqlQuery = new SqlQuery($sql);
 		$sqlQuery->setNumber($value);
 		return $this->executeUpdate($sqlQuery);
 	}
 
-	public function deleteByTotalExposure($value){
-		$sql = 'DELETE FROM user_performance WHERE total_exposure = ?';
+	public function deleteByType($value){
+		$sql = 'DELETE FROM user_performance WHERE type = ?';
 		$sqlQuery = new SqlQuery($sql);
 		$sqlQuery->setNumber($value);
 		return $this->executeUpdate($sqlQuery);
 	}
 
-	public function deleteByLastTime($value){
-		$sql = 'DELETE FROM user_performance WHERE last_time = ?';
+	public function deleteByPerformance($value){
+		$sql = 'DELETE FROM user_performance WHERE performance = ?';
+		$sqlQuery = new SqlQuery($sql);
+		$sqlQuery->setNumber($value);
+		return $this->executeUpdate($sqlQuery);
+	}
+
+	public function deleteByTime($value){
+		$sql = 'DELETE FROM user_performance WHERE time = ?';
 		$sqlQuery = new SqlQuery($sql);
 		$sqlQuery->set($value);
-		return $this->executeUpdate($sqlQuery);
-	}
-
-	public function deleteByLastPerformance($value){
-		$sql = 'DELETE FROM user_performance WHERE last_performance = ?';
-		$sqlQuery = new SqlQuery($sql);
-		$sqlQuery->setNumber($value);
 		return $this->executeUpdate($sqlQuery);
 	}
 
@@ -209,13 +196,12 @@ class UserPerformanceMySqlDAO implements UserPerformanceDAO{
 	protected function readRow($row){
 		$userPerformance = new UserPerformance();
 		
+		$userPerformance->id = $row['id'];
 		$userPerformance->userId = $row['user_id'];
 		$userPerformance->connectionId = $row['connection_id'];
-		$userPerformance->totalCorrect = $row['total_correct'];
-		$userPerformance->totalSkipped = $row['total_skipped'];
-		$userPerformance->totalExposure = $row['total_exposure'];
-		$userPerformance->lastTime = $row['last_time'];
-		$userPerformance->lastPerformance = $row['last_performance'];
+		$userPerformance->type = $row['type'];
+		$userPerformance->performance = $row['performance'];
+		$userPerformance->time = $row['time'];
 		$userPerformance->userExclude = $row['user_exclude'];
 
 		return $userPerformance;

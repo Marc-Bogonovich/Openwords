@@ -8,8 +8,8 @@
 	class LearnableLanguageOption{
 		
 		var $l1Id;
-		var $optionL2Id;
-		var $optionL2Name;
-		
+		var $optionL2Id;
+		var $optionL2Name;
+		
 	}
 ?>

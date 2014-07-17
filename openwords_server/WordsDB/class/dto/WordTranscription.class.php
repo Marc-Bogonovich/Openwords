@@ -8,9 +8,9 @@
 	class WordTranscription{
 		
 		var $id;
-		var $wordId;
-		var $transcription;
-		var $transcriptionType;
-		
+		var $wordId;
+		var $transcription;
+		var $transcriptionType;
+		
 	}
 ?>

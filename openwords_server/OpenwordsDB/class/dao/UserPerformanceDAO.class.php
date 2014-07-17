@@ -3,7 +3,7 @@
  * Intreface DAO
  *
  * @author: http://phpdao.com
- * @date: 2014-05-19 16:06
+ * @date: 2014-07-03 10:57
  */
 interface UserPerformanceDAO{
 
@@ -13,7 +13,7 @@ interface UserPerformanceDAO{
 	 * @param String $id primary key
 	 * @Return UserPerformance 
 	 */
-	public function load($userId, $connectionId);
+	public function load($id);
 
 	/**
 	 * Get all records from table
@@ -30,7 +30,7 @@ interface UserPerformanceDAO{
  	 * Delete record from table
  	 * @param userPerformance primary key
  	 */
-	public function delete($userId, $connectionId);
+	public function delete($id);
 	
 	/**
  	 * Insert record to table
@@ -51,28 +51,28 @@ interface UserPerformanceDAO{
 	 */
 	public function clean();
 
-	public function queryByTotalCorrect($value);
+	public function queryByUserId($value);
 
-	public function queryByTotalSkipped($value);
+	public function queryByConnectionId($value);
 
-	public function queryByTotalExposure($value);
+	public function queryByType($value);
 
-	public function queryByLastTime($value);
+	public function queryByPerformance($value);
 
-	public function queryByLastPerformance($value);
+	public function queryByTime($value);
 
 	public function queryByUserExclude($value);
 
 
-	public function deleteByTotalCorrect($value);
+	public function deleteByUserId($value);
 
-	public function deleteByTotalSkipped($value);
+	public function deleteByConnectionId($value);
 
-	public function deleteByTotalExposure($value);
+	public function deleteByType($value);
 
-	public function deleteByLastTime($value);
+	public function deleteByPerformance($value);
 
-	public function deleteByLastPerformance($value);
+	public function deleteByTime($value);
 
 	public function deleteByUserExclude($value);
 

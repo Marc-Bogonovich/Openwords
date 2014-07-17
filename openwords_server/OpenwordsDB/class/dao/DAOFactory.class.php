@@ -49,6 +49,13 @@ class DAOFactory{
 		return new UserPerformanceMySqlExtDAO();
 	}
 
+	/**
+	 * @return UserWordsDAO
+	 */
+	public static function getUserWordsDAO(){
+		return new UserWordsMySqlExtDAO();
+	}
+
 
 }
 ?>

@@ -8,8 +8,8 @@
 	class WordTag{
 		
 		var $id;
-		var $wordId;
-		var $tag;
-		
+		var $wordId;
+		var $tag;
+		
 	}
 ?>

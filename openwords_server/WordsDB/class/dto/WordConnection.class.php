@@ -8,9 +8,9 @@
 	class WordConnection{
 		
 		var $id;
-		var $word1Id;
-		var $word2Id;
-		var $connectionType;
-		
+		var $word1Id;
+		var $word2Id;
+		var $connectionType;
+		
 	}
 ?>

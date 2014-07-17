@@ -8,7 +8,7 @@
 	class Language{
 		
 		var $id;
-		var $language;
-		
+		var $language;
+		
 	}
 ?>

@@ -8,9 +8,9 @@
 	class WordMeaning{
 		
 		var $id;
-		var $wordId;
-		var $type;
-		var $meaningText;
-		
+		var $wordId;
+		var $type;
+		var $meaningText;
+		
 	}
 ?>

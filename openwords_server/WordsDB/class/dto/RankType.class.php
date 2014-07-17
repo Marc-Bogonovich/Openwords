@@ -8,7 +8,7 @@
 	class RankType{
 		
 		var $id;
-		var $rankTypeName;
-		
+		var $rankTypeName;
+		
 	}
 ?>

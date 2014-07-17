@@ -3,18 +3,17 @@
 	 * Object represents table 'user_performance'
 	 *
      	 * @author: http://phpdao.com
-     	 * @date: 2014-05-19 16:06	 
+     	 * @date: 2014-07-03 10:57	 
 	 */
 	class UserPerformance{
 		
+		var $id;
 		var $userId;
-		var $connectionId;
-		var $totalCorrect;
-		var $totalSkipped;
-		var $totalExposure;
-		var $lastTime;
-		var $lastPerformance;
-		var $userExclude;
-		
+		var $connectionId;
+		var $type;
+		var $performance;
+		var $time;
+		var $userExclude;
+		
 	}
 ?>

@@ -6,10 +6,10 @@
  * @date: 27.11.2007
  */
 class ConnectionProperty2{
-	private static $host = 'geographycontest.ipagemysql.com';
-	private static $user = 'maydas';
-	private static $password = 'maydas';
-	private static $database = 'owr_1_0';
+	private static $host = 'localhost';
+	private static $user = 'oworg';
+	private static $password = '$Neander456';
+	private static $database = 'oworg_owr_1_0';
 
 	public static function getHost(){
 		return ConnectionProperty2::$host;

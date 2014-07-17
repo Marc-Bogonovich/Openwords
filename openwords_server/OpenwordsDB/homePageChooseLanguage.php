@@ -4,10 +4,10 @@ require_once('include_dao.php');
 
 $resp = array();
 $jsonresp = array();
-if(isset($_GET['userid']))
+if(isset($_POST['userid']))
 {
 	//echo "hello";
-	$user = $_GET['userid'];
+	$user = $_POST['userid'];
 	//-------getting language preference of user-------
 	$result = DAOFactory::getPersonalDbLanguagePrefDAO()->queryByUser($user);
 

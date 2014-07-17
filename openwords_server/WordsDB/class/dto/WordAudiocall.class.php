@@ -8,8 +8,8 @@
 	class WordAudiocall{
 		
 		var $id;
-		var $wordId;
-		var $url;
-		
+		var $wordId;
+		var $url;
+		
 	}
 ?>

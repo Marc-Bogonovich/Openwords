@@ -3,7 +3,7 @@
  * Class that operate on table 'personal_db_language_pref'. Database Mysql.
  *
  * @author: http://phpdao.com
- * @date: 2014-05-19 16:06
+ * @date: 2014-07-03 10:57
  */
 class PersonalDbLanguagePrefMySqlDAO implements PersonalDbLanguagePrefDAO{
 

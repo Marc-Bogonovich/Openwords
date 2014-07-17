@@ -33,5 +33,9 @@
 	require_once('class/dto/UserPerformance.class.php');
 	require_once('class/mysql/UserPerformanceMySqlDAO.class.php');
 	require_once('class/mysql/ext/UserPerformanceMySqlExtDAO.class.php');
+	require_once('class/dao/UserWordsDAO.class.php');
+	require_once('class/dto/UserWord.class.php');
+	require_once('class/mysql/UserWordsMySqlDAO.class.php');
+	require_once('class/mysql/ext/UserWordsMySqlExtDAO.class.php');
 
 ?>

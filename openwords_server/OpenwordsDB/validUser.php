@@ -17,6 +17,7 @@ if(isset($_POST['email']) && isset($_POST['password']) ) {
 	
 	//----------new code with dao---------
 	//echo $email;
+
 	$result = DAOFactory::getUserDbDAO()->queryByIdAndPassword($email,$password);
 	
 	//echo $result[0]->email;
@@ -29,10 +30,13 @@ if(isset($_POST['email']) && isset($_POST['password']) ) {
  	else {
 		$response["success"] = 0;
         $response["message"] = "Invalid email/password";
+		$response["userid"] = -1;
 	}
+
 } else {
 	$response["success"] = 0;
         $response["message"] = "No data";
+	$response["userid"] = -1;
 	//$response["message"] = "email: " . $_POST['email'] . "password" . $_POST['password'];
 }
 echo json_encode($response);
