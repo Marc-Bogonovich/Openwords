@@ -11,6 +11,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.Spinner;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -21,7 +24,7 @@ import com.openwords.util.preference.OpenwordsSharedPreferences;
 
 public class SettingsPage extends Activity {
 
-    private Button buttonTest;
+    private RadioGroup portalPageRadioGroup;
     private Spinner wsaSpinner, leafCardSizeSpinner;
 
     @Override
@@ -30,17 +33,29 @@ public class SettingsPage extends Activity {
         setContentView(R.layout.activity_settings_page);
         //BackIcons.builder(this);
         BackIcons.builder(this);
-        buttonTest = (Button) findViewById(R.id.settingsPage_button_test);
-        buttonTest.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                boolean hide = OpenwordsSharedPreferences.getHidePortal();
-                OpenwordsSharedPreferences.setHidePortal(!hide);
-                Toast.makeText(SettingsPage.this, "Hide Portal is set to " + hide, Toast.LENGTH_LONG).show();
-            }
-        });
+        portalPageRadioGroup = (RadioGroup) findViewById(R.id.settingsPage_RadioGroup_portalPage);
+        if(OpenwordsSharedPreferences.getHidePortal()) {
+        	portalPageRadioGroup.check(R.id.settingsPage_RadioButton_hidePortalPage);
+        } else {
+        	portalPageRadioGroup.check(R.id.settingsPage_RadioButton_displayPortalPage);
+        }
         
         addWSASpinner();
         addLeafCardSizeSpinner();
+    }
+    
+    public void onRadioButtonClicked(View view) {
+		switch(view.getId()) {
+	 	case R.id.settingsPage_RadioButton_displayPortalPage:
+            	OpenwordsSharedPreferences.setHidePortal(false);
+            	Toast.makeText(SettingsPage.this, "Display portal page icon", Toast.LENGTH_SHORT).show();
+            break;
+        case R.id.settingsPage_RadioButton_hidePortalPage:
+            	OpenwordsSharedPreferences.setHidePortal(true);
+            	Toast.makeText(SettingsPage.this, "Hide portal page icon", Toast.LENGTH_SHORT).show();
+            break;
+		}
+		
     }
     
     private void addWSASpinner() {
