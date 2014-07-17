@@ -12,6 +12,7 @@ public class UserInfo {
     private int last_userid;
     // Add variable for learning module language id
     private int lang_id;
+    private String lang_name;
     private long last_perf_upd;
     
     public UserInfo(String userName, String pass) {
@@ -62,6 +63,17 @@ public class UserInfo {
         this.setLast_userid(last_userid);
         this.last_perf_upd = lastUpd;
     }
+    
+    public UserInfo(int last_userid, int lang_id, String langName, int userId, String userName, String pass, long lastLoginTime, long lastUpd) {
+        this.userId = userId;
+        this.userName = userName;
+        this.pass = pass;
+        this.lastLoginTime = lastLoginTime;
+        this.lang_id = lang_id;
+        this.lang_name = langName;
+        this.setLast_userid(last_userid);
+        this.last_perf_upd = lastUpd;
+    }
 
 
     public int getUserId() {
@@ -107,6 +119,14 @@ public class UserInfo {
 
 	public void setLang_id(int lang_id) {
 		this.lang_id = lang_id;
+	}
+	
+	public String getLang_Name() {
+		return lang_name;
+	}
+
+	public void setLang_Name(String langName) {
+		this.lang_name = langName;
 	}
 
 	public int getLast_userid() {
