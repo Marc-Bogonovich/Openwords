@@ -86,7 +86,7 @@ public class HomePage extends Activity implements OnClickListener {
     	Log.e("HomePage","onCreate");
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-
+        
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);//for testing purpose
 
@@ -294,7 +294,7 @@ public class HomePage extends Activity implements OnClickListener {
                     //InitDatabase.checkAndRefreshPerf(HomePage.this, 0, 1);
                     final ProgressReview progress = OpenwordsSharedPreferences.getReviewProgress();
                     if (progress == null || progress.getLanguageID()!=OpenwordsSharedPreferences.getUserInfo().getLang_id()) {
-
+                    	SIZE = OpenwordsSharedPreferences.getLeafCardSize();
                         cards = new LeafCardReviewAdapter().getList(SIZE);
                         if (cards.size() <= 0) {
                             runOnUiThread(new Runnable() {
@@ -324,7 +324,7 @@ public class HomePage extends Activity implements OnClickListener {
                     //InitDatabase.checkAndRefreshPerf(HomePage.this, 1, 1);
                     final ProgressSelfEval progress = OpenwordsSharedPreferences.getSelfEvaluationProgress();
                     if (progress == null || progress.getLanguageID()!=OpenwordsSharedPreferences.getUserInfo().getLang_id()) {
-
+                    	SIZE = OpenwordsSharedPreferences.getLeafCardSize();
                         cards = new LeafCardSelfEvalAdapter().getList(SIZE);
                         if (cards.size() <= 0) {
                             runOnUiThread(new Runnable() {
@@ -363,7 +363,7 @@ public class HomePage extends Activity implements OnClickListener {
                     //InitDatabase.checkAndRefreshPerf(HomePage.this, 2, 1);
                     final ProgressTypeEval progress = OpenwordsSharedPreferences.getTypeEvaluationProgress();
                     if (progress == null || progress.getLanguageID()!=OpenwordsSharedPreferences.getUserInfo().getLang_id()) {
-
+                    	SIZE = OpenwordsSharedPreferences.getLeafCardSize();
                         cards = new LeafCardTypeEvalAdapter().getList(SIZE);
                         if (cards.size() <= 0) {
                             runOnUiThread(new Runnable() {
@@ -393,7 +393,7 @@ public class HomePage extends Activity implements OnClickListener {
                     //InitDatabase.checkAndRefreshPerf(HomePage.this, 3, 1);
                     final ProgressHearing progress = OpenwordsSharedPreferences.getHearingProgress();
                     if (progress == null || progress.getLanguageID()!=OpenwordsSharedPreferences.getUserInfo().getLang_id()) {
-
+                    	SIZE = OpenwordsSharedPreferences.getLeafCardSize();
                         cards = new LeafCardHearingAdapter().getList(SIZE);
                         if (cards.size() <= 0) {
                             runOnUiThread(new Runnable() {

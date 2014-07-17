@@ -94,9 +94,10 @@
 	<string name="typeEvaluate_EditText_input">Input the translation</string>
 	<string name="profilePage_TextView_preknowledge">How many words do you already know?</string>
 	<string name="plateCompletion_Button_newWord">Get new words</string>
-	<string name="plateCompletion_Button_nextPlate">Next plate</string>
+	<string name="plateCompletion_Button_nextPlate">Next round</string>
 	<string name="plateCompletion_Button_home">Home</string>
 	<string name="WP_ok">Ok</string>
 	<string name="WP_Cancel">Cancel</string>
-	<string name="settingsPage_TextView_WSA">Please select selection algorithm</string>
+	<string name="settingsPage_TextView_WSA">Select selection algorithm</string>
+	<string name="settingsPage_TextView_leafCardSize">Number of leaf-cards per round</string>
 </resources>

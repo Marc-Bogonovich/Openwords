@@ -22,7 +22,7 @@ import com.openwords.util.preference.OpenwordsSharedPreferences;
 public class SettingsPage extends Activity {
 
     private Button buttonTest;
-    private Spinner wsaSpinner;
+    private Spinner wsaSpinner, leafCardSizeSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +40,7 @@ public class SettingsPage extends Activity {
         });
         
         addWSASpinner();
+        addLeafCardSizeSpinner();
     }
     
     private void addWSASpinner() {
@@ -61,9 +62,41 @@ public class SettingsPage extends Activity {
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
             	OpenwordsSharedPreferences.setAlgIndex(position);
             	Toast.makeText(parentView.getContext(), 
-            			"Select WSA : " + parentView.getItemAtPosition(position).toString(),
+            			"Selected WSA : " + parentView.getItemAtPosition(position).toString(),
             			Toast.LENGTH_SHORT).show();
 
+            }
+
+			@Override
+			public void onNothingSelected(AdapterView<?> parent) {
+				// TODO Auto-generated method stub
+				
+			}
+    	
+    	});
+    	
+      }
+    
+    private void addLeafCardSizeSpinner() {
+   	 
+    	leafCardSizeSpinner = (Spinner) findViewById(R.id.settingsPage_Spinner_leafCardSize);
+    	List<String> list = new ArrayList<String>();
+    	for(int i=5;i<15;i++) {
+    		list.add(Integer.toString(i));
+    	}
+    	
+    	ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+    		android.R.layout.simple_spinner_item, list);
+    	dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+    	leafCardSizeSpinner.setAdapter(dataAdapter);
+    	leafCardSizeSpinner.setSelection(list.indexOf(Integer.toString(OpenwordsSharedPreferences.getLeafCardSize())));
+    	leafCardSizeSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+            	OpenwordsSharedPreferences.setLeafCardSize(Integer.parseInt(parentView.getItemAtPosition(position).toString()));
+            	Toast.makeText(parentView.getContext(), 
+            			"Selected leaf-card size: " + parentView.getItemAtPosition(position).toString(),
+            			Toast.LENGTH_SHORT).show();
             }
 
 			@Override

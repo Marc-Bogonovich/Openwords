@@ -88,9 +88,8 @@ public class WordSelectionAlg extends SugarRecord<UserPerformance> implements WS
 			return result;
 		}
 
-		Log.e("findByUser return size",""+perform.size()+"--"+perform.get(0).connection_id);
 		weightTable = new HashMap<Integer, Double>();
-		//assemble 
+		//assemble the word-weight table
 		for(UserPerformance item : perform) {
 			double weight = calcWeight(item);
 			Log.e("Weight Table",item.connection_id+" "+weight);
@@ -103,7 +102,6 @@ public class WordSelectionAlg extends SugarRecord<UserPerformance> implements WS
 		    totalWeight += weightTable.get(item.connection_id);
 		}
 		// Now choose a random item
-
 
 		double lastConnID = -1;
 		for(int i=0;i<size;i++) {

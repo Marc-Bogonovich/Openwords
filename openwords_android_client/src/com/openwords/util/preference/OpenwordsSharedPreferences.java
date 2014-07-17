@@ -29,6 +29,14 @@ public class OpenwordsSharedPreferences {
     public static final String TYPE_EVALUATION_PROGRESS = "app.typeeval.progress";
     public static final String HIDE_PORTAL = "app.hide.portal";
     private static int ALG_INDEX = 0;
+	private static int LEAF_CARD_SIZE = 10;
+    public static int getLeafCardSize() {
+		return LEAF_CARD_SIZE;
+	}
+
+	public static void setLeafCardSize(int lEAF_CARD_SIZE) {
+		LEAF_CARD_SIZE = lEAF_CARD_SIZE;
+	}
     private static List<WSAinterface> wordSelectionAlgList = new ArrayList<WSAinterface>();
 
 	public static List<WSAinterface> getWordSelectionAlgList() {
