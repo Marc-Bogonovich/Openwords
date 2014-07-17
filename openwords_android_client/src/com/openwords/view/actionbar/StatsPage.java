@@ -8,14 +8,18 @@ import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.ProgressBar;
 import com.openwords.R;
+import com.openwords.util.preference.OpenwordsSharedPreferences;
+
 import android.os.Handler;
 
 public class StatsPage extends Activity {
 
-    private TextView text;
+    private TextView text_age;
+    private TextView text_lang;
     private ProgressBar progressBar;
     private int mProgressStatus = 0;
     private ActionBarBuilder actionBar;
+    String languageName;
 
     private Handler progressHandler = new Handler();
 
@@ -27,9 +31,13 @@ public class StatsPage extends Activity {
 
         setContentView(R.layout.activity_stats_page);
 
-        text = (TextView) findViewById(R.id.statsPage_TextView_age);
+        text_age = (TextView) findViewById(R.id.statsPage_TextView_age);
 
-        text.setText("0 " + "years , " + "1 " + "months ");
+        text_age.setText("0 " + "years , " + "1 " + "months ");
+
+        languageName = OpenwordsSharedPreferences.getUserInfo().getLang_Name();
+        text_lang = (TextView) findViewById(R.id.statsPage_TextView_languageName);
+        text_lang.setText(languageName);
 
         //build ActionBar
         actionBar = new ActionBarBuilder(this, ActionBarBuilder.Stats_Page);
