@@ -51,7 +51,6 @@ public class LoginPage extends Activity implements OnClickListener {
     public static final String TAG_USERID = "userid";
     private static final String url_check_user = "http://geographycontest.ipage.com/OpenwordsOrg/OpenwordsDB/validUser.php";
     //private static String url_check_user = "http://geographycontest.ipage.com/OpenwordsOrg/validUser.php";
-    private SharedPreferences settings;
     private ProgressDialog pDialog = null;
     private String username;
     private String password;
@@ -71,12 +70,13 @@ public class LoginPage extends Activity implements OnClickListener {
         passwdField.setTypeface(Typeface.DEFAULT);
         passwdField.setTransformationMethod(new PasswordTransformationMethod());
 
-        settings = PreferenceManager.getDefaultSharedPreferences(this);
-        if (settings.getBoolean(SAVEUSER, false)) { // if user choose save username before
-            username = settings.getString(USERNAME, "");
-            password = settings.getString(PASSWORD, "");
-            UIHelper.displayText(this, R.id.loginPage_EditText_username, username);
-            UIHelper.displayText(this, R.id.loginPage_EditText_password, password);
+        if (OpenwordsSharedPreferences.getSaveUser()) { // if user choose save username before
+            username = OpenwordsSharedPreferences.getUserInfo().getUserName();
+            password = OpenwordsSharedPreferences.getUserInfo().getPass();
+            usernameField.setText(username);
+            passwdField.setText(password);
+//            UIHelper.displayText(this, R.id.loginPage_EditText_username, username);
+//            UIHelper.displayText(this, R.id.loginPage_EditText_password, password);
             UIHelper.setCBChecked(this, R.id.loginPage_CheckBox_rememberMe, true);
         }
 
@@ -93,14 +93,6 @@ public class LoginPage extends Activity implements OnClickListener {
         //add word algorithm
         OpenwordsSharedPreferences.addSelectionAlg(new WordSelectionAlg());
         OpenwordsSharedPreferences.addSelectionAlg(new RandomSelectAlg());
-        UserInfo user = OpenwordsSharedPreferences.getUserInfo();
-        if (user == null) {
-            Toast.makeText(LoginPage.this, "no user", Toast.LENGTH_SHORT).show();
-        } else {
-            usernameField.setText(user.getUserName());
-            passwdField.setText(user.getPass());
-        }
-
 
     }
 
@@ -143,7 +135,6 @@ public class LoginPage extends Activity implements OnClickListener {
             List<NameValuePair> params = new ArrayList<NameValuePair>(2);
             params.add(new BasicNameValuePair("email", username.trim()));
             params.add(new BasicNameValuePair("password", password.trim()));
-            Log.e("LoginPage","Marker");
             for (NameValuePair i : params) {
                 LogUtil.logDeubg(this, "params: " + i.toString());
             }
@@ -156,7 +147,6 @@ public class LoginPage extends Activity implements OnClickListener {
             try{
             	jObj = jsonParse.makeHttpRequest(url_check_user, "POST", params);
                 success = jObj.getInt(TAG_SUCCESS);
-                Log.e("LoginPage","Marker"+success);
                 msg = jObj.getString(TAG_MESSAGE);
                 userid = jObj.getInt(TAG_USERID);
             } catch (Exception e) {
@@ -187,15 +177,12 @@ public class LoginPage extends Activity implements OnClickListener {
                 });
 //                LogUtil.logDeubg(this, "should go to next");
                 //save user preference
-//                Boolean saveuser = UIHelper.getCBChecked(this, R.id.loginPage_CheckBox_rememberMe);
-//                SharedPreferences.Editor editor = settings.edit();
-//                editor.putInt(USERID, userid);
-//                if (saveuser) {
-//                    editor.putString(USERNAME, username);
-//                    editor.putString(PASSWORD, password);
-//                    editor.putBoolean(SAVEUSER, saveuser);
-//                    editor.commit();
-//                }
+                Boolean saveuser = UIHelper.getCBChecked(this, R.id.loginPage_CheckBox_rememberMe);
+                if (saveuser) {
+                	OpenwordsSharedPreferences.setSaveUser(true);
+                } else {
+                	OpenwordsSharedPreferences.setSaveUser(false);
+                }
                 int lu =0;
                 long lupd = 0;
                 if(OpenwordsSharedPreferences.getUserInfo()!=null)
@@ -238,7 +225,13 @@ public class LoginPage extends Activity implements OnClickListener {
                 .setMessage("Are you sure you want to exit?")
                 .setNegativeButton("No", null)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface arg0, int arg1) {
+                    public void onClick(DialogInterface arg0, int arg1) {      
+                        Boolean saveuser = UIHelper.getCBChecked(LoginPage.this, R.id.loginPage_CheckBox_rememberMe);
+                        if (saveuser) {
+                        	OpenwordsSharedPreferences.setSaveUser(true);
+                        } else {
+                        	OpenwordsSharedPreferences.setSaveUser(false);
+                        }
                         LoginPage.super.onBackPressed();
                     }
                 }).create().show();

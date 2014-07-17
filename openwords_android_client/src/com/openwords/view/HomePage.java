@@ -260,7 +260,6 @@ public class HomePage extends Activity implements OnClickListener {
     public void testPageButtonClick() {
         String taskPage = begin.getSelectedItem().toString();
         LogUtil.logDeubg(this, "Task: " + taskPage);
-        Log.d("Shared Preferences Language ID", Integer.toString(userinfo.getLang_id()));
         pDialog = ProgressDialog.show(HomePage.this, "",
                 "Assembling leaf cards", true);
         if (taskPage.equals("Review")) {
@@ -271,7 +270,7 @@ public class HomePage extends Activity implements OnClickListener {
                     final ProgressReview progress = OpenwordsSharedPreferences.getReviewProgress();
                     //check if there is a unfinished progress before AND the progress is using the same language
                     if (progress == null || progress.getLanguageID()!=OpenwordsSharedPreferences.getUserInfo().getLang_id()) {
-                    	SIZE = OpenwordsSharedPreferences.getLeafCardSize();
+                    	
                         cards = new LeafCardReviewAdapter().getList(SIZE);
                         if (cards.size() <= 0) {
                             runOnUiThread(new Runnable() {
@@ -300,7 +299,7 @@ public class HomePage extends Activity implements OnClickListener {
                 public void run() {
                     final ProgressSelfEval progress = OpenwordsSharedPreferences.getSelfEvaluationProgress();
                     if (progress == null || progress.getLanguageID()!=OpenwordsSharedPreferences.getUserInfo().getLang_id()) {
-                    	SIZE = OpenwordsSharedPreferences.getLeafCardSize();
+                    	
                         cards = new LeafCardSelfEvalAdapter().getList(SIZE);
                         if (cards.size() <= 0) {
                             runOnUiThread(new Runnable() {
@@ -328,7 +327,7 @@ public class HomePage extends Activity implements OnClickListener {
                 public void run() {
                     final ProgressTypeEval progress = OpenwordsSharedPreferences.getTypeEvaluationProgress();
                     if (progress == null || progress.getLanguageID()!=OpenwordsSharedPreferences.getUserInfo().getLang_id()) {
-                    	SIZE = OpenwordsSharedPreferences.getLeafCardSize();
+                    	
                         cards = new LeafCardTypeEvalAdapter().getList(SIZE);
                         if (cards.size() <= 0) {
                             runOnUiThread(new Runnable() {
@@ -357,7 +356,7 @@ public class HomePage extends Activity implements OnClickListener {
                 public void run() {
                     final ProgressHearing progress = OpenwordsSharedPreferences.getHearingProgress();
                     if (progress == null || progress.getLanguageID()!=OpenwordsSharedPreferences.getUserInfo().getLang_id()) {
-                    	SIZE = OpenwordsSharedPreferences.getLeafCardSize();
+                    	
                         cards = new LeafCardHearingAdapter().getList(SIZE);
                         if (cards.size() <= 0) {
                             runOnUiThread(new Runnable() {
@@ -385,6 +384,7 @@ public class HomePage extends Activity implements OnClickListener {
     protected void onResume() {
         super.onResume();
         actionBar.checkSetting();
+        SIZE = OpenwordsSharedPreferences.getLeafCardSize();
     }
 
     @Override
@@ -414,7 +414,6 @@ public class HomePage extends Activity implements OnClickListener {
 		 @Override
 			protected Void doInBackground(Void... arg0) {
 				// TODO Auto-generated method stub
-			 Log.d("******in asynctasck", "yes");
 			 int langId = OpenwordsSharedPreferences.getUserInfo().getLang_id();
 			 List<UserWords> existList = UserWords.findByLanguage(langId);
 			 if(existList.size()==0)
@@ -444,7 +443,6 @@ public class HomePage extends Activity implements OnClickListener {
 								conIds=conIds+"|"+c.getInt("connection_id");
 							}
 							
-							Log.d("word", c.getString("wordl1_text"));
 						
 					} catch (Exception e) {
 						// TODO Auto-generated catch block

@@ -30,7 +30,17 @@ public class OpenwordsSharedPreferences {
     public static final String HIDE_PORTAL = "app.hide.portal";
     private static int ALG_INDEX = 0;
 	private static int LEAF_CARD_SIZE = 10;
-    public static int getLeafCardSize() {
+	private static boolean SAVE_USER = false;
+	
+    public static void setSaveUser(boolean save) {
+		SAVE_USER = save;
+	}
+
+	public static boolean getSaveUser() {
+		return SAVE_USER;
+	}
+
+	public static int getLeafCardSize() {
 		return LEAF_CARD_SIZE;
 	}
 
