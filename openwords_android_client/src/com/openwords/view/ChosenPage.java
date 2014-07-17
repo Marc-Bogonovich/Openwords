@@ -110,9 +110,9 @@ public class ChosenPage extends Activity{
 	
     public boolean onTouchEvent(MotionEvent event) {
     	Intent returnIntent = new Intent();
-    	setResult(RESULT_OK,returnIntent);
+    	setResult(RESULT_OK,returnIntent); //return a param to finish language page
     	finish(); //finish current page
-    	ChosenPage.this.startActivity(new Intent(ChosenPage.this, HomePage.class)); //in the activity stack, the HomePage exists
+    	//ChosenPage.this.startActivity(new Intent(ChosenPage.this, HomePage.class)); //in the activity stack, the HomePage exists
     	return false;
     }
     

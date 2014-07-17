@@ -27,7 +27,7 @@ public class WordSelectionAlg extends SugarRecord<UserPerformance> implements WS
 	List<UserWords> userWord;
 	HashMap<Integer, Double> weightTable;
 	
-	
+	//calculate the weight for each word
 	private double calcWeight(UserPerformance perform) {
 		double wrongRate = (perform.total_exposure - perform.total_correct) / (double)perform.total_exposure;
 		double skipRate = (perform.total_skipped) / (double)perform.total_exposure;
@@ -90,12 +90,14 @@ public class WordSelectionAlg extends SugarRecord<UserPerformance> implements WS
 
 		Log.e("findByUser return size",""+perform.size()+"--"+perform.get(0).connection_id);
 		weightTable = new HashMap<Integer, Double>();
+		//assemble 
 		for(UserPerformance item : perform) {
 			double weight = calcWeight(item);
 			Log.e("Weight Table",item.connection_id+" "+weight);
 			weightTable.put(item.connection_id, weight);
 		}
 		double totalWeight = 0.0d;
+		//get the total weight over all words
 		for (UserPerformance item : perform)
 		{
 		    totalWeight += weightTable.get(item.connection_id);
@@ -126,6 +128,7 @@ public class WordSelectionAlg extends SugarRecord<UserPerformance> implements WS
 		return result;
 	}
 	
+	//this method is used to create the algorithm drop list in settings page
 	public String toString() {
 		return "Word Selection Alg -- repeat";
 	}

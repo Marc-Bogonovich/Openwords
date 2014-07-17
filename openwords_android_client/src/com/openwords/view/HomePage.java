@@ -127,7 +127,7 @@ public class HomePage extends Activity implements OnClickListener {
         }
         //insert item into chooseLanguage spinner
         ArrayAdapter<String> dropdownadapter = new ArrayAdapter<String>(HomePage.this, android.R.layout.simple_list_item_1, android.R.id.text1, strArr);
-        l2_dropdown.setAdapter(dropdownadapter);
+        l2_dropdown.setAdapter(dropdownadapter); 
         l2_dropdown.setOnItemSelectedListener(new OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
@@ -136,7 +136,6 @@ public class HomePage extends Activity implements OnClickListener {
                 Log.d("ID", Integer.toString(dropdown_list.get(position).getId()));
                 if (dropdown_list.get(position).getId() == -999) {
                     //Toast.makeText(getApplicationContext(), "Please Wait...", Toast.LENGTH_SHORT).show();
-                    finish();
                 	HomePage.this.startActivity(new Intent(HomePage.this, LanguagePage.class));
                 }
                 else
