@@ -23,6 +23,18 @@ public class DialogForHTTP {
     private final OnFailure callbackFail;
     private final AtomicBoolean cancelled = new AtomicBoolean(false);
 
+    /**
+     * Prepare the Dialog content.
+     *
+     * @param context
+     * @param dialogTitle Can be null.
+     * @param dialogContent
+     * @param url
+     * @param timeout
+     * @param httpParams
+     * @param callbackSuccess
+     * @param callbackFail
+     */
     public DialogForHTTP(Context context, String dialogTitle, String dialogContent, String url, int timeout, RequestParams httpParams, OnSuccess callbackSuccess, OnFailure callbackFail) {
         this.context = context;
         this.dialogTitle = dialogTitle;
@@ -34,6 +46,9 @@ public class DialogForHTTP {
         this.callbackFail = callbackFail;
     }
 
+    /**
+     * Show the Dialog and start the HTTP request.
+     */
     public void start() {
         dialogInstance = ProgressDialog.show(context, dialogTitle, dialogContent, false, true, new DialogInterface.OnCancelListener() {
 

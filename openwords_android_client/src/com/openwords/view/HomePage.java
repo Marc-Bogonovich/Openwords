@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -18,7 +17,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
-
 import com.openwords.R;
 import com.openwords.learningmodule.ActivityHearing;
 import com.openwords.learningmodule.ActivityReview;
@@ -28,12 +26,11 @@ import com.openwords.learningmodule.ProgressHearing;
 import com.openwords.learningmodule.ProgressReview;
 import com.openwords.learningmodule.ProgressSelfEval;
 import com.openwords.learningmodule.ProgressTypeEval;
-import com.openwords.model.InitDatabase;
 import com.openwords.model.JSONParser;
 import com.openwords.model.LeafCard;
-import com.openwords.model.LeafCardReviewAdapter;
 import com.openwords.model.LeafCardHearing;
 import com.openwords.model.LeafCardHearingAdapter;
+import com.openwords.model.LeafCardReviewAdapter;
 import com.openwords.model.LeafCardSelfEval;
 import com.openwords.model.LeafCardSelfEvalAdapter;
 import com.openwords.model.LeafCardTypeEval;
@@ -41,54 +38,44 @@ import com.openwords.model.LeafCardTypeEvalAdapter;
 import com.openwords.model.UserInfo;
 import com.openwords.model.UserWords;
 import com.openwords.model.WordTranscription;
-import com.openwords.util.HomePageTool;
+import com.openwords.services.GetLanguages;
+import com.openwords.services.ModelLanguage;
 import com.openwords.util.TimeConvertor;
 import com.openwords.util.WordsPageTool;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
 import com.openwords.view.actionbar.ActionBarBuilder;
-
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
-
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 public class HomePage extends Activity implements OnClickListener {
 
-	private static JSONArray jArrMain;
-	private static String url_write_downloaded_words_to_server = "http://geographycontest.ipage.com/OpenwordsOrg/OpenwordsDB/setUserWords.php";
-	private static String nextwords_url = "http://geographycontest.ipage.com/OpenwordsOrg/WordsDB/wordsPageGetWordList.php";
-	private static Spinner begin, l2_dropdown;
-    public static ArrayList<HomePageTool> dropdown_list = null;
-    public static ArrayList<String> strArr = null;
+    private static JSONArray jArrMain;
+    private static final String url_write_downloaded_words_to_server = "http://geographycontest.ipage.com/OpenwordsOrg/OpenwordsDB/setUserWords.php";
+    private static final String nextwords_url = "http://geographycontest.ipage.com/OpenwordsOrg/WordsDB/wordsPageGetWordList.php";
+    private static Spinner begin, l2_dropdown;
+    public static List<ModelLanguage> LanguageList = null;
     public static int pos = -1;
+    //-----------
+    private static int language_position = -1;
+    //-----------
+    private List<String> languageOptions;
     public int homelang_id;
     public String homelang_name;
     private ProgressDialog pDialog = null;
-    // Add another array of type HomePage Tool that holds the name and id of each chosen language
-    // private static ArrayList<HomePageTool> drop_down = null;
-    private static String url_dropdown = "http://geographycontest.ipage.com/OpenwordsOrg/OpenwordsDB/homePageChooseLanguage.php";
     private UserInfo userinfo;
     private int SIZE = 10;
     private ActionBarBuilder actionBar;
-    
-    
-    //-----------
-    private static int language_position=-1;
-    //-----------
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
-        
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);//for testing purpose
-
         setContentView(R.layout.activity_home_page);
 
         //building the action bar
@@ -96,164 +83,130 @@ public class HomePage extends Activity implements OnClickListener {
 
         // Creating the drop down object
         l2_dropdown = (Spinner) findViewById(R.id.homePage_Spinner_chooseLanguage);
-
-        userinfo = OpenwordsSharedPreferences.getUserInfo();
-        
-        pDialog = ProgressDialog.show(HomePage.this, "Please wait",
-                "Loading information from the server", true);
-
-        runOnUiThread(new Runnable() {//Please stop spawning tasks on UI Thread, use AsyncTask instead, unless you don't want user to touch anything before the page is completely rendered, then please prompt a progress dialog
-            public void run() {
-                readFromServer();
-                pDialog.dismiss();
-            }
-        });
-
-
-        addItemsOnBegin();
-        Button testPageGo = (Button) findViewById(R.id.homePage_Button_testPageGo);
-        testPageGo.setOnClickListener(HomePage.this);
-
-        //------creating string array-----
-        strArr = new ArrayList<String>();
-        for (int i = 0; i < dropdown_list.size(); i++) {
-            strArr.add(dropdown_list.get(i).getName());
-            if(dropdown_list.get(i).getId()==OpenwordsSharedPreferences.getUserInfo().getLang_id())
-            {
-            	language_position=i;
-            }
-            
-        }
-        //insert items into chooseLanguage spinner
-        ArrayAdapter<String> dropdownadapter = new ArrayAdapter<String>(HomePage.this, android.R.layout.simple_list_item_1, android.R.id.text1, strArr);
-        l2_dropdown.setAdapter(dropdownadapter);
-        l2_dropdown.setOnItemSelectedListener(new OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                Log.d("whatever", Integer.toString(position));
-                pos = position;
-                Log.d("ID", Integer.toString(dropdown_list.get(position).getId()));
-                if (dropdown_list.get(position).getId() == -999) {
-                	HomePage.this.startActivity(new Intent(HomePage.this, LanguagePage.class));
-                }
-                else
-                {
-                homelang_id = dropdown_list.get(position).getId();
-                homelang_name = dropdown_list.get(position).getName(); //new
-                UserInfo user = OpenwordsSharedPreferences.getUserInfo();
-                user.setLang_id(homelang_id);
-                user.setLang_Name(homelang_name); //new
-                OpenwordsSharedPreferences.setUserInfo(user);
-                Log.d("saved Lang", ""+OpenwordsSharedPreferences.getUserInfo().getLang_id()
-                		+OpenwordsSharedPreferences.getUserInfo().getLang_Name()); //new
-                //-----getting first x words if not present----
-                new GetFirstWords().execute();
-                }
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parentView) {
-            }
-        }
-        );
-        
-        if(language_position != -1)
-        	l2_dropdown.setSelection(language_position);
-        
-
-    }
-
-    public void addItemsOnBegin() {
         begin = (Spinner) findViewById(R.id.homePage_Spinner_begin);
         ArrayAdapter<CharSequence> beginAdapter = ArrayAdapter.createFromResource(this, R.array.homePage_spinner_begin_array, android.R.layout.simple_spinner_item);
         beginAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         begin.setAdapter(beginAdapter);
+
+        userinfo = OpenwordsSharedPreferences.getUserInfo();
+
+        //this asynchnous call should be made in the LoginPage after user successfully login, 
+        //but right now LoginPage has too many arbitrary threads which are not allowing embedding this AsyncTask yet, will do that later
+        GetLanguages.request(Integer.toString(userinfo.getUserId()), 0, new GetLanguages.AsyncCallback() {
+
+            public void callback(List<ModelLanguage> languages, Throwable error) {
+                if (languages != null) {
+                    languages.add(new ModelLanguage(-999, "Add more languages"));
+                    LanguageList = languages;
+                    fillLanguageOptions();
+
+                } else {
+                    LogUtil.logDeubg(this, error.toString());
+                    Toast.makeText(HomePage.this, error.toString(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
-    public void readFromServer() {
-
-        ArrayList<HomePageTool> dropdown = new ArrayList<HomePageTool>();
-        try {
-            List<NameValuePair> params1 = new ArrayList<NameValuePair>(2);
-            params1.add(new BasicNameValuePair("userid", Integer.toString(userinfo.getUserId())));
-            JSONParser jsonParse = new JSONParser();
-            JSONObject jObj = jsonParse.makeHttpRequest(url_dropdown, "POST", params1);
-            Log.d("Obj", jObj.toString());
-            JSONArray jArr = jObj.getJSONArray("language");
-
-            for (int i = 0; i < jArr.length(); i++) {  // **line 2**
-                JSONObject childJSONObject = jArr.getJSONObject(i);
-
-                dropdown.add(new HomePageTool(childJSONObject.getString("l2name"), childJSONObject.getInt("l2id")));
-
-                //Log.d("Loop", childJSONObject.getString("l2name"));
-                //Log.d("Loop", childJSONObject.getString("l2name"));
+    private void fillLanguageOptions() {
+        if (LanguageList != null) {
+            languageOptions = new LinkedList<String>();
+            for (ModelLanguage l : LanguageList) {
+                languageOptions.add(l.getL2name());
+                LogUtil.logDeubg(this, "user " + userinfo.getUserId() + " has lang: " + l.getL2name());
+                if (l.getL2id() == OpenwordsSharedPreferences.getUserInfo().getLang_id()) {
+                    language_position = languageOptions.size() - 1;
+                }
             }
+
+            //insert items into chooseLanguage spinner
+            ArrayAdapter<String> dropdownadapter = new ArrayAdapter<String>(HomePage.this, android.R.layout.simple_list_item_1, android.R.id.text1, languageOptions);
+            l2_dropdown.setAdapter(dropdownadapter);
+            l2_dropdown.setOnItemSelectedListener(new OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                    Log.d("whatever", Integer.toString(position));
+                    pos = position;
+                    Log.d("ID", Integer.toString(LanguageList.get(position).getL2id()));
+                    if (LanguageList.get(position).getL2id() == -999) {
+                        HomePage.this.startActivity(new Intent(HomePage.this, LanguagePage.class));
+                    } else {
+                        homelang_id = LanguageList.get(position).getL2id();
+                        homelang_name = LanguageList.get(position).getL2name(); //new
+                        UserInfo user = OpenwordsSharedPreferences.getUserInfo();
+                        user.setLang_id(homelang_id);
+                        user.setLang_Name(homelang_name); //new
+                        OpenwordsSharedPreferences.setUserInfo(user);
+                        Log.d("saved Lang", "" + OpenwordsSharedPreferences.getUserInfo().getLang_id()
+                                + OpenwordsSharedPreferences.getUserInfo().getLang_Name()); //new
+                        //-----getting first x words if not present----
+                        new GetFirstWords().execute();
+                    }
+
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parentView) {
+                }
+            }
+            );
+
+            if (language_position != -1) {
+                l2_dropdown.setSelection(language_position);
+            }
+
+            Button testPageGo = (Button) findViewById(R.id.homePage_Button_testPageGo);
+            testPageGo.setOnClickListener(HomePage.this);
+        }
+    }
+
+    //-------- Getting first 10 words from server for a language -----------------
+    public void getFirstWordsFromServer() {
+        ArrayList<WordsPageTool> words_list = new ArrayList<WordsPageTool>();
+        try {
+            List<NameValuePair> params = new ArrayList<NameValuePair>(3);
+            params.add(new BasicNameValuePair("user", Integer.toString(OpenwordsSharedPreferences.getUserInfo().getUserId())));
+            params.add(new BasicNameValuePair("langOne", "1"));
+            params.add(new BasicNameValuePair("langTwo", Integer.toString(OpenwordsSharedPreferences.getUserInfo().getLang_id())));
+            JSONParser jsonParse = new JSONParser();
+            JSONObject jObj = jsonParse.makeHttpRequest(nextwords_url, "POST", params);
+            Log.d("Obj", jObj.toString());
+            if (jObj.getInt("success") == 1) {
+                JSONArray jArr = jObj.getJSONArray("data");
+                String abc = Integer.toString(jArr.length());
+                Log.d("Array", abc);
+                jArrMain = jArr;
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-        //Insert add more button
-        dropdown.add(new HomePageTool("Add more languages", -999));
-        dropdown_list = dropdown;
     }
-    
-    
-    //-------- Getting first 10 words from server for a language -----------------
-    public void getFirstWordsFromServer()
-    {
-            ArrayList<WordsPageTool> words_list = new ArrayList<WordsPageTool>();
-            try 
-            {
-                    List<NameValuePair> params = new ArrayList<NameValuePair>(3);
-                    params.add(new BasicNameValuePair("user", Integer.toString(OpenwordsSharedPreferences.getUserInfo().getUserId())));
-                    params.add(new BasicNameValuePair("langOne", "1"));
-                    params.add(new BasicNameValuePair("langTwo", Integer.toString(OpenwordsSharedPreferences.getUserInfo().getLang_id())));
-                    JSONParser jsonParse = new JSONParser();
-                    JSONObject jObj = jsonParse.makeHttpRequest(nextwords_url, "POST", params);
-                    Log.d("Obj", jObj.toString());
-                    if(jObj.getInt("success")==1)
-                    {
-                    JSONArray jArr = jObj.getJSONArray("data");
-                    String abc = Integer.toString(jArr.length());
-                    Log.d("Array", abc);
-                    jArrMain = jArr;
-                    }
-                    
-            }
-                    catch(Exception e)
-                    {e.printStackTrace();}     
-    }
+
     //---------------------------------------------------------------------------------------------
     //------------update downloaded word on server----------------------------------------------
-    public void updateWordsOnServer(String conIds, long dTime)
-	{
-		try
-		{
-			int user = OpenwordsSharedPreferences.getUserInfo().getUserId();
-			int langTwo = OpenwordsSharedPreferences.getUserInfo().getLang_id();
-			List<NameValuePair> params = new ArrayList<NameValuePair>();
+    public void updateWordsOnServer(String conIds, long dTime) {
+        try {
+            int user = OpenwordsSharedPreferences.getUserInfo().getUserId();
+            int langTwo = OpenwordsSharedPreferences.getUserInfo().getLang_id();
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("conid", conIds));
             params.add(new BasicNameValuePair("dtime", Long.toString(dTime)));
-            params.add(new BasicNameValuePair("user",Integer.toString(user)));
-            params.add(new BasicNameValuePair("lTwo",Integer.toString(langTwo)));
+            params.add(new BasicNameValuePair("user", Integer.toString(user)));
+            params.add(new BasicNameValuePair("lTwo", Integer.toString(langTwo)));
             JSONParser jsonParse = new JSONParser();
             JSONObject jObj = jsonParse.makeHttpRequest(url_write_downloaded_words_to_server, "POST", params);
-            
-            if(jObj.getInt("success")==1)
-            	Log.d("Message From Server", jObj.getString("message"));
-            
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-		}
-        
-		
-	}
-    
-    
-    
+
+            if (jObj.getInt("success") == 1) {
+                Log.d("Message From Server", jObj.getString("message"));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
     public void testPageButtonClick() {
         String taskPage = begin.getSelectedItem().toString();
         LogUtil.logDeubg(this, "Task: " + taskPage);
@@ -266,8 +219,8 @@ public class HomePage extends Activity implements OnClickListener {
                 public void run() {
                     final ProgressReview progress = OpenwordsSharedPreferences.getReviewProgress();
                     //check if there is a unfinished progress before AND the progress is using the same language
-                    if (progress == null || progress.getLanguageID()!=OpenwordsSharedPreferences.getUserInfo().getLang_id()) {
-                    	
+                    if (progress == null || progress.getLanguageID() != OpenwordsSharedPreferences.getUserInfo().getLang_id()) {
+
                         cards = new LeafCardReviewAdapter().getList(SIZE);
                         if (cards.size() <= 0) {
                             runOnUiThread(new Runnable() {
@@ -295,8 +248,8 @@ public class HomePage extends Activity implements OnClickListener {
 
                 public void run() {
                     final ProgressSelfEval progress = OpenwordsSharedPreferences.getSelfEvaluationProgress();
-                    if (progress == null || progress.getLanguageID()!=OpenwordsSharedPreferences.getUserInfo().getLang_id()) {
-                    	
+                    if (progress == null || progress.getLanguageID() != OpenwordsSharedPreferences.getUserInfo().getLang_id()) {
+
                         cards = new LeafCardSelfEvalAdapter().getList(SIZE);
                         if (cards.size() <= 0) {
                             runOnUiThread(new Runnable() {
@@ -323,8 +276,8 @@ public class HomePage extends Activity implements OnClickListener {
 
                 public void run() {
                     final ProgressTypeEval progress = OpenwordsSharedPreferences.getTypeEvaluationProgress();
-                    if (progress == null || progress.getLanguageID()!=OpenwordsSharedPreferences.getUserInfo().getLang_id()) {
-                    	
+                    if (progress == null || progress.getLanguageID() != OpenwordsSharedPreferences.getUserInfo().getLang_id()) {
+
                         cards = new LeafCardTypeEvalAdapter().getList(SIZE);
                         if (cards.size() <= 0) {
                             runOnUiThread(new Runnable() {
@@ -352,8 +305,8 @@ public class HomePage extends Activity implements OnClickListener {
 
                 public void run() {
                     final ProgressHearing progress = OpenwordsSharedPreferences.getHearingProgress();
-                    if (progress == null || progress.getLanguageID()!=OpenwordsSharedPreferences.getUserInfo().getLang_id()) {
-                    	
+                    if (progress == null || progress.getLanguageID() != OpenwordsSharedPreferences.getUserInfo().getLang_id()) {
+
                         cards = new LeafCardHearingAdapter().getList(SIZE);
                         if (cards.size() <= 0) {
                             runOnUiThread(new Runnable() {
@@ -405,69 +358,58 @@ public class HomePage extends Activity implements OnClickListener {
                     }
                 }).create().show();
     }
-   
- //----------- Async Task to get first 10 words   
+
+    //----------- Async Task to get first 10 words   
     private class GetFirstWords extends AsyncTask<Void, Void, Void> {
-		 @Override
-			protected Void doInBackground(Void... arg0) {
-				// TODO Auto-generated method stub
-			 int langId = OpenwordsSharedPreferences.getUserInfo().getLang_id();
-			 List<UserWords> existList = UserWords.findByLanguage(langId);
-			 if(existList.size()==0)
-			 {
-				 getFirstWordsFromServer();
-				 
-				 String conIds="";
-				 for(int i=0;i<jArrMain.length();i++)
-				 {
-					 try {
-							JSONObject c = jArrMain.getJSONObject(i);
-							 
-							UserWords newUw = new UserWords(c.getInt("connection_id"),c.getInt("wordl1"),
-										 c.getString("wordl1_text"),c.getInt("wordl2"),c.getString("wordl2_text"),
-										 c.getInt("l2id"),c.getString("l2name"),c.getString("audio"),1);
-							newUw.save();
-							
-							WordTranscription t = new WordTranscription(c.getInt("wordl2"),c.getString("trans"));
-							t.save();
-							
-							if(conIds=="")
-							{
-								conIds=conIds+c.getInt("connection_id");
-							}
-							else
-							{
-								conIds=conIds+"|"+c.getInt("connection_id");
-							}
-							
-						
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					 
-				 }
-				 //update on server
-				 updateWordsOnServer(conIds, TimeConvertor.getUnixTime());
-			 }
-				return null;
-			}
-	
-	     protected void onProgressUpdate(Integer... progress) {
-	         //setProgressPercent(progress[0]);
-	     }
-	
-	     protected void onPostExecute(Long result) {
-	         //showDialog("Refreshed");
-	    	 //Log.d("Refresh Complete", "yes");
-	     }
 
-		
-	 }
-    
+        @Override
+        protected Void doInBackground(Void... arg0) {
+            // TODO Auto-generated method stub
+            int langId = OpenwordsSharedPreferences.getUserInfo().getLang_id();
+            List<UserWords> existList = UserWords.findByLanguage(langId);
+            if (existList.size() == 0) {
+                getFirstWordsFromServer();
+
+                String conIds = "";
+                for (int i = 0; i < jArrMain.length(); i++) {
+                    try {
+                        JSONObject c = jArrMain.getJSONObject(i);
+
+                        UserWords newUw = new UserWords(c.getInt("connection_id"), c.getInt("wordl1"),
+                                c.getString("wordl1_text"), c.getInt("wordl2"), c.getString("wordl2_text"),
+                                c.getInt("l2id"), c.getString("l2name"), c.getString("audio"), 1);
+                        newUw.save();
+
+                        WordTranscription t = new WordTranscription(c.getInt("wordl2"), c.getString("trans"));
+                        t.save();
+
+                        if (conIds == "") {
+                            conIds = conIds + c.getInt("connection_id");
+                        } else {
+                            conIds = conIds + "|" + c.getInt("connection_id");
+                        }
+
+                    } catch (Exception e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+
+                }
+                //update on server
+                updateWordsOnServer(conIds, TimeConvertor.getUnixTime());
+            }
+            return null;
+        }
+
+        protected void onProgressUpdate(Integer... progress) {
+            //setProgressPercent(progress[0]);
+        }
+
+        protected void onPostExecute(Long result) {
+            //showDialog("Refreshed");
+            //Log.d("Refresh Complete", "yes");
+        }
+
+    }
+
 }
-
-
-	
-
-	
