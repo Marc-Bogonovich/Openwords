@@ -48,6 +48,7 @@ import com.openwords.view.actionbar.ActionBarBuilder;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
@@ -65,12 +66,14 @@ public class HomePage extends Activity implements OnClickListener {
     private static int language_position = -1;
     //-----------
     private List<String> languageOptions;
+    private ArrayAdapter<String> dropdownAdapter;
     public int homelang_id;
     public String homelang_name;
     private ProgressDialog pDialog = null;
     private UserInfo userinfo;
     private int SIZE = 10;
     private ActionBarBuilder actionBar;
+    private final AtomicBoolean canRefresh = new AtomicBoolean(false);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,10 +86,14 @@ public class HomePage extends Activity implements OnClickListener {
 
         // Creating the drop down object
         l2_dropdown = (Spinner) findViewById(R.id.homePage_Spinner_chooseLanguage);
+
         begin = (Spinner) findViewById(R.id.homePage_Spinner_begin);
         ArrayAdapter<CharSequence> beginAdapter = ArrayAdapter.createFromResource(this, R.array.homePage_spinner_begin_array, android.R.layout.simple_spinner_item);
         beginAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         begin.setAdapter(beginAdapter);
+
+        Button testPageGo = (Button) findViewById(R.id.homePage_Button_testPageGo);
+        testPageGo.setOnClickListener(HomePage.this);
 
         userinfo = OpenwordsSharedPreferences.getUserInfo();
 
@@ -99,13 +106,24 @@ public class HomePage extends Activity implements OnClickListener {
                     languages.add(new ModelLanguage(-999, "Add more languages"));
                     LanguageList = languages;
                     fillLanguageOptions();
-
+                    canRefresh.set(true);
                 } else {
                     LogUtil.logDeubg(this, error.toString());
                     Toast.makeText(HomePage.this, error.toString(), Toast.LENGTH_SHORT).show();
                 }
             }
         });
+    }
+
+    private void refreshLanguageOptions() {
+        if (canRefresh.get()) {
+            LogUtil.logDeubg(this, "refreshLanguageOptions");
+            languageOptions.clear();
+            for (ModelLanguage l : LanguageList) {
+                languageOptions.add(l.getL2name());
+            }
+            dropdownAdapter.notifyDataSetChanged();
+        }
     }
 
     private void fillLanguageOptions() {
@@ -119,9 +137,8 @@ public class HomePage extends Activity implements OnClickListener {
                 }
             }
 
-            //insert items into chooseLanguage spinner
-            ArrayAdapter<String> dropdownadapter = new ArrayAdapter<String>(HomePage.this, android.R.layout.simple_list_item_1, android.R.id.text1, languageOptions);
-            l2_dropdown.setAdapter(dropdownadapter);
+            dropdownAdapter = new ArrayAdapter<String>(HomePage.this, android.R.layout.simple_list_item_1, android.R.id.text1, languageOptions);
+            l2_dropdown.setAdapter(dropdownAdapter);
             l2_dropdown.setOnItemSelectedListener(new OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
@@ -148,15 +165,12 @@ public class HomePage extends Activity implements OnClickListener {
                 @Override
                 public void onNothingSelected(AdapterView<?> parentView) {
                 }
-            }
-            );
+            });
 
             if (language_position != -1) {
                 l2_dropdown.setSelection(language_position);
             }
 
-            Button testPageGo = (Button) findViewById(R.id.homePage_Button_testPageGo);
-            testPageGo.setOnClickListener(HomePage.this);
         }
     }
 
@@ -168,6 +182,7 @@ public class HomePage extends Activity implements OnClickListener {
             params.add(new BasicNameValuePair("user", Integer.toString(OpenwordsSharedPreferences.getUserInfo().getUserId())));
             params.add(new BasicNameValuePair("langOne", "1"));
             params.add(new BasicNameValuePair("langTwo", Integer.toString(OpenwordsSharedPreferences.getUserInfo().getLang_id())));
+            LogUtil.logDeubg(HomePage.this, params.toString());
             JSONParser jsonParse = new JSONParser();
             JSONObject jObj = jsonParse.makeHttpRequest(nextwords_url, "POST", params);
             Log.d("Obj", jObj.toString());
@@ -333,8 +348,10 @@ public class HomePage extends Activity implements OnClickListener {
     @Override
     protected void onResume() {
         super.onResume();
+        LogUtil.logDeubg(this, "onResume");
         actionBar.checkSetting();
         SIZE = OpenwordsSharedPreferences.getLeafCardSize();
+        refreshLanguageOptions();
     }
 
     @Override
