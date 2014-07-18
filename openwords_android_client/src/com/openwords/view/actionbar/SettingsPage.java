@@ -44,6 +44,7 @@ public class SettingsPage extends Activity {
         addLeafCardSizeSpinner();
     }
     
+    //the name of this function is defined in XML radio buttons
     public void onRadioButtonClicked(View view) {
 		switch(view.getId()) {
 	 	case R.id.settingsPage_RadioButton_displayPortalPage:

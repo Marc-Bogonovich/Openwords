@@ -87,8 +87,10 @@ public class LoginPage extends Activity implements OnClickListener {
         }
         OpenwordsSharedPreferences.setAppStarted(true);
         //add word algorithm
-        OpenwordsSharedPreferences.addSelectionAlg(new WordSelectionAlg());
-        OpenwordsSharedPreferences.addSelectionAlg(new RandomSelectAlg());
+        if(OpenwordsSharedPreferences.getWordSelectionAlgList().size()==0) {
+	        OpenwordsSharedPreferences.addSelectionAlg(new WordSelectionAlg());
+	        OpenwordsSharedPreferences.addSelectionAlg(new RandomSelectAlg());
+	    }
 
     }
 
