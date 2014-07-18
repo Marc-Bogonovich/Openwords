@@ -1,6 +1,5 @@
 package com.openwords.learningmodule;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -23,15 +22,8 @@ public class FragmentSelfEval extends Fragment {
     private ImageView correct, incorrect, audioPlay;
     private LeafCardSelfEval card;
 
-    @SuppressLint("ValidFragment")
     public FragmentSelfEval(int cardIndex) {
         this.cardIndex = cardIndex;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        LogUtil.logDeubg(this, "onCreate for card: " + cardIndex);
     }
 
     @Override
@@ -69,7 +61,7 @@ public class FragmentSelfEval extends Fragment {
                 card.setUserChoice(Boolean.TRUE);
                 correct.setImageResource(R.drawable.button_self_evaluate_correct_selected);
                 incorrect.setImageResource(R.drawable.button_self_evaluate_incorrect_unselected);
-                ActivitySelfEval.getInstance().getPager().setCurrentItem(cardIndex + 1, true);
+                ActivitySelfEval.getInstance().goToNextCard();
             }
         });
 
@@ -79,7 +71,7 @@ public class FragmentSelfEval extends Fragment {
                 card.setUserChoice(Boolean.FALSE);
                 correct.setImageResource(R.drawable.button_self_evaluate_correct_unselected);
                 incorrect.setImageResource(R.drawable.button_self_evaluate_incorrect_selected);
-                ActivitySelfEval.getInstance().getPager().setCurrentItem(cardIndex + 1, true);
+                ActivitySelfEval.getInstance().goToNextCard();
             }
         });
 

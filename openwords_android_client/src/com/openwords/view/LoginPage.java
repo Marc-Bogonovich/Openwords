@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.method.PasswordTransformationMethod;
@@ -20,6 +21,7 @@ import com.openwords.R;
 import com.openwords.model.InitDatabase;
 import com.openwords.model.JSONParser;
 import com.openwords.model.UserInfo;
+import com.openwords.test.ActivityTest;
 import com.openwords.tts.Speak;
 import com.openwords.util.InternetCheck;
 import com.openwords.util.RandomSelectAlg;
@@ -92,6 +94,12 @@ public class LoginPage extends Activity implements OnClickListener {
 	        OpenwordsSharedPreferences.addSelectionAlg(new RandomSelectAlg());
 	    }
 
+        findViewById(R.id.loginPage_test).setOnClickListener(new OnClickListener() {
+
+            public void onClick(View view) {
+                startActivity(new Intent(LoginPage.this, ActivityTest.class));
+            }
+        });
     }
 
     public void onClick(View v) {
