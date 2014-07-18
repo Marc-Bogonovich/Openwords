@@ -34,6 +34,7 @@
     <string name="languagePage_CheckBox_hebrew">(Hebrew)</string>
     <string name="languagePage_CheckBox_kannada">(Kannada)</string>
     <string name="languagePage_Button_chosenPage">submit</string>
+    <string name="language_TextView_indicator">choose the language/s you want to learn</string>
     <string name="title_activity_register_page">RegisterPage</string>
     <string name="registerPage_EditText_username">Enter User name</string>
     <string name="registerPage_EditText_password">Enter password</string>

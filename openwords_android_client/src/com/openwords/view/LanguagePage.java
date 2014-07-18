@@ -57,7 +57,7 @@ public class LanguagePage extends Activity {
                 super.onCreate(savedInstanceState);
                 
                 setContentView(R.layout.activity_language_page);
-                langlist_global.add(new LanguagePageTool("Bengalitest",1,false));
+                //langlist_global.add(new LanguagePageTool("Bengalitest",1,false));
                 
                 // Creating a new listview object
                 lang_listview = (ListView)findViewById(R.id.language_list_view);
@@ -335,7 +335,7 @@ public class LanguagePage extends Activity {
                    }
                  
                    LanguagePageTool l2lang = langlist.get(position);
-                   holder.name.setText(" (" +  l2lang.getName() + ")");
+                   holder.name.setText(l2lang.getName());
                    //holder.name.setText(l2lang.getId());
                    if (l2lang.isSelected())
                    {
