@@ -1,4 +1,4 @@
-//This program is to get english_italian data
+//This program is to get english to all other languages data
 package openwords_data;
 
 import javax.xml.stream.XMLInputFactory;
@@ -12,11 +12,14 @@ import java.util.regex.*;
 public class Openwords_data {
   //@SuppressWarnings("empty-statement")
   public static void main(String[] args) throws XMLStreamException, Exception {
-      XMLInputFactory factory = XMLInputFactory.newInstance();  
-      XMLStreamReader reader = null;      //Use "SAX" way to parse xml file, powered by XMLStreamReader interface
+      XMLInputFactory factory = XMLInputFactory.newInstance();
+      XMLStreamReader reader = null;
       
-      MySQLAccess db_connect = new MySQLAccess();    //connect to the database, implemented in "MySQLAccess.java"
+      MySQLAccess db_connect = new MySQLAccess();
       db_connect.connectDatabase();
+      
+      int uniqueDef = 1;
+      int firstDef = 1;
       
       int id = 0;
       int defID = 0;
@@ -58,31 +61,30 @@ public class Openwords_data {
       
       
       try {          
-          //start to read xml file
           reader = factory.createXMLStreamReader(new FileInputStream("/Users/Archie/Documents/enwiktionary-20140702-pages-meta-current.xml"));
       } catch (FileNotFoundException e) {
           System.out.println("File not found");
       }
-      while(reader.hasNext()){          //Read next section of xml file if exists
+      while(reader.hasNext()){
           int event = reader.next();
-          switch(event) {     //choose behaviors when encountering following events
-              case XMLStreamConstants.START_ELEMENT:  //when encountering elements "<...>"
-                  switch(reader.getLocalName()) {     //set some flags when encountering the following elements
+          switch(event) {
+              case XMLStreamConstants.START_ELEMENT:
+                  switch(reader.getLocalName()) {
                       case "page":                       
-                          inPage = true;              //when encountering "<page>"
+                          inPage = true;
                           break;
-                      case "ns":                      //when encountering "<ns>"
+                      case "ns":
                           inNs = true;
                           break;
-                      case "title":                   //when encountering "<title>"
+                      case "title":
                           inTitle = true;
                           break;
-                      case "text":                    //when encountering "<text>"
+                      case "text":
                           inText = true;
                           break;
                   }
                   break;
-              case XMLStreamConstants.CHARACTERS:     //when encoutering contents between a start element <...> and end element </...>
+              case XMLStreamConstants.CHARACTERS:
                   //When encountering "ns"                
                   if(inPage == true && inNs == true && inTitle == false && inText == false) {
                       ns = reader.getText().trim();
@@ -97,38 +99,38 @@ public class Openwords_data {
                   //When encountering "text"
                   if(isWord && inPage == true && inNs == false && inTitle == false && inText == true) {
                       //text processing part  
-                      if(textLine < 2) {  
-                          //judge if it is english         
+                      if(textLine < 2) {          
                           if(reader.getText().trim().contains(subText)) 
                               isEnglish = true;      
                       }
                       else {
-                          //end English flag when goes to other languages
                           if(reader.getText().trim().matches("==([^=]*?)==")) {
                               isEnglish = false;
                           }
-                          //when it's in English area
                           if(isEnglish) {
-                              if(reader.getText().trim().contains("===")) {      //get grammer type              
+                              if(reader.getText().trim().contains("===")) {                    
                                   temp = Openwords_data.getGrammerType(reader);
                                   if(!temp.equals("")) {
                                       grammerType = temp;
                                   }
                               }
-                              if(reader.getText().trim().contains(transTag)) {   //get definition
+                              if(reader.getText().trim().contains(transTag)) {
                                   
                                   inTrans = true;
+                                  //System.out.println(reader.getText().trim());
+                                  //System.out.println("----------------");
                                   matcher_mean = mean.matcher(reader.getText().trim());
                                   ++defID;
                                   while(matcher_mean.find()) {
                                       meaning = matcher_mean.group(1);
-                                  }                                 
+                                  }                                                                  
                               }
-                              if(reader.getText().trim().contains(anti_transTag)) {                             
+                              if(reader.getText().trim().contains(anti_transTag)) { 
+                                  firstDef = 0;
                                   inTrans = false;
                                   
                               }
-                              if(inTrans) {                //get translation      
+                              if(inTrans) {                      
                                   text = reader.getText().trim();  
                                   matcher_outter = outter.matcher(text);
                                   while (matcher_outter.find()) {   
@@ -143,25 +145,42 @@ public class Openwords_data {
                                       //to find the translation pronounce
                                       matcher_tr = tr.matcher(text_tmp);
                                       while(matcher_tr.find()) {
-                                          proun = matcher_tr.group(1);   //get pronunciation
+                                          proun = matcher_tr.group(1);
                                       }
                                       
                                       //insert into database
                                       
+                                      //System.out.print(title+" ");
+                                      //System.out.print(grammerType+" ");
+                                      //System.out.print(meaning+" ");
+                                      //System.out.print(lang+" ");
+                                      //System.out.print(word+" ");
+                                      //System.out.println(proun+" ");
                                       try{
-                                          db_connect.writeDatabase(++id, title, grammerType, defID, meaning, lang, word, proun);  
-                                          if(id%1000 == 0) {
-                                              System.out.println(id);
+                                          if(uniqueDef == 0) {
+                                              db_connect.writeDatabase(++id, title, grammerType, defID, meaning, lang, word, proun);  
+                                              if(id%1000 == 0) {
+                                                  System.out.println(id);
+                                              }
                                           }
+                                          else {
+                                              if(firstDef == 1) {
+                                                  db_connect.writeDatabase(++id, title, grammerType, defID, meaning, lang, word, proun);  
+                                                  if(id%1000 == 0) {
+                                                      System.out.println(id);
+                                                  }
+                                              }
+                                          }
+                                          
                                       } catch(Exception e) {
                                           System.out.println("database writing error");
-                                          //System.out.print(title+" ");
-                                          //System.out.print(grammerType+" ");
-                                          //System.out.print(meaning+" ");
-                                          //System.out.print(lang+" ");
-                                          //System.out.print(word+" ");
-                                          //System.out.println(proun+" ");
-                                          //System.out.println("------------------");
+                                          System.out.print(title+" ");
+                                          System.out.print(grammerType+" ");
+                                          System.out.print(meaning+" ");
+                                          System.out.print(lang+" ");
+                                          System.out.print(word+" ");
+                                          System.out.println(proun+" ");
+                                          System.out.println("------------------");
                                       }
                                       proun = "";
                                   }
@@ -171,7 +190,7 @@ public class Openwords_data {
                       textLine++;
                   }                    
                   break;
-              case XMLStreamConstants.END_ELEMENT: //when encountering end element "</...>"
+              case XMLStreamConstants.END_ELEMENT:
                   switch(reader.getLocalName()) {
                       //leaving "page"
                       case "page": 
@@ -187,6 +206,7 @@ public class Openwords_data {
                           inTitle = false;
                           inText = false;
                           textLine = 0;
+                          firstDef = 1;
                           break;
                       //leaving "ns"
                       case "ns":
@@ -214,7 +234,7 @@ public class Openwords_data {
       System.out.println("no more");       
       db_connect.close();
   }    
-  public static String getGrammerType(XMLStreamReader reader) {   //helper method to get the grammer type
+  public static String getGrammerType(XMLStreamReader reader) {
       String text = reader.getText().trim();
       if(text.contains("===Noun===")) {
           return "noun";
