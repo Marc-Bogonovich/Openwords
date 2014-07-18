@@ -77,7 +77,7 @@ public class ActivityTypeEval extends FragmentActivity {
         });
         adapter = new TypeEvaluatePagerAdapter(getSupportFragmentManager());
         pager.setAdapter(adapter);
-        pager.setPageTransformer(true, new PageTransformerSelfEval());
+        pager.setPageTransformer(true, new PageTransformerForLeafCard());
 
         if (CurrentCard > -1 && CurrentCard < CardsPool.size()) {
             pager.setCurrentItem(CurrentCard, true);

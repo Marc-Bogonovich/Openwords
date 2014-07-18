@@ -1,26 +1,29 @@
 package com.openwords.learningmodule;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.widget.Toast;
-
 import com.google.gson.Gson;
 import com.openwords.R;
 import com.openwords.model.LeafCardSelfEval;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
-
 import java.util.List;
 
+/**
+ * The activity class of Self Evaluation.<br/>
+ * The Boolean Extra value "KEY_REVERSE_NAV" indicates that whether reading the
+ * card from Right to Left.
+ *
+ * @author hanaldo
+ */
 public class ActivitySelfEval extends FragmentActivity {
 
+    public static final String EXTRA_REVERSE_NAV = "reverse.nav";
     private static List<LeafCardSelfEval> CardsPool;
     private static int CurrentCard = 0;
     private static ActivitySelfEval instance;
@@ -33,6 +36,11 @@ public class ActivitySelfEval extends FragmentActivity {
         return CardsPool;
     }
 
+    /**
+     * Set the cards before start this activity.
+     *
+     * @param CardsPool A list of leaf cards represents each word problem.
+     */
     public static void setCardsPool(List<LeafCardSelfEval> CardsPool) {
         ActivitySelfEval.CardsPool = CardsPool;
     }
@@ -41,14 +49,25 @@ public class ActivitySelfEval extends FragmentActivity {
         ActivitySelfEval.CurrentCard = CurrentCard;
     }
 
+    public static int getReverseCardIndex(int pageIndex) {
+        if (pageIndex == 0) {
+            return -1;//additional page, so invalid card
+        }
+        return CardsPool.size() - pageIndex;
+    }
+
+    public static int getReversePageIndex(int cardIndex) {
+        return CardsPool.size() - cardIndex;
+    }
+
     private ViewPager pager;
     private SelfEvaluatePagerAdapter adapter;
+    private boolean reverseNav;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         instance = this;
         super.onCreate(savedInstanceState);
-        LogUtil.logDeubg(this, "onCreate");
         setContentView(R.layout.activity_self_eval);
 
         if (CardsPool == null) {
@@ -56,6 +75,9 @@ public class ActivitySelfEval extends FragmentActivity {
             finish();
             return;
         }
+
+        reverseNav = getIntent().getBooleanExtra(EXTRA_REVERSE_NAV, false);
+        LogUtil.logDeubg(this, "reverseNav set to: " + reverseNav);
 
         pager = (ViewPager) findViewById(R.id.act_self_eval_pager);
         pager.setOffscreenPageLimit(1);
@@ -65,9 +87,16 @@ public class ActivitySelfEval extends FragmentActivity {
             }
 
             public void onPageSelected(int i) {
-                CurrentCard = i;
-                if (i == CardsPool.size()) {
-                    FragmentPCSelfEval.refreshDetails();
+                if (reverseNav) {
+                    CurrentCard = getReverseCardIndex(i);
+                    if (i == 0) {
+                        FragmentPCSelfEval.refreshDetails();
+                    }
+                } else {
+                    CurrentCard = i;
+                    if (i == CardsPool.size()) {
+                        FragmentPCSelfEval.refreshDetails();
+                    }
                 }
             }
 
@@ -77,17 +106,28 @@ public class ActivitySelfEval extends FragmentActivity {
         });
         adapter = new SelfEvaluatePagerAdapter(getSupportFragmentManager());
         pager.setAdapter(adapter);
-        pager.setPageTransformer(true, new PageTransformerSelfEval());
+        pager.setPageTransformer(true, new PageTransformerForLeafCard(reverseNav));
 
-        if (CurrentCard > -1 && CurrentCard < CardsPool.size()) {
-            pager.setCurrentItem(CurrentCard, true);
+        if (reverseNav) {
+            if (!(CurrentCard > -1 && CurrentCard < CardsPool.size())) {
+                CurrentCard = 0;
+            }
+            pager.setCurrentItem(getReversePageIndex(CurrentCard), true);
         } else {
-            CurrentCard = 0;
+            if (CurrentCard > -1 && CurrentCard < CardsPool.size()) {
+                pager.setCurrentItem(CurrentCard, true);
+            } else {
+                CurrentCard = 0;
+            }
         }
     }
 
-    public ViewPager getPager() {
-        return pager;
+    public void goToNextCard() {
+        if (reverseNav) {
+            pager.setCurrentItem(getReversePageIndex(CurrentCard + 1), true);
+        } else {
+            pager.setCurrentItem(CurrentCard + 1, true);
+        }
     }
 
     @Override
@@ -104,21 +144,10 @@ public class ActivitySelfEval extends FragmentActivity {
 
     @Override
     public void onBackPressed() {
-    	int languageID = OpenwordsSharedPreferences.getUserInfo().getLang_id();
-    	 OpenwordsSharedPreferences.setSelfEvaluationProgress(new Gson().toJson(new ProgressSelfEval(CardsPool, CurrentCard, languageID)));
-    	 ActivitySelfEval.super.onBackPressed();
-    	 //        new AlertDialog.Builder(this)
-//                .setTitle("Really Quit?")
-//                .setMessage("Are you sure you want to quite current Evaluation? (You progress will be saved) Current card:"+CurrentCard)
-//                .setNegativeButton("No", null)
-//                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface arg0, int arg1) {
-//                    	Log.e("Json",new Gson().toJson(new SelfEvalProgress(CardsPool, CurrentCard)));
-//                       OpenwordsSharedPreferences.setSelfEvaluationProgress(new Gson().toJson(new SelfEvalProgress(CardsPool, CurrentCard)));
-//                       Log.e("CurrentCard", Integer.toString(OpenwordsSharedPreferences.getSelfEvaluationProgress().getCurrentCard()));
-//                       ActivitySelfEval.super.onBackPressed();
-//                    }
-//                }).create().show();
+        ActivitySelfEval.super.onBackPressed();
+        int languageID = OpenwordsSharedPreferences.getUserInfo().getLang_id();
+        OpenwordsSharedPreferences.setSelfEvaluationProgress(new Gson().toJson(new ProgressSelfEval(CardsPool, CurrentCard, languageID)));
+        LogUtil.logDeubg(this, "ProgressSelfEval is saved");
     }
 
     private class SelfEvaluatePagerAdapter extends FragmentPagerAdapter {
@@ -129,11 +158,18 @@ public class ActivitySelfEval extends FragmentActivity {
 
         @Override
         public Fragment getItem(int i) {
-            LogUtil.logDeubg(this, "Request fragment: " + i);
-            if (i >= CardsPool.size()) {
-                return new FragmentPCSelfEval();
+            if (reverseNav) {
+                if (i <= 0) {
+                    return new FragmentPCSelfEval();
+                } else {
+                    return new FragmentSelfEval(getReverseCardIndex(i));
+                }
             } else {
-                return new FragmentSelfEval(i);
+                if (i >= CardsPool.size()) {
+                    return new FragmentPCSelfEval();
+                } else {
+                    return new FragmentSelfEval(i);
+                }
             }
         }
 

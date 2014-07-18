@@ -3,16 +3,28 @@ package com.openwords.learningmodule;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
-/**
- * http://developer.android.com/training/animation/screen-slide.html
- *
- * @author hanaldo
- */
-public class PageTransformerSelfEval implements ViewPager.PageTransformer {
+public class PageTransformerForLeafCard implements ViewPager.PageTransformer {
 
     private static final float MIN_SCALE = 0.75f;
+    private final boolean reverseNav;
+
+    public PageTransformerForLeafCard() {
+        this.reverseNav = false;
+    }
+
+    public PageTransformerForLeafCard(boolean reverseNav) {
+        this.reverseNav = reverseNav;
+    }
 
     public void transformPage(View view, float position) {
+        if (reverseNav) {
+            doReverseTransformPage(view, position);
+        } else {
+            doTransformPage(view, position);
+        }
+    }
+
+    private void doTransformPage(View view, float position) {
         int pageWidth = view.getWidth();
 
         if (position < -1) { // [-Infinity,-1)
@@ -43,5 +55,9 @@ public class PageTransformerSelfEval implements ViewPager.PageTransformer {
             // This page is way off-screen to the right.
             view.setAlpha(0);
         }
+    }
+
+    private void doReverseTransformPage(View view, float position) {
+        doTransformPage(view, position);//To-Do
     }
 }
