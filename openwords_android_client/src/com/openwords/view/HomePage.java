@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -39,9 +38,10 @@ import com.openwords.model.UserInfo;
 import com.openwords.model.UserWords;
 import com.openwords.model.WordTranscription;
 import com.openwords.services.GetLanguages;
+import com.openwords.services.GetWords;
 import com.openwords.services.ModelLanguage;
+import com.openwords.services.ModelWordConnection;
 import com.openwords.util.TimeConvertor;
-import com.openwords.util.WordsPageTool;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
 import com.openwords.view.actionbar.ActionBarBuilder;
@@ -51,14 +51,12 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class HomePage extends Activity implements OnClickListener {
 
-    private static JSONArray jArrMain;
+    //private static JSONArray jArrMain;
     private static final String url_write_downloaded_words_to_server = "http://geographycontest.ipage.com/OpenwordsOrg/OpenwordsDB/setUserWords.php";
-    private static final String nextwords_url = "http://geographycontest.ipage.com/OpenwordsOrg/WordsDB/wordsPageGetWordList.php";
     private static Spinner begin, l2_dropdown;
     public static List<ModelLanguage> LanguageList = null;
     public static int pos = -1;
@@ -98,7 +96,7 @@ public class HomePage extends Activity implements OnClickListener {
         userinfo = OpenwordsSharedPreferences.getUserInfo();
 
         //this asynchnous call should be made in the LoginPage after user successfully login, 
-        //but right now LoginPage has too many arbitrary threads which are not allowing embedding this AsyncTask yet, will do that later
+        //but right now LoginPage has too many arbitrary threads which are not allowing embedding this Async Http request yet, will do that later
         GetLanguages.request(Integer.toString(userinfo.getUserId()), 0, new GetLanguages.AsyncCallback() {
 
             public void callback(List<ModelLanguage> languages, Throwable error) {
@@ -108,7 +106,6 @@ public class HomePage extends Activity implements OnClickListener {
                     fillLanguageOptions();
                     canRefresh.set(true);
                 } else {
-                    LogUtil.logDeubg(this, error.toString());
                     Toast.makeText(HomePage.this, error.toString(), Toast.LENGTH_SHORT).show();
                 }
             }
@@ -157,7 +154,8 @@ public class HomePage extends Activity implements OnClickListener {
                         Log.d("saved Lang", "" + OpenwordsSharedPreferences.getUserInfo().getLang_id()
                                 + OpenwordsSharedPreferences.getUserInfo().getLang_Name()); //new
                         //-----getting first x words if not present----
-                        new GetFirstWords().execute();
+                        //new GetFirstWords().execute();
+                        getFirstWords();
                     }
 
                 }
@@ -175,32 +173,32 @@ public class HomePage extends Activity implements OnClickListener {
     }
 
     //-------- Getting first 10 words from server for a language -----------------
-    public void getFirstWordsFromServer() {
-        ArrayList<WordsPageTool> words_list = new ArrayList<WordsPageTool>();
-        try {
-            List<NameValuePair> params = new ArrayList<NameValuePair>(3);
-            params.add(new BasicNameValuePair("user", Integer.toString(OpenwordsSharedPreferences.getUserInfo().getUserId())));
-            params.add(new BasicNameValuePair("langOne", "1"));
-            params.add(new BasicNameValuePair("langTwo", Integer.toString(OpenwordsSharedPreferences.getUserInfo().getLang_id())));
-            LogUtil.logDeubg(HomePage.this, params.toString());
-            JSONParser jsonParse = new JSONParser();
-            JSONObject jObj = jsonParse.makeHttpRequest(nextwords_url, "POST", params);
-            Log.d("Obj", jObj.toString());
-            if (jObj.getInt("success") == 1) {
-                JSONArray jArr = jObj.getJSONArray("data");
-                String abc = Integer.toString(jArr.length());
-                Log.d("Array", abc);
-                jArrMain = jArr;
-            }
+    /*public void getFirstWordsFromServer() {
+     ArrayList<WordsPageTool> words_list = new ArrayList<WordsPageTool>();
+     try {
+     List<NameValuePair> params = new ArrayList<NameValuePair>(3);
+     params.add(new BasicNameValuePair("user", Integer.toString(OpenwordsSharedPreferences.getUserInfo().getUserId())));
+     params.add(new BasicNameValuePair("langOne", "1"));
+     params.add(new BasicNameValuePair("langTwo", Integer.toString(OpenwordsSharedPreferences.getUserInfo().getLang_id())));
+     LogUtil.logDeubg(HomePage.this, params.toString());
+     JSONParser jsonParse = new JSONParser();
+     JSONObject jObj = jsonParse.makeHttpRequest(nextwords_url, "POST", params);
+     Log.d("Obj", jObj.toString());
+     if (jObj.getInt("success") == 1) {
+     JSONArray jArr = jObj.getJSONArray("data");
+     String abc = Integer.toString(jArr.length());
+     Log.d("Array", abc);
+     jArrMain = jArr;
+     }
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
+     } catch (Exception e) {
+     e.printStackTrace();
+     }
+     }*/
     //---------------------------------------------------------------------------------------------
     //------------update downloaded word on server----------------------------------------------
     public void updateWordsOnServer(String conIds, long dTime) {
+        LogUtil.logDeubg(HomePage.this, "updateWordsOnServer: " + conIds);
         try {
             int user = OpenwordsSharedPreferences.getUserInfo().getUserId();
             int langTwo = OpenwordsSharedPreferences.getUserInfo().getLang_id();
@@ -376,57 +374,55 @@ public class HomePage extends Activity implements OnClickListener {
                 }).create().show();
     }
 
-    //----------- Async Task to get first 10 words   
-    private class GetFirstWords extends AsyncTask<Void, Void, Void> {
+    private void getFirstWords() {
+        int langId = OpenwordsSharedPreferences.getUserInfo().getLang_id();
+        LogUtil.logDeubg(HomePage.this, "getFirstWords langId: " + langId);
+        List<UserWords> existList = UserWords.findByLanguage(langId);
+        if (existList.isEmpty()) {
+            LogUtil.logDeubg(HomePage.this, "existList isEmpty");
+            //getFirstWordsFromServer();
+            GetWords.request(Integer.toString(OpenwordsSharedPreferences.getUserInfo().getUserId()),
+                    "1",
+                    Integer.toString(OpenwordsSharedPreferences.getUserInfo().getLang_id()),
+                    0,
+                    new GetWords.AsyncCallback() {
 
-        @Override
-        protected Void doInBackground(Void... arg0) {
-            // TODO Auto-generated method stub
-            int langId = OpenwordsSharedPreferences.getUserInfo().getLang_id();
-            List<UserWords> existList = UserWords.findByLanguage(langId);
-            if (existList.size() == 0) {
-                getFirstWordsFromServer();
+                        public void callback(List<ModelWordConnection> data, Throwable error) {
+                            if (data != null) {
+                                String conIds = "";
+                                for (ModelWordConnection w : data) {
+                                    try {
+                                        //JSONObject c = jArrMain.getJSONObject(i);
 
-                String conIds = "";
-                for (int i = 0; i < jArrMain.length(); i++) {
-                    try {
-                        JSONObject c = jArrMain.getJSONObject(i);
+                                        UserWords newUw = new UserWords(w.getConnectionId(), w.getWordl1(),
+                                                w.getWordl1Text(), w.getWordl2(), w.getWordl2Text(),
+                                                w.getL2id(), w.getL2name(), w.getAudio(), 1);
+                                        newUw.save();
 
-                        UserWords newUw = new UserWords(c.getInt("connection_id"), c.getInt("wordl1"),
-                                c.getString("wordl1_text"), c.getInt("wordl2"), c.getString("wordl2_text"),
-                                c.getInt("l2id"), c.getString("l2name"), c.getString("audio"), 1);
-                        newUw.save();
+                                        WordTranscription t = new WordTranscription(w.getWordl2(), w.getTrans());
+                                        t.save();
 
-                        WordTranscription t = new WordTranscription(c.getInt("wordl2"), c.getString("trans"));
-                        t.save();
+                                        if (conIds.isEmpty()) {
+                                            conIds += w.getConnectionId();
+                                        } else {
+                                            conIds = conIds + "|" + w.getConnectionId();
+                                        }
 
-                        if (conIds == "") {
-                            conIds = conIds + c.getInt("connection_id");
-                        } else {
-                            conIds = conIds + "|" + c.getInt("connection_id");
+                                    } catch (Exception e) {
+                                        // TODO Auto-generated catch block
+                                        e.printStackTrace();
+                                    }
+
+                                }
+                                Toast.makeText(HomePage.this, "Your Words are ready", Toast.LENGTH_SHORT).show();
+                                //update on server
+                                updateWordsOnServer(conIds, TimeConvertor.getUnixTime());
+                            } else {
+                                Toast.makeText(HomePage.this, "Error: " + error.toString(), Toast.LENGTH_SHORT).show();
+                            }
                         }
-
-                    } catch (Exception e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
-
-                }
-                //update on server
-                updateWordsOnServer(conIds, TimeConvertor.getUnixTime());
-            }
-            return null;
+                    });
         }
-
-        protected void onProgressUpdate(Integer... progress) {
-            //setProgressPercent(progress[0]);
-        }
-
-        protected void onPostExecute(Long result) {
-            //showDialog("Refreshed");
-            //Log.d("Refresh Complete", "yes");
-        }
-
     }
 
 }

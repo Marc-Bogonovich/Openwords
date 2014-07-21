@@ -7,5 +7,29 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Test AsyncTask with Dialog" />
+    
+    
+    <Button android:id="@+id/act_test_test2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="UserWords.findByLanguage(2)" />
+    
+    
+    <Button android:id="@+id/act_test_test3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Chain HTTP requests" />
+    
+    
+    <Button android:id="@+id/act_test_test4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="..." />
+    
+    
+    <Button android:id="@+id/act_test_test5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="..." />
 
 </LinearLayout>

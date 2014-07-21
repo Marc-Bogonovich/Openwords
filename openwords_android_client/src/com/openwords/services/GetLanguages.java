@@ -11,6 +11,14 @@ public class GetLanguages {
 
     public static final String URL_DROPDOWN = "http://geographycontest.ipage.com/OpenwordsOrg/OpenwordsDB/homePageChooseLanguage.php";
 
+    /**
+     * Get the available languages information associated with the user.
+     *
+     * @param userId
+     * @param timeout The timeout for HTTP request in milliseconds, less or
+     * equal to 0 will make it using the default value
+     * @param callback
+     */
     public static void request(String userId, int timeout, final AsyncCallback callback) {
         AsyncHttpClient http = new AsyncHttpClient();
         if (timeout > 0) {

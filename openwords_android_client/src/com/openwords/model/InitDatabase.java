@@ -22,6 +22,7 @@ import com.openwords.util.preference.OpenwordsSharedPreferences;
 
 import android.content.Context;
 import android.util.Log;
+import com.openwords.util.log.LogUtil;
 
 public class InitDatabase {
 	public static String url_get_user_perf_summary = "http://geographycontest.ipage.com/OpenwordsOrg/getSummaryPerformance.php";
@@ -143,9 +144,10 @@ public class InitDatabase {
 		}
 	}
 	
-	public static void loadUserWords(Context ctx, int languageTwoId, int userId)
+	private static void loadUserWords(Context ctx, int languageTwoId, int userId)
 	{
 			Log.d("params", "_"+languageTwoId+userId);
+                        LogUtil.logDeubg(InitDatabase.class, "loadUserWords: lang " + languageTwoId + ", user " + userId);
 		try
 		{
 			List<NameValuePair> params1 = new ArrayList<NameValuePair>();
