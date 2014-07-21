@@ -20,7 +20,7 @@ public class RandomSelectAlg implements WSAinterface {
 		List<Integer> result = new ArrayList<Integer>();
 		
 		if(hasAudio!=null && hasAudio.equals(true)) {
-			userWord = UserWords.findFreshWithAudio();
+			userWord = UserWords.findFreshWithAudio(languageID);
 			perform = UserPerformance.findByUserLanguageWithAudio(user_id, languageID);
 		} else { //no requirement for audio
 			userWord = UserWords.findFresh(languageID);

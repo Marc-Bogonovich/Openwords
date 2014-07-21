@@ -90,9 +90,9 @@ public class UserWords extends SugarRecord<UserWords> {
 		return uw;
 	}
 	
-	public static List<UserWords> findFreshWithAudio()
+	public static List<UserWords> findFreshWithAudio(int languageID)
 	{
-		List<UserWords> uw = UserWords.find(UserWords.class, "fresh='1' and audiocall<>'null'");
+		List<UserWords> uw = UserWords.find(UserWords.class, "fresh='1' and audiocall<>'null' and l_two_id="+languageID);
 		return uw;
 	}
 	
