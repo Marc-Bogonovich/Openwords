@@ -24,7 +24,7 @@
     <Button android:id="@+id/act_test_test4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="..." />
+            android:text="Play Audio Files" />
     
     
     <Button android:id="@+id/act_test_test5"
