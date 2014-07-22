@@ -35,8 +35,8 @@ public class RegisterPage extends Activity implements OnClickListener {
 	public static final String TAG_SUCCESS="success";
 	public static final String TAG_MESSAGE="message";
 	public static final String TAG_USERID="userid";
-	private static String url_user_exist = "http://geographycontest.ipage.com/OpenwordsOrg/OpenwordsDB/userExist.php";
-	private static String url_user_register = "http://geographycontest.ipage.com/OpenwordsOrg/OpenwordsDB/userRegister.php";
+	private static String url_user_exist = "http://www.openwords.org/ServerPages/OpenwordsDB/userExist.php";
+	private static String url_user_register = "http://www.openwords.org/ServerPages/OpenwordsDB/userRegister.php";
 	private String username = null;
 	private String password = null;
 	private ProgressDialog pDialog = null;

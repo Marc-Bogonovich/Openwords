@@ -30,7 +30,7 @@ import com.openwords.util.log.LogUtil;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
 
 public class ChosenPage extends Activity{
-	private static String url_l2_chosen = "http://geographycontest.ipage.com/OpenwordsOrg/WordsDB/getLtwoOptions.php";
+	private static String url_l2_chosen = "http://www.openwords.org/ServerPages/WordsDB/getLtwoOptions.php";
 	public static ArrayList<String> chosen_list = null;
 	private UserInfo userinfo;
 	

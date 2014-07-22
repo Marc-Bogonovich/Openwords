@@ -42,8 +42,8 @@ import com.openwords.util.preference.OpenwordsSharedPreferences;
 
 public class WordsPage extends Activity implements OnClickListener {
 	private String[] nextWordsArray;
-	private static String url_write_downloaded_words_to_server = "http://geographycontest.ipage.com/OpenwordsOrg/OpenwordsDB/setUserWords.php";
-	private static String search_words_url = "http://geographycontest.ipage.com/OpenwordsOrg/WordsDB/wordsPageSearchWord.php";
+	private static String url_write_downloaded_words_to_server = "http://www.openwords.org/ServerPages/OpenwordsDB/setUserWords.php";
+	private static String search_words_url = "http://www.openwords.org/ServerPages/WordsDB/wordsPageSearchWord.php";
 	private static String[] searchWordsArray;
 	public static AlertDialog.Builder dg;
 	public static ArrayList<Integer> mSelectedItems = new ArrayList<Integer>();

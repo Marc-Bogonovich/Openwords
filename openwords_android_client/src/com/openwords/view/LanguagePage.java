@@ -42,12 +42,12 @@ public class LanguagePage extends Activity {
 		public static final String TAG_SUCCESS="success";
 		public static final String TAG_MESSAGE="message";
 		private int requestcode = 0;
-		private static String url_l2_options = "http://geographycontest.ipage.com/OpenwordsOrg/WordsDB/getLtwoOptions.php";
+		private static String url_l2_options = "http://www.openwords.org/ServerPages/WordsDB/getLtwoOptions.php";
 		public static final String USERID = "userid";
         public static ArrayList<LanguagePageTool> langlist_global = new ArrayList<LanguagePageTool>();
         //public static L2LangAdapter langadapter=null;
         public static ListView lang_listview=null;
-        public static String url_write_l2_choice = "http://geographycontest.ipage.com/OpenwordsOrg/OpenwordsDB/writeL2Choices.php";
+        public static String url_write_l2_choice = "http://www.openwords.org/ServerPages/OpenwordsDB/writeL2Choices.php";
         private UserInfo userinfo;
         
         @Override

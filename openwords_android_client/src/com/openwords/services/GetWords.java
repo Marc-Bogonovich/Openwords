@@ -14,7 +14,7 @@ import org.apache.http.Header;
  */
 public class GetWords {
 
-    public static final String URL_NEXTWORDS = "http://geographycontest.ipage.com/OpenwordsOrg/WordsDB/wordsPageGetWordList.php";
+    public static final String URL_NEXTWORDS = "http://www.openwords.org/ServerPages/WordsDB/wordsPageGetWordList.php";
 
     /**
      * Get the words and connections between two languages?

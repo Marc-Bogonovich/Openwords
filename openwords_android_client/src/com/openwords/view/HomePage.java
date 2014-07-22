@@ -56,7 +56,7 @@ import org.json.JSONObject;
 public class HomePage extends Activity implements OnClickListener {
 
     //private static JSONArray jArrMain;
-    private static final String url_write_downloaded_words_to_server = "http://geographycontest.ipage.com/OpenwordsOrg/OpenwordsDB/setUserWords.php";
+    private static final String url_write_downloaded_words_to_server = "http://www.openwords.org/ServerPages/OpenwordsDB/setUserWords.php";
     private static Spinner begin, l2_dropdown;
     public static List<ModelLanguage> LanguageList = null;
     public static int pos = -1;
