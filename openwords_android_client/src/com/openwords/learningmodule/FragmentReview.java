@@ -27,6 +27,7 @@ public class FragmentReview extends Fragment {
 
     private final int cardIndex;
     private TextView problem, transcription, answer;
+    private TextView index;
     private ImageView audioPlay;
     private LeafCard card;
     private LinearLayout breadcrumbs;
@@ -54,6 +55,8 @@ public class FragmentReview extends Fragment {
         transcription = (TextView) myFragmentView.findViewById(R.id.review_TextView_transcription);
         answer = (TextView) myFragmentView.findViewById(R.id.review_TextView_answer);
         
+        index = (TextView) myFragmentView.findViewById(R.id.review_TextView_index);
+        index.setText("ID:"+card.getConnectionId());
         audioPlay = (ImageView) myFragmentView.findViewById(R.id.review_ImageView_audioPlay);
         makeBreadCrumbs();
         problem.setText(card.getWordLang2());

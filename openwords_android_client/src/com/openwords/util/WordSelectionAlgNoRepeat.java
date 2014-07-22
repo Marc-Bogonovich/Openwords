@@ -93,6 +93,7 @@ public class WordSelectionAlgNoRepeat extends SugarRecord<UserPerformance> imple
 			Collections.shuffle(perform); //randomize perform
 			for(int i=0;i<perform.size();i++) {
 				result.add(perform.get(i).connection_id);
+				Log.d("WSA_no repeat", ""+perform.get(i).connection_id);
 			}
 			OpenwordsSharedPreferences.setLeafCardSize(result.size()); //set leaf card size to be result size
 			return result;
