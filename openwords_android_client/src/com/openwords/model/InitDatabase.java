@@ -25,10 +25,10 @@ import android.util.Log;
 import com.openwords.util.log.LogUtil;
 
 public class InitDatabase {
-	public static String url_get_user_perf_summary = "http://geographycontest.ipage.com/OpenwordsOrg/getSummaryPerformance.php";
-	public static String url_writeback_user_perf = "http://geographycontest.ipage.com/OpenwordsOrg/OpenwordsDB/writeBackUserPerf.php";
-	public static String url_get_user_words="http://geographycontest.ipage.com/OpenwordsOrg/OpenwordsDB/getUserWordsRecords.php";
-	public static String url_writeback_user_words="http://geographycontest.ipage.com/OpenwordsOrg/OpenwordsDB/writeBackUserWords.php";
+	public static String url_get_user_perf_summary = "http://www.openwords.org/ServerPages/getSummaryPerformance.php";
+	public static String url_writeback_user_perf = "http://www.openwords.org/ServerPages/OpenwordsDB/writeBackUserPerf.php";
+	public static String url_get_user_words="http://www.openwords.org/ServerPages/OpenwordsDB/getUserWordsRecords.php";
+	public static String url_writeback_user_words="http://www.openwords.org/ServerPages/OpenwordsDB/writeBackUserWords.php";
 	public static UserInfo user;
 	public static int userId;
 	public static int prevUser;

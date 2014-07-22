@@ -9,7 +9,7 @@ import org.apache.http.Header;
 
 public class GetLanguages {
 
-    public static final String URL_DROPDOWN = "http://geographycontest.ipage.com/OpenwordsOrg/OpenwordsDB/homePageChooseLanguage.php";
+    public static final String URL_DROPDOWN = "http://www.openwords.org/ServerPages/OpenwordsDB/homePageChooseLanguage.php";
 
     /**
      * Get the available languages information associated with the user.

@@ -47,7 +47,8 @@ public class LoginPage extends Activity implements OnClickListener {
     public static final String TAG_SUCCESS = "success";
     public static final String TAG_MESSAGE = "message";
     public static final String TAG_USERID = "userid";
-    private static final String url_check_user = "http://geographycontest.ipage.com/OpenwordsOrg/OpenwordsDB/validUser.php";
+    private static final String url_check_user = "http://www.openwords.org/ServerPages/OpenwordsDB/validUser.php";
+    //private static final String url_check_user = "http://geographycontest.ipage.com/OpenwordsOrg/OpenwordsDB/validUser.php";
     //private static String url_check_user = "http://geographycontest.ipage.com/OpenwordsOrg/validUser.php";
     private ProgressDialog pDialog = null;
     private String username;

@@ -30,7 +30,7 @@ import android.widget.TextView;
 
 public class ProfilePage extends Activity implements OnClickListener {
 
-	private static String url_dropdown = "http://geographycontest.ipage.com/OpenwordsOrg/OpenwordsDB/homePageChooseLanguage.php";
+	private static String url_dropdown = "http://www.openwords.org/ServerPages/OpenwordsDB/homePageChooseLanguage.php";
 	public static ArrayList<HomePageTool> dropdown_list = null;
 	private UserInfo userinfo;
 	private static int pos=-1;

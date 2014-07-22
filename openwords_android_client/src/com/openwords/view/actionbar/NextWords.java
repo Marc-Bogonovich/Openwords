@@ -35,8 +35,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class NextWords extends Activity implements OnClickListener{
-	private static String url_write_downloaded_words_to_server = "http://geographycontest.ipage.com/OpenwordsOrg/OpenwordsDB/setUserWords.php";
-	private static String nextwords_url = "http://geographycontest.ipage.com/OpenwordsOrg/WordsDB/wordsPageGetWordList.php";
+	private static String url_write_downloaded_words_to_server = "http://www.openwords.org/ServerPages/OpenwordsDB/setUserWords.php";
+	private static String nextwords_url = "http://www.openwords.org/ServerPages/WordsDB/wordsPageGetWordList.php";
 	public static ListView words_listview=null;
 	public static ArrayList<WordsPageTool> wordslist = new ArrayList<WordsPageTool>();
 	public static JSONArray jArrMain;
