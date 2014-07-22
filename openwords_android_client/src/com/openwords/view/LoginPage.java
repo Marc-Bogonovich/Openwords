@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.graphics.Region.Op;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
 import com.openwords.R;
 import com.openwords.model.InitDatabase;
 import com.openwords.model.JSONParser;
@@ -27,6 +29,7 @@ import com.openwords.util.InternetCheck;
 import com.openwords.util.RandomSelectAlg;
 import com.openwords.util.UIHelper;
 import com.openwords.util.WordSelectionAlg;
+import com.openwords.util.WordSelectionAlgNoRepeat;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
 
@@ -93,6 +96,7 @@ public class LoginPage extends Activity implements OnClickListener {
         if(OpenwordsSharedPreferences.getWordSelectionAlgList().size()==0) {
 	        OpenwordsSharedPreferences.addSelectionAlg(new WordSelectionAlg());
 	        OpenwordsSharedPreferences.addSelectionAlg(new RandomSelectAlg());
+	        OpenwordsSharedPreferences.addSelectionAlg(new WordSelectionAlgNoRepeat());
 	    }
 
         findViewById(R.id.loginPage_test).setOnClickListener(new OnClickListener() {
