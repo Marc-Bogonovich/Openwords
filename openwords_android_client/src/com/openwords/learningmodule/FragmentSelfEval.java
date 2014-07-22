@@ -7,12 +7,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.openwords.R;
 import com.openwords.model.LeafCardSelfEval;
 import com.openwords.tts.Speak;
 import com.openwords.util.TimeConvertor;
 import com.openwords.util.log.LogUtil;
+import com.openwords.util.preference.OpenwordsSharedPreferences;
 
 public class FragmentSelfEval extends Fragment {
 
@@ -21,6 +24,8 @@ public class FragmentSelfEval extends Fragment {
     private Button showAnswer;
     private ImageView correct, incorrect, audioPlay;
     private LeafCardSelfEval card;
+    private LinearLayout breadcrumbs;
+    private View myFragmentView;
 
     public FragmentSelfEval(int cardIndex) {
         this.cardIndex = cardIndex;
@@ -31,7 +36,7 @@ public class FragmentSelfEval extends Fragment {
         super.onCreate(savedInstanceState);
         LogUtil.logDeubg(this, "onCreateView for card: " + cardIndex);
 
-        View myFragmentView = inflater.inflate(R.layout.fragment_self_eval, container, false);
+        myFragmentView = inflater.inflate(R.layout.fragment_self_eval, container, false);
         card = ActivitySelfEval.getCardsPool().get(this.cardIndex);
 
         problem = (TextView) myFragmentView.findViewById(R.id.selfEvaluate_TextView_question);
@@ -41,7 +46,7 @@ public class FragmentSelfEval extends Fragment {
         correct = (ImageView) myFragmentView.findViewById(R.id.selfEvaluate_ImageView_known);
         incorrect = (ImageView) myFragmentView.findViewById(R.id.selfEvaluate_ImageView_unknown);
         audioPlay = (ImageView) myFragmentView.findViewById(R.id.selfEvaluate_ImageView_audioPlay);
-
+        makeBreadCrumbs();
         problem.setText(card.getWordLang2());
         answer.setText(card.getWordLang1());
         transcription.setText(card.getTranscription());
@@ -93,5 +98,21 @@ public class FragmentSelfEval extends Fragment {
             }
         }
         return myFragmentView;
+    }
+    
+    private void makeBreadCrumbs() {
+    	breadcrumbs = (LinearLayout) myFragmentView.findViewById(R.id.review_LinearLayout_breadcrumbs);
+    	int size = OpenwordsSharedPreferences.getLeafCardSize();
+    	for(int i=0;i<size;i++) {
+    		ImageView crumb = new ImageView(this.getActivity().getApplicationContext());
+    		
+    		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+    		            0,
+    		            LinearLayout.LayoutParams.WRAP_CONTENT, 1);
+    		
+    		crumb.setImageResource(R.drawable.ic_learning_module_breadcrumb_normal);
+    		if(i==cardIndex) crumb.setImageResource(R.drawable.ic_learning_module_breadcrumb_large);
+    		breadcrumbs.addView(crumb, i , params);
+    	}
     }
 }

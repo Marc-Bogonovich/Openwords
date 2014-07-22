@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,6 +21,7 @@ import com.openwords.tts.Speak;
 import com.openwords.util.TimeConvertor;
 import com.openwords.util.WordComparsion;
 import com.openwords.util.log.LogUtil;
+import com.openwords.util.preference.OpenwordsSharedPreferences;
 
 @SuppressLint("ValidFragment")
 public class FragmentHearing extends Fragment {
@@ -30,6 +32,9 @@ public class FragmentHearing extends Fragment {
     private EditText userInput;
 	private final double CUTOFF = 0.75f;
     private LeafCardHearing card;
+    private LinearLayout breadcrumbs;
+    private View myFragmentView;
+    
     @SuppressLint("ValidFragment")
 	public FragmentHearing(int cardIndex) {
         this.cardIndex = cardIndex;
@@ -57,6 +62,7 @@ public class FragmentHearing extends Fragment {
 		indicator = (ImageView) myFragmentView.findViewById(R.id.hearing_ImageView_indicator);
 		audioPlayButton = (ImageView) myFragmentView.findViewById(R.id.hearing_ImageView_audioPlay);
 		setInterfaceView(); 
+		makeBreadCrumbs();
 		checkButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -144,4 +150,20 @@ public class FragmentHearing extends Fragment {
 			transcription.setVisibility(View.VISIBLE);
 		}
 	}
+    
+    private void makeBreadCrumbs() {
+    	breadcrumbs = (LinearLayout) myFragmentView.findViewById(R.id.review_LinearLayout_breadcrumbs);
+    	int size = OpenwordsSharedPreferences.getLeafCardSize();
+    	for(int i=0;i<size;i++) {
+    		ImageView crumb = new ImageView(this.getActivity().getApplicationContext());
+    		
+    		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+    		            0,
+    		            LinearLayout.LayoutParams.WRAP_CONTENT, 1);
+    		
+    		crumb.setImageResource(R.drawable.ic_learning_module_breadcrumb_normal);
+    		if(i==cardIndex) crumb.setImageResource(R.drawable.ic_learning_module_breadcrumb_large);
+    		breadcrumbs.addView(crumb, i , params);
+    	}
+    }
 }
