@@ -3,6 +3,7 @@ package com.openwords.learningmodule;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,6 +14,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -57,12 +60,21 @@ public class FragmentPCTypeEval extends Fragment {
             }
         };
     }
+    
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+    	//hide the keyboard
+        super.onActivityCreated(savedInstanceState);
+        this.getActivity();
+		final InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LogUtil.logDeubg(this, "onCreateView");
-
+        //hideKeyboard();
         View myFragmentView = inflater.inflate(R.layout.fragment_plate_completion, container, false);
         vocabSize = (TextView) myFragmentView.findViewById(R.id.plc_TextView_VocabSize);
         performance = (TextView) myFragmentView.findViewById(R.id.plc_TextView_Performance);
