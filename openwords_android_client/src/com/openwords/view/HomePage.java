@@ -97,30 +97,30 @@ public class HomePage extends Activity implements OnClickListener {
 
         //this asynchnous call should be made in the LoginPage after user successfully login, 
         //but right now LoginPage has too many arbitrary threads which are not allowing embedding this Async Http request yet, will do that later
-        GetLanguages.request(Integer.toString(userinfo.getUserId()), 0, new GetLanguages.AsyncCallback() {
-
-            public void callback(List<ModelLanguage> languages, Throwable error) {
-                if (languages != null) {
-                    languages.add(new ModelLanguage(-999, "Add more languages"));
-                    LanguageList = languages;
-                    fillLanguageOptions();
-                    canRefresh.set(true);
-                } else {
-                    Toast.makeText(HomePage.this, error.toString(), Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+        refreshLanguageOptions();
     }
 
     private void refreshLanguageOptions() {
-        if (canRefresh.get()) {
-            LogUtil.logDeubg(this, "refreshLanguageOptions");
-            languageOptions.clear();
-            for (ModelLanguage l : LanguageList) {
-                languageOptions.add(l.getL2name());
-            }
-            dropdownAdapter.notifyDataSetChanged();
-        }
+// This part of code doesn't work, since the LanguageList remains the same with previous         	
+//            LogUtil.logDeubg(this, "refreshLanguageOptions");
+//            languageOptions.clear();
+//            for (ModelLanguage l : LanguageList) {
+//                languageOptions.add(l.getL2name());
+//            }
+//            dropdownAdapter.notifyDataSetChanged();
+        	//Reload from the server
+        	 GetLanguages.request(Integer.toString(userinfo.getUserId()), 0, new GetLanguages.AsyncCallback() {
+
+                 public void callback(List<ModelLanguage> languages, Throwable error) {
+                     if (languages != null) {
+                         languages.add(new ModelLanguage(-999, "Add more languages"));
+                         LanguageList = languages;
+                         fillLanguageOptions();
+                     } else {
+                         Toast.makeText(HomePage.this, error.toString(), Toast.LENGTH_SHORT).show();
+                     }
+                 }
+             });
     }
 
     private void fillLanguageOptions() {
