@@ -97,30 +97,33 @@ public class HomePage extends Activity implements OnClickListener {
 
         //this asynchnous call should be made in the LoginPage after user successfully login, 
         //but right now LoginPage has too many arbitrary threads which are not allowing embedding this Async Http request yet, will do that later
-        refreshLanguageOptions();
+        //refreshLanguageOptions();
+        GetLanguages.request(Integer.toString(userinfo.getUserId()), 0, new GetLanguages.AsyncCallback() {
+
+            public void callback(List<ModelLanguage> languages, Throwable error) {
+                if (languages != null) {
+                    languages.add(new ModelLanguage(-999, "Add more languages"));
+                    LanguageList = languages;
+                    fillLanguageOptions();
+                } else {
+                    Toast.makeText(HomePage.this, error.toString(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     private void refreshLanguageOptions() {
-// This part of code doesn't work, since the LanguageList remains the same with previous         	
-//            LogUtil.logDeubg(this, "refreshLanguageOptions");
-//            languageOptions.clear();
-//            for (ModelLanguage l : LanguageList) {
-//                languageOptions.add(l.getL2name());
-//            }
-//            dropdownAdapter.notifyDataSetChanged();
-        	//Reload from the server
-        	 GetLanguages.request(Integer.toString(userinfo.getUserId()), 0, new GetLanguages.AsyncCallback() {
-
-                 public void callback(List<ModelLanguage> languages, Throwable error) {
-                     if (languages != null) {
-                         languages.add(new ModelLanguage(-999, "Add more languages"));
-                         LanguageList = languages;
-                         fillLanguageOptions();
-                     } else {
-                         Toast.makeText(HomePage.this, error.toString(), Toast.LENGTH_SHORT).show();
-                     }
-                 }
-             });
+// This part of code doesn't work, since the LanguageList remains the same with previous
+    	if(canRefresh.get()) {
+            LogUtil.logDeubg(this, "refreshLanguageOptions");
+            languageOptions.clear();
+            for (ModelLanguage l : LanguageList) {
+                languageOptions.add(l.getL2name());
+            }
+            dropdownAdapter.notifyDataSetChanged();
+            l2_dropdown.setSelection(0);
+            canRefresh.set(false);
+    	}
     }
 
     private void fillLanguageOptions() {
@@ -130,7 +133,7 @@ public class HomePage extends Activity implements OnClickListener {
                 languageOptions.add(l.getL2name());
                 LogUtil.logDeubg(this, "user " + userinfo.getUserId() + " has lang: " + l.getL2name());
                 if (l.getL2id() == OpenwordsSharedPreferences.getUserInfo().getLang_id()) {
-                    language_position = languageOptions.size() - 1;
+                	language_position = languageOptions.size() - 1;
                 }
             }
 
@@ -143,6 +146,7 @@ public class HomePage extends Activity implements OnClickListener {
                     pos = position;
                     Log.d("ID", Integer.toString(LanguageList.get(position).getL2id()));
                     if (LanguageList.get(position).getL2id() == -999) {
+                    	canRefresh.set(true);
                         HomePage.this.startActivity(new Intent(HomePage.this, LanguagePage.class));
                     } else {
                         homelang_id = LanguageList.get(position).getL2id();
