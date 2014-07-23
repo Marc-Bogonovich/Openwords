@@ -27,7 +27,6 @@ public class FragmentReview extends Fragment {
 
     private final int cardIndex;
     private TextView problem, transcription, answer;
-    private TextView index;
     private ImageView audioPlay;
     private LeafCard card;
     private LinearLayout breadcrumbs;
@@ -54,11 +53,9 @@ public class FragmentReview extends Fragment {
         problem = (TextView) myFragmentView.findViewById(R.id.review_TextView_question);
         transcription = (TextView) myFragmentView.findViewById(R.id.review_TextView_transcription);
         answer = (TextView) myFragmentView.findViewById(R.id.review_TextView_answer);
-        
-        index = (TextView) myFragmentView.findViewById(R.id.review_TextView_index);
-        index.setText("ID:"+card.getConnectionId());
+
         audioPlay = (ImageView) myFragmentView.findViewById(R.id.review_ImageView_audioPlay);
-        makeBreadCrumbs();
+        //makeBreadCrumbs(); //According to Marc's requirement
         problem.setText(card.getWordLang2());
         answer.setText(card.getWordLang1());
         transcription.setText(card.getTranscription());
@@ -90,19 +87,19 @@ public class FragmentReview extends Fragment {
         return myFragmentView;
     }
     
-    private void makeBreadCrumbs() {
-    	breadcrumbs = (LinearLayout) myFragmentView.findViewById(R.id.review_LinearLayout_breadcrumbs);
-    	int size = OpenwordsSharedPreferences.getLeafCardSize();
-    	for(int i=0;i<size;i++) {
-    		ImageView crumb = new ImageView(this.getActivity().getApplicationContext());
-    		
-    		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-    		            0,
-    		            LinearLayout.LayoutParams.WRAP_CONTENT, 1);
-    		
-    		crumb.setImageResource(R.drawable.ic_learning_module_breadcrumb_normal);
-    		if(i==cardIndex) crumb.setImageResource(R.drawable.ic_learning_module_breadcrumb_large);
-    		breadcrumbs.addView(crumb, i , params);
-    	}
-    }
+//    private void makeBreadCrumbs() {
+//    	breadcrumbs = (LinearLayout) myFragmentView.findViewById(R.id.review_LinearLayout_breadcrumbs);
+//    	int size = OpenwordsSharedPreferences.getLeafCardSize();
+//    	for(int i=0;i<size;i++) {
+//    		ImageView crumb = new ImageView(this.getActivity().getApplicationContext());
+//    		
+//    		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+//    		            0,
+//    		            LinearLayout.LayoutParams.WRAP_CONTENT, 1);
+//    		
+//    		crumb.setImageResource(R.drawable.ic_learning_module_breadcrumb_normal);
+//    		if(i==cardIndex) crumb.setImageResource(R.drawable.ic_learning_module_breadcrumb_large);
+//    		breadcrumbs.addView(crumb, i , params);
+//    	}
+//    }
 }

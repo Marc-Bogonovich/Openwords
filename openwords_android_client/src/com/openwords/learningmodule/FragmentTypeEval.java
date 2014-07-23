@@ -68,7 +68,7 @@ public class FragmentTypeEval extends Fragment {
 		status = (ImageView) myFragmentView.findViewById(R.id.typeEvaluate_ImageView_status);
 		audioPlayButton = (ImageView) myFragmentView.findViewById(R.id.typeEvaluate_ImageView_audioPlay);
 		setInterfaceView();
-		makeBreadCrumbs();
+		//makeBreadCrumbs();
         card.setLastTime(TimeConvertor.getUnixTime());
 		answer.setVisibility(View.INVISIBLE);
 		
@@ -183,19 +183,19 @@ public class FragmentTypeEval extends Fragment {
 		
 	}
     
-    private void makeBreadCrumbs() {
-    	breadcrumbs = (LinearLayout) myFragmentView.findViewById(R.id.review_LinearLayout_breadcrumbs);
-    	int size = OpenwordsSharedPreferences.getLeafCardSize();
-    	for(int i=0;i<size;i++) {
-    		ImageView crumb = new ImageView(this.getActivity().getApplicationContext());
-    		
-    		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-    		            0,
-    		            LinearLayout.LayoutParams.WRAP_CONTENT, 1);
-    		
-    		crumb.setImageResource(R.drawable.ic_learning_module_breadcrumb_normal);
-    		if(i==cardIndex) crumb.setImageResource(R.drawable.ic_learning_module_breadcrumb_large);
-    		breadcrumbs.addView(crumb, i , params);
-    	}
-    }
+//    private void makeBreadCrumbs() {
+//    	breadcrumbs = (LinearLayout) myFragmentView.findViewById(R.id.review_LinearLayout_breadcrumbs);
+//    	int size = OpenwordsSharedPreferences.getLeafCardSize();
+//    	for(int i=0;i<size;i++) {
+//    		ImageView crumb = new ImageView(this.getActivity().getApplicationContext());
+//    		
+//    		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+//    		            0,
+//    		            LinearLayout.LayoutParams.WRAP_CONTENT, 1);
+//    		
+//    		crumb.setImageResource(R.drawable.ic_learning_module_breadcrumb_normal);
+//    		if(i==cardIndex) crumb.setImageResource(R.drawable.ic_learning_module_breadcrumb_large);
+//    		breadcrumbs.addView(crumb, i , params);
+//    	}
+//    }
 }

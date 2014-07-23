@@ -126,12 +126,12 @@
         </LinearLayout>
     </ViewFlipper>
 </LinearLayout>
-<LinearLayout
+<!-- <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="30dp" 
     android:orientation="horizontal"
     android:id="@+id/review_LinearLayout_breadcrumbs"
     android:layout_alignParentBottom="true">
 
-</LinearLayout>
+</LinearLayout> -->
 </RelativeLayout>
