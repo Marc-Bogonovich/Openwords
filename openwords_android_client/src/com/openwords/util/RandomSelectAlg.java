@@ -3,6 +3,7 @@ package com.openwords.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.graphics.Region.Op;
 import android.util.Log;
 
 import com.openwords.model.InitDatabase;
@@ -14,9 +15,12 @@ public class RandomSelectAlg implements WSAinterface {
 	List<UserPerformance> perform;
 	List<UserWords> userWord;
 
+	
 	@Override
 	public List<Integer> pickup(int size, Boolean hasAudio) {
-		
+		int user_id = OpenwordsSharedPreferences.getUserInfo().getUserId();
+		int languageID = OpenwordsSharedPreferences.getUserInfo().getLang_id();
+		Log.e("RandomAlg","LangID: "+languageID);
 		List<Integer> result = new ArrayList<Integer>();
 		
 		if(hasAudio!=null && hasAudio.equals(true)) {

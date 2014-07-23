@@ -121,7 +121,6 @@ public class HomePage extends Activity implements OnClickListener {
                 languageOptions.add(l.getL2name());
             }
             dropdownAdapter.notifyDataSetChanged();
-            l2_dropdown.setSelection(0);
             canRefresh.set(false);
     	}
     }
@@ -155,6 +154,13 @@ public class HomePage extends Activity implements OnClickListener {
                         user.setLang_id(homelang_id);
                         user.setLang_Name(homelang_name); //new
                         OpenwordsSharedPreferences.setUserInfo(user);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(HomePage.this, "Selected Lang: "+OpenwordsSharedPreferences.getUserInfo().getLang_Name()+" ID: "+OpenwordsSharedPreferences.getUserInfo().getLang_id(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    
                         Log.d("saved Lang", "" + OpenwordsSharedPreferences.getUserInfo().getLang_id()
                                 + OpenwordsSharedPreferences.getUserInfo().getLang_Name()); //new
                         //-----getting first x words if not present----

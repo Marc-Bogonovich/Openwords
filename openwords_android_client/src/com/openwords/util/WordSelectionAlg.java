@@ -52,6 +52,7 @@ public class WordSelectionAlg extends SugarRecord<UserPerformance> implements WS
 	}
 	
 	public List<Integer> pickup(int size, Boolean hasAudio) {
+		int user_id = OpenwordsSharedPreferences.getUserInfo().getUserId();
 		int languageID = OpenwordsSharedPreferences.getUserInfo().getLang_id();
 		List<Integer> result = new ArrayList<Integer>();
 		
