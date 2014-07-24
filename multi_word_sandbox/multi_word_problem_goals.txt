@@ -1,0 +1,16 @@
+- Hardcoded multi-word L1 sentence or phrase
+- a number of placeholder views to drag L2 words onto
+	- snaps word into place when you drag over placeholder
+	- can drag L2 words off placegolder
+- a number of textviews of L2 words > than the number of placeholder
+	- drag and move around, snaps back into place if not put into placeholder
+	- will move to first available holder in the event of a user tap
+- Will use some combination of dragEvents/ onDragListener (min API 11)
+-Submit button 
+	-gives some sort of feedback to verify correctness
+
+
+
+- Eventual Goals
+	Random generation of word combinations
+	
