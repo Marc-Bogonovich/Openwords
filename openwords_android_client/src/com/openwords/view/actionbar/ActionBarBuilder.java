@@ -130,7 +130,7 @@ public class ActionBarBuilder {
         final DialogForSettingSelection dialog[] = new DialogForSettingSelection[1];
         dialog[0] = new DialogForSettingSelection(activity)
                 .addItem("Profile")
-                .addItem("Setting")
+                .addItem("Settings")
                 .addItem("Tutorial")
                 .addItem("Log Out")
                 .build(new AdapterView.OnItemClickListener() {

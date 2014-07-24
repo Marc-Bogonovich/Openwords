@@ -272,7 +272,10 @@ public class HomePage extends Activity implements OnClickListener {
                 public void run() {
                     final ProgressSelfEval progress = OpenwordsSharedPreferences.getSelfEvaluationProgress();
                     if (progress == null || progress.getLanguageID() != OpenwordsSharedPreferences.getUserInfo().getLang_id()) {
-
+//                    	if(progress!=null) {
+//                    		Log.e("HomePage","progress langID:"+progress.getLanguageID()+" currentID: "+OpenwordsSharedPreferences.getUserInfo().getLang_id());
+//                    	}
+//                    	
                         cards = new LeafCardSelfEvalAdapter().getList(SIZE);
                         if (cards.size() <= 0) {
                             runOnUiThread(new Runnable() {
