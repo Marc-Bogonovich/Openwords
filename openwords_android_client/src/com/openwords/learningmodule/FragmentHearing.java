@@ -110,7 +110,7 @@ public class FragmentHearing extends Fragment {
 		audioPlayButton.setOnClickListener(new View.OnClickListener() {
 
 	            public void onClick(View view) {
-	                Speak.getInstance(null).speak(card.getWordLang2());
+	                //Speak.getInstance(null).speak(card.getWordLang2());
 	            }
 	        });
 		

@@ -2,6 +2,7 @@ package com.openwords.test;
 
 import android.app.ListActivity;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.View;
 import android.view.Window;
 import android.widget.ArrayAdapter;
@@ -69,10 +70,10 @@ public class DialogSoundPlay extends ListActivity {
         super.onListItemClick(l, v, position, id);
 
         if (position < 6) {
-            MusicPlayer.getInstance().playMusic(names[position], true);
+            MusicPlayer.getInstance().playMusic(Environment.getExternalStorageDirectory().getPath() + "/OpenwordsSound/" + names[position], true);
             Toast.makeText(this, info[position] + " " + size[position], Toast.LENGTH_SHORT).show();
         } else {
-            MusicPlayer.getInstance().playMusic(names[position - 6], false);
+            MusicPlayer.getInstance().playMusic("http://www.openwords.com/api-v1/audio/" + names[position - 6], false);
             Toast.makeText(this, info[position - 6] + " " + size[position - 6], Toast.LENGTH_SHORT).show();
         }
     }

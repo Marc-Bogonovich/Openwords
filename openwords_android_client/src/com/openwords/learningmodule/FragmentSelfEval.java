@@ -83,7 +83,7 @@ public class FragmentSelfEval extends Fragment {
         audioPlay.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
-                Speak.getInstance(null).speak(card.getWordLang2());
+                //Speak.getInstance(null).speak(card.getWordLang2());
             }
         });
 

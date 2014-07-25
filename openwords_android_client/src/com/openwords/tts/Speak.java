@@ -53,7 +53,7 @@ public class Speak implements TextToSpeech.OnInitListener {
         if (status == TextToSpeech.SUCCESS) {
             LogUtil.logDeubg(this, "Can start to speak");
 
-            tts.setLanguage(Locale.CHINESE);
+            tts.setLanguage(Locale.ENGLISH);
             speakAvailable = true;
         } else {
             LogUtil.logDeubg(this, "Failed to init");

@@ -24,12 +24,12 @@
     <Button android:id="@+id/act_test_test4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Play Audio Files" />
+            android:text="Try Different Audio Bitrates" />
     
     
     <Button android:id="@+id/act_test_test5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="..." />
+            android:text="Play and Download Audio Files" />
 
 </LinearLayout>

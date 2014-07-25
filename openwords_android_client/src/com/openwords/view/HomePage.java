@@ -41,6 +41,7 @@ import com.openwords.services.GetLanguages;
 import com.openwords.services.GetWords;
 import com.openwords.services.ModelLanguage;
 import com.openwords.services.ModelWordConnection;
+import com.openwords.tts.Speak;
 import com.openwords.util.TimeConvertor;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
@@ -110,6 +111,7 @@ public class HomePage extends Activity implements OnClickListener {
                 }
             }
         });
+        Speak.getInstance(null).speak("welcome to openwords");
     }
 
     private void refreshLanguageOptions() {

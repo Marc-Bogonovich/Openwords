@@ -11,7 +11,6 @@ import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.TextHttpResponseHandler;
 import com.openwords.R;
 import com.openwords.model.UserWords;
-import com.openwords.sound.MusicPlayer;
 import com.openwords.ui.common.DialogForHTTP;
 import com.openwords.util.log.LogUtil;
 import java.util.List;
@@ -111,6 +110,13 @@ public class ActivityTest extends Activity {
             public void onClick(View view) {
                 startActivity(new Intent(ActivityTest.this, DialogSoundPlay.class));
 
+            }
+        });
+
+        findViewById(R.id.act_test_test5).setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View view) {
+                startActivity(new Intent(ActivityTest.this, DialogSoundPlay2.class));
             }
         });
     }

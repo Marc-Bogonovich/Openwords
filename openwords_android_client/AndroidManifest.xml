@@ -179,6 +179,11 @@
                   android:theme="@android:style/Theme.Holo.Dialog"
                   android:configChanges="orientation|screenSize">
         </activity>
+        
+        <activity android:name=".test.DialogSoundPlay2"
+                  android:theme="@android:style/Theme.Holo.Dialog"
+                  android:configChanges="orientation|screenSize">
+        </activity>
     </application>
 
 </manifest>
