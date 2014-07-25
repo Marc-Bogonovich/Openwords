@@ -118,15 +118,15 @@ public class LoginPage extends Activity implements OnClickListener {
     }
 
     private void login() {
-        try {
-            username = usernameField.getText().toString();
-            password = passwdField.getText().toString();
-            LogUtil.logDeubg(this, "username " + username);
-            LogUtil.logDeubg(this, "passwd " + password);
+        username = usernameField.getText().toString();
+        password = passwdField.getText().toString();
+        LogUtil.logDeubg(this, "username " + username);
+        LogUtil.logDeubg(this, "passwd " + password);
 
-            CheckUser.request(username, password, 0, new CheckUser.AsyncCallback() {
+        CheckUser.request(username, password, 0, new CheckUser.AsyncCallback() {
 
-                public void callback(int userId, String message, Throwable error) {
+            public void callback(int userId, String message, Throwable error) {
+                try {
                     if (userId > 0) {
                         Toast.makeText(LoginPage.this, "Login Success", Toast.LENGTH_SHORT).show();
 
@@ -171,14 +171,12 @@ public class LoginPage extends Activity implements OnClickListener {
                             Toast.makeText(LoginPage.this, error.toString(), Toast.LENGTH_SHORT).show();
                         }
                     }
-                    pDialog.dismiss();
+                } catch (Exception e) {
+                    Toast.makeText(LoginPage.this, e.toString(), Toast.LENGTH_SHORT).show();
                 }
-            });
-
-        } catch (Exception e) {
-            pDialog.dismiss();
-            LogUtil.logWarning(this, e);
-        }
+                pDialog.dismiss();
+            }
+        });
     }
 
     @Override

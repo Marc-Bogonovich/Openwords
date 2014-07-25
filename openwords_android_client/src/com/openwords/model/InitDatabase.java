@@ -21,6 +21,7 @@ import com.openwords.util.TimeConvertor;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
 
 import android.content.Context;
+import android.os.StrictMode;
 import android.util.Log;
 import com.openwords.util.log.LogUtil;
 
@@ -36,6 +37,8 @@ public class InitDatabase {
 	//-----
 	public static void checkAndRefreshPerf(Context ctx, int module, int override)
 	{
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
 		user=OpenwordsSharedPreferences.getUserInfo();
 		userId = user.getUserId();
 		prevUser = user.getLast_userid();
