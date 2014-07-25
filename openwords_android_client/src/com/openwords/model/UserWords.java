@@ -1,6 +1,7 @@
 package com.openwords.model;
 
 import com.orm.SugarRecord;
+import com.orm.dsl.Ignore;
 import java.util.List;
 
 public class UserWords extends SugarRecord<UserWords> {
@@ -47,6 +48,7 @@ public class UserWords extends SugarRecord<UserWords> {
     public String lTwoName;
     public String audiocall;
     public int fresh;
+    @Ignore
     public boolean audioIsLocal;
 
     public UserWords() {
