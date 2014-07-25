@@ -1,0 +1,835 @@
+07-25 17:09:48.593: I/Sugar(17217): on create
+07-25 17:09:48.623: D/dalvikvm(17217): GC_FOR_ALLOC freed 338K, 2% free 18679K/19048K, paused 11ms, total 11ms
+07-25 17:09:48.803: D/dalvikvm(17217): GC_FOR_ALLOC freed 603K, 4% free 18733K/19376K, paused 10ms, total 10ms
+07-25 17:09:48.893: I/Sugar(17217): domain class
+07-25 17:09:48.893: I/Sugar(17217): domain class
+07-25 17:09:48.893: I/Sugar(17217): domain class
+07-25 17:09:48.893: I/Sugar(17217): domain class
+07-25 17:09:48.893: I/Sugar(17217): domain class
+07-25 17:09:48.893: I/Sugar(17217): domain class
+07-25 17:09:48.893: I/Sugar(17217): domain class
+07-25 17:09:48.893: I/Sugar(17217): domain class
+07-25 17:09:48.983: D/dalvikvm(17217): GC_FOR_ALLOC freed 674K, 4% free 18735K/19448K, paused 9ms, total 10ms
+07-25 17:09:49.103: I/Sugar(17217): domain class
+07-25 17:09:49.103: I/Sugar(17217): domain class
+07-25 17:09:49.103: I/Sugar(17217): domain class
+07-25 17:09:49.113: I/Sugar(17217): domain class
+07-25 17:09:49.113: I/Sugar(17217): domain class
+07-25 17:09:49.113: I/Sugar(17217): domain class
+07-25 17:09:49.113: I/Sugar(17217): domain class
+07-25 17:09:49.113: I/Sugar(17217): domain class
+07-25 17:09:49.113: I/Sugar(17217): domain class
+07-25 17:09:49.113: I/Sugar(17217): domain class
+07-25 17:09:49.113: I/Sugar(17217): domain class
+07-25 17:09:49.153: D/dalvikvm(17217): GC_FOR_ALLOC freed 673K, 4% free 18736K/19448K, paused 10ms, total 10ms
+07-25 17:09:49.193: I/Sugar(17217): create table
+07-25 17:09:49.193: D/Sugar(17217): Fetching properties
+07-25 17:09:49.193: I/Sugar(17217): creating table USER_PERFORMANCE
+07-25 17:09:49.193: I/Sugar(17217): create table
+07-25 17:09:49.193: D/Sugar(17217): Fetching properties
+07-25 17:09:49.193: I/Sugar(17217): creating table USER_PERFORMANCE_DIRTY
+07-25 17:09:49.193: I/Sugar(17217): create table
+07-25 17:09:49.193: D/Sugar(17217): Fetching properties
+07-25 17:09:49.203: I/Sugar(17217): creating table USER_WORDS
+07-25 17:09:49.203: I/Sugar(17217): create table
+07-25 17:09:49.203: D/Sugar(17217): Fetching properties
+07-25 17:09:49.203: I/Sugar(17217): creating table WORD_TRANSCRIPTION
+07-25 17:09:49.233: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE_DIRTY
+07-25 17:09:49.233: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_WORDS
+07-25 17:09:49.233: D/last upd time(17217): 0
+07-25 17:09:49.233: D/checkpoint1(17217): ----before delete---
+07-25 17:09:49.253: D/params(17217): _0319
+07-25 17:09:49.253: D/class com.openwords.model.InitDatabase(17217): loadUserWords: lang 0, user 319
+07-25 17:09:49.723: D/RES(17217): finish post
+07-25 17:09:49.803: D/dalvikvm(17217): GC_FOR_ALLOC freed 752K, 5% free 18645K/19448K, paused 8ms, total 8ms
+07-25 17:09:49.803: D/JSON :(17217): {"success":1,"data":[{"user_id":"319","connection_id":"4","wordl2id":"5","wordl2name":"\u5b57\u5178","wordl1id":"1","wordl1name":"dictionary","l2id":"2","l2name":"\u4e2d\u6587","audiocall":null,"fresh":"1","trans":""},{"user_id":"319","connection_id":"5","wordl2id":"6","wordl2name":"\u8a5e\u5178","wordl1id":"1","wordl1name":"dictionary","l2id":"2","l2name":"\u4e2d\u6587","audiocall":null,"fresh":"1","trans":""},{"user_id":"319","connection_id":"6","wordl2id":"7","wordl2name":"\u8bcd\u5178","wordl1id":"1","wordl1name":"dictionary","l2id":"2","l2name":"\u4e2d\u6587","audiocall":null,"fresh":"1","trans":""},{"user_id":"319","connection_id":"7","wordl2id":"8","wordl2name":"\u8fad\u5178","wordl1id":"1","wordl1name":"dictionary","l2id":"2","l2name":"\u4e2d\u6587","audiocall":null,"fresh":"1","trans":""},{"user_id":"319","connection_id":"8","wordl2id":"9","wordl2name":"\u8f9e\u5178","wordl1id":"1","wordl1name":"dictionary","l2id":"2","l2name":"\u4e2d\u6587","audiocall":null,"fresh":"1","trans":""},{"user_id":"319","connection_id":"9","wordl2id":"10","wordl2name":"W\u00f6rterbuch","wordl1id":"1","wordl1name":"dictionary","l2id":"3","l2name":"Deutsch","audiocall":null,"fresh":"0","trans":""},{"user_id":"319","connection_id":"13","wordl2id":"14","wordl2name":"diccionario","wordl1id":"1","wordl1name":"dictionary","l2id":"4","l2name":"Espa\u00f1ol","audiocall":null,"fresh":"1","trans":""},{"user_id":"319","connection_id":"15","wordl2id":"17","wordl2name":"\u81ea\u7531","wordl1id":"15","wordl1name":"free","l2id":"2","l2name":"\u4e2d\u6587","audiocall":null,"fresh":"1","trans":""},{"user_id":"319","connection_id":"16","wordl2id":"18","wordl2name":"frei","wordl1id":"15","wordl1name":"free","l2id":"3","l2name":"Deutsch","audiocall":null,"fresh":"0","trans":""},{"user_id":"319","connection_id":"17","wordl2id":"19","wordl2name":"ungebunden","wordl1id":"15","wordl1name":"free","l2id":"3","l2name":"Deutsch","audiocall":null,"fresh":"0","trans":""},{"user_id":"319","connection_id":"20","wordl2id":"22","wordl2name":"libre","wordl1id":"15","wordl1name":"free","l2id":"4","l2name":"Espa\u00f1ol","audiocall":null,"fresh":"1","trans":""},{"user_id":"319","connection_id":"21","wordl2id":"24","wordl2name":"\u5206\u985e\u8a5e\u8a5e\u5178","wordl1id":"23","wordl1name":"thesaurus","l2id":"2","l2name":"\u4e2d\u6587","audiocall":null,"fresh":"1","trans":""},{"user_id":"319","connection_id":"22","wordl2id":"25","wordl2name":"\u5206\u7c7b\u8bcd\u8bcd\u5178","wordl1id":"23","wordl1name":"thesaurus","l2id":"2","l2name":"\u4e2d\u6587","audiocall":null,"fresh":"1","trans":""},{"user_id":"319","connection_id":"24","wordl2id":"26","wordl2name":"Begriffsw\u00f6rterbuch","wordl1id":"23","wordl1name":"thesaurus","l2id":"3","l2name":"Deutsch","audiocall":null,"fresh":"0","trans":""},{"user_id":"319","connection_id":"25","wordl2id":"27","wordl2name":"Sachgruppenw\u00f6rterbuch","wordl1id":"23","wordl1name":"thesaurus","l2id":"3","l2name":"Deutsch","audiocall":null,"fresh":"0","trans":""},{"user_id":"319","connection_id":"26","wordl2id":"28","wordl2name":"diccionario de sin\u00f3nimos","wordl1id":"23","wordl1name":"thesaurus","l2id":"4","l2name":"Espa\u00f1ol","audiocall":null,"fresh":"1","trans":""},{"user_id":"319","connection_id":"27","wordl2id":"30","wordl2name":"\u767e\u79d1\u5168\u66f8","wordl1id":"29","wordl1name":"encyclopedia","l2id":"2","l2name":"\u4e2d\u6587","audiocall":null,"fresh":"1","trans":""},{"user_id":"319","connection_id":"28","wordl2id":"31","wordl2name":"\u767e\u79d1\u5168\u4e66","wordl1id":"29","wordl1name":"encyclopedia","l2id":"2","l2name":"\u4e2d\u6587","audiocall":null,"fresh":"1","trans":""},{"user_id":"319","connection_id":"29","wordl2id":"32","wordl2name":"Enzyklop\u00e4die","wordl1id":"29","wordl1name":"encyclopedia","l2id":"3","l2name":"Deutsch","audiocall":null,"fresh":"0","trans":""},{"user_id":"319","connection_id":"30","wordl2id":"33","wordl2name":"Lexikon","wordl1id":"29","wordl1name":"encyclopedia","l2id":"3","l2name":"Deutsch","audiocall":null,"fresh":"0","trans":""},{"user_id":"319","connection_id"
+07-25 17:09:49.843: I/Sugar(17217): UserWords saved : 1
+07-25 17:09:49.843: D/SQL Log(17217): SQLiteQuery: SELECT * FROM WORD_TRANSCRIPTION WHERE word_l_two_id=5
+07-25 17:09:49.853: I/Sugar(17217): WordTranscription saved : 1
+07-25 17:09:49.853: D/trans insert(17217): inserted
+07-25 17:09:49.903: I/Sugar(17217): UserWords saved : 2
+07-25 17:09:49.903: D/SQL Log(17217): SQLiteQuery: SELECT * FROM WORD_TRANSCRIPTION WHERE word_l_two_id=6
+07-25 17:09:49.913: I/Sugar(17217): WordTranscription saved : 2
+07-25 17:09:49.913: D/trans insert(17217): inserted
+07-25 17:09:49.923: I/Sugar(17217): UserWords saved : 3
+07-25 17:09:49.923: D/SQL Log(17217): SQLiteQuery: SELECT * FROM WORD_TRANSCRIPTION WHERE word_l_two_id=7
+07-25 17:09:49.933: I/Sugar(17217): WordTranscription saved : 3
+07-25 17:09:49.933: D/trans insert(17217): inserted
+07-25 17:09:49.943: I/Sugar(17217): UserWords saved : 4
+07-25 17:09:49.943: D/SQL Log(17217): SQLiteQuery: SELECT * FROM WORD_TRANSCRIPTION WHERE word_l_two_id=8
+07-25 17:09:49.953: I/Sugar(17217): WordTranscription saved : 4
+07-25 17:09:49.953: D/trans insert(17217): inserted
+07-25 17:09:49.953: I/Sugar(17217): UserWords saved : 5
+07-25 17:09:49.953: D/SQL Log(17217): SQLiteQuery: SELECT * FROM WORD_TRANSCRIPTION WHERE word_l_two_id=9
+07-25 17:09:49.963: I/Sugar(17217): WordTranscription saved : 5
+07-25 17:09:49.963: D/trans insert(17217): inserted
+07-25 17:09:50.023: I/Sugar(17217): UserWords saved : 6
+07-25 17:09:50.023: D/SQL Log(17217): SQLiteQuery: SELECT * FROM WORD_TRANSCRIPTION WHERE word_l_two_id=10
+07-25 17:09:50.033: I/Sugar(17217): WordTranscription saved : 6
+07-25 17:09:50.033: D/trans insert(17217): inserted
+07-25 17:09:50.033: I/Sugar(17217): UserWords saved : 7
+07-25 17:09:50.033: D/SQL Log(17217): SQLiteQuery: SELECT * FROM WORD_TRANSCRIPTION WHERE word_l_two_id=14
+07-25 17:09:50.043: I/Sugar(17217): WordTranscription saved : 7
+07-25 17:09:50.043: D/trans insert(17217): inserted
+07-25 17:09:50.063: I/Sugar(17217): UserWords saved : 8
+07-25 17:09:50.063: D/SQL Log(17217): SQLiteQuery: SELECT * FROM WORD_TRANSCRIPTION WHERE word_l_two_id=17
+07-25 17:09:50.073: I/Sugar(17217): WordTranscription saved : 8
+07-25 17:09:50.073: D/trans insert(17217): inserted
+07-25 17:09:50.083: I/Sugar(17217): UserWords saved : 9
+07-25 17:09:50.083: D/SQL Log(17217): SQLiteQuery: SELECT * FROM WORD_TRANSCRIPTION WHERE word_l_two_id=18
+07-25 17:09:50.093: I/Sugar(17217): WordTranscription saved : 9
+07-25 17:09:50.093: D/trans insert(17217): inserted
+07-25 17:09:50.093: I/Sugar(17217): UserWords saved : 10
+07-25 17:09:50.103: D/SQL Log(17217): SQLiteQuery: SELECT * FROM WORD_TRANSCRIPTION WHERE word_l_two_id=19
+07-25 17:09:50.103: I/Sugar(17217): WordTranscription saved : 10
+07-25 17:09:50.103: D/trans insert(17217): inserted
+07-25 17:09:50.113: I/Sugar(17217): UserWords saved : 11
+07-25 17:09:50.113: D/SQL Log(17217): SQLiteQuery: SELECT * FROM WORD_TRANSCRIPTION WHERE word_l_two_id=22
+07-25 17:09:50.123: I/Sugar(17217): WordTranscription saved : 11
+07-25 17:09:50.123: D/trans insert(17217): inserted
+07-25 17:09:50.133: I/Sugar(17217): UserWords saved : 12
+07-25 17:09:50.133: D/SQL Log(17217): SQLiteQuery: SELECT * FROM WORD_TRANSCRIPTION WHERE word_l_two_id=24
+07-25 17:09:50.143: I/Sugar(17217): WordTranscription saved : 12
+07-25 17:09:50.143: D/trans insert(17217): inserted
+07-25 17:09:50.153: I/Sugar(17217): UserWords saved : 13
+07-25 17:09:50.153: D/SQL Log(17217): SQLiteQuery: SELECT * FROM WORD_TRANSCRIPTION WHERE word_l_two_id=25
+07-25 17:09:50.173: I/Sugar(17217): WordTranscription saved : 13
+07-25 17:09:50.173: D/trans insert(17217): inserted
+07-25 17:09:50.183: I/Sugar(17217): UserWords saved : 14
+07-25 17:09:50.183: D/SQL Log(17217): SQLiteQuery: SELECT * FROM WORD_TRANSCRIPTION WHERE word_l_two_id=26
+07-25 17:09:50.193: I/Sugar(17217): WordTranscription saved : 14
+07-25 17:09:50.193: D/trans insert(17217): inserted
+07-25 17:09:50.203: I/Sugar(17217): UserWords saved : 15
+07-25 17:09:50.203: D/SQL Log(17217): SQLiteQuery: SELECT * FROM WORD_TRANSCRIPTION WHERE word_l_two_id=27
+07-25 17:09:50.213: I/Sugar(17217): WordTranscription saved : 15
+07-25 17:09:50.213: D/trans insert(17217): inserted
+07-25 17:09:50.223: I/Sugar(17217): UserWords saved : 16
+07-25 17:09:50.223: D/SQL Log(17217): SQLiteQuery: SELECT * FROM WORD_TRANSCRIPTION WHERE word_l_two_id=28
+07-25 17:09:50.233: I/Sugar(17217): WordTranscription saved : 16
+07-25 17:09:50.233: D/trans insert(17217): inserted
+07-25 17:09:50.243: I/Sugar(17217): UserWords saved : 17
+07-25 17:09:50.243: D/SQL Log(17217): SQLiteQuery: SELECT * FROM WORD_TRANSCRIPTION WHERE word_l_two_id=30
+07-25 17:09:50.253: I/Sugar(17217): WordTranscription saved : 17
+07-25 17:09:50.253: D/trans insert(17217): inserted
+07-25 17:09:50.263: I/Sugar(17217): UserWords saved : 18
+07-25 17:09:50.263: D/SQL Log(17217): SQLiteQuery: SELECT * FROM WORD_TRANSCRIPTION WHERE word_l_two_id=31
+07-25 17:09:50.273: I/Sugar(17217): WordTranscription saved : 18
+07-25 17:09:50.273: D/trans insert(17217): inserted
+07-25 17:09:50.283: I/Sugar(17217): UserWords saved : 19
+07-25 17:09:50.283: D/SQL Log(17217): SQLiteQuery: SELECT * FROM WORD_TRANSCRIPTION WHERE word_l_two_id=32
+07-25 17:09:50.293: I/Sugar(17217): WordTranscription saved : 19
+07-25 17:09:50.293: D/trans insert(17217): inserted
+07-25 17:09:50.303: I/Sugar(17217): UserWords saved : 20
+07-25 17:09:50.303: D/SQL Log(17217): SQLiteQuery: SELECT * FROM WORD_TRANSCRIPTION WHERE word_l_two_id=33
+07-25 17:09:50.313: I/Sugar(17217): WordTranscription saved : 20
+07-25 17:09:50.313: D/trans insert(17217): inserted
+07-25 17:09:50.323: I/Sugar(17217): UserWords saved : 21
+07-25 17:09:50.323: D/SQL Log(17217): SQLiteQuery: SELECT * FROM WORD_TRANSCRIPTION WHERE word_l_two_id=38
+07-25 17:09:50.333: I/Sugar(17217): WordTranscription saved : 21
+07-25 17:09:50.333: D/trans insert(17217): inserted
+07-25 17:09:50.343: I/Sugar(17217): UserWords saved : 22
+07-25 17:09:50.343: D/SQL Log(17217): SQLiteQuery: SELECT * FROM WORD_TRANSCRIPTION WHERE word_l_two_id=42
+07-25 17:09:50.353: I/Sugar(17217): WordTranscription saved : 22
+07-25 17:09:50.353: D/trans insert(17217): inserted
+07-25 17:09:50.363: I/Sugar(17217): UserWords saved : 23
+07-25 17:09:50.363: D/SQL Log(17217): SQLiteQuery: SELECT * FROM WORD_TRANSCRIPTION WHERE word_l_two_id=43
+07-25 17:09:50.373: I/Sugar(17217): WordTranscription saved : 23
+07-25 17:09:50.373: D/trans insert(17217): inserted
+07-25 17:09:50.393: I/Sugar(17217): UserWords saved : 24
+07-25 17:09:50.393: D/SQL Log(17217): SQLiteQuery: SELECT * FROM WORD_TRANSCRIPTION WHERE word_l_two_id=47
+07-25 17:09:50.403: I/Sugar(17217): WordTranscription saved : 24
+07-25 17:09:50.403: D/trans insert(17217): inserted
+07-25 17:09:50.413: I/Sugar(17217): UserWords saved : 25
+07-25 17:09:50.413: D/SQL Log(17217): SQLiteQuery: SELECT * FROM WORD_TRANSCRIPTION WHERE word_l_two_id=48
+07-25 17:09:50.423: I/Sugar(17217): WordTranscription saved : 25
+07-25 17:09:50.423: D/trans insert(17217): inserted
+07-25 17:09:50.423: I/Sugar(17217): UserWords saved : 26
+07-25 17:09:50.423: D/SQL Log(17217): SQLiteQuery: SELECT * FROM WORD_TRANSCRIPTION WHERE word_l_two_id=55
+07-25 17:09:50.433: I/Sugar(17217): WordTranscription saved : 26
+07-25 17:09:50.433: D/trans insert(17217): inserted
+07-25 17:09:50.443: I/Sugar(17217): UserWords saved : 27
+07-25 17:09:50.443: D/SQL Log(17217): SQLiteQuery: SELECT * FROM WORD_TRANSCRIPTION WHERE word_l_two_id=56
+07-25 17:09:50.453: I/Sugar(17217): WordTranscription saved : 27
+07-25 17:09:50.453: D/trans insert(17217): inserted
+07-25 17:09:50.463: I/Sugar(17217): UserWords saved : 28
+07-25 17:09:50.463: D/SQL Log(17217): SQLiteQuery: SELECT * FROM WORD_TRANSCRIPTION WHERE word_l_two_id=58
+07-25 17:09:50.473: I/Sugar(17217): WordTranscription saved : 28
+07-25 17:09:50.473: D/trans insert(17217): inserted
+07-25 17:09:50.483: I/Sugar(17217): UserWords saved : 29
+07-25 17:09:50.483: D/SQL Log(17217): SQLiteQuery: SELECT * FROM WORD_TRANSCRIPTION WHERE word_l_two_id=59
+07-25 17:09:50.503: I/Sugar(17217): WordTranscription saved : 29
+07-25 17:09:50.503: D/trans insert(17217): inserted
+07-25 17:09:50.513: I/Sugar(17217): UserWords saved : 30
+07-25 17:09:50.513: D/SQL Log(17217): SQLiteQuery: SELECT * FROM WORD_TRANSCRIPTION WHERE word_l_two_id=18
+07-25 17:09:50.513: D/trans insert(17217): inserted
+07-25 17:09:50.523: I/Sugar(17217): UserWords saved : 31
+07-25 17:09:50.523: D/SQL Log(17217): SQLiteQuery: SELECT * FROM WORD_TRANSCRIPTION WHERE word_l_two_id=64
+07-25 17:09:50.533: I/Sugar(17217): WordTranscription saved : 30
+07-25 17:09:50.533: D/trans insert(17217): inserted
+07-25 17:09:50.543: I/Sugar(17217): UserWords saved : 32
+07-25 17:09:50.543: D/SQL Log(17217): SQLiteQuery: SELECT * FROM WORD_TRANSCRIPTION WHERE word_l_two_id=65
+07-25 17:09:50.553: I/Sugar(17217): WordTranscription saved : 31
+07-25 17:09:50.553: D/trans insert(17217): inserted
+07-25 17:09:50.573: I/Sugar(17217): UserWords saved : 33
+07-25 17:09:50.573: D/SQL Log(17217): SQLiteQuery: SELECT * FROM WORD_TRANSCRIPTION WHERE word_l_two_id=71
+07-25 17:09:50.583: I/Sugar(17217): WordTranscription saved : 32
+07-25 17:09:50.583: D/trans insert(17217): inserted
+07-25 17:09:50.593: I/Sugar(17217): UserWords saved : 34
+07-25 17:09:50.593: D/SQL Log(17217): SQLiteQuery: SELECT * FROM WORD_TRANSCRIPTION WHERE word_l_two_id=72
+07-25 17:09:50.603: I/Sugar(17217): WordTranscription saved : 33
+07-25 17:09:50.603: D/trans insert(17217): inserted
+07-25 17:09:50.623: I/Sugar(17217): UserWords saved : 35
+07-25 17:09:50.623: D/SQL Log(17217): SQLiteQuery: SELECT * FROM WORD_TRANSCRIPTION WHERE word_l_two_id=83
+07-25 17:09:50.633: I/Sugar(17217): WordTranscription saved : 34
+07-25 17:09:50.633: D/trans insert(17217): inserted
+07-25 17:09:50.643: I/Sugar(17217): UserWords saved : 36
+07-25 17:09:50.643: D/SQL Log(17217): SQLiteQuery: SELECT * FROM WORD_TRANSCRIPTION WHERE word_l_two_id=87
+07-25 17:09:50.653: I/Sugar(17217): WordTranscription saved : 35
+07-25 17:09:50.653: D/trans insert(17217): inserted
+07-25 17:09:50.663: I/Sugar(17217): UserWords saved : 37
+07-25 17:09:50.663: D/SQL Log(17217): SQLiteQuery: SELECT * FROM WORD_TRANSCRIPTION WHERE word_l_two_id=90
+07-25 17:09:50.673: I/Sugar(17217): WordTranscription saved : 36
+07-25 17:09:50.673: D/trans insert(17217): inserted
+07-25 17:09:50.693: I/Sugar(17217): UserWords saved : 38
+07-25 17:09:50.693: D/SQL Log(17217): SQLiteQuery: SELECT * FROM WORD_TRANSCRIPTION WHERE word_l_two_id=98
+07-25 17:09:50.703: I/Sugar(17217): WordTranscription saved : 37
+07-25 17:09:50.703: D/trans insert(17217): inserted
+07-25 17:09:50.713: I/Sugar(17217): UserWords saved : 39
+07-25 17:09:50.713: D/SQL Log(17217): SQLiteQuery: SELECT * FROM WORD_TRANSCRIPTION WHERE word_l_two_id=99
+07-25 17:09:50.723: I/Sugar(17217): WordTranscription saved : 38
+07-25 17:09:50.723: D/trans insert(17217): inserted
+07-25 17:09:50.733: I/Sugar(17217): UserWords saved : 40
+07-25 17:09:50.733: D/SQL Log(17217): SQLiteQuery: SELECT * FROM WORD_TRANSCRIPTION WHERE word_l_two_id=100
+07-25 17:09:50.753: I/Sugar(17217): WordTranscription saved : 39
+07-25 17:09:50.753: D/trans insert(17217): inserted
+07-25 17:09:50.763: D/MccTable(1005): WIFI_COUNTRY_CODE set to 
+07-25 17:09:50.763: D/WifiStateMachine(752): Ignoring resetting of country code
+07-25 17:09:50.763: I/Sugar(17217): UserWords saved : 41
+07-25 17:09:50.763: D/SQL Log(17217): SQLiteQuery: SELECT * FROM WORD_TRANSCRIPTION WHERE word_l_two_id=113
+07-25 17:09:50.763: I/WifiService(752): WifiService trying to set country code to  with persist set to true
+07-25 17:09:50.773: I/Sugar(17217): WordTranscription saved : 40
+07-25 17:09:50.773: D/trans insert(17217): inserted
+07-25 17:09:50.773: D/MobileDataStateTracker(752): fota: Broadcast received: android.intent.action.ANY_DATA_STATE apnType=fota
+07-25 17:09:50.773: D/MobileDataStateTracker(752): fota: Received state=DISCONNECTED, old=DISCONNECTED, reason=dataDetached
+07-25 17:09:50.773: D/MobileDataStateTracker(752): dun: Broadcast received: android.intent.action.ANY_DATA_STATE apnType=dun
+07-25 17:09:50.773: D/MobileDataStateTracker(752): dun: Received state=DISCONNECTED, old=DISCONNECTED, reason=dataDetached
+07-25 17:09:50.773: D/MobileDataStateTracker(752): ia: Broadcast received: android.intent.action.ANY_DATA_STATE apnType=ia
+07-25 17:09:50.783: D/MobileDataStateTracker(752): ia: Received state=DISCONNECTED, old=DISCONNECTED, reason=dataDetached
+07-25 17:09:50.783: D/MobileDataStateTracker(752): supl: Broadcast received: android.intent.action.ANY_DATA_STATE apnType=supl
+07-25 17:09:50.783: D/MobileDataStateTracker(752): supl: Received state=DISCONNECTED, old=DISCONNECTED, reason=dataDetached
+07-25 17:09:50.783: D/MobileDataStateTracker(752): hipri: Broadcast received: android.intent.action.ANY_DATA_STATE apnType=hipri
+07-25 17:09:50.783: D/MobileDataStateTracker(752): hipri: Received state=DISCONNECTED, old=DISCONNECTED, reason=dataDetached
+07-25 17:09:50.783: D/MobileDataStateTracker(752): ims: Broadcast received: android.intent.action.ANY_DATA_STATE apnType=ims
+07-25 17:09:50.793: I/Sugar(17217): UserWords saved : 42
+07-25 17:09:50.793: D/SQL Log(17217): SQLiteQuery: SELECT * FROM WORD_TRANSCRIPTION WHERE word_l_two_id=114
+07-25 17:09:50.793: D/MobileDataStateTracker(752): ims: Received state=DISCONNECTED, old=DISCONNECTED, reason=dataDetached
+07-25 17:09:50.793: D/MobileDataStateTracker(752): default: Broadcast received: android.intent.action.ANY_DATA_STATE apnType=default
+07-25 17:09:50.803: D/MobileDataStateTracker(752): default: Received state=DISCONNECTED, old=DISCONNECTED, reason=dataDetached
+07-25 17:09:50.803: D/MobileDataStateTracker(752): mms: Broadcast received: android.intent.action.ANY_DATA_STATE apnType=mms
+07-25 17:09:50.803: D/MobileDataStateTracker(752): mms: Received state=DISCONNECTED, old=DISCONNECTED, reason=dataDetached
+07-25 17:09:50.803: D/MobileDataStateTracker(752): cbs: Broadcast received: android.intent.action.ANY_DATA_STATE apnType=cbs
+07-25 17:09:50.803: D/MobileDataStateTracker(752): cbs: Received state=DISCONNECTED, old=DISCONNECTED, reason=dataDetached
+07-25 17:09:50.823: I/Sugar(17217): WordTranscription saved : 41
+07-25 17:09:50.823: D/trans insert(17217): inserted
+07-25 17:09:50.833: I/Sugar(17217): UserWords saved : 43
+07-25 17:09:50.833: D/SQL Log(17217): SQLiteQuery: SELECT * FROM WORD_TRANSCRIPTION WHERE word_l_two_id=115
+07-25 17:09:50.843: I/Sugar(17217): WordTranscription saved : 42
+07-25 17:09:50.843: D/trans insert(17217): inserted
+07-25 17:09:50.853: D/dalvikvm(17217): GC_FOR_ALLOC freed 501K, 4% free 18796K/19448K, paused 9ms, total 9ms
+07-25 17:09:50.863: I/Sugar(17217): UserWords saved : 44
+07-25 17:09:50.863: D/SQL Log(17217): SQLiteQuery: SELECT * FROM WORD_TRANSCRIPTION WHERE word_l_two_id=122
+07-25 17:09:50.873: I/Sugar(17217): WordTranscription saved : 43
+07-25 17:09:50.873: D/trans insert(17217): inserted
+07-25 17:09:50.883: I/Sugar(17217): UserWords saved : 45
+07-25 17:09:50.883: D/SQL Log(17217): SQLiteQuery: SELECT * FROM WORD_TRANSCRIPTION WHERE word_l_two_id=123
+07-25 17:09:50.893: I/Sugar(17217): WordTranscription saved : 44
+07-25 17:09:50.893: D/trans insert(17217): inserted
+07-25 17:09:50.913: I/Sugar(17217): UserWords saved : 46
+07-25 17:09:50.913: D/SQL Log(17217): SQLiteQuery: SELECT * FROM WORD_TRANSCRIPTION WHERE word_l_two_id=123
+07-25 17:09:50.913: D/trans insert(17217): inserted
+07-25 17:09:50.923: I/Sugar(17217): UserWords saved : 47
+07-25 17:09:50.923: D/SQL Log(17217): SQLiteQuery: SELECT * FROM WORD_TRANSCRIPTION WHERE word_l_two_id=143
+07-25 17:09:50.933: I/Sugar(17217): WordTranscription saved : 45
+07-25 17:09:50.933: D/trans insert(17217): inserted
+07-25 17:09:50.943: I/Sugar(17217): UserWords saved : 48
+07-25 17:09:50.943: D/SQL Log(17217): SQLiteQuery: SELECT * FROM WORD_TRANSCRIPTION WHERE word_l_two_id=150
+07-25 17:09:50.953: I/Sugar(17217): WordTranscription saved : 46
+07-25 17:09:50.953: D/trans insert(17217): inserted
+07-25 17:09:50.963: I/Sugar(17217): UserWords saved : 49
+07-25 17:09:50.963: D/SQL Log(17217): SQLiteQuery: SELECT * FROM WORD_TRANSCRIPTION WHERE word_l_two_id=151
+07-25 17:09:50.973: I/Sugar(17217): WordTranscription saved : 47
+07-25 17:09:50.973: D/trans insert(17217): inserted
+07-25 17:09:50.983: I/Sugar(17217): UserWords saved : 50
+07-25 17:09:50.983: D/SQL Log(17217): SQLiteQuery: SELECT * FROM WORD_TRANSCRIPTION WHERE word_l_two_id=152
+07-25 17:09:50.993: I/Sugar(17217): WordTranscription saved : 48
+07-25 17:09:50.993: D/trans insert(17217): inserted
+07-25 17:09:51.003: I/Sugar(17217): UserWords saved : 51
+07-25 17:09:51.003: D/SQL Log(17217): SQLiteQuery: SELECT * FROM WORD_TRANSCRIPTION WHERE word_l_two_id=153
+07-25 17:09:51.013: I/Sugar(17217): WordTranscription saved : 49
+07-25 17:09:51.013: D/trans insert(17217): inserted
+07-25 17:09:51.023: I/Sugar(17217): UserWords saved : 52
+07-25 17:09:51.023: D/SQL Log(17217): SQLiteQuery: SELECT * FROM WORD_TRANSCRIPTION WHERE word_l_two_id=154
+07-25 17:09:51.033: I/Sugar(17217): WordTranscription saved : 50
+07-25 17:09:51.033: D/trans insert(17217): inserted
+07-25 17:09:51.043: I/Sugar(17217): UserWords saved : 53
+07-25 17:09:51.043: D/SQL Log(17217): SQLiteQuery: SELECT * FROM WORD_TRANSCRIPTION WHERE word_l_two_id=155
+07-25 17:09:51.053: I/Sugar(17217): WordTranscription saved : 51
+07-25 17:09:51.053: D/trans insert(17217): inserted
+07-25 17:09:51.063: I/Sugar(17217): UserWords saved : 54
+07-25 17:09:51.063: D/SQL Log(17217): SQLiteQuery: SELECT * FROM WORD_TRANSCRIPTION WHERE word_l_two_id=156
+07-25 17:09:51.073: I/Sugar(17217): WordTranscription saved : 52
+07-25 17:09:51.073: D/trans insert(17217): inserted
+07-25 17:09:51.083: I/Sugar(17217): UserWords saved : 55
+07-25 17:09:51.083: D/SQL Log(17217): SQLiteQuery: SELECT * FROM WORD_TRANSCRIPTION WHERE word_l_two_id=157
+07-25 17:09:51.093: I/Sugar(17217): WordTranscription saved : 53
+07-25 17:09:51.093: D/trans insert(17217): inserted
+07-25 17:09:51.103: I/Sugar(17217): UserWords saved : 56
+07-25 17:09:51.103: D/SQL Log(17217): SQLiteQuery: SELECT * FROM WORD_TRANSCRIPTION WHERE word_l_two_id=158
+07-25 17:09:51.113: I/Sugar(17217): WordTranscription saved : 54
+07-25 17:09:51.113: D/trans insert(17217): inserted
+07-25 17:09:51.133: I/Sugar(17217): UserWords saved : 57
+07-25 17:09:51.133: D/SQL Log(17217): SQLiteQuery: SELECT * FROM WORD_TRANSCRIPTION WHERE word_l_two_id=157
+07-25 17:09:51.133: D/trans insert(17217): inserted
+07-25 17:09:51.143: I/Sugar(17217): UserWords saved : 58
+07-25 17:09:51.143: D/SQL Log(17217): SQLiteQuery: SELECT * FROM WORD_TRANSCRIPTION WHERE word_l_two_id=165
+07-25 17:09:51.153: I/Sugar(17217): WordTranscription saved : 55
+07-25 17:09:51.153: D/trans insert(17217): inserted
+07-25 17:09:51.163: I/Sugar(17217): UserWords saved : 59
+07-25 17:09:51.163: D/SQL Log(17217): SQLiteQuery: SELECT * FROM WORD_TRANSCRIPTION WHERE word_l_two_id=173
+07-25 17:09:51.173: I/Sugar(17217): WordTranscription saved : 56
+07-25 17:09:51.173: D/trans insert(17217): inserted
+07-25 17:09:51.183: I/Sugar(17217): UserWords saved : 60
+07-25 17:09:51.183: D/SQL Log(17217): SQLiteQuery: SELECT * FROM WORD_TRANSCRIPTION WHERE word_l_two_id=182
+07-25 17:09:51.193: I/Sugar(17217): WordTranscription saved : 57
+07-25 17:09:51.193: D/trans insert(17217): inserted
+07-25 17:09:51.203: I/Sugar(17217): UserWords saved : 61
+07-25 17:09:51.203: D/SQL Log(17217): SQLiteQuery: SELECT * FROM WORD_TRANSCRIPTION WHERE word_l_two_id=190
+07-25 17:09:51.213: I/Sugar(17217): WordTranscription saved : 58
+07-25 17:09:51.213: D/trans insert(17217): inserted
+07-25 17:09:51.223: I/Sugar(17217): UserWords saved : 62
+07-25 17:09:51.223: D/SQL Log(17217): SQLiteQuery: SELECT * FROM WORD_TRANSCRIPTION WHERE word_l_two_id=55
+07-25 17:09:51.223: D/trans insert(17217): inserted
+07-25 17:09:51.233: I/Sugar(17217): UserWords saved : 63
+07-25 17:09:51.233: D/SQL Log(17217): SQLiteQuery: SELECT * FROM WORD_TRANSCRIPTION WHERE word_l_two_id=56
+07-25 17:09:51.233: D/trans insert(17217): inserted
+07-25 17:09:51.253: I/Sugar(17217): UserWords saved : 64
+07-25 17:09:51.253: D/SQL Log(17217): SQLiteQuery: SELECT * FROM WORD_TRANSCRIPTION WHERE word_l_two_id=152
+07-25 17:09:51.253: D/trans insert(17217): inserted
+07-25 17:09:51.263: I/Sugar(17217): UserWords saved : 65
+07-25 17:09:51.263: D/SQL Log(17217): SQLiteQuery: SELECT * FROM WORD_TRANSCRIPTION WHERE word_l_two_id=113
+07-25 17:09:51.263: D/trans insert(17217): inserted
+07-25 17:09:51.273: I/Sugar(17217): UserWords saved : 66
+07-25 17:09:51.273: D/SQL Log(17217): SQLiteQuery: SELECT * FROM WORD_TRANSCRIPTION WHERE word_l_two_id=151
+07-25 17:09:51.273: D/trans insert(17217): inserted
+07-25 17:09:51.283: I/Sugar(17217): UserWords saved : 67
+07-25 17:09:51.283: D/SQL Log(17217): SQLiteQuery: SELECT * FROM WORD_TRANSCRIPTION WHERE word_l_two_id=99
+07-25 17:09:51.283: D/trans insert(17217): inserted
+07-25 17:09:51.293: I/Sugar(17217): UserWords saved : 68
+07-25 17:09:51.293: D/SQL Log(17217): SQLiteQuery: SELECT * FROM WORD_TRANSCRIPTION WHERE word_l_two_id=64
+07-25 17:09:51.293: D/trans insert(17217): inserted
+07-25 17:09:51.303: I/Sugar(17217): UserWords saved : 69
+07-25 17:09:51.303: D/SQL Log(17217): SQLiteQuery: SELECT * FROM WORD_TRANSCRIPTION WHERE word_l_two_id=65
+07-25 17:09:51.303: D/trans insert(17217): inserted
+07-25 17:09:51.313: I/Sugar(17217): UserWords saved : 70
+07-25 17:09:51.313: D/SQL Log(17217): SQLiteQuery: SELECT * FROM WORD_TRANSCRIPTION WHERE word_l_two_id=42
+07-25 17:09:51.313: D/trans insert(17217): inserted
+07-25 17:09:51.323: I/Sugar(17217): UserWords saved : 71
+07-25 17:09:51.323: D/SQL Log(17217): SQLiteQuery: SELECT * FROM WORD_TRANSCRIPTION WHERE word_l_two_id=43
+07-25 17:09:51.323: D/trans insert(17217): inserted
+07-25 17:09:51.333: I/Sugar(17217): UserWords saved : 72
+07-25 17:09:51.333: D/SQL Log(17217): SQLiteQuery: SELECT * FROM WORD_TRANSCRIPTION WHERE word_l_two_id=17
+07-25 17:09:51.333: D/trans insert(17217): inserted
+07-25 17:09:51.343: I/Sugar(17217): UserWords saved : 73
+07-25 17:09:51.343: D/SQL Log(17217): SQLiteQuery: SELECT * FROM WORD_TRANSCRIPTION WHERE word_l_two_id=100
+07-25 17:09:51.343: D/trans insert(17217): inserted
+07-25 17:09:51.363: I/Sugar(17217): UserWords saved : 74
+07-25 17:09:51.363: D/SQL Log(17217): SQLiteQuery: SELECT * FROM WORD_TRANSCRIPTION WHERE word_l_two_id=156
+07-25 17:09:51.363: D/trans insert(17217): inserted
+07-25 17:09:51.373: I/Sugar(17217): UserWords saved : 75
+07-25 17:09:51.373: D/SQL Log(17217): SQLiteQuery: SELECT * FROM WORD_TRANSCRIPTION WHERE word_l_two_id=18
+07-25 17:09:51.373: D/trans insert(17217): inserted
+07-25 17:09:51.383: I/Sugar(17217): UserWords saved : 76
+07-25 17:09:51.383: D/SQL Log(17217): SQLiteQuery: SELECT * FROM WORD_TRANSCRIPTION WHERE word_l_two_id=100
+07-25 17:09:51.383: D/trans insert(17217): inserted
+07-25 17:09:51.393: I/Sugar(17217): UserWords saved : 77
+07-25 17:09:51.393: D/SQL Log(17217): SQLiteQuery: SELECT * FROM WORD_TRANSCRIPTION WHERE word_l_two_id=17
+07-25 17:09:51.393: D/trans insert(17217): inserted
+07-25 17:09:51.403: I/Sugar(17217): UserWords saved : 78
+07-25 17:09:51.403: D/SQL Log(17217): SQLiteQuery: SELECT * FROM WORD_TRANSCRIPTION WHERE word_l_two_id=42
+07-25 17:09:51.403: D/trans insert(17217): inserted
+07-25 17:09:51.413: I/Sugar(17217): UserWords saved : 79
+07-25 17:09:51.413: D/SQL Log(17217): SQLiteQuery: SELECT * FROM WORD_TRANSCRIPTION WHERE word_l_two_id=43
+07-25 17:09:51.413: D/trans insert(17217): inserted
+07-25 17:09:51.423: I/Sugar(17217): UserWords saved : 80
+07-25 17:09:51.423: D/SQL Log(17217): SQLiteQuery: SELECT * FROM WORD_TRANSCRIPTION WHERE word_l_two_id=18
+07-25 17:09:51.423: D/trans insert(17217): inserted
+07-25 17:09:51.423: D/place(17217): loading user words
+07-25 17:09:51.423: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_WORDS
+07-25 17:09:51.473: D/paramsInPerfSum(17217): =31940
+07-25 17:09:51.473: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE WHERE connectionid=4 and userid=319
+07-25 17:09:51.633: D/RES(17217): finish post
+07-25 17:09:51.633: D/JSON :(17217): {"success":0,"message":"No data--"}
+07-25 17:09:51.633: D/message(17217): No data--
+07-25 17:09:51.633: D/paramsInPerfSum(17217): =31950
+07-25 17:09:51.633: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE WHERE connectionid=5 and userid=319
+07-25 17:09:51.783: D/RES(17217): finish post
+07-25 17:09:51.793: D/JSON :(17217): {"success":0,"message":"No data--"}
+07-25 17:09:51.793: D/message(17217): No data--
+07-25 17:09:51.793: D/paramsInPerfSum(17217): =31960
+07-25 17:09:51.793: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE WHERE connectionid=6 and userid=319
+07-25 17:09:51.903: D/dalvikvm(3877): GC_CONCURRENT freed 387K, 4% free 17583K/18148K, paused 2ms+2ms, total 23ms
+07-25 17:09:51.953: D/RES(17217): finish post
+07-25 17:09:51.963: D/JSON :(17217): {"success":0,"message":"No data--"}
+07-25 17:09:51.963: D/message(17217): No data--
+07-25 17:09:51.963: D/paramsInPerfSum(17217): =31970
+07-25 17:09:51.973: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE WHERE connectionid=7 and userid=319
+07-25 17:09:52.083: D/dalvikvm(17217): GC_FOR_ALLOC freed 764K, 5% free 18723K/19524K, paused 9ms, total 10ms
+07-25 17:09:52.163: D/RES(17217): finish post
+07-25 17:09:52.163: D/JSON :(17217): {"success":0,"message":"No data--"}
+07-25 17:09:52.163: D/message(17217): No data--
+07-25 17:09:52.163: D/paramsInPerfSum(17217): =31980
+07-25 17:09:52.163: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE WHERE connectionid=8 and userid=319
+07-25 17:09:52.313: D/RES(17217): finish post
+07-25 17:09:52.313: D/JSON :(17217): {"success":0,"message":"No data--"}
+07-25 17:09:52.313: D/message(17217): No data--
+07-25 17:09:52.323: D/paramsInPerfSum(17217): =31990
+07-25 17:09:52.323: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE WHERE connectionid=9 and userid=319
+07-25 17:09:52.453: D/dalvikvm(17217): GC_FOR_ALLOC freed 178K, 5% free 18655K/19524K, paused 51ms, total 52ms
+07-25 17:09:52.533: D/RES(17217): finish post
+07-25 17:09:52.533: D/JSON :(17217): {"success":0,"message":"No data--"}
+07-25 17:09:52.533: D/message(17217): No data--
+07-25 17:09:52.533: D/paramsInPerfSum(17217): =319130
+07-25 17:09:52.533: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE WHERE connectionid=13 and userid=319
+07-25 17:09:52.693: D/RES(17217): finish post
+07-25 17:09:52.693: D/JSON :(17217): {"success":0,"message":"No data--"}
+07-25 17:09:52.693: D/message(17217): No data--
+07-25 17:09:52.693: D/paramsInPerfSum(17217): =319150
+07-25 17:09:52.703: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE WHERE connectionid=15 and userid=319
+07-25 17:09:52.873: D/RES(17217): finish post
+07-25 17:09:52.873: D/JSON :(17217): {"success":0,"message":"No data--"}
+07-25 17:09:52.873: D/message(17217): No data--
+07-25 17:09:52.873: D/paramsInPerfSum(17217): =319160
+07-25 17:09:52.883: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE WHERE connectionid=16 and userid=319
+07-25 17:09:53.043: D/RES(17217): finish post
+07-25 17:09:53.043: D/JSON :(17217): {"success":0,"message":"No data--"}
+07-25 17:09:53.043: D/message(17217): No data--
+07-25 17:09:53.043: D/paramsInPerfSum(17217): =319170
+07-25 17:09:53.053: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE WHERE connectionid=17 and userid=319
+07-25 17:09:53.223: D/RES(17217): finish post
+07-25 17:09:53.223: D/JSON :(17217): {"success":0,"message":"No data--"}
+07-25 17:09:53.223: D/message(17217): No data--
+07-25 17:09:53.233: D/paramsInPerfSum(17217): =319200
+07-25 17:09:53.233: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE WHERE connectionid=20 and userid=319
+07-25 17:09:53.403: D/RES(17217): finish post
+07-25 17:09:53.403: D/JSON :(17217): {"success":0,"message":"No data--"}
+07-25 17:09:53.403: D/message(17217): No data--
+07-25 17:09:53.403: D/paramsInPerfSum(17217): =319210
+07-25 17:09:53.413: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE WHERE connectionid=21 and userid=319
+07-25 17:09:53.513: D/dalvikvm(17217): GC_FOR_ALLOC freed 220K, 4% free 18773K/19524K, paused 26ms, total 27ms
+07-25 17:09:53.613: D/RES(17217): finish post
+07-25 17:09:53.613: D/JSON :(17217): {"success":0,"message":"No data--"}
+07-25 17:09:53.613: D/message(17217): No data--
+07-25 17:09:53.623: D/paramsInPerfSum(17217): =319220
+07-25 17:09:53.623: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE WHERE connectionid=22 and userid=319
+07-25 17:09:53.803: D/RES(17217): finish post
+07-25 17:09:53.803: D/JSON :(17217): {"success":0,"message":"No data--"}
+07-25 17:09:53.803: D/message(17217): No data--
+07-25 17:09:53.803: D/paramsInPerfSum(17217): =319240
+07-25 17:09:53.813: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE WHERE connectionid=24 and userid=319
+07-25 17:09:53.983: D/RES(17217): finish post
+07-25 17:09:53.983: D/JSON :(17217): {"success":0,"message":"No data--"}
+07-25 17:09:53.993: D/message(17217): No data--
+07-25 17:09:53.993: D/paramsInPerfSum(17217): =319250
+07-25 17:09:53.993: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE WHERE connectionid=25 and userid=319
+07-25 17:09:54.183: D/RES(17217): finish post
+07-25 17:09:54.183: D/JSON :(17217): {"success":0,"message":"No data--"}
+07-25 17:09:54.183: D/message(17217): No data--
+07-25 17:09:54.183: D/paramsInPerfSum(17217): =319260
+07-25 17:09:54.193: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE WHERE connectionid=26 and userid=319
+07-25 17:09:54.323: D/dalvikvm(17217): GC_FOR_ALLOC freed 276K, 5% free 18710K/19524K, paused 50ms, total 52ms
+07-25 17:09:54.413: D/RES(17217): finish post
+07-25 17:09:54.413: D/JSON :(17217): {"success":0,"message":"No data--"}
+07-25 17:09:54.413: D/message(17217): No data--
+07-25 17:09:54.413: D/paramsInPerfSum(17217): =319270
+07-25 17:09:54.413: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE WHERE connectionid=27 and userid=319
+07-25 17:09:54.563: D/RES(17217): finish post
+07-25 17:09:54.563: D/JSON :(17217): {"success":0,"message":"No data--"}
+07-25 17:09:54.563: D/message(17217): No data--
+07-25 17:09:54.563: D/paramsInPerfSum(17217): =319280
+07-25 17:09:54.563: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE WHERE connectionid=28 and userid=319
+07-25 17:09:54.733: D/RES(17217): finish post
+07-25 17:09:54.743: D/JSON :(17217): {"success":0,"message":"No data--"}
+07-25 17:09:54.743: D/message(17217): No data--
+07-25 17:09:54.743: D/paramsInPerfSum(17217): =319290
+07-25 17:09:54.743: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE WHERE connectionid=29 and userid=319
+07-25 17:09:54.913: D/RES(17217): finish post
+07-25 17:09:54.913: D/JSON :(17217): {"success":0,"message":"No data--"}
+07-25 17:09:54.913: D/message(17217): No data--
+07-25 17:09:54.913: D/paramsInPerfSum(17217): =319300
+07-25 17:09:54.923: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE WHERE connectionid=30 and userid=319
+07-25 17:09:55.093: D/RES(17217): finish post
+07-25 17:09:55.093: D/JSON :(17217): {"success":0,"message":"No data--"}
+07-25 17:09:55.093: D/message(17217): No data--
+07-25 17:09:55.093: D/paramsInPerfSum(17217): =319350
+07-25 17:09:55.103: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE WHERE connectionid=35 and userid=319
+07-25 17:09:55.263: D/RES(17217): finish post
+07-25 17:09:55.263: D/JSON :(17217): {"success":0,"message":"No data--"}
+07-25 17:09:55.273: D/message(17217): No data--
+07-25 17:09:55.273: D/paramsInPerfSum(17217): =319380
+07-25 17:09:55.273: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE WHERE connectionid=38 and userid=319
+07-25 17:09:55.413: D/dalvikvm(17217): GC_FOR_ALLOC freed 275K, 4% free 18765K/19524K, paused 51ms, total 53ms
+07-25 17:09:55.503: D/RES(17217): finish post
+07-25 17:09:55.503: D/JSON :(17217): {"success":0,"message":"No data--"}
+07-25 17:09:55.503: D/message(17217): No data--
+07-25 17:09:55.513: D/paramsInPerfSum(17217): =319390
+07-25 17:09:55.513: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE WHERE connectionid=39 and userid=319
+07-25 17:09:55.683: D/RES(17217): finish post
+07-25 17:09:55.683: D/JSON :(17217): {"success":0,"message":"No data--"}
+07-25 17:09:55.683: D/message(17217): No data--
+07-25 17:09:55.683: D/paramsInPerfSum(17217): =319420
+07-25 17:09:55.693: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE WHERE connectionid=42 and userid=319
+07-25 17:09:55.863: D/RES(17217): finish post
+07-25 17:09:55.863: D/JSON :(17217): {"success":0,"message":"No data--"}
+07-25 17:09:55.863: D/message(17217): No data--
+07-25 17:09:55.873: D/paramsInPerfSum(17217): =319430
+07-25 17:09:55.873: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE WHERE connectionid=43 and userid=319
+07-25 17:09:56.043: D/RES(17217): finish post
+07-25 17:09:56.043: D/JSON :(17217): {"success":0,"message":"No data--"}
+07-25 17:09:56.053: D/message(17217): No data--
+07-25 17:09:56.053: D/paramsInPerfSum(17217): =319500
+07-25 17:09:56.053: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE WHERE connectionid=50 and userid=319
+07-25 17:09:56.213: D/RES(17217): finish post
+07-25 17:09:56.213: D/JSON :(17217): {"success":0,"message":"No data--"}
+07-25 17:09:56.223: D/message(17217): No data--
+07-25 17:09:56.223: D/paramsInPerfSum(17217): =319510
+07-25 17:09:56.223: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE WHERE connectionid=51 and userid=319
+07-25 17:09:56.353: D/dalvikvm(17217): GC_FOR_ALLOC freed 303K, 5% free 18730K/19524K, paused 52ms, total 53ms
+07-25 17:09:56.453: D/RES(17217): finish post
+07-25 17:09:56.453: D/JSON :(17217): {"success":0,"message":"No data--"}
+07-25 17:09:56.453: D/message(17217): No data--
+07-25 17:09:56.453: D/paramsInPerfSum(17217): =319520
+07-25 17:09:56.463: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE WHERE connectionid=52 and userid=319
+07-25 17:09:56.633: D/RES(17217): finish post
+07-25 17:09:56.633: D/JSON :(17217): {"success":0,"message":"No data--"}
+07-25 17:09:56.633: D/message(17217): No data--
+07-25 17:09:56.633: D/paramsInPerfSum(17217): =319530
+07-25 17:09:56.643: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE WHERE connectionid=53 and userid=319
+07-25 17:09:56.803: D/RES(17217): finish post
+07-25 17:09:56.813: D/JSON :(17217): {"success":0,"message":"No data--"}
+07-25 17:09:56.813: D/message(17217): No data--
+07-25 17:09:56.813: D/paramsInPerfSum(17217): =319560
+07-25 17:09:56.813: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE WHERE connectionid=56 and userid=319
+07-25 17:09:56.983: D/RES(17217): finish post
+07-25 17:09:56.983: D/JSON :(17217): {"success":0,"message":"No data--"}
+07-25 17:09:56.983: D/message(17217): No data--
+07-25 17:09:56.983: D/paramsInPerfSum(17217): =319600
+07-25 17:09:56.983: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE WHERE connectionid=60 and userid=319
+07-25 17:09:57.153: D/RES(17217): finish post
+07-25 17:09:57.153: D/JSON :(17217): {"success":0,"message":"No data--"}
+07-25 17:09:57.153: D/message(17217): No data--
+07-25 17:09:57.153: D/paramsInPerfSum(17217): =319610
+07-25 17:09:57.163: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE WHERE connectionid=61 and userid=319
+07-25 17:09:57.323: D/RES(17217): finish post
+07-25 17:09:57.323: D/JSON :(17217): {"success":0,"message":"No data--"}
+07-25 17:09:57.323: D/message(17217): No data--
+07-25 17:09:57.333: D/paramsInPerfSum(17217): =319670
+07-25 17:09:57.333: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE WHERE connectionid=67 and userid=319
+07-25 17:09:57.463: D/dalvikvm(17217): GC_FOR_ALLOC freed 302K, 4% free 18765K/19524K, paused 49ms, total 50ms
+07-25 17:09:57.553: D/RES(17217): finish post
+07-25 17:09:57.553: D/JSON :(17217): {"success":0,"message":"No data--"}
+07-25 17:09:57.553: D/message(17217): No data--
+07-25 17:09:57.553: D/paramsInPerfSum(17217): =319680
+07-25 17:09:57.553: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE WHERE connectionid=68 and userid=319
+07-25 17:09:57.703: D/RES(17217): finish post
+07-25 17:09:57.703: D/JSON :(17217): {"success":0,"message":"No data--"}
+07-25 17:09:57.703: D/message(17217): No data--
+07-25 17:09:57.703: D/paramsInPerfSum(17217): =319780
+07-25 17:09:57.713: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE WHERE connectionid=78 and userid=319
+07-25 17:09:57.883: D/RES(17217): finish post
+07-25 17:09:57.883: D/JSON :(17217): {"success":0,"message":"No data--"}
+07-25 17:09:57.893: D/message(17217): No data--
+07-25 17:09:57.893: D/paramsInPerfSum(17217): =319810
+07-25 17:09:57.893: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE WHERE connectionid=81 and userid=319
+07-25 17:09:58.063: D/RES(17217): finish post
+07-25 17:09:58.063: D/JSON :(17217): {"success":0,"message":"No data--"}
+07-25 17:09:58.073: D/message(17217): No data--
+07-25 17:09:58.073: D/paramsInPerfSum(17217): =319830
+07-25 17:09:58.083: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE WHERE connectionid=83 and userid=319
+07-25 17:09:58.213: D/MccTable(1005): updateMccMncConfiguration: mcc=310, mnc=260
+07-25 17:09:58.213: D/MccTable(1005): getLocaleFromMcc to en_us mcc=310
+07-25 17:09:58.213: D/MccTable(1005): getLocaleForLanguageCountry: skipping already persisted
+07-25 17:09:58.213: D/MccTable(1005): getLocaleForLanguageCountry: X locale=null
+07-25 17:09:58.213: D/MccTable(1005): WIFI_COUNTRY_CODE set to us
+07-25 17:09:58.213: I/WifiService(752): WifiService trying to set country code to us with persist set to true
+07-25 17:09:58.233: D/AlarmManagerService(752): Kernel timezone updated to 240 minutes west of GMT
+07-25 17:09:58.243: D/MobileDataStateTracker(752): fota: Broadcast received: android.intent.action.ANY_DATA_STATE apnType=fota
+07-25 17:09:58.243: D/MobileDataStateTracker(752): fota: Received state=DISCONNECTED, old=DISCONNECTED, reason=dataAttached
+07-25 17:09:58.243: D/MobileDataStateTracker(752): dun: Broadcast received: android.intent.action.ANY_DATA_STATE apnType=dun
+07-25 17:09:58.243: D/MobileDataStateTracker(752): dun: Received state=DISCONNECTED, old=DISCONNECTED, reason=dataAttached
+07-25 17:09:58.253: D/MobileDataStateTracker(752): ia: Broadcast received: android.intent.action.ANY_DATA_STATE apnType=ia
+07-25 17:09:58.253: D/MobileDataStateTracker(752): ia: Received state=DISCONNECTED, old=DISCONNECTED, reason=dataAttached
+07-25 17:09:58.253: D/MobileDataStateTracker(752): supl: Broadcast received: android.intent.action.ANY_DATA_STATE apnType=supl
+07-25 17:09:58.253: D/MobileDataStateTracker(752): supl: Received state=DISCONNECTED, old=DISCONNECTED, reason=dataAttached
+07-25 17:09:58.263: D/MobileDataStateTracker(752): hipri: Broadcast received: android.intent.action.ANY_DATA_STATE apnType=hipri
+07-25 17:09:58.263: D/MobileDataStateTracker(752): hipri: Received state=DISCONNECTED, old=DISCONNECTED, reason=dataAttached
+07-25 17:09:58.263: D/MobileDataStateTracker(752): ims: Broadcast received: android.intent.action.ANY_DATA_STATE apnType=ims
+07-25 17:09:58.263: D/MobileDataStateTracker(752): ims: Received state=DISCONNECTED, old=DISCONNECTED, reason=dataAttached
+07-25 17:09:58.273: D/MobileDataStateTracker(752): default: Broadcast received: android.intent.action.ANY_DATA_STATE apnType=default
+07-25 17:09:58.273: D/MobileDataStateTracker(752): default: Received state=DISCONNECTED, old=DISCONNECTED, reason=dataAttached
+07-25 17:09:58.273: D/MobileDataStateTracker(752): mms: Broadcast received: android.intent.action.ANY_DATA_STATE apnType=mms
+07-25 17:09:58.273: D/MobileDataStateTracker(752): mms: Received state=DISCONNECTED, old=DISCONNECTED, reason=dataAttached
+07-25 17:09:58.283: D/MobileDataStateTracker(752): cbs: Broadcast received: android.intent.action.ANY_DATA_STATE apnType=cbs
+07-25 17:09:58.283: D/MobileDataStateTracker(752): cbs: Received state=DISCONNECTED, old=DISCONNECTED, reason=dataAttached
+07-25 17:09:58.293: D/dalvikvm(1005): GC_CONCURRENT freed 439K, 4% free 17905K/18532K, paused 2ms+3ms, total 73ms
+07-25 17:09:58.293: D/RES(17217): finish post
+07-25 17:09:58.303: D/JSON :(17217): {"success":0,"message":"No data--"}
+07-25 17:09:58.303: D/message(17217): No data--
+07-25 17:09:58.303: D/paramsInPerfSum(17217): =319900
+07-25 17:09:58.303: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE WHERE connectionid=90 and userid=319
+07-25 17:09:58.383: D/dalvikvm(17217): GC_FOR_ALLOC freed 303K, 4% free 18746K/19524K, paused 10ms, total 10ms
+07-25 17:09:58.453: D/RES(17217): finish post
+07-25 17:09:58.453: D/JSON :(17217): {"success":0,"message":"No data--"}
+07-25 17:09:58.453: D/message(17217): No data--
+07-25 17:09:58.453: D/paramsInPerfSum(17217): =319910
+07-25 17:09:58.463: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE WHERE connectionid=91 and userid=319
+07-25 17:09:58.613: D/RES(17217): finish post
+07-25 17:09:58.613: D/JSON :(17217): {"success":0,"message":"No data--"}
+07-25 17:09:58.613: D/message(17217): No data--
+07-25 17:09:58.613: D/paramsInPerfSum(17217): =319920
+07-25 17:09:58.613: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE WHERE connectionid=92 and userid=319
+07-25 17:09:58.773: D/RES(17217): finish post
+07-25 17:09:58.773: D/JSON :(17217): {"success":0,"message":"No data--"}
+07-25 17:09:58.783: D/message(17217): No data--
+07-25 17:09:58.783: D/paramsInPerfSum(17217): =3191040
+07-25 17:09:58.783: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE WHERE connectionid=104 and userid=319
+07-25 17:09:58.953: D/RES(17217): finish post
+07-25 17:09:58.953: D/JSON :(17217): {"success":0,"message":"No data--"}
+07-25 17:09:58.953: D/message(17217): No data--
+07-25 17:09:58.963: D/paramsInPerfSum(17217): =3191050
+07-25 17:09:58.963: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE WHERE connectionid=105 and userid=319
+07-25 17:09:59.123: D/RES(17217): finish post
+07-25 17:09:59.133: D/JSON :(17217): {"success":0,"message":"No data--"}
+07-25 17:09:59.133: D/message(17217): No data--
+07-25 17:09:59.133: D/paramsInPerfSum(17217): =3191060
+07-25 17:09:59.133: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE WHERE connectionid=106 and userid=319
+07-25 17:09:59.293: D/RES(17217): finish post
+07-25 17:09:59.293: D/JSON :(17217): {"success":0,"message":"No data--"}
+07-25 17:09:59.293: D/message(17217): No data--
+07-25 17:09:59.293: D/paramsInPerfSum(17217): =3191120
+07-25 17:09:59.303: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE WHERE connectionid=112 and userid=319
+07-25 17:09:59.433: D/dalvikvm(17217): GC_FOR_ALLOC freed 302K, 4% free 18766K/19524K, paused 49ms, total 51ms
+07-25 17:09:59.523: D/RES(17217): finish post
+07-25 17:09:59.523: D/JSON :(17217): {"success":0,"message":"No data--"}
+07-25 17:09:59.523: D/message(17217): No data--
+07-25 17:09:59.523: D/paramsInPerfSum(17217): =3191130
+07-25 17:09:59.533: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE WHERE connectionid=113 and userid=319
+07-25 17:09:59.693: D/RES(17217): finish post
+07-25 17:09:59.693: D/JSON :(17217): {"success":0,"message":"No data--"}
+07-25 17:09:59.693: D/message(17217): No data--
+07-25 17:09:59.693: D/paramsInPerfSum(17217): =3191250
+07-25 17:09:59.703: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE WHERE connectionid=125 and userid=319
+07-25 17:09:59.863: D/RES(17217): finish post
+07-25 17:09:59.863: D/JSON :(17217): {"success":0,"message":"No data--"}
+07-25 17:09:59.873: D/message(17217): No data--
+07-25 17:09:59.873: D/paramsInPerfSum(17217): =3191360
+07-25 17:09:59.873: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE WHERE connectionid=136 and userid=319
+07-25 17:10:00.033: D/RES(17217): finish post
+07-25 17:10:00.033: D/JSON :(17217): {"success":0,"message":"No data--"}
+07-25 17:10:00.033: D/message(17217): No data--
+07-25 17:10:00.033: D/paramsInPerfSum(17217): =3191420
+07-25 17:10:00.043: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE WHERE connectionid=142 and userid=319
+07-25 17:10:00.193: D/RES(17217): finish post
+07-25 17:10:00.193: D/JSON :(17217): {"success":0,"message":"No data--"}
+07-25 17:10:00.193: D/message(17217): No data--
+07-25 17:10:00.193: D/paramsInPerfSum(17217): =3191430
+07-25 17:10:00.203: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE WHERE connectionid=143 and userid=319
+07-25 17:10:00.343: D/dalvikvm(17217): GC_FOR_ALLOC freed 304K, 4% free 18746K/19524K, paused 51ms, total 55ms
+07-25 17:10:00.423: D/RES(17217): finish post
+07-25 17:10:00.423: D/JSON :(17217): {"success":0,"message":"No data--"}
+07-25 17:10:00.423: D/message(17217): No data--
+07-25 17:10:00.423: D/paramsInPerfSum(17217): =3191440
+07-25 17:10:00.423: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE WHERE connectionid=144 and userid=319
+07-25 17:10:00.573: D/RES(17217): finish post
+07-25 17:10:00.583: D/JSON :(17217): {"success":0,"message":"No data--"}
+07-25 17:10:00.583: D/message(17217): No data--
+07-25 17:10:00.583: D/paramsInPerfSum(17217): =3191450
+07-25 17:10:00.583: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE WHERE connectionid=145 and userid=319
+07-25 17:10:00.753: D/RES(17217): finish post
+07-25 17:10:00.753: D/JSON :(17217): {"success":0,"message":"No data--"}
+07-25 17:10:00.753: D/message(17217): No data--
+07-25 17:10:00.753: D/paramsInPerfSum(17217): =3191460
+07-25 17:10:00.763: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE WHERE connectionid=146 and userid=319
+07-25 17:10:00.923: D/RES(17217): finish post
+07-25 17:10:00.933: D/JSON :(17217): {"success":0,"message":"No data--"}
+07-25 17:10:00.933: D/message(17217): No data--
+07-25 17:10:00.933: D/paramsInPerfSum(17217): =3191470
+07-25 17:10:00.933: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE WHERE connectionid=147 and userid=319
+07-25 17:10:01.103: D/RES(17217): finish post
+07-25 17:10:01.103: D/JSON :(17217): {"success":0,"message":"No data--"}
+07-25 17:10:01.103: D/message(17217): No data--
+07-25 17:10:01.103: D/paramsInPerfSum(17217): =3191480
+07-25 17:10:01.113: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE WHERE connectionid=148 and userid=319
+07-25 17:10:01.273: D/RES(17217): finish post
+07-25 17:10:01.273: D/JSON :(17217): {"success":0,"message":"No data--"}
+07-25 17:10:01.273: D/message(17217): No data--
+07-25 17:10:01.273: D/paramsInPerfSum(17217): =3191490
+07-25 17:10:01.283: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE WHERE connectionid=149 and userid=319
+07-25 17:10:01.413: D/dalvikvm(17217): GC_FOR_ALLOC freed 303K, 4% free 18766K/19524K, paused 51ms, total 52ms
+07-25 17:10:01.493: D/RES(17217): finish post
+07-25 17:10:01.493: D/JSON :(17217): {"success":0,"message":"No data--"}
+07-25 17:10:01.493: D/message(17217): No data--
+07-25 17:10:01.493: D/paramsInPerfSum(17217): =3191500
+07-25 17:10:01.503: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE WHERE connectionid=150 and userid=319
+07-25 17:10:01.653: D/RES(17217): finish post
+07-25 17:10:01.653: D/JSON :(17217): {"success":0,"message":"No data--"}
+07-25 17:10:01.653: D/message(17217): No data--
+07-25 17:10:01.653: D/paramsInPerfSum(17217): =3191510
+07-25 17:10:01.663: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE WHERE connectionid=151 and userid=319
+07-25 17:10:01.833: D/RES(17217): finish post
+07-25 17:10:01.833: D/JSON :(17217): {"success":0,"message":"No data--"}
+07-25 17:10:01.833: D/message(17217): No data--
+07-25 17:10:01.843: D/paramsInPerfSum(17217): =3191570
+07-25 17:10:01.843: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE WHERE connectionid=157 and userid=319
+07-25 17:10:02.003: D/RES(17217): finish post
+07-25 17:10:02.003: D/JSON :(17217): {"success":0,"message":"No data--"}
+07-25 17:10:02.003: D/message(17217): No data--
+07-25 17:10:02.003: D/paramsInPerfSum(17217): =3191630
+07-25 17:10:02.003: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE WHERE connectionid=163 and userid=319
+07-25 17:10:02.163: D/RES(17217): finish post
+07-25 17:10:02.163: D/JSON :(17217): {"success":0,"message":"No data--"}
+07-25 17:10:02.163: D/message(17217): No data--
+07-25 17:10:02.163: D/paramsInPerfSum(17217): =3191710
+07-25 17:10:02.173: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE WHERE connectionid=171 and userid=319
+07-25 17:10:02.303: D/dalvikvm(17217): GC_FOR_ALLOC freed 304K, 4% free 18746K/19524K, paused 51ms, total 52ms
+07-25 17:10:02.383: D/RES(17217): finish post
+07-25 17:10:02.383: D/JSON :(17217): {"success":0,"message":"No data--"}
+07-25 17:10:02.393: D/message(17217): No data--
+07-25 17:10:02.393: D/paramsInPerfSum(17217): =3191780
+07-25 17:10:02.393: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE WHERE connectionid=178 and userid=319
+07-25 17:10:02.533: D/RES(17217): finish post
+07-25 17:10:02.533: D/JSON :(17217): {"success":0,"message":"No data--"}
+07-25 17:10:02.543: D/message(17217): No data--
+07-25 17:10:02.543: D/paramsInPerfSum(17217): =31953340
+07-25 17:10:02.543: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE WHERE connectionid=5334 and userid=319
+07-25 17:10:02.713: D/RES(17217): finish post
+07-25 17:10:02.713: D/JSON :(17217): {"success":0,"message":"No data--"}
+07-25 17:10:02.713: D/message(17217): No data--
+07-25 17:10:02.713: D/paramsInPerfSum(17217): =31953350
+07-25 17:10:02.723: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE WHERE connectionid=5335 and userid=319
+07-25 17:10:02.883: D/RES(17217): finish post
+07-25 17:10:02.883: D/JSON :(17217): {"success":0,"message":"No data--"}
+07-25 17:10:02.883: D/message(17217): No data--
+07-25 17:10:02.893: D/paramsInPerfSum(17217): =31977660
+07-25 17:10:02.893: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE WHERE connectionid=7766 and userid=319
+07-25 17:10:03.053: D/RES(17217): finish post
+07-25 17:10:03.063: D/JSON :(17217): {"success":0,"message":"No data--"}
+07-25 17:10:03.063: D/message(17217): No data--
+07-25 17:10:03.063: D/paramsInPerfSum(17217): =31998350
+07-25 17:10:03.063: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE WHERE connectionid=9835 and userid=319
+07-25 17:10:03.243: D/RES(17217): finish post
+07-25 17:10:03.243: D/JSON :(17217): {"success":0,"message":"No data--"}
+07-25 17:10:03.243: D/message(17217): No data--
+07-25 17:10:03.253: D/paramsInPerfSum(17217): =319157630
+07-25 17:10:03.253: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE WHERE connectionid=15763 and userid=319
+07-25 17:10:03.393: D/dalvikvm(17217): GC_FOR_ALLOC freed 303K, 4% free 18766K/19524K, paused 52ms, total 52ms
+07-25 17:10:03.463: D/RES(17217): finish post
+07-25 17:10:03.463: D/JSON :(17217): {"success":0,"message":"No data--"}
+07-25 17:10:03.463: D/message(17217): No data--
+07-25 17:10:03.463: D/paramsInPerfSum(17217): =319246940
+07-25 17:10:03.473: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE WHERE connectionid=24694 and userid=319
+07-25 17:10:03.613: D/RES(17217): finish post
+07-25 17:10:03.623: D/JSON :(17217): {"success":0,"message":"No data--"}
+07-25 17:10:03.623: D/message(17217): No data--
+07-25 17:10:03.623: D/paramsInPerfSum(17217): =319247500
+07-25 17:10:03.623: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE WHERE connectionid=24750 and userid=319
+07-25 17:10:03.793: D/RES(17217): finish post
+07-25 17:10:03.793: D/JSON :(17217): {"success":0,"message":"No data--"}
+07-25 17:10:03.793: D/message(17217): No data--
+07-25 17:10:03.793: D/paramsInPerfSum(17217): =319247510
+07-25 17:10:03.793: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE WHERE connectionid=24751 and userid=319
+07-25 17:10:03.963: D/RES(17217): finish post
+07-25 17:10:03.963: D/JSON :(17217): {"success":0,"message":"No data--"}
+07-25 17:10:03.963: D/message(17217): No data--
+07-25 17:10:03.963: D/paramsInPerfSum(17217): =319256160
+07-25 17:10:03.973: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE WHERE connectionid=25616 and userid=319
+07-25 17:10:04.133: D/RES(17217): finish post
+07-25 17:10:04.133: D/JSON :(17217): {"success":0,"message":"No data--"}
+07-25 17:10:04.133: D/message(17217): No data--
+07-25 17:10:04.143: D/paramsInPerfSum(17217): =319256180
+07-25 17:10:04.143: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE WHERE connectionid=25618 and userid=319
+07-25 17:10:04.273: D/dalvikvm(17217): GC_FOR_ALLOC freed 304K, 4% free 18746K/19524K, paused 51ms, total 52ms
+07-25 17:10:04.363: D/RES(17217): finish post
+07-25 17:10:04.363: D/JSON :(17217): {"success":0,"message":"No data--"}
+07-25 17:10:04.363: D/message(17217): No data--
+07-25 17:10:04.363: D/paramsInPerfSum(17217): =319334160
+07-25 17:10:04.363: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE WHERE connectionid=33416 and userid=319
+07-25 17:10:04.513: D/RES(17217): finish post
+07-25 17:10:04.513: D/JSON :(17217): {"success":0,"message":"No data--"}
+07-25 17:10:04.523: D/message(17217): No data--
+07-25 17:10:04.523: D/paramsInPerfSum(17217): =319352320
+07-25 17:10:04.523: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE WHERE connectionid=35232 and userid=319
+07-25 17:10:04.733: D/RES(17217): finish post
+07-25 17:10:04.733: D/JSON :(17217): {"success":0,"message":"No data--"}
+07-25 17:10:04.733: D/message(17217): No data--
+07-25 17:10:04.733: D/paramsInPerfSum(17217): =319420940
+07-25 17:10:04.733: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE WHERE connectionid=42094 and userid=319
+07-25 17:10:04.883: D/RES(17217): finish post
+07-25 17:10:04.883: D/JSON :(17217): {"success":0,"message":"No data--"}
+07-25 17:10:04.893: D/message(17217): No data--
+07-25 17:10:04.893: D/paramsInPerfSum(17217): =319538600
+07-25 17:10:04.893: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE WHERE connectionid=53860 and userid=319
+07-25 17:10:05.063: D/RES(17217): finish post
+07-25 17:10:05.063: D/JSON :(17217): {"success":0,"message":"No data--"}
+07-25 17:10:05.073: D/message(17217): No data--
+07-25 17:10:05.073: D/paramsInPerfSum(17217): =319556780
+07-25 17:10:05.073: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE WHERE connectionid=55678 and userid=319
+07-25 17:10:05.243: D/RES(17217): finish post
+07-25 17:10:05.243: D/JSON :(17217): {"success":0,"message":"No data--"}
+07-25 17:10:05.243: D/message(17217): No data--
+07-25 17:10:05.253: D/paramsInPerfSum(17217): =319570460
+07-25 17:10:05.253: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE WHERE connectionid=57046 and userid=319
+07-25 17:10:05.383: D/dalvikvm(17217): GC_FOR_ALLOC freed 303K, 4% free 18766K/19524K, paused 52ms, total 52ms
+07-25 17:10:05.463: D/RES(17217): finish post
+07-25 17:10:05.463: D/JSON :(17217): {"success":0,"message":"No data--"}
+07-25 17:10:05.463: D/message(17217): No data--
+07-25 17:10:05.473: D/paramsInPerfSum(17217): =319604600
+07-25 17:10:05.473: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE WHERE connectionid=60460 and userid=319
+07-25 17:10:05.613: D/RES(17217): finish post
+07-25 17:10:05.613: D/JSON :(17217): {"success":0,"message":"No data--"}
+07-25 17:10:05.623: D/message(17217): No data--
+07-25 17:10:05.623: D/paramsInPerfSum(17217): =319604610
+07-25 17:10:05.623: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE WHERE connectionid=60461 and userid=319
+07-25 17:10:05.793: D/RES(17217): finish post
+07-25 17:10:05.793: D/JSON :(17217): {"success":0,"message":"No data--"}
+07-25 17:10:05.793: D/message(17217): No data--
+07-25 17:10:05.793: D/paramsInPerfSum(17217): =319650650
+07-25 17:10:05.803: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_PERFORMANCE WHERE connectionid=65065 and userid=319
+07-25 17:10:05.963: D/RES(17217): finish post
+07-25 17:10:05.963: D/JSON :(17217): {"success":0,"message":"No data--"}
+07-25 17:10:05.973: D/message(17217): No data--
+07-25 17:10:06.003: I/Choreographer(17217): Skipped 1049 frames!  The application may be doing too much work on its main thread.
+07-25 17:10:06.013: W/InputMethodManagerService(752): Window already focused, ignoring focus gain of: com.android.internal.view.IInputMethodClient$Stub$Proxy@43d23df0 attribute=null, token = android.os.BinderProxy@43d09510
+07-25 17:10:06.153: V/AsyncHttpResponseHandler(17217): Progress 120 from 1 (12000%)
+07-25 17:10:06.193: I/ActivityManager(752): START u0 {cmp=com.openwords/.view.HomePage} from pid 17217
+07-25 17:10:06.223: D/dalvikvm(17217): GC_FOR_ALLOC freed 387K, 5% free 18722K/19524K, paused 10ms, total 10ms
+07-25 17:10:06.223: I/dalvikvm-heap(17217): Grow heap (frag case) to 18.627MB for 331792-byte allocation
+07-25 17:10:06.243: D/dalvikvm(17217): GC_FOR_ALLOC freed 7K, 5% free 19039K/19852K, paused 15ms, total 15ms
+07-25 17:10:06.263: D/dalvikvm(17217): GC_FOR_ALLOC freed 134K, 5% free 18935K/19852K, paused 9ms, total 10ms
+07-25 17:10:06.263: I/dalvikvm-heap(17217): Grow heap (frag case) to 18.835MB for 331792-byte allocation
+07-25 17:10:06.273: D/dalvikvm(17217): GC_FOR_ALLOC freed <1K, 5% free 19259K/20180K, paused 15ms, total 15ms
+07-25 17:10:06.293: D/dalvikvm(17217): GC_FOR_ALLOC freed 1K, 5% free 19260K/20180K, paused 11ms, total 11ms
+07-25 17:10:06.293: I/dalvikvm-heap(17217): Grow heap (frag case) to 20.102MB for 1327120-byte allocation
+07-25 17:10:06.313: D/dalvikvm(17217): GC_FOR_ALLOC freed <1K, 5% free 20556K/21480K, paused 17ms, total 17ms
+07-25 17:10:06.323: D/dalvikvm(17217): GC_FOR_ALLOC freed 1K, 5% free 20882K/21808K, paused 10ms, total 10ms
+07-25 17:10:06.333: D/dalvikvm(17217): GC_FOR_ALLOC freed <1K, 5% free 21206K/22136K, paused 9ms, total 9ms
+07-25 17:10:06.353: D/com.openwords.view.HomePage(17217): onResume
+07-25 17:10:06.353: D/com.openwords.view.HomePage(17217): refreshLanguageOptions
+07-25 17:10:06.353: D/com.openwords.view.HomePage(17217): user 319 has lang: 中文
+07-25 17:10:06.353: D/com.openwords.view.HomePage(17217): user 319 has lang: Deutsch
+07-25 17:10:06.353: D/com.openwords.view.HomePage(17217): user 319 has lang: Español
+07-25 17:10:06.353: D/com.openwords.view.HomePage(17217): user 319 has lang: Add more languages
+07-25 17:10:06.403: D/whatever(17217): 0
+07-25 17:10:06.403: D/ID(17217): 2
+07-25 17:10:06.423: D/saved Lang(17217): 2中文
+07-25 17:10:06.423: D/com.openwords.view.HomePage(17217): getFirstWords langId: 2
+07-25 17:10:06.423: D/SQL Log(17217): SQLiteQuery: SELECT * FROM USER_WORDS WHERE l_two_id=2
