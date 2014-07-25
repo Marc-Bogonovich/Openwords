@@ -41,6 +41,7 @@ public class ChosenPage extends Activity{
 		setContentView(R.layout.activity_chosen_page);
 		userinfo = OpenwordsSharedPreferences.getUserInfo();
 		
+		Log.d("WHERE??", "IN Chosen Page--------");
 		//--------------get Data
 		runOnUiThread(new Runnable() { public void run(){GetFromServer();} } );
 		

@@ -103,14 +103,19 @@ public class LanguagePage extends Activity {
         						if (progress!=null) {
         							progress.dismiss();
         							if(result.equals(true)) {
+        								if(HomePage.LanguageList!=null)
+        								{
         								int spinnerSize = HomePage.LanguageList.size();
+        								
         								for(int i=0;i<spinnerSize-1;i++) HomePage.LanguageList.remove(0);
+        								
         				                for(int i=0;i<langlist_global.size();i++){
     				                        if(langlist_global.get(i).isSelected()){
     				                        	HomePage.LanguageList.add(HomePage.LanguageList.size()-1,new ModelLanguage(langlist_global.get(i).getId(),
     				                        			langlist_global.get(i).getName()));
     				                        }
         				                }
+        								}
         								startActivityForResult(new Intent(LanguagePage.this.getApplicationContext(), ChosenPage.class), requestcode);
         							} else {
         								Toast.makeText(LanguagePage.this, "You must select at least one", Toast.LENGTH_SHORT).show();
