@@ -25,6 +25,7 @@ import com.openwords.learningmodule.ProgressHearing;
 import com.openwords.learningmodule.ProgressReview;
 import com.openwords.learningmodule.ProgressSelfEval;
 import com.openwords.learningmodule.ProgressTypeEval;
+import com.openwords.model.DataPool;
 import com.openwords.model.JSONParser;
 import com.openwords.model.LeafCard;
 import com.openwords.model.LeafCardHearing;
@@ -37,7 +38,6 @@ import com.openwords.model.LeafCardTypeEvalAdapter;
 import com.openwords.model.UserInfo;
 import com.openwords.model.UserWords;
 import com.openwords.model.WordTranscription;
-import com.openwords.services.GetLanguages;
 import com.openwords.services.GetWords;
 import com.openwords.services.ModelLanguage;
 import com.openwords.services.ModelWordConnection;
@@ -49,7 +49,6 @@ import com.openwords.view.actionbar.ActionBarBuilder;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
@@ -59,10 +58,9 @@ public class HomePage extends Activity implements OnClickListener {
     //private static JSONArray jArrMain;
     private static final String url_write_downloaded_words_to_server = "http://www.openwords.org/ServerPages/OpenwordsDB/setUserWords.php";
     private static Spinner begin, l2_dropdown;
-    public static List<ModelLanguage> LanguageList = null;
     public static int pos = -1;
     //-----------
-    private static int language_position = -1;
+    private int language_position = -1;
     //-----------
     private List<String> languageOptions;
     private ArrayAdapter<String> dropdownAdapter;
@@ -72,7 +70,6 @@ public class HomePage extends Activity implements OnClickListener {
     private UserInfo userinfo;
     private int SIZE = 10;
     private ActionBarBuilder actionBar;
-    private final AtomicBoolean canRefresh = new AtomicBoolean(false);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,48 +93,32 @@ public class HomePage extends Activity implements OnClickListener {
 
         userinfo = OpenwordsSharedPreferences.getUserInfo();
 
-        //this asynchnous call should be made in the LoginPage after user successfully login, 
-        //but right now LoginPage has too many arbitrary threads which are not allowing embedding this Async Http request yet, will do that later
-        //refreshLanguageOptions();
-        GetLanguages.request(Integer.toString(userinfo.getUserId()), 0, new GetLanguages.AsyncCallback() {
-
-            public void callback(List<ModelLanguage> languages, Throwable error) {
-                if (languages != null) {
-                    languages.add(new ModelLanguage(-999, "Add more languages"));
-                    LanguageList = languages;
-                    fillLanguageOptions();
-                } else {
-                    Toast.makeText(HomePage.this, error.toString(), Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+        fillLanguageOptions();
         Speak.getInstance(null).speak("welcome to openwords");
     }
 
     private void refreshLanguageOptions() {
-// This part of code doesn't work, since the LanguageList remains the same with previous
-    	if(canRefresh.get()) {
-            LogUtil.logDeubg(this, "refreshLanguageOptions");
-            languageOptions.clear();
-            for (ModelLanguage l : LanguageList) {
-                languageOptions.add(l.getL2name());
+        LogUtil.logDeubg(this, "refreshLanguageOptions");
+        languageOptions.clear();
+        language_position = -1;
+        for (ModelLanguage l : DataPool.LanguageList) {
+            languageOptions.add(l.getL2name());
+            LogUtil.logDeubg(this, "user " + userinfo.getUserId() + " has lang: " + l.getL2name());
+            if (l.getL2id() == OpenwordsSharedPreferences.getUserInfo().getLang_id()) {
+                language_position = languageOptions.size() - 1;
             }
-            dropdownAdapter.notifyDataSetChanged();
-            canRefresh.set(false);
-    	}
+        }
+        dropdownAdapter.notifyDataSetChanged();
+        if (language_position != -1) {
+            l2_dropdown.setSelection(language_position);
+        } else {
+            l2_dropdown.setSelection(0);
+        }
     }
 
     private void fillLanguageOptions() {
-        if (LanguageList != null) {
+        if (!DataPool.LanguageList.isEmpty()) {
             languageOptions = new LinkedList<String>();
-            for (ModelLanguage l : LanguageList) {
-                languageOptions.add(l.getL2name());
-                LogUtil.logDeubg(this, "user " + userinfo.getUserId() + " has lang: " + l.getL2name());
-                if (l.getL2id() == OpenwordsSharedPreferences.getUserInfo().getLang_id()) {
-                	language_position = languageOptions.size() - 1;
-                }
-            }
-
             dropdownAdapter = new ArrayAdapter<String>(HomePage.this, android.R.layout.simple_list_item_1, android.R.id.text1, languageOptions);
             l2_dropdown.setAdapter(dropdownAdapter);
             l2_dropdown.setOnItemSelectedListener(new OnItemSelectedListener() {
@@ -145,13 +126,12 @@ public class HomePage extends Activity implements OnClickListener {
                 public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                     Log.d("whatever", Integer.toString(position));
                     pos = position;
-                    Log.d("ID", Integer.toString(LanguageList.get(position).getL2id()));
-                    if (LanguageList.get(position).getL2id() == -999) {
-                    	canRefresh.set(true);
+                    Log.d("ID", Integer.toString(DataPool.LanguageList.get(position).getL2id()));
+                    if (DataPool.LanguageList.get(position).getL2id() == -999) {
                         HomePage.this.startActivity(new Intent(HomePage.this, LanguagePage.class));
                     } else {
-                        homelang_id = LanguageList.get(position).getL2id();
-                        homelang_name = LanguageList.get(position).getL2name(); //new
+                        homelang_id = DataPool.LanguageList.get(position).getL2id();
+                        homelang_name = DataPool.LanguageList.get(position).getL2name(); //new
                         UserInfo user = OpenwordsSharedPreferences.getUserInfo();
                         user.setLang_id(homelang_id);
                         user.setLang_Name(homelang_name); //new
@@ -159,10 +139,10 @@ public class HomePage extends Activity implements OnClickListener {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(HomePage.this, "Selected Lang: "+OpenwordsSharedPreferences.getUserInfo().getLang_Name()+" ID: "+OpenwordsSharedPreferences.getUserInfo().getLang_id(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(HomePage.this, "Selected Lang: " + OpenwordsSharedPreferences.getUserInfo().getLang_Name() + " ID: " + OpenwordsSharedPreferences.getUserInfo().getLang_id(), Toast.LENGTH_SHORT).show();
                             }
                         });
-                    
+
                         Log.d("saved Lang", "" + OpenwordsSharedPreferences.getUserInfo().getLang_id()
                                 + OpenwordsSharedPreferences.getUserInfo().getLang_Name()); //new
                         //-----getting first x words if not present----
@@ -176,11 +156,6 @@ public class HomePage extends Activity implements OnClickListener {
                 public void onNothingSelected(AdapterView<?> parentView) {
                 }
             });
-
-            if (language_position != -1) {
-                l2_dropdown.setSelection(language_position);
-            }
-
         }
     }
 

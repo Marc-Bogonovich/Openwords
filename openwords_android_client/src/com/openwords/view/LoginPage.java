@@ -6,10 +6,8 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.method.PasswordTransformationMethod;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
@@ -17,9 +15,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import com.openwords.R;
+import com.openwords.model.DataPool;
 import com.openwords.model.InitDatabase;
-import com.openwords.model.JSONParser;
 import com.openwords.model.UserInfo;
+import com.openwords.services.CheckUser;
+import com.openwords.services.GetLanguages;
+import com.openwords.services.ModelLanguage;
 import com.openwords.sound.MusicPlayer;
 import com.openwords.test.ActivityTest;
 import com.openwords.tts.Speak;
@@ -31,30 +32,16 @@ import com.openwords.util.WordSelectionAlgNoRepeat;
 import com.openwords.util.file.LocalFileSystem;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
-import java.util.ArrayList;
 import java.util.List;
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONObject;
 
 public class LoginPage extends Activity implements OnClickListener {
 
-    public static final String LOGTAG = "LoginPage";
-    public static final String USERNAME = "username";
-    public static final String PASSWORD = "password";
-    public static final String USERID = "userid";
-    public static final String SAVEUSER = "pref_saveuser";
-    public static final String TAG_SUCCESS = "success";
-    public static final String TAG_MESSAGE = "message";
-    public static final String TAG_USERID = "userid";
-    private static final String url_check_user = "http://www.openwords.org/ServerPages/OpenwordsDB/validUser.php";
-    //private static final String url_check_user = "http://geographycontest.ipage.com/OpenwordsOrg/OpenwordsDB/validUser.php";
-    //private static String url_check_user = "http://geographycontest.ipage.com/OpenwordsOrg/validUser.php";
     private ProgressDialog pDialog = null;
     private String username;
     private String password;
     private EditText usernameField;
     private EditText passwdField;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,11 +77,11 @@ public class LoginPage extends Activity implements OnClickListener {
         }
         OpenwordsSharedPreferences.setAppStarted(true);
         //add word algorithm
-        if(OpenwordsSharedPreferences.getWordSelectionAlgList().size()==0) {
-	        OpenwordsSharedPreferences.addSelectionAlg(new WordSelectionAlg());
-	        OpenwordsSharedPreferences.addSelectionAlg(new RandomSelectAlg());
-	        OpenwordsSharedPreferences.addSelectionAlg(new WordSelectionAlgNoRepeat());
-	    }
+        if (OpenwordsSharedPreferences.getWordSelectionAlgList().isEmpty()) {
+            OpenwordsSharedPreferences.addSelectionAlg(new WordSelectionAlg());
+            OpenwordsSharedPreferences.addSelectionAlg(new RandomSelectAlg());
+            OpenwordsSharedPreferences.addSelectionAlg(new WordSelectionAlgNoRepeat());
+        }
 
         findViewById(R.id.loginPage_test).setOnClickListener(new OnClickListener() {
 
@@ -117,108 +104,76 @@ public class LoginPage extends Activity implements OnClickListener {
     }
 
     private void registerButtonClick() {
-        LoginPage.this.startActivity(new Intent(LoginPage.this, RegisterPage.class));
+        startActivity(new Intent(LoginPage.this, RegisterPage.class));
     }
 
     private void loginButtonClick() {
-    	if(InternetCheck.checkConn(LoginPage.this)) {
-    		pDialog = ProgressDialog.show(LoginPage.this, "",
-    				"Validating user...", true);
-    		new Thread(new Runnable() {
-    			public void run() {
-    				login();
-    			}
-    		}).start();
-    	} else {
-    		 Toast.makeText(LoginPage.this, "Cannot get access to internet", Toast.LENGTH_SHORT).show();
-    	}
+        if (InternetCheck.checkConn(LoginPage.this)) {
+            pDialog = ProgressDialog.show(LoginPage.this, "",
+                    "Validating user...", true);
+            login();
+        } else {
+            Toast.makeText(LoginPage.this, "Cannot get access to internet", Toast.LENGTH_SHORT).show();
+        }
     }
 
-    void login() {
+    private void login() {
         try {
             username = usernameField.getText().toString();
             password = passwdField.getText().toString();
-            Log.d("Login", "username " + username);
-            Log.d("Login", "passwd " + password);
-            List<NameValuePair> params = new ArrayList<NameValuePair>(2);
-            params.add(new BasicNameValuePair("email", username.trim()));
-            params.add(new BasicNameValuePair("password", password.trim()));
-            for (NameValuePair i : params) {
-                LogUtil.logDeubg(this, "params: " + i.toString());
-            }
-            JSONParser jsonParse = new JSONParser();
-            JSONObject jObj;
-            int success = 0;
-            int userid = -1;
-            String msg = "";
-            boolean flag = true;
-            try{
-            	jObj = jsonParse.makeHttpRequest(url_check_user, "POST", params);
-                success = jObj.getInt(TAG_SUCCESS);
-                msg = jObj.getString(TAG_MESSAGE);
-                userid = jObj.getInt(TAG_USERID);
-            } catch (Exception e) {
-            	Log.e("LoginPage","Cannot parse JSON, possible server error");
-            	e.printStackTrace();
-            	flag = false;
-            }
-            runOnUiThread(new Runnable() {
-                public void run() {
+            LogUtil.logDeubg(this, "username " + username);
+            LogUtil.logDeubg(this, "passwd " + password);
+
+            CheckUser.request(username, password, 0, new CheckUser.AsyncCallback() {
+
+                public void callback(int userId, String message, Throwable error) {
+                    if (userId > 0) {
+                        Toast.makeText(LoginPage.this, "Login Success", Toast.LENGTH_SHORT).show();
+
+                        //save user preference
+                        Boolean saveuser = UIHelper.getCBChecked(LoginPage.this, R.id.loginPage_CheckBox_rememberMe);
+                        if (saveuser) {
+                            OpenwordsSharedPreferences.setSaveUser(true);
+                        } else {
+                            OpenwordsSharedPreferences.setSaveUser(false);
+                        }
+                        int lu = 0;
+                        long lupd = 0;
+                        if (OpenwordsSharedPreferences.getUserInfo() != null) {
+                            lu = OpenwordsSharedPreferences.getUserInfo().getUserId();
+                            lupd = OpenwordsSharedPreferences.getUserInfo().getLastPerfUpd();
+                        }
+                        OpenwordsSharedPreferences.setUserInfo(new UserInfo(lu, 0, userId, username, password, System.currentTimeMillis(), lupd));
+
+                        /* ********************************
+                         * Refreshing User's data on client (if needed)
+                         * ********************************
+                         * */
+                        InitDatabase.checkAndRefreshPerf(LoginPage.this, 0, 0);
+
+                        //pre-load language information
+                        GetLanguages.request(Integer.toString(userId), 0, new GetLanguages.AsyncCallback() {
+
+                            public void callback(List<ModelLanguage> languages, Throwable error) {
+                                if (languages != null) {
+                                    languages.add(new ModelLanguage(-999, "Add more languages"));
+                                    DataPool.LanguageList.clear();
+                                    DataPool.LanguageList.addAll(languages);
+                                    startActivity(new Intent(LoginPage.this, HomePage.class));
+                                } else {
+                                    Toast.makeText(LoginPage.this, error.toString(), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                    } else {
+                        Toast.makeText(LoginPage.this, "Username/Password incorrect", Toast.LENGTH_SHORT).show();
+                        if (error != null) {
+                            Toast.makeText(LoginPage.this, error.toString(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
                     pDialog.dismiss();
                 }
             });
-            if(flag==false) {
-
-                runOnUiThread(new Runnable() {
-                    public void run() {
-                    	Toast.makeText(LoginPage.this, "Server error", Toast.LENGTH_SHORT).show();
-                    }
-                });
-                return;
-            }
-            if (success == 1) {
-//                LogUtil.logDeubg(this, "user found");
-                runOnUiThread(new Runnable() {
-                    public void run() {
-                        Toast.makeText(LoginPage.this, "Login Success", Toast.LENGTH_SHORT).show();
-                    }
-                });
-//                LogUtil.logDeubg(this, "should go to next");
-                //save user preference
-                Boolean saveuser = UIHelper.getCBChecked(this, R.id.loginPage_CheckBox_rememberMe);
-                if (saveuser) {
-                	OpenwordsSharedPreferences.setSaveUser(true);
-                } else {
-                	OpenwordsSharedPreferences.setSaveUser(false);
-                }
-                int lu =0;
-                long lupd = 0;
-                if(OpenwordsSharedPreferences.getUserInfo()!=null)
-                {
-                	lu = OpenwordsSharedPreferences.getUserInfo().getUserId();
-                	lupd = OpenwordsSharedPreferences.getUserInfo().getLastPerfUpd();
-                }
-                OpenwordsSharedPreferences.setUserInfo(new UserInfo(lu,0,userid, username, password, System.currentTimeMillis(),lupd));
-                
-                /* ********************************
-                 * Refreshing User's data on client (if needed)
-                 * ********************************
-                 * */
-               
-                
-             // Refrshing User Data --- in Aysnc Task
-                new RefreshData().execute();
-                
-                //---------------------------------------
-                
-                LoginPage.this.startActivity(new Intent(LoginPage.this, HomePage.class));
-            } else if (success == 0) { 
-                runOnUiThread(new Runnable() {
-                    public void run() {
-                        Toast.makeText(LoginPage.this, "Username/Password incorrect", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
 
         } catch (Exception e) {
             pDialog.dismiss();
@@ -234,12 +189,12 @@ public class LoginPage extends Activity implements OnClickListener {
                 .setNegativeButton("No", null)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface arg0, int arg1) {
-                    	//when exit, remember user's choice
+                        //when exit, remember user's choice
                         Boolean saveuser = UIHelper.getCBChecked(LoginPage.this, R.id.loginPage_CheckBox_rememberMe);
                         if (saveuser) {
-                        	OpenwordsSharedPreferences.setSaveUser(true);
+                            OpenwordsSharedPreferences.setSaveUser(true);
                         } else {
-                        	OpenwordsSharedPreferences.setSaveUser(false);
+                            OpenwordsSharedPreferences.setSaveUser(false);
                         }
                         LoginPage.super.onBackPressed();
                     }
@@ -259,7 +214,6 @@ public class LoginPage extends Activity implements OnClickListener {
         MusicPlayer.clean();
     }
 
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -269,27 +223,4 @@ public class LoginPage extends Activity implements OnClickListener {
         cleanServices();
         Toast.makeText(this, "Bye Bye", Toast.LENGTH_SHORT).show();
     }
-    
-    //********************* AYSNC TASK for refreshing data in background **********************
-		 private class RefreshData extends AsyncTask<Void, Void, Void> {
-			 @Override
-				protected Void doInBackground(Void... arg0) {
-					// TODO Auto-generated method stub
-				 
-				 InitDatabase.checkAndRefreshPerf(LoginPage.this, 0, 0);
-					return null;
-				}
-		
-		     protected void onProgressUpdate(Integer... progress) {
-		         //setProgressPercent(progress[0]);
-		     }
-		
-		     protected void onPostExecute(Long result) {
-		         //showDialog("Refreshed");
-		    	 Log.d("Refresh Complete", "yes");
-		     }
-
-			
-		 }
-     
 }

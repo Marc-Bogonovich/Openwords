@@ -1,13 +1,5 @@
 package com.openwords.view;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -20,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -28,15 +19,19 @@ import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.openwords.R;
-import com.openwords.model.InitDatabase;
+import com.openwords.model.DataPool;
 import com.openwords.model.JSONParser;
 import com.openwords.model.UserInfo;
 import com.openwords.services.ModelLanguage;
 import com.openwords.util.LanguagePageTool;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
-import com.openwords.view.actionbar.WordsPage;
+import java.util.ArrayList;
+import java.util.List;
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class LanguagePage extends Activity {
         
@@ -103,15 +98,15 @@ public class LanguagePage extends Activity {
         						if (progress!=null) {
         							progress.dismiss();
         							if(result.equals(true)) {
-        								if(HomePage.LanguageList!=null)
+        								if(DataPool.LanguageList!=null)
         								{
-        								int spinnerSize = HomePage.LanguageList.size();
+        								int spinnerSize = DataPool.LanguageList.size();
         								
-        								for(int i=0;i<spinnerSize-1;i++) HomePage.LanguageList.remove(0);
+        								for(int i=0;i<spinnerSize-1;i++) DataPool.LanguageList.remove(0);
         								
         				                for(int i=0;i<langlist_global.size();i++){
     				                        if(langlist_global.get(i).isSelected()){
-    				                        	HomePage.LanguageList.add(HomePage.LanguageList.size()-1,new ModelLanguage(langlist_global.get(i).getId(),
+    				                        	DataPool.LanguageList.add(DataPool.LanguageList.size()-1,new ModelLanguage(langlist_global.get(i).getId(),
     				                        			langlist_global.get(i).getName()));
     				                        }
         				                }
