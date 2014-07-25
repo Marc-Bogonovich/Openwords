@@ -26,7 +26,6 @@ import com.openwords.learningmodule.ProgressReview;
 import com.openwords.learningmodule.ProgressSelfEval;
 import com.openwords.learningmodule.ProgressTypeEval;
 import com.openwords.model.DataPool;
-import com.openwords.model.JSONParser;
 import com.openwords.model.LeafCard;
 import com.openwords.model.LeafCardHearing;
 import com.openwords.model.LeafCardHearingAdapter;
@@ -41,30 +40,25 @@ import com.openwords.model.WordTranscription;
 import com.openwords.services.GetWords;
 import com.openwords.services.ModelLanguage;
 import com.openwords.services.ModelWordConnection;
+import com.openwords.services.SetUserWords;
 import com.openwords.tts.Speak;
 import com.openwords.util.TimeConvertor;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
 import com.openwords.view.actionbar.ActionBarBuilder;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONObject;
 
 public class HomePage extends Activity implements OnClickListener {
 
-    //private static JSONArray jArrMain;
-    private static final String url_write_downloaded_words_to_server = "http://www.openwords.org/ServerPages/OpenwordsDB/setUserWords.php";
-    private static Spinner begin, l2_dropdown;
-    public static int pos = -1;
     private static boolean welcome;
+    private Spinner begin;
+    private Spinner l2_dropdown;
     private int language_position = -1;
     private List<String> languageOptions;
     private ArrayAdapter<String> dropdownAdapter;
-    public int homelang_id;
-    public String homelang_name;
+    private int homelang_id;
+    private String homelang_name;
     private ProgressDialog pDialog = null;
     private UserInfo userinfo;
     private int SIZE = 10;
@@ -127,7 +121,6 @@ public class HomePage extends Activity implements OnClickListener {
                 @Override
                 public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                     Log.d("whatever", Integer.toString(position));
-                    pos = position;
                     Log.d("ID", Integer.toString(DataPool.LanguageList.get(position).getL2id()));
                     if (DataPool.LanguageList.get(position).getL2id() == -999) {
                         HomePage.this.startActivity(new Intent(HomePage.this, LanguagePage.class));
@@ -184,29 +177,20 @@ public class HomePage extends Activity implements OnClickListener {
      e.printStackTrace();
      }
      }*/
-    //---------------------------------------------------------------------------------------------
-    //------------update downloaded word on server----------------------------------------------
     public void updateWordsOnServer(String conIds, long dTime) {
         LogUtil.logDeubg(HomePage.this, "updateWordsOnServer: " + conIds);
-        try {
-            int user = OpenwordsSharedPreferences.getUserInfo().getUserId();
-            int langTwo = OpenwordsSharedPreferences.getUserInfo().getLang_id();
-            List<NameValuePair> params = new ArrayList<NameValuePair>();
-            params.add(new BasicNameValuePair("conid", conIds));
-            params.add(new BasicNameValuePair("dtime", Long.toString(dTime)));
-            params.add(new BasicNameValuePair("user", Integer.toString(user)));
-            params.add(new BasicNameValuePair("lTwo", Integer.toString(langTwo)));
-            JSONParser jsonParse = new JSONParser();
-            JSONObject jObj = jsonParse.makeHttpRequest(url_write_downloaded_words_to_server, "POST", params);
+        int user = OpenwordsSharedPreferences.getUserInfo().getUserId();
+        int langTwo = OpenwordsSharedPreferences.getUserInfo().getLang_id();
+        SetUserWords.request(conIds, Long.toString(dTime), Integer.toString(user), Integer.toString(langTwo), 0, new SetUserWords.AsyncCallback() {
 
-            if (jObj.getInt("success") == 1) {
-                Log.d("Message From Server", jObj.getString("message"));
+            public void callback(String message, Throwable error) {
+                if (error == null) {
+                    LogUtil.logDeubg(this, "Message From Server: " + message);
+                } else {
+                    Toast.makeText(HomePage.this, error.toString(), Toast.LENGTH_SHORT).show();
+                }
             }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+        });
     }
 
     public void testPageButtonClick() {
