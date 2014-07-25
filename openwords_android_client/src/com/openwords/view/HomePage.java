@@ -59,9 +59,8 @@ public class HomePage extends Activity implements OnClickListener {
     private static final String url_write_downloaded_words_to_server = "http://www.openwords.org/ServerPages/OpenwordsDB/setUserWords.php";
     private static Spinner begin, l2_dropdown;
     public static int pos = -1;
-    //-----------
+    private static boolean welcome;
     private int language_position = -1;
-    //-----------
     private List<String> languageOptions;
     private ArrayAdapter<String> dropdownAdapter;
     public int homelang_id;
@@ -94,7 +93,10 @@ public class HomePage extends Activity implements OnClickListener {
         userinfo = OpenwordsSharedPreferences.getUserInfo();
 
         fillLanguageOptions();
-        Speak.getInstance(null).speak("welcome to openwords");
+        if (!welcome) {
+            Speak.getInstance(null).speak("welcome to openwords");
+            welcome = true;
+        }
     }
 
     private void refreshLanguageOptions() {
@@ -360,6 +362,7 @@ public class HomePage extends Activity implements OnClickListener {
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface arg0, int arg1) {
                         HomePage.super.onBackPressed();
+                        welcome = false;
                     }
                 }).create().show();
     }
