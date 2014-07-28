@@ -1,0 +1,6 @@
+7/28 14:20
+For the purpose of exploration the present application has an activity for both Ian and Karthik to experiment with the Android drag and drop framework.
+
+Ian's work will be contained in OtherActivity.java and activity_other.xml
+
+Karthik's work will be contained in MainActivity.java and activity_main.xml
