@@ -3,8 +3,10 @@ package com.openwords.view;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -88,6 +90,8 @@ public class HomePage extends Activity implements OnClickListener {
 
         fillLanguageOptions();
         if (!welcome) {
+            AudioManager am = (AudioManager) getSystemService(AUDIO_SERVICE);
+            am.setStreamVolume(AudioManager.STREAM_MUSIC, am.getStreamMaxVolume(AudioManager.STREAM_MUSIC) / 4, 0);
             Speak.getInstance(null).speak("welcome to openwords");
             welcome = true;
         }
