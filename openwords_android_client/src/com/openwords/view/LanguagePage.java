@@ -102,7 +102,7 @@ public class LanguagePage extends Activity {
         								{
         								int spinnerSize = DataPool.LanguageList.size();
         								
-        								for(int i=0;i<spinnerSize-1;i++) DataPool.LanguageList.remove(0);
+        								for(int i=0;i<spinnerSize-1;i++) DataPool.LanguageList.clear();
         								
         				                for(int i=0;i<langlist_global.size();i++){
     				                        if(langlist_global.get(i).isSelected()){
@@ -112,6 +112,8 @@ public class LanguagePage extends Activity {
     	    				                        			langlist_global.get(i).getName()));
     				                        }
         				                }
+        				                DataPool.LanguageList.add(new ModelLanguage(-999,
+			                        			"Add More Languages"));
         								}
         								startActivityForResult(new Intent(LanguagePage.this.getApplicationContext(), ChosenPage.class), requestcode);
         							} else {
