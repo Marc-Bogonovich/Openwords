@@ -71,6 +71,15 @@ public class FragmentTypeEval extends Fragment {
 		//makeBreadCrumbs();
         card.setLastTime(TimeConvertor.getUnixTime());
 		answer.setVisibility(View.INVISIBLE);
+		if(card.getAudioURL()==null) {
+			audioPlayButton.setImageResource(R.drawable.ic_self_evaluate_audio_null);
+        } else {
+        	audioPlayButton.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View view) {
+                    //Speak.getInstance(null).speak(card.getWordLang2());
+                }
+            });
+        }
 		
 		userInput.addTextChangedListener(new TextWatcher(){
 			public void beforeTextChanged(CharSequence s, int start, int count, int after){}

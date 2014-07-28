@@ -64,7 +64,6 @@ public class FragmentReview extends Fragment {
         	audioPlay.setImageResource(R.drawable.ic_self_evaluate_audio_null);
         } else {
             audioPlay.setOnClickListener(new View.OnClickListener() {
-
                 public void onClick(View view) {
                     //Speak.getInstance(null).speak(card.getWordLang2());
                 }
