@@ -224,7 +224,7 @@ public class WordsPage extends Activity implements OnClickListener {
 			
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				// TODO Auto-generated method stub
+				// who wrote this? Need modify
 				searchWordsArray = new String[]{"�� cloud","��˾ company","��˾ blah" };
 	     		   //testmethod();
 	     		   Log.d("text", ed.getText().toString());
@@ -243,13 +243,13 @@ public class WordsPage extends Activity implements OnClickListener {
 		CharSequence[] wordList = new String[userwords.size()];
 		mSelectedItems = new ArrayList<Integer>();
 		for(int i=0;i<userwords.size();i++) {
-			wordList[i] = userwords.get(i).wordLTwo;
+			wordList[i] = userwords.get(i).wordLTwo+ "  <-->  " + userwords.get(i).wordLOne;
 			if(userwords.get(i).fresh==1) { //if this word is fresh
 				mSelectedItems.add(i);
 			}
 		}
 		dg = new AlertDialog.Builder(this);
-          dg.setTitle("View words");
+          dg.setTitle("My words");
           dg.setMultiChoiceItems(wordList, null,
                       new DialogInterface.OnMultiChoiceClickListener() {
                @Override
@@ -265,7 +265,7 @@ public class WordsPage extends Activity implements OnClickListener {
                }
            })
     // Set the action buttons
-           .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+           .setPositiveButton("Close", new DialogInterface.OnClickListener() {
                @Override
                public void onClick(DialogInterface dialog, int id) {
             	   dialog.dismiss();
@@ -301,7 +301,7 @@ public class WordsPage extends Activity implements OnClickListener {
 	                {  // **line 2**
 	                	JSONObject childJSONObject = jArr.getJSONObject(i);
 	            
-	                	words_list.add(childJSONObject.getString("wordl1_text")+"   <---->   "+childJSONObject.getString("wordl2_text"));
+	                	words_list.add(childJSONObject.getString("wordl1_text")+"  <-->  "+childJSONObject.getString("wordl2_text"));
 	                	//Log.d("Loop", childJSONObject.getString("wordl1_text"));
 	                	Log.d("Loop", words_list.get(i));
 	                }
