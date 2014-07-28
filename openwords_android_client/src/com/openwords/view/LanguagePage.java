@@ -106,8 +106,10 @@ public class LanguagePage extends Activity {
         								
         				                for(int i=0;i<langlist_global.size();i++){
     				                        if(langlist_global.get(i).isSelected()){
-    				                        	DataPool.LanguageList.add(DataPool.LanguageList.size()-1,new ModelLanguage(langlist_global.get(i).getId(),
-    				                        			langlist_global.get(i).getName()));
+    				                        	//DataPool.LanguageList.add(DataPool.LanguageList.size()-1,new ModelLanguage(langlist_global.get(i).getId(),
+    				                        			//langlist_global.get(i).getName()));
+    				                        	DataPool.LanguageList.add(new ModelLanguage(langlist_global.get(i).getId(),
+    	    				                        			langlist_global.get(i).getName()));
     				                        }
         				                }
         								}
