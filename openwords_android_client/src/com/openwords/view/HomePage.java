@@ -18,6 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
+
 import com.openwords.R;
 import com.openwords.learningmodule.ActivityHearing;
 import com.openwords.learningmodule.ActivityReview;
@@ -37,6 +38,7 @@ import com.openwords.model.LeafCardSelfEvalAdapter;
 import com.openwords.model.LeafCardTypeEval;
 import com.openwords.model.LeafCardTypeEvalAdapter;
 import com.openwords.model.UserInfo;
+import com.openwords.model.UserPerformance;
 import com.openwords.model.UserWords;
 import com.openwords.model.WordTranscription;
 import com.openwords.services.GetWords;
@@ -48,6 +50,7 @@ import com.openwords.util.TimeConvertor;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
 import com.openwords.view.actionbar.ActionBarBuilder;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -203,6 +206,7 @@ public class HomePage extends Activity implements OnClickListener {
         pDialog = ProgressDialog.show(HomePage.this, "",
                 "Assembling leaf cards", true);
         if (taskPage.equals("Review")) {
+        	
             new Thread(new Runnable() {
                 List<LeafCard> cards;
 

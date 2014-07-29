@@ -90,7 +90,8 @@ public class UserPerformance extends SugarRecord<UserPerformance>  {
 		List<UserPerformance> result = new ArrayList<UserPerformance>();
 			for(UserWords word : wordlist) {
 				List<UserPerformance> perform = UserPerformance.find(UserPerformance.class, "userid="+user_id+" and connectionid="+word.connectionId);
-				if(perform.size()==0) break;
+				
+				if(perform.size()==0) continue;
 				else result.add(perform.get(0));
 			}
 		return result;
