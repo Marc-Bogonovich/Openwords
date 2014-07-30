@@ -107,19 +107,13 @@ public class UserPerformance extends SugarRecord<UserPerformance>  {
 	
 	
 	//************ Method to Find Performance records by User & 2nd Language *********
+		
 	public static List<UserPerformance> findByUserLanguage(int user_id, int language_id) {
-		List<UserWords> wordlist = UserWords.findByLanguage(language_id);
-		List<UserPerformance> result = new ArrayList<UserPerformance>();
-			for(UserWords word : wordlist) {
-				List<UserPerformance> perform = UserPerformance.find(UserPerformance.class, "userid="+user_id+" and connectionid="+word.connectionId);
-				
-				if(perform.size()==0) continue;
-				else result.add(perform.get(0));
-			}
+	
+		List<UserPerformance> result = UserPerformance.find(UserPerformance.class, "userid="+user_id+" and ltwoid="+language_id);
 		return result;
 	}
 	//********************************************************************************
-	
 	
 	//*** Method to Find Performance records by User, connection ID and learning module *********
 	public static List<UserPerformance> findByUserConnectionModule(int user, int con,int module)
