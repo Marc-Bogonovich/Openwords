@@ -121,7 +121,8 @@ public class FragmentPCHearing extends Fragment {
     private void saveRecord() {
     	Log.d("FragmentPCHearing","Save Record");
     	for (LeafCardHearing card : ActivityHearing.getCardsPool()) {
-    		new UserPerformanceDirty(card.getConnectionId(),user_id,3,card.getLastTime(),card.getUserChoice(),0,getActivity().getApplicationContext()).save();
+    		new UserPerformanceDirty(card.getConnectionId(),user_id,3,card.getLastTime(),card.getUserChoice(),1,
+        			OpenwordsSharedPreferences.getUserInfo().getLang_id(),0,getActivity().getApplicationContext()).save();
     	}
     	
     	new Thread(new Runnable(){

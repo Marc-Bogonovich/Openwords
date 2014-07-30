@@ -111,8 +111,9 @@ public class FragmentPCReview extends Fragment {
     private void saveRecord() {
     	Log.d("FragmentPCReview","Save Record");
         for (LeafCard card : ActivityReview.getCardsPool()) {
-        	//(int connection_id, int user_id, int type, long last_time, int performance, int user_exclude, Context c)
-        	new UserPerformanceDirty(card.getConnectionId(),user_id,0,card.getLastTime(),3,0,getActivity().getApplicationContext()).save();
+        	//(int connection_id, int user_id, int type, long last_time, int performance,int l1Id,int l2Id int user_exclude, Context c)
+        	new UserPerformanceDirty(card.getConnectionId(),user_id,0,card.getLastTime(),3,1,
+        			OpenwordsSharedPreferences.getUserInfo().getLang_id(),0,getActivity().getApplicationContext()).save();
         }
         
         new Thread(new Runnable(){

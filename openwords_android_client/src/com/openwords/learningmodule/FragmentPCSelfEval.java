@@ -113,7 +113,8 @@ public class FragmentPCSelfEval extends Fragment {
         	if(card.getUserChoice()==null) performance = 0;
         	else if(card.getUserChoice().equals(true)) performance = 3;
         	else performance = 1;
-    		new UserPerformanceDirty(card.getConnectionId(),user_id,1,card.getLastTime(),performance,0,getActivity().getApplicationContext()).save();
+    		new UserPerformanceDirty(card.getConnectionId(),user_id,1,card.getLastTime(),performance,1,
+        			OpenwordsSharedPreferences.getUserInfo().getLang_id(),0,getActivity().getApplicationContext()).save();
     	}
     	
 

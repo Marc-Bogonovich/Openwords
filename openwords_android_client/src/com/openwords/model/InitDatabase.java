@@ -136,6 +136,7 @@ public class InitDatabase {
 						 childObj.getInt("total_correct"), childObj.getInt("total_close"),
 						childObj.getInt("totalSkipped"), childObj.getInt("total_expose"),
 						childObj.getInt("last_time"), childObj.getInt("last_performance"),
+						childObj.getInt("l1_id"),childObj.getInt("l2_id"),
 						0,ctx);
 				upRec.save();
 			}
@@ -202,6 +203,8 @@ public class InitDatabase {
 				jo.put("type", dirtyPerf.get(i).type);
 				jo.put("perf", dirtyPerf.get(i).performance);
 				jo.put("time", dirtyPerf.get(i).time);
+				jo.put("l1Id", dirtyPerf.get(i).l_one_id);
+				jo.put("l2Id", dirtyPerf.get(i).l_two_id);
 				jo.put("user_ex", dirtyPerf.get(i).user_exclude);
 				
 				ja.put(jo);
@@ -259,7 +262,8 @@ public class InitDatabase {
 				
 				UserPerformance up = new UserPerformance(dirtyPerf.get(i).connection_id,
 						dirtyPerf.get(i).user_id,dirtyPerf.get(i).type,totClose,totCor,totSkp,totExp,
-						dirtyPerf.get(i).time,dirtyPerf.get(i).performance,0,ctx);
+						dirtyPerf.get(i).time,dirtyPerf.get(i).performance,dirtyPerf.get(i).l_one_id,
+						dirtyPerf.get(i).l_two_id,0,ctx);
 				up.save();
 			
 			}

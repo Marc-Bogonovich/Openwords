@@ -120,7 +120,8 @@ public class FragmentPCTypeEval extends Fragment {
     	//performance : 0 -- null, 1 -- wrong, 2 -- close, 3 -- right\
     	Log.d("FragmentPCTypeEval","Save Record");
     	for (LeafCardTypeEval card : ActivityTypeEval.getCardsPool()) {
-    		new UserPerformanceDirty(card.getConnectionId(),user_id,2,card.getLastTime(),card.getUserChoice(),0,getActivity().getApplicationContext()).save();
+    		new UserPerformanceDirty(card.getConnectionId(),user_id,2,card.getLastTime(),card.getUserChoice(),1,
+        			OpenwordsSharedPreferences.getUserInfo().getLang_id(),0,getActivity().getApplicationContext()).save();
     	}
     	
     	new Thread(new Runnable(){

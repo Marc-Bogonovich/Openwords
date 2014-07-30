@@ -21,6 +21,8 @@ public class UserPerformanceDirty extends SugarRecord<UserPerformanceDirty> {
 	public int type;
 	public int performance;
 	public long time;
+	public int l_one_id;
+	public int l_two_id;
 	public int user_exclude;
 	
 	public UserPerformanceDirty() {
@@ -38,6 +40,22 @@ public class UserPerformanceDirty extends SugarRecord<UserPerformanceDirty> {
 		this.type=type;
 		this.time=last_time;
 		this.performance=performance;
+		this.user_exclude=user_exclude;
+	
+	}
+	
+	public UserPerformanceDirty(int connection_id,int user_id, int type,
+			long last_time, int performance,int l1Id, int l2Id, 
+			 int user_exclude, Context c)
+	{	
+		
+		this.connection_id=connection_id;
+		this.user_id=user_id;
+		this.type=type;
+		this.time=last_time;
+		this.performance=performance;
+		this.l_one_id=l1Id;
+		this.l_two_id=l2Id;
 		this.user_exclude=user_exclude;
 	
 	}

@@ -27,6 +27,8 @@ public class UserPerformance extends SugarRecord<UserPerformance>  {
 	public int total_exposure;
 	public long last_time;
 	public int last_performance;
+	public int l_one_id;
+	public int l_two_id;
 	public int user_exclude;
 	public UserPerformance() {
 		// TODO Auto-generated constructor stub
@@ -65,6 +67,26 @@ public class UserPerformance extends SugarRecord<UserPerformance>  {
 			this.last_performance=last_performance;
 			this.user_exclude=user_exclude;
 		}
+		
+		//override constructor
+				public UserPerformance(int connection_id,int user_id, int module, int total_close,
+						int total_correct, int total_skipped, int total_exposure, long last_time,
+						int last_performance, int l1Id,int l2Id, int user_exclude, Context c)
+				{
+					
+					this.connection_id=connection_id;
+					this.user_id=user_id;
+					this.module = module;
+					this.total_correct=total_correct;
+					this.total_close=total_close;
+					this.total_skipped=total_skipped;
+					this.total_exposure=total_exposure;
+					this.last_time=last_time;
+					this.last_performance=last_performance;
+					this.l_one_id=l1Id;
+					this.l_two_id=l2Id;
+					this.user_exclude=user_exclude;
+				}
 	
 	//************ Method to Find Performance records by User & connection ID*********
 	public static List<UserPerformance> findByUserConnection(int user_id, int connection_id)
