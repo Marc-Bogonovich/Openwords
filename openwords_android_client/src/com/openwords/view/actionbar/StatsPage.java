@@ -16,6 +16,7 @@ public class StatsPage extends Activity {
 
     private TextView text_age;
     private TextView text_lang;
+    private TextView text_wordprogress;
     private ProgressBar progressBar;
     private int mProgressStatus = 0;
     private ActionBarBuilder actionBar;
@@ -38,6 +39,9 @@ public class StatsPage extends Activity {
         languageName = OpenwordsSharedPreferences.getUserInfo().getLang_Name();
         text_lang = (TextView) findViewById(R.id.statsPage_TextView_languageName);
         text_lang.setText(languageName);
+        
+        text_wordprogress = (TextView) findViewById(R.id.statsPage_TextView_wordProcess);
+        text_wordprogress.setText("0/0");
 
         //build ActionBar
         actionBar = new ActionBarBuilder(this, ActionBarBuilder.Stats_Page);
