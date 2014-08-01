@@ -1,5 +1,12 @@
 package com.openwords.view.actionbar;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONObject;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -7,13 +14,16 @@ import android.os.Bundle;
 import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.ProgressBar;
+
 import com.openwords.R;
+import com.openwords.model.JSONParser;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
 
 import android.os.Handler;
 
 public class StatsPage extends Activity {
 
+	private static String url_get_word_count = "http://www.openwords.org/ServerPages/WordsDB/getNumberOfWordsInLanguage.php";
     private TextView text_age;
     private TextView text_lang;
     private TextView text_wordprogress;
@@ -78,5 +88,27 @@ public class StatsPage extends Activity {
                         StatsPage.super.onBackPressed();
                     }
                 }).create().show();
+    }
+    
+    //****************** methods for getting language word count from server**********
+    public int getWordCountOfLanguagefromServer()
+    {
+    	try
+    	{
+	    	List<NameValuePair> params = new ArrayList<NameValuePair>();
+	        params.add(new BasicNameValuePair("language", Integer.toString(OpenwordsSharedPreferences.getUserInfo().getLang_id())));
+	        
+	        JSONParser jsonParse = new JSONParser();
+	        JSONObject jObj = jsonParse.makeHttpRequest(url_get_word_count, "POST", params);
+	    	if(jObj.getInt("success")==1)
+	    		return jObj.getInt("count");
+	    	else
+	    		return 0;
+    	}
+    	catch(Exception e)
+    	{
+    		e.printStackTrace();
+    		return 0;
+    	}
     }
 }
