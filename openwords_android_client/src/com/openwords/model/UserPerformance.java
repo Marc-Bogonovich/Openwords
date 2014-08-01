@@ -177,5 +177,35 @@ public class UserPerformance extends SugarRecord<UserPerformance>  {
 				total_correct+";total_skipped:"+total_skipped+";total_exposure: "+total_exposure+";last_time: "+last_time+
 				";last_performance"+last_performance;
 	}
+	
+	
+	//**************** method for calculating number of words learned **********
+	public static int findNumberOfWordsLearnt(int user_id, int language_id) {
+		
+		List<UserPerformance> result = UserPerformance.find(UserPerformance.class, "userid="+user_id+" and ltwoid="+language_id);
+		ArrayList<Integer> wordCons = new ArrayList<Integer>();
+		for (int i=0; i<result.size();i++)
+		{
+			if(result.get(i).module!=0)
+			{
+				int tWrong = result.get(i).total_exposure - (result.get(i).total_close+result.get(i).total_correct
+						+result.get(i).total_skipped);
+				if(result.get(i).total_correct+result.get(i).total_close > tWrong && !(wordCons.contains(result.get(i).connection_id)))
+				{
+					wordCons.add(result.get(i).connection_id);
+				}
+				else
+				{
+					if(result.get(i).last_performance >= 2)
+					{
+						wordCons.add(result.get(i).connection_id);
+					}
+						
+				}
+			}
+		}
+		return wordCons.size();
+	}
+	//********************************************************************************
 
 }
