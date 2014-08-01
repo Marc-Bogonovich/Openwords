@@ -17,6 +17,7 @@ import android.widget.ProgressBar;
 
 import com.openwords.R;
 import com.openwords.model.JSONParser;
+import com.openwords.model.UserPerformance;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
 
 import android.os.Handler;
@@ -31,6 +32,10 @@ public class StatsPage extends Activity {
     private int mProgressStatus = 0;
     private ActionBarBuilder actionBar;
     String languageName;
+    int userID;
+    int languageID;
+    int wordNumLearnt;
+    int wordNumTotal;
 
     private Handler progressHandler = new Handler();
 
@@ -41,7 +46,11 @@ public class StatsPage extends Activity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);//for testing purpose
 
         setContentView(R.layout.activity_stats_page);
-
+        
+        userID = OpenwordsSharedPreferences.getUserInfo().getUserId();
+        languageID = OpenwordsSharedPreferences.getUserInfo().getLang_id();
+        wordNumTotal = getWordCountOfLanguagefromServer();
+        wordNumLearnt = UserPerformance.findNumberOfWordsLearnt(userID, languageID);
         text_age = (TextView) findViewById(R.id.statsPage_TextView_age);
 
         text_age.setText("0 " + "years , " + "1 " + "months ");
@@ -51,7 +60,7 @@ public class StatsPage extends Activity {
         text_lang.setText(languageName);
         
         text_wordprogress = (TextView) findViewById(R.id.statsPage_TextView_wordProcess);
-        text_wordprogress.setText("0/0");
+        text_wordprogress.setText(wordNumLearnt+"/"+wordNumTotal);
 
         //build ActionBar
         actionBar = new ActionBarBuilder(this, ActionBarBuilder.Stats_Page);
@@ -60,7 +69,12 @@ public class StatsPage extends Activity {
 
         new Thread(new Runnable() {
             public void run() {
-                mProgressStatus = 50;
+            	if(wordNumTotal != 0){
+            		mProgressStatus = wordNumLearnt*100/wordNumTotal;
+            	}
+            	else{
+            		mProgressStatus = 0;
+            	}       
                 //Update the progress bar
                 progressHandler.post(new Runnable() {
                     public void run() {
