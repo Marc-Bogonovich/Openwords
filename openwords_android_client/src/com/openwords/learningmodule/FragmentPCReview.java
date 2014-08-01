@@ -120,6 +120,8 @@ public class FragmentPCReview extends Fragment {
         	public void run()
         	{InitDatabase.updateLocalPerformanceSummary(getActivity().getApplicationContext());}
         }).start();
+        //set current card index to 0. Why here? I don't know. Maybe the function above has some side-effect 
+        ActivityReview.setCurrentCard(0);
     }
 
     private void refresh() {

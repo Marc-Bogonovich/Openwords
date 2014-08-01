@@ -129,6 +129,8 @@ public class FragmentPCHearing extends Fragment {
         	public void run()
         	{InitDatabase.updateLocalPerformanceSummary(getActivity().getApplicationContext());}
         }).start();
+        //set current card index to 0. Why here? I don't know. Maybe the function above has some side-effect 
+        ActivityHearing.setCurrentCard(0);
 	}
 
     //calculate the total number of correctness

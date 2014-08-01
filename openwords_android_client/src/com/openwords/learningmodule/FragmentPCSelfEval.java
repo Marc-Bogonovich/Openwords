@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
+
 import com.openwords.R;
 import com.openwords.model.InitDatabase;
 import com.openwords.model.LeafCardSelfEval;
@@ -122,6 +123,8 @@ public class FragmentPCSelfEval extends Fragment {
         	public void run()
         	{InitDatabase.updateLocalPerformanceSummary(getActivity().getApplicationContext());}
         }).start();
+        //set current card index to 0. Why here? I don't know. Maybe the function above has some side-effect 
+        ActivitySelfEval.setCurrentCard(0);
 	}
 
     private void refresh() {

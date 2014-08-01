@@ -128,6 +128,8 @@ public class FragmentPCTypeEval extends Fragment {
         	public void run()
         	{InitDatabase.updateLocalPerformanceSummary(getActivity().getApplicationContext());}
         }).start();
+        //set current card index to 0. Why here? I don't know. Maybe the function above has some side-effect 
+        ActivityTypeEval.setCurrentCard(0);
     }
 
     //when view pager get the second last page, this page, as last page, will be pre-loaded.
