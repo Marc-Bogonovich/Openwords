@@ -1,15 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package openwords_data;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 /**
@@ -28,11 +20,11 @@ public class MySQLAccess {
         this.statement = this.connect.createStatement();        
     }
     
-    public void writeDatabase(int wordID, String L1Word, String grammerType, int defID, String meaning, String lang, String L2Word, String tr ) throws Exception {
+    public void writeDatabase(int id, int L1id, String L1Word, String grammerType, int defID, String meaning, String lang, String L2Word, String tr ) throws Exception {
         L2Word = reviseString.escapeSingleQuote(L2Word);
         tr = reviseString.escapeSingleQuote(tr);
         meaning = reviseString.escapeSingleQuote(meaning);
-        insertCommand = "insert into wiktionary_raw."+ table + " values(" + wordID + ", '" + L1Word + "', '" + grammerType + "', " + defID +", '" + meaning + "', '" + lang + "', '" + L2Word + "', '" + tr + "')";
+        insertCommand = "insert into wiktionary_raw."+ table + " values(" + id + ", " + L1id + ", '" + L1Word + "', '" + grammerType + "', " + defID +", '" + meaning + "', '" + lang + "', '" + L2Word + "', '" + tr + "')";
         this.statement.executeUpdate(insertCommand);
     }
     

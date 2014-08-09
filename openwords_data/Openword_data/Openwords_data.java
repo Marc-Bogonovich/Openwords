@@ -18,10 +18,11 @@ public class Openwords_data {
       MySQLAccess db_connect = new MySQLAccess();        //connect to the database, implemented in "MySQLAccess.java"
       db_connect.connectDatabase();
       
-      int uniqueDef = 1;
+      int uniqueDef = 1; //This can be set manually to determine if one definition or multiple ones will be returned
       int firstDef = 1;
       
       int id = 0;
+      int L1id = 0;
       int defID = 0;
       int textLine = 0;
       String text;
@@ -102,8 +103,10 @@ public class Openwords_data {
                       //text processing part  
                       if(textLine < 2) {  
                           //judge if it is english
-                          if(reader.getText().trim().contains(subText)) 
-                              isEnglish = true;      
+                          if(reader.getText().trim().contains(subText)) {
+                              isEnglish = true; 
+                              ++L1id;
+                          }                          
                       }
                       else {
                           //end English flag when goes to other languages
@@ -162,14 +165,14 @@ public class Openwords_data {
                                       //System.out.println(proun+" ");
                                       try{
                                           if(uniqueDef == 0) {
-                                              db_connect.writeDatabase(++id, title, grammerType, defID, meaning, lang, word, proun);  
+                                              db_connect.writeDatabase(++id, L1id, title, grammerType, defID, meaning, lang, word, proun);  
                                               if(id%1000 == 0) {
                                                   System.out.println(id);
                                               }
                                           }
                                           else {
                                               if(firstDef == 1) {
-                                                  db_connect.writeDatabase(++id, title, grammerType, defID, meaning, lang, word, proun);  
+                                                  db_connect.writeDatabase(++id, L1id, title, grammerType, defID, meaning, lang, word, proun);  
                                                   if(id%1000 == 0) {
                                                       System.out.println(id);
                                                   }
@@ -276,5 +279,3 @@ public class Openwords_data {
       return "";
   }
 }
-
-
