@@ -31,5 +31,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Play and Download Audio Files" />
+    
+    <Button android:id="@+id/act_test_test6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Test Autofit-Text" />
 
 </LinearLayout>

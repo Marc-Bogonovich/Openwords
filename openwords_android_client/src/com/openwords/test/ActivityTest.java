@@ -119,5 +119,12 @@ public class ActivityTest extends Activity {
                 startActivity(new Intent(ActivityTest.this, DialogSoundPlay2.class));
             }
         });
+
+        findViewById(R.id.act_test_test6).setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View view) {
+                startActivity(new Intent(ActivityTest.this, ActivityTestAutofix.class));
+            }
+        });
     }
 }
