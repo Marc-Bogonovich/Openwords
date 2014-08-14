@@ -30,6 +30,7 @@ public class MainActivity extends Activity {
             lift_word_from_buttom(R.id.flashword_string_homePageLift04, 100);
             lift_word_from_buttom(R.id.flashword_string_homePageLift05, 260);
             lift_word_from_buttom(R.id.flashword_string_homePageLift06, 400);
+            lift_word_from_buttom(R.id.flashword_string_homePageLift07, 500);
         } else { // landscape mode
             lift_word_from_buttom(R.id.flashword_string_homePageLift01, 150);
             lift_word_from_buttom(R.id.flashword_string_homePageLift02, 100);
@@ -37,6 +38,7 @@ public class MainActivity extends Activity {
             lift_word_from_buttom(R.id.flashword_string_homePageLift04, 50);
             lift_word_from_buttom(R.id.flashword_string_homePageLift05, 210);
             lift_word_from_buttom(R.id.flashword_string_homePageLift06, 250);
+            lift_word_from_buttom(R.id.flashword_string_homePageLift07, 300);
         }
 
     }

@@ -76,6 +76,15 @@
         android:layout_alignTop="@+id/flashword_string_homePageLift03"
         android:layout_toRightOf="@+id/flashword_string_homePageLift01"
         android:text="@string/flashword_string_homePageLift06"
+        android:textSize="40sp" />
+    <CheckedTextView
+        android:id="@+id/flashword_string_homePageLift07"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/flashword_string_homePageLift03"
+        android:layout_toRightOf="@+id/flashword_string_homePageLift01"
+        android:text="@string/flashword_string_homePageLift07"
+        android:textColor="@color/red"
         android:textSize="20sp" />
 
 </RelativeLayout>
