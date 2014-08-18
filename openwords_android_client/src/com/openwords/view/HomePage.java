@@ -1,10 +1,7 @@
 package com.openwords.view;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.os.Bundle;
@@ -18,7 +15,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
-
 import com.openwords.R;
 import com.openwords.learningmodule.ActivityHearing;
 import com.openwords.learningmodule.ActivityReview;
@@ -38,7 +34,6 @@ import com.openwords.model.LeafCardSelfEvalAdapter;
 import com.openwords.model.LeafCardTypeEval;
 import com.openwords.model.LeafCardTypeEvalAdapter;
 import com.openwords.model.UserInfo;
-import com.openwords.model.UserPerformance;
 import com.openwords.model.UserWords;
 import com.openwords.model.WordTranscription;
 import com.openwords.services.GetWords;
@@ -46,11 +41,11 @@ import com.openwords.services.ModelLanguage;
 import com.openwords.services.ModelWordConnection;
 import com.openwords.services.SetUserWords;
 import com.openwords.tts.Speak;
+import com.openwords.ui.common.BackButtonBehavior;
 import com.openwords.util.TimeConvertor;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
 import com.openwords.view.actionbar.ActionBarBuilder;
-
 import java.util.LinkedList;
 import java.util.List;
 
@@ -206,7 +201,7 @@ public class HomePage extends Activity implements OnClickListener {
         pDialog = ProgressDialog.show(HomePage.this, "",
                 "Assembling leaf cards", true);
         if (taskPage.equals("Review")) {
-        	
+
             new Thread(new Runnable() {
                 List<LeafCard> cards;
 
@@ -347,16 +342,13 @@ public class HomePage extends Activity implements OnClickListener {
 
     @Override
     public void onBackPressed() {
-        new AlertDialog.Builder(this)
-                .setTitle("Really?")
-                .setMessage("Are you sure you want to log out?")
-                .setNegativeButton("No", null)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface arg0, int arg1) {
-                        HomePage.super.onBackPressed();
-                        welcome = false;
-                    }
-                }).create().show();
+        BackButtonBehavior.whenAtMainPages(this, new BackButtonBehavior.BackActionConfirmed() {
+
+            public void callback() {
+                HomePage.super.onBackPressed();
+                welcome = false;
+            }
+        });
     }
 
     private void getFirstWords() {

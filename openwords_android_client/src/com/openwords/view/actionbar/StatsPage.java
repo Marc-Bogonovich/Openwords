@@ -1,30 +1,25 @@
 package com.openwords.view.actionbar;
 
+import android.app.Activity;
+import android.os.Bundle;
+import android.os.Handler;
+import android.view.WindowManager;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import com.openwords.R;
+import com.openwords.model.JSONParser;
+import com.openwords.model.UserPerformance;
+import com.openwords.ui.common.BackButtonBehavior;
+import com.openwords.util.preference.OpenwordsSharedPreferences;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.os.Bundle;
-import android.view.WindowManager;
-import android.widget.TextView;
-import android.widget.ProgressBar;
-
-import com.openwords.R;
-import com.openwords.model.JSONParser;
-import com.openwords.model.UserPerformance;
-import com.openwords.util.preference.OpenwordsSharedPreferences;
-
-import android.os.Handler;
-
 public class StatsPage extends Activity {
 
-	private static String url_get_word_count = "http://www.openwords.org/ServerPages/WordsDB/getNumberOfWordsInLanguage.php";
+    private static String url_get_word_count = "http://www.openwords.org/ServerPages/WordsDB/getNumberOfWordsInLanguage.php";
     private TextView text_age;
     private TextView text_lang;
     private TextView text_wordprogress;
@@ -46,7 +41,7 @@ public class StatsPage extends Activity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);//for testing purpose
 
         setContentView(R.layout.activity_stats_page);
-        
+
         userID = OpenwordsSharedPreferences.getUserInfo().getUserId();
         languageID = OpenwordsSharedPreferences.getUserInfo().getLang_id();
         wordNumTotal = getWordCountOfLanguagefromServer();
@@ -58,9 +53,9 @@ public class StatsPage extends Activity {
         languageName = OpenwordsSharedPreferences.getUserInfo().getLang_Name();
         text_lang = (TextView) findViewById(R.id.statsPage_TextView_languageName);
         text_lang.setText(languageName);
-        
+
         text_wordprogress = (TextView) findViewById(R.id.statsPage_TextView_wordProcess);
-        text_wordprogress.setText(wordNumLearnt+"/"+wordNumTotal);
+        text_wordprogress.setText(wordNumLearnt + "/" + wordNumTotal);
 
         //build ActionBar
         actionBar = new ActionBarBuilder(this, ActionBarBuilder.Stats_Page);
@@ -69,12 +64,11 @@ public class StatsPage extends Activity {
 
         new Thread(new Runnable() {
             public void run() {
-            	if(wordNumTotal != 0){
-            		mProgressStatus = wordNumLearnt*100/wordNumTotal;
-            	}
-            	else{
-            		mProgressStatus = 0;
-            	}       
+                if (wordNumTotal != 0) {
+                    mProgressStatus = wordNumLearnt * 100 / wordNumTotal;
+                } else {
+                    mProgressStatus = 0;
+                }
                 //Update the progress bar
                 progressHandler.post(new Runnable() {
                     public void run() {
@@ -93,36 +87,30 @@ public class StatsPage extends Activity {
 
     @Override
     public void onBackPressed() {
-        new AlertDialog.Builder(this)
-                .setTitle("Really?")
-                .setMessage("Are you sure you want to log out?")
-                .setNegativeButton("No", null)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface arg0, int arg1) {
-                        StatsPage.super.onBackPressed();
-                    }
-                }).create().show();
+        BackButtonBehavior.whenAtMainPages(this, new BackButtonBehavior.BackActionConfirmed() {
+
+            public void callback() {
+                StatsPage.super.onBackPressed();
+            }
+        });
     }
-    
+
     //****************** methods for getting language word count from server**********
-    public int getWordCountOfLanguagefromServer()
-    {
-    	try
-    	{
-	    	List<NameValuePair> params = new ArrayList<NameValuePair>();
-	        params.add(new BasicNameValuePair("language", Integer.toString(OpenwordsSharedPreferences.getUserInfo().getLang_id())));
-	        
-	        JSONParser jsonParse = new JSONParser();
-	        JSONObject jObj = jsonParse.makeHttpRequest(url_get_word_count, "POST", params);
-	    	if(jObj.getInt("success")==1)
-	    		return jObj.getInt("count");
-	    	else
-	    		return 0;
-    	}
-    	catch(Exception e)
-    	{
-    		e.printStackTrace();
-    		return 0;
-    	}
+    public int getWordCountOfLanguagefromServer() {
+        try {
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("language", Integer.toString(OpenwordsSharedPreferences.getUserInfo().getLang_id())));
+
+            JSONParser jsonParse = new JSONParser();
+            JSONObject jObj = jsonParse.makeHttpRequest(url_get_word_count, "POST", params);
+            if (jObj.getInt("success") == 1) {
+                return jObj.getInt("count");
+            } else {
+                return 0;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
     }
 }
