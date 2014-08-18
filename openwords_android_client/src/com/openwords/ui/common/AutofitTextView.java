@@ -12,7 +12,6 @@ import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.widget.TextView;
 import com.openwords.R;
-import com.openwords.util.log.LogUtil;
 
 /**
  * A TextView that resizes it's text to be no larger than the width of the view.
@@ -41,9 +40,8 @@ public class AutofitTextView extends TextView {
             lineCount = layout.getLineCount();
         }
 
-        LogUtil.logDeubg(AutofitTextView.class, "low=" + low + " high=" + high + " mid=" + mid
-                + " target=" + targetWidth + " maxLines=" + maxLines + " lineCount=" + lineCount);
-
+        //LogUtil.logDeubg(AutofitTextView.class, "low=" + low + " high=" + high + " mid=" + mid
+        //        + " target=" + targetWidth + " maxLines=" + maxLines + " lineCount=" + lineCount);
         if (lineCount > maxLines) {
             return getTextSize(text, paint, targetWidth, maxLines, low, mid, precision,
                     displayMetrics);

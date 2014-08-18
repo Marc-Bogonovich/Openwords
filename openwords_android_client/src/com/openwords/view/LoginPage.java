@@ -1,9 +1,7 @@
 package com.openwords.view;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -24,6 +22,7 @@ import com.openwords.services.ModelLanguage;
 import com.openwords.sound.MusicPlayer;
 import com.openwords.test.ActivityTest;
 import com.openwords.tts.Speak;
+import com.openwords.ui.common.BackButtonBehavior;
 import com.openwords.util.InternetCheck;
 import com.openwords.util.RandomSelectAlg;
 import com.openwords.util.UIHelper;
@@ -36,9 +35,15 @@ import java.util.List;
 
 public class LoginPage extends Activity implements OnClickListener {
 
+    public static boolean DoRegistration = false;
+    private static String username;
+    private static String password;
+
+    public static void setUserPass(String username, String password) {
+        LoginPage.username = username;
+        LoginPage.password = password;
+    }
     private ProgressDialog pDialog = null;
-    private String username;
-    private String password;
     private EditText usernameField;
     private EditText passwdField;
 
@@ -111,15 +116,23 @@ public class LoginPage extends Activity implements OnClickListener {
         if (InternetCheck.checkConn(LoginPage.this)) {
             pDialog = ProgressDialog.show(LoginPage.this, "",
                     "Validating user...", true);
-            login();
+            login(usernameField.getText().toString(), passwdField.getText().toString());
         } else {
             Toast.makeText(LoginPage.this, "Cannot get access to internet", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void login() {
-        username = usernameField.getText().toString();
-        password = passwdField.getText().toString();
+    @Override
+    protected void onResume() {
+        super.onResume();
+        LogUtil.logDeubg(this, "onResume");
+        if (DoRegistration) {
+            DoRegistration = false;
+            login(username, password);
+        }
+    }
+
+    private void login(final String username, final String password) {
         LogUtil.logDeubg(this, "username " + username);
         LogUtil.logDeubg(this, "passwd " + password);
 
@@ -174,29 +187,28 @@ public class LoginPage extends Activity implements OnClickListener {
                 } catch (Exception e) {
                     Toast.makeText(LoginPage.this, e.toString(), Toast.LENGTH_SHORT).show();
                 }
-                pDialog.dismiss();
+                if (pDialog != null) {
+                    pDialog.dismiss();
+                }
             }
         });
     }
 
     @Override
     public void onBackPressed() {
-        new AlertDialog.Builder(this)
-                .setTitle("Really Exit?")
-                .setMessage("Are you sure you want to exit?")
-                .setNegativeButton("No", null)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface arg0, int arg1) {
-                        //when exit, remember user's choice
-                        Boolean saveuser = UIHelper.getCBChecked(LoginPage.this, R.id.loginPage_CheckBox_rememberMe);
-                        if (saveuser) {
-                            OpenwordsSharedPreferences.setSaveUser(true);
-                        } else {
-                            OpenwordsSharedPreferences.setSaveUser(false);
-                        }
-                        LoginPage.super.onBackPressed();
-                    }
-                }).create().show();
+        BackButtonBehavior.whenAtMainPages(this, new BackButtonBehavior.BackActionConfirmed() {
+
+            public void callback() {
+                //when exit, remember user's choice
+                Boolean saveuser = UIHelper.getCBChecked(LoginPage.this, R.id.loginPage_CheckBox_rememberMe);
+                if (saveuser) {
+                    OpenwordsSharedPreferences.setSaveUser(true);
+                } else {
+                    OpenwordsSharedPreferences.setSaveUser(false);
+                }
+                LoginPage.super.onBackPressed();
+            }
+        });
     }
 
     private void initServices() {
@@ -221,4 +233,5 @@ public class LoginPage extends Activity implements OnClickListener {
         cleanServices();
         Toast.makeText(this, "Bye Bye", Toast.LENGTH_SHORT).show();
     }
+
 }
