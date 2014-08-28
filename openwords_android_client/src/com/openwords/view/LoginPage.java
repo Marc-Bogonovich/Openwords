@@ -196,7 +196,7 @@ public class LoginPage extends Activity implements OnClickListener {
 
     @Override
     public void onBackPressed() {
-        BackButtonBehavior.whenAtMainPages(this, new BackButtonBehavior.BackActionConfirmed() {
+        BackButtonBehavior.whenAtFirstPage(this, new BackButtonBehavior.BackActionConfirmed() {
 
             public void callback() {
                 //when exit, remember user's choice
