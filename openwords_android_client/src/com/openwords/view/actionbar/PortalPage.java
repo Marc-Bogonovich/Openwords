@@ -5,8 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import com.openwords.R;
 import com.openwords.ui.common.BackButtonBehavior;
+import com.openwords.ui.main.HomePage;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
-import com.openwords.view.HomePage;
 
 public class PortalPage extends Activity {
 

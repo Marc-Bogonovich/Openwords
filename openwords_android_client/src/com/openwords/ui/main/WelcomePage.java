@@ -1,4 +1,4 @@
-package com.openwords.view;
+package com.openwords.ui.main;
 
 import android.app.Activity;
 import android.graphics.Point;
@@ -10,7 +10,7 @@ import android.view.animation.TranslateAnimation;
 import android.widget.TextView;
 import com.openwords.R;
 
-public class MainActivity extends Activity {
+public class WelcomePage extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +55,8 @@ public class MainActivity extends Activity {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        super.onTouchEvent(event);
         finish();
-        return super.onTouchEvent(event);
+        return true;
     }
 }

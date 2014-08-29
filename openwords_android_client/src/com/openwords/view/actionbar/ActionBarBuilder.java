@@ -7,8 +7,8 @@ import android.widget.AdapterView;
 import com.openwords.R;
 import com.openwords.ui.common.ActionBarBuilderForActivity;
 import com.openwords.ui.common.DialogForSettingSelection;
+import com.openwords.ui.main.HomePage;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
-import com.openwords.view.HomePage;
 
 public class ActionBarBuilder {
 
@@ -138,18 +138,18 @@ public class ActionBarBuilder {
                     public void onItemClick(AdapterView<?> av, View view, int position, long l) {
                         switch (position) {
                             case 0:
-                            	Intent i = new Intent(activity, ProfilePage.class);
-                            	i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                Intent i = new Intent(activity, ProfilePage.class);
+                                i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                                 activity.startActivity(i);
                                 break;
                             case 1:
-                            	i = new Intent(activity, SettingsPage.class);
-                            	i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                i = new Intent(activity, SettingsPage.class);
+                                i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                                 activity.startActivity(i);
                                 break;
                             case 2:
-                            	i = new Intent(activity, TutorialPage.class);
-                            	i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                i = new Intent(activity, TutorialPage.class);
+                                i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                                 activity.startActivity(i);
                                 break;
                             case 3:

@@ -1,4 +1,4 @@
-package com.openwords.view;
+package com.openwords.ui.main;
 
 class UserValidLetter {
 	//This class is only for validation

@@ -27,11 +27,9 @@
         <meta-data android:name="QUERY_LOG" android:value="true" />
         <meta-data android:name="DOMAIN_PACKAGE_NAME" android:value="com.openwords.model" />
         
-        <activity
-            android:name=".view.LoginPage"
-            android:label="@string/app_name"
-            android:theme="@style/NoTitleTheme"
-            android:configChanges="orientation|screenSize">
+        <activity android:name=".ui.main.LoginPage"
+                  android:theme="@style/NoTitleTheme"
+                  android:configChanges="orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -39,18 +37,14 @@
             </intent-filter>
         </activity>
         
-        <activity
-            android:name=".view.MainActivity"
-            android:label="@string/title_activity_loginPage"
-            android:theme="@style/NoTitleTheme"
-            android:configChanges="orientation|screenSize">
+        <activity android:name=".ui.main.WelcomePage"
+                  android:theme="@style/NoTitleTheme"
+                  android:configChanges="orientation|screenSize">
         </activity>
         
-        <activity
-            android:name=".view.HomePage"
-            android:label="@string/title_activity_homePage"
-            android:theme="@style/NoTitleTheme"
-            android:configChanges="orientation|screenSize">
+        <activity android:name=".ui.main.HomePage"
+                  android:theme="@style/NoTitleTheme"
+                  android:configChanges="orientation|screenSize">
         </activity>
         
         <activity
@@ -67,24 +61,19 @@
             android:configChanges="orientation|screenSize">
         </activity>
         
-        <activity
-            android:name=".view.RegisterPage"
-            android:label="@string/title_activity_registerPage"
-            android:theme="@style/NoTitleTheme"
-            android:configChanges="orientation|screenSize">
-        </activity>
-        <activity
-            android:name=".view.LanguagePage"
-            android:theme="@style/NoTitleTheme"
-            android:label="@string/title_activity_languagePage"
-            android:configChanges="orientation|screenSize" >
+        <activity android:name=".ui.main.RegisterPage"
+                  android:theme="@style/NoTitleTheme"
+                  android:configChanges="orientation|screenSize">
         </activity>
         
-        <activity
-            android:name=".view.ChosenPage"
-            android:label="@string/title_activity_chosenPage"
-            android:theme="@style/NoTitleTheme"
-            android:configChanges="orientation|screenSize">
+        <activity android:name=".ui.main.LanguagePage"
+                  android:theme="@style/NoTitleTheme"
+                  android:configChanges="orientation|screenSize" >
+        </activity>
+        
+        <activity android:name=".ui.main.ChosenPage"
+                  android:theme="@style/NoTitleTheme"
+                  android:configChanges="orientation|screenSize">
         </activity>
         
         <activity

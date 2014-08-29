@@ -1,4 +1,4 @@
-package com.openwords.view;
+package com.openwords.ui.main;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -77,7 +77,7 @@ public class LoginPage extends Activity implements OnClickListener {
         registerButton.setOnClickListener(this);
 
         if (!OpenwordsSharedPreferences.isAppStarted()) {
-            Intent i = new Intent(this, MainActivity.class);
+            Intent i = new Intent(this, WelcomePage.class);
             startActivity(i);
         }
         OpenwordsSharedPreferences.setAppStarted(true);

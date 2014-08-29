@@ -1,4 +1,4 @@
-package com.openwords.view;
+package com.openwords.ui.main;
 import java.util.ArrayList;
 import java.util.List;
 

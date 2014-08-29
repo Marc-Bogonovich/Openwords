@@ -1,4 +1,4 @@
-package com.openwords.view;
+package com.openwords.ui.main;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
