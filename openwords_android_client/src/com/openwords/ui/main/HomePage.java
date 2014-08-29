@@ -252,12 +252,16 @@ public class HomePage extends Activity implements OnClickListener {
                             });
                         } else {
                             ActivitySelfEval.setCardsPool(cards);
-                            startActivity(new Intent(HomePage.this, ActivitySelfEval.class));
+                            Intent i = new Intent(HomePage.this, ActivitySelfEval.class);
+                            //i.putExtra(ActivitySelfEval.EXTRA_REVERSE_NAV, true);
+                            startActivity(i);
                         }
                     } else {
                         ActivitySelfEval.setCardsPool(progress.getCardsPool());
                         ActivitySelfEval.setCurrentCard(progress.getCurrentCard());
-                        startActivity(new Intent(HomePage.this, ActivitySelfEval.class));
+                        Intent i = new Intent(HomePage.this, ActivitySelfEval.class);
+                        //i.putExtra(ActivitySelfEval.EXTRA_REVERSE_NAV, true);
+                        startActivity(i);
                     }
                     pDialog.dismiss();
                 }

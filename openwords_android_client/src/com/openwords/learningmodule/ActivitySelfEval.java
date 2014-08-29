@@ -78,6 +78,11 @@ public class ActivitySelfEval extends FragmentActivity {
 
         reverseNav = getIntent().getBooleanExtra(EXTRA_REVERSE_NAV, false);
         LogUtil.logDeubg(this, "reverseNav set to: " + reverseNav);
+        if (reverseNav) {
+            Toast.makeText(this, "Read from Right to Left", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Read from Left to Right", Toast.LENGTH_SHORT).show();
+        }
 
         pager = (ViewPager) findViewById(R.id.act_self_eval_pager);
         pager.setOffscreenPageLimit(1);
