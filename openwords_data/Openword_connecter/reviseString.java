@@ -1,4 +1,4 @@
-package openwords_data_connecter;
+package openwords_data_connector;
 
 /**
  *

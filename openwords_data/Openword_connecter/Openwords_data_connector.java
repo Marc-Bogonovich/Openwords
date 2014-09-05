@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package openwords_data_connecter;
+package openwords_data_connector;
 
 import java.sql.*;
 
@@ -12,7 +12,7 @@ import java.sql.*;
  *
  * @author Archie
  */
-public class Openwords_data_connecter {
+public class Openwords_data_connector {
     //JDBC driver name and database url
     static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
     static final String DB_URL = "jdbc:mysql://localhost/oworg_owr_1_0?" + "useUnicode=true&characterEncoding=UTF-8&user=root&password=root";
@@ -28,14 +28,17 @@ public class Openwords_data_connecter {
       
         Connection conn = null;
         Statement stmt = null;
+        Statement stmt_tszh = null;
         
         int lastDefID = 0;
         int lastDefNum = 0;
         int count = 0;
         int wordIDL1;
         int wordIDL2;
+        int wordIDL3;
         boolean L1exist = false;
         boolean L2exist = false;
+        boolean L3exist = false;
         String enWord;
         String grammerType;
         int defID;
@@ -44,6 +47,10 @@ public class Openwords_data_connecter {
         String lang;
         int lang_id = 0;
         String word;
+        //For Chinese use only
+        String word_simple_zh;
+        String word_tradi_zh;
+        
         String tr;
         ResultSet rs;
         ResultSet rs_def_num;
@@ -60,6 +67,13 @@ public class Openwords_data_connecter {
             //execute a query
             String sql = "SELECT id, L1id, enWord, grammerType, defID, definition, lang, word, tr FROM english_wiktionary_raw;";
             rs = stmt.executeQuery(sql); 
+              
+            stmt_tszh = conn.createStatement();
+            int lang_id_zht = getLanguageID("zht", stmt_tszh);
+            int lang_id_zhs = getLanguageID("zhs", stmt_tszh);
+            System.out.println("lang_id_zht:"+lang_id_zht);
+            System.out.println("lang_id_zhs:" + lang_id_zhs);
+            stmt_tszh.close();
         
             
             while(rs.next()) {  
@@ -104,9 +118,92 @@ public class Openwords_data_connecter {
                     //System.out.print(", word: " + word);
                     //System.out.println(", tr: " + tr);
 
-                    lang_id = getLanguageID(lang, stmt_insert);
+                    lang_id = getLanguageID(lang, stmt_insert);          
+                    if(lang.equals("cmn")) {
+                        //convert word to traditional Chinese and simplified Chinese
+                        word_simple_zh = openwords_data_connector.convertChinese.convert("s", word);
+                        word_tradi_zh = openwords_data_connector.convertChinese.convert("t", word);
+                        
+                        
+                        //insert into tables:
+                        //get L1 word and L2 word ID in words table , if not exists, insert record(s) and return ID    
+                        wordIDL1 = words_lookup(enWord, stmt_insert);
+                        wordIDL2 = words_lookup(word_simple_zh, stmt_insert);
+                        wordIDL3 = words_lookup(word_tradi_zh, stmt_insert);
 
-                    if(lang_id != 0) {
+                        if(wordIDL1 == 0) {
+                            L1exist = false;
+                            String sql_insert_wordL1 = "insert into oworg_owr_1_0.words (language_id, word) VALUES (1, '" + enWord + "')"; //the Language id for wordL1 is always 1(English)
+                            stmt_insert.executeUpdate(sql_insert_wordL1);
+                            wordIDL1 = words_lookup(enWord, stmt_insert);
+                        } else {
+                            L1exist = true;
+                        }
+                        if(wordIDL2 == 0) {
+                            L2exist = false;
+                            String sql_insert_wordL2 = "insert into oworg_owr_1_0.words (language_id, word) VALUES (" + lang_id_zhs + ", '" + word_simple_zh + "')";
+                            stmt_insert.executeUpdate(sql_insert_wordL2);
+                            wordIDL2 = words_lookup(word_simple_zh, stmt_insert);
+                        } else {
+                            L2exist = true;
+                        }
+                        if(wordIDL3 == 0) {
+                            L3exist = false;
+                            String sql_insert_wordL3 = "insert into oworg_owr_1_0.words (language_id, word) VALUES (" + lang_id_zht + ",'" + word_tradi_zh + "')";
+                            stmt_insert.executeUpdate(sql_insert_wordL3);
+                            wordIDL3 = words_lookup(word_tradi_zh, stmt_insert);
+                        } else {
+                            L3exist = true;
+                        }
+                        //insert into word_connection table
+                        String sql_insert_wordConnection = "insert into oworg_owr_1_0.word_connections (word1_id, word2_id, connection_type) VALUES (" + wordIDL1 + ", " + wordIDL2 + ", " + "'primary mapping')";      
+                        stmt_insert.executeUpdate(sql_insert_wordConnection);
+                        sql_insert_wordConnection = "insert into oworg_owr_1_0.word_connections (word1_id, word2_id, connection_type) VALUES (" + wordIDL1 + ", " + wordIDL3 + ", " + "'primary mapping')";
+                        stmt_insert.executeUpdate(sql_insert_wordConnection);
+                        //insert into word_meaning table
+                        if(!L1exist) {
+                            String sql_insert_wordMeaningL1 = "insert into oworg_owr_1_0.word_meaning (word_id, type, meaning_text) VALUES (" + wordIDL1 + ", " + 0 + ", '" + definition + "')";
+                            stmt_insert.executeUpdate(sql_insert_wordMeaningL1);
+                        }
+                        if(!L2exist) {
+                            String sql_insert_wordMeaningL2 = "insert into oworg_owr_1_0.word_meaning (word_id, type, meaning_text) VALUES (" + wordIDL2 + ", " + 0 + ", '" + definition + "')";
+                            stmt_insert.executeUpdate(sql_insert_wordMeaningL2);
+                        }     
+                        if(!L3exist) {
+                            String sql_insert_wordMeaningL3 = "insert into oworg_owr_1_0.word_meaning (word_id, type, meaning_text) VALUES (" + wordIDL3 + ", " + 0 + ", '" + definition + "')";
+                            stmt_insert.executeUpdate(sql_insert_wordMeaningL3);
+                        }   
+                        //insert into word_rank table
+                        if(!L1exist) {
+                            String sql_insert_wordRankL1 = "insert into oworg_owr_1_0.word_rank (word_id, rank, rank_type) VALUES (" + wordIDL1 + ", " + rank + ", " + 1 + ")";
+                            stmt_insert.executeUpdate(sql_insert_wordRankL1);
+                        }
+                        if(!L2exist) {
+                            String sql_insert_wordRankL2 = "insert into oworg_owr_1_0.word_rank (word_id, rank, rank_type) VALUES (" + wordIDL2 + ", " + rank + ", " + 1 + ")";              
+                            stmt_insert.executeUpdate(sql_insert_wordRankL2);
+                        }   
+                        if(!L3exist) {
+                            String sql_insert_wordRankL3 = "insert into oworg_owr_1_0.word_rank (word_id, rank, rank_type) VALUES (" + wordIDL3 + ", " + rank + ", " + 1 + ")";              
+                            stmt_insert.executeUpdate(sql_insert_wordRankL3);
+                        }   
+                        //insert into word_transcription table
+                        if(!L2exist) {
+                            String sql_insert_wordTranscription1 = "insert into oworg_owr_1_0.word_transcription (word_id, transcription, transcription_type) VALUES (" + wordIDL2 + ", '" + tr + "', " + 1 + ")"; 
+                            stmt_insert.executeUpdate(sql_insert_wordTranscription1);
+                        } 
+                        if(!L3exist) {
+                            String sql_insert_wordTranscription2 = "insert into oworg_owr_1_0.word_transcription (word_id, transcription, transcription_type) VALUES (" + wordIDL3 + ", '" + tr + "', " + 1 + ")"; 
+                            stmt_insert.executeUpdate(sql_insert_wordTranscription2);
+                        } 
+                        if(stmt_insert != null) {
+                            stmt_insert.close();
+                        }              
+                        L1exist = false;
+                        L2exist = false;
+                        L3exist = false;
+                    }
+
+                    else if(lang_id != 0) {
 
                         //insert into tables:
                         //get L1 word and L2 word ID in words table , if not exists, insert record(s) and return ID    
