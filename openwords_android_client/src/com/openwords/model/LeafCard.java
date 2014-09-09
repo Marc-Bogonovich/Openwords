@@ -1,65 +1,65 @@
 package com.openwords.model;
 
 public class LeafCard {
-	private String wordLang2, wordLang1, transcription;
-	private String audioURL;
-	private int connectionId; 
-	private long lastTime;
-	
-	public LeafCard(int connectionId, String wordLang2, String wordLang1, String transcription) {
-		this.connectionId = connectionId;
-		this.wordLang2 = wordLang2;
-		this.wordLang1 = wordLang1;
-		this.transcription = transcription;
-	}
 
-	public String getWordLang2() {
-		return wordLang2;
-	}
+    private String wordLang2, wordLang1, transcription;
+    private String audioURL;
+    private int connectionId, wordOneId, wordTwoId;
+    private long lastTime;
 
-	public void setWordLang2(String wordLang2) {
-		this.wordLang2 = wordLang2;
-	}
+    public LeafCard(int connectionId, String wordLang2, int wordTwoId, String wordLang1, int wordOneId, String transcription) {
+        this.connectionId = connectionId;
+        this.wordLang2 = wordLang2;
+        this.wordLang1 = wordLang1;
+        this.transcription = transcription;
+    }
 
-	public String getWordLang1() {
-		return wordLang1;
-	}
+    public String getWordLang2() {
+        return wordLang2;
+    }
 
-	public void setWordLang1(String wordLang1) {
-		this.wordLang1 = wordLang1;
-	}
+    public void setWordLang2(String wordLang2) {
+        this.wordLang2 = wordLang2;
+    }
 
-	public String getTranscription() {
-		return transcription;
-	}
+    public String getWordLang1() {
+        return wordLang1;
+    }
 
-	public void setTranscription(String transcription) {
-		this.transcription = transcription;
-	}
+    public void setWordLang1(String wordLang1) {
+        this.wordLang1 = wordLang1;
+    }
 
-	public String getAudioURL() {
-		return audioURL;
-	}
+    public String getTranscription() {
+        return transcription;
+    }
 
-	public void setAudioURL(String audioURL) {
-		this.audioURL = audioURL;
-	}
+    public void setTranscription(String transcription) {
+        this.transcription = transcription;
+    }
 
-	public int getConnectionId() {
-		return connectionId;
-	}
+    public String getAudioURL() {
+        return audioURL;
+    }
 
-	public void setConnectionId(int connectionId) {
-		this.connectionId = connectionId;
-	}
+    public void setAudioURL(String audioURL) {
+        this.audioURL = audioURL;
+    }
 
-	public long getLastTime() {
-		return lastTime;
-	}
+    public int getConnectionId() {
+        return connectionId;
+    }
 
-	public void setLastTime(long lastTime) {
-		this.lastTime = lastTime;
-	}
-	
-	
+    public void setConnectionId(int connectionId) {
+        this.connectionId = connectionId;
+    }
+
+    public long getLastTime() {
+        return lastTime;
+    }
+
+    public void setLastTime(long lastTime) {
+        this.lastTime = lastTime;
+    }
+
 }
