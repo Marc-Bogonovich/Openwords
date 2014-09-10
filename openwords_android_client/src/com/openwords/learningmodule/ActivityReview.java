@@ -1,8 +1,6 @@
 package com.openwords.learningmodule;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.graphics.Region.Op;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -10,16 +8,13 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.Toast;
-
 import com.google.gson.Gson;
 import com.openwords.R;
 import com.openwords.model.LeafCard;
-import com.openwords.model.LeafCardSelfEval;
+import com.openwords.sound.WordAudioManager;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
-
 import java.util.List;
 
 public class ActivityReview extends FragmentActivity {
@@ -36,8 +31,15 @@ public class ActivityReview extends FragmentActivity {
         return CardsPool;
     }
 
-    public static void setCardsPool(List<LeafCard> CardsPool) {
+    public static void setCardsPool(List<LeafCard> CardsPool, boolean getAudio, Context context) {
         ActivityReview.CardsPool = CardsPool;
+        if (getAudio) {
+            int[] ids = new int[CardsPool.size()];
+            for (int i = 0; i < ids.length; i++) {
+                ids[i] = CardsPool.get(i).getWordTwoId();
+            }
+            WordAudioManager.addAudioFiles(ids, context);
+        }
     }
 
     public static void setCurrentCard(int CurrentCard) {
@@ -82,7 +84,7 @@ public class ActivityReview extends FragmentActivity {
             pager.setCurrentItem(CurrentCard, true);
         } else {
             CurrentCard = 0;
-            
+
         }
     }
 
@@ -104,10 +106,10 @@ public class ActivityReview extends FragmentActivity {
 
     @Override
     public void onBackPressed() {
-    	int languageID = OpenwordsSharedPreferences.getUserInfo().getLang_id();
-    	 OpenwordsSharedPreferences.setReviewProgress(new Gson().toJson(new ProgressReview(CardsPool, CurrentCard, languageID)));
-    	 ActivityReview.super.onBackPressed();
-    	 //        new AlertDialog.Builder(this)
+        int languageID = OpenwordsSharedPreferences.getUserInfo().getLang_id();
+        OpenwordsSharedPreferences.setReviewProgress(new Gson().toJson(new ProgressReview(CardsPool, CurrentCard, languageID)));
+        ActivityReview.super.onBackPressed();
+        //        new AlertDialog.Builder(this)
 //                .setTitle("Really Quit?")
 //                .setMessage("Are you sure you want to quite current Evaluation? (You progress will be saved)")
 //                .setNegativeButton("No", null)
@@ -121,7 +123,7 @@ public class ActivityReview extends FragmentActivity {
 
     private class ReviewAdapter extends FragmentPagerAdapter {
 
-    	ReviewAdapter(FragmentManager fm) {
+        ReviewAdapter(FragmentManager fm) {
             super(fm);
         }
 
@@ -132,7 +134,7 @@ public class ActivityReview extends FragmentActivity {
 
                 return new FragmentPCReview();
             } else {
-            	return new FragmentReview(i);
+                return new FragmentReview(i);
             }
             //return new FragmentReview(i);
         }
@@ -142,6 +144,7 @@ public class ActivityReview extends FragmentActivity {
             return CardsPool.size() + 1;
         }
     }
+
     private class PageTransformerReview implements ViewPager.PageTransformer {
 
         private static final float MIN_SCALE = 0.75f;

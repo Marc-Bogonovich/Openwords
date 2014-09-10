@@ -12,6 +12,8 @@ public class LeafCard {
         this.wordLang2 = wordLang2;
         this.wordLang1 = wordLang1;
         this.transcription = transcription;
+        this.wordOneId = wordOneId;
+        this.wordTwoId = wordTwoId;
     }
 
     public String getWordLang2() {
@@ -60,6 +62,22 @@ public class LeafCard {
 
     public void setLastTime(long lastTime) {
         this.lastTime = lastTime;
+    }
+
+    public int getWordOneId() {
+        return wordOneId;
+    }
+
+    public void setWordOneId(int wordOneId) {
+        this.wordOneId = wordOneId;
+    }
+
+    public int getWordTwoId() {
+        return wordTwoId;
+    }
+
+    public void setWordTwoId(int wordTwoId) {
+        this.wordTwoId = wordTwoId;
     }
 
 }

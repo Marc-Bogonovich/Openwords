@@ -202,34 +202,25 @@ public class HomePage extends Activity implements OnClickListener {
                 "Assembling leaf cards", true);
         if (taskPage.equals("Review")) {
 
-            new Thread(new Runnable() {
-                List<LeafCard> cards;
+            List<LeafCard> cards;
 
-                public void run() {
-                    final ProgressReview progress = OpenwordsSharedPreferences.getReviewProgress();
-                    //check if there is a unfinished progress before AND the progress is using the same language
-                    if (progress == null || progress.getLanguageID() != OpenwordsSharedPreferences.getUserInfo().getLang_id()) {
+            final ProgressReview progress = OpenwordsSharedPreferences.getReviewProgress();
+            //check if there is a unfinished progress before AND the progress is using the same language
+            if (progress == null || progress.getLanguageID() != OpenwordsSharedPreferences.getUserInfo().getLang_id()) {
 
-                        cards = new LeafCardReviewAdapter().getList(SIZE);
-                        if (cards.size() <= 0) {
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    Toast.makeText(HomePage.this, "Please select word first", Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                        } else {
-                            ActivityReview.setCardsPool(cards);
-                            startActivity(new Intent(HomePage.this, ActivityReview.class));
-                        }
-                    } else {
-                        ActivityReview.setCardsPool(progress.getCardsPool());
-                        ActivityReview.setCurrentCard(progress.getCurrentCard());
-                        startActivity(new Intent(HomePage.this, ActivityReview.class));
-                    }
-                    pDialog.dismiss();
+                cards = new LeafCardReviewAdapter().getList(SIZE);
+                if (cards.size() <= 0) {
+                    Toast.makeText(HomePage.this, "Please select word first", Toast.LENGTH_SHORT).show();
+                } else {
+                    ActivityReview.setCardsPool(cards, true, HomePage.this);
+                    startActivity(new Intent(HomePage.this, ActivityReview.class));
                 }
-            }).start();
+            } else {
+                ActivityReview.setCardsPool(progress.getCardsPool(), true, HomePage.this);
+                ActivityReview.setCurrentCard(progress.getCurrentCard());
+                startActivity(new Intent(HomePage.this, ActivityReview.class));
+            }
+            pDialog.dismiss();
 
         } else if (taskPage.equals("Self evaluation")) {
             new Thread(new Runnable() {

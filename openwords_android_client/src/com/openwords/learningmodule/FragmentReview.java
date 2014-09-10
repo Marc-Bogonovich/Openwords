@@ -1,28 +1,22 @@
 package com.openwords.learningmodule;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.openwords.R;
 import com.openwords.model.LeafCard;
-import com.openwords.model.LeafCardSelfEval;
-import com.openwords.tts.Speak;
+import com.openwords.sound.MusicPlayer;
+import com.openwords.sound.WordAudioManager;
 import com.openwords.util.TimeConvertor;
+import com.openwords.util.file.LocalFileSystem;
 import com.openwords.util.log.LogUtil;
-import com.openwords.util.preference.OpenwordsSharedPreferences;
 
-@SuppressLint("ValidFragment")
 public class FragmentReview extends Fragment {
 
     private final int cardIndex;
@@ -31,6 +25,7 @@ public class FragmentReview extends Fragment {
     private LeafCard card;
     private LinearLayout breadcrumbs;
     private View myFragmentView;
+
     public FragmentReview(int cardIndex) {
         this.cardIndex = cardIndex;
     }
@@ -47,7 +42,7 @@ public class FragmentReview extends Fragment {
         LogUtil.logDeubg(this, "onCreateView for card: " + cardIndex);
 
         myFragmentView = inflater.inflate(R.layout.fragment_review, container, false);
-        Log.e("size",Integer.toString(ActivityReview.getCardsPool().size()));
+        Log.e("size", Integer.toString(ActivityReview.getCardsPool().size()));
         card = ActivityReview.getCardsPool().get(this.cardIndex);
 
         problem = (TextView) myFragmentView.findViewById(R.id.review_TextView_question);
@@ -60,18 +55,18 @@ public class FragmentReview extends Fragment {
         answer.setText(card.getWordLang1());
         transcription.setText(card.getTranscription());
         card.setLastTime(TimeConvertor.getUnixTime());
-        if(card.getAudioURL()==null) {
-        	audioPlay.setImageResource(R.drawable.ic_self_evaluate_audio_null);
+
+        final String audio = WordAudioManager.hasAudio(card.getWordTwoId());
+        if (audio == null) {
+            audioPlay.setImageResource(R.drawable.ic_self_evaluate_audio_null);
         } else {
             audioPlay.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View view) {
-                    //Speak.getInstance(null).speak(card.getWordLang2());
+                    MusicPlayer.getInstance().playMusic(LocalFileSystem.getAudioFullPath(audio), true);
                 }
             });
         }
 
-
-        
         myFragmentView.findViewById(R.id.review_View_actionBarBlank).setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 ActivityReview.getInstance().getPager().setCurrentItem(cardIndex + 1, true);
@@ -82,10 +77,10 @@ public class FragmentReview extends Fragment {
                 ActivityReview.getInstance().getPager().setCurrentItem(cardIndex + 1, true);
             }
         });
-        
+
         return myFragmentView;
     }
-    
+
 //    private void makeBreadCrumbs() {
 //    	breadcrumbs = (LinearLayout) myFragmentView.findViewById(R.id.review_LinearLayout_breadcrumbs);
 //    	int size = OpenwordsSharedPreferences.getLeafCardSize();
