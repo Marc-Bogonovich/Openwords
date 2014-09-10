@@ -19,7 +19,7 @@ import com.openwords.model.UserInfo;
 import com.openwords.services.CheckUser;
 import com.openwords.services.GetLanguages;
 import com.openwords.services.ModelLanguage;
-import com.openwords.sound.MusicPlayer;
+import com.openwords.sound.SoundPlayer;
 import com.openwords.test.ActivityTest;
 import com.openwords.tts.Speak;
 import com.openwords.ui.common.BackButtonBehavior;
@@ -214,14 +214,13 @@ public class LoginPage extends Activity implements OnClickListener {
     private void initServices() {
         OpenwordsSharedPreferences.init(this);
         Speak.getInstance(this);
-        MusicPlayer.getInstance();
         LocalFileSystem.makeFolders();
     }
 
     private void cleanServices() {
         OpenwordsSharedPreferences.clean();
         Speak.getInstance(null).clean();
-        MusicPlayer.clean();
+        SoundPlayer.clean();
     }
 
     @Override

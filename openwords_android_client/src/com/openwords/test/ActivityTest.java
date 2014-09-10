@@ -126,5 +126,12 @@ public class ActivityTest extends Activity {
                 startActivity(new Intent(ActivityTest.this, ActivityTestAutofix.class));
             }
         });
+
+        findViewById(R.id.act_test_test7).setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View view) {
+                //WordAudioManager.addAudioFiles(new int[]{1, 5938, 1, 139228, 139228, 5938, 36293, 1, 176, 53}, ActivityTest.this);
+            }
+        });
     }
 }

@@ -11,7 +11,7 @@ import android.widget.Toast;
 import com.openwords.R;
 import com.openwords.model.UserWords;
 import com.openwords.services.GetWordAudio;
-import com.openwords.sound.MusicPlayer;
+import com.openwords.sound.SoundPlayer;
 import com.openwords.util.file.LocalFileSystem;
 import com.openwords.util.log.LogUtil;
 import java.io.File;
@@ -116,9 +116,9 @@ public class DialogSoundPlay2 extends ListActivity {
         } else {
             UserWords w = words[position - 1];
             if (w.audioIsLocal) {
-                MusicPlayer.getInstance().playMusic(LocalFileSystem.getAudioFullPath(w.audiocall), true);
+                SoundPlayer.playMusic(LocalFileSystem.getAudioFullPath(w.audiocall), true);
             } else {
-                MusicPlayer.getInstance().playMusic("http://openwords.org/api-v1/audio/" + w.audiocall, false);
+                SoundPlayer.playMusic("http://openwords.org/api-v1/audio/" + w.audiocall, false);
             }
         }
     }

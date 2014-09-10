@@ -9,7 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 import com.openwords.R;
-import com.openwords.sound.MusicPlayer;
+import com.openwords.sound.SoundPlayer;
 
 /**
  *
@@ -70,10 +70,10 @@ public class DialogSoundPlay extends ListActivity {
         super.onListItemClick(l, v, position, id);
 
         if (position < 6) {
-            MusicPlayer.getInstance().playMusic(Environment.getExternalStorageDirectory().getPath() + "/OpenwordsSound/" + names[position], true);
+            SoundPlayer.playMusic(Environment.getExternalStorageDirectory().getPath() + "/OpenwordsSound/" + names[position], true);
             Toast.makeText(this, info[position] + " " + size[position], Toast.LENGTH_SHORT).show();
         } else {
-            MusicPlayer.getInstance().playMusic("http://www.openwords.com/api-v1/audio/" + names[position - 6], false);
+            SoundPlayer.playMusic("http://www.openwords.com/api-v1/audio/" + names[position - 6], false);
             Toast.makeText(this, info[position - 6] + " " + size[position - 6], Toast.LENGTH_SHORT).show();
         }
     }

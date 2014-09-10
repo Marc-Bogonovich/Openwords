@@ -11,7 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.openwords.R;
 import com.openwords.model.LeafCard;
-import com.openwords.sound.MusicPlayer;
+import com.openwords.sound.SoundPlayer;
 import com.openwords.sound.WordAudioManager;
 import com.openwords.util.TimeConvertor;
 import com.openwords.util.file.LocalFileSystem;
@@ -62,7 +62,7 @@ public class FragmentReview extends Fragment {
         } else {
             audioPlay.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View view) {
-                    MusicPlayer.getInstance().playMusic(LocalFileSystem.getAudioFullPath(audio), true);
+                    SoundPlayer.playMusic(LocalFileSystem.getAudioFullPath(audio), true);
                 }
             });
         }
