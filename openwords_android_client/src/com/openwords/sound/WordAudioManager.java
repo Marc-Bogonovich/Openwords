@@ -24,8 +24,6 @@ public class WordAudioManager {
 
     public static void addAudioFiles(final int[] wordIds, final Context context) {
         LogUtil.logDeubg(context, "Download audios for: " + new Gson().toJson(wordIds));
-        final ProgressDialog dialogInstance = ProgressDialog.show(context, "Downloading Audio Cache...", "Please wait for a few seconds", false, false);
-
         GetWordAudioNames.request(wordIds, 0, new GetWordAudioNames.AsyncCallback() {
 
             public void callback(WordAudio[] names, Throwable error) {
@@ -51,13 +49,11 @@ public class WordAudioManager {
                             } else {
                                 Toast.makeText(context, error.toString(), Toast.LENGTH_SHORT).show();
                             }
-                            dialogInstance.cancel();
                         }
                     }, temp);
 
                 } else {
                     Toast.makeText(context, error.toString(), Toast.LENGTH_SHORT).show();
-                    dialogInstance.cancel();
                 }
             }
         });

@@ -75,7 +75,7 @@ public class FragmentPCReview extends Fragment {
 
         newWords.setOnClickListener(new OnClickListener() {
             public void onClick(View view) {
-                getActivity().finish();
+                activity.finish();
                 saveRecord();
                 Intent i = new Intent(activity, WordsPage.class);
                 i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
@@ -85,16 +85,16 @@ public class FragmentPCReview extends Fragment {
 
         nextPlate.setOnClickListener(new OnClickListener() {
             public void onClick(View view) {
-                getActivity().finish();
+                activity.finish();
                 saveRecord();
                 List<LeafCard> cards = new LeafCardReviewAdapter().getList(SIZE);
                 ActivityReview.setCardsPool(cards, true, activity);
-                startActivity(new Intent(getActivity(), ActivityReview.class));
+                startActivity(new Intent(activity, ActivityReview.class));
             }
         });
         exit.setOnClickListener(new OnClickListener() {
             public void onClick(View view) {
-                getActivity().finish();
+                activity.finish();
                 saveRecord();
             }
         });
