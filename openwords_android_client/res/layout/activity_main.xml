@@ -59,15 +59,16 @@
         android:textColor="@color/red"
         android:textSize="26sp" />
 
-    <CheckedTextView
+    <ImageView
         android:id="@+id/flashword_string_homePageLift02"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="57dp"
+        android:layout_height="70dp"
         android:layout_alignBottom="@+id/flashword_string_homePageLift05"
         android:layout_marginRight="22dp"
         android:layout_toLeftOf="@+id/flashword_string_homePageLift05"
         android:text="@string/flashword_string_homePageLift02"
-        android:textSize="36sp" />
+        android:src="@drawable/flashword_chinese"
+        android:contentDescription=""/>
 
     <CheckedTextView
         android:id="@+id/flashword_string_homePageLift06"
@@ -87,8 +88,7 @@
         android:text="@string/flashword_string_homePageLift07"
         android:textColor="@color/red"
         android:textSize="20sp" />
-<!--Text is getting cut off vertically-->
-        <CheckedTextView
+    <TextView
         android:id="@+id/flashword_string_homePageLift08"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

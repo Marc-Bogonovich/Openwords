@@ -5,9 +5,9 @@ import android.graphics.Point;
 import android.os.Bundle;
 import android.view.Display;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
-import android.widget.TextView;
 import com.openwords.R;
 
 public class WelcomePage extends Activity {
@@ -46,7 +46,7 @@ public class WelcomePage extends Activity {
     }
 
     private void lift_word_from_buttom(int stringName, int distance) {
-        TextView word = (TextView) findViewById(stringName);
+        View word = findViewById(stringName);
         Animation animation = new TranslateAnimation(0, 0, 50, (-1 * distance));
         animation.setDuration(5000);
         word.startAnimation(animation);  // start animation 
