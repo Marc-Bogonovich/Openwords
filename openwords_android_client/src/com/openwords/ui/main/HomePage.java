@@ -52,6 +52,7 @@ import java.util.List;
 public class HomePage extends Activity implements OnClickListener {
 
     private static boolean welcome;
+    public static HomePage instance;
     private Spinner begin;
     private Spinner l2_dropdown;
     private int language_position = -1;
@@ -69,6 +70,7 @@ public class HomePage extends Activity implements OnClickListener {
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);//for testing purpose
         setContentView(R.layout.activity_home_page);
+        instance = this;
 
         //building the action bar
         actionBar = new ActionBarBuilder(this, ActionBarBuilder.Home_Page);

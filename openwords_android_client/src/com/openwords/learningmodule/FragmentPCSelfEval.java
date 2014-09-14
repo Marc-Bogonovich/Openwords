@@ -18,6 +18,7 @@ import com.openwords.model.InitDatabase;
 import com.openwords.model.LeafCardSelfEval;
 import com.openwords.model.LeafCardSelfEvalAdapter;
 import com.openwords.model.UserPerformanceDirty;
+import com.openwords.ui.main.HomePage;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
 import com.openwords.view.actionbar.WordsPage;
@@ -79,6 +80,7 @@ public class FragmentPCSelfEval extends Fragment {
                 Intent i = new Intent(activity, WordsPage.class);
                 i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 activity.startActivity(i);
+                HomePage.instance.finish();
             }
         });
 

@@ -1,6 +1,5 @@
 package com.openwords.sound;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.widget.Toast;
 import com.google.gson.Gson;
