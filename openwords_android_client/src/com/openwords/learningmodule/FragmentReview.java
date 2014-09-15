@@ -64,6 +64,8 @@ public class FragmentReview extends FragmentLearningModule {
                 ActivityReview.getInstance().getPager().setCurrentItem(cardIndex + 1, true);
             }
         });
+        myFragmentView.findViewById(R.id.review_View_actionBarBlank).setSoundEffectsEnabled(false);
+        myFragmentView.findViewById(R.id.review_LinearLayout_content).setSoundEffectsEnabled(false);
 
         return myFragmentView;
     }
