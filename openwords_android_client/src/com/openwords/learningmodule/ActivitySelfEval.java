@@ -1,5 +1,6 @@
 package com.openwords.learningmodule;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -10,6 +11,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.openwords.R;
 import com.openwords.model.LeafCardSelfEval;
+import com.openwords.sound.WordAudioManager;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
 import java.util.List;
@@ -40,9 +42,19 @@ public class ActivitySelfEval extends FragmentActivity {
      * Set the cards before start this activity.
      *
      * @param CardsPool A list of leaf cards represents each word problem.
+     * @param getAudio If this plat require downloading all the audio files
+     * first
+     * @param context Context for showing some toasts
      */
-    public static void setCardsPool(List<LeafCardSelfEval> CardsPool) {
+    public static void setCardsPool(List<LeafCardSelfEval> CardsPool, boolean getAudio, Context context) {
         ActivitySelfEval.CardsPool = CardsPool;
+        if (getAudio) {
+            int[] ids = new int[CardsPool.size()];
+            for (int i = 0; i < ids.length; i++) {
+                ids[i] = CardsPool.get(i).getWordTwoId();
+            }
+            WordAudioManager.addAudioFiles(ids, context);
+        }
     }
 
     public static void setCurrentCard(int CurrentCard) {

@@ -1,7 +1,6 @@
 package com.openwords.learningmodule;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,13 +10,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.openwords.R;
 import com.openwords.model.LeafCard;
-import com.openwords.sound.SoundPlayer;
-import com.openwords.sound.WordAudioManager;
 import com.openwords.util.TimeConvertor;
-import com.openwords.util.file.LocalFileSystem;
 import com.openwords.util.log.LogUtil;
 
-public class FragmentReview extends Fragment {
+public class FragmentReview extends FragmentLearningModule {
 
     private final int cardIndex;
     private TextView problem, transcription, answer;
@@ -56,16 +52,7 @@ public class FragmentReview extends Fragment {
         transcription.setText(card.getTranscription());
         card.setLastTime(TimeConvertor.getUnixTime());
 
-        final String audio = WordAudioManager.hasAudio(card.getWordTwoId());
-        if (audio == null) {
-            audioPlay.setImageResource(R.drawable.ic_self_evaluate_audio_null);
-        } else {
-            audioPlay.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View view) {
-                    SoundPlayer.playMusic(LocalFileSystem.getAudioFullPath(audio), true);
-                }
-            });
-        }
+        updateAudioIcon(audioPlay, card.getWordTwoId());
 
         myFragmentView.findViewById(R.id.review_View_actionBarBlank).setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {

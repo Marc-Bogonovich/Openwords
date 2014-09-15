@@ -22,7 +22,7 @@ public class WordAudioManager {
     }
 
     public static void addAudioFiles(final int[] wordIds, final Context context) {
-        LogUtil.logDeubg(context, "Download audios for: " + new Gson().toJson(wordIds));
+        LogUtil.logDeubg(WordAudioManager.class, "Download audios for: " + new Gson().toJson(wordIds));
         GetWordAudioNames.request(wordIds, 0, new GetWordAudioNames.AsyncCallback() {
 
             public void callback(WordAudio[] names, Throwable error) {

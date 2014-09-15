@@ -203,7 +203,6 @@ public class HomePage extends Activity implements OnClickListener {
         pDialog = ProgressDialog.show(HomePage.this, "",
                 "Assembling leaf cards", true);
         if (taskPage.equals("Review")) {
-
             List<LeafCard> cards;
 
             final ProgressReview progress = OpenwordsSharedPreferences.getReviewProgress();
@@ -225,40 +224,37 @@ public class HomePage extends Activity implements OnClickListener {
             pDialog.dismiss();
 
         } else if (taskPage.equals("Self evaluation")) {
-            new Thread(new Runnable() {
-                List<LeafCardSelfEval> cards;
+            List<LeafCardSelfEval> cards;
 
-                public void run() {
-                    final ProgressSelfEval progress = OpenwordsSharedPreferences.getSelfEvaluationProgress();
-                    if (progress == null || progress.getLanguageID() != OpenwordsSharedPreferences.getUserInfo().getLang_id()) {
+            final ProgressSelfEval progress = OpenwordsSharedPreferences.getSelfEvaluationProgress();
+            if (progress == null || progress.getLanguageID() != OpenwordsSharedPreferences.getUserInfo().getLang_id()) {
 //                    	if(progress!=null) {
 //                    		Log.e("HomePage","progress langID:"+progress.getLanguageID()+" currentID: "+OpenwordsSharedPreferences.getUserInfo().getLang_id());
 //                    	}
 //                    	
-                        cards = new LeafCardSelfEvalAdapter().getList(SIZE);
-                        if (cards.size() <= 0) {
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    Toast.makeText(HomePage.this, "Please select word first", Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                        } else {
-                            ActivitySelfEval.setCardsPool(cards);
-                            Intent i = new Intent(HomePage.this, ActivitySelfEval.class);
-                            //i.putExtra(ActivitySelfEval.EXTRA_REVERSE_NAV, true);
-                            startActivity(i);
+                cards = new LeafCardSelfEvalAdapter().getList(SIZE);
+                if (cards.size() <= 0) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(HomePage.this, "Please select word first", Toast.LENGTH_SHORT).show();
                         }
-                    } else {
-                        ActivitySelfEval.setCardsPool(progress.getCardsPool());
-                        ActivitySelfEval.setCurrentCard(progress.getCurrentCard());
-                        Intent i = new Intent(HomePage.this, ActivitySelfEval.class);
-                        //i.putExtra(ActivitySelfEval.EXTRA_REVERSE_NAV, true);
-                        startActivity(i);
-                    }
-                    pDialog.dismiss();
+                    });
+                } else {
+                    ActivitySelfEval.setCardsPool(cards, true, HomePage.this);
+                    Intent i = new Intent(HomePage.this, ActivitySelfEval.class);
+                    //i.putExtra(ActivitySelfEval.EXTRA_REVERSE_NAV, true);
+                    startActivity(i);
                 }
-            }).start();
+            } else {
+                ActivitySelfEval.setCardsPool(progress.getCardsPool(), true, HomePage.this);
+                ActivitySelfEval.setCurrentCard(progress.getCurrentCard());
+                Intent i = new Intent(HomePage.this, ActivitySelfEval.class);
+                //i.putExtra(ActivitySelfEval.EXTRA_REVERSE_NAV, true);
+                startActivity(i);
+            }
+            pDialog.dismiss();
+
         } else if (taskPage.equals("Type evaluation")) {
             new Thread(new Runnable() {
                 List<LeafCardTypeEval> cards;

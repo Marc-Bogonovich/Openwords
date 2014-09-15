@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -86,16 +85,16 @@ public class FragmentPCSelfEval extends Fragment {
 
         nextPlate.setOnClickListener(new OnClickListener() {
             public void onClick(View view) {
-                getActivity().finish();
+                activity.finish();
                 saveRecord();
                 List<LeafCardSelfEval> cards = new LeafCardSelfEvalAdapter().getList(SIZE);
-                ActivitySelfEval.setCardsPool(cards);
-                startActivity(new Intent(getActivity(), ActivitySelfEval.class));
+                ActivitySelfEval.setCardsPool(cards, true, activity);
+                startActivity(new Intent(activity, ActivitySelfEval.class));
             }
         });
         exit.setOnClickListener(new OnClickListener() {
             public void onClick(View view) {
-                getActivity().finish();
+                activity.finish();
                 saveRecord();
             }
         });
@@ -108,7 +107,7 @@ public class FragmentPCSelfEval extends Fragment {
     //if place save data back to database into oncreate or other automatically executed function, writing will be run twice
     //encapsulate it into a function, and it would be called for any operation (i.e. click the button)
     private void saveRecord() {
-        Log.d("FragmentPCSelfEval", "Save Record");
+        LogUtil.logDeubg(this, "saveRecord");
         for (LeafCardSelfEval card : ActivitySelfEval.getCardsPool()) {
             //type -- module index : review -- 0, self -- 1, type -- 2, hearing -- 3
             //performance : 0 -- null, 1 -- wrong, 2 -- close, 3 -- right

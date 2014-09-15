@@ -1,7 +1,6 @@
 package com.openwords.learningmodule;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,15 +8,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.openwords.R;
 import com.openwords.model.LeafCardSelfEval;
-import com.openwords.tts.Speak;
 import com.openwords.util.TimeConvertor;
 import com.openwords.util.log.LogUtil;
-import com.openwords.util.preference.OpenwordsSharedPreferences;
 
-public class FragmentSelfEval extends Fragment {
+public class FragmentSelfEval extends FragmentLearningModule {
 
     private final int cardIndex;
     private TextView problem, transcription, answer;
@@ -51,15 +47,8 @@ public class FragmentSelfEval extends Fragment {
         answer.setText(card.getWordLang1());
         transcription.setText(card.getTranscription());
         card.setLastTime(TimeConvertor.getUnixTime());
-        if(card.getAudioURL()==null) {
-        	audioPlay.setImageResource(R.drawable.ic_self_evaluate_audio_null);
-        } else {
-            audioPlay.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View view) {
-                    //Speak.getInstance(null).speak(card.getWordLang2());
-                }
-            });
-        }
+
+        updateAudioIcon(audioPlay, card.getWordTwoId());
 
         showAnswer.setOnClickListener(new View.OnClickListener() {
 
@@ -89,13 +78,6 @@ public class FragmentSelfEval extends Fragment {
             }
         });
 
-        audioPlay.setOnClickListener(new View.OnClickListener() {
-
-            public void onClick(View view) {
-                //Speak.getInstance(null).speak(card.getWordLang2());
-            }
-        });
-
         if (card.getUserChoice() == null) {
             correct.setImageResource(R.drawable.button_self_evaluate_correct_unselected);
             incorrect.setImageResource(R.drawable.button_self_evaluate_incorrect_unselected);
@@ -108,7 +90,7 @@ public class FragmentSelfEval extends Fragment {
         }
         return myFragmentView;
     }
-    
+
 //    private void makeBreadCrumbs() {
 //    	breadcrumbs = (LinearLayout) myFragmentView.findViewById(R.id.review_LinearLayout_breadcrumbs);
 //    	int size = OpenwordsSharedPreferences.getLeafCardSize();
