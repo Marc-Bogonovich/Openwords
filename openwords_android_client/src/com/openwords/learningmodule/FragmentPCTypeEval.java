@@ -1,7 +1,5 @@
 package com.openwords.learningmodule;
 
-import java.util.List;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -12,13 +10,11 @@ import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
-import android.view.WindowManager;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.TextView;
-
 import com.openwords.R;
 import com.openwords.model.InitDatabase;
 import com.openwords.model.LeafCardTypeEval;
@@ -28,17 +24,20 @@ import com.openwords.ui.main.HomePage;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
 import com.openwords.view.actionbar.WordsPage;
+import java.util.List;
 
 public class FragmentPCTypeEval extends Fragment {
-	private Activity activity;
+
     private static Handler RefreshHandler;
-    private int user_id;
-    private int SIZE = 10;
+
     public static void refreshDetails() {
         if (RefreshHandler != null) {
             RefreshHandler.sendEmptyMessage(0);
         }
     }
+    private Activity activity;
+    private int user_id;
+    private int SIZE = 10;
 
     private TextView vocabSize, performance, skip, birthday, birthdayDetail, evaluation;
     private Button newWords, nextPlate, exit;
@@ -61,13 +60,13 @@ public class FragmentPCTypeEval extends Fragment {
             }
         };
     }
-    
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-    	//hide the keyboard
+        //hide the keyboard
         super.onActivityCreated(savedInstanceState);
         this.getActivity();
-		final InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        final InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
     }
 
@@ -88,47 +87,48 @@ public class FragmentPCTypeEval extends Fragment {
         exit = (Button) myFragmentView.findViewById(R.id.plc_button_Exit);
         newWords.setOnClickListener(new OnClickListener() {
             public void onClick(View view) {
-	             getActivity().finish();
-	             saveRecord();
-	             Intent i = new Intent(activity, WordsPage.class);
-	             i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-	             activity.startActivity(i);
-                     HomePage.instance.finish();
+                getActivity().finish();
+                saveRecord();
+                Intent i = new Intent(activity, WordsPage.class);
+                i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                activity.startActivity(i);
+                HomePage.instance.finish();
             }
-    });
-    
-    nextPlate.setOnClickListener(new OnClickListener() {
-        public void onClick(View view) {
-             getActivity().finish();
-             saveRecord();
-             List<LeafCardTypeEval> cards = new LeafCardTypeEvalAdapter().getList(SIZE);
-             ActivityTypeEval.setCardsPool(cards);
-             startActivity(new Intent(getActivity(), ActivityTypeEval.class));
-        }
-});
-    exit.setOnClickListener(new OnClickListener() {
-        public void onClick(View view) {
-             getActivity().finish();
-             saveRecord();
-        }
-});
+        });
+
+        nextPlate.setOnClickListener(new OnClickListener() {
+            public void onClick(View view) {
+                activity.finish();
+                saveRecord();
+                List<LeafCardTypeEval> cards = new LeafCardTypeEvalAdapter().getList(SIZE);
+                ActivityTypeEval.setCardsPool(cards, true, activity);
+                startActivity(new Intent(activity, ActivityTypeEval.class));
+            }
+        });
+        exit.setOnClickListener(new OnClickListener() {
+            public void onClick(View view) {
+                activity.finish();
+                saveRecord();
+            }
+        });
         refresh();
 
         return myFragmentView;
     }
-    
+
     private void saveRecord() {
-    	//type -- module index : review -- 0, self -- 1, type -- 2, hearing -- 3
-    	//performance : 0 -- null, 1 -- wrong, 2 -- close, 3 -- right\
-    	Log.d("FragmentPCTypeEval","Save Record");
-    	for (LeafCardTypeEval card : ActivityTypeEval.getCardsPool()) {
-    		new UserPerformanceDirty(card.getConnectionId(),user_id,2,card.getLastTime(),card.getUserChoice(),1,
-        			OpenwordsSharedPreferences.getUserInfo().getLang_id(),0,getActivity().getApplicationContext()).save();
-    	}
-    	
-    	new Thread(new Runnable(){
-        	public void run()
-        	{InitDatabase.updateLocalPerformanceSummary(getActivity().getApplicationContext());}
+        //type -- module index : review -- 0, self -- 1, type -- 2, hearing -- 3
+        //performance : 0 -- null, 1 -- wrong, 2 -- close, 3 -- right\
+        Log.d("FragmentPCTypeEval", "Save Record");
+        for (LeafCardTypeEval card : ActivityTypeEval.getCardsPool()) {
+            new UserPerformanceDirty(card.getConnectionId(), user_id, 2, card.getLastTime(), card.getUserChoice(), 1,
+                    OpenwordsSharedPreferences.getUserInfo().getLang_id(), 0, getActivity().getApplicationContext()).save();
+        }
+
+        new Thread(new Runnable() {
+            public void run() {
+                InitDatabase.updateLocalPerformanceSummary(getActivity().getApplicationContext());
+            }
         }).start();
         //set current card index to 0. Why here? I don't know. Maybe the function above has some side-effect 
         ActivityTypeEval.setCurrentCard(0);
@@ -143,18 +143,16 @@ public class FragmentPCTypeEval extends Fragment {
         totalCards = ActivityTypeEval.getCardsPool().size();
 
         for (LeafCardTypeEval card : ActivityTypeEval.getCardsPool()) {
-        	
+
             if (card.getUserChoice() == 0) {
                 totalSkipped++;
             } else {
-                if (card.getUserChoice()==3) {
+                if (card.getUserChoice() == 3) {
                     totalCorrect++;
                 }
             }
         }
-        
-        
-        
+
         vocabSize.setText("0 + " + totalCorrect);
         performance.setText(totalCorrect + "/" + totalCards);
         skip.setText(totalSkipped + " Skipped");

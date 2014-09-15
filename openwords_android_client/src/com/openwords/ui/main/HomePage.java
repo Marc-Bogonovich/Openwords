@@ -256,33 +256,29 @@ public class HomePage extends Activity implements OnClickListener {
             pDialog.dismiss();
 
         } else if (taskPage.equals("Type evaluation")) {
-            new Thread(new Runnable() {
-                List<LeafCardTypeEval> cards;
+            List<LeafCardTypeEval> cards;
 
-                public void run() {
-                    final ProgressTypeEval progress = OpenwordsSharedPreferences.getTypeEvaluationProgress();
-                    if (progress == null || progress.getLanguageID() != OpenwordsSharedPreferences.getUserInfo().getLang_id()) {
+            final ProgressTypeEval progress = OpenwordsSharedPreferences.getTypeEvaluationProgress();
+            if (progress == null || progress.getLanguageID() != OpenwordsSharedPreferences.getUserInfo().getLang_id()) {
 
-                        cards = new LeafCardTypeEvalAdapter().getList(SIZE);
-                        if (cards.size() <= 0) {
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    Toast.makeText(HomePage.this, "Please select word first", Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                        } else {
-                            ActivityTypeEval.setCardsPool(cards);
-                            startActivity(new Intent(HomePage.this, ActivityTypeEval.class));
+                cards = new LeafCardTypeEvalAdapter().getList(SIZE);
+                if (cards.size() <= 0) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(HomePage.this, "Please select word first", Toast.LENGTH_SHORT).show();
                         }
-                    } else {
-                        ActivityTypeEval.setCardsPool(progress.getCardsPool());
-                        ActivityTypeEval.setCurrentCard(progress.getCurrentCard());
-                        startActivity(new Intent(HomePage.this, ActivityTypeEval.class));
-                    }
-                    pDialog.dismiss();
+                    });
+                } else {
+                    ActivityTypeEval.setCardsPool(cards, true, HomePage.this);
+                    startActivity(new Intent(HomePage.this, ActivityTypeEval.class));
                 }
-            }).start();
+            } else {
+                ActivityTypeEval.setCardsPool(progress.getCardsPool(), true, HomePage.this);
+                ActivityTypeEval.setCurrentCard(progress.getCurrentCard());
+                startActivity(new Intent(HomePage.this, ActivityTypeEval.class));
+            }
+            pDialog.dismiss();
         } else if (taskPage.equals("Hearing")) {
 
             new Thread(new Runnable() {

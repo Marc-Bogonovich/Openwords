@@ -1,7 +1,6 @@
 package com.openwords.learningmodule;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -9,14 +8,12 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.widget.Toast;
-
 import com.google.gson.Gson;
 import com.openwords.R;
-import com.openwords.model.LeafCardSelfEval;
 import com.openwords.model.LeafCardTypeEval;
+import com.openwords.sound.WordAudioManager;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
-
 import java.util.List;
 
 public class ActivityTypeEval extends FragmentActivity {
@@ -33,8 +30,15 @@ public class ActivityTypeEval extends FragmentActivity {
         return CardsPool;
     }
 
-    public static void setCardsPool(List<LeafCardTypeEval> CardsPool) {
+    public static void setCardsPool(List<LeafCardTypeEval> CardsPool, boolean getAudio, Context context) {
         ActivityTypeEval.CardsPool = CardsPool;
+        if (getAudio) {
+            int[] ids = new int[CardsPool.size()];
+            for (int i = 0; i < ids.length; i++) {
+                ids[i] = CardsPool.get(i).getWordTwoId();
+            }
+            WordAudioManager.addAudioFiles(ids, context);
+        }
     }
 
     public static void setCurrentCard(int CurrentCard) {
@@ -104,10 +108,10 @@ public class ActivityTypeEval extends FragmentActivity {
 
     @Override
     public void onBackPressed() {
-    	int languageID = OpenwordsSharedPreferences.getUserInfo().getLang_id();
-    	OpenwordsSharedPreferences.setTypeEvaluationProgress(new Gson().toJson(new ProgressTypeEval(CardsPool, CurrentCard, languageID)));
-    	ActivityTypeEval.super.onBackPressed();
-    	//        new AlertDialog.Builder(this)
+        int languageID = OpenwordsSharedPreferences.getUserInfo().getLang_id();
+        OpenwordsSharedPreferences.setTypeEvaluationProgress(new Gson().toJson(new ProgressTypeEval(CardsPool, CurrentCard, languageID)));
+        ActivityTypeEval.super.onBackPressed();
+        //        new AlertDialog.Builder(this)
 //                .setTitle("Really Quit?")
 //                .setMessage("Are you sure you want to quite current Evaluation? (You progress will be saved)")
 //                .setNegativeButton("No", null)

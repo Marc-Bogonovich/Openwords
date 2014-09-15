@@ -2,7 +2,6 @@ package com.openwords.learningmodule;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -18,7 +17,7 @@ import com.openwords.util.TimeConvertor;
 import com.openwords.util.WordComparsion;
 import com.openwords.util.log.LogUtil;
 
-public class FragmentTypeEval extends Fragment {
+public class FragmentTypeEval extends FragmentLearningModule {
 
     private final int cardIndex;
     private EditText userInput;
@@ -26,7 +25,7 @@ public class FragmentTypeEval extends Fragment {
     private TextView question;
     private TextView transcription;
     private ImageView checkButton;
-    private ImageView audioPlayButton;
+    private ImageView audioPlay;
     private ImageView status;
     private final double CUTOFF = 0.75f;
     private LeafCardTypeEval card;
@@ -57,20 +56,13 @@ public class FragmentTypeEval extends Fragment {
         userInput = (EditText) myFragmentView.findViewById(R.id.typeEvaluate_EditText_input);
         checkButton = (ImageView) myFragmentView.findViewById(R.id.typeEvaluate_ImageView_checkButton);
         status = (ImageView) myFragmentView.findViewById(R.id.typeEvaluate_ImageView_status);
-        audioPlayButton = (ImageView) myFragmentView.findViewById(R.id.typeEvaluate_ImageView_audioPlay);
+        audioPlay = (ImageView) myFragmentView.findViewById(R.id.typeEvaluate_ImageView_audioPlay);
         setInterfaceView();
         //makeBreadCrumbs();
         card.setLastTime(TimeConvertor.getUnixTime());
         answer.setVisibility(View.INVISIBLE);
-        if (card.getAudioURL() == null) {
-            audioPlayButton.setImageResource(R.drawable.ic_self_evaluate_audio_null);
-        } else {
-            audioPlayButton.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View view) {
-                    //Speak.getInstance(null).speak(card.getWordLang2());
-                }
-            });
-        }
+
+        updateAudioIcon(audioPlay, card.getWordTwoId());
 
         userInput.addTextChangedListener(new TextWatcher() {
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -159,12 +151,6 @@ public class FragmentTypeEval extends Fragment {
             }
         });
 
-        audioPlayButton.setOnClickListener(new View.OnClickListener() {
-
-            public void onClick(View view) {
-                //Speak.getInstance(null).speak(card.getWordLang2());
-            }
-        });
         return myFragmentView;
     }
 
