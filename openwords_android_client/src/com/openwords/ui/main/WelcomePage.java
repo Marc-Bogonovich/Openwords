@@ -2,15 +2,19 @@ package com.openwords.ui.main;
 
 import android.app.Activity;
 import android.graphics.Point;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
+import android.widget.TextView;
 import com.openwords.R;
 
 public class WelcomePage extends Activity {
+
+    private Typeface STZhongsong;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +47,9 @@ public class WelcomePage extends Activity {
             lift_word_from_buttom(R.id.flashword_string_homePageLift08, 500);
         }
 
+        STZhongsong = Typeface.createFromAsset(getAssets(), "fonts/STZhongsong.ttf");
+        TextView ttf = (TextView) findViewById(R.id.test_ttf);
+        ttf.setTypeface(STZhongsong);
     }
 
     private void lift_word_from_buttom(int stringName, int distance) {
