@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="match_parent"
-	    android:layout_height="match_parent">
+	    android:layout_height="match_parent"
+android:id="@+id/typeEvaluate_ScrollView_Container">
 
 <LinearLayout
     android:layout_width="match_parent"
@@ -54,7 +55,7 @@ android:contentDescription="@string/selfEvaluate_ImageView_audioPlay"
 				<EditText android:id="@+id/typeEvaluate_EditText_input"
 				    android:hint="@string/typeEvaluate_EditText_input"
 					android:layout_weight="3" android:layout_width="0dp"
-					android:layout_height="match_parent">
+					android:layout_height="wrap_content">
 
 					<requestFocus />
 				</EditText>
@@ -90,5 +91,5 @@ android:contentDescription="@string/selfEvaluate_ImageView_audioPlay"
     android:id="@+id/review_LinearLayout_breadcrumbs"
     android:layout_alignParentBottom="true">
 
-</LinearLayout> -->
-</RelativeLayout>
+    </LinearLayout> -->
+</ScrollView>

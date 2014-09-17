@@ -77,20 +77,6 @@
         </activity>
         
         <activity
-            android:name="com.openwords.view.learningModule.Review"
-            android:label="@string/title_activity_review"
-            android:theme="@style/NoTitleTheme"
-            android:configChanges="orientation|screenSize">
-        </activity>
-        
-        <activity
-            android:name="com.openwords.view.learningModule.SelfEvaluate"
-            android:label="@string/title_activity_selfEvaluate"
-            android:theme="@style/NoTitleTheme"
-            android:configChanges="orientation|screenSize">
-        </activity>
-        
-        <activity
             android:name="com.openwords.view.actionbar.WordsPage"
             android:label="@string/title_activity_wordsPage"
             android:theme="@style/NoTitleTheme"
@@ -110,21 +96,7 @@
             android:theme="@style/NoTitleTheme"
             android:configChanges="orientation|screenSize">
         </activity>
-        
-        <activity
-            android:name="com.openwords.view.learningModule.Hearing"
-            android:label="@string/title_activity_hearing"
-            android:theme="@style/NoTitleTheme"
-            android:configChanges="orientation|screenSize">
-        </activity>
-        
-        <activity
-            android:name="com.openwords.view.learningModule.TypeEvaluate"
-            android:label="@string/title_activity_typeEvaluate"
-            android:theme="@style/NoTitleTheme"
-            android:configChanges="orientation|screenSize">
-        </activity>
-        
+               
         <activity
             android:name="com.openwords.view.actionbar.SettingsPage"
             android:label="@string/title_activity_settingsPage"
@@ -155,7 +127,7 @@
             android:configChanges="orientation|screenSize">
         </activity>
         <activity
-            android:name="com.openwords.learningmodule.ActivityTypeEval"
+            android:name=".learningmodule.ActivityTypeEval"
             android:theme="@style/NoTitleTheme"
             android:configChanges="orientation|screenSize">
         </activity>

@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import com.openwords.R;
 import com.openwords.model.LeafCardTypeEval;
@@ -31,6 +32,7 @@ public class FragmentTypeEval extends FragmentLearningModule {
     private LeafCardTypeEval card;
     private LinearLayout breadcrumbs;
     private View myFragmentView;
+    private ScrollView container2;
 
     public FragmentTypeEval(int cardIndex) {
         this.cardIndex = cardIndex;
@@ -66,6 +68,7 @@ public class FragmentTypeEval extends FragmentLearningModule {
 
         userInput.addTextChangedListener(new TextWatcher() {
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                container2.scrollTo(0, myFragmentView.findViewById(R.id.typeEvaluate_ViewFlipper_frame).getBottom());
             }
 
             public void afterTextChanged(Editable s) {
@@ -150,6 +153,8 @@ public class FragmentTypeEval extends FragmentLearningModule {
 
             }
         });
+
+        container2 = (ScrollView) myFragmentView.findViewById(R.id.typeEvaluate_ScrollView_Container);
 
         return myFragmentView;
     }
