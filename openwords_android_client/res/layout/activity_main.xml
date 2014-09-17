@@ -97,21 +97,4 @@
         android:textColor="@color/violet"
         android:textSize="40sp" />
     
-    <TextView
-        android:id="@+id/test_ttf"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/flashword_string_homePageLift05"
-        android:layout_marginRight="32dp"
-        android:layout_toLeftOf="@+id/flashword_string_homePageLift05"
-        android:contentDescription=""
-        android:text="@string/flashword_string_homePageLift02"
-        android:textSize="36sp"
-        android:shadowColor="#555" 
-        android:shadowDx="10"
-        android:shadowDy="10" 
-        android:shadowRadius="20"
-        android:paddingRight="6dp"
-        android:paddingBottom="6dp"/>
-    
 </RelativeLayout>
