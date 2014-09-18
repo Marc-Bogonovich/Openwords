@@ -14,7 +14,7 @@ import com.openwords.util.log.LogUtil;
  * @author hanaldo
  */
 public abstract class FragmentLearningModule extends Fragment {
-    
+
     public void updateAudioIcon(ImageView audioPlay, int wordId) {
         final String audio = WordAudioManager.hasAudio(wordId);
         if (audio == null) {
