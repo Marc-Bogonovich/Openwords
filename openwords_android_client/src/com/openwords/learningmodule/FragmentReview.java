@@ -56,12 +56,12 @@ public class FragmentReview extends FragmentLearningModule {
 
         myFragmentView.findViewById(R.id.review_View_actionBarBlank).setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                ActivityReview.getInstance().getPager().setCurrentItem(cardIndex + 1, true);
+                ActivityReview.getInstance().goToNextCard();
             }
         });
         myFragmentView.findViewById(R.id.review_LinearLayout_content).setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                ActivityReview.getInstance().getPager().setCurrentItem(cardIndex + 1, true);
+                ActivityReview.getInstance().goToNextCard();
             }
         });
         myFragmentView.findViewById(R.id.review_View_actionBarBlank).setSoundEffectsEnabled(false);

@@ -214,10 +214,12 @@ public class HomePage extends Activity implements OnClickListener {
                     Toast.makeText(HomePage.this, "Please select word first", Toast.LENGTH_SHORT).show();
                 } else {
                     ActivityReview.setCardsPool(cards, true, HomePage.this);
+                    //ActivityReview.setReverseNav(true);
                     startActivity(new Intent(HomePage.this, ActivityReview.class));
                 }
             } else {
                 ActivityReview.setCardsPool(progress.getCardsPool(), true, HomePage.this);
+                //ActivityReview.setReverseNav(true);
                 ActivityReview.setCurrentCard(progress.getCurrentCard());
                 startActivity(new Intent(HomePage.this, ActivityReview.class));
             }

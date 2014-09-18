@@ -114,6 +114,7 @@ public class ActivitySelfEval extends FragmentActivity {
 
             }
         });
+
         adapter = new LeafCardPagerAdapter(getSupportFragmentManager(), ReverseNav, CardsPool.size(), new FragmentMaker() {
 
             public Fragment makePageFragment(int index) {
