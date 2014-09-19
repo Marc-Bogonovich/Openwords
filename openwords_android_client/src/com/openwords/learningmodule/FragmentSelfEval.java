@@ -9,9 +9,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.openwords.R;
+import com.openwords.model.LeafCard;
 import com.openwords.model.LeafCardSelfEval;
 import com.openwords.util.TimeConvertor;
 import com.openwords.util.log.LogUtil;
+import java.util.List;
 
 public class FragmentSelfEval extends FragmentLearningModule {
 
@@ -22,9 +24,13 @@ public class FragmentSelfEval extends FragmentLearningModule {
     private LeafCardSelfEval card;
     private LinearLayout breadcrumbs;
     private View myFragmentView;
+    private List<LeafCard> cardsPool;
+    private ActivitySelfEval lmActivity;
 
-    public FragmentSelfEval(int cardIndex) {
+    public FragmentSelfEval(int cardIndex, List<LeafCard> cardsPool, ActivitySelfEval lmActivity) {
         this.cardIndex = cardIndex;
+        this.cardsPool = cardsPool;
+        this.lmActivity = lmActivity;
     }
 
     @Override
@@ -33,8 +39,7 @@ public class FragmentSelfEval extends FragmentLearningModule {
         LogUtil.logDeubg(this, "onCreateView for card: " + cardIndex);
 
         myFragmentView = inflater.inflate(R.layout.fragment_self_eval, container, false);
-        card = (LeafCardSelfEval) ActivitySelfEval.getCardsPool().get(this.cardIndex);
-
+        card = (LeafCardSelfEval) cardsPool.get(cardIndex);
         problem = (TextView) myFragmentView.findViewById(R.id.selfEvaluate_TextView_question);
         transcription = (TextView) myFragmentView.findViewById(R.id.selfEvaluate_TextView_transcription);
         answer = (TextView) myFragmentView.findViewById(R.id.selfEvaluate_TextView_answer);
@@ -64,7 +69,7 @@ public class FragmentSelfEval extends FragmentLearningModule {
                 card.setUserChoice(Boolean.TRUE);
                 correct.setImageResource(R.drawable.button_self_evaluate_correct_selected);
                 incorrect.setImageResource(R.drawable.button_self_evaluate_incorrect_unselected);
-                ActivitySelfEval.getInstance().goToNextCard();
+                lmActivity.goToNextCard();
             }
         });
 
@@ -74,7 +79,7 @@ public class FragmentSelfEval extends FragmentLearningModule {
                 card.setUserChoice(Boolean.FALSE);
                 correct.setImageResource(R.drawable.button_self_evaluate_correct_unselected);
                 incorrect.setImageResource(R.drawable.button_self_evaluate_incorrect_selected);
-                ActivitySelfEval.getInstance().goToNextCard();
+                lmActivity.goToNextCard();
             }
         });
 

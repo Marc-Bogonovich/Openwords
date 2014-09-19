@@ -9,9 +9,9 @@ import java.lang.reflect.Type;
 
 public class LeafCardInstanceCreator implements InstanceCreator<LeafCard> {
 
-    private LearningModuleTypes lmType;
+    private LearningModuleType lmType;
 
-    public LeafCardInstanceCreator(LearningModuleTypes lmType) {
+    public LeafCardInstanceCreator(LearningModuleType lmType) {
         this.lmType = lmType;
     }
 

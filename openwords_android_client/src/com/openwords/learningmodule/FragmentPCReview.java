@@ -21,6 +21,7 @@ import com.openwords.model.UserPerformanceDirty;
 import com.openwords.ui.main.HomePage;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
+import static com.openwords.util.preference.OpenwordsSharedPreferences.REVIEW_PROGRESS;
 import com.openwords.view.actionbar.WordsPage;
 import java.util.List;
 
@@ -39,12 +40,17 @@ public class FragmentPCReview extends Fragment {
 
     private TextView vocabSize, performance, skip, birthday, birthdayDetail, evaluation;
     private Button newWords, nextPlate, exit;
+    private List<LeafCard> cardsPool;
+
+    public FragmentPCReview(List<LeafCard> cardsPool) {
+        this.cardsPool = cardsPool;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LogUtil.logDeubg(this, "onCreate");
-        OpenwordsSharedPreferences.setReviewProgress(null);
+        OpenwordsSharedPreferences.setLMProgress(REVIEW_PROGRESS, null);
         activity = getActivity();
         user_id = OpenwordsSharedPreferences.getUserInfo().getUserId();
         RefreshHandler = new Handler() {
@@ -89,9 +95,32 @@ public class FragmentPCReview extends Fragment {
             public void onClick(View view) {
                 activity.finish();
                 saveRecord();
-                List<LeafCard> cards = new LeafCardReviewAdapter().getList(SIZE);
-                ActivityReview.setCardsPool(cards, true, activity);
-                startActivity(new Intent(activity, ActivityReview.class));
+                final List<LeafCard> cards = new LeafCardReviewAdapter().getList(SIZE);
+                ActivityInstantiationCallbackBundle.setBundle(LearningModuleType.LM_Review,
+                        R.layout.activity_rev,
+                        R.id.act_review_pager,
+                        new FragmentMaker() {
+
+                            public Fragment makePageFragment(int index) {
+                                return new FragmentReview(index, cards, getActivityInstance());
+                            }
+
+                            public Fragment makePCFragment() {
+                                return new FragmentPCReview(cards);
+                            }
+                        },
+                        false,
+                        cards,
+                        0,
+                        true,
+                        activity,
+                        new RefreshPCCallback() {
+
+                            public void refresh() {
+                                FragmentPCReview.refreshDetails();
+                            }
+                        });
+                startActivity(new Intent(activity, ActivitySelfEval.class));
             }
         });
         exit.setOnClickListener(new OnClickListener() {
@@ -111,25 +140,21 @@ public class FragmentPCReview extends Fragment {
     //encapsulate it into a function, and it would be called for any operation (i.e. click the button)
     private void saveRecord() {
         Log.d("FragmentPCReview", "Save Record");
-        for (LeafCard card : ActivityReview.getCardsPool()) {
+        for (LeafCard card : cardsPool) {
             //(int connection_id, int user_id, int type, long last_time, int performance,int l1Id,int l2Id int user_exclude, Context c)
             new UserPerformanceDirty(card.getConnectionId(), user_id, 0, card.getLastTime(), 3, 1,
                     OpenwordsSharedPreferences.getUserInfo().getLang_id(), 0, getActivity().getApplicationContext()).save();
         }
 
-        new Thread(new Runnable() {
-            public void run() {
-                InitDatabase.updateLocalPerformanceSummary(getActivity().getApplicationContext());
-            }
-        }).start();
+        InitDatabase.updateLocalPerformanceSummary(getActivity().getApplicationContext());
         //set current card index to 0. Why here? I don't know. Maybe the function above has some side-effect 
-        ActivityReview.setCurrentCard(0);
+        //ActivityReview.setCurrentCard(0);
     }
 
     private void refresh() {
         LogUtil.logDeubg(this, "refresh");
         int totalCards = 0;
-        totalCards = ActivityReview.getCardsPool().size();
+        totalCards = cardsPool.size();
 
         vocabSize.setText("329"); //wait for varun figure out how to count how many word the user know
         performance.setText(totalCards + "/" + totalCards);

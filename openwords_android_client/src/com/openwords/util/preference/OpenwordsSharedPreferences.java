@@ -6,7 +6,7 @@ import android.content.SharedPreferences.Editor;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.openwords.learningmodule.LeafCardInstanceCreator;
-import com.openwords.learningmodule.LearningModuleTypes;
+import com.openwords.learningmodule.LearningModuleType;
 import com.openwords.learningmodule.ProgressLM;
 import com.openwords.model.LeafCard;
 import com.openwords.model.UserInfo;
@@ -102,9 +102,9 @@ public class OpenwordsSharedPreferences {
         return new Gson().fromJson(json, UserInfo.class);
     }
 
-    public static boolean setReviewProgress(String json) {
+    public static boolean setLMProgress(String key, String json) {
         Editor editor = pref.edit();
-        editor.putString(REVIEW_PROGRESS, json);
+        editor.putString(key, json);
         return editor.commit();
     }
 
@@ -114,7 +114,7 @@ public class OpenwordsSharedPreferences {
             return null;
         }
         return new GsonBuilder().registerTypeAdapter(LeafCard.class,
-                new LeafCardInstanceCreator(LearningModuleTypes.LM_Review)).create().fromJson(json, ProgressLM.class);
+                new LeafCardInstanceCreator(LearningModuleType.LM_Review)).create().fromJson(json, ProgressLM.class);
     }
 
     public static ProgressLM getSelfEvaluationProgress() {
@@ -123,13 +123,7 @@ public class OpenwordsSharedPreferences {
             return null;
         }
         return new GsonBuilder().registerTypeAdapter(LeafCard.class,
-                new LeafCardInstanceCreator(LearningModuleTypes.LM_SelfEvaluation)).create().fromJson(json, ProgressLM.class);
-    }
-
-    public static boolean setSelfEvaluationProgress(String json) {
-        Editor editor = pref.edit();
-        editor.putString(SELF_EVALUATION_PROGRESS, json);
-        return editor.commit();
+                new LeafCardInstanceCreator(LearningModuleType.LM_SelfEvaluation)).create().fromJson(json, ProgressLM.class);
     }
 
     public static ProgressLM getTypeEvaluationProgress() {
@@ -138,19 +132,7 @@ public class OpenwordsSharedPreferences {
             return null;
         }
         return new GsonBuilder().registerTypeAdapter(LeafCard.class,
-                new LeafCardInstanceCreator(LearningModuleTypes.LM_TypeEvaluation)).create().fromJson(json, ProgressLM.class);
-    }
-
-    public static boolean setTypeEvaluationProgress(String json) {
-        Editor editor = pref.edit();
-        editor.putString(TYPE_EVALUATION_PROGRESS, json);
-        return editor.commit();
-    }
-
-    public static boolean setHearingProgress(String json) {
-        Editor editor = pref.edit();
-        editor.putString(HEARING_PROGRESS, json);
-        return editor.commit();
+                new LeafCardInstanceCreator(LearningModuleType.LM_TypeEvaluation)).create().fromJson(json, ProgressLM.class);
     }
 
     public static ProgressLM getHearingProgress() {
@@ -159,7 +141,7 @@ public class OpenwordsSharedPreferences {
             return null;
         }
         return new GsonBuilder().registerTypeAdapter(LeafCard.class,
-                new LeafCardInstanceCreator(LearningModuleTypes.LM_HearingEvaluation)).create().fromJson(json, ProgressLM.class);
+                new LeafCardInstanceCreator(LearningModuleType.LM_HearingEvaluation)).create().fromJson(json, ProgressLM.class);
     }
 
     public static boolean getHidePortal() {

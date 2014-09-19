@@ -1,7 +1,6 @@
 package com.openwords.learningmodule;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +11,7 @@ import com.openwords.R;
 import com.openwords.model.LeafCard;
 import com.openwords.util.TimeConvertor;
 import com.openwords.util.log.LogUtil;
+import java.util.List;
 
 public class FragmentReview extends FragmentLearningModule {
 
@@ -21,9 +21,13 @@ public class FragmentReview extends FragmentLearningModule {
     private LeafCard card;
     private LinearLayout breadcrumbs;
     private View myFragmentView;
+    private List<LeafCard> cardsPool;
+    private ActivitySelfEval lmActivity;
 
-    public FragmentReview(int cardIndex) {
+    public FragmentReview(int cardIndex, List<LeafCard> cardsPool, ActivitySelfEval lmActivity) {
         this.cardIndex = cardIndex;
+        this.cardsPool = cardsPool;
+        this.lmActivity = lmActivity;
     }
 
     @Override
@@ -38,8 +42,7 @@ public class FragmentReview extends FragmentLearningModule {
         LogUtil.logDeubg(this, "onCreateView for card: " + cardIndex);
 
         myFragmentView = inflater.inflate(R.layout.fragment_review, container, false);
-        Log.e("size", Integer.toString(ActivityReview.getCardsPool().size()));
-        card = ActivityReview.getCardsPool().get(this.cardIndex);
+        card = cardsPool.get(cardIndex);
 
         problem = (TextView) myFragmentView.findViewById(R.id.review_TextView_question);
         transcription = (TextView) myFragmentView.findViewById(R.id.review_TextView_transcription);
@@ -56,12 +59,12 @@ public class FragmentReview extends FragmentLearningModule {
 
         myFragmentView.findViewById(R.id.review_View_actionBarBlank).setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                ActivityReview.getInstance().goToNextCard();
+                lmActivity.goToNextCard();
             }
         });
         myFragmentView.findViewById(R.id.review_LinearLayout_content).setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                ActivityReview.getInstance().goToNextCard();
+                lmActivity.goToNextCard();
             }
         });
         myFragmentView.findViewById(R.id.review_View_actionBarBlank).setSoundEffectsEnabled(false);

@@ -117,11 +117,6 @@
             android:configChanges="orientation|screenSize">
         </activity>
         <activity
-            android:name="com.openwords.learningmodule.ActivityReview"
-            android:theme="@style/NoTitleTheme"
-            android:configChanges="orientation|screenSize">
-        </activity>
-        <activity
             android:name="com.openwords.learningmodule.ActivityHearing"
             android:theme="@style/NoTitleTheme"
             android:configChanges="orientation|screenSize">

@@ -24,6 +24,7 @@ import com.openwords.model.UserPerformanceDirty;
 import com.openwords.ui.main.HomePage;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
+import static com.openwords.util.preference.OpenwordsSharedPreferences.TYPE_EVALUATION_PROGRESS;
 import com.openwords.view.actionbar.WordsPage;
 import java.util.List;
 
@@ -46,7 +47,7 @@ public class FragmentPCTypeEval extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        OpenwordsSharedPreferences.setTypeEvaluationProgress(null);
+        OpenwordsSharedPreferences.setLMProgress(TYPE_EVALUATION_PROGRESS, null);
         activity = getActivity();
         user_id = OpenwordsSharedPreferences.getUserInfo().getUserId();
         LogUtil.logDeubg(this, "onCreate");

@@ -1,109 +1,56 @@
 package com.openwords.learningmodule;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.widget.Toast;
 import com.google.gson.Gson;
-import com.openwords.R;
-import com.openwords.learningmodule.LeafCardPagerAdapter.FragmentMaker;
 import com.openwords.model.LeafCard;
-import com.openwords.sound.WordAudioManager;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
+import static com.openwords.util.preference.OpenwordsSharedPreferences.HEARING_PROGRESS;
+import static com.openwords.util.preference.OpenwordsSharedPreferences.REVIEW_PROGRESS;
+import static com.openwords.util.preference.OpenwordsSharedPreferences.SELF_EVALUATION_PROGRESS;
+import static com.openwords.util.preference.OpenwordsSharedPreferences.TYPE_EVALUATION_PROGRESS;
 import java.util.List;
 
 public class ActivitySelfEval extends FragmentActivity {
 
-    //private static Map<LearningModuleTypes, Boolean> LMReverseNavs = new HashMap<LearningModuleTypes, Boolean>(4);
-    //private static Map<LearningModuleTypes, List<LeafCardSelfEval>> LMCardsPools = new HashMap<LearningModuleTypes, List<LeafCardSelfEval>>(4);
-    //private static Map<LearningModuleTypes, Integer> LMCurrentCards = new HashMap<LearningModuleTypes, Integer>(4);
-    //private static Map<LearningModuleTypes, ActivitySelfEval> LMInstances = new HashMap<LearningModuleTypes, ActivitySelfEval>(4);
-    private static boolean ReverseNav = false;
-    private static List<LeafCard> CardsPool;
-    private static int CurrentCard = 0;
-    private static ActivitySelfEval instance;
-
-    public static ActivitySelfEval getInstance() {
-        return instance;
-    }
-
-//    public static ActivitySelfEval getInstance(LearningModuleTypes type) {
-//        return LMInstances.get(type);
-//    }
-    public static List<LeafCard> getCardsPool() {
-        return CardsPool;
-    }
-
-//    public static List<LeafCardSelfEval> getCardsPool(LearningModuleTypes type) {
-//        return LMCardsPools.get(type);
-//    }
-    public static void setReverseNav(boolean ReverseNav) {
-        ActivitySelfEval.ReverseNav = ReverseNav;
-    }
-
-//    public static void setReverseNav(boolean ReverseNav, LearningModuleTypes type) {
-//        LMReverseNavs.put(type, ReverseNav);
-//    }
-    /**
-     * Set the cards before start this activity.
-     *
-     * @param CardsPool A list of leaf cards represents each word problem.
-     * @param getAudio If this plat require downloading all the audio files
-     * first
-     * @param context Context for showing some toasts
-     */
-    public static void setCardsPool(List<LeafCard> CardsPool, boolean getAudio, Context context) {
-        ActivitySelfEval.CardsPool = CardsPool;
-        if (getAudio) {
-            int[] ids = new int[CardsPool.size()];
-            for (int i = 0; i < ids.length; i++) {
-                ids[i] = CardsPool.get(i).getWordTwoId();
-            }
-            WordAudioManager.addAudioFiles(ids, context);
-        }
-    }
-
-    public static void setCurrentCard(int CurrentCard) {
-        ActivitySelfEval.CurrentCard = CurrentCard;
-    }
-
-    public static int getReverseCardIndex(int pageIndex) {
-        if (pageIndex == 0) {
-            return -1;//additional page, so invalid card
-        }
-        return CardsPool.size() - pageIndex;
-    }
-
-    public static int getReversePageIndex(int cardIndex) {
-        return CardsPool.size() - cardIndex;
-    }
-
+    private List<LeafCard> cardsPool;
+    private int currentCard = -1;
+    private boolean reverseNav = false;
     private ViewPager pager;
     private LeafCardPagerAdapter adapter;
-    //private LearningModuleTypes type;
+    private LearningModuleType type;
+    private int layoutId, pagerId;
+    private FragmentMaker fm;
+    private RefreshPCCallback refreshPC;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        instance = this;
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_self_eval);
-
-        if (CardsPool == null) {
-            Toast.makeText(this, "Please give your cards first", Toast.LENGTH_SHORT).show();
+        Object[] bundle;
+        try {
+            bundle = ActivityInstantiationCallbackBundle.getBundle();
+        } catch (Exception ex) {
+            Toast.makeText(this, ex.toString(), Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
+        if (!unpackBundle(bundle)) {
+            finish();
+            return;
+        }
+        setContentView(layoutId);
 
-        if (ReverseNav) {
+        LogUtil.logDeubg(this, "reverseNav set to: " + reverseNav);
+        if (reverseNav) {
             Toast.makeText(this, "Read from Right to Left", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(this, "Read from Left to Right", Toast.LENGTH_SHORT).show();
         }
 
-        pager = (ViewPager) findViewById(R.id.act_self_eval_pager);
+        pager = (ViewPager) findViewById(pagerId);
         pager.setOffscreenPageLimit(1);
         pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
@@ -111,60 +58,91 @@ public class ActivitySelfEval extends FragmentActivity {
             }
 
             public void onPageSelected(int i) {
-                if (ReverseNav) {
-                    CurrentCard = getReverseCardIndex(i);
+                if (reverseNav) {
+                    currentCard = getReversePageIndex(i);
                     if (i == 0) {
-                        FragmentPCSelfEval.refreshDetails();
+                        refreshPC.refresh();
                     }
                 } else {
-                    CurrentCard = i;
-                    if (i == CardsPool.size()) {
-                        FragmentPCSelfEval.refreshDetails();
+                    currentCard = i;
+                    if (i == cardsPool.size()) {
+                        refreshPC.refresh();
                     }
                 }
             }
 
             public void onPageScrollStateChanged(int i) {
-
             }
         });
 
-        adapter = new LeafCardPagerAdapter(getSupportFragmentManager(), ReverseNav, CardsPool.size(), new FragmentMaker() {
-
-            public Fragment makePageFragment(int index) {
-                if (ReverseNav) {
-                    return new FragmentSelfEval(getReverseCardIndex(index));
-                } else {
-                    return new FragmentSelfEval(index);
-                }
-            }
-
-            public Fragment makePCFragment() {
-                return new FragmentPCSelfEval();
-            }
-        });
+        adapter = new LeafCardPagerAdapter(getSupportFragmentManager(), reverseNav, cardsPool.size(), fm);
         pager.setAdapter(adapter);
-        pager.setPageTransformer(true, new PageTransformerForLeafCard(ReverseNav));
+        pager.setPageTransformer(true, new PageTransformerForLeafCard(reverseNav));
 
-        if (ReverseNav) {
-            if (!(CurrentCard > -1 && CurrentCard < CardsPool.size())) {
-                CurrentCard = 0;
+        if (reverseNav) {
+            if (!(currentCard > -1 && currentCard < cardsPool.size())) {
+                currentCard = 0;
             }
-            pager.setCurrentItem(getReversePageIndex(CurrentCard), true);
+            pager.setCurrentItem(getReversePageIndex(currentCard), true);
         } else {
-            if (CurrentCard > -1 && CurrentCard < CardsPool.size()) {
-                pager.setCurrentItem(CurrentCard, true);
+            if (currentCard > -1 && currentCard < cardsPool.size()) {
+                pager.setCurrentItem(currentCard, true);
             } else {
-                CurrentCard = 0;
+                currentCard = 0;
             }
         }
     }
 
+    private boolean unpackBundle(Object[] bundle) {
+        type = (LearningModuleType) bundle[0];
+        if (type == null) {
+            Toast.makeText(this, "Please provide the LearningModuleType", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        layoutId = (Integer) bundle[1];
+        if (layoutId <= 0) {
+            Toast.makeText(this, "Please provide the layout id", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        pagerId = (Integer) bundle[2];
+        if (pagerId <= 0) {
+            Toast.makeText(this, "Please provide the pager id", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        fm = (FragmentMaker) bundle[3];
+        if (fm == null) {
+            Toast.makeText(this, "Please provide the fragment maker", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        fm.setActivityInstance(this);
+        reverseNav = (Boolean) bundle[4];
+        cardsPool = (List<LeafCard>) bundle[5];
+        if (cardsPool == null) {
+            Toast.makeText(this, "Please give your cards first", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        currentCard = (Integer) bundle[6];
+        if (currentCard < 0) {
+            Toast.makeText(this, "Please give your current card index", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        refreshPC = (RefreshPCCallback) bundle[7];
+        if (refreshPC == null) {
+            Toast.makeText(this, "Please provide the callback of refresh PC", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
+
+    private int getReversePageIndex(int cardIndex) {
+        return cardsPool.size() - cardIndex;
+    }
+
     public void goToNextCard() {
-        if (ReverseNav) {
-            pager.setCurrentItem(getReversePageIndex(CurrentCard + 1), true);
+        if (reverseNav) {
+            pager.setCurrentItem(getReversePageIndex(currentCard + 1), true);
         } else {
-            pager.setCurrentItem(CurrentCard + 1, true);
+            pager.setCurrentItem(currentCard + 1, true);
         }
     }
 
@@ -184,7 +162,24 @@ public class ActivitySelfEval extends FragmentActivity {
     public void onBackPressed() {
         ActivitySelfEval.super.onBackPressed();
         int languageID = OpenwordsSharedPreferences.getUserInfo().getLang_id();
-        OpenwordsSharedPreferences.setSelfEvaluationProgress(new Gson().toJson(new ProgressLM(CardsPool, CurrentCard, languageID)));
-        LogUtil.logDeubg(this, "ProgressSelfEval is saved");
+        String progressKey;
+        switch (type) {
+            case LM_SelfEvaluation:
+                progressKey = SELF_EVALUATION_PROGRESS;
+                break;
+            case LM_Review:
+                progressKey = REVIEW_PROGRESS;
+                break;
+            case LM_TypeEvaluation:
+                progressKey = TYPE_EVALUATION_PROGRESS;
+                break;
+            case LM_HearingEvaluation:
+                progressKey = HEARING_PROGRESS;
+                break;
+            default:
+                return;
+        }
+        OpenwordsSharedPreferences.setLMProgress(progressKey, new Gson().toJson(new ProgressLM(cardsPool, currentCard, languageID)));
+        LogUtil.logDeubg(this, "Progress " + type.toString() + " is saved");
     }
 }

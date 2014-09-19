@@ -21,6 +21,7 @@ import com.openwords.model.UserPerformanceDirty;
 import com.openwords.ui.main.HomePage;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
+import static com.openwords.util.preference.OpenwordsSharedPreferences.SELF_EVALUATION_PROGRESS;
 import com.openwords.view.actionbar.WordsPage;
 import java.util.List;
 
@@ -39,13 +40,18 @@ public class FragmentPCSelfEval extends Fragment {
 
     private TextView vocabSize, performance, skip, birthday, birthdayDetail, evaluation;
     private Button newWords, nextPlate, exit;
+    private List<LeafCard> cardsPool;
+
+    public FragmentPCSelfEval(List<LeafCard> cardsPool) {
+        this.cardsPool = cardsPool;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         LogUtil.logDeubg(this, "onCreate");
-        OpenwordsSharedPreferences.setSelfEvaluationProgress(null);
+        OpenwordsSharedPreferences.setLMProgress(SELF_EVALUATION_PROGRESS, null);
         user_id = OpenwordsSharedPreferences.getUserInfo().getUserId();
         RefreshHandler = new Handler() {
             @Override
@@ -88,8 +94,31 @@ public class FragmentPCSelfEval extends Fragment {
             public void onClick(View view) {
                 activity.finish();
                 saveRecord();
-                List<LeafCard> cards = new LeafCardSelfEvalAdapter().getList(SIZE);
-                ActivitySelfEval.setCardsPool(cards, true, activity);
+                final List<LeafCard> cards = new LeafCardSelfEvalAdapter().getList(SIZE);
+                ActivityInstantiationCallbackBundle.setBundle(LearningModuleType.LM_SelfEvaluation,
+                        R.layout.activity_self_eval,
+                        R.id.act_self_eval_pager,
+                        new FragmentMaker() {
+
+                            public Fragment makePageFragment(int index) {
+                                return new FragmentSelfEval(index, cards, getActivityInstance());
+                            }
+
+                            public Fragment makePCFragment() {
+                                return new FragmentPCSelfEval(cards);
+                            }
+                        },
+                        false,
+                        cards,
+                        0,
+                        true,
+                        activity,
+                        new RefreshPCCallback() {
+
+                            public void refresh() {
+                                FragmentPCSelfEval.refreshDetails();
+                            }
+                        });
                 startActivity(new Intent(activity, ActivitySelfEval.class));
             }
         });
@@ -109,7 +138,7 @@ public class FragmentPCSelfEval extends Fragment {
     //encapsulate it into a function, and it would be called for any operation (i.e. click the button)
     private void saveRecord() {
         LogUtil.logDeubg(this, "saveRecord");
-        for (LeafCard c : ActivitySelfEval.getCardsPool()) {
+        for (LeafCard c : cardsPool) {
             LeafCardSelfEval card = (LeafCardSelfEval) c;
             //type -- module index : review -- 0, self -- 1, type -- 2, hearing -- 3
             //performance : 0 -- null, 1 -- wrong, 2 -- close, 3 -- right
@@ -125,21 +154,17 @@ public class FragmentPCSelfEval extends Fragment {
                     OpenwordsSharedPreferences.getUserInfo().getLang_id(), 0, getActivity().getApplicationContext()).save();
         }
 
-        new Thread(new Runnable() {
-            public void run() {
-                InitDatabase.updateLocalPerformanceSummary(getActivity().getApplicationContext());
-            }
-        }).start();
+        InitDatabase.updateLocalPerformanceSummary(getActivity().getApplicationContext());
         //set current card index to 0. Why here? I don't know. Maybe the function above has some side-effect 
-        ActivitySelfEval.setCurrentCard(0);
+        //ActivitySelfEval.setCurrentCard(0);
     }
 
     private void refresh() {
         LogUtil.logDeubg(this, "refresh");
         int totalCards, totalCorrect = 0, totalSkipped = 0;
-        totalCards = ActivitySelfEval.getCardsPool().size();
+        totalCards = cardsPool.size();
 
-        for (LeafCard c : ActivitySelfEval.getCardsPool()) {
+        for (LeafCard c : cardsPool) {
             LeafCardSelfEval card = (LeafCardSelfEval) c;
             if (card.getUserChoice() == null) {
                 totalSkipped++;

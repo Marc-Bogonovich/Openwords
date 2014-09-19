@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -17,10 +18,17 @@ import android.widget.Spinner;
 import android.widget.Toast;
 import com.openwords.R;
 import com.openwords.learningmodule.ActivityHearing;
-import com.openwords.learningmodule.ActivityReview;
+import com.openwords.learningmodule.ActivityInstantiationCallbackBundle;
 import com.openwords.learningmodule.ActivitySelfEval;
 import com.openwords.learningmodule.ActivityTypeEval;
+import com.openwords.learningmodule.FragmentMaker;
+import com.openwords.learningmodule.FragmentPCReview;
+import com.openwords.learningmodule.FragmentPCSelfEval;
+import com.openwords.learningmodule.FragmentReview;
+import com.openwords.learningmodule.FragmentSelfEval;
+import com.openwords.learningmodule.LearningModuleType;
 import com.openwords.learningmodule.ProgressLM;
+import com.openwords.learningmodule.RefreshPCCallback;
 import com.openwords.model.DataPool;
 import com.openwords.model.LeafCard;
 import com.openwords.model.LeafCardHearingAdapter;
@@ -197,7 +205,8 @@ public class HomePage extends Activity implements OnClickListener {
         pDialog = ProgressDialog.show(HomePage.this, "",
                 "Assembling leaf cards", true);
         if (taskPage.equals("Review")) {
-            List<LeafCard> cards;
+            final List<LeafCard> cards;
+            final int currentCard;
 
             final ProgressLM progress = OpenwordsSharedPreferences.getReviewProgress();
             //check if there is a unfinished progress before AND the progress is using the same language
@@ -206,21 +215,44 @@ public class HomePage extends Activity implements OnClickListener {
                 cards = new LeafCardReviewAdapter().getList(SIZE);
                 if (cards.size() <= 0) {
                     Toast.makeText(HomePage.this, "Please select word first", Toast.LENGTH_SHORT).show();
+                    return;
                 } else {
-                    ActivityReview.setCardsPool(cards, true, HomePage.this);
-                    //ActivityReview.setReverseNav(true);
-                    startActivity(new Intent(HomePage.this, ActivityReview.class));
+                    currentCard = 0;
                 }
             } else {
-                ActivityReview.setCardsPool(progress.getCardsPool(), true, HomePage.this);
-                //ActivityReview.setReverseNav(true);
-                ActivityReview.setCurrentCard(progress.getCurrentCard());
-                startActivity(new Intent(HomePage.this, ActivityReview.class));
+                cards = progress.getCardsPool();
+                currentCard = progress.getCurrentCard();
             }
+            ActivityInstantiationCallbackBundle.setBundle(LearningModuleType.LM_Review,
+                    R.layout.activity_rev,
+                    R.id.act_review_pager,
+                    new FragmentMaker() {
+
+                        public Fragment makePageFragment(int index) {
+                            return new FragmentReview(index, cards, getActivityInstance());
+                        }
+
+                        public Fragment makePCFragment() {
+                            return new FragmentPCReview(cards);
+                        }
+                    },
+                    false,
+                    cards,
+                    currentCard,
+                    true,
+                    HomePage.this,
+                    new RefreshPCCallback() {
+
+                        public void refresh() {
+                            FragmentPCReview.refreshDetails();
+                        }
+                    });
+            startActivity(new Intent(HomePage.this, ActivitySelfEval.class));
             pDialog.dismiss();
 
         } else if (taskPage.equals("Self evaluation")) {
-            List<LeafCard> cards;
+            final List<LeafCard> cards;
+            final int currentCard;
 
             final ProgressLM progress = OpenwordsSharedPreferences.getSelfEvaluationProgress();
             if (progress == null || progress.getLanguageID() != OpenwordsSharedPreferences.getUserInfo().getLang_id()) {
@@ -231,17 +263,39 @@ public class HomePage extends Activity implements OnClickListener {
                 cards = new LeafCardSelfEvalAdapter().getList(SIZE);
                 if (cards.size() <= 0) {
                     Toast.makeText(HomePage.this, "Please select word first", Toast.LENGTH_SHORT).show();
+                    return;
                 } else {
-                    ActivitySelfEval.setCardsPool(cards, true, HomePage.this);
-                    //ActivitySelfEval.setReverseNav(true);
-                    startActivity(new Intent(HomePage.this, ActivitySelfEval.class));
+                    currentCard = 0;
                 }
             } else {
-                ActivitySelfEval.setCardsPool(progress.getCardsPool(), true, HomePage.this);
-                ActivitySelfEval.setCurrentCard(progress.getCurrentCard());
-                //ActivitySelfEval.setReverseNav(true);
-                startActivity(new Intent(HomePage.this, ActivitySelfEval.class));
+                cards = progress.getCardsPool();
+                currentCard = progress.getCurrentCard();
             }
+            ActivityInstantiationCallbackBundle.setBundle(LearningModuleType.LM_SelfEvaluation,
+                    R.layout.activity_self_eval,
+                    R.id.act_self_eval_pager,
+                    new FragmentMaker() {
+
+                        public Fragment makePageFragment(int index) {
+                            return new FragmentSelfEval(index, cards, getActivityInstance());
+                        }
+
+                        public Fragment makePCFragment() {
+                            return new FragmentPCSelfEval(cards);
+                        }
+                    },
+                    false,
+                    cards,
+                    currentCard,
+                    true,
+                    HomePage.this,
+                    new RefreshPCCallback() {
+
+                        public void refresh() {
+                            FragmentPCSelfEval.refreshDetails();
+                        }
+                    });
+            startActivity(new Intent(HomePage.this, ActivitySelfEval.class));
             pDialog.dismiss();
 
         } else if (taskPage.equals("Type evaluation")) {

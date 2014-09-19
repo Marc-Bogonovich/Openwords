@@ -14,6 +14,7 @@ import com.openwords.model.LeafCard;
 import com.openwords.sound.WordAudioManager;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
+import static com.openwords.util.preference.OpenwordsSharedPreferences.HEARING_PROGRESS;
 import java.util.List;
 
 public class ActivityHearing extends FragmentActivity {
@@ -109,7 +110,7 @@ public class ActivityHearing extends FragmentActivity {
     @Override
     public void onBackPressed() {
         int languageID = OpenwordsSharedPreferences.getUserInfo().getLang_id();
-        OpenwordsSharedPreferences.setHearingProgress(new Gson().toJson(new ProgressLM(CardsPool, CurrentCard, languageID)));
+        OpenwordsSharedPreferences.setLMProgress(HEARING_PROGRESS, new Gson().toJson(new ProgressLM(CardsPool, CurrentCard, languageID)));
         ActivityHearing.super.onBackPressed();
         //        new AlertDialog.Builder(this)
 //                .setTitle("Really Quit?")

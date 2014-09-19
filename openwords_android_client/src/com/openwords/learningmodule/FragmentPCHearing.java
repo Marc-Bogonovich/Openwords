@@ -24,6 +24,7 @@ import com.openwords.model.UserPerformanceDirty;
 import com.openwords.ui.main.HomePage;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
+import static com.openwords.util.preference.OpenwordsSharedPreferences.HEARING_PROGRESS;
 import com.openwords.view.actionbar.WordsPage;
 import java.util.List;
 
@@ -47,7 +48,7 @@ public class FragmentPCHearing extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LogUtil.logDeubg(this, "onCreate");
-        OpenwordsSharedPreferences.setHearingProgress(null);
+        OpenwordsSharedPreferences.setLMProgress(HEARING_PROGRESS,null);
         activity = getActivity();
         user_id = OpenwordsSharedPreferences.getUserInfo().getUserId();
         RefreshHandler = new Handler() {

@@ -8,9 +8,9 @@ public class LeafCardPagerAdapter extends FragmentPagerAdapter {
 
     private boolean reverseNav;
     private int cardsPoolSize;
-    private FragmentMaker fragmentMaker;
+    private FragmentMakerInterface fragmentMaker;
 
-    public LeafCardPagerAdapter(FragmentManager fm, boolean reverseNav, int cardsPoolSize, FragmentMaker fragmentMaker) {
+    public LeafCardPagerAdapter(FragmentManager fm, boolean reverseNav, int cardsPoolSize, FragmentMakerInterface fragmentMaker) {
         super(fm);
         this.reverseNav = reverseNav;
         this.cardsPoolSize = cardsPoolSize;
@@ -23,7 +23,7 @@ public class LeafCardPagerAdapter extends FragmentPagerAdapter {
             if (i <= 0) {
                 return fragmentMaker.makePCFragment();
             } else {
-                return fragmentMaker.makePageFragment(i);
+                return fragmentMaker.makePageFragment(getReverseCardIndex(i));
             }
         } else {
             if (i >= cardsPoolSize) {
@@ -39,10 +39,11 @@ public class LeafCardPagerAdapter extends FragmentPagerAdapter {
         return cardsPoolSize + 1;
     }
 
-    public interface FragmentMaker {
-
-        public Fragment makePageFragment(int index);
-
-        public Fragment makePCFragment();
+    private int getReverseCardIndex(int pageIndex) {
+        if (pageIndex == 0) {
+            return -1;//additional page, so invalid card
+        }
+        return cardsPoolSize - pageIndex;
     }
+
 }

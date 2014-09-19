@@ -14,6 +14,7 @@ import com.openwords.model.LeafCard;
 import com.openwords.sound.WordAudioManager;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
+import static com.openwords.util.preference.OpenwordsSharedPreferences.TYPE_EVALUATION_PROGRESS;
 import java.util.List;
 
 public class ActivityTypeEval extends FragmentActivity {
@@ -109,7 +110,7 @@ public class ActivityTypeEval extends FragmentActivity {
     @Override
     public void onBackPressed() {
         int languageID = OpenwordsSharedPreferences.getUserInfo().getLang_id();
-        OpenwordsSharedPreferences.setTypeEvaluationProgress(new Gson().toJson(new ProgressLM(CardsPool, CurrentCard, languageID)));
+        OpenwordsSharedPreferences.setLMProgress(TYPE_EVALUATION_PROGRESS,new Gson().toJson(new ProgressLM(CardsPool, CurrentCard, languageID)));
         ActivityTypeEval.super.onBackPressed();
         //        new AlertDialog.Builder(this)
 //                .setTitle("Really Quit?")

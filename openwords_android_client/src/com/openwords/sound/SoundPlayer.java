@@ -37,7 +37,7 @@ public class SoundPlayer {
                     clean();
                 }
             });
-            LogUtil.logDeubg(SoundPlayer.class, "play " + path);
+            //LogUtil.logDeubg(SoundPlayer.class, "play " + path);
             mediaPlayer.start();
 
         } catch (IOException e) {
