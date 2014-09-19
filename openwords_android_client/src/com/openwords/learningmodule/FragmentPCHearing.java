@@ -101,7 +101,7 @@ public class FragmentPCHearing extends Fragment {
                 getActivity().finish();
                 saveRecord();
                 List<LeafCard> cards = new LeafCardHearingAdapter().getList(SIZE);
-                ActivityHearing.setCardsPool(cards);
+                ActivityHearing.setCardsPool(cards, true, activity);
                 startActivity(new Intent(getActivity(), ActivityHearing.class));
             }
         });
@@ -141,7 +141,7 @@ public class FragmentPCHearing extends Fragment {
     private void refresh() {
         LogUtil.logDeubg(this, "refresh");
         int totalCards, totalCorrect = 0, totalSkipped = 0;
-        totalCards = ActivitySelfEval.getCardsPool().size();
+        totalCards = ActivityHearing.getCardsPool().size();
 
         for (LeafCard c : ActivityHearing.getCardsPool()) {
             LeafCardHearing card = (LeafCardHearing) c;

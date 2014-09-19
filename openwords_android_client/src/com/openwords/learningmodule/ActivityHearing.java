@@ -1,5 +1,6 @@
 package com.openwords.learningmodule;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -10,6 +11,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.openwords.R;
 import com.openwords.model.LeafCard;
+import com.openwords.sound.WordAudioManager;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
 import java.util.List;
@@ -28,8 +30,15 @@ public class ActivityHearing extends FragmentActivity {
         return CardsPool;
     }
 
-    public static void setCardsPool(List<LeafCard> CardsPool) {
+    public static void setCardsPool(List<LeafCard> CardsPool, boolean getAudio, Context context) {
         ActivityHearing.CardsPool = CardsPool;
+        if (getAudio) {
+            int[] ids = new int[CardsPool.size()];
+            for (int i = 0; i < ids.length; i++) {
+                ids[i] = CardsPool.get(i).getWordTwoId();
+            }
+            WordAudioManager.addAudioFiles(ids, context);
+        }
     }
 
     public static void setCurrentCard(int CurrentCard) {
@@ -62,7 +71,7 @@ public class ActivityHearing extends FragmentActivity {
             public void onPageSelected(int i) {
                 CurrentCard = i;
                 if (i == CardsPool.size()) {
-                    FragmentPCSelfEval.refreshDetails();
+                    FragmentPCHearing.refreshDetails();
                 }
             }
 
@@ -124,7 +133,7 @@ public class ActivityHearing extends FragmentActivity {
         public Fragment getItem(int i) {
             LogUtil.logDeubg(this, "Request fragment: " + i);
             if (i >= CardsPool.size()) {
-                return new FragmentPCSelfEval();
+                return new FragmentPCHearing();
             } else {
                 return new FragmentHearing(i);
             }
@@ -132,7 +141,7 @@ public class ActivityHearing extends FragmentActivity {
 
         @Override
         public int getCount() {
-            return CardsPool.size();
+            return CardsPool.size() + 1;
         }
     }
 }

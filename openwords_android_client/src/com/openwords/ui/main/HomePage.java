@@ -273,11 +273,11 @@ public class HomePage extends Activity implements OnClickListener {
                 if (cards.size() <= 0) {
                     Toast.makeText(HomePage.this, "No word with audio", Toast.LENGTH_SHORT).show();
                 } else {
-                    ActivityHearing.setCardsPool(cards);
+                    ActivityHearing.setCardsPool(cards, true, HomePage.this);
                     startActivity(new Intent(HomePage.this, ActivityHearing.class));
                 }
             } else {
-                ActivityHearing.setCardsPool(progress.getCardsPool());
+                ActivityHearing.setCardsPool(progress.getCardsPool(), true, HomePage.this);
                 ActivityHearing.setCurrentCard(progress.getCurrentCard());
                 startActivity(new Intent(HomePage.this, ActivityHearing.class));
             }
