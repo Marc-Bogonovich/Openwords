@@ -6,7 +6,7 @@ import java.util.List;
 public class LeafCardHearingAdapter extends LeafCardAdapter {
 
     public List<LeafCard> getList(int size) {
-        List<Integer> connectIDs = wordSelectionAlg.get(algIndex).pickup(size, null);//current UserWords.findFreshWithAudio(languageID) do not give any records
+        List<Integer> connectIDs = wordSelectionAlg.get(algIndex).pickup(size, null);//because current UserWords.findFreshWithAudio(languageID) do not give any records
         List<LeafCard> result = new ArrayList<LeafCard>(size);
         for (Integer id : connectIDs) {
             // since connectionID is the primary key of UserWord table, only one record is returned
