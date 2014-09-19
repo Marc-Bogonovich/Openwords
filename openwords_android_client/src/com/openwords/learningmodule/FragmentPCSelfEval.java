@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import com.openwords.R;
 import com.openwords.model.InitDatabase;
+import com.openwords.model.LeafCard;
 import com.openwords.model.LeafCardSelfEval;
 import com.openwords.model.LeafCardSelfEvalAdapter;
 import com.openwords.model.UserPerformanceDirty;
@@ -87,7 +88,7 @@ public class FragmentPCSelfEval extends Fragment {
             public void onClick(View view) {
                 activity.finish();
                 saveRecord();
-                List<LeafCardSelfEval> cards = new LeafCardSelfEvalAdapter().getList(SIZE);
+                List<LeafCard> cards = new LeafCardSelfEvalAdapter().getList(SIZE);
                 ActivitySelfEval.setCardsPool(cards, true, activity);
                 startActivity(new Intent(activity, ActivitySelfEval.class));
             }
@@ -108,7 +109,8 @@ public class FragmentPCSelfEval extends Fragment {
     //encapsulate it into a function, and it would be called for any operation (i.e. click the button)
     private void saveRecord() {
         LogUtil.logDeubg(this, "saveRecord");
-        for (LeafCardSelfEval card : ActivitySelfEval.getCardsPool()) {
+        for (LeafCard c : ActivitySelfEval.getCardsPool()) {
+            LeafCardSelfEval card = (LeafCardSelfEval) c;
             //type -- module index : review -- 0, self -- 1, type -- 2, hearing -- 3
             //performance : 0 -- null, 1 -- wrong, 2 -- close, 3 -- right
             int performance = 0;
@@ -137,7 +139,8 @@ public class FragmentPCSelfEval extends Fragment {
         int totalCards, totalCorrect = 0, totalSkipped = 0;
         totalCards = ActivitySelfEval.getCardsPool().size();
 
-        for (LeafCardSelfEval card : ActivitySelfEval.getCardsPool()) {
+        for (LeafCard c : ActivitySelfEval.getCardsPool()) {
+            LeafCardSelfEval card = (LeafCardSelfEval) c;
             if (card.getUserChoice() == null) {
                 totalSkipped++;
             } else {

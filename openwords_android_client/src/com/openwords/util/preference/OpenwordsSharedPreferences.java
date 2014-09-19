@@ -4,10 +4,14 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.openwords.learningmodule.LeafCardInstanceCreator;
+import static com.openwords.learningmodule.LearningModuleTypes.LM_Review;
+import static com.openwords.learningmodule.LearningModuleTypes.LM_SelfEvaluation;
 import com.openwords.learningmodule.ProgressHearing;
-import com.openwords.learningmodule.ProgressReview;
-import com.openwords.learningmodule.ProgressSelfEval;
+import com.openwords.learningmodule.ProgressLM;
 import com.openwords.learningmodule.ProgressTypeEval;
+import com.openwords.model.LeafCard;
 import com.openwords.model.UserInfo;
 import com.openwords.util.WSAinterface;
 import com.openwords.util.log.LogUtil;
@@ -107,20 +111,20 @@ public class OpenwordsSharedPreferences {
         return editor.commit();
     }
 
-    public static ProgressReview getReviewProgress() {
+    public static ProgressLM getReviewProgress() {
         String json = pref.getString(REVIEW_PROGRESS, null);
         if (json == null) {
             return null;
         }
-        return new Gson().fromJson(json, ProgressReview.class);
+        return new GsonBuilder().registerTypeAdapter(LeafCard.class, new LeafCardInstanceCreator(LM_Review)).create().fromJson(json, ProgressLM.class);
     }
 
-    public static ProgressSelfEval getSelfEvaluationProgress() {
+    public static ProgressLM getSelfEvaluationProgress() {
         String json = pref.getString(SELF_EVALUATION_PROGRESS, null);
         if (json == null) {
             return null;
         }
-        return new Gson().fromJson(json, ProgressSelfEval.class);
+        return new GsonBuilder().registerTypeAdapter(LeafCard.class, new LeafCardInstanceCreator(LM_SelfEvaluation)).create().fromJson(json, ProgressLM.class);
     }
 
     public static boolean setSelfEvaluationProgress(String json) {

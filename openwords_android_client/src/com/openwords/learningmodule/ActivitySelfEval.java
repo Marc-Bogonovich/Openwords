@@ -9,7 +9,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.openwords.R;
 import com.openwords.learningmodule.LeafCardPagerAdapter.FragmentMaker;
-import com.openwords.model.LeafCardSelfEval;
+import com.openwords.model.LeafCard;
 import com.openwords.sound.WordAudioManager;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
@@ -17,8 +17,12 @@ import java.util.List;
 
 public class ActivitySelfEval extends FragmentActivity {
 
+    //private static Map<LearningModuleTypes, Boolean> LMReverseNavs = new HashMap<LearningModuleTypes, Boolean>(4);
+    //private static Map<LearningModuleTypes, List<LeafCardSelfEval>> LMCardsPools = new HashMap<LearningModuleTypes, List<LeafCardSelfEval>>(4);
+    //private static Map<LearningModuleTypes, Integer> LMCurrentCards = new HashMap<LearningModuleTypes, Integer>(4);
+    //private static Map<LearningModuleTypes, ActivitySelfEval> LMInstances = new HashMap<LearningModuleTypes, ActivitySelfEval>(4);
     private static boolean ReverseNav = false;
-    private static List<LeafCardSelfEval> CardsPool;
+    private static List<LeafCard> CardsPool;
     private static int CurrentCard = 0;
     private static ActivitySelfEval instance;
 
@@ -26,14 +30,23 @@ public class ActivitySelfEval extends FragmentActivity {
         return instance;
     }
 
-    public static List<LeafCardSelfEval> getCardsPool() {
+//    public static ActivitySelfEval getInstance(LearningModuleTypes type) {
+//        return LMInstances.get(type);
+//    }
+    public static List<LeafCard> getCardsPool() {
         return CardsPool;
     }
 
+//    public static List<LeafCardSelfEval> getCardsPool(LearningModuleTypes type) {
+//        return LMCardsPools.get(type);
+//    }
     public static void setReverseNav(boolean ReverseNav) {
         ActivitySelfEval.ReverseNav = ReverseNav;
     }
 
+//    public static void setReverseNav(boolean ReverseNav, LearningModuleTypes type) {
+//        LMReverseNavs.put(type, ReverseNav);
+//    }
     /**
      * Set the cards before start this activity.
      *
@@ -42,7 +55,7 @@ public class ActivitySelfEval extends FragmentActivity {
      * first
      * @param context Context for showing some toasts
      */
-    public static void setCardsPool(List<LeafCardSelfEval> CardsPool, boolean getAudio, Context context) {
+    public static void setCardsPool(List<LeafCard> CardsPool, boolean getAudio, Context context) {
         ActivitySelfEval.CardsPool = CardsPool;
         if (getAudio) {
             int[] ids = new int[CardsPool.size()];
@@ -70,6 +83,7 @@ public class ActivitySelfEval extends FragmentActivity {
 
     private ViewPager pager;
     private LeafCardPagerAdapter adapter;
+    //private LearningModuleTypes type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -170,7 +184,7 @@ public class ActivitySelfEval extends FragmentActivity {
     public void onBackPressed() {
         ActivitySelfEval.super.onBackPressed();
         int languageID = OpenwordsSharedPreferences.getUserInfo().getLang_id();
-        OpenwordsSharedPreferences.setSelfEvaluationProgress(new Gson().toJson(new ProgressSelfEval(CardsPool, CurrentCard, languageID)));
+        OpenwordsSharedPreferences.setSelfEvaluationProgress(new Gson().toJson(new ProgressLM(CardsPool, CurrentCard, languageID)));
         LogUtil.logDeubg(this, "ProgressSelfEval is saved");
     }
 }

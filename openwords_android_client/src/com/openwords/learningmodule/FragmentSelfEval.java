@@ -33,7 +33,7 @@ public class FragmentSelfEval extends FragmentLearningModule {
         LogUtil.logDeubg(this, "onCreateView for card: " + cardIndex);
 
         myFragmentView = inflater.inflate(R.layout.fragment_self_eval, container, false);
-        card = ActivitySelfEval.getCardsPool().get(this.cardIndex);
+        card = (LeafCardSelfEval) ActivitySelfEval.getCardsPool().get(this.cardIndex);
 
         problem = (TextView) myFragmentView.findViewById(R.id.selfEvaluate_TextView_question);
         transcription = (TextView) myFragmentView.findViewById(R.id.selfEvaluate_TextView_transcription);

@@ -1,26 +1,25 @@
 package com.openwords.learningmodule;
 
 import com.openwords.model.LeafCard;
-
 import java.util.List;
 
-public class ProgressReview {
+public class ProgressLM {
 
     private List<LeafCard> cardsPool;
     private int currentCard;
     private int languageID;
-   
-	public int getLanguageID() {
-		return languageID;
-	}
 
-	public void setLanguageID(int languageID) {
-		this.languageID = languageID;
-	}
-
-	public ProgressReview(List<LeafCard> cardsPool, int currentCard, int languageID) {
+    public ProgressLM(List<LeafCard> cardsPool, int currentCard, int languageID) {
         this.cardsPool = cardsPool;
         this.currentCard = currentCard;
+        this.languageID = languageID;
+    }
+
+    public int getLanguageID() {
+        return languageID;
+    }
+
+    public void setLanguageID(int languageID) {
         this.languageID = languageID;
     }
 

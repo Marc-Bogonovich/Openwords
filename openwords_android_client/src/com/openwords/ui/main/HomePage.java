@@ -21,15 +21,13 @@ import com.openwords.learningmodule.ActivityReview;
 import com.openwords.learningmodule.ActivitySelfEval;
 import com.openwords.learningmodule.ActivityTypeEval;
 import com.openwords.learningmodule.ProgressHearing;
-import com.openwords.learningmodule.ProgressReview;
-import com.openwords.learningmodule.ProgressSelfEval;
+import com.openwords.learningmodule.ProgressLM;
 import com.openwords.learningmodule.ProgressTypeEval;
 import com.openwords.model.DataPool;
 import com.openwords.model.LeafCard;
 import com.openwords.model.LeafCardHearing;
 import com.openwords.model.LeafCardHearingAdapter;
 import com.openwords.model.LeafCardReviewAdapter;
-import com.openwords.model.LeafCardSelfEval;
 import com.openwords.model.LeafCardSelfEvalAdapter;
 import com.openwords.model.LeafCardTypeEval;
 import com.openwords.model.LeafCardTypeEvalAdapter;
@@ -205,7 +203,7 @@ public class HomePage extends Activity implements OnClickListener {
         if (taskPage.equals("Review")) {
             List<LeafCard> cards;
 
-            final ProgressReview progress = OpenwordsSharedPreferences.getReviewProgress();
+            final ProgressLM progress = OpenwordsSharedPreferences.getReviewProgress();
             //check if there is a unfinished progress before AND the progress is using the same language
             if (progress == null || progress.getLanguageID() != OpenwordsSharedPreferences.getUserInfo().getLang_id()) {
 
@@ -226,9 +224,9 @@ public class HomePage extends Activity implements OnClickListener {
             pDialog.dismiss();
 
         } else if (taskPage.equals("Self evaluation")) {
-            List<LeafCardSelfEval> cards;
+            List<LeafCard> cards;
 
-            final ProgressSelfEval progress = OpenwordsSharedPreferences.getSelfEvaluationProgress();
+            final ProgressLM progress = OpenwordsSharedPreferences.getSelfEvaluationProgress();
             if (progress == null || progress.getLanguageID() != OpenwordsSharedPreferences.getUserInfo().getLang_id()) {
 //                    	if(progress!=null) {
 //                    		Log.e("HomePage","progress langID:"+progress.getLanguageID()+" currentID: "+OpenwordsSharedPreferences.getUserInfo().getLang_id());
@@ -236,12 +234,7 @@ public class HomePage extends Activity implements OnClickListener {
 //                    	
                 cards = new LeafCardSelfEvalAdapter().getList(SIZE);
                 if (cards.size() <= 0) {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(HomePage.this, "Please select word first", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                    Toast.makeText(HomePage.this, "Please select word first", Toast.LENGTH_SHORT).show();
                 } else {
                     ActivitySelfEval.setCardsPool(cards, true, HomePage.this);
                     //ActivitySelfEval.setReverseNav(true);
