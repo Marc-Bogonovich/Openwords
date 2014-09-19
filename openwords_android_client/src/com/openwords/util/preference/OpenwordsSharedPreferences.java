@@ -7,7 +7,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.openwords.learningmodule.LeafCardInstanceCreator;
 import com.openwords.learningmodule.LearningModuleTypes;
-import com.openwords.learningmodule.ProgressHearing;
 import com.openwords.learningmodule.ProgressLM;
 import com.openwords.model.LeafCard;
 import com.openwords.model.UserInfo;
@@ -154,12 +153,13 @@ public class OpenwordsSharedPreferences {
         return editor.commit();
     }
 
-    public static ProgressHearing getHearingProgress() {
+    public static ProgressLM getHearingProgress() {
         String json = pref.getString(HEARING_PROGRESS, null);
         if (json == null) {
             return null;
         }
-        return new Gson().fromJson(json, ProgressHearing.class);
+        return new GsonBuilder().registerTypeAdapter(LeafCard.class,
+                new LeafCardInstanceCreator(LearningModuleTypes.LM_HearingEvaluation)).create().fromJson(json, ProgressLM.class);
     }
 
     public static boolean getHidePortal() {

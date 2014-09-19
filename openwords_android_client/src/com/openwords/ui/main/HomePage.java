@@ -20,7 +20,6 @@ import com.openwords.learningmodule.ActivityHearing;
 import com.openwords.learningmodule.ActivityReview;
 import com.openwords.learningmodule.ActivitySelfEval;
 import com.openwords.learningmodule.ActivityTypeEval;
-import com.openwords.learningmodule.ProgressHearing;
 import com.openwords.learningmodule.ProgressLM;
 import com.openwords.model.DataPool;
 import com.openwords.model.LeafCard;
@@ -266,34 +265,25 @@ public class HomePage extends Activity implements OnClickListener {
             }
             pDialog.dismiss();
         } else if (taskPage.equals("Hearing")) {
+            List<LeafCard> cards;
 
-            new Thread(new Runnable() {
-                List<LeafCardHearing> cards;
+            final ProgressLM progress = OpenwordsSharedPreferences.getHearingProgress();
+            if (progress == null || progress.getLanguageID() != OpenwordsSharedPreferences.getUserInfo().getLang_id()) {
 
-                public void run() {
-                    final ProgressHearing progress = OpenwordsSharedPreferences.getHearingProgress();
-                    if (progress == null || progress.getLanguageID() != OpenwordsSharedPreferences.getUserInfo().getLang_id()) {
-
-                        cards = new LeafCardHearingAdapter().getList(SIZE);
-                        if (cards.size() <= 0) {
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    Toast.makeText(HomePage.this, "No word with audio", Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                        } else {
-                            ActivityHearing.setCardsPool(cards);
-                            startActivity(new Intent(HomePage.this, ActivityHearing.class));
-                        }
-                    } else {
-                        ActivityHearing.setCardsPool(progress.getCardsPool());
-                        ActivityHearing.setCurrentCard(progress.getCurrentCard());
-                        startActivity(new Intent(HomePage.this, ActivityHearing.class));
-                    }
-                    pDialog.dismiss();
+                cards = new LeafCardHearingAdapter().getList(SIZE);
+                if (cards.size() <= 0) {
+                    Toast.makeText(HomePage.this, "No word with audio", Toast.LENGTH_SHORT).show();
+                } else {
+                    ActivityHearing.setCardsPool(cards);
+                    startActivity(new Intent(HomePage.this, ActivityHearing.class));
                 }
-            }).start();
+            } else {
+                ActivityHearing.setCardsPool(progress.getCardsPool());
+                ActivityHearing.setCurrentCard(progress.getCurrentCard());
+                startActivity(new Intent(HomePage.this, ActivityHearing.class));
+            }
+            pDialog.dismiss();
+
         }
     }
 

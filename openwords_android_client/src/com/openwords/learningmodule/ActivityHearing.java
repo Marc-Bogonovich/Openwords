@@ -1,7 +1,5 @@
 package com.openwords.learningmodule;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -11,14 +9,14 @@ import android.support.v4.view.ViewPager;
 import android.widget.Toast;
 import com.google.gson.Gson;
 import com.openwords.R;
-import com.openwords.model.LeafCardHearing;
+import com.openwords.model.LeafCard;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
 import java.util.List;
 
 public class ActivityHearing extends FragmentActivity {
 
-    private static List<LeafCardHearing> CardsPool;
+    private static List<LeafCard> CardsPool;
     private static int CurrentCard = 0;
     private static ActivityHearing instance;
 
@@ -26,11 +24,11 @@ public class ActivityHearing extends FragmentActivity {
         return instance;
     }
 
-    public static List<LeafCardHearing> getCardsPool() {
+    public static List<LeafCard> getCardsPool() {
         return CardsPool;
     }
 
-    public static void setCardsPool(List<LeafCardHearing> CardsPool) {
+    public static void setCardsPool(List<LeafCard> CardsPool) {
         ActivityHearing.CardsPool = CardsPool;
     }
 
@@ -101,10 +99,10 @@ public class ActivityHearing extends FragmentActivity {
 
     @Override
     public void onBackPressed() {
-    	int languageID = OpenwordsSharedPreferences.getUserInfo().getLang_id();
-    	OpenwordsSharedPreferences.setHearingProgress(new Gson().toJson(new ProgressHearing(CardsPool, CurrentCard, languageID)));
-    	ActivityHearing.super.onBackPressed();
-    	//        new AlertDialog.Builder(this)
+        int languageID = OpenwordsSharedPreferences.getUserInfo().getLang_id();
+        OpenwordsSharedPreferences.setHearingProgress(new Gson().toJson(new ProgressLM(CardsPool, CurrentCard, languageID)));
+        ActivityHearing.super.onBackPressed();
+        //        new AlertDialog.Builder(this)
 //                .setTitle("Really Quit?")
 //                .setMessage("Are you sure you want to quite current Evaluation? (You progress will be saved)")
 //                .setNegativeButton("No", null)
@@ -118,7 +116,7 @@ public class ActivityHearing extends FragmentActivity {
 
     private class HearingPagerAdapter extends FragmentPagerAdapter {
 
-    	HearingPagerAdapter(FragmentManager fm) {
+        HearingPagerAdapter(FragmentManager fm) {
             super(fm);
         }
 

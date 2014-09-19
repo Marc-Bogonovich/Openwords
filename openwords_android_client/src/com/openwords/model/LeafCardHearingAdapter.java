@@ -5,9 +5,9 @@ import java.util.List;
 
 public class LeafCardHearingAdapter extends LeafCardAdapter {
 
-    public List<LeafCardHearing> getList(int size) {
+    public List<LeafCard> getList(int size) {
         List<Integer> connectIDs = wordSelectionAlg.get(algIndex).pickup(size, true);
-        List<LeafCardHearing> result = new ArrayList<LeafCardHearing>(size);
+        List<LeafCard> result = new ArrayList<LeafCard>(size);
         for (Integer id : connectIDs) {
             // since connectionID is the primary key of UserWord table, only one record is returned
             UserWords raw_card = UserWords.findByConnection(id).get(0);
