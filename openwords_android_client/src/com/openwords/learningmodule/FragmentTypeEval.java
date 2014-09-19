@@ -59,6 +59,7 @@ public class FragmentTypeEval extends FragmentLearningModule {
         checkButton = (ImageView) myFragmentView.findViewById(R.id.typeEvaluate_ImageView_checkButton);
         status = (ImageView) myFragmentView.findViewById(R.id.typeEvaluate_ImageView_status);
         audioPlay = (ImageView) myFragmentView.findViewById(R.id.typeEvaluate_ImageView_audioPlay);
+        container2 = (ScrollView) myFragmentView.findViewById(R.id.typeEvaluate_ScrollView_Container);
         setInterfaceView();
         //makeBreadCrumbs();
         card.setLastTime(TimeConvertor.getUnixTime());
@@ -153,8 +154,6 @@ public class FragmentTypeEval extends FragmentLearningModule {
 
             }
         });
-
-        container2 = (ScrollView) myFragmentView.findViewById(R.id.typeEvaluate_ScrollView_Container);
 
         return myFragmentView;
     }

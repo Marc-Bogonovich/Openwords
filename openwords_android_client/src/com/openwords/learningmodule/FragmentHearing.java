@@ -2,13 +2,15 @@ package com.openwords.learningmodule;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import com.openwords.R;
 import com.openwords.model.LeafCardHearing;
@@ -16,7 +18,7 @@ import com.openwords.util.TimeConvertor;
 import com.openwords.util.WordComparsion;
 import com.openwords.util.log.LogUtil;
 
-public class FragmentHearing extends Fragment {
+public class FragmentHearing extends FragmentLearningModule {
 
     private final int cardIndex;
     private TextView question, transcription, answer;
@@ -26,6 +28,7 @@ public class FragmentHearing extends Fragment {
     private LeafCardHearing card;
     private LinearLayout breadcrumbs;
     private View myFragmentView;
+    private ScrollView container2;
 
     public FragmentHearing(int cardIndex) {
         this.cardIndex = cardIndex;
@@ -42,7 +45,7 @@ public class FragmentHearing extends Fragment {
         super.onCreate(savedInstanceState);
         LogUtil.logDeubg(this, "onCreateView for card: " + cardIndex);
 
-        View myFragmentView = inflater.inflate(R.layout.fragment_hearing, container, false);
+        myFragmentView = inflater.inflate(R.layout.fragment_hearing, container, false);
         card = (LeafCardHearing) ActivityHearing.getCardsPool().get(this.cardIndex);
 
         answer = (TextView) myFragmentView.findViewById(R.id.hearing_TextView_answer);
@@ -52,8 +55,24 @@ public class FragmentHearing extends Fragment {
         checkButton = (ImageView) myFragmentView.findViewById(R.id.hearing_ImageView_checkButton);
         indicator = (ImageView) myFragmentView.findViewById(R.id.hearing_ImageView_indicator);
         audioPlayButton = (ImageView) myFragmentView.findViewById(R.id.hearing_ImageView_audioPlay);
+        container2 = (ScrollView) myFragmentView.findViewById(R.id.hearingEvaluate_ScrollView_Container);
+        updateAudioIcon(audioPlayButton, card.getWordTwoId());
         setInterfaceView();
         //makeBreadCrumbs(); according to Marc's requirement
+        userInput.addTextChangedListener(new TextWatcher() {
+
+            public void beforeTextChanged(CharSequence cs, int i, int i1, int i2) {
+                container2.scrollTo(0, myFragmentView.findViewById(R.id.hearing_ViewFlipper_frame).getBottom());
+            }
+
+            public void onTextChanged(CharSequence cs, int i, int i1, int i2) {
+            }
+
+            public void afterTextChanged(Editable edtbl) {
+
+            }
+        });
+
         checkButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -96,12 +115,6 @@ public class FragmentHearing extends Fragment {
                     }
                 }, 3000);
 
-            }
-        });
-        audioPlayButton.setOnClickListener(new View.OnClickListener() {
-
-            public void onClick(View view) {
-                //Speak.getInstance(null).speak(card.getWordLang2());
             }
         });
 

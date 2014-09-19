@@ -23,7 +23,6 @@ import com.openwords.learningmodule.ActivityTypeEval;
 import com.openwords.learningmodule.ProgressLM;
 import com.openwords.model.DataPool;
 import com.openwords.model.LeafCard;
-import com.openwords.model.LeafCardHearing;
 import com.openwords.model.LeafCardHearingAdapter;
 import com.openwords.model.LeafCardReviewAdapter;
 import com.openwords.model.LeafCardSelfEvalAdapter;
