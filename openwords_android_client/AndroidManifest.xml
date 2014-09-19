@@ -112,10 +112,11 @@
         </activity>
         
         <activity
-            android:name="com.openwords.learningmodule.ActivitySelfEval"
+            android:name="com.openwords.learningmodule.ActivityLM"
             android:theme="@style/NoTitleTheme"
             android:configChanges="orientation|screenSize">
         </activity>
+        
         <activity
             android:name="com.openwords.learningmodule.ActivityHearing"
             android:theme="@style/NoTitleTheme"

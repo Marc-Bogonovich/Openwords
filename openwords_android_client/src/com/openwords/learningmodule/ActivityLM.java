@@ -14,7 +14,7 @@ import static com.openwords.util.preference.OpenwordsSharedPreferences.SELF_EVAL
 import static com.openwords.util.preference.OpenwordsSharedPreferences.TYPE_EVALUATION_PROGRESS;
 import java.util.List;
 
-public class ActivitySelfEval extends FragmentActivity {
+public class ActivityLM extends FragmentActivity {
 
     private List<LeafCard> cardsPool;
     private int currentCard = -1;
@@ -160,7 +160,7 @@ public class ActivitySelfEval extends FragmentActivity {
 
     @Override
     public void onBackPressed() {
-        ActivitySelfEval.super.onBackPressed();
+        ActivityLM.super.onBackPressed();
         int languageID = OpenwordsSharedPreferences.getUserInfo().getLang_id();
         String progressKey;
         switch (type) {

@@ -19,7 +19,7 @@ import android.widget.Toast;
 import com.openwords.R;
 import com.openwords.learningmodule.ActivityHearing;
 import com.openwords.learningmodule.ActivityInstantiationCallbackBundle;
-import com.openwords.learningmodule.ActivitySelfEval;
+import com.openwords.learningmodule.ActivityLM;
 import com.openwords.learningmodule.ActivityTypeEval;
 import com.openwords.learningmodule.FragmentMaker;
 import com.openwords.learningmodule.FragmentPCReview;
@@ -247,7 +247,7 @@ public class HomePage extends Activity implements OnClickListener {
                             FragmentPCReview.refreshDetails();
                         }
                     });
-            startActivity(new Intent(HomePage.this, ActivitySelfEval.class));
+            startActivity(new Intent(HomePage.this, ActivityLM.class));
             pDialog.dismiss();
 
         } else if (taskPage.equals("Self evaluation")) {
@@ -295,7 +295,7 @@ public class HomePage extends Activity implements OnClickListener {
                             FragmentPCSelfEval.refreshDetails();
                         }
                     });
-            startActivity(new Intent(HomePage.this, ActivitySelfEval.class));
+            startActivity(new Intent(HomePage.this, ActivityLM.class));
             pDialog.dismiss();
 
         } else if (taskPage.equals("Type evaluation")) {

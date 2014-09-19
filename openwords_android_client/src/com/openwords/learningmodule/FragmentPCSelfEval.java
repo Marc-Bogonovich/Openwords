@@ -119,7 +119,7 @@ public class FragmentPCSelfEval extends Fragment {
                                 FragmentPCSelfEval.refreshDetails();
                             }
                         });
-                startActivity(new Intent(activity, ActivitySelfEval.class));
+                startActivity(new Intent(activity, ActivityLM.class));
             }
         });
         exit.setOnClickListener(new OnClickListener() {

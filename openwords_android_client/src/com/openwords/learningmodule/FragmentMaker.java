@@ -2,13 +2,13 @@ package com.openwords.learningmodule;
 
 public abstract class FragmentMaker implements FragmentMakerInterface {
 
-    private ActivitySelfEval activityInstance;
+    private ActivityLM activityInstance;
 
-    public void setActivityInstance(ActivitySelfEval act) {
+    public void setActivityInstance(ActivityLM act) {
         activityInstance = act;
     }
 
-    public ActivitySelfEval getActivityInstance() {
+    public ActivityLM getActivityInstance() {
         return activityInstance;
     }
 }

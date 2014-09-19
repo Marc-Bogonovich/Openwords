@@ -120,7 +120,7 @@ public class FragmentPCReview extends Fragment {
                                 FragmentPCReview.refreshDetails();
                             }
                         });
-                startActivity(new Intent(activity, ActivitySelfEval.class));
+                startActivity(new Intent(activity, ActivityLM.class));
             }
         });
         exit.setOnClickListener(new OnClickListener() {

@@ -22,9 +22,9 @@ public class FragmentReview extends FragmentLearningModule {
     private LinearLayout breadcrumbs;
     private View myFragmentView;
     private List<LeafCard> cardsPool;
-    private ActivitySelfEval lmActivity;
+    private ActivityLM lmActivity;
 
-    public FragmentReview(int cardIndex, List<LeafCard> cardsPool, ActivitySelfEval lmActivity) {
+    public FragmentReview(int cardIndex, List<LeafCard> cardsPool, ActivityLM lmActivity) {
         this.cardIndex = cardIndex;
         this.cardsPool = cardsPool;
         this.lmActivity = lmActivity;
