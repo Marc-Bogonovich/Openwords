@@ -22,14 +22,12 @@ import com.openwords.learningmodule.ActivitySelfEval;
 import com.openwords.learningmodule.ActivityTypeEval;
 import com.openwords.learningmodule.ProgressHearing;
 import com.openwords.learningmodule.ProgressLM;
-import com.openwords.learningmodule.ProgressTypeEval;
 import com.openwords.model.DataPool;
 import com.openwords.model.LeafCard;
 import com.openwords.model.LeafCardHearing;
 import com.openwords.model.LeafCardHearingAdapter;
 import com.openwords.model.LeafCardReviewAdapter;
 import com.openwords.model.LeafCardSelfEvalAdapter;
-import com.openwords.model.LeafCardTypeEval;
 import com.openwords.model.LeafCardTypeEvalAdapter;
 import com.openwords.model.UserInfo;
 import com.openwords.model.UserWords;
@@ -249,19 +247,14 @@ public class HomePage extends Activity implements OnClickListener {
             pDialog.dismiss();
 
         } else if (taskPage.equals("Type evaluation")) {
-            List<LeafCardTypeEval> cards;
+            List<LeafCard> cards;
 
-            final ProgressTypeEval progress = OpenwordsSharedPreferences.getTypeEvaluationProgress();
+            final ProgressLM progress = OpenwordsSharedPreferences.getTypeEvaluationProgress();
             if (progress == null || progress.getLanguageID() != OpenwordsSharedPreferences.getUserInfo().getLang_id()) {
 
                 cards = new LeafCardTypeEvalAdapter().getList(SIZE);
                 if (cards.size() <= 0) {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(HomePage.this, "Please select word first", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                    Toast.makeText(HomePage.this, "Please select word first", Toast.LENGTH_SHORT).show();
                 } else {
                     ActivityTypeEval.setCardsPool(cards, true, HomePage.this);
                     startActivity(new Intent(HomePage.this, ActivityTypeEval.class));

@@ -10,7 +10,7 @@ import android.support.v4.view.ViewPager;
 import android.widget.Toast;
 import com.google.gson.Gson;
 import com.openwords.R;
-import com.openwords.model.LeafCardTypeEval;
+import com.openwords.model.LeafCard;
 import com.openwords.sound.WordAudioManager;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
@@ -18,7 +18,7 @@ import java.util.List;
 
 public class ActivityTypeEval extends FragmentActivity {
 
-    private static List<LeafCardTypeEval> CardsPool;
+    private static List<LeafCard> CardsPool;
     private static int CurrentCard = 0;
     private static ActivityTypeEval instance;
 
@@ -26,11 +26,11 @@ public class ActivityTypeEval extends FragmentActivity {
         return instance;
     }
 
-    public static List<LeafCardTypeEval> getCardsPool() {
+    public static List<LeafCard> getCardsPool() {
         return CardsPool;
     }
 
-    public static void setCardsPool(List<LeafCardTypeEval> CardsPool, boolean getAudio, Context context) {
+    public static void setCardsPool(List<LeafCard> CardsPool, boolean getAudio, Context context) {
         ActivityTypeEval.CardsPool = CardsPool;
         if (getAudio) {
             int[] ids = new int[CardsPool.size()];
@@ -109,7 +109,7 @@ public class ActivityTypeEval extends FragmentActivity {
     @Override
     public void onBackPressed() {
         int languageID = OpenwordsSharedPreferences.getUserInfo().getLang_id();
-        OpenwordsSharedPreferences.setTypeEvaluationProgress(new Gson().toJson(new ProgressTypeEval(CardsPool, CurrentCard, languageID)));
+        OpenwordsSharedPreferences.setTypeEvaluationProgress(new Gson().toJson(new ProgressLM(CardsPool, CurrentCard, languageID)));
         ActivityTypeEval.super.onBackPressed();
         //        new AlertDialog.Builder(this)
 //                .setTitle("Really Quit?")

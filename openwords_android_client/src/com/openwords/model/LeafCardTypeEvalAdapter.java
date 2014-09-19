@@ -5,9 +5,9 @@ import java.util.List;
 
 public class LeafCardTypeEvalAdapter extends LeafCardAdapter {
 
-    public List<LeafCardTypeEval> getList(int size) {
+    public List<LeafCard> getList(int size) {
         List<Integer> connectIDs = wordSelectionAlg.get(algIndex).pickup(size, null);
-        List<LeafCardTypeEval> result = new ArrayList<LeafCardTypeEval>(size);
+        List<LeafCard> result = new ArrayList<LeafCard>(size);
         for (Integer id : connectIDs) {
             // since connectionID is the primary key of UserWord table, only one record is returned
             UserWords raw_card = UserWords.findByConnection(id).get(0);

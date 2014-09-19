@@ -50,7 +50,7 @@ public class FragmentTypeEval extends FragmentLearningModule {
         LogUtil.logDeubg(this, "onCreateView for card: " + cardIndex);
 
         myFragmentView = inflater.inflate(R.layout.fragment_type_eval, container, false);
-        card = ActivityTypeEval.getCardsPool().get(this.cardIndex);
+        card = (LeafCardTypeEval) ActivityTypeEval.getCardsPool().get(this.cardIndex);
 
         answer = (TextView) myFragmentView.findViewById(R.id.typeEvaluate_TextView_answer);
         question = (TextView) myFragmentView.findViewById(R.id.typeEvaluate_TextView_question);

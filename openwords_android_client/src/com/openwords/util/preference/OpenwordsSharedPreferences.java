@@ -6,11 +6,9 @@ import android.content.SharedPreferences.Editor;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.openwords.learningmodule.LeafCardInstanceCreator;
-import static com.openwords.learningmodule.LearningModuleTypes.LM_Review;
-import static com.openwords.learningmodule.LearningModuleTypes.LM_SelfEvaluation;
+import com.openwords.learningmodule.LearningModuleTypes;
 import com.openwords.learningmodule.ProgressHearing;
 import com.openwords.learningmodule.ProgressLM;
-import com.openwords.learningmodule.ProgressTypeEval;
 import com.openwords.model.LeafCard;
 import com.openwords.model.UserInfo;
 import com.openwords.util.WSAinterface;
@@ -116,7 +114,8 @@ public class OpenwordsSharedPreferences {
         if (json == null) {
             return null;
         }
-        return new GsonBuilder().registerTypeAdapter(LeafCard.class, new LeafCardInstanceCreator(LM_Review)).create().fromJson(json, ProgressLM.class);
+        return new GsonBuilder().registerTypeAdapter(LeafCard.class,
+                new LeafCardInstanceCreator(LearningModuleTypes.LM_Review)).create().fromJson(json, ProgressLM.class);
     }
 
     public static ProgressLM getSelfEvaluationProgress() {
@@ -124,7 +123,8 @@ public class OpenwordsSharedPreferences {
         if (json == null) {
             return null;
         }
-        return new GsonBuilder().registerTypeAdapter(LeafCard.class, new LeafCardInstanceCreator(LM_SelfEvaluation)).create().fromJson(json, ProgressLM.class);
+        return new GsonBuilder().registerTypeAdapter(LeafCard.class,
+                new LeafCardInstanceCreator(LearningModuleTypes.LM_SelfEvaluation)).create().fromJson(json, ProgressLM.class);
     }
 
     public static boolean setSelfEvaluationProgress(String json) {
@@ -133,12 +133,13 @@ public class OpenwordsSharedPreferences {
         return editor.commit();
     }
 
-    public static ProgressTypeEval getTypeEvaluationProgress() {
+    public static ProgressLM getTypeEvaluationProgress() {
         String json = pref.getString(TYPE_EVALUATION_PROGRESS, null);
         if (json == null) {
             return null;
         }
-        return new Gson().fromJson(json, ProgressTypeEval.class);
+        return new GsonBuilder().registerTypeAdapter(LeafCard.class,
+                new LeafCardInstanceCreator(LearningModuleTypes.LM_TypeEvaluation)).create().fromJson(json, ProgressLM.class);
     }
 
     public static boolean setTypeEvaluationProgress(String json) {

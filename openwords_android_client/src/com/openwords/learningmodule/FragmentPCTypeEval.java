@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import com.openwords.R;
 import com.openwords.model.InitDatabase;
+import com.openwords.model.LeafCard;
 import com.openwords.model.LeafCardTypeEval;
 import com.openwords.model.LeafCardTypeEvalAdapter;
 import com.openwords.model.UserPerformanceDirty;
@@ -100,7 +101,7 @@ public class FragmentPCTypeEval extends Fragment {
             public void onClick(View view) {
                 activity.finish();
                 saveRecord();
-                List<LeafCardTypeEval> cards = new LeafCardTypeEvalAdapter().getList(SIZE);
+                List<LeafCard> cards = new LeafCardTypeEvalAdapter().getList(SIZE);
                 ActivityTypeEval.setCardsPool(cards, true, activity);
                 startActivity(new Intent(activity, ActivityTypeEval.class));
             }
@@ -120,7 +121,8 @@ public class FragmentPCTypeEval extends Fragment {
         //type -- module index : review -- 0, self -- 1, type -- 2, hearing -- 3
         //performance : 0 -- null, 1 -- wrong, 2 -- close, 3 -- right\
         Log.d("FragmentPCTypeEval", "Save Record");
-        for (LeafCardTypeEval card : ActivityTypeEval.getCardsPool()) {
+        for (LeafCard c : ActivityTypeEval.getCardsPool()) {
+            LeafCardTypeEval card = (LeafCardTypeEval) c;
             new UserPerformanceDirty(card.getConnectionId(), user_id, 2, card.getLastTime(), card.getUserChoice(), 1,
                     OpenwordsSharedPreferences.getUserInfo().getLang_id(), 0, getActivity().getApplicationContext()).save();
         }
@@ -142,8 +144,8 @@ public class FragmentPCTypeEval extends Fragment {
         int totalCards, totalCorrect = 0, totalSkipped = 0;
         totalCards = ActivityTypeEval.getCardsPool().size();
 
-        for (LeafCardTypeEval card : ActivityTypeEval.getCardsPool()) {
-
+        for (LeafCard c : ActivityTypeEval.getCardsPool()) {
+            LeafCardTypeEval card = (LeafCardTypeEval) c;
             if (card.getUserChoice() == 0) {
                 totalSkipped++;
             } else {
