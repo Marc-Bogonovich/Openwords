@@ -12,7 +12,7 @@ public class SoundPlayer {
     public static void clean() {
         if (mediaPlayer != null) {
             mediaPlayer.release();
-            LogUtil.logDeubg(SoundPlayer.class, "Clean SoundPlayer");
+            //LogUtil.logDeubg(SoundPlayer.class, "Clean SoundPlayer");
         }
     }
 
@@ -22,17 +22,17 @@ public class SoundPlayer {
             mediaPlayer = new MediaPlayer();
             if (local) {
                 mediaPlayer.setDataSource(path);
-                LogUtil.logDeubg(SoundPlayer.class, "Prepare sound at: " + path);
+                //LogUtil.logDeubg(SoundPlayer.class, "Prepare sound at: " + path);
 
             } else {
                 mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
                 mediaPlayer.setDataSource(path);
-                LogUtil.logDeubg(SoundPlayer.class, "Prepare sound at: " + path);
+                //LogUtil.logDeubg(SoundPlayer.class, "Prepare sound at: " + path);
             }
             mediaPlayer.prepare();
             mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                 public void onCompletion(MediaPlayer arg0) {
-                    LogUtil.logDeubg(this, "onCompletion");
+                    //LogUtil.logDeubg(this, "onCompletion");
                     mediaPlayer.stop();
                     clean();
                 }
