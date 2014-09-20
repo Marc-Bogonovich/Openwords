@@ -75,6 +75,9 @@ public class ActivityLM extends FragmentActivity {
                         refreshPC.refresh();
                     }
                 }
+                if (currentCard < cardsPool.size()) {
+                    Toast.makeText(ActivityLM.this, "Word ID: " + cardsPool.get(currentCard).getWordTwoId(), Toast.LENGTH_SHORT).show();
+                }
             }
 
             public void onPageScrollStateChanged(int i) {
