@@ -43,12 +43,17 @@ public class FragmentPCHearing extends Fragment {
 
     private TextView vocabSize, performance, skip, birthday, birthdayDetail, evaluation;
     private Button newWords, nextPlate, exit;
+    private List<LeafCard> cardsPool;
+
+    public FragmentPCHearing(List<LeafCard> cardsPool) {
+        this.cardsPool = cardsPool;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LogUtil.logDeubg(this, "onCreate");
-        OpenwordsSharedPreferences.setLMProgress(HEARING_PROGRESS,null);
+        OpenwordsSharedPreferences.setLMProgress(HEARING_PROGRESS, null);
         activity = getActivity();
         user_id = OpenwordsSharedPreferences.getUserInfo().getUserId();
         RefreshHandler = new Handler() {
@@ -101,9 +106,32 @@ public class FragmentPCHearing extends Fragment {
             public void onClick(View view) {
                 getActivity().finish();
                 saveRecord();
-                List<LeafCard> cards = new LeafCardHearingAdapter().getList(SIZE);
-                ActivityHearing.setCardsPool(cards, true, activity);
-                startActivity(new Intent(getActivity(), ActivityHearing.class));
+                final List<LeafCard> cards = new LeafCardHearingAdapter().getList(SIZE);
+                ActivityInstantiationCallbackBundle.setBundle(LearningModuleType.LM_HearingEvaluation,
+                        R.layout.activity_hear,
+                        R.id.act_hearing_pager,
+                        new FragmentMaker() {
+
+                            public Fragment makePageFragment(int index) {
+                                return new FragmentHearing(index, cards, getActivityInstance());
+                            }
+
+                            public Fragment makePCFragment() {
+                                return new FragmentPCHearing(cards);
+                            }
+                        },
+                        false,
+                        cards,
+                        0,
+                        true,
+                        activity,
+                        new RefreshPCCallback() {
+
+                            public void refresh() {
+                                FragmentPCHearing.refreshDetails();
+                            }
+                        });
+                startActivity(new Intent(activity, ActivityLM.class));
             }
         });
         exit.setOnClickListener(new OnClickListener() {
@@ -123,7 +151,7 @@ public class FragmentPCHearing extends Fragment {
     //encapsulate it into a function, and it would be called for any operation (i.e. click the button)
     private void saveRecord() {
         Log.d("FragmentPCHearing", "Save Record");
-        for (LeafCard c : ActivityHearing.getCardsPool()) {
+        for (LeafCard c : cardsPool) {
             LeafCardHearing card = (LeafCardHearing) c;
             new UserPerformanceDirty(card.getConnectionId(), user_id, 3, card.getLastTime(), card.getUserChoice(), 1,
                     OpenwordsSharedPreferences.getUserInfo().getLang_id(), 0, getActivity().getApplicationContext()).save();
@@ -135,16 +163,16 @@ public class FragmentPCHearing extends Fragment {
             }
         }).start();
         //set current card index to 0. Why here? I don't know. Maybe the function above has some side-effect 
-        ActivityHearing.setCurrentCard(0);
+        //ActivityHearing.setCurrentCard(0);
     }
 
     //calculate the total number of correctness
     private void refresh() {
         LogUtil.logDeubg(this, "refresh");
         int totalCards, totalCorrect = 0, totalSkipped = 0;
-        totalCards = ActivityHearing.getCardsPool().size();
+        totalCards = cardsPool.size();
 
-        for (LeafCard c : ActivityHearing.getCardsPool()) {
+        for (LeafCard c : cardsPool) {
             LeafCardHearing card = (LeafCardHearing) c;
             //type -- module index : review -- 0, self -- 1, type -- 2, hearing -- 3
             //performance : 0 -- null, 1 -- wrong, 2 -- close, 3 -- right

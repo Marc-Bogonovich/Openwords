@@ -13,10 +13,12 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import com.openwords.R;
+import com.openwords.model.LeafCard;
 import com.openwords.model.LeafCardHearing;
 import com.openwords.util.TimeConvertor;
 import com.openwords.util.WordComparsion;
 import com.openwords.util.log.LogUtil;
+import java.util.List;
 
 public class FragmentHearing extends FragmentLearningModule {
 
@@ -29,9 +31,13 @@ public class FragmentHearing extends FragmentLearningModule {
     private LinearLayout breadcrumbs;
     private View myFragmentView;
     private ScrollView container2;
+    private List<LeafCard> cardsPool;
+    private ActivityLM lmActivity;
 
-    public FragmentHearing(int cardIndex) {
+    public FragmentHearing(int cardIndex, List<LeafCard> cardsPool, ActivityLM lmActivity) {
         this.cardIndex = cardIndex;
+        this.cardsPool = cardsPool;
+        this.lmActivity = lmActivity;
     }
 
     @Override
@@ -46,7 +52,7 @@ public class FragmentHearing extends FragmentLearningModule {
         LogUtil.logDeubg(this, "onCreateView for card: " + cardIndex);
 
         myFragmentView = inflater.inflate(R.layout.fragment_hearing, container, false);
-        card = (LeafCardHearing) ActivityHearing.getCardsPool().get(this.cardIndex);
+        card = (LeafCardHearing) cardsPool.get(cardIndex);
 
         answer = (TextView) myFragmentView.findViewById(R.id.hearing_TextView_answer);
         question = (TextView) myFragmentView.findViewById(R.id.hearing_TextView_question);
@@ -111,7 +117,7 @@ public class FragmentHearing extends FragmentLearningModule {
                 Handler mHandler = new Handler();
                 mHandler.postDelayed(new Runnable() {
                     public void run() {
-                        ActivityHearing.getInstance().getPager().setCurrentItem(cardIndex + 1, true);
+                        lmActivity.goToNextCard();
                     }
                 }, 3000);
 

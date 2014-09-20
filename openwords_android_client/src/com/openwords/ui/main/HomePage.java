@@ -17,10 +17,11 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 import com.openwords.R;
-import com.openwords.learningmodule.ActivityHearing;
 import com.openwords.learningmodule.ActivityInstantiationCallbackBundle;
 import com.openwords.learningmodule.ActivityLM;
+import com.openwords.learningmodule.FragmentHearing;
 import com.openwords.learningmodule.FragmentMaker;
+import com.openwords.learningmodule.FragmentPCHearing;
 import com.openwords.learningmodule.FragmentPCReview;
 import com.openwords.learningmodule.FragmentPCSelfEval;
 import com.openwords.learningmodule.FragmentPCTypeEval;
@@ -344,7 +345,8 @@ public class HomePage extends Activity implements OnClickListener {
             startActivity(new Intent(HomePage.this, ActivityLM.class));
             pDialog.dismiss();
         } else if (taskPage.equals("Hearing")) {
-            List<LeafCard> cards;
+            final List<LeafCard> cards;
+            final int currentCard;
 
             final ProgressLM progress = OpenwordsSharedPreferences.getHearingProgress();
             if (progress == null || progress.getLanguageID() != OpenwordsSharedPreferences.getUserInfo().getLang_id()) {
@@ -352,15 +354,39 @@ public class HomePage extends Activity implements OnClickListener {
                 cards = new LeafCardHearingAdapter().getList(SIZE);
                 if (cards.size() <= 0) {
                     Toast.makeText(HomePage.this, "No word with audio", Toast.LENGTH_SHORT).show();
+                    return;
                 } else {
-                    ActivityHearing.setCardsPool(cards, true, HomePage.this);
-                    startActivity(new Intent(HomePage.this, ActivityHearing.class));
+                    currentCard = 0;
                 }
             } else {
-                ActivityHearing.setCardsPool(progress.getCardsPool(), true, HomePage.this);
-                ActivityHearing.setCurrentCard(progress.getCurrentCard());
-                startActivity(new Intent(HomePage.this, ActivityHearing.class));
+                cards = progress.getCardsPool();
+                currentCard = progress.getCurrentCard();;
             }
+            ActivityInstantiationCallbackBundle.setBundle(LearningModuleType.LM_HearingEvaluation,
+                    R.layout.activity_hear,
+                    R.id.act_hearing_pager,
+                    new FragmentMaker() {
+
+                        public Fragment makePageFragment(int index) {
+                            return new FragmentHearing(index, cards, getActivityInstance());
+                        }
+
+                        public Fragment makePCFragment() {
+                            return new FragmentPCHearing(cards);
+                        }
+                    },
+                    false,
+                    cards,
+                    currentCard,
+                    true,
+                    HomePage.this,
+                    new RefreshPCCallback() {
+
+                        public void refresh() {
+                            FragmentPCHearing.refreshDetails();
+                        }
+                    });
+            startActivity(new Intent(HomePage.this, ActivityLM.class));
             pDialog.dismiss();
 
         }
