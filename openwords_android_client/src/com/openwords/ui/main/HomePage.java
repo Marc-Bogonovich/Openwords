@@ -20,12 +20,13 @@ import com.openwords.R;
 import com.openwords.learningmodule.ActivityHearing;
 import com.openwords.learningmodule.ActivityInstantiationCallbackBundle;
 import com.openwords.learningmodule.ActivityLM;
-import com.openwords.learningmodule.ActivityTypeEval;
 import com.openwords.learningmodule.FragmentMaker;
 import com.openwords.learningmodule.FragmentPCReview;
 import com.openwords.learningmodule.FragmentPCSelfEval;
+import com.openwords.learningmodule.FragmentPCTypeEval;
 import com.openwords.learningmodule.FragmentReview;
 import com.openwords.learningmodule.FragmentSelfEval;
+import com.openwords.learningmodule.FragmentTypeEval;
 import com.openwords.learningmodule.LearningModuleType;
 import com.openwords.learningmodule.ProgressLM;
 import com.openwords.learningmodule.RefreshPCCallback;
@@ -299,7 +300,8 @@ public class HomePage extends Activity implements OnClickListener {
             pDialog.dismiss();
 
         } else if (taskPage.equals("Type evaluation")) {
-            List<LeafCard> cards;
+            final List<LeafCard> cards;
+            final int currentCard;
 
             final ProgressLM progress = OpenwordsSharedPreferences.getTypeEvaluationProgress();
             if (progress == null || progress.getLanguageID() != OpenwordsSharedPreferences.getUserInfo().getLang_id()) {
@@ -307,15 +309,39 @@ public class HomePage extends Activity implements OnClickListener {
                 cards = new LeafCardTypeEvalAdapter().getList(SIZE);
                 if (cards.size() <= 0) {
                     Toast.makeText(HomePage.this, "Please select word first", Toast.LENGTH_SHORT).show();
+                    return;
                 } else {
-                    ActivityTypeEval.setCardsPool(cards, true, HomePage.this);
-                    startActivity(new Intent(HomePage.this, ActivityTypeEval.class));
+                    currentCard = 0;
                 }
             } else {
-                ActivityTypeEval.setCardsPool(progress.getCardsPool(), true, HomePage.this);
-                ActivityTypeEval.setCurrentCard(progress.getCurrentCard());
-                startActivity(new Intent(HomePage.this, ActivityTypeEval.class));
+                cards = progress.getCardsPool();
+                currentCard = progress.getCurrentCard();
             }
+            ActivityInstantiationCallbackBundle.setBundle(LearningModuleType.LM_TypeEvaluation,
+                    R.layout.activity_type_eval,
+                    R.id.act_type_eval_pager,
+                    new FragmentMaker() {
+
+                        public Fragment makePageFragment(int index) {
+                            return new FragmentTypeEval(index, cards, getActivityInstance());
+                        }
+
+                        public Fragment makePCFragment() {
+                            return new FragmentPCTypeEval(cards);
+                        }
+                    },
+                    false,
+                    cards,
+                    currentCard,
+                    true,
+                    HomePage.this,
+                    new RefreshPCCallback() {
+
+                        public void refresh() {
+                            FragmentPCTypeEval.refreshDetails();
+                        }
+                    });
+            startActivity(new Intent(HomePage.this, ActivityLM.class));
             pDialog.dismiss();
         } else if (taskPage.equals("Hearing")) {
             List<LeafCard> cards;

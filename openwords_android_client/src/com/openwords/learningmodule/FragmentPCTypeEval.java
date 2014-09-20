@@ -43,6 +43,11 @@ public class FragmentPCTypeEval extends Fragment {
 
     private TextView vocabSize, performance, skip, birthday, birthdayDetail, evaluation;
     private Button newWords, nextPlate, exit;
+    private List<LeafCard> cardsPool;
+
+    public FragmentPCTypeEval(List<LeafCard> cardsPool) {
+        this.cardsPool = cardsPool;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -102,9 +107,32 @@ public class FragmentPCTypeEval extends Fragment {
             public void onClick(View view) {
                 activity.finish();
                 saveRecord();
-                List<LeafCard> cards = new LeafCardTypeEvalAdapter().getList(SIZE);
-                ActivityTypeEval.setCardsPool(cards, true, activity);
-                startActivity(new Intent(activity, ActivityTypeEval.class));
+                final List<LeafCard> cards = new LeafCardTypeEvalAdapter().getList(SIZE);
+                ActivityInstantiationCallbackBundle.setBundle(LearningModuleType.LM_TypeEvaluation,
+                        R.layout.activity_type_eval,
+                        R.id.act_type_eval_pager,
+                        new FragmentMaker() {
+
+                            public Fragment makePageFragment(int index) {
+                                return new FragmentTypeEval(index, cards, getActivityInstance());
+                            }
+
+                            public Fragment makePCFragment() {
+                                return new FragmentPCTypeEval(cards);
+                            }
+                        },
+                        false,
+                        cards,
+                        0,
+                        true,
+                        activity,
+                        new RefreshPCCallback() {
+
+                            public void refresh() {
+                                FragmentPCTypeEval.refreshDetails();
+                            }
+                        });
+                startActivity(new Intent(activity, ActivityLM.class));
             }
         });
         exit.setOnClickListener(new OnClickListener() {
@@ -122,7 +150,7 @@ public class FragmentPCTypeEval extends Fragment {
         //type -- module index : review -- 0, self -- 1, type -- 2, hearing -- 3
         //performance : 0 -- null, 1 -- wrong, 2 -- close, 3 -- right\
         Log.d("FragmentPCTypeEval", "Save Record");
-        for (LeafCard c : ActivityTypeEval.getCardsPool()) {
+        for (LeafCard c : cardsPool) {
             LeafCardTypeEval card = (LeafCardTypeEval) c;
             new UserPerformanceDirty(card.getConnectionId(), user_id, 2, card.getLastTime(), card.getUserChoice(), 1,
                     OpenwordsSharedPreferences.getUserInfo().getLang_id(), 0, getActivity().getApplicationContext()).save();
@@ -134,7 +162,7 @@ public class FragmentPCTypeEval extends Fragment {
             }
         }).start();
         //set current card index to 0. Why here? I don't know. Maybe the function above has some side-effect 
-        ActivityTypeEval.setCurrentCard(0);
+        //ActivityTypeEval.setCurrentCard(0);
     }
 
     //when view pager get the second last page, this page, as last page, will be pre-loaded.
@@ -143,9 +171,9 @@ public class FragmentPCTypeEval extends Fragment {
     private void refresh() {
         LogUtil.logDeubg(this, "refresh");
         int totalCards, totalCorrect = 0, totalSkipped = 0;
-        totalCards = ActivityTypeEval.getCardsPool().size();
+        totalCards = cardsPool.size();
 
-        for (LeafCard c : ActivityTypeEval.getCardsPool()) {
+        for (LeafCard c : cardsPool) {
             LeafCardTypeEval card = (LeafCardTypeEval) c;
             if (card.getUserChoice() == 0) {
                 totalSkipped++;
