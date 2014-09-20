@@ -3,47 +3,81 @@ package com.openwords.learningmodule;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import com.openwords.model.LeafCard;
+import java.util.List;
 
 public class LeafCardPagerAdapter extends FragmentPagerAdapter {
 
     private boolean reverseNav;
-    private int cardsPoolSize;
-    private FragmentMakerInterface fragmentMaker;
+    private List<LeafCard> cards;
+    private LearningModuleType type;
+    private ActivityLM activityInstance;
 
-    public LeafCardPagerAdapter(FragmentManager fm, boolean reverseNav, int cardsPoolSize, FragmentMakerInterface fragmentMaker) {
+    public LeafCardPagerAdapter(FragmentManager fm, LearningModuleType type, ActivityLM activityInstance, boolean reverseNav, List<LeafCard> cards) {
         super(fm);
         this.reverseNav = reverseNav;
-        this.cardsPoolSize = cardsPoolSize;
-        this.fragmentMaker = fragmentMaker;
+        this.cards = cards;
+        this.type = type;
+        this.activityInstance = activityInstance;
     }
 
     @Override
     public Fragment getItem(int i) {
         if (reverseNav) {
             if (i <= 0) {
-                return fragmentMaker.makePCFragment();
+                return makePCFragment();
             } else {
-                return fragmentMaker.makePageFragment(getReverseCardIndex(i));
+                return makePageFragment(getReverseCardIndex(i));
             }
         } else {
-            if (i >= cardsPoolSize) {
-                return fragmentMaker.makePCFragment();
+            if (i >= cards.size()) {
+                return makePCFragment();
             } else {
-                return fragmentMaker.makePageFragment(i);
+                return makePageFragment(i);
             }
+        }
+    }
+
+    private Fragment makePageFragment(int index) {
+        switch (type) {
+            case LM_Review:
+                return new FragmentReview(index, cards, activityInstance);
+            case LM_SelfEvaluation:
+                return new FragmentSelfEval(index, cards, activityInstance);
+            case LM_TypeEvaluation:
+                return new FragmentTypeEval(index, cards, activityInstance);
+            case LM_HearingEvaluation:
+                return new FragmentHearing(index, cards, activityInstance);
+            default:
+                return null;
+        }
+    }
+
+    public Fragment makePCFragment() {
+        switch (type) {
+            case LM_Review:
+                return new FragmentPCReview(cards);
+            case LM_SelfEvaluation:
+                return new FragmentPCSelfEval(cards);
+            case LM_TypeEvaluation:
+                return new FragmentPCTypeEval(cards);
+            case LM_HearingEvaluation:
+                return new FragmentPCHearing(cards);
+            default:
+                return null;
         }
     }
 
     @Override
     public int getCount() {
-        return cardsPoolSize + 1;
+        return cards.size() + 1;
     }
 
     private int getReverseCardIndex(int pageIndex) {
         if (pageIndex == 0) {
             return -1;//additional page, so invalid card
         }
-        return cardsPoolSize - pageIndex;
+        return cards.size() - pageIndex;
     }
 
 }

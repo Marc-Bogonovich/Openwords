@@ -99,27 +99,11 @@ public class FragmentPCReview extends Fragment {
                 ActivityInstantiationCallbackBundle.setBundle(LearningModuleType.LM_Review,
                         R.layout.activity_rev,
                         R.id.act_review_pager,
-                        new FragmentMaker() {
-
-                            public Fragment makePageFragment(int index) {
-                                return new FragmentReview(index, cards, getActivityInstance());
-                            }
-
-                            public Fragment makePCFragment() {
-                                return new FragmentPCReview(cards);
-                            }
-                        },
                         false,
                         cards,
                         0,
                         true,
-                        activity,
-                        new RefreshPCCallback() {
-
-                            public void refresh() {
-                                FragmentPCReview.refreshDetails();
-                            }
-                        });
+                        activity);
                 startActivity(new Intent(activity, ActivityLM.class));
             }
         });

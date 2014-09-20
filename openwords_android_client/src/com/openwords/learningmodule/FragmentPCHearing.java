@@ -110,27 +110,11 @@ public class FragmentPCHearing extends Fragment {
                 ActivityInstantiationCallbackBundle.setBundle(LearningModuleType.LM_HearingEvaluation,
                         R.layout.activity_hear,
                         R.id.act_hearing_pager,
-                        new FragmentMaker() {
-
-                            public Fragment makePageFragment(int index) {
-                                return new FragmentHearing(index, cards, getActivityInstance());
-                            }
-
-                            public Fragment makePCFragment() {
-                                return new FragmentPCHearing(cards);
-                            }
-                        },
                         false,
                         cards,
                         0,
                         true,
-                        activity,
-                        new RefreshPCCallback() {
-
-                            public void refresh() {
-                                FragmentPCHearing.refreshDetails();
-                            }
-                        });
+                        activity);
                 startActivity(new Intent(activity, ActivityLM.class));
             }
         });

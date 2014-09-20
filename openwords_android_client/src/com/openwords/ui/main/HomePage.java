@@ -5,7 +5,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -19,18 +18,8 @@ import android.widget.Toast;
 import com.openwords.R;
 import com.openwords.learningmodule.ActivityInstantiationCallbackBundle;
 import com.openwords.learningmodule.ActivityLM;
-import com.openwords.learningmodule.FragmentHearing;
-import com.openwords.learningmodule.FragmentMaker;
-import com.openwords.learningmodule.FragmentPCHearing;
-import com.openwords.learningmodule.FragmentPCReview;
-import com.openwords.learningmodule.FragmentPCSelfEval;
-import com.openwords.learningmodule.FragmentPCTypeEval;
-import com.openwords.learningmodule.FragmentReview;
-import com.openwords.learningmodule.FragmentSelfEval;
-import com.openwords.learningmodule.FragmentTypeEval;
 import com.openwords.learningmodule.LearningModuleType;
 import com.openwords.learningmodule.ProgressLM;
-import com.openwords.learningmodule.RefreshPCCallback;
 import com.openwords.model.DataPool;
 import com.openwords.model.LeafCard;
 import com.openwords.model.LeafCardHearingAdapter;
@@ -50,10 +39,12 @@ import com.openwords.util.TimeConvertor;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
 import com.openwords.view.actionbar.ActionBarBuilder;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
-public class HomePage extends Activity implements OnClickListener {
+public class HomePage extends Activity implements OnClickListener, OnItemSelectedListener {
 
     private static boolean welcome;
     public static HomePage instance;
@@ -68,6 +59,8 @@ public class HomePage extends Activity implements OnClickListener {
     private UserInfo userinfo;
     private int SIZE = 10;
     private ActionBarBuilder actionBar;
+    private LearningModuleType lmType = null;
+    private Map<LearningModuleType, int[]> layoutIds = new HashMap<LearningModuleType, int[]>(4);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +68,11 @@ public class HomePage extends Activity implements OnClickListener {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);//for testing purpose
         setContentView(R.layout.activity_home_page);
         instance = this;
+
+        layoutIds.put(LearningModuleType.LM_Review, new int[]{R.layout.activity_rev, R.id.act_review_pager});
+        layoutIds.put(LearningModuleType.LM_SelfEvaluation, new int[]{R.layout.activity_self_eval, R.id.act_self_eval_pager});
+        layoutIds.put(LearningModuleType.LM_TypeEvaluation, new int[]{R.layout.activity_type_eval, R.id.act_type_eval_pager});
+        layoutIds.put(LearningModuleType.LM_HearingEvaluation, new int[]{R.layout.activity_hear, R.id.act_hearing_pager});
 
         //building the action bar
         actionBar = new ActionBarBuilder(this, ActionBarBuilder.Home_Page);
@@ -86,6 +84,7 @@ public class HomePage extends Activity implements OnClickListener {
         ArrayAdapter<CharSequence> beginAdapter = ArrayAdapter.createFromResource(this, R.array.homePage_spinner_begin_array, android.R.layout.simple_spinner_item);
         beginAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         begin.setAdapter(beginAdapter);
+        begin.setOnItemSelectedListener(this);
 
         Button testPageGo = (Button) findViewById(R.id.homePage_Button_testPageGo);
         testPageGo.setOnClickListener(HomePage.this);
@@ -202,194 +201,67 @@ public class HomePage extends Activity implements OnClickListener {
     }
 
     public void testPageButtonClick() {
-        String taskPage = begin.getSelectedItem().toString();
-        LogUtil.logDeubg(this, "Task: " + taskPage);
-        pDialog = ProgressDialog.show(HomePage.this, "",
-                "Assembling leaf cards", true);
-        if (taskPage.equals("Review")) {
-            final List<LeafCard> cards;
-            final int currentCard;
+        pDialog = ProgressDialog.show(this, "", "Assembling leaf cards", true);
 
-            final ProgressLM progress = OpenwordsSharedPreferences.getReviewProgress();
-            //check if there is a unfinished progress before AND the progress is using the same language
-            if (progress == null || progress.getLanguageID() != OpenwordsSharedPreferences.getUserInfo().getLang_id()) {
+        final List<LeafCard> cards;
+        final int currentCard;
+        final ProgressLM progress;
 
-                cards = new LeafCardReviewAdapter().getList(SIZE);
-                if (cards.size() <= 0) {
-                    Toast.makeText(HomePage.this, "Please select word first", Toast.LENGTH_SHORT).show();
-                    return;
-                } else {
-                    currentCard = 0;
-                }
-            } else {
-                cards = progress.getCardsPool();
-                currentCard = progress.getCurrentCard();
-            }
-            ActivityInstantiationCallbackBundle.setBundle(LearningModuleType.LM_Review,
-                    R.layout.activity_rev,
-                    R.id.act_review_pager,
-                    new FragmentMaker() {
-
-                        public Fragment makePageFragment(int index) {
-                            return new FragmentReview(index, cards, getActivityInstance());
-                        }
-
-                        public Fragment makePCFragment() {
-                            return new FragmentPCReview(cards);
-                        }
-                    },
-                    false,
-                    cards,
-                    currentCard,
-                    true,
-                    HomePage.this,
-                    new RefreshPCCallback() {
-
-                        public void refresh() {
-                            FragmentPCReview.refreshDetails();
-                        }
-                    });
-            startActivity(new Intent(HomePage.this, ActivityLM.class));
-            pDialog.dismiss();
-
-        } else if (taskPage.equals("Self evaluation")) {
-            final List<LeafCard> cards;
-            final int currentCard;
-
-            final ProgressLM progress = OpenwordsSharedPreferences.getSelfEvaluationProgress();
-            if (progress == null || progress.getLanguageID() != OpenwordsSharedPreferences.getUserInfo().getLang_id()) {
-//                    	if(progress!=null) {
-//                    		Log.e("HomePage","progress langID:"+progress.getLanguageID()+" currentID: "+OpenwordsSharedPreferences.getUserInfo().getLang_id());
-//                    	}
-//                    	
-                cards = new LeafCardSelfEvalAdapter().getList(SIZE);
-                if (cards.size() <= 0) {
-                    Toast.makeText(HomePage.this, "Please select word first", Toast.LENGTH_SHORT).show();
-                    return;
-                } else {
-                    currentCard = 0;
-                }
-            } else {
-                cards = progress.getCardsPool();
-                currentCard = progress.getCurrentCard();
-            }
-            ActivityInstantiationCallbackBundle.setBundle(LearningModuleType.LM_SelfEvaluation,
-                    R.layout.activity_self_eval,
-                    R.id.act_self_eval_pager,
-                    new FragmentMaker() {
-
-                        public Fragment makePageFragment(int index) {
-                            return new FragmentSelfEval(index, cards, getActivityInstance());
-                        }
-
-                        public Fragment makePCFragment() {
-                            return new FragmentPCSelfEval(cards);
-                        }
-                    },
-                    false,
-                    cards,
-                    currentCard,
-                    true,
-                    HomePage.this,
-                    new RefreshPCCallback() {
-
-                        public void refresh() {
-                            FragmentPCSelfEval.refreshDetails();
-                        }
-                    });
-            startActivity(new Intent(HomePage.this, ActivityLM.class));
-            pDialog.dismiss();
-
-        } else if (taskPage.equals("Type evaluation")) {
-            final List<LeafCard> cards;
-            final int currentCard;
-
-            final ProgressLM progress = OpenwordsSharedPreferences.getTypeEvaluationProgress();
-            if (progress == null || progress.getLanguageID() != OpenwordsSharedPreferences.getUserInfo().getLang_id()) {
-
-                cards = new LeafCardTypeEvalAdapter().getList(SIZE);
-                if (cards.size() <= 0) {
-                    Toast.makeText(HomePage.this, "Please select word first", Toast.LENGTH_SHORT).show();
-                    return;
-                } else {
-                    currentCard = 0;
-                }
-            } else {
-                cards = progress.getCardsPool();
-                currentCard = progress.getCurrentCard();
-            }
-            ActivityInstantiationCallbackBundle.setBundle(LearningModuleType.LM_TypeEvaluation,
-                    R.layout.activity_type_eval,
-                    R.id.act_type_eval_pager,
-                    new FragmentMaker() {
-
-                        public Fragment makePageFragment(int index) {
-                            return new FragmentTypeEval(index, cards, getActivityInstance());
-                        }
-
-                        public Fragment makePCFragment() {
-                            return new FragmentPCTypeEval(cards);
-                        }
-                    },
-                    false,
-                    cards,
-                    currentCard,
-                    true,
-                    HomePage.this,
-                    new RefreshPCCallback() {
-
-                        public void refresh() {
-                            FragmentPCTypeEval.refreshDetails();
-                        }
-                    });
-            startActivity(new Intent(HomePage.this, ActivityLM.class));
-            pDialog.dismiss();
-        } else if (taskPage.equals("Hearing")) {
-            final List<LeafCard> cards;
-            final int currentCard;
-
-            final ProgressLM progress = OpenwordsSharedPreferences.getHearingProgress();
-            if (progress == null || progress.getLanguageID() != OpenwordsSharedPreferences.getUserInfo().getLang_id()) {
-
-                cards = new LeafCardHearingAdapter().getList(SIZE);
-                if (cards.size() <= 0) {
-                    Toast.makeText(HomePage.this, "No word with audio", Toast.LENGTH_SHORT).show();
-                    return;
-                } else {
-                    currentCard = 0;
-                }
-            } else {
-                cards = progress.getCardsPool();
-                currentCard = progress.getCurrentCard();;
-            }
-            ActivityInstantiationCallbackBundle.setBundle(LearningModuleType.LM_HearingEvaluation,
-                    R.layout.activity_hear,
-                    R.id.act_hearing_pager,
-                    new FragmentMaker() {
-
-                        public Fragment makePageFragment(int index) {
-                            return new FragmentHearing(index, cards, getActivityInstance());
-                        }
-
-                        public Fragment makePCFragment() {
-                            return new FragmentPCHearing(cards);
-                        }
-                    },
-                    false,
-                    cards,
-                    currentCard,
-                    true,
-                    HomePage.this,
-                    new RefreshPCCallback() {
-
-                        public void refresh() {
-                            FragmentPCHearing.refreshDetails();
-                        }
-                    });
-            startActivity(new Intent(HomePage.this, ActivityLM.class));
-            pDialog.dismiss();
-
+        switch (lmType) {
+            case LM_Review:
+                progress = OpenwordsSharedPreferences.getReviewProgress();
+                break;
+            case LM_SelfEvaluation:
+                progress = OpenwordsSharedPreferences.getSelfEvaluationProgress();
+                break;
+            case LM_TypeEvaluation:
+                progress = OpenwordsSharedPreferences.getTypeEvaluationProgress();
+                break;
+            case LM_HearingEvaluation:
+                progress = OpenwordsSharedPreferences.getHearingProgress();
+                break;
+            default:
+                return;
         }
+
+        if (progress == null || progress.getLanguageID() != OpenwordsSharedPreferences.getUserInfo().getLang_id()) {
+            switch (lmType) {
+                case LM_Review:
+                    cards = new LeafCardReviewAdapter().getList(SIZE);
+                    break;
+                case LM_SelfEvaluation:
+                    cards = new LeafCardSelfEvalAdapter().getList(SIZE);
+                    break;
+                case LM_TypeEvaluation:
+                    cards = new LeafCardTypeEvalAdapter().getList(SIZE);
+                    break;
+                case LM_HearingEvaluation:
+                    cards = new LeafCardHearingAdapter().getList(SIZE);
+                    break;
+                default:
+                    return;
+            }
+            if (cards.size() <= 0) {
+                Toast.makeText(HomePage.this, "Please select word first", Toast.LENGTH_SHORT).show();
+                return;
+            } else {
+                currentCard = 0;
+            }
+        } else {
+            cards = progress.getCardsPool();
+            currentCard = progress.getCurrentCard();
+        }
+
+        ActivityInstantiationCallbackBundle.setBundle(lmType,
+                layoutIds.get(lmType)[0],
+                layoutIds.get(lmType)[1],
+                false,
+                cards,
+                currentCard,
+                true,
+                this);
+        startActivity(new Intent(HomePage.this, ActivityLM.class));
+        pDialog.dismiss();
     }
 
     @Override
@@ -470,6 +342,32 @@ public class HomePage extends Activity implements OnClickListener {
                         }
                     });
         }
+    }
+
+    public void onItemSelected(AdapterView<?> av, View view, int i, long l) {
+        switch (i) {
+            case 0:
+                lmType = LearningModuleType.LM_Review;
+                break;
+            case 1:
+                lmType = LearningModuleType.LM_SelfEvaluation;
+                break;
+            case 2:
+                lmType = LearningModuleType.LM_TypeEvaluation;
+                break;
+            case 3:
+                lmType = LearningModuleType.LM_HearingEvaluation;
+                break;
+            default:
+                lmType = null;
+                break;
+        }
+        if (lmType != null) {
+            Toast.makeText(this, "Current LM type: " + lmType.toString(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void onNothingSelected(AdapterView<?> av) {
     }
 
 }

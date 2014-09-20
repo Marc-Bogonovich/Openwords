@@ -29,8 +29,6 @@ public class ActivityLM extends FragmentActivity {
     private LeafCardPagerAdapter adapter;
     private LearningModuleType type;
     private int layoutId, pagerId;
-    private FragmentMaker fm;
-    private RefreshPCCallback refreshPC;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,12 +65,12 @@ public class ActivityLM extends FragmentActivity {
                 if (reverseNav) {
                     currentCard = getReversePageIndex(i);
                     if (i == 0) {
-                        refreshPC.refresh();
+                        refreshPC();
                     }
                 } else {
                     currentCard = i;
                     if (i == cardsPool.size()) {
-                        refreshPC.refresh();
+                        refreshPC();
                     }
                 }
                 if (currentCard < cardsPool.size()) {
@@ -84,7 +82,7 @@ public class ActivityLM extends FragmentActivity {
             }
         });
 
-        adapter = new LeafCardPagerAdapter(getSupportFragmentManager(), reverseNav, cardsPool.size(), fm);
+        adapter = new LeafCardPagerAdapter(getSupportFragmentManager(), type, this, reverseNav, cardsPool);
         pager.setAdapter(adapter);
         pager.setPageTransformer(true, new PageTransformerForLeafCard(reverseNav));
 
@@ -118,26 +116,15 @@ public class ActivityLM extends FragmentActivity {
             Toast.makeText(this, "Please provide the pager id", Toast.LENGTH_SHORT).show();
             return false;
         }
-        fm = (FragmentMaker) bundle[3];
-        if (fm == null) {
-            Toast.makeText(this, "Please provide the fragment maker", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        fm.setActivityInstance(this);
-        reverseNav = (Boolean) bundle[4];
-        cardsPool = (List<LeafCard>) bundle[5];
+        reverseNav = (Boolean) bundle[3];
+        cardsPool = (List<LeafCard>) bundle[4];
         if (cardsPool == null) {
             Toast.makeText(this, "Please give your cards first", Toast.LENGTH_SHORT).show();
             return false;
         }
-        currentCard = (Integer) bundle[6];
+        currentCard = (Integer) bundle[5];
         if (currentCard < 0) {
             Toast.makeText(this, "Please give your current card index", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        refreshPC = (RefreshPCCallback) bundle[7];
-        if (refreshPC == null) {
-            Toast.makeText(this, "Please provide the callback of refresh PC", Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;
@@ -190,5 +177,24 @@ public class ActivityLM extends FragmentActivity {
         }
         OpenwordsSharedPreferences.setLMProgress(progressKey, new Gson().toJson(new ProgressLM(cardsPool, currentCard, languageID)));
         LogUtil.logDeubg(this, "Progress " + type.toString() + " is saved");
+    }
+
+    public void refreshPC() {
+        switch (type) {
+            case LM_Review:
+                FragmentPCReview.refreshDetails();
+                break;
+            case LM_SelfEvaluation:
+                FragmentPCSelfEval.refreshDetails();
+                break;
+            case LM_TypeEvaluation:
+                FragmentPCTypeEval.refreshDetails();
+                break;
+            case LM_HearingEvaluation:
+                FragmentPCHearing.refreshDetails();
+                break;
+            default:
+                break;
+        }
     }
 }

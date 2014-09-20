@@ -111,27 +111,11 @@ public class FragmentPCTypeEval extends Fragment {
                 ActivityInstantiationCallbackBundle.setBundle(LearningModuleType.LM_TypeEvaluation,
                         R.layout.activity_type_eval,
                         R.id.act_type_eval_pager,
-                        new FragmentMaker() {
-
-                            public Fragment makePageFragment(int index) {
-                                return new FragmentTypeEval(index, cards, getActivityInstance());
-                            }
-
-                            public Fragment makePCFragment() {
-                                return new FragmentPCTypeEval(cards);
-                            }
-                        },
                         false,
                         cards,
                         0,
                         true,
-                        activity,
-                        new RefreshPCCallback() {
-
-                            public void refresh() {
-                                FragmentPCTypeEval.refreshDetails();
-                            }
-                        });
+                        activity);
                 startActivity(new Intent(activity, ActivityLM.class));
             }
         });

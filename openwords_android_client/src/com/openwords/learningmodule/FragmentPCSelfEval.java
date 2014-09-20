@@ -98,27 +98,11 @@ public class FragmentPCSelfEval extends Fragment {
                 ActivityInstantiationCallbackBundle.setBundle(LearningModuleType.LM_SelfEvaluation,
                         R.layout.activity_self_eval,
                         R.id.act_self_eval_pager,
-                        new FragmentMaker() {
-
-                            public Fragment makePageFragment(int index) {
-                                return new FragmentSelfEval(index, cards, getActivityInstance());
-                            }
-
-                            public Fragment makePCFragment() {
-                                return new FragmentPCSelfEval(cards);
-                            }
-                        },
                         false,
                         cards,
                         0,
                         true,
-                        activity,
-                        new RefreshPCCallback() {
-
-                            public void refresh() {
-                                FragmentPCSelfEval.refreshDetails();
-                            }
-                        });
+                        activity);
                 startActivity(new Intent(activity, ActivityLM.class));
             }
         });
