@@ -201,8 +201,6 @@ public class HomePage extends Activity implements OnClickListener, OnItemSelecte
     }
 
     public void testPageButtonClick() {
-        pDialog = ProgressDialog.show(this, "", "Assembling leaf cards", true);
-
         final List<LeafCard> cards;
         final int currentCard;
         final ProgressLM progress;
@@ -224,6 +222,7 @@ public class HomePage extends Activity implements OnClickListener, OnItemSelecte
                 return;
         }
 
+        pDialog = ProgressDialog.show(this, "", "Assembling leaf cards", true);
         if (progress == null || progress.getLanguageID() != OpenwordsSharedPreferences.getUserInfo().getLang_id()) {
             switch (lmType) {
                 case LM_Review:
@@ -243,6 +242,7 @@ public class HomePage extends Activity implements OnClickListener, OnItemSelecte
             }
             if (cards.size() <= 0) {
                 Toast.makeText(HomePage.this, "Please select word first", Toast.LENGTH_SHORT).show();
+                pDialog.dismiss();
                 return;
             } else {
                 currentCard = 0;
@@ -295,10 +295,10 @@ public class HomePage extends Activity implements OnClickListener, OnItemSelecte
 
     private void getFirstWords() {
         int langId = OpenwordsSharedPreferences.getUserInfo().getLang_id();
-        LogUtil.logDeubg(HomePage.this, "getFirstWords langId: " + langId);
+        LogUtil.logDeubg(this, "getFirstWords langId: " + langId);
         List<UserWords> existList = UserWords.findByLanguage(langId);
         if (existList.isEmpty()) {
-            LogUtil.logDeubg(HomePage.this, "existList isEmpty");
+            LogUtil.logDeubg(this, "existList isEmpty");
             //getFirstWordsFromServer();
             GetWords.request(Integer.toString(OpenwordsSharedPreferences.getUserInfo().getUserId()),
                     "1",

@@ -9,11 +9,11 @@ $done=array();
 
 if(isset($_POST['user']) && isset($_POST['langTwo']) && isset($_POST['langOne']))
 {
-	
+
 	$user = $_POST['user'];
 	$langTwo = $_POST['langTwo'];
 	$langOne = $_POST['langOne'];
-	$TransType = 2;
+	$TransType = 1;
 	$dataSet = array();
 	// Querying words Database
 	$conns = DAOFactory2::getWordConnectionsDAO()->queryByLangOneLangTwo($user,$langOne,$langTwo);
@@ -46,14 +46,14 @@ if(isset($_POST['user']) && isset($_POST['langTwo']) && isset($_POST['langOne'])
 		{
 			$rec["trans"] = '';
 		}
-		
+
 		//pushing into array of records
 		array_push($dataSet,$rec);
 		$cnt++;
 	}
 	$response["success"]=1;
 	$response["data"]=$dataSet;
-	
+
 }
 else
 {
