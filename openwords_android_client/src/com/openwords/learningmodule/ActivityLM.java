@@ -14,6 +14,12 @@ import static com.openwords.util.preference.OpenwordsSharedPreferences.SELF_EVAL
 import static com.openwords.util.preference.OpenwordsSharedPreferences.TYPE_EVALUATION_PROGRESS;
 import java.util.List;
 
+/**
+ * The Activity class for all LMs, so it applies the same Reverse Navigation,
+ * Page Transformer and more.
+ *
+ * @author hanaldo
+ */
 public class ActivityLM extends FragmentActivity {
 
     private List<LeafCard> cardsPool;
