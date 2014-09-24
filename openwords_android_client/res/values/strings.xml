@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="app_name">Openwords</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
@@ -12,9 +11,70 @@
     <string name="flashword_string_homePageLift06">מלה</string>
     <string name="flashword_string_homePageLift07">słowo</string>
     <string name="flashword_string_homePageLift08">ಪದ</string>
-    <string name="pushMe_start_activity_button_loginPageGo">Log in</string>
-    <string name="loginPage_Button_registerGo">Register</string>
-    <string name="loginPage_CheckBox_rememberMe">Remember me</string>
+    <string-array name="pushMe_start_activity_button_loginPageGo">
+        <item>Log in</item>
+        <item>登入</item>
+    </string-array>
+    <string-array name="loginPage_Button_registerGo">
+        <item>Register</item>
+        <item>注册新用户</item>
+    </string-array>
+    <string-array name="loginPage_CheckBox_rememberMe">
+        <item>Remember me</item>
+        <item>记住我的登入信息</item>
+    </string-array>
+    <string-array name="loginPage_ProgressDialog_validating_user">
+        <item>Validating user</item>
+        <item>正在验证用户信息</item>
+    </string-array>
+    <string-array name="loginPage_Toast_login_error">
+        <item>Username/Password incorrect</item>
+        <item>用户名或密码错误</item>
+    </string-array>
+    <string-array name="loginPage_Toast_internet_error">
+        <item>Cannot get access to internet</item>
+        <item>无法连接网络</item>
+    </string-array>
+    <string-array name="homePage_Spinner_review">
+        <item>Review</item>
+        <item>简单回顾</item>
+    </string-array>
+    <string-array name="homePage_Spinner_self">
+        <item>Self Evaluation</item>
+        <item>自我评估</item>
+    </string-array>
+    <string-array name="homePage_Spinner_type">
+        <item>Type Evaluation</item>
+        <item>拼写评估</item>
+    </string-array>
+    <string-array name="homePage_Spinner_hear">
+        <item>Hearing</item>
+        <item>听词评估</item>
+    </string-array>
+    <string-array name="dialog_Exit_title">
+        <item>Really Exit</item>
+        <item>确认关闭</item>
+    </string-array>
+    <string-array name="dialog_Exit_content">
+        <item>Are you sure you want to exit</item>
+        <item>您确定要关闭本程序吗</item>
+    </string-array>
+    <string-array name="dialog_Logout_title">
+        <item>Really Logout</item>
+        <item>确认登出</item>
+    </string-array>
+    <string-array name="dialog_Logout_content">
+        <item>Are you sure you want to log out</item>
+        <item>您确定要登出当前用户吗</item>
+    </string-array>
+    <string-array name="confirm_yes">
+        <item>Yes</item>
+        <item>是</item>
+    </string-array>
+    <string-array name="confirm_no">
+        <item>No</item>
+        <item>否</item>
+    </string-array>
     <string name="logoImage_description">Openwords logo</string>
     <string name="loginPage">Please log in</string>
     <string name="loginPage_EditText_username">Username</string>
@@ -47,9 +107,13 @@
     <string name="homePage_item_words">Word Page</string>
     <string name="homePage_item_stats">Statistics</string>
     <string name="homePage_item_others">Menu</string>
-    <string name="homePage_Button_testPageGo">Go</string>
+    <string-array
+        name="homePage_Button_testPageGo">
+        <item>Go</item>
+        <item>开始</item>
+    </string-array>
     <string name="homePage_spinner_begin">Task spinner</string>
-	<string name="wordsPage_ImageButton_syncButton_desc">Button for sync with server</string>
+    <string name="wordsPage_ImageButton_syncButton_desc">Button for sync with server</string>
     <string-array name="homePage_spinner_begin_array">
         <item>Review</item>
         <item>Self evaluation</item>
@@ -80,28 +144,28 @@
     <string name="statsPage_TextView_monthNumber">0</string>
     <string name="statsPage_TextView_wordLearnt">Words learnt</string>
     <string name="wordsPage_TextView_wordsPageTitle">Get new words (below)</string>
-	<string name="wordsPage_Button_getNextWords">Next words</string>
-	<string name="wordsPage_Button_searchWords">Search words</string>
-	<string name="wordsPage_Button_searchWordSets">Search word sets</string>
-	<string name="wordsPage_Button_viewMyWords">View my words</string>
-	<string name="profilePage_TextView_profilePageTitle">Tell us about yourself. This will help us customize your learning experience </string>
-	<string name="profilePage_CheckBox_item1">Like to learn new stuff?</string>
-	<string name="profilePage_CheckBox_item2">A quick learner?</string>
-	<string name="profilePage_CheckBox_item3">A lot of free time?</string>
-	<string name="profilePage_CheckBox_item4">Have good long term memory?</string>
-	<string name="selfEvaluate_ImageView_audioPlay">Icon play audio</string>
-	<string name="languagePage_Button_submit">Submit</string>
-	<string name="hearing_EditText_input">Input what you hear</string>
-	<string name="hearing_ImageView_checkButton">Showing user input</string>
-	<string name="typeEvaluate_EditText_input">Input the translation</string>
-	<string name="profilePage_TextView_preknowledge">How many words do you already know?</string>
-	<string name="plateCompletion_Button_newWord">Get new words</string>
-	<string name="plateCompletion_Button_nextPlate">Next round</string>
-	<string name="plateCompletion_Button_home">Home</string>
-	<string name="WP_ok">Ok</string>
-	<string name="WP_Cancel">Cancel</string>
-	<string name="settingsPage_TextView_WSA">Select selection algorithm</string>
-	<string name="settingsPage_TextView_leafCardSize">Number of leaf-cards per round</string>
-	<string name="settingsPage_RadioButton_displayPortalPage">Display portal page icon</string>
-	<string name="settingsPage_RadioButton_hidePortalPage">Hide portal page icon</string>
+    <string name="wordsPage_Button_getNextWords">Next words</string>
+    <string name="wordsPage_Button_searchWords">Search words</string>
+    <string name="wordsPage_Button_searchWordSets">Search word sets</string>
+    <string name="wordsPage_Button_viewMyWords">View my words</string>
+    <string name="profilePage_TextView_profilePageTitle">Tell us about yourself. This will help us customize your learning experience </string>
+    <string name="profilePage_CheckBox_item1">Like to learn new stuff?</string>
+    <string name="profilePage_CheckBox_item2">A quick learner?</string>
+    <string name="profilePage_CheckBox_item3">A lot of free time?</string>
+    <string name="profilePage_CheckBox_item4">Have good long term memory?</string>
+    <string name="selfEvaluate_ImageView_audioPlay">Icon play audio</string>
+    <string name="languagePage_Button_submit">Submit</string>
+    <string name="hearing_EditText_input">Input what you hear</string>
+    <string name="hearing_ImageView_checkButton">Showing user input</string>
+    <string name="typeEvaluate_EditText_input">Input the translation</string>
+    <string name="profilePage_TextView_preknowledge">How many words do you already know?</string>
+    <string name="plateCompletion_Button_newWord">Get new words</string>
+    <string name="plateCompletion_Button_nextPlate">Next round</string>
+    <string name="plateCompletion_Button_home">Home</string>
+    <string name="WP_ok">Ok</string>
+    <string name="WP_Cancel">Cancel</string>
+    <string name="settingsPage_TextView_WSA">Select selection algorithm</string>
+    <string name="settingsPage_TextView_leafCardSize">Number of leaf-cards per round</string>
+    <string name="settingsPage_RadioButton_displayPortalPage">Display portal page icon</string>
+    <string name="settingsPage_RadioButton_hidePortalPage">Hide portal page icon</string>
 </resources>

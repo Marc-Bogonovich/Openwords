@@ -36,6 +36,7 @@ import com.openwords.services.SetUserWords;
 import com.openwords.tts.Speak;
 import com.openwords.ui.common.BackButtonBehavior;
 import com.openwords.util.TimeConvertor;
+import com.openwords.util.localization.LocalizationManager;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
 import com.openwords.view.actionbar.ActionBarBuilder;
@@ -81,13 +82,19 @@ public class HomePage extends Activity implements OnClickListener, OnItemSelecte
         l2_dropdown = (Spinner) findViewById(R.id.homePage_Spinner_chooseLanguage);
 
         begin = (Spinner) findViewById(R.id.homePage_Spinner_begin);
-        ArrayAdapter<CharSequence> beginAdapter = ArrayAdapter.createFromResource(this, R.array.homePage_spinner_begin_array, android.R.layout.simple_spinner_item);
-        beginAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        String[] options = new String[]{
+            LocalizationManager.getTextOptionReview(),
+            LocalizationManager.getTextOptionSelf(),
+            LocalizationManager.getTextOptionType(),
+            LocalizationManager.getTextOptionHearing()
+        };
+        ArrayAdapter<CharSequence> beginAdapter = new ArrayAdapter<CharSequence>(this, android.R.layout.simple_spinner_dropdown_item, options);
         begin.setAdapter(beginAdapter);
         begin.setOnItemSelectedListener(this);
 
         Button testPageGo = (Button) findViewById(R.id.homePage_Button_testPageGo);
         testPageGo.setOnClickListener(HomePage.this);
+        testPageGo.setText(LocalizationManager.getTextGo());
 
         userinfo = OpenwordsSharedPreferences.getUserInfo();
 
@@ -138,12 +145,7 @@ public class HomePage extends Activity implements OnClickListener, OnItemSelecte
                         user.setLang_id(homelang_id);
                         user.setLang_Name(homelang_name); //new
                         OpenwordsSharedPreferences.setUserInfo(user);
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(HomePage.this, "Selected Lang: " + OpenwordsSharedPreferences.getUserInfo().getLang_Name() + " ID: " + OpenwordsSharedPreferences.getUserInfo().getLang_id(), Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                        Toast.makeText(HomePage.this, "Selected Lang: " + OpenwordsSharedPreferences.getUserInfo().getLang_Name() + " ID: " + OpenwordsSharedPreferences.getUserInfo().getLang_id(), Toast.LENGTH_SHORT).show();
 
                         Log.d("saved Lang", "" + OpenwordsSharedPreferences.getUserInfo().getLang_id()
                                 + OpenwordsSharedPreferences.getUserInfo().getLang_Name()); //new

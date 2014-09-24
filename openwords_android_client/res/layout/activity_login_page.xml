@@ -50,8 +50,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/loginPage_EditText_password"
         android:layout_centerHorizontal="true"
-        android:textColor="@color/black"
-        android:text="@string/loginPage_CheckBox_rememberMe" />
+        android:textColor="@color/black"/>
 
     <LinearLayout android:id="@+id/loginPage_button_group"
                   android:layout_width="match_parent"
@@ -67,8 +66,7 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:layout_weight="1"
-            android:background="@drawable/button_custom"
-            android:text="@string/loginPage_Button_registerGo" />
+            android:background="@drawable/button_custom"/>
 
         <Button
             android:id="@+id/loginPage_Button_loginSubmit"
@@ -77,8 +75,7 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:layout_weight="1"
-            android:background="@drawable/button_custom"
-            android:text="@string/pushMe_start_activity_button_loginPageGo" />
+            android:background="@drawable/button_custom"/>
     </LinearLayout>
     
     <TextView android:id="@+id/loginPage_test"

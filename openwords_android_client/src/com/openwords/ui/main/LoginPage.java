@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 import com.openwords.R;
@@ -29,6 +30,8 @@ import com.openwords.util.UIHelper;
 import com.openwords.util.WordSelectionAlg;
 import com.openwords.util.WordSelectionAlgNoRepeat;
 import com.openwords.util.file.LocalFileSystem;
+import com.openwords.util.localization.LocalLanguage;
+import com.openwords.util.localization.LocalizationManager;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
 import java.util.List;
@@ -70,11 +73,16 @@ public class LoginPage extends Activity implements OnClickListener {
 //            UIHelper.displayText(this, R.id.loginPage_EditText_password, password);
             UIHelper.setCBChecked(this, R.id.loginPage_CheckBox_rememberMe, true);
         }
+        //usernameField.setText("t20");
+        //passwdField.setText("1");
 
         Button loginButton = (Button) findViewById(R.id.loginPage_Button_loginSubmit);
         loginButton.setOnClickListener(this);
+        loginButton.setText(LocalizationManager.getTextLogin());
         Button registerButton = (Button) findViewById(R.id.loginPage_Button_registerGo);
         registerButton.setOnClickListener(this);
+        registerButton.setText(LocalizationManager.getTextRegister());
+        ((CheckBox) findViewById(R.id.loginPage_CheckBox_rememberMe)).setText(LocalizationManager.getTextRememberMe());
 
         if (!OpenwordsSharedPreferences.isAppStarted()) {
             Intent i = new Intent(this, WelcomePage.class);
@@ -115,10 +123,10 @@ public class LoginPage extends Activity implements OnClickListener {
     private void loginButtonClick() {
         if (InternetCheck.checkConn(LoginPage.this)) {
             pDialog = ProgressDialog.show(LoginPage.this, "",
-                    "Validating user...", true);
+                    LocalizationManager.getTextValidatingUser() + "...", true);
             login(usernameField.getText().toString(), passwdField.getText().toString());
         } else {
-            Toast.makeText(LoginPage.this, "Cannot get access to internet", Toast.LENGTH_SHORT).show();
+            Toast.makeText(LoginPage.this, LocalizationManager.getTextInternetError(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -179,7 +187,7 @@ public class LoginPage extends Activity implements OnClickListener {
                             }
                         });
                     } else {
-                        Toast.makeText(LoginPage.this, "Username/Password incorrect", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginPage.this, LocalizationManager.getTextLoginError(), Toast.LENGTH_SHORT).show();
                         if (error != null) {
                             Toast.makeText(LoginPage.this, error.toString(), Toast.LENGTH_SHORT).show();
                         }
@@ -215,6 +223,8 @@ public class LoginPage extends Activity implements OnClickListener {
         OpenwordsSharedPreferences.init(this);
         Speak.getInstance(this);
         LocalFileSystem.makeFolders();
+        LocalizationManager.init(this);
+        LocalizationManager.setLocalLanguage(LocalLanguage.English);
     }
 
     private void cleanServices() {
