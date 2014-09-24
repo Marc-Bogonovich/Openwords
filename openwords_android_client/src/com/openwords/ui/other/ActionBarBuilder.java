@@ -1,5 +1,7 @@
-package com.openwords.view.actionbar;
+package com.openwords.ui.other;
 
+import com.openwords.ui.main.PortalPage;
+import com.openwords.ui.main.WordsPage;
 import android.app.Activity;
 import android.content.Intent;
 import android.view.View;
@@ -10,6 +12,7 @@ import com.openwords.ui.common.DialogForSettingSelection;
 import com.openwords.ui.main.HomePage;
 import com.openwords.util.localization.LocalizationManager;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
+import com.openwords.ui.main.StatsPage;
 
 public class ActionBarBuilder {
 

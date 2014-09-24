@@ -1,4 +1,4 @@
-package com.openwords.view.actionbar;
+package com.openwords.ui.main;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -25,6 +25,8 @@ import com.openwords.model.WordTranscription;
 import com.openwords.ui.common.BackButtonBehavior;
 import com.openwords.util.TimeConvertor;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
+import com.openwords.ui.other.ActionBarBuilder;
+import com.openwords.ui.other.NextWords;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.http.NameValuePair;

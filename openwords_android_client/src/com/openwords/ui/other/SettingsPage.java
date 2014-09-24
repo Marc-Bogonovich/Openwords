@@ -1,5 +1,6 @@
-package com.openwords.view.actionbar;
+package com.openwords.ui.other;
 
+import com.openwords.ui.other.BackIcons;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;

@@ -47,18 +47,16 @@
                   android:configChanges="orientation|screenSize">
         </activity>
         
-        <activity
-            android:name=".view.actionbar.NextWords"
-            android:label="@string/title_activity_NextWords"
-            android:theme="@android:style/Theme.Dialog"
-            android:configChanges="orientation|screenSize">
+        <activity android:name=".ui.other.NextWords"
+                  android:label="@string/title_activity_NextWords"
+                  android:theme="@android:style/Theme.Dialog"
+                  android:configChanges="orientation|screenSize">
         </activity>
         
-        <activity
-            android:name="com.openwords.view.actionbar.ProfilePage"
-            android:label="@string/title_activity_profilePage"
-            android:theme="@style/NoTitleTheme"
-            android:configChanges="orientation|screenSize">
+        <activity android:name=".ui.other.ProfilePage"
+                  android:label="@string/title_activity_profilePage"
+                  android:theme="@style/NoTitleTheme"
+                  android:configChanges="orientation|screenSize">
         </activity>
         
         <activity android:name=".ui.main.RegisterPage"
@@ -76,39 +74,34 @@
                   android:configChanges="orientation|screenSize">
         </activity>
         
-        <activity
-            android:name="com.openwords.view.actionbar.WordsPage"
-            android:label="@string/title_activity_wordsPage"
-            android:theme="@style/NoTitleTheme"
-            android:configChanges="orientation|screenSize">
+        <activity android:name=".ui.main.WordsPage"
+                  android:label="@string/title_activity_wordsPage"
+                  android:theme="@style/NoTitleTheme"
+                  android:configChanges="orientation|screenSize">
         </activity>
         
-        <activity
-            android:name="com.openwords.view.actionbar.StatsPage"
-            android:label="@string/title_activity_statsPage"
-            android:theme="@style/NoTitleTheme"
-            android:configChanges="orientation|screenSize">
+        <activity android:name=".ui.main.StatsPage"
+                  android:label="@string/title_activity_statsPage"
+                  android:theme="@style/NoTitleTheme"
+                  android:configChanges="orientation|screenSize">
         </activity>
         
-        <activity
-            android:name="com.openwords.view.actionbar.PortalPage"
-            android:label="@string/title_activity_portalPage"
-            android:theme="@style/NoTitleTheme"
-            android:configChanges="orientation|screenSize">
+        <activity android:name=".ui.main.PortalPage"
+                  android:label="@string/title_activity_portalPage"
+                  android:theme="@style/NoTitleTheme"
+                  android:configChanges="orientation|screenSize">
         </activity>
                
-        <activity
-            android:name="com.openwords.view.actionbar.SettingsPage"
-            android:label="@string/title_activity_settingsPage"
-            android:theme="@style/NoTitleTheme"
-            android:configChanges="orientation|screenSize">
+        <activity android:name=".ui.other.SettingsPage"
+                  android:label="@string/title_activity_settingsPage"
+                  android:theme="@style/NoTitleTheme"
+                  android:configChanges="orientation|screenSize">
         </activity>
         
-        <activity
-            android:name="com.openwords.view.actionbar.TutorialPage"
-            android:label="@string/title_activity_tutorial_page"
-            android:theme="@style/NoTitleTheme"
-            android:configChanges="orientation|screenSize">
+        <activity android:name=".ui.other.TutorialPage"
+                  android:label="@string/title_activity_tutorial_page"
+                  android:theme="@style/NoTitleTheme"
+                  android:configChanges="orientation|screenSize">
         </activity>
         
         <activity android:name=".learningmodule.ActivityLM"

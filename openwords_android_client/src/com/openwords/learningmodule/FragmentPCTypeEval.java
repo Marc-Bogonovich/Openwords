@@ -22,10 +22,10 @@ import com.openwords.model.LeafCardTypeEval;
 import com.openwords.model.LeafCardTypeEvalAdapter;
 import com.openwords.model.UserPerformanceDirty;
 import com.openwords.ui.main.HomePage;
+import com.openwords.ui.main.WordsPage;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
 import static com.openwords.util.preference.OpenwordsSharedPreferences.TYPE_EVALUATION_PROGRESS;
-import com.openwords.view.actionbar.WordsPage;
 import java.util.List;
 
 public class FragmentPCTypeEval extends Fragment {

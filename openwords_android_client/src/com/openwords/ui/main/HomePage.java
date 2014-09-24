@@ -39,7 +39,7 @@ import com.openwords.util.TimeConvertor;
 import com.openwords.util.localization.LocalizationManager;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
-import com.openwords.view.actionbar.ActionBarBuilder;
+import com.openwords.ui.other.ActionBarBuilder;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;

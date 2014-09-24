@@ -1,4 +1,4 @@
-package com.openwords.view.actionbar;
+package com.openwords.ui.other;
 
 import java.util.ArrayList;
 import java.util.List;

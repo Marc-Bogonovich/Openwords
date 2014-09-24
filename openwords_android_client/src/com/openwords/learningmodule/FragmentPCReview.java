@@ -19,10 +19,10 @@ import com.openwords.model.LeafCard;
 import com.openwords.model.LeafCardReviewAdapter;
 import com.openwords.model.UserPerformanceDirty;
 import com.openwords.ui.main.HomePage;
+import com.openwords.ui.main.WordsPage;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
 import static com.openwords.util.preference.OpenwordsSharedPreferences.REVIEW_PROGRESS;
-import com.openwords.view.actionbar.WordsPage;
 import java.util.List;
 
 public class FragmentPCReview extends Fragment {

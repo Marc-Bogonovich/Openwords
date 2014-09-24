@@ -1,4 +1,4 @@
-package com.openwords.view.actionbar;
+package com.openwords.ui.other;
 
 import android.app.Activity;
 import com.openwords.R;
