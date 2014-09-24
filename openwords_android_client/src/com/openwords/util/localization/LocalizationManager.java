@@ -6,19 +6,20 @@ import com.openwords.R;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- *
- * @author hanaldo
- */
 public class LocalizationManager {
+
+    public static Object[][] LanguageTypesNamesIds = new Object[][]{
+        new Object[]{"English", LocalLanguage.English, 1},
+        new Object[]{"简体中文", LocalLanguage.Chinese, 11}
+    };
 
     private static Context c;
     private static Map<LocalLanguage, Integer> textIndexMapping = new HashMap<LocalLanguage, Integer>(100);
     private static LocalLanguage lang;
     private static Resources res;
     private static String textLogin, textRegister, textRememberMe, textValidatingUser, textLoginError, textInternetError,
-            textGo, textOptionReview, textOptionSelf, textOptionType, textOptionHearing, textExitTitle, textExitContent,
-            textYes, textNo, textLogoutTitle, textLogoutContent;
+            textGo, textOptionReview, textOptionSelf, textOptionType, textOptionHearing, textExitContent,
+            textYes, textNo, textLogoutContent, textLangOptionGreet, textLangOptionTitle, textAreYouSure, textLangOptionChange;
 
     public static void init(Context context) {
         c = context;
@@ -41,12 +42,14 @@ public class LocalizationManager {
         textOptionSelf = getText(R.array.homePage_Spinner_self);
         textOptionType = getText(R.array.homePage_Spinner_type);
         textOptionHearing = getText(R.array.homePage_Spinner_hear);
-        textExitTitle = getText(R.array.dialog_Exit_title);
         textExitContent = getText(R.array.dialog_Exit_content);
         textYes = getText(R.array.confirm_yes);
         textNo = getText(R.array.confirm_no);
-        textLogoutTitle = getText(R.array.dialog_Logout_title);
         textLogoutContent = getText(R.array.dialog_Logout_content);
+        textLangOptionGreet = getText(R.array.lang_option_greet);
+        textLangOptionTitle = getText(R.array.lang_option_title);
+        textAreYouSure = getText(R.array.are_you_sure);
+        textLangOptionChange = getText(R.array.lang_option_change);
     }
 
     private static String getText(int id) {
@@ -97,10 +100,6 @@ public class LocalizationManager {
         return textOptionHearing;
     }
 
-    public static String getTextExitTitle() {
-        return textExitTitle;
-    }
-
     public static String getTextExitContent() {
         return textExitContent;
     }
@@ -113,12 +112,24 @@ public class LocalizationManager {
         return textNo;
     }
 
-    public static String getTextLogoutTitle() {
-        return textLogoutTitle;
-    }
-
     public static String getTextLogoutContent() {
         return textLogoutContent;
+    }
+
+    public static String getTextLangOptionGreet() {
+        return textLangOptionGreet;
+    }
+
+    public static String getTextLangOptionTitle() {
+        return textLangOptionTitle;
+    }
+
+    public static String getTextAreYouSure() {
+        return textAreYouSure;
+    }
+
+    public static String getTextLangOptionChange() {
+        return textLangOptionChange;
     }
 
     private LocalizationManager() {

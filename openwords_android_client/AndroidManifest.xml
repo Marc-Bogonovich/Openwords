@@ -134,6 +134,11 @@
                   android:theme="@android:style/Theme.Holo"
                   android:configChanges="orientation|screenSize">
         </activity>
+        
+        <activity android:name=".ui.main.LocalOptionPage"
+                  android:theme="@style/NoTitleTheme"
+                  android:configChanges="orientation|screenSize">
+        </activity>
     </application>
 
 </manifest>

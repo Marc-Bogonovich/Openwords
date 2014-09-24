@@ -9,8 +9,8 @@ public class BackButtonBehavior {
 
     public static void whenAtMainPages(final Activity activity, final BackActionConfirmed callback) {
         new AlertDialog.Builder(activity)
-                .setTitle(LocalizationManager.getTextLogoutTitle() + "?")
-                .setMessage(LocalizationManager.getTextLogoutContent() + "?")
+                .setTitle(LocalizationManager.getTextAreYouSure())
+                .setMessage(LocalizationManager.getTextLogoutContent())
                 .setNegativeButton(LocalizationManager.getTextNo(), null)
                 .setPositiveButton(LocalizationManager.getTextYes(), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface arg0, int arg1) {
@@ -23,8 +23,8 @@ public class BackButtonBehavior {
 
     public static void whenAtFirstPage(final Activity activity, final BackActionConfirmed callback) {
         new AlertDialog.Builder(activity)
-                .setTitle(LocalizationManager.getTextExitTitle() + "?")
-                .setMessage(LocalizationManager.getTextExitContent() + "?")
+                .setTitle(LocalizationManager.getTextAreYouSure())
+                .setMessage(LocalizationManager.getTextExitContent())
                 .setNegativeButton(LocalizationManager.getTextNo(), null)
                 .setPositiveButton(LocalizationManager.getTextYes(), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface arg0, int arg1) {

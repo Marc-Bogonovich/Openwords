@@ -46,6 +46,9 @@ public class LoginPage extends Activity implements OnClickListener {
         LoginPage.username = username;
         LoginPage.password = password;
     }
+    private Button loginButton, registerButton;
+    private CheckBox remember;
+
     private ProgressDialog pDialog = null;
     private EditText usernameField;
     private EditText passwdField;
@@ -76,13 +79,8 @@ public class LoginPage extends Activity implements OnClickListener {
         //usernameField.setText("t20");
         //passwdField.setText("1");
 
-        Button loginButton = (Button) findViewById(R.id.loginPage_Button_loginSubmit);
-        loginButton.setOnClickListener(this);
-        loginButton.setText(LocalizationManager.getTextLogin());
-        Button registerButton = (Button) findViewById(R.id.loginPage_Button_registerGo);
-        registerButton.setOnClickListener(this);
-        registerButton.setText(LocalizationManager.getTextRegister());
-        ((CheckBox) findViewById(R.id.loginPage_CheckBox_rememberMe)).setText(LocalizationManager.getTextRememberMe());
+        getUI();
+        fillUI();
 
         if (!OpenwordsSharedPreferences.isAppStarted()) {
             Intent i = new Intent(this, WelcomePage.class);
@@ -102,6 +100,20 @@ public class LoginPage extends Activity implements OnClickListener {
                 startActivity(new Intent(LoginPage.this, ActivityTest.class));
             }
         });
+    }
+
+    private void getUI() {
+        loginButton = (Button) findViewById(R.id.loginPage_Button_loginSubmit);
+        loginButton.setOnClickListener(this);
+        registerButton = (Button) findViewById(R.id.loginPage_Button_registerGo);
+        registerButton.setOnClickListener(this);
+        remember = (CheckBox) findViewById(R.id.loginPage_CheckBox_rememberMe);
+    }
+
+    private void fillUI() {
+        loginButton.setText(LocalizationManager.getTextLogin());
+        registerButton.setText(LocalizationManager.getTextRegister());
+        remember.setText(LocalizationManager.getTextRememberMe());
     }
 
     public void onClick(View v) {
@@ -138,6 +150,7 @@ public class LoginPage extends Activity implements OnClickListener {
             DoRegistration = false;
             login(username, password);
         }
+        fillUI();
     }
 
     private void login(final String username, final String password) {
@@ -224,7 +237,14 @@ public class LoginPage extends Activity implements OnClickListener {
         Speak.getInstance(this);
         LocalFileSystem.makeFolders();
         LocalizationManager.init(this);
-        LocalizationManager.setLocalLanguage(LocalLanguage.English);
+
+        LocalLanguage lang = OpenwordsSharedPreferences.getAppLanguage();
+        if (lang == null) {
+            LocalizationManager.setLocalLanguage(LocalLanguage.English);
+            startActivity(new Intent(this, LocalOptionPage.class));
+        } else {
+            LocalizationManager.setLocalLanguage(lang);
+        }
     }
 
     private void cleanServices() {

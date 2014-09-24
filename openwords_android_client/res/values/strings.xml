@@ -75,6 +75,22 @@
         <item>No</item>
         <item>否</item>
     </string-array>
+    <string-array name="lang_option_greet">
+        <item>Hi there, we detect that your phone is using English, do you want to use #ENGLISH$ as your native language?</item>
+        <item>您好，我们检测到您的手机用的是简体中文，您想要使用#简体中文$作为您的本地语言吗？</item>
+    </string-array>
+    <string-array name="lang_option_title">
+        <item>Please choose your native language</item>
+        <item>请选择您的本地语言</item>
+    </string-array>
+    <string-array name="lang_option_change">
+        <item>Change your native language</item>
+        <item>改变您的本地语言</item>
+    </string-array>
+    <string-array name="are_you_sure">
+        <item>Are you sure?</item>
+        <item>您确定吗？</item>
+    </string-array>
     <string name="logoImage_description">Openwords logo</string>
     <string name="loginPage">Please log in</string>
     <string name="loginPage_EditText_username">Username</string>
