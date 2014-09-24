@@ -45,12 +45,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public class HomePage extends Activity implements OnClickListener, OnItemSelectedListener {
+public class HomePage extends Activity {
 
     private static boolean welcome;
     public static HomePage instance;
-    private Spinner begin;
-    private Spinner l2_dropdown;
+    private Spinner begin, l2_dropdown;
     private int language_position = -1;
     private List<String> languageOptions;
     private ArrayAdapter<String> dropdownAdapter;
@@ -62,6 +61,7 @@ public class HomePage extends Activity implements OnClickListener, OnItemSelecte
     private ActionBarBuilder actionBar;
     private LearningModuleType lmType = null;
     private Map<LearningModuleType, int[]> layoutIds = new HashMap<LearningModuleType, int[]>(4);
+    private Button testPageGo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,19 +82,43 @@ public class HomePage extends Activity implements OnClickListener, OnItemSelecte
         l2_dropdown = (Spinner) findViewById(R.id.homePage_Spinner_chooseLanguage);
 
         begin = (Spinner) findViewById(R.id.homePage_Spinner_begin);
-        String[] options = new String[]{
-            LocalizationManager.getTextOptionReview(),
-            LocalizationManager.getTextOptionSelf(),
-            LocalizationManager.getTextOptionType(),
-            LocalizationManager.getTextOptionHearing()
-        };
-        ArrayAdapter<CharSequence> beginAdapter = new ArrayAdapter<CharSequence>(this, android.R.layout.simple_spinner_dropdown_item, options);
-        begin.setAdapter(beginAdapter);
-        begin.setOnItemSelectedListener(this);
+        begin.setOnItemSelectedListener(new OnItemSelectedListener() {
 
-        Button testPageGo = (Button) findViewById(R.id.homePage_Button_testPageGo);
-        testPageGo.setOnClickListener(HomePage.this);
-        testPageGo.setText(LocalizationManager.getTextGo());
+            public void onItemSelected(AdapterView<?> av, View view, int i, long l) {
+                switch (i) {
+                    case 0:
+                        lmType = LearningModuleType.LM_Review;
+                        break;
+                    case 1:
+                        lmType = LearningModuleType.LM_SelfEvaluation;
+                        break;
+                    case 2:
+                        lmType = LearningModuleType.LM_TypeEvaluation;
+                        break;
+                    case 3:
+                        lmType = LearningModuleType.LM_HearingEvaluation;
+                        break;
+                    default:
+                        lmType = null;
+                        break;
+                }
+                if (lmType != null) {
+                    Toast.makeText(HomePage.this, "Current LM type: " + lmType.toString(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            public void onNothingSelected(AdapterView<?> av) {
+                //do nothing
+            }
+        });
+
+        testPageGo = (Button) findViewById(R.id.homePage_Button_testPageGo);
+        testPageGo.setOnClickListener(new OnClickListener() {
+
+            public void onClick(View view) {
+                testPageButtonClick();
+            }
+        });
 
         userinfo = OpenwordsSharedPreferences.getUserInfo();
 
@@ -105,6 +129,17 @@ public class HomePage extends Activity implements OnClickListener, OnItemSelecte
             Speak.getInstance(null).speak("welcome to openwords");
             welcome = true;
         }
+    }
+
+    private void fillUI() {
+        String[] options = new String[]{
+            LocalizationManager.getTextOptionReview(),
+            LocalizationManager.getTextOptionSelf(),
+            LocalizationManager.getTextOptionType(),
+            LocalizationManager.getTextOptionHearing()
+        };
+        begin.setAdapter(new ArrayAdapter<CharSequence>(this, android.R.layout.simple_spinner_dropdown_item, options));
+        testPageGo.setText(LocalizationManager.getTextGo());
     }
 
     private void refreshLanguageOptions() {
@@ -134,8 +169,7 @@ public class HomePage extends Activity implements OnClickListener, OnItemSelecte
             l2_dropdown.setOnItemSelectedListener(new OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                    Log.d("whatever", Integer.toString(position));
-                    Log.d("ID", Integer.toString(DataPool.LanguageList.get(position).getL2id()));
+                    LogUtil.logDeubg(this, "L2 ID: " + Integer.toString(DataPool.LanguageList.get(position).getL2id()));
                     if (DataPool.LanguageList.get(position).getL2id() == -999) {
                         HomePage.this.startActivity(new Intent(HomePage.this, LanguagePage.class));
                     } else {
@@ -186,7 +220,7 @@ public class HomePage extends Activity implements OnClickListener, OnItemSelecte
      e.printStackTrace();
      }
      }*/
-    public void updateWordsOnServer(String conIds, long dTime) {
+    private void updateWordsOnServer(String conIds, long dTime) {
         LogUtil.logDeubg(HomePage.this, "updateWordsOnServer: " + conIds);
         int user = OpenwordsSharedPreferences.getUserInfo().getUserId();
         int langTwo = OpenwordsSharedPreferences.getUserInfo().getLang_id();
@@ -273,15 +307,7 @@ public class HomePage extends Activity implements OnClickListener, OnItemSelecte
         actionBar.checkSetting();
         SIZE = OpenwordsSharedPreferences.getLeafCardSize();
         refreshLanguageOptions();
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.homePage_Button_testPageGo:
-                testPageButtonClick();
-                break;
-        }
+        fillUI();
     }
 
     @Override
@@ -303,7 +329,7 @@ public class HomePage extends Activity implements OnClickListener, OnItemSelecte
             LogUtil.logDeubg(this, "existList isEmpty");
             //getFirstWordsFromServer();
             GetWords.request(Integer.toString(OpenwordsSharedPreferences.getUserInfo().getUserId()),
-                    "1",
+                    "1",//to-do
                     Integer.toString(OpenwordsSharedPreferences.getUserInfo().getLang_id()),
                     0,
                     new GetWords.AsyncCallback() {
@@ -345,31 +371,4 @@ public class HomePage extends Activity implements OnClickListener, OnItemSelecte
                     });
         }
     }
-
-    public void onItemSelected(AdapterView<?> av, View view, int i, long l) {
-        switch (i) {
-            case 0:
-                lmType = LearningModuleType.LM_Review;
-                break;
-            case 1:
-                lmType = LearningModuleType.LM_SelfEvaluation;
-                break;
-            case 2:
-                lmType = LearningModuleType.LM_TypeEvaluation;
-                break;
-            case 3:
-                lmType = LearningModuleType.LM_HearingEvaluation;
-                break;
-            default:
-                lmType = null;
-                break;
-        }
-        if (lmType != null) {
-            Toast.makeText(this, "Current LM type: " + lmType.toString(), Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    public void onNothingSelected(AdapterView<?> av) {
-    }
-
 }

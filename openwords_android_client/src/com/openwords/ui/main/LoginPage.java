@@ -34,7 +34,6 @@ import com.openwords.util.localization.LocalizationManager;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
 import java.util.List;
-import java.util.Locale;
 
 public class LoginPage extends Activity {
 
@@ -63,7 +62,6 @@ public class LoginPage extends Activity {
         setContentView(R.layout.activity_login_page);
 
         getUI();
-        fillUI();
 
         if (!OpenwordsSharedPreferences.isAppStarted()) {
             Intent i = new Intent(this, WelcomePage.class);
