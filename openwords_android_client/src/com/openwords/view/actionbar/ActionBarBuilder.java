@@ -8,6 +8,7 @@ import com.openwords.R;
 import com.openwords.ui.common.ActionBarBuilderForActivity;
 import com.openwords.ui.common.DialogForSettingSelection;
 import com.openwords.ui.main.HomePage;
+import com.openwords.util.localization.LocalizationManager;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
 
 public class ActionBarBuilder {
@@ -129,10 +130,10 @@ public class ActionBarBuilder {
     private void otherClicked() {
         final DialogForSettingSelection dialog[] = new DialogForSettingSelection[1];
         dialog[0] = new DialogForSettingSelection(activity)
-                .addItem("Profile")
-                .addItem("Settings")
-                .addItem("Tutorial")
-                .addItem("Log Out")
+                .addItem(LocalizationManager.getTextSettingProfile())
+                .addItem(LocalizationManager.getTextSettingSetting())
+                .addItem(LocalizationManager.getTextSettingTutor())
+                .addItem(LocalizationManager.getTextSettingLogout())
                 .build(new AdapterView.OnItemClickListener() {
 
                     public void onItemClick(AdapterView<?> av, View view, int position, long l) {

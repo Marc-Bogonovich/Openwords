@@ -107,6 +107,22 @@
         <item> + Add more languages</item>
         <item> + 添加更多的可学的语言</item>
     </string-array>
+    <string-array name="setting_profile">
+        <item>Profile</item>
+        <item>个人信息</item>
+    </string-array>
+    <string-array name="setting_setting">
+        <item>Settings</item>
+        <item>个人配置</item>
+    </string-array>
+    <string-array name="setting_tutor">
+        <item>Tutorial</item>
+        <item>使用指南</item>
+    </string-array>
+    <string-array name="setting_logout">
+        <item>Log Out</item>
+        <item>登出本用户</item>
+    </string-array>
     <string name="logoImage_description">Openwords logo</string>
     <string name="loginPage">Please log in</string>
     <string name="title_activity_loginPage">LoginPage</string>
