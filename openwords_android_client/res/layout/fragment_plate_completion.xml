@@ -47,22 +47,13 @@
                   android:gravity="center"
                   android:textSize="30sp"
                   android:layout_marginTop="20dp"
-                  android:layout_marginBottom="20dp"/>
-        
-        <Button android:id="@+id/plc_button_NewWords"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@drawable/button_custom"
-                android:text="@string/plateCompletion_Button_newWord"
-                android:textSize="20sp"/>
+                  android:layout_marginBottom="20dp"/>       
 
         <Button android:id="@+id/plc_button_NextPlate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:background="@drawable/button_custom"
-                android:text="@string/plateCompletion_Button_nextPlate"
                 android:textSize="20sp"/>
         
         <Button android:id="@+id/plc_button_Exit"
@@ -70,7 +61,6 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:background="@drawable/button_custom"
-                android:text="@string/plateCompletion_Button_home"
                 android:textSize="20sp"/>
         
     </LinearLayout>

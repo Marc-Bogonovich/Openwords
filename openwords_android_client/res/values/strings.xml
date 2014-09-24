@@ -123,6 +123,14 @@
         <item>Log Out</item>
         <item>登出本用户</item>
     </string-array>
+    <string-array name="pc_next">
+        <item>Continue</item>
+        <item>继续学习</item>
+    </string-array>
+    <string-array name="pc_end">
+        <item>Home</item>
+        <item>结束本次学习</item>
+    </string-array>
     <string name="logoImage_description">Openwords logo</string>
     <string name="loginPage">Please log in</string>
     <string name="title_activity_loginPage">LoginPage</string>

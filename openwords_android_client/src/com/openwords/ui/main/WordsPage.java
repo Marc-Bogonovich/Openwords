@@ -23,10 +23,10 @@ import com.openwords.model.JSONParser;
 import com.openwords.model.UserWords;
 import com.openwords.model.WordTranscription;
 import com.openwords.ui.common.BackButtonBehavior;
-import com.openwords.util.TimeConvertor;
-import com.openwords.util.preference.OpenwordsSharedPreferences;
 import com.openwords.ui.other.ActionBarBuilder;
 import com.openwords.ui.other.NextWords;
+import com.openwords.util.TimeConvertor;
+import com.openwords.util.preference.OpenwordsSharedPreferences;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.http.NameValuePair;
@@ -37,7 +37,6 @@ import org.json.JSONObject;
 
 public class WordsPage extends Activity implements OnClickListener {
 
-    private String[] nextWordsArray;
     private static String url_write_downloaded_words_to_server = "http://www.openwords.org/ServerPages/OpenwordsDB/setUserWords.php";
     private static String search_words_url = "http://www.openwords.org/ServerPages/WordsDB/wordsPageSearchWord.php";
     private static String[] searchWordsArray;
@@ -51,7 +50,6 @@ public class WordsPage extends Activity implements OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_words_page);
 
-        //ActionBarIcons.builder(this);
         actionBar = new ActionBarBuilder(this, ActionBarBuilder.Words_Page);
 
         Button getNextWords = (Button) findViewById(R.id.wordsPage_Button_getNextWords);
@@ -109,8 +107,6 @@ public class WordsPage extends Activity implements OnClickListener {
 
         });
         syncButton.setOnClickListener(this);
-        nextWordsArray = new String[]{"�� I", "�� you", "�� he"};
-        //searchWordsArray = new String[]{"�� cloud","��˾ company"};
         searchWordsArray = null;
     }
 

@@ -18,8 +18,7 @@ import com.openwords.model.LeafCard;
 import com.openwords.model.LeafCardSelfEval;
 import com.openwords.model.LeafCardSelfEvalAdapter;
 import com.openwords.model.UserPerformanceDirty;
-import com.openwords.ui.main.HomePage;
-import com.openwords.ui.main.WordsPage;
+import com.openwords.util.localization.LocalizationManager;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
 import static com.openwords.util.preference.OpenwordsSharedPreferences.SELF_EVALUATION_PROGRESS;
@@ -39,7 +38,7 @@ public class FragmentPCSelfEval extends Fragment {
     private Activity activity;
 
     private TextView vocabSize, performance, skip, birthday, birthdayDetail, evaluation;
-    private Button newWords, nextPlate, exit;
+    private Button nextPlate, exit;
     private List<LeafCard> cardsPool;
 
     public FragmentPCSelfEval(List<LeafCard> cardsPool) {
@@ -76,20 +75,24 @@ public class FragmentPCSelfEval extends Fragment {
         birthday = (TextView) myFragmentView.findViewById(R.id.plc_TextView_Birthday);
         birthdayDetail = (TextView) myFragmentView.findViewById(R.id.plc_TextView_BirthdayDetail);
         evaluation = (TextView) myFragmentView.findViewById(R.id.plc_TextView_HumanEvaluation);
-        newWords = (Button) myFragmentView.findViewById(R.id.plc_button_NewWords);
+        //newWords = (Button) myFragmentView.findViewById(R.id.plc_button_NewWords);
         nextPlate = (Button) myFragmentView.findViewById(R.id.plc_button_NextPlate);
+        nextPlate.setText(LocalizationManager.getTextPCNext());
         exit = (Button) myFragmentView.findViewById(R.id.plc_button_Exit);
-        newWords.setOnClickListener(new OnClickListener() {
-            public void onClick(View view) {
-                getActivity().finish();
-                saveRecord();
-                Intent i = new Intent(activity, WordsPage.class);
-                i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                activity.startActivity(i);
-                HomePage.instance.finish();
-            }
-        });
+        exit.setText(LocalizationManager.getTextPCEnd());
 
+        /*
+         newWords.setOnClickListener(new OnClickListener() {
+         public void onClick(View view) {
+         getActivity().finish();
+         saveRecord();
+         Intent i = new Intent(activity, WordsPage.class);
+         i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+         activity.startActivity(i);
+         HomePage.instance.finish();
+         }
+         });
+         */
         nextPlate.setOnClickListener(new OnClickListener() {
             public void onClick(View view) {
                 activity.finish();
