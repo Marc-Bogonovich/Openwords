@@ -34,6 +34,7 @@ import com.openwords.util.localization.LocalizationManager;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
 import java.util.List;
+import java.util.Locale;
 
 public class LoginPage extends Activity {
 
@@ -219,7 +220,19 @@ public class LoginPage extends Activity {
 
         LocalLanguage lang = OpenwordsSharedPreferences.getAppLanguage();
         if (lang == null) {
-            LocalizationManager.setLocalLanguage(LocalLanguage.English);
+            String current = getResources().getConfiguration().locale.getDisplayLanguage();
+            for (Object[] item : LocalizationManager.LanguageNamesTypesIdsLocales) {
+                String support = (String) item[3];
+                if (current.equals(support)) {
+                    LocalizationManager.setLocalLanguage((LocalLanguage) item[1]);
+                    LocalOptionPage.supported = true;
+                    break;
+                }
+            }
+            if (!LocalOptionPage.supported) {
+                LocalizationManager.setLocalLanguage(LocalLanguage.English);
+            }
+
             startActivity(new Intent(this, LocalOptionPage.class));
         } else {
             LocalizationManager.setLocalLanguage(lang);

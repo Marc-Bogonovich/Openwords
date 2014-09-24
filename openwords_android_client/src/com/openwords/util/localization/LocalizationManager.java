@@ -4,13 +4,14 @@ import android.content.Context;
 import android.content.res.Resources;
 import com.openwords.R;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class LocalizationManager {
 
-    public static Object[][] LanguageTypesNamesIds = new Object[][]{
-        new Object[]{"English", LocalLanguage.English, 1},
-        new Object[]{"简体中文", LocalLanguage.Chinese, 11}
+    public static Object[][] LanguageNamesTypesIdsLocales = new Object[][]{
+        new Object[]{"English", LocalLanguage.English, 1, Locale.ENGLISH.getDisplayLanguage()},
+        new Object[]{"简体中文", LocalLanguage.Chinese, 11, Locale.CHINA.getDisplayLanguage()}
     };
 
     private static Context c;
