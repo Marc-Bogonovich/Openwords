@@ -26,7 +26,6 @@ import com.openwords.tts.Speak;
 import com.openwords.ui.common.BackButtonBehavior;
 import com.openwords.util.InternetCheck;
 import com.openwords.util.RandomSelectAlg;
-import com.openwords.util.UIHelper;
 import com.openwords.util.WordSelectionAlg;
 import com.openwords.util.WordSelectionAlgNoRepeat;
 import com.openwords.util.file.LocalFileSystem;
@@ -36,7 +35,7 @@ import com.openwords.util.log.LogUtil;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
 import java.util.List;
 
-public class LoginPage extends Activity implements OnClickListener {
+public class LoginPage extends Activity {
 
     public static boolean DoRegistration = false;
     private static String username;
@@ -61,23 +60,6 @@ public class LoginPage extends Activity implements OnClickListener {
         initServices();
 
         setContentView(R.layout.activity_login_page);
-        usernameField = (EditText) findViewById(R.id.loginPage_EditText_username);
-        //modify textfield to password input field
-        passwdField = (EditText) findViewById(R.id.loginPage_EditText_password);
-        passwdField.setTypeface(Typeface.DEFAULT);
-        passwdField.setTransformationMethod(new PasswordTransformationMethod());
-
-        if (OpenwordsSharedPreferences.getSaveUser()) { // if user choose save username before
-            username = OpenwordsSharedPreferences.getUserInfo().getUserName();
-            password = OpenwordsSharedPreferences.getUserInfo().getPass();
-            usernameField.setText(username);
-            passwdField.setText(password);
-//            UIHelper.displayText(this, R.id.loginPage_EditText_username, username);
-//            UIHelper.displayText(this, R.id.loginPage_EditText_password, password);
-            UIHelper.setCBChecked(this, R.id.loginPage_CheckBox_rememberMe, true);
-        }
-        //usernameField.setText("t20");
-        //passwdField.setText("1");
 
         getUI();
         fillUI();
@@ -87,6 +69,7 @@ public class LoginPage extends Activity implements OnClickListener {
             startActivity(i);
         }
         OpenwordsSharedPreferences.setAppStarted(true);
+
         //add word algorithm
         if (OpenwordsSharedPreferences.getWordSelectionAlgList().isEmpty()) {
             OpenwordsSharedPreferences.addSelectionAlg(new WordSelectionAlg());
@@ -94,6 +77,7 @@ public class LoginPage extends Activity implements OnClickListener {
             OpenwordsSharedPreferences.addSelectionAlg(new WordSelectionAlgNoRepeat());
         }
 
+        //test
         findViewById(R.id.loginPage_test).setOnClickListener(new OnClickListener() {
 
             public void onClick(View view) {
@@ -103,10 +87,30 @@ public class LoginPage extends Activity implements OnClickListener {
     }
 
     private void getUI() {
+        usernameField = (EditText) findViewById(R.id.loginPage_EditText_username);
+        passwdField = (EditText) findViewById(R.id.loginPage_EditText_password);
+        passwdField.setTypeface(Typeface.DEFAULT);
+        passwdField.setTransformationMethod(new PasswordTransformationMethod());
         loginButton = (Button) findViewById(R.id.loginPage_Button_loginSubmit);
-        loginButton.setOnClickListener(this);
+        loginButton.setOnClickListener(new OnClickListener() {
+
+            public void onClick(View view) {
+                if (InternetCheck.checkConn(LoginPage.this)) {
+                    pDialog = ProgressDialog.show(LoginPage.this, "",
+                            LocalizationManager.getTextValidatingUser() + "...", true);
+                    login(usernameField.getText().toString(), passwdField.getText().toString());
+                } else {
+                    Toast.makeText(LoginPage.this, LocalizationManager.getTextInternetError(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
         registerButton = (Button) findViewById(R.id.loginPage_Button_registerGo);
-        registerButton.setOnClickListener(this);
+        registerButton.setOnClickListener(new OnClickListener() {
+
+            public void onClick(View view) {
+                startActivity(new Intent(LoginPage.this, RegisterPage.class));
+            }
+        });
         remember = (CheckBox) findViewById(R.id.loginPage_CheckBox_rememberMe);
     }
 
@@ -114,31 +118,16 @@ public class LoginPage extends Activity implements OnClickListener {
         loginButton.setText(LocalizationManager.getTextLogin());
         registerButton.setText(LocalizationManager.getTextRegister());
         remember.setText(LocalizationManager.getTextRememberMe());
-    }
+        usernameField.setHint(LocalizationManager.getTextHitUser());
+        passwdField.setHint(LocalizationManager.getTextHitPass());
 
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.loginPage_Button_loginSubmit:
-                loginButtonClick();
-                break;
-            case R.id.loginPage_Button_registerGo:
-                LogUtil.logDeubg(this, "button register");
-                registerButtonClick();
-                break;
-        }
-    }
-
-    private void registerButtonClick() {
-        startActivity(new Intent(LoginPage.this, RegisterPage.class));
-    }
-
-    private void loginButtonClick() {
-        if (InternetCheck.checkConn(LoginPage.this)) {
-            pDialog = ProgressDialog.show(LoginPage.this, "",
-                    LocalizationManager.getTextValidatingUser() + "...", true);
-            login(usernameField.getText().toString(), passwdField.getText().toString());
-        } else {
-            Toast.makeText(LoginPage.this, LocalizationManager.getTextInternetError(), Toast.LENGTH_SHORT).show();
+        String[] cred = OpenwordsSharedPreferences.getUserCredentials();
+        if (cred != null) {
+            username = cred[0];
+            password = cred[1];
+            usernameField.setText(username);
+            passwdField.setText(password);
+            remember.setChecked(true);
         }
     }
 
@@ -162,15 +151,12 @@ public class LoginPage extends Activity implements OnClickListener {
             public void callback(int userId, String message, Throwable error) {
                 try {
                     if (userId > 0) {
-                        Toast.makeText(LoginPage.this, "Login Success", Toast.LENGTH_SHORT).show();
-
-                        //save user preference
-                        Boolean saveuser = UIHelper.getCBChecked(LoginPage.this, R.id.loginPage_CheckBox_rememberMe);
-                        if (saveuser) {
-                            OpenwordsSharedPreferences.setSaveUser(true);
+                        if (remember.isChecked()) {
+                            OpenwordsSharedPreferences.setUserCredentials(new String[]{username, password});
                         } else {
-                            OpenwordsSharedPreferences.setSaveUser(false);
+                            OpenwordsSharedPreferences.setUserCredentials(null);
                         }
+
                         int lu = 0;
                         long lupd = 0;
                         if (OpenwordsSharedPreferences.getUserInfo() != null) {
@@ -220,13 +206,6 @@ public class LoginPage extends Activity implements OnClickListener {
         BackButtonBehavior.whenAtFirstPage(this, new BackButtonBehavior.BackActionConfirmed() {
 
             public void callback() {
-                //when exit, remember user's choice
-                Boolean saveuser = UIHelper.getCBChecked(LoginPage.this, R.id.loginPage_CheckBox_rememberMe);
-                if (saveuser) {
-                    OpenwordsSharedPreferences.setSaveUser(true);
-                } else {
-                    OpenwordsSharedPreferences.setSaveUser(false);
-                }
                 LoginPage.super.onBackPressed();
             }
         });
@@ -260,7 +239,7 @@ public class LoginPage extends Activity implements OnClickListener {
         OpenwordsSharedPreferences.setAppStarted(false);
 
         cleanServices();
-        Toast.makeText(this, "Bye Bye", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, LocalizationManager.getTextBye(), Toast.LENGTH_SHORT).show();
     }
 
 }

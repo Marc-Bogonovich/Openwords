@@ -17,32 +17,25 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="39dp"
-        android:src="@drawable/openwords_logo_c_oranged_h_97" />
+        android:src="@drawable/openwords_logo_c_oranged_h_97" /> 
 
- 
-
-    <EditText
-        android:id="@+id/loginPage_EditText_username"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:ems="10"
-        android:hint="@string/loginPage_EditText_username"
-        android:inputType="text|textPersonName" >
-
+    <EditText android:id="@+id/loginPage_EditText_username"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_centerInParent="true"
+              android:ems="10"
+              android:inputType="text|textPersonName" >
         <requestFocus />
     </EditText>
 
-    <EditText
-        android:id="@+id/loginPage_EditText_password"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/loginPage_EditText_username"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:ems="10"
-        android:hint="@string/loginPage_EditText_password"
-        android:inputType="text|textPassword" />
+    <EditText android:id="@+id/loginPage_EditText_password"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_below="@+id/loginPage_EditText_username"
+              android:layout_centerHorizontal="true"
+              android:layout_marginTop="20dp"
+              android:ems="10"
+              android:inputType="text|textPassword" />
 
     <CheckBox
         android:id="@+id/loginPage_CheckBox_rememberMe"
@@ -57,7 +50,8 @@
                   android:layout_height="90dp"
                   android:layout_alignLeft="@+id/logoImage"
                   android:layout_below="@+id/loginPage_CheckBox_rememberMe"
-                  android:orientation="horizontal" >
+                  android:orientation="horizontal"
+                  android:layout_marginTop="50dp">
 
         <Button
             android:id="@+id/loginPage_Button_registerGo"
@@ -76,6 +70,7 @@
             android:layout_marginRight="5dp"
             android:layout_weight="1"
             android:background="@drawable/button_custom"/>
+        
     </LinearLayout>
     
     <TextView android:id="@+id/loginPage_test"

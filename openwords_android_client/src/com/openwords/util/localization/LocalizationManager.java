@@ -19,7 +19,8 @@ public class LocalizationManager {
     private static Resources res;
     private static String textLogin, textRegister, textRememberMe, textValidatingUser, textLoginError, textInternetError,
             textGo, textOptionReview, textOptionSelf, textOptionType, textOptionHearing, textExitContent,
-            textYes, textNo, textLogoutContent, textLangOptionGreet, textLangOptionTitle, textAreYouSure, textLangOptionChange;
+            textYes, textNo, textLogoutContent, textLangOptionGreet, textLangOptionTitle, textAreYouSure, textLangOptionChange,
+            textHitUser, textHitPass, textBye;
 
     public static void init(Context context) {
         c = context;
@@ -50,6 +51,9 @@ public class LocalizationManager {
         textLangOptionTitle = getText(R.array.lang_option_title);
         textAreYouSure = getText(R.array.are_you_sure);
         textLangOptionChange = getText(R.array.lang_option_change);
+        textHitUser = getText(R.array.loginPage_EditText_username);
+        textHitPass = getText(R.array.loginPage_EditText_password);
+        textBye = getText(R.array.bye);
     }
 
     private static String getText(int id) {
@@ -130,6 +134,18 @@ public class LocalizationManager {
 
     public static String getTextLangOptionChange() {
         return textLangOptionChange;
+    }
+
+    public static String getTextHitUser() {
+        return textHitUser;
+    }
+
+    public static String getTextHitPass() {
+        return textHitPass;
+    }
+
+    public static String getTextBye() {
+        return textBye;
     }
 
     private LocalizationManager() {

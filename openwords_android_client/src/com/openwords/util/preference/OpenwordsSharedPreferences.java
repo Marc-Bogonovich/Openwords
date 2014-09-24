@@ -28,18 +28,10 @@ public class OpenwordsSharedPreferences {
     public static final String TYPE_EVALUATION_PROGRESS = "app.typeeval.progress";
     public static final String HIDE_PORTAL = "app.hide.portal";
     public static final String APP_LANG = "app.lang";
+    public static final String USER_CRED = "user.cred";
     private static int ALG_INDEX = 0;
     private static int LEAF_CARD_SIZE = 10;
-    private static boolean SAVE_USER = false;
     private static List<WSAinterface> wordSelectionAlgList = new ArrayList<WSAinterface>(5);
-
-    public static void setSaveUser(boolean save) {
-        SAVE_USER = save;
-    }
-
-    public static boolean getSaveUser() {
-        return SAVE_USER;
-    }
 
     public static int getLeafCardSize() {
         return LEAF_CARD_SIZE;
@@ -175,6 +167,20 @@ public class OpenwordsSharedPreferences {
             return null;
         }
         return new Gson().fromJson(json, LocalLanguage.class);
+    }
+
+    public static boolean setUserCredentials(String[] cred) {
+        Editor editor = pref.edit();
+        editor.putString(USER_CRED, new Gson().toJson(cred));
+        return editor.commit();
+    }
+
+    public static String[] getUserCredentials() {
+        String json = pref.getString(USER_CRED, null);
+        if (json == null) {
+            return null;
+        }
+        return new Gson().fromJson(json, String[].class);
     }
 
     private OpenwordsSharedPreferences() {

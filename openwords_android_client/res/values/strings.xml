@@ -91,10 +91,20 @@
         <item>Are you sure?</item>
         <item>您确定吗？</item>
     </string-array>
+    <string-array name="loginPage_EditText_username">
+        <item>Username</item>
+        <item>用户名</item>
+    </string-array>
+    <string-array name="loginPage_EditText_password">
+        <item>Password</item>
+        <item>密码</item>
+    </string-array>
+    <string-array name="bye">
+        <item>Bye Bye</item>
+        <item>再见</item>
+    </string-array>
     <string name="logoImage_description">Openwords logo</string>
     <string name="loginPage">Please log in</string>
-    <string name="loginPage_EditText_username">Username</string>
-    <string name="loginPage_EditText_password">Password</string>
     <string name="title_activity_loginPage">LoginPage</string>
     <string name="title_activity_NextWords">NextWords</string>
     <string name="title_activity_main1">MainActivity</string>
