@@ -144,6 +144,9 @@ public class HomePage extends Activity {
 
     private void refreshLanguageOptions() {
         LogUtil.logDeubg(this, "refreshLanguageOptions");
+        DataPool.LanguageList.remove(DataPool.LanguageList.size() - 1);
+        DataPool.LanguageList.add(new ModelLanguage(-999, LocalizationManager.getTextMoreLang()));
+
         languageOptions.clear();
         language_position = -1;
         for (ModelLanguage l : DataPool.LanguageList) {

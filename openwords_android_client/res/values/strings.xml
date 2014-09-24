@@ -103,6 +103,10 @@
         <item>Bye Bye</item>
         <item>再见</item>
     </string-array>
+    <string-array name="add_more_lang">
+        <item> + Add more languages</item>
+        <item> + 添加更多的可学的语言</item>
+    </string-array>
     <string name="logoImage_description">Openwords logo</string>
     <string name="loginPage">Please log in</string>
     <string name="title_activity_loginPage">LoginPage</string>

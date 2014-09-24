@@ -175,7 +175,7 @@ public class LoginPage extends Activity {
 
                             public void callback(List<ModelLanguage> languages, Throwable error) {
                                 if (languages != null) {
-                                    languages.add(new ModelLanguage(-999, "Add more languages"));
+                                    languages.add(new ModelLanguage(-999, "empty holder"));
                                     DataPool.LanguageList.clear();
                                     DataPool.LanguageList.addAll(languages);
                                     startActivity(new Intent(LoginPage.this, HomePage.class));
