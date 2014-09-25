@@ -26,6 +26,7 @@ import com.openwords.ui.common.BackButtonBehavior;
 import com.openwords.ui.other.ActionBarBuilder;
 import com.openwords.ui.other.NextWords;
 import com.openwords.util.TimeConvertor;
+import com.openwords.util.localization.LocalizationManager;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +45,7 @@ public class WordsPage extends Activity implements OnClickListener {
     public static ArrayList<Integer> mSelectedItems = new ArrayList<Integer>();
     private static JSONArray jArrMain;
     private ActionBarBuilder actionBar;
+    private Button getNextWords, searchWords, searchWordSets, viewMyWords;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,13 +54,13 @@ public class WordsPage extends Activity implements OnClickListener {
 
         actionBar = new ActionBarBuilder(this, ActionBarBuilder.Words_Page);
 
-        Button getNextWords = (Button) findViewById(R.id.wordsPage_Button_getNextWords);
+        getNextWords = (Button) findViewById(R.id.wordsPage_Button_getNextWords);
         getNextWords.setOnClickListener(this);
-        Button searchWords = (Button) findViewById(R.id.wordsPage_Button_searchWords);
+        searchWords = (Button) findViewById(R.id.wordsPage_Button_searchWords);
         searchWords.setOnClickListener(this);
-        Button searchWordSets = (Button) findViewById(R.id.wordsPage_Button_searchWordSets);
+        searchWordSets = (Button) findViewById(R.id.wordsPage_Button_searchWordSets);
         searchWordSets.setOnClickListener(this);
-        Button viewMyWords = (Button) findViewById(R.id.wordsPage_Button_viewMyWords);
+        viewMyWords = (Button) findViewById(R.id.wordsPage_Button_viewMyWords);
         viewMyWords.setOnClickListener(this);
         final ImageView syncButton = (ImageView) findViewById(R.id.wordsPage_ImageView_syncButton);
         syncButton.setOnTouchListener(new OnTouchListener() {
@@ -108,6 +110,13 @@ public class WordsPage extends Activity implements OnClickListener {
         });
         syncButton.setOnClickListener(this);
         searchWordsArray = null;
+    }
+
+    private void fillUI() {
+        getNextWords.setText(LocalizationManager.getTextWordsNext());
+        searchWords.setText(LocalizationManager.getTextWordsSearch());
+        searchWordSets.setText(LocalizationManager.getTextWordsSets());
+        viewMyWords.setText(LocalizationManager.getTextWordsView());
     }
 
     @Override
@@ -358,6 +367,7 @@ public class WordsPage extends Activity implements OnClickListener {
     protected void onResume() {
         super.onResume();
         actionBar.checkSetting();
+        fillUI();
     }
 
 //        @Override

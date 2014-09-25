@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.openwords.R;
 import com.openwords.model.JSONParser;
 import com.openwords.model.UserInfo;
+import com.openwords.util.localization.LocalizationManager;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +27,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
 
 public class RegisterPage extends Activity implements OnClickListener {
-    
+
     public static final String TAG_SUCCESS = "success";
     public static final String TAG_MESSAGE = "message";
     public static final String TAG_USERID = "userid";
@@ -39,12 +40,13 @@ public class RegisterPage extends Activity implements OnClickListener {
     private EditText usernameField;
     private EditText passwdField;
     private EditText passwdField2;
-    
+    private Button submitButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_page);
-        
+
         usernameField = (EditText) findViewById(R.id.registerPage_EditText_username);
         //modify textfield to password input field
         passwdField = (EditText) findViewById(R.id.registerPage_EditText_password);
@@ -53,10 +55,10 @@ public class RegisterPage extends Activity implements OnClickListener {
         passwdField2 = (EditText) findViewById(R.id.registerPage_EditText_password2);
         passwdField2.setTypeface(Typeface.DEFAULT);
         passwdField2.setTransformationMethod(new PasswordTransformationMethod());
-        
-        Button submitButton = (Button) findViewById(R.id.registerPage_Button_registerSubmit);
+
+        submitButton = (Button) findViewById(R.id.registerPage_Button_registerSubmit);
         submitButton.setOnClickListener(this);
-        
+
         usernameField.setOnFocusChangeListener(new OnFocusChangeListener() {
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
@@ -65,7 +67,20 @@ public class RegisterPage extends Activity implements OnClickListener {
             }
         });
     }
-    
+
+    private void fillUI() {
+        usernameField.setHint(LocalizationManager.getTextHintUser());
+        passwdField.setHint(LocalizationManager.getTextHintPass());
+        passwdField2.setHint(LocalizationManager.getTextHintPassRe());
+        submitButton.setHint(LocalizationManager.getTextReg());
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        fillUI();
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -73,7 +88,7 @@ public class RegisterPage extends Activity implements OnClickListener {
         getMenuInflater().inflate(R.menu.register_page, menu);
         return true;
     }
-    
+
     @Override
     public void onClick(View v) {
         // TODO Auto-generated method stub
@@ -83,12 +98,12 @@ public class RegisterPage extends Activity implements OnClickListener {
                 break;
         }
     }
-    
+
     private void languagePageButtonClick() {
         // TODO Auto-generated method stub
         registerUsername();
     }
-    
+
     private void validUsername() {
         username = usernameField.getText().toString();
         new Thread(new Runnable() {
@@ -97,11 +112,11 @@ public class RegisterPage extends Activity implements OnClickListener {
             }
         }).start();
     }
-    
+
     private void registerUsername() {
         username = usernameField.getText().toString();
         password = passwdField.getText().toString();
-        
+
         if (!usernameExist) {
             if (identicalPassword()) {
                 pDialog = ProgressDialog.show(RegisterPage.this, "",
@@ -114,13 +129,13 @@ public class RegisterPage extends Activity implements OnClickListener {
             }
         }
     }
-    
+
     void valid() {
         try {
             Log.e("Info", "In valid");
             List<NameValuePair> params = new ArrayList<NameValuePair>(2);
             params.add(new BasicNameValuePair("email", username.trim()));
-            
+
             JSONParser jsonParse = new JSONParser();
             boolean flag = true;
             int success = 0;
@@ -134,9 +149,9 @@ public class RegisterPage extends Activity implements OnClickListener {
                 flag = false;
                 e.printStackTrace();
             }
-            
+
             if (flag == false) {
-                
+
                 runOnUiThread(new Runnable() {
                     public void run() {
                         Toast toast = Toast.makeText(RegisterPage.this, "Server error", Toast.LENGTH_SHORT);
@@ -162,7 +177,7 @@ public class RegisterPage extends Activity implements OnClickListener {
                         toast.show();
                     }
                 });
-                
+
             } else {
                 usernameExist = true;
                 runOnUiThread(new Runnable() {
@@ -173,13 +188,13 @@ public class RegisterPage extends Activity implements OnClickListener {
                     }
                 });
             }
-            
+
         } catch (Exception e) {
             pDialog.dismiss();
             Log.e("Exception : ", e.getMessage());
         }
     }
-    
+
     private boolean identicalPassword() {
         String passwd1 = passwdField.getText().toString();
         String passwd2 = passwdField2.getText().toString();
@@ -196,7 +211,7 @@ public class RegisterPage extends Activity implements OnClickListener {
         Log.d("Info", "passwd are different");
         return false;
     }
-    
+
     private void register() {
         try {
             List<NameValuePair> params = new ArrayList<NameValuePair>(2);
@@ -235,7 +250,7 @@ public class RegisterPage extends Activity implements OnClickListener {
                     }
                 });
             }
-            
+
         } catch (Exception e) {
             pDialog.dismiss();
             Log.e("Exception : ", e.getMessage());

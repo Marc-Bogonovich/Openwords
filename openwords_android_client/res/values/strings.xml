@@ -91,13 +91,21 @@
         <item>Are you sure?</item>
         <item>您确定吗？</item>
     </string-array>
-    <string-array name="loginPage_EditText_username">
+    <string-array name="username">
         <item>Username</item>
         <item>用户名</item>
     </string-array>
-    <string-array name="loginPage_EditText_password">
+    <string-array name="password">
         <item>Password</item>
         <item>密码</item>
+    </string-array>
+    <string-array name="password_re">
+        <item>Re-enter Password</item>
+        <item>再次输入密码</item>
+    </string-array>
+    <string-array name="reg_submit">
+        <item>Submit</item>
+        <item>提交</item>
     </string-array>
     <string-array name="bye">
         <item>Bye Bye</item>
@@ -130,6 +138,22 @@
     <string-array name="pc_end">
         <item>Home</item>
         <item>结束本次学习</item>
+    </string-array>
+    <string-array name="words_next">
+        <item>Next words</item>
+        <item>下载下一批单词</item>
+    </string-array>
+    <string-array name="words_search">
+        <item>Search words</item>
+        <item>搜索单词</item>
+    </string-array>
+    <string-array name="words_sets">
+        <item>Search word sets</item>
+        <item>搜索单词套装</item>
+    </string-array>
+    <string-array name="words_view">
+        <item>View my words</item>
+        <item>查看我的单词</item>
     </string-array>
     <string name="logoImage_description">Openwords logo</string>
     <string name="loginPage">Please log in</string>

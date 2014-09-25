@@ -117,8 +117,8 @@ public class LoginPage extends Activity {
         loginButton.setText(LocalizationManager.getTextLogin());
         registerButton.setText(LocalizationManager.getTextRegister());
         remember.setText(LocalizationManager.getTextRememberMe());
-        usernameField.setHint(LocalizationManager.getTextHitUser());
-        passwdField.setHint(LocalizationManager.getTextHitPass());
+        usernameField.setHint(LocalizationManager.getTextHintUser());
+        passwdField.setHint(LocalizationManager.getTextHintPass());
 
         String[] cred = OpenwordsSharedPreferences.getUserCredentials();
         if (cred != null) {

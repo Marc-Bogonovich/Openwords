@@ -21,8 +21,8 @@ public class LocalizationManager {
     private static String textLogin, textRegister, textRememberMe, textValidatingUser, textLoginError, textInternetError,
             textGo, textOptionReview, textOptionSelf, textOptionType, textOptionHearing, textExitContent,
             textYes, textNo, textLogoutContent, textLangOptionGreet, textLangOptionTitle, textAreYouSure, textLangOptionChange,
-            textHitUser, textHitPass, textBye, textMoreLang, textSettingProfile, textSettingSetting, textSettingTutor, textSettingLogout,
-            textPCNext, textPCEnd;
+            textHintUser, textHintPass, textBye, textMoreLang, textSettingProfile, textSettingSetting, textSettingTutor, textSettingLogout,
+            textPCNext, textPCEnd, textWordsNext, textWordsSearch, textWordsSets, textWordsView, textHintPassRe, textReg;
 
     public static void init(Context context) {
         c = context;
@@ -53,8 +53,9 @@ public class LocalizationManager {
         textLangOptionTitle = getText(R.array.lang_option_title);
         textAreYouSure = getText(R.array.are_you_sure);
         textLangOptionChange = getText(R.array.lang_option_change);
-        textHitUser = getText(R.array.loginPage_EditText_username);
-        textHitPass = getText(R.array.loginPage_EditText_password);
+        textHintUser = getText(R.array.username);
+        textHintPass = getText(R.array.password);
+        textHintPassRe = getText(R.array.password_re);
         textBye = getText(R.array.bye);
         textMoreLang = getText(R.array.add_more_lang);
         textSettingProfile = getText(R.array.setting_profile);
@@ -63,10 +64,39 @@ public class LocalizationManager {
         textSettingLogout = getText(R.array.setting_logout);
         textPCNext = getText(R.array.pc_next);
         textPCEnd = getText(R.array.pc_end);
+        textWordsNext = getText(R.array.words_next);
+        textWordsSearch = getText(R.array.words_search);
+        textWordsSets = getText(R.array.words_sets);
+        textWordsView = getText(R.array.words_view);
+        textReg = getText(R.array.reg_submit);
     }
 
     private static String getText(int id) {
         return res.getStringArray(id)[textIndexMapping.get(lang)];
+    }
+
+    public static String getTextHintPassRe() {
+        return textHintPassRe;
+    }
+
+    public static String getTextReg() {
+        return textReg;
+    }
+
+    public static String getTextWordsNext() {
+        return textWordsNext;
+    }
+
+    public static String getTextWordsSearch() {
+        return textWordsSearch;
+    }
+
+    public static String getTextWordsSets() {
+        return textWordsSets;
+    }
+
+    public static String getTextWordsView() {
+        return textWordsView;
     }
 
     public static String getTextPCNext() {
@@ -173,12 +203,12 @@ public class LocalizationManager {
         return textLangOptionChange;
     }
 
-    public static String getTextHitUser() {
-        return textHitUser;
+    public static String getTextHintUser() {
+        return textHintUser;
     }
 
-    public static String getTextHitPass() {
-        return textHitPass;
+    public static String getTextHintPass() {
+        return textHintPass;
     }
 
     public static String getTextBye() {
