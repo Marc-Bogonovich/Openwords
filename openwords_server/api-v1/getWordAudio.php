@@ -10,6 +10,7 @@ if (isset($_POST["words"])) {
     return;
 }
 
+error_log("ids: " . $words_json);
 $ids = json_decode($words_json);
 $audio_path = "audio/";
 $database = new medoo();
