@@ -12,7 +12,7 @@ import org.apache.http.Header;
  */
 public class CheckUser {
 
-    public static final String URL_CHECK_USER = "http://www.openwords.org/ServerPages/OpenwordsDB/validUser.php";
+    public static final String ServiceURL = "http://www.openwords.org/ServerPages/OpenwordsDB/validUser.php";
 
     public static void request(String username, String password, int timeout, final AsyncCallback callback) {
 
@@ -23,7 +23,7 @@ public class CheckUser {
         RequestParams params = new RequestParams();
         params.put("email", username);
         params.put("password", password);
-        http.post(URL_CHECK_USER, params, new TextHttpResponseHandler() {
+        http.post(ServiceURL, params, new TextHttpResponseHandler() {
 
             @Override
             public void onFailure(int i, Header[] headers, String string, Throwable thrwbl) {

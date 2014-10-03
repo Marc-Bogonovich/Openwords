@@ -9,7 +9,7 @@ import org.apache.http.Header;
 
 public class GetWordAudio {
 
-    public static final String URL_GET_WORDS_AUDIO = "http://openwords.org/api-v1/getWordAudio.php";
+    public static final String ServiceURL = "http://openwords.org/api-v1/getWordAudio.php";
 
     public static void request(int[] wordIds, int timeout, final AsyncCallback callback, File file) {
 
@@ -19,7 +19,7 @@ public class GetWordAudio {
         }
         RequestParams params = new RequestParams();
         params.put("words", new Gson().toJson(wordIds));
-        http.post(URL_GET_WORDS_AUDIO, params, new FileAsyncHttpResponseHandler(file) {
+        http.post(ServiceURL, params, new FileAsyncHttpResponseHandler(file) {
 
             @Override
             public void onFailure(int i, Header[] headers, Throwable thrwbl, File file) {

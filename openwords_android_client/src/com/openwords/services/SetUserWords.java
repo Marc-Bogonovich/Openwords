@@ -12,7 +12,7 @@ import org.apache.http.Header;
  */
 public class SetUserWords {
 
-    public static final String URL_SET_USER_WORDS = "http://www.openwords.org/ServerPages/OpenwordsDB/setUserWords.php";
+    public static final String ServiceURL = "http://www.openwords.org/ServerPages/OpenwordsDB/setUserWords.php";
 
     public static void request(String connectionIds, String dTime, String userId, String langTwoId, int timeout, final AsyncCallback callback) {
 
@@ -25,7 +25,7 @@ public class SetUserWords {
         params.put("dtime", dTime);
         params.put("user", userId);
         params.put("lTwo", langTwoId);
-        http.post(URL_SET_USER_WORDS, params, new TextHttpResponseHandler() {
+        http.post(ServiceURL, params, new TextHttpResponseHandler() {
 
             @Override
             public void onFailure(int i, Header[] headers, String string, Throwable thrwbl) {

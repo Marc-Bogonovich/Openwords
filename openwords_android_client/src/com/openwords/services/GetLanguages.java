@@ -9,7 +9,7 @@ import org.apache.http.Header;
 
 public class GetLanguages {
 
-    public static final String URL_DROPDOWN = "http://www.openwords.org/ServerPages/OpenwordsDB/homePageChooseLanguage.php";
+    public static final String ServiceURL = "http://www.openwords.org/ServerPages/OpenwordsDB/homePageChooseLanguage.php";
 
     /**
      * Get the available languages information associated with the user.
@@ -26,7 +26,7 @@ public class GetLanguages {
         }
         RequestParams params = new RequestParams();
         params.put("userid", userId);
-        http.post(URL_DROPDOWN, params, new TextHttpResponseHandler() {
+        http.post(ServiceURL, params, new TextHttpResponseHandler() {
             @Override
             public void onSuccess(int i, Header[] headers, String string) {
                 Result r = new Gson().fromJson(string, Result.class);

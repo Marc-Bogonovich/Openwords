@@ -14,7 +14,7 @@ import org.apache.http.Header;
  */
 public class GetWords {
 
-    public static final String URL_NEXTWORDS = "http://www.openwords.org/ServerPages/WordsDB/wordsPageGetWordList.php";
+    public static final String ServiceURL = "http://www.openwords.org/ServerPages/WordsDB/wordsPageGetWordList.php";
 
     /**
      * Get the words and connections between two languages?
@@ -36,7 +36,7 @@ public class GetWords {
         params.put("user", userId);
         params.put("langOne", langOne);
         params.put("langTwo", langTwo);
-        http.post(URL_NEXTWORDS, params, new TextHttpResponseHandler() {
+        http.post(ServiceURL, params, new TextHttpResponseHandler() {
             @Override
             public void onSuccess(int i, Header[] headers, String string) {
                 LogUtil.logDeubg(GetWords.class, "Result: " + string);
