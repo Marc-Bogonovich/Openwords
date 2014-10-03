@@ -28,7 +28,7 @@ public class WordAudioManager {
             public void callback(WordAudio[] names, Throwable error) {
                 if (error == null) {
                     //save to database
-                    for (WordAudio audio : names) {
+                    for (WordAudio audio : names) {//to-do, need to check duplicates
                         audio.save();
                     }
 
@@ -46,7 +46,7 @@ public class WordAudioManager {
                             if (file != null) {
                                 try {
                                     List<String> files = LocalFileSystem.unzipAudioPackage(file);
-                                    Toast.makeText(context, "Files are saved!\n" + files.toString(), Toast.LENGTH_SHORT).show();
+                                    //Toast.makeText(context, "Files are saved!\n" + files.toString(), Toast.LENGTH_SHORT).show();
                                 } catch (IOException ex) {
                                     LogUtil.logWarning(this, ex);
                                     Toast.makeText(context, ex.toString(), Toast.LENGTH_SHORT).show();

@@ -2,6 +2,8 @@ package com.openwords.learningmodule;
 
 import android.content.Context;
 import com.openwords.model.LeafCard;
+import com.openwords.model.WordMeaning;
+import com.openwords.services.GetWordMeanings;
 import com.openwords.sound.WordAudioManager;
 import com.openwords.util.log.LogUtil;
 import java.util.List;
@@ -22,7 +24,7 @@ public class ActivityInstantiationCallbackBundle {
         ActivityInstantiationCallbackBundle.reverseNav = reverseNav;
         ActivityInstantiationCallbackBundle.cardsPool = cardsPool;
         ActivityInstantiationCallbackBundle.currentCard = currentCard;
-        getAudiosForCardsPool(cardsPool, getAudio, context, callback);
+        getWordsMetadata(cardsPool, getAudio, context, callback);
 
         bundleIsSet = true;
         LogUtil.logDeubg(ActivityInstantiationCallbackBundle.class, "setBundle");
@@ -43,14 +45,26 @@ public class ActivityInstantiationCallbackBundle {
         return bundle;
     }
 
-    private static void getAudiosForCardsPool(List<LeafCard> CardsPool, boolean getAudio, Context context, WordAudioManager.AsyncCallback callback) {
+    private static void getWordsMetadata(List<LeafCard> CardsPool, boolean getAudio, Context context, WordAudioManager.AsyncCallback callback) {
+        int[] ids = new int[CardsPool.size()];
+        for (int i = 0; i < ids.length; i++) {
+            ids[i] = CardsPool.get(i).getWordTwoId();
+        }
+
         if (getAudio) {
-            int[] ids = new int[CardsPool.size()];
-            for (int i = 0; i < ids.length; i++) {
-                ids[i] = CardsPool.get(i).getWordTwoId();
-            }
             WordAudioManager.addAudioFiles(ids, context, callback);
         }
+
+        GetWordMeanings.request(ids, 0, 0, new GetWordMeanings.AsyncCallback() {
+
+            public void callback(WordMeaning[] meanings, Throwable error) {
+                if (meanings != null) {
+                    for (WordMeaning m : meanings) {//to-do, need to check duplicates
+                        m.save();
+                    }
+                }
+            }
+        });
     }
 
     private ActivityInstantiationCallbackBundle() {
