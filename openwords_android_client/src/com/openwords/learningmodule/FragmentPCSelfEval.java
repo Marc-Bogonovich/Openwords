@@ -99,8 +99,6 @@ public class FragmentPCSelfEval extends Fragment {
                 saveRecord();
                 final List<LeafCard> cards = new LeafCardSelfEvalAdapter().getList(SIZE);
                 ActivityInstantiationCallbackBundle.setBundle(LearningModuleType.LM_SelfEvaluation,
-                        R.layout.activity_self_eval,
-                        R.id.act_self_eval_pager,
                         false,
                         cards,
                         0,

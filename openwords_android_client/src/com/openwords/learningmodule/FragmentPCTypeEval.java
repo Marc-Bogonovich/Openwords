@@ -112,8 +112,6 @@ public class FragmentPCTypeEval extends Fragment {
                 saveRecord();
                 final List<LeafCard> cards = new LeafCardTypeEvalAdapter().getList(SIZE);
                 ActivityInstantiationCallbackBundle.setBundle(LearningModuleType.LM_TypeEvaluation,
-                        R.layout.activity_type_eval,
-                        R.id.act_type_eval_pager,
                         false,
                         cards,
                         0,

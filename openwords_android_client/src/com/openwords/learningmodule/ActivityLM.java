@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.widget.Toast;
 import com.google.gson.Gson;
+import com.openwords.R;
 import com.openwords.model.LeafCard;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
@@ -28,7 +29,6 @@ public class ActivityLM extends FragmentActivity {
     private ViewPager pager;
     private LeafCardPagerAdapter adapter;
     private LearningModuleType type;
-    private int layoutId, pagerId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +45,7 @@ public class ActivityLM extends FragmentActivity {
             finish();
             return;
         }
-        setContentView(layoutId);
+        setContentView(R.layout.activity_lm);
 
         LogUtil.logDeubg(this, "reverseNav set to: " + reverseNav);
         if (reverseNav) {
@@ -54,7 +54,7 @@ public class ActivityLM extends FragmentActivity {
             Toast.makeText(this, "Read from Left to Right", Toast.LENGTH_SHORT).show();
         }
 
-        pager = (ViewPager) findViewById(pagerId);
+        pager = (ViewPager) findViewById(R.id.act_lm_pager);
         pager.setOffscreenPageLimit(1);
         pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
@@ -106,23 +106,13 @@ public class ActivityLM extends FragmentActivity {
             Toast.makeText(this, "Please provide the LearningModuleType", Toast.LENGTH_SHORT).show();
             return false;
         }
-        layoutId = (Integer) bundle[1];
-        if (layoutId <= 0) {
-            Toast.makeText(this, "Please provide the layout id", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        pagerId = (Integer) bundle[2];
-        if (pagerId <= 0) {
-            Toast.makeText(this, "Please provide the pager id", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        reverseNav = (Boolean) bundle[3];
-        cardsPool = (List<LeafCard>) bundle[4];
+        reverseNav = (Boolean) bundle[1];
+        cardsPool = (List<LeafCard>) bundle[2];
         if (cardsPool == null) {
             Toast.makeText(this, "Please give your cards first", Toast.LENGTH_SHORT).show();
             return false;
         }
-        currentCard = (Integer) bundle[5];
+        currentCard = (Integer) bundle[3];
         if (currentCard < 0) {
             Toast.makeText(this, "Please give your current card index", Toast.LENGTH_SHORT).show();
             return false;

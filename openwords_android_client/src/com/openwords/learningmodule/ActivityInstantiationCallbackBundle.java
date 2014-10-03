@@ -10,18 +10,15 @@ public class ActivityInstantiationCallbackBundle {
 
     private static boolean bundleIsSet = false;
     private static LearningModuleType type;
-    private static int layoutId, pagerId;
     private static boolean reverseNav;
     private static List<LeafCard> cardsPool;
     private static int currentCard = -1;
 
-    public synchronized static void setBundle(LearningModuleType type, int layoutId, int pagerId, boolean reverseNav, List<LeafCard> cardsPool, int currentCard, boolean getAudio, Context context, WordAudioManager.AsyncCallback callback) {
+    public synchronized static void setBundle(LearningModuleType type, boolean reverseNav, List<LeafCard> cardsPool, int currentCard, boolean getAudio, Context context, WordAudioManager.AsyncCallback callback) {
         if (bundleIsSet) {
             LogUtil.logWarning(ActivityInstantiationCallbackBundle.class, "Bundle is overwritten");
         }
         ActivityInstantiationCallbackBundle.type = type;
-        ActivityInstantiationCallbackBundle.layoutId = layoutId;
-        ActivityInstantiationCallbackBundle.pagerId = pagerId;
         ActivityInstantiationCallbackBundle.reverseNav = reverseNav;
         ActivityInstantiationCallbackBundle.cardsPool = cardsPool;
         ActivityInstantiationCallbackBundle.currentCard = currentCard;
@@ -35,10 +32,8 @@ public class ActivityInstantiationCallbackBundle {
         if (!bundleIsSet) {
             throw new Exception("ActivityInstantiationCallbackBundle must be set first!");
         }
-        Object[] bundle = new Object[]{type, layoutId, pagerId, reverseNav, cardsPool, currentCard};
+        Object[] bundle = new Object[]{type, reverseNav, cardsPool, currentCard};
         type = null;
-        layoutId = 0;
-        pagerId = 0;
         reverseNav = false;
         cardsPool = null;
         currentCard = -1;

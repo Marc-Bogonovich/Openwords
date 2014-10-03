@@ -111,8 +111,6 @@ public class FragmentPCHearing extends Fragment {
                 saveRecord();
                 final List<LeafCard> cards = new LeafCardHearingAdapter().getList(SIZE);
                 ActivityInstantiationCallbackBundle.setBundle(LearningModuleType.LM_HearingEvaluation,
-                        R.layout.activity_hear,
-                        R.id.act_hearing_pager,
                         false,
                         cards,
                         0,

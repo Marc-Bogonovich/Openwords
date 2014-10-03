@@ -41,10 +41,8 @@ import com.openwords.util.TimeConvertor;
 import com.openwords.util.localization.LocalizationManager;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 public class HomePage extends Activity {
 
@@ -61,7 +59,6 @@ public class HomePage extends Activity {
     private int SIZE = 10;
     private ActionBarBuilder actionBar;
     private LearningModuleType lmType = null;
-    private Map<LearningModuleType, int[]> layoutIds = new HashMap<LearningModuleType, int[]>(4);
     private Button testPageGo;
 
     @Override
@@ -70,11 +67,6 @@ public class HomePage extends Activity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);//for testing purpose
         setContentView(R.layout.activity_home_page);
         instance = this;
-
-        layoutIds.put(LearningModuleType.LM_Review, new int[]{R.layout.activity_rev, R.id.act_review_pager});
-        layoutIds.put(LearningModuleType.LM_SelfEvaluation, new int[]{R.layout.activity_self_eval, R.id.act_self_eval_pager});
-        layoutIds.put(LearningModuleType.LM_TypeEvaluation, new int[]{R.layout.activity_type_eval, R.id.act_type_eval_pager});
-        layoutIds.put(LearningModuleType.LM_HearingEvaluation, new int[]{R.layout.activity_hear, R.id.act_hearing_pager});
 
         //building the action bar
         actionBar = new ActionBarBuilder(this, ActionBarBuilder.Home_Page);
@@ -293,8 +285,6 @@ public class HomePage extends Activity {
         }
 
         ActivityInstantiationCallbackBundle.setBundle(lmType,
-                layoutIds.get(lmType)[0],
-                layoutIds.get(lmType)[1],
                 false,
                 cards,
                 currentCard,

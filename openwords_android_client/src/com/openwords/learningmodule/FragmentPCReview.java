@@ -99,8 +99,6 @@ public class FragmentPCReview extends Fragment {
                 saveRecord();
                 final List<LeafCard> cards = new LeafCardReviewAdapter().getList(SIZE);
                 ActivityInstantiationCallbackBundle.setBundle(LearningModuleType.LM_Review,
-                        R.layout.activity_rev,
-                        R.id.act_review_pager,
                         false,
                         cards,
                         0,
