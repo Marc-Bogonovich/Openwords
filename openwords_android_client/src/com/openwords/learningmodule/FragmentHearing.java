@@ -72,6 +72,34 @@ public class FragmentHearing extends FragmentLearningModule {
             }
 
             public void onTextChanged(CharSequence cs, int i, int i1, int i2) {
+                int userChoice;
+
+                if (userInput != null) {
+                    indicator.setImageResource(R.drawable.ic_learning_module_null);
+                    //user choice 0--null 1--wrong 2--close 3--correct
+                    String userInputString = userInput.getText().toString().trim();
+                    String correctString = card.getWordLang1().trim();
+
+                    double similarity = WordComparsion.similarity(userInputString, card.getWordLang1());
+                    if (userInputString.equalsIgnoreCase(correctString)) {
+                        indicator.setImageResource(R.drawable.ic_learning_module_correct);
+                        card.setUserInput(userInputString);
+                        userChoice = 3;
+                        Handler mHandler = new Handler();
+                        mHandler.postDelayed(new Runnable() {
+                            public void run() {
+                                lmActivity.goToNextCard();
+                            }
+                        }, 3000);
+                    } else {
+                        answer.setVisibility(View.INVISIBLE);
+                        indicator.setImageResource(R.drawable.ic_learning_module_null);
+                        userChoice = 0;
+                        //answer.setVisibility(View.VISIBLE);
+                    }
+                    card.setUserChoice(userChoice);
+
+                }
             }
 
             public void afterTextChanged(Editable edtbl) {
