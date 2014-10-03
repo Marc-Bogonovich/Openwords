@@ -114,11 +114,12 @@ public class FragmentHearing extends FragmentLearningModule {
 
                 if (userInput != null) {
                     //user choice 0--null 1--wrong 2--close 3--correct
-                    String userInputString = userInput.getText().toString().toLowerCase();
+                    String userInputString = userInput.getText().toString().trim();
+
                     double similarity = Math.max(WordComparsion.similarity(userInputString, card.getWordLang1()),
                             WordComparsion.similarity(userInputString, card.getWordLang2()));
-                    if (userInputString.equals(card.getWordLang1())
-                            || userInputString.equals(card.getWordLang2())) { // if user type lang1 or lang2
+                    if (userInputString.equalsIgnoreCase(card.getWordLang1())
+                            || userInputString.equalsIgnoreCase(card.getWordLang2())) { // if user type lang1 or lang2
                         indicator.setImageResource(R.drawable.ic_learning_module_correct);
                         card.setUserInput(userInputString);
                         userChoice = 3;
