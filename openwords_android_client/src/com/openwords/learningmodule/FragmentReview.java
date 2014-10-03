@@ -56,6 +56,7 @@ public class FragmentReview extends FragmentLearningModule {
         card.setLastTime(TimeConvertor.getUnixTime());
 
         updateAudioIcon(audioPlay, card.getWordTwoId());
+        addClarificationTrigger(lmActivity, new View[]{answer, problem}, answer, card.getWordTwoId());
 
         myFragmentView.findViewById(R.id.review_View_actionBarBlank).setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {

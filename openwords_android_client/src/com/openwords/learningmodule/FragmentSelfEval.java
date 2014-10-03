@@ -54,6 +54,7 @@ public class FragmentSelfEval extends FragmentLearningModule {
         card.setLastTime(TimeConvertor.getUnixTime());
 
         updateAudioIcon(audioPlay, card.getWordTwoId());
+        addClarificationTrigger(lmActivity, new View[]{answer, problem}, answer, card.getWordTwoId());
 
         showAnswer.setOnClickListener(new View.OnClickListener() {
 
