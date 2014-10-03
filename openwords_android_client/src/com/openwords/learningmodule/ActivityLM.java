@@ -74,7 +74,7 @@ public class ActivityLM extends FragmentActivity {
                     }
                 }
                 if (currentCard < cardsPool.size()) {
-                    Toast.makeText(ActivityLM.this, "Word ID: " + cardsPool.get(currentCard).getWordTwoId(), Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(ActivityLM.this, "Word ID: " + cardsPool.get(currentCard).getWordTwoId(), Toast.LENGTH_SHORT).show();
                 }
             }
 

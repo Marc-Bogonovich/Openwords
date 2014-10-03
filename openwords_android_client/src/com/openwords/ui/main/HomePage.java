@@ -33,6 +33,7 @@ import com.openwords.services.GetWords;
 import com.openwords.services.ModelLanguage;
 import com.openwords.services.ModelWordConnection;
 import com.openwords.services.SetUserWords;
+import com.openwords.sound.WordAudioManager;
 import com.openwords.tts.Speak;
 import com.openwords.ui.common.BackButtonBehavior;
 import com.openwords.ui.other.ActionBarBuilder;
@@ -298,9 +299,14 @@ public class HomePage extends Activity {
                 cards,
                 currentCard,
                 true,
-                this);
-        startActivity(new Intent(HomePage.this, ActivityLM.class));
-        pDialog.dismiss();
+                this,
+                new WordAudioManager.AsyncCallback() {
+
+                    public void doneAddAudioFiles() {
+                        startActivity(new Intent(HomePage.this, ActivityLM.class));
+                        pDialog.dismiss();
+                    }
+                });
     }
 
     @Override

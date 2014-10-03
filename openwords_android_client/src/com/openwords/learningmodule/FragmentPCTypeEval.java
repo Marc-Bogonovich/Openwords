@@ -21,6 +21,7 @@ import com.openwords.model.LeafCard;
 import com.openwords.model.LeafCardTypeEval;
 import com.openwords.model.LeafCardTypeEvalAdapter;
 import com.openwords.model.UserPerformanceDirty;
+import com.openwords.sound.WordAudioManager;
 import com.openwords.util.localization.LocalizationManager;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
@@ -108,7 +109,6 @@ public class FragmentPCTypeEval extends Fragment {
          */
         nextPlate.setOnClickListener(new OnClickListener() {
             public void onClick(View view) {
-                activity.finish();
                 saveRecord();
                 final List<LeafCard> cards = new LeafCardTypeEvalAdapter().getList(SIZE);
                 ActivityInstantiationCallbackBundle.setBundle(LearningModuleType.LM_TypeEvaluation,
@@ -118,8 +118,14 @@ public class FragmentPCTypeEval extends Fragment {
                         cards,
                         0,
                         true,
-                        activity);
-                startActivity(new Intent(activity, ActivityLM.class));
+                        activity,
+                        new WordAudioManager.AsyncCallback() {
+
+                            public void doneAddAudioFiles() {
+                                activity.finish();
+                                startActivity(new Intent(activity, ActivityLM.class));
+                            }
+                        });
             }
         });
         exit.setOnClickListener(new OnClickListener() {

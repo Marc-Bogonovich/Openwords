@@ -21,7 +21,7 @@ public class WordAudioManager {
         return null;
     }
 
-    public static void addAudioFiles(final int[] wordIds, final Context context) {
+    public static void addAudioFiles(final int[] wordIds, final Context context, final AsyncCallback callback) {
         LogUtil.logDeubg(WordAudioManager.class, "Download audios for: " + new Gson().toJson(wordIds));
         GetWordAudioNames.request(wordIds, 0, new GetWordAudioNames.AsyncCallback() {
 
@@ -30,6 +30,12 @@ public class WordAudioManager {
                     //save to database
                     for (WordAudio audio : names) {
                         audio.save();
+                    }
+
+                    if (wordIds.length == names.length) {
+                        Toast.makeText(context, "We have all audio files!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(context, "We do no have all audio files!", Toast.LENGTH_SHORT).show();
                     }
 
                     //get and save files bundle
@@ -47,6 +53,9 @@ public class WordAudioManager {
                                 }
                             } else {
                                 Toast.makeText(context, error.toString(), Toast.LENGTH_SHORT).show();
+                            }
+                            if (callback != null) {
+                                callback.doneAddAudioFiles();
                             }
                         }
                     }, temp);
@@ -67,5 +76,10 @@ public class WordAudioManager {
     }
 
     private WordAudioManager() {
+    }
+
+    public interface AsyncCallback {
+
+        public void doneAddAudioFiles();
     }
 }

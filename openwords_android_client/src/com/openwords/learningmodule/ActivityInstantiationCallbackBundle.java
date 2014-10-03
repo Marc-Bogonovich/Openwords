@@ -15,7 +15,7 @@ public class ActivityInstantiationCallbackBundle {
     private static List<LeafCard> cardsPool;
     private static int currentCard = -1;
 
-    public synchronized static void setBundle(LearningModuleType type, int layoutId, int pagerId, boolean reverseNav, List<LeafCard> cardsPool, int currentCard, boolean getAudio, Context context) {
+    public synchronized static void setBundle(LearningModuleType type, int layoutId, int pagerId, boolean reverseNav, List<LeafCard> cardsPool, int currentCard, boolean getAudio, Context context, WordAudioManager.AsyncCallback callback) {
         if (bundleIsSet) {
             LogUtil.logWarning(ActivityInstantiationCallbackBundle.class, "Bundle is overwritten");
         }
@@ -25,7 +25,7 @@ public class ActivityInstantiationCallbackBundle {
         ActivityInstantiationCallbackBundle.reverseNav = reverseNav;
         ActivityInstantiationCallbackBundle.cardsPool = cardsPool;
         ActivityInstantiationCallbackBundle.currentCard = currentCard;
-        getAudiosForCardsPool(cardsPool, getAudio, context);
+        getAudiosForCardsPool(cardsPool, getAudio, context, callback);
 
         bundleIsSet = true;
         LogUtil.logDeubg(ActivityInstantiationCallbackBundle.class, "setBundle");
@@ -48,13 +48,13 @@ public class ActivityInstantiationCallbackBundle {
         return bundle;
     }
 
-    private static void getAudiosForCardsPool(List<LeafCard> CardsPool, boolean getAudio, Context context) {
+    private static void getAudiosForCardsPool(List<LeafCard> CardsPool, boolean getAudio, Context context, WordAudioManager.AsyncCallback callback) {
         if (getAudio) {
             int[] ids = new int[CardsPool.size()];
             for (int i = 0; i < ids.length; i++) {
                 ids[i] = CardsPool.get(i).getWordTwoId();
             }
-            WordAudioManager.addAudioFiles(ids, context);
+            WordAudioManager.addAudioFiles(ids, context, callback);
         }
     }
 
