@@ -13,7 +13,7 @@ import com.openwords.util.TimeConvertor;
 import com.openwords.util.log.LogUtil;
 import java.util.List;
 
-public class FragmentReview extends FragmentLearningModule {
+public class FragmentCardReview extends FragmentLearningModule {
 
     private final int cardIndex;
     private TextView problem, transcription, answer;
@@ -24,7 +24,7 @@ public class FragmentReview extends FragmentLearningModule {
     private List<LeafCard> cardsPool;
     private ActivityLM lmActivity;
 
-    public FragmentReview(int cardIndex, List<LeafCard> cardsPool, ActivityLM lmActivity) {
+    public FragmentCardReview(int cardIndex, List<LeafCard> cardsPool, ActivityLM lmActivity) {
         this.cardIndex = cardIndex;
         this.cardsPool = cardsPool;
         this.lmActivity = lmActivity;

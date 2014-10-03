@@ -20,7 +20,7 @@ import com.openwords.util.WordComparsion;
 import com.openwords.util.log.LogUtil;
 import java.util.List;
 
-public class FragmentTypeEval extends FragmentLearningModule {
+public class FragmentCardTypeEval extends FragmentLearningModule {
 
     private final int cardIndex;
     private EditText userInput;
@@ -38,7 +38,7 @@ public class FragmentTypeEval extends FragmentLearningModule {
     private List<LeafCard> cardsPool;
     private ActivityLM lmActivity;
 
-    public FragmentTypeEval(int cardIndex, List<LeafCard> cardsPool, ActivityLM lmActivity) {
+    public FragmentCardTypeEval(int cardIndex, List<LeafCard> cardsPool, ActivityLM lmActivity) {
         this.cardIndex = cardIndex;
         this.cardsPool = cardsPool;
         this.lmActivity = lmActivity;

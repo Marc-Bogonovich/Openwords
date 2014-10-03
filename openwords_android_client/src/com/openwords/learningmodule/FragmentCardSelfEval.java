@@ -15,7 +15,7 @@ import com.openwords.util.TimeConvertor;
 import com.openwords.util.log.LogUtil;
 import java.util.List;
 
-public class FragmentSelfEval extends FragmentLearningModule {
+public class FragmentCardSelfEval extends FragmentLearningModule {
 
     private final int cardIndex;
     private TextView problem, transcription, answer;
@@ -27,7 +27,7 @@ public class FragmentSelfEval extends FragmentLearningModule {
     private List<LeafCard> cardsPool;
     private ActivityLM lmActivity;
 
-    public FragmentSelfEval(int cardIndex, List<LeafCard> cardsPool, ActivityLM lmActivity) {
+    public FragmentCardSelfEval(int cardIndex, List<LeafCard> cardsPool, ActivityLM lmActivity) {
         this.cardIndex = cardIndex;
         this.cardsPool = cardsPool;
         this.lmActivity = lmActivity;

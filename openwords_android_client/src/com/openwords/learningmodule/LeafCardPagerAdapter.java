@@ -41,13 +41,13 @@ public class LeafCardPagerAdapter extends FragmentPagerAdapter {
     private Fragment makePageFragment(int index) {
         switch (type) {
             case LM_Review:
-                return new FragmentReview(index, cards, activityInstance);
+                return new FragmentCardReview(index, cards, activityInstance);
             case LM_SelfEvaluation:
-                return new FragmentSelfEval(index, cards, activityInstance);
+                return new FragmentCardSelfEval(index, cards, activityInstance);
             case LM_TypeEvaluation:
-                return new FragmentTypeEval(index, cards, activityInstance);
+                return new FragmentCardTypeEval(index, cards, activityInstance);
             case LM_HearingEvaluation:
-                return new FragmentHearing(index, cards, activityInstance);
+                return new FragmentCardHearing(index, cards, activityInstance);
             default:
                 return null;
         }
