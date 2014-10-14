@@ -31,6 +31,10 @@ public class LocalizationManager {
         textIndexMapping.put(LocalLanguage.Chinese, 1);
     }
 
+    public static LocalLanguage getCurrentLang() {
+        return lang;
+    }
+
     public static void setLocalLanguage(LocalLanguage localLanguage) {
         res = c.getResources();
         lang = localLanguage;

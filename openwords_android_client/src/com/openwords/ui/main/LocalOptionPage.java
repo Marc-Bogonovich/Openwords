@@ -88,7 +88,7 @@ public class LocalOptionPage extends Activity {
         buttonYes.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
-                //to-do, need to save the preference
+                OpenwordsSharedPreferences.setAppLanguage(LocalizationManager.getCurrentLang());
                 LocalOptionPage.this.finish();
             }
         });
