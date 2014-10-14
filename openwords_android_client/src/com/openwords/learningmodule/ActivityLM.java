@@ -3,6 +3,8 @@ package com.openwords.learningmodule;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 import com.google.gson.Gson;
 import com.openwords.R;
@@ -185,6 +187,12 @@ public class ActivityLM extends FragmentActivity {
                 break;
             default:
                 break;
+        }
+
+        View focus = getCurrentFocus();
+        if (focus != null) {
+            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(focus.getWindowToken(), 0);
         }
     }
 }

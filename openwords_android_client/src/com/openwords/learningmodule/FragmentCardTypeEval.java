@@ -172,22 +172,18 @@ public class FragmentCardTypeEval extends FragmentLearningModule {
         answer.setText(card.getWordLang1());
         if (userChoice.equals(0)) {
             status.setImageResource(R.drawable.ic_learning_module_null);
-            userInput.setText("");
             answer.setVisibility(View.INVISIBLE);
         } else if (userChoice.equals(3)) {
             status.setImageResource(R.drawable.ic_learning_module_correct);
-            userInput.setText("");
             answer.setVisibility(View.INVISIBLE);
         } else if (userChoice.equals(2)) {
             status.setImageResource(R.drawable.ic_learning_module_close);
-            userInput.setText("");
             answer.setVisibility(View.VISIBLE);
         } else {
             status.setImageResource(R.drawable.ic_learning_module_incorrect);
-            userInput.setText("");
             answer.setVisibility(View.VISIBLE);
         }
-
+        userInput.setText("");
     }
 
 //    private void makeBreadCrumbs() {
