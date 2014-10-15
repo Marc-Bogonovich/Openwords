@@ -3,7 +3,6 @@ package com.openwords.ui.main;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.media.AudioManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -34,7 +33,6 @@ import com.openwords.services.ModelLanguage;
 import com.openwords.services.ModelWordConnection;
 import com.openwords.services.SetUserWords;
 import com.openwords.sound.WordAudioManager;
-import com.openwords.tts.Speak;
 import com.openwords.ui.common.BackButtonBehavior;
 import com.openwords.ui.other.ActionBarBuilder;
 import com.openwords.util.TimeConvertor;
@@ -46,7 +44,6 @@ import java.util.List;
 
 public class HomePage extends Activity {
 
-    private static boolean welcome;
     public static HomePage instance;
     private Spinner begin, l2_dropdown;
     private int language_position = -1;
@@ -116,12 +113,6 @@ public class HomePage extends Activity {
         userinfo = OpenwordsSharedPreferences.getUserInfo();
 
         fillLanguageOptions();
-        if (!welcome) {
-            AudioManager am = (AudioManager) getSystemService(AUDIO_SERVICE);
-            am.setStreamVolume(AudioManager.STREAM_MUSIC, am.getStreamMaxVolume(AudioManager.STREAM_MUSIC) / 4, 0);
-            Speak.getInstance(null).speak("welcome to openwords");
-            welcome = true;
-        }
     }
 
     private void fillUI() {
@@ -315,7 +306,6 @@ public class HomePage extends Activity {
 
             public void callback() {
                 HomePage.super.onBackPressed();
-                welcome = false;
             }
         });
     }
