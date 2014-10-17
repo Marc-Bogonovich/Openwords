@@ -1,95 +1,99 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="match_parent"
-	    android:layout_height="match_parent"
-android:id="@+id/typeEvaluate_ScrollView_Container">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical" >
+<ScrollView android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:id="@+id/typeEvaluate_ScrollView_Container">
 
-	<ViewFlipper android:id="@+id/typeEvaluate_ViewFlipper_frame"
-		android:layout_width="fill_parent" android:layout_height="fill_parent"
-		android:layout_gravity="center_vertical" android:padding="20dp">
+    <LinearLayout android:id="@+id/typeEvaluate_ViewFlipper_frame"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="vertical"
+                  android:paddingLeft="20dp"
+                  android:paddingRight="20dp">
 
-		<LinearLayout android:layout_width="match_parent"
-			android:layout_height="wrap_content" android:orientation="vertical">
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="40dp" android:orientation="horizontal"
+                      android:layout_marginTop="15dp">
+            <View android:layout_width="0dp" android:layout_height="match_parent"
+                  android:layout_weight="4"/>
 
-		    			<LinearLayout android:layout_width="match_parent"
-				android:layout_height="40dp" android:orientation="horizontal"
-				android:layout_marginTop="15dp">
-				<View android:layout_width="0dp" android:layout_height="match_parent"
-					android:layout_weight="4" />
+            <ImageView android:id="@+id/typeEvaluate_ImageView_audioPlay"
+                       android:layout_width="0dp"
+                       android:layout_height="match_parent"
+                       android:layout_weight="1"
+                       android:contentDescription="@string/selfEvaluate_ImageView_audioPlay"
+                       android:src="@drawable/ic_self_evaluate_audio"/>
 
-				<ImageView android:id="@+id/typeEvaluate_ImageView_audioPlay"
-					 android:layout_width="0dp"
-                           android:layout_height="match_parent"
-                           android:layout_weight="1"
-android:contentDescription="@string/selfEvaluate_ImageView_audioPlay"
-				android:src="@drawable/ic_self_evaluate_audio"/>
+        </LinearLayout>
 
-			</LinearLayout>
-		    
 
-			<TextView android:id="@+id/typeEvaluate_TextView_transcription"
-				android:layout_width="fill_parent" android:layout_height="wrap_content"
-				android:layout_marginTop="10dp" android:gravity="center"
-				android:textColor="@color/selfEvaluate_font" android:textSize="30sp"
-				 />
+        <TextView android:id="@+id/typeEvaluate_TextView_transcription"
+                  android:layout_width="fill_parent" android:layout_height="wrap_content"
+                  android:layout_marginTop="10dp" android:gravity="center"
+                  android:textColor="@color/selfEvaluate_font" android:textSize="30sp"
+                />
 
-			<TextView android:id="@+id/typeEvaluate_TextView_question"
-				android:layout_width="fill_parent" android:layout_height="wrap_content"
-				android:layout_margin="20dp" android:gravity="center" 
-				android:textColor="@color/black" android:textSize="40sp" />
+        <TextView android:id="@+id/typeEvaluate_TextView_question"
+                  android:layout_width="fill_parent" android:layout_height="wrap_content"
+                  android:layout_margin="20dp" android:gravity="center"
+                  android:textColor="@color/black" android:textSize="40sp"/>
 
-			<TextView android:id="@+id/typeEvaluate_TextView_answer"
-				android:layout_width="fill_parent" android:layout_height="wrap_content"
-				android:gravity="center"  android:textColor="@color/my_gray"
-				android:textSize="40sp" />
+        <TextView android:id="@+id/typeEvaluate_TextView_answer"
+                  android:layout_width="fill_parent" android:layout_height="wrap_content"
+                  android:gravity="center" android:textColor="@color/my_gray"
+                  android:textSize="40sp"/>
 
-			<LinearLayout android:layout_width="match_parent"
-				android:layout_height="50dp" android:orientation="horizontal"
-				android:layout_marginTop="15dp">
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="50dp" android:orientation="horizontal"
+                      android:layout_marginTop="15dp">
 
-				<EditText android:id="@+id/typeEvaluate_EditText_input"
-				    android:hint="@string/typeEvaluate_EditText_input"
-					android:layout_weight="3" android:layout_width="0dp"
-					android:layout_height="wrap_content">
+            <EditText android:id="@+id/typeEvaluate_EditText_input"
+                      android:hint="@string/typeEvaluate_EditText_input"
+                      android:layout_weight="3" android:layout_width="0dp"
+                      android:layout_height="wrap_content">
 
-					<requestFocus />
-				</EditText>
+                <requestFocus/>
+            </EditText>
 
-				<ImageView android:id="@+id/typeEvaluate_ImageView_status"
-					android:layout_width="0dp" android:layout_height="match_parent"
-					android:contentDescription="@string/app_name"
-					android:layout_weight="1" android:src="@drawable/clarification_button" />
+            <ImageView android:id="@+id/typeEvaluate_ImageView_status"
+                       android:layout_width="0dp" android:layout_height="match_parent"
+                       android:contentDescription="@string/app_name"
+                       android:layout_weight="1" android:src="@drawable/clarification_button"/>
 
-			</LinearLayout>
-			<LinearLayout android:layout_width="match_parent"
-				android:layout_height="50dp" android:orientation="horizontal"
-				android:layout_marginTop="15dp">
-				<View android:layout_width="0dp" android:layout_height="match_parent"
-					android:layout_weight="1" />
+        </LinearLayout>
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="50dp" android:orientation="horizontal"
+                      android:layout_marginTop="15dp">
+            <View android:layout_width="0dp" android:layout_height="match_parent"
+                  android:layout_weight="1"/>
 
-				<ImageView android:id="@+id/typeEvaluate_ImageView_checkButton"
-				    android:contentDescription="@string/hearing_ImageView_checkButton"
-					android:layout_width="wrap_content" android:layout_height="wrap_content"
-					android:layout_weight="2"
-					android:src="@drawable/button_hearing_check_unclicked" />
-				<View android:layout_width="0dp" android:layout_height="match_parent"
-					android:layout_weight="1" />
-			</LinearLayout>
-		</LinearLayout>
+            <ImageView android:id="@+id/typeEvaluate_ImageView_checkButton"
+                       android:contentDescription="@string/hearing_ImageView_checkButton"
+                       android:layout_width="wrap_content" android:layout_height="wrap_content"
+                       android:layout_weight="2"
+                       android:src="@drawable/button_hearing_check_unclicked"/>
+            <View android:layout_width="0dp" android:layout_height="match_parent"
+                  android:layout_weight="1"/>
+        </LinearLayout>
+        
+    </LinearLayout>
 
-	</ViewFlipper>
+
+    <!-- <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:orientation="horizontal"
+        android:id="@+id/review_LinearLayout_breadcrumbs"
+        android:layout_alignParentBottom="true">
+
+        </LinearLayout> -->
+    </ScrollView>
+
+    <include layout="@layout/timer_bar"/>
+        
 </LinearLayout>
-<!-- <LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="30dp" 
-    android:orientation="horizontal"
-    android:id="@+id/review_LinearLayout_breadcrumbs"
-    android:layout_alignParentBottom="true">
-
-    </LinearLayout> -->
-</ScrollView>

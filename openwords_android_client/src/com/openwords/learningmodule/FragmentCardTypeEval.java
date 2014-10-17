@@ -1,12 +1,18 @@
 package com.openwords.learningmodule;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.view.animation.Animation;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -15,10 +21,13 @@ import android.widget.TextView;
 import com.openwords.R;
 import com.openwords.model.LeafCard;
 import com.openwords.model.LeafCardTypeEval;
+import com.openwords.ui.graphics.AnimationTimerBar;
 import com.openwords.util.TimeConvertor;
 import com.openwords.util.WordComparsion;
 import com.openwords.util.log.LogUtil;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class FragmentCardTypeEval extends FragmentLearningModule {
 
@@ -37,6 +46,10 @@ public class FragmentCardTypeEval extends FragmentLearningModule {
     private ScrollView container2;
     private List<LeafCard> cardsPool;
     private ActivityLM lmActivity;
+    private View advanceTimerBar;
+    private Animation advanceTimerAnimation;
+    private boolean answerChecked;
+    private Timer advanceTimer;
 
     public FragmentCardTypeEval(int cardIndex, List<LeafCard> cardsPool, ActivityLM lmActivity) {
         this.cardIndex = cardIndex;
@@ -48,6 +61,7 @@ public class FragmentCardTypeEval extends FragmentLearningModule {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LogUtil.logDeubg(this, "onCreate for card: " + cardIndex);
+        answerChecked = false;
     }
 
     @Override
@@ -57,6 +71,10 @@ public class FragmentCardTypeEval extends FragmentLearningModule {
 
         myFragmentView = inflater.inflate(R.layout.fragment_type_eval, container, false);
         card = (LeafCardTypeEval) cardsPool.get(cardIndex);
+
+        advanceTimerBar = myFragmentView.findViewById(R.id.lm_frag_advance);
+        advanceTimerAnimation = new AnimationTimerBar(0, 100, advanceTimerBar);
+        advanceTimerAnimation.setDuration(3000);
 
         answer = (TextView) myFragmentView.findViewById(R.id.typeEvaluate_TextView_answer);
         question = (TextView) myFragmentView.findViewById(R.id.typeEvaluate_TextView_question);
@@ -80,40 +98,11 @@ public class FragmentCardTypeEval extends FragmentLearningModule {
             }
 
             public void afterTextChanged(Editable s) {
+                checkUserInputAnswer(false);
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                {
-                    int userChoice;
-
-                    if (userInput != null) {
-                        status.setImageResource(R.drawable.ic_learning_module_null);
-                        //user choice 0--null 1--wrong 2--close 3--correct
-                        String userInputString = userInput.getText().toString().trim();
-                        String correctString = card.getWordLang1().trim();
-
-                        double similarity = WordComparsion.similarity(userInputString, card.getWordLang1());
-                        if (userInputString.equalsIgnoreCase(correctString)) {
-                            status.setImageResource(R.drawable.ic_learning_module_correct);
-                            card.setUserInput(userInputString);
-                            userChoice = 3;
-                            Handler mHandler = new Handler();
-                            mHandler.postDelayed(new Runnable() {
-                                public void run() {
-                                    lmActivity.goToNextCard();
-                                }
-                            }, 3000);
-                        } else {
-                            answer.setVisibility(View.INVISIBLE);
-                            status.setImageResource(R.drawable.ic_learning_module_null);
-                            userChoice = 0;
-                            //answer.setVisibility(View.VISIBLE);
-                        }
-                        card.setUserChoice(userChoice);
-
-                    }
-                }
             }
         });
 
@@ -121,48 +110,89 @@ public class FragmentCardTypeEval extends FragmentLearningModule {
 
             @Override
             public void onClick(View v) {
-                int userChoice;
-
-                if (userInput != null) {
-                    //user choice 0--null 1--wrong 2--close 3--correct
-                    String userInputString = userInput.getText().toString().trim();
-                    String correctString = card.getWordLang1().trim();
-
-                    double similarity = WordComparsion.similarity(userInputString, card.getWordLang1());
-                    if (userInputString.equalsIgnoreCase(correctString)) {
-                        status.setImageResource(R.drawable.ic_learning_module_correct);
-                        card.setUserInput(userInputString);
-                        userChoice = 3;
-                    } else if (similarity >= CUTOFF) {
-                        status.setImageResource(R.drawable.ic_learning_module_close);
-                        userChoice = 2;
-                        card.setUserInput(userInputString);
-                        answer.setVisibility(View.VISIBLE);
-                        //if want the status icon becomes null when move forward/backward, change the value of userChoice
-                    } else {
-                        status.setImageResource(R.drawable.ic_learning_module_incorrect);
-                        userChoice = 1;
-                        card.setUserInput(userInputString);
-                        answer.setVisibility(View.VISIBLE);
-                    }
-                } else {
-                    status.setImageResource(R.drawable.ic_learning_module_incorrect);
-                    userChoice = 0;
-                    answer.setVisibility(View.VISIBLE);
-                }
-                card.setUserChoice(userChoice);
-
-                Handler mHandler = new Handler();
-                mHandler.postDelayed(new Runnable() {
-                    public void run() {
-                        lmActivity.goToNextCard();
-                    }
-                }, 3000);
-
+                checkUserInputAnswer(true);
             }
         });
 
         return myFragmentView;
+    }
+
+    private void checkUserInputAnswer(boolean doFinalCheck) {
+        status.setImageResource(R.drawable.ic_learning_module_null);
+        answer.setVisibility(View.INVISIBLE);
+        int userChoice = 0;
+        //user choice 0--null 1--wrong 2--close 3--correct
+        String userInputString = userInput.getText().toString().trim();
+        if (userInputString.isEmpty()) {
+            return;
+        }
+        String correctString = card.getWordLang1().trim();
+
+        double similarity = WordComparsion.similarity(userInputString, card.getWordLang1());
+        if (doFinalCheck) {
+            if (similarity >= CUTOFF) {
+                status.setImageResource(R.drawable.ic_learning_module_close);
+                userChoice = 2;
+                card.setUserInput(userInputString);
+                answer.setVisibility(View.VISIBLE);
+            } else {
+                status.setImageResource(R.drawable.ic_learning_module_incorrect);
+                userChoice = 1;
+                card.setUserInput(userInputString);
+                answer.setVisibility(View.VISIBLE);
+            }
+        }
+        if (userInputString.equalsIgnoreCase(correctString)) {
+            status.setImageResource(R.drawable.ic_learning_module_correct);
+            card.setUserInput(userInputString);
+            userChoice = 3;
+            answer.setVisibility(View.VISIBLE);
+            doFinalCheck = true;
+        }
+        card.setUserChoice(userChoice);
+
+        if (!doFinalCheck) {
+            return;
+        }
+
+        if (!answerChecked) {
+            final AlertDialog dialog = new AlertDialog.Builder(getActivity())
+                    .create();
+            dialog.setCancelable(true);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+            dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+
+                public void onCancel(DialogInterface di) {
+                    advanceTimer.cancel();
+                    answerChecked = true;
+                    advanceTimerBar.setVisibility(View.INVISIBLE);
+                    advanceTimerBar.clearAnimation();
+                }
+            });
+            dialog.show();
+
+            advanceTimerBar.clearAnimation();
+            advanceTimerBar.startAnimation(advanceTimerAnimation);
+            advanceTimer = new Timer();
+            final Handler next = new Handler(new Handler.Callback() {
+
+                public boolean handleMessage(Message msg) {
+                    if (msg.what == 0) {
+                        dialog.cancel();
+                        lmActivity.goToNextCard();
+                    }
+                    return true;
+                }
+            });
+            advanceTimer.schedule(new TimerTask() {
+
+                @Override
+                public void run() {
+                    next.sendEmptyMessage(0);
+                }
+            }, 3000);
+        }
     }
 
     private void setInterfaceView() {
