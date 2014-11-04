@@ -69,7 +69,8 @@ public class DatabaseHandler {
         configuration.setProperty("hibernate.c3p0.testConnectionOnCheckin", "true");
 
         configuration.addAnnotatedClass(Word.class)
-                .addAnnotatedClass(WordConnection.class);
+                .addAnnotatedClass(WordConnection.class)
+                .addAnnotatedClass(Language.class);
 
         sessionFactory = configuration.buildSessionFactory(new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build());
         sessionFactory.getStatistics().setStatisticsEnabled(true);
