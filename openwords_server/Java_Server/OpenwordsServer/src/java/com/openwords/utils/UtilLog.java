@@ -12,6 +12,10 @@ public class UtilLog {
     private static final Log log = LogFactory.getLog(UtilLog.class);
 
     public static void logInfo(Object c, Object message) {
+        log.info(getClassName(c) + ":: " + message.toString());
+    }
+
+    public static void logInfoHtml(Object c, Object message) {
         log.info("<p style='color:#73e600;'>{" + getClassName(c) + "}:: " + message.toString() + "</p>");
     }
 
@@ -28,6 +32,10 @@ public class UtilLog {
     }
 
     public static void logWarn(Object c, Object message) {
+        log.info(getClassName(c) + ":: " + message.toString());
+    }
+
+    public static void logWarnHtml(Object c, Object message) {
         log.info("<p style='color:#ff00ff;'>{" + getClassName(c) + "}:: " + message.toString() + "</p>");
     }
 
