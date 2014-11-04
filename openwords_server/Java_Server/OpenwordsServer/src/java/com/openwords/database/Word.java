@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import org.hibernate.Session;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
 @Entity
@@ -19,6 +20,14 @@ import org.hibernate.criterion.Restrictions;
 public class Word implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    public static int countLanguageWord(Session s, int languageId) {
+        int total = ((Number) s.createCriteria(Word.class)
+                .add(Restrictions.eq("languageId", languageId))
+                .setProjection(Projections.rowCount()
+                ).uniqueResult()).intValue();
+        return total;
+    }
 
     public static void addWord(Session s, Word w) throws Exception {
         try {
