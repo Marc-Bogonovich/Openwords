@@ -1,8 +1,6 @@
 package com.openwords.database;
 
-import com.openwords.utils.MyMessageDigest;
 import java.io.Serializable;
-import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Column;
@@ -30,35 +28,38 @@ public class WordConnection implements Serializable {
     }
 
     @SuppressWarnings("unchecked")
-    public static List<WordConnection> getConnectionsByMd5(Session s, String message) throws NoSuchAlgorithmException {
-        return s.createCriteria(WordConnection.class).add(Restrictions.eq("md5", MyMessageDigest.digest(message.getBytes()))).list();
+    public static List<WordConnection> getConnectionByIds(Session s, int wordOneId, int wordTwoId) {
+        return s.createCriteria(WordConnection.class)
+                .add(Restrictions.eq("wordOneId", wordOneId))
+                .add(Restrictions.eq("wordTwoId", wordTwoId))
+                .list();
     }
-    private int autoId, wordOneId, wordTwoId, connectionType;
+
+    private int connectionId, wordOneId, wordOneLangId, wordTwoId, wordTwoLangId, connectionType;
     private Date updatedTime;
-    private String contributorId;
-    private byte[] md5;
+    private String contributor;
 
     public WordConnection() {
     }
 
-    public WordConnection(int wordOneId, int wordTwoId, int connectionType, Date updatedTime, String contributorId, byte[] md5) {
+    public WordConnection(int wordOneId, int wordOneLangId, int wordTwoId, int wordTwoLangId, int connectionType, String contributor) {
         this.wordOneId = wordOneId;
+        this.wordOneLangId = wordOneLangId;
         this.wordTwoId = wordTwoId;
+        this.wordTwoLangId = wordTwoLangId;
         this.connectionType = connectionType;
-        this.updatedTime = updatedTime;
-        this.contributorId = contributorId;
-        this.md5 = md5;
+        this.contributor = contributor;
     }
 
     @Id
     @GeneratedValue
-    @Column(name = "auto_id")
-    public int getAutoId() {
-        return autoId;
+    @Column(name = "connection_id")
+    public int getConnectionId() {
+        return connectionId;
     }
 
-    public void setAutoId(int autoId) {
-        this.autoId = autoId;
+    public void setConnectionId(int connectionId) {
+        this.connectionId = connectionId;
     }
 
     @Column(name = "word1_id")
@@ -99,21 +100,30 @@ public class WordConnection implements Serializable {
     }
 
     @Column(name = "contributor_id")
-    public String getContributorId() {
-        return contributorId;
+    public String getContributor() {
+        return contributor;
     }
 
-    public void setContributorId(String contributorId) {
-        this.contributorId = contributorId;
+    public void setContributor(String contributor) {
+        this.contributor = contributor;
     }
 
-    @Column(name = "form_md5")
-    public byte[] getMd5() {
-        return md5;
+    @Column(name = "word1_language")
+    public int getWordOneLangId() {
+        return wordOneLangId;
     }
 
-    public void setMd5(byte[] md5) {
-        this.md5 = md5;
+    public void setWordOneLangId(int wordOneLangId) {
+        this.wordOneLangId = wordOneLangId;
+    }
+
+    @Column(name = "word2_language")
+    public int getWordTwoLangId() {
+        return wordTwoLangId;
+    }
+
+    public void setWordTwoLangId(int wordTwoLangId) {
+        this.wordTwoLangId = wordTwoLangId;
     }
 
 }
