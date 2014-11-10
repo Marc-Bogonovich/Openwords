@@ -22,6 +22,13 @@ public class Word implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @SuppressWarnings("unchecked")
+    public static List<Integer> getWordIds(Session s, String word) {
+        return s.createCriteria(Word.class)
+                .add(Restrictions.eq("word", word))
+                .setProjection(Projections.property("wordId")).list();
+    }
+
     public static Map<String, Object> getWordFormAndTranslation(Session s, int wordId) {
         String sql = "select word, ExtractValue(meta_info,  \"/word/commonTranslation\") as common_translation from words where word_id=@wordId@";
         sql = sql.replace("@wordId@", String.valueOf(wordId));
