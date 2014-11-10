@@ -19,6 +19,32 @@ public class WordConnection implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    public static List<WordConnection> getConnectionsPageWithOrder(Session s, int langOneId, int langTwoId, int pageNumber, int pageSize, String orderItem) {
+        int firstRecord = (pageNumber - 1) * pageSize;
+
+        String sql = "select c.* from words w,word_connections c "
+                + "where w.word_id=c.word1_id "
+                + "and c.word1_language=@langOneId@ "
+                + "and c.word2_language=@langTwoId@ "
+                + "order by ExtractValue(w.meta_info,  \"/word/@orderItem@\") desc "
+                + "limit @firstRecord@,@pageSize@";
+
+        sql = sql.replace("@langOneId@", String.valueOf(langOneId))
+                .replace("@langTwoId@", String.valueOf(langTwoId))
+                .replace("@orderItem@", orderItem)
+                .replace("@firstRecord@", String.valueOf(firstRecord))
+                .replace("@pageSize@", String.valueOf(pageSize));
+
+        @SuppressWarnings("unchecked")
+        List<WordConnection> connections = s.createSQLQuery(sql).addEntity(WordConnection.class).list();
+
+        for (WordConnection record : connections) {
+            record.setWordOne(Word.getWord(s, langOneId));
+            record.setWordTwo(Word.getWord(s, langTwoId));
+        }
+        return connections;
+    }
+
     public static List<WordConnection> getWordAllConnections(Session s, String wordOne) {
         List<Integer> wordOneIds = Word.getWordIds(s, wordOne);
 

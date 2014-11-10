@@ -18,6 +18,8 @@ public class GetLanguageConnections extends MyAction {
     private int langOneId, langTwoId, pageNumber, pageSize;
     private List<WordConnection> result;
     private String errorMessage;
+    private boolean doOrder;
+    private String orderBy;
 
     @Action(value = "/getLanguageConnections", results = {
         @Result(name = SUCCESS, type = "json")
@@ -29,7 +31,16 @@ public class GetLanguageConnections extends MyAction {
             if (pageSize > 100) {
                 throw new Exception("PageSize is too large!");
             }
-            result = WordConnection.getConnectionsPage(s, langOneId, langTwoId, pageNumber, pageSize);
+            if (doOrder) {
+                if (orderBy == null || orderBy.isEmpty()) {
+                    throw new Exception("Please give an order criteria!");
+                }
+            }
+            if (doOrder) {
+                result = WordConnection.getConnectionsPageWithOrder(s, langOneId, langTwoId, pageNumber, pageSize, orderBy);
+            } else {
+                result = WordConnection.getConnectionsPage(s, langOneId, langTwoId, pageNumber, pageSize);
+            }
         } catch (Exception e) {
             errorMessage = e.toString();
             UtilLog.logWarn(this, errorMessage);
@@ -61,6 +72,14 @@ public class GetLanguageConnections extends MyAction {
 
     public String getErrorMessage() {
         return errorMessage;
+    }
+
+    public void setDoOrder(boolean doOrder) {
+        this.doOrder = doOrder;
+    }
+
+    public void setOrderBy(String orderBy) {
+        this.orderBy = orderBy;
     }
 
 }
