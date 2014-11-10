@@ -32,8 +32,8 @@ public class GetLanguageConnections extends MyAction {
             }
             result = WordConnection.getConnectionsPage(s, langOneId, langTwoId, pageNumber, pageSize);
         } catch (Exception e) {
-            UtilLog.logWarn(this, e.toString());
             errorMessage = e.toString();
+            UtilLog.logWarn(this, errorMessage);
         } finally {
             DatabaseHandler.closeSession(s);
         }

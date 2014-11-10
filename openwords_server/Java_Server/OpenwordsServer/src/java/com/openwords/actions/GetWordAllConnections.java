@@ -28,8 +28,8 @@ public class GetWordAllConnections extends MyAction {
             wordOne = wordOne.trim().toLowerCase();
             result = WordConnection.getWordAllConnections(s, wordOne);
         } catch (Exception e) {
-            UtilLog.logWarn(this, e.toString());
             errorMessage = e.toString();
+            UtilLog.logWarn(this, errorMessage);
         } finally {
             DatabaseHandler.closeSession(s);
         }

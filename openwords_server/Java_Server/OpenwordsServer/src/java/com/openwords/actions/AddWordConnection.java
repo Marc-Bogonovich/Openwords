@@ -22,7 +22,7 @@ public class AddWordConnection extends MyAction {
 
     private String wordOne, wordTwo, translation, wordOneOriginalForm, wordTwoOriginalForm, contributor;
     private int wordOneLang, wordTwoLang;
-    private String result, accessToken;
+    private String result, accessToken, errorMessage;
 
     @Action(value = "/addWordConnection", results = {
         @Result(name = SUCCESS, type = "json")
@@ -66,12 +66,13 @@ public class AddWordConnection extends MyAction {
                 result = "New connection added: " + connnection.getConnectionId() + " at " + new Date();
                 UtilLog.logInfo(this, result);
             } else {
-                result = "Connection already exists!";
+                errorMessage = "Connection already exists!";
             }
 
         } catch (Exception e) {
+            errorMessage = e.toString();
             UtilLog.logWarn(this, e.toString() + "\nwordOne: " + wordOne + " wordTwo: " + wordTwo);
-            result = e.toString();
+
         } finally {
             DatabaseHandler.closeSession(s);
         }
@@ -110,6 +111,10 @@ public class AddWordConnection extends MyAction {
 
     public void setAccessToken(String accessToken) {
         this.accessToken = accessToken;
+    }
+
+    public String getErrorMessage() {
+        return errorMessage;
     }
 
 }

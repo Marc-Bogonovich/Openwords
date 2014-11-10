@@ -19,6 +19,7 @@ public class OverviewOpenwords extends MyAction {
     private static final long serialVersionUID = 1L;
 
     private List<String[]> result;
+    private String errorMessage;
 
     @Action(value = "/overviewOpenwords", results = {
         @Result(name = SUCCESS, type = "json")
@@ -36,7 +37,8 @@ public class OverviewOpenwords extends MyAction {
             }
 
         } catch (Exception e) {
-            UtilLog.logWarn(this, e.toString());
+            errorMessage = e.toString();
+            UtilLog.logWarn(this, errorMessage);
         } finally {
             DatabaseHandler.closeSession(s);
         }
@@ -45,6 +47,10 @@ public class OverviewOpenwords extends MyAction {
 
     public List<String[]> getResult() {
         return result;
+    }
+
+    public String getErrorMessage() {
+        return errorMessage;
     }
 
 }
