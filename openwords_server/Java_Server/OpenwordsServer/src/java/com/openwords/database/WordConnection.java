@@ -3,7 +3,6 @@ package com.openwords.database;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -33,31 +32,18 @@ public class WordConnection implements Serializable {
     }
 
     @SuppressWarnings("unchecked")
-    public static List<Map<String, Object>> getConnectionsPage(Session s, int langOneId, int langTwoId, int pageNumber, int pageSize) {
+    public static List<WordConnection> getConnectionsPage(Session s, int langOneId, int langTwoId, int pageNumber, int pageSize) {
         int firstRecord = (pageNumber - 1) * pageSize;
-        String sql = "select * from word_connections where word1_language=@langOneId@ and word2_language=@langTwoId@ limit @firstRecord@,@pageSize@";
-        sql = sql.replace("@langOneId@", String.valueOf(langOneId))
-                .replace("@langTwoId@", String.valueOf(langTwoId))
-                .replace("@firstRecord@", String.valueOf(firstRecord))
-                .replace("@pageSize@", String.valueOf(pageSize));
-        List<Map<String, Object>> records = DatabaseHandler.Query(sql, s);
+        List<WordConnection> records = s.createCriteria(WordConnection.class)
+                .add(Restrictions.eq("wordOneLangId", langOneId))
+                .add(Restrictions.eq("wordTwoLangId", langTwoId))
+                .setFirstResult(firstRecord)
+                .setMaxResults(pageSize)
+                .list();
 
-        for (Map<String, Object> record : records) {
-            Map<String, Object> word1 = null;
-            Map<String, Object> word2 = null;
-            for (String key : record.keySet()) {
-                switch (key) {
-                    case "word2_id":
-                        word2 = Word.getWordFormAndTranslation(s, (int) record.get("word2_id"));
-                        break;
-                    case "word1_id":
-                        word1 = Word.getWordFormAndTranslation(s, (int) record.get("word1_id"));
-                        break;
-                }
-            }
-            record.put("word1", word1.get("word"));
-            record.put("word2", word2.get("word"));
-            record.put("common_translation", word1.get("common_translation"));
+        for (WordConnection record : records) {
+            record.setWordOne(Word.getWord(s, langOneId));
+            record.setWordTwo(Word.getWord(s, langTwoId));
         }
         return records;
     }
@@ -82,7 +68,7 @@ public class WordConnection implements Serializable {
     private int connectionId, wordOneId, wordOneLangId, wordTwoId, wordTwoLangId, connectionType;
     private Date updatedTime;
     private String contributor;
-    private Word wordTwo;
+    private Word wordTwo, wordOne;
 
     public WordConnection() {
     }
@@ -178,6 +164,15 @@ public class WordConnection implements Serializable {
 
     public void setWordTwo(Word wordTwo) {
         this.wordTwo = wordTwo;
+    }
+
+    @Transient
+    public Word getWordOne() {
+        return wordOne;
+    }
+
+    public void setWordOne(Word wordOne) {
+        this.wordOne = wordOne;
     }
 
 }

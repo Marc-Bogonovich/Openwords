@@ -6,7 +6,6 @@ import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -32,10 +31,8 @@ public class Word implements Serializable {
                 .setProjection(Projections.property("wordId")).list();
     }
 
-    public static Map<String, Object> getWordFormAndTranslation(Session s, int wordId) {
-        String sql = "select word, ExtractValue(meta_info,  \"/word/commonTranslation\") as common_translation from words where word_id=@wordId@";
-        sql = sql.replace("@wordId@", String.valueOf(wordId));
-        return DatabaseHandler.Query(sql, s).get(0);
+    public static Word getWord(Session s, int wordId) {
+        return (Word) s.get(Word.class, wordId);
     }
 
     public static int countLanguageWord(Session s, int languageId) {
@@ -160,5 +157,4 @@ public class Word implements Serializable {
         }
         return wordMetaInfo;
     }
-
 }

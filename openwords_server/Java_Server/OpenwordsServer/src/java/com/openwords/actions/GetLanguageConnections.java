@@ -6,7 +6,6 @@ import com.openwords.database.WordConnection;
 import com.openwords.interfaces.MyAction;
 import com.openwords.utils.UtilLog;
 import java.util.List;
-import java.util.Map;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
@@ -17,7 +16,7 @@ public class GetLanguageConnections extends MyAction {
 
     private static final long serialVersionUID = 1L;
     private int langOneId, langTwoId, pageNumber, pageSize;
-    private List<Map<String, Object>> result;
+    private List<WordConnection> result;
     private String errorMessage;
 
     @Action(value = "/getLanguageConnections", results = {
@@ -56,7 +55,7 @@ public class GetLanguageConnections extends MyAction {
         this.pageSize = pageSize;
     }
 
-    public List<Map<String, Object>> getResult() {
+    public List<WordConnection> getResult() {
         return result;
     }
 
