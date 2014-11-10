@@ -72,7 +72,6 @@ public class AddWordConnection extends MyAction {
         } catch (Exception e) {
             errorMessage = e.toString();
             UtilLog.logWarn(this, e.toString() + "\nwordOne: " + wordOne + " wordTwo: " + wordTwo);
-
         } finally {
             DatabaseHandler.closeSession(s);
         }

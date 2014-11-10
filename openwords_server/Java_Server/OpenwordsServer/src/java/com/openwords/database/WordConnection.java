@@ -17,24 +17,21 @@ import org.hibernate.criterion.Restrictions;
 @Entity
 @Table(name = "word_connections")
 public class WordConnection implements Serializable {
-    
+
     private static final long serialVersionUID = 1L;
-    
+
     public static List<WordConnection> getWordAllConnections(Session s, String wordOne) {
         List<Integer> wordOneIds = Word.getWordIds(s, wordOne);
-        
+
         @SuppressWarnings("unchecked")
         List<WordConnection> conns = s.createCriteria(WordConnection.class).add(Restrictions.in("wordOneId", wordOneIds)).list();
         for (WordConnection conn : conns) {
             Word wordTwo = (Word) s.get(Word.class, conn.getWordTwoId());
-            wordTwo.getWordMetaInfo();
-            wordTwo.setMd5(null);
-            wordTwo.setMeta(null);
             conn.setWordTwo(wordTwo);
         }
         return conns;
     }
-    
+
     @SuppressWarnings("unchecked")
     public static List<Map<String, Object>> getConnectionsPage(Session s, int langOneId, int langTwoId, int pageNumber, int pageSize) {
         int firstRecord = (pageNumber - 1) * pageSize;
@@ -44,7 +41,7 @@ public class WordConnection implements Serializable {
                 .replace("@firstRecord@", String.valueOf(firstRecord))
                 .replace("@pageSize@", String.valueOf(pageSize));
         List<Map<String, Object>> records = DatabaseHandler.Query(sql, s);
-        
+
         for (Map<String, Object> record : records) {
             Map<String, Object> word1 = null;
             Map<String, Object> word2 = null;
@@ -64,7 +61,7 @@ public class WordConnection implements Serializable {
         }
         return records;
     }
-    
+
     public static void addConnection(Session s, WordConnection c) throws Exception {
         try {
             s.save(c);
@@ -73,7 +70,7 @@ public class WordConnection implements Serializable {
             throw e;
         }
     }
-    
+
     @SuppressWarnings("unchecked")
     public static List<WordConnection> getConnectionByIds(Session s, int wordOneId, int wordTwoId) {
         return s.createCriteria(WordConnection.class)
@@ -81,15 +78,15 @@ public class WordConnection implements Serializable {
                 .add(Restrictions.eq("wordTwoId", wordTwoId))
                 .list();
     }
-    
+
     private int connectionId, wordOneId, wordOneLangId, wordTwoId, wordTwoLangId, connectionType;
     private Date updatedTime;
     private String contributor;
     private Word wordTwo;
-    
+
     public WordConnection() {
     }
-    
+
     public WordConnection(int wordOneId, int wordOneLangId, int wordTwoId, int wordTwoLangId, int connectionType, String contributor) {
         this.wordOneId = wordOneId;
         this.wordOneLangId = wordOneLangId;
@@ -98,89 +95,89 @@ public class WordConnection implements Serializable {
         this.connectionType = connectionType;
         this.contributor = contributor;
     }
-    
+
     @Id
     @GeneratedValue
     @Column(name = "connection_id")
     public int getConnectionId() {
         return connectionId;
     }
-    
+
     public void setConnectionId(int connectionId) {
         this.connectionId = connectionId;
     }
-    
+
     @Column(name = "word1_id")
     public int getWordOneId() {
         return wordOneId;
     }
-    
+
     public void setWordOneId(int wordOneId) {
         this.wordOneId = wordOneId;
     }
-    
+
     @Column(name = "word2_id")
     public int getWordTwoId() {
         return wordTwoId;
     }
-    
+
     public void setWordTwoId(int wordTwoId) {
         this.wordTwoId = wordTwoId;
     }
-    
+
     @Column(name = "connection_type")
     public int getConnectionType() {
         return connectionType;
     }
-    
+
     public void setConnectionType(int connectionType) {
         this.connectionType = connectionType;
     }
-    
+
     @Column(name = "updated_time")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     public Date getUpdatedTime() {
         return updatedTime;
     }
-    
+
     public void setUpdatedTime(Date updatedTime) {
         this.updatedTime = updatedTime;
     }
-    
+
     @Column(name = "contributor_id")
     public String getContributor() {
         return contributor;
     }
-    
+
     public void setContributor(String contributor) {
         this.contributor = contributor;
     }
-    
+
     @Column(name = "word1_language")
     public int getWordOneLangId() {
         return wordOneLangId;
     }
-    
+
     public void setWordOneLangId(int wordOneLangId) {
         this.wordOneLangId = wordOneLangId;
     }
-    
+
     @Column(name = "word2_language")
     public int getWordTwoLangId() {
         return wordTwoLangId;
     }
-    
+
     public void setWordTwoLangId(int wordTwoLangId) {
         this.wordTwoLangId = wordTwoLangId;
     }
-    
+
     @Transient
     public Word getWordTwo() {
         return wordTwo;
     }
-    
+
     public void setWordTwo(Word wordTwo) {
         this.wordTwo = wordTwo;
     }
-    
+
 }

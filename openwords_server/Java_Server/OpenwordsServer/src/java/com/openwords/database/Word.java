@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.Transient;
+import org.apache.struts2.json.annotations.JSON;
 import org.hibernate.Session;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
@@ -114,6 +115,7 @@ public class Word implements Serializable {
     }
 
     @Column(name = "meta_info")
+    @JSON(serialize = false, deserialize = false)
     public String getMeta() {
         return meta;
     }
@@ -142,6 +144,7 @@ public class Word implements Serializable {
     }
 
     @Column(name = "translation_md5")
+    @JSON(serialize = false, deserialize = false)
     public byte[] getMd5() {
         return md5;
     }
