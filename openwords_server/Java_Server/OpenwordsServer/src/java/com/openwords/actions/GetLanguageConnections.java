@@ -26,6 +26,7 @@ public class GetLanguageConnections extends MyAction {
     })
     @Override
     public String execute() throws Exception {
+        UtilLog.logInfo(this, "/getLanguageConnections");
         Session s = DatabaseHandler.getSession();
         try {
             if (pageSize > 100) {
@@ -37,7 +38,7 @@ public class GetLanguageConnections extends MyAction {
                 }
             }
             if (doOrder) {
-                result = WordConnection.getConnectionsPageWithOrder(s, langOneId, langTwoId, pageNumber, pageSize, orderBy);
+                result = WordConnection.getConnectionsPageWithOrder(s, langOneId, langTwoId, pageNumber, pageSize, orderBy.trim());
             } else {
                 result = WordConnection.getConnectionsPage(s, langOneId, langTwoId, pageNumber, pageSize);
             }

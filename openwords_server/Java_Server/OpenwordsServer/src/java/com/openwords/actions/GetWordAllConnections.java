@@ -23,6 +23,7 @@ public class GetWordAllConnections extends MyAction {
     })
     @Override
     public String execute() throws Exception {
+        UtilLog.logInfo(this, "/getWordAllConnections");
         Session s = DatabaseHandler.getSession();
         try {
             wordOne = wordOne.trim().toLowerCase();

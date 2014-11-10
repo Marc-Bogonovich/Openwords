@@ -29,6 +29,7 @@ public class AddWordConnection extends MyAction {
     })
     @Override
     public String execute() throws Exception {
+        UtilLog.logInfo(this, "/addWordConnection");
         Session s = DatabaseHandler.getSession();
         try {
             if (!accessToken.equals("wordsopen2014")) {
