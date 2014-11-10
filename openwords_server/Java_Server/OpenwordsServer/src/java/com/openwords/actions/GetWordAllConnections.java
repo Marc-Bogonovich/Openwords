@@ -13,11 +13,11 @@ import org.hibernate.Session;
 
 @ParentPackage("json-default")
 public class GetWordAllConnections extends MyAction {
-    
+
     private static final long serialVersionUID = 1L;
     private List<WordConnection> result;
     private String wordOne, errorMessage;
-    
+
     @Action(value = "/getWordAllConnections", results = {
         @Result(name = SUCCESS, type = "json")
     })
@@ -27,7 +27,7 @@ public class GetWordAllConnections extends MyAction {
         Session s = DatabaseHandler.getSession();
         try {
             wordOne = wordOne.trim().toLowerCase();
-            result = WordConnection.getWordAllConnections(s, wordOne);
+            result = WordConnection.getWordAllConnections(s, wordOne, true);
         } catch (Exception e) {
             errorMessage = e.toString();
             UtilLog.logWarn(this, errorMessage);
@@ -36,17 +36,17 @@ public class GetWordAllConnections extends MyAction {
         }
         return SUCCESS;
     }
-    
+
     public void setWordOne(String wordOne) {
         this.wordOne = wordOne;
     }
-    
+
     public String getErrorMessage() {
         return errorMessage;
     }
-    
+
     public List<WordConnection> getResult() {
         return result;
     }
-    
+
 }

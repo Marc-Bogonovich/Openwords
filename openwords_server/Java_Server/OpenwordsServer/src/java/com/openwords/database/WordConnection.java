@@ -26,7 +26,7 @@ public class WordConnection implements Serializable {
                 + "where w.word_id=c.word1_id "
                 + "and c.word1_language=@langOneId@ "
                 + "and c.word2_language=@langTwoId@ "
-                + "order by ExtractValue(w.meta_info,  \"/word/@orderItem@\") desc "
+                + "order by ExtractValue(w.meta_info,  \"/word/@orderItem@\")*1 desc "
                 + "limit @firstRecord@,@pageSize@";
 
         sql = sql.replace("@langOneId@", String.valueOf(langOneId))
@@ -45,14 +45,22 @@ public class WordConnection implements Serializable {
         return connections;
     }
 
-    public static List<WordConnection> getWordAllConnections(Session s, String wordOne) {
+    public static List<WordConnection> getWordAllConnections(Session s, String wordOne, boolean increaseRank) {
         List<Integer> wordOneIds = Word.getWordIds(s, wordOne);
+        if (increaseRank) {
+            for (Integer id : wordOneIds) {
+                Word.increaseRank(s, Word.getWord(s, id), "popRank");
+            }
+        }
 
         @SuppressWarnings("unchecked")
         List<WordConnection> conns = s.createCriteria(WordConnection.class).add(Restrictions.in("wordOneId", wordOneIds)).list();
         for (WordConnection conn : conns) {
             Word wordTwo = (Word) s.get(Word.class, conn.getWordTwoId());
             conn.setWordTwo(wordTwo);
+            if (increaseRank) {
+                Word.increaseRank(s, wordTwo, "popRank");
+            }
         }
         return conns;
     }

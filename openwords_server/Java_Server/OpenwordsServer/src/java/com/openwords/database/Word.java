@@ -24,6 +24,17 @@ public class Word implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    public static void increaseRank(Session s, Word word, String rankName) {
+        WordMetaInfo meta = word.getWordMetaInfo();
+        if (meta.getPopRank() == null) {
+            meta.setPopRank(1);
+        } else {
+            meta.setPopRank(meta.getPopRank() + 1);
+        }
+        word.setMeta(meta.getXmlString());
+        s.beginTransaction().commit();
+    }
+
     @SuppressWarnings("unchecked")
     public static List<Integer> getWordIds(Session s, String word) {
         return s.createCriteria(Word.class)
