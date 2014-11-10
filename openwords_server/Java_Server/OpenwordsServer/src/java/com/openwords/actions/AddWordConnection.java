@@ -22,7 +22,7 @@ public class AddWordConnection extends MyAction {
 
     private String wordOne, wordTwo, translation, wordOneOriginalForm, wordTwoOriginalForm, contributor;
     private int wordOneLang, wordTwoLang;
-    private String result;
+    private String result, accessToken;
 
     @Action(value = "/addWordConnection", results = {
         @Result(name = SUCCESS, type = "json")
@@ -31,6 +31,10 @@ public class AddWordConnection extends MyAction {
     public String execute() throws Exception {
         Session s = DatabaseHandler.getSession();
         try {
+            if (!accessToken.equals("wordsopen2014")) {
+                throw new Exception("AccessToken is not valid!");
+            }
+
             List<Word> checkWord = Word.getWordsWithSameCommonTranslation(s, translation);
             int wordOneId = -1, wordTwoId = -1;
             for (Word word : checkWord) {
@@ -102,6 +106,10 @@ public class AddWordConnection extends MyAction {
 
     public String getResult() {
         return result;
+    }
+
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
     }
 
 }

@@ -30,9 +30,9 @@ public class OverviewOpenwords extends MyAction {
         try {
             List<Language> langs = Language.getAllLanguages(s);
             result = new LinkedList<>();
+            result.add(new String[]{"ALL", String.valueOf(Word.countLanguageWord(s, -1))});
             for (Language lang : langs) {
-                int totalWords = Word.countLanguageWord(s, lang.getId());
-                result.add(new String[]{lang.getName(), String.valueOf(totalWords)});
+                result.add(new String[]{lang.getName(), String.valueOf(Word.countLanguageWord(s, lang.getId()))});
             }
 
         } catch (Exception e) {
