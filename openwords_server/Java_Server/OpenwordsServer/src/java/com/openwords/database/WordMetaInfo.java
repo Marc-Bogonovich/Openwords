@@ -1,6 +1,7 @@
 package com.openwords.database;
 
 import com.openwords.utils.MyXStream;
+import org.apache.struts2.json.annotations.JSON;
 
 public class WordMetaInfo {
 
@@ -55,7 +56,8 @@ public class WordMetaInfo {
         this.nativeForm = nativeForm;
     }
 
+    @JSON(serialize = false, deserialize = false)
     public String getXmlString() {
-        return MyXStream.toXml("word", WordMetaInfo.class, this);
+        return MyXStream.toXml("word", this);
     }
 }

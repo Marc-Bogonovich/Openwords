@@ -1,6 +1,7 @@
 package com.openwords.database;
 
 import com.openwords.utils.MyMessageDigest;
+import com.openwords.utils.MyXStream;
 import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
@@ -12,6 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.persistence.Transient;
 import org.hibernate.Session;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
@@ -69,6 +71,7 @@ public class Word implements Serializable {
     private String word, meta, contributor;
     private Date updatedTime;
     private byte[] md5;
+    private WordMetaInfo wordMetaInfo;
 
     public Word() {
     }
@@ -145,6 +148,14 @@ public class Word implements Serializable {
 
     public void setMd5(byte[] md5) {
         this.md5 = md5;
+    }
+
+    @Transient
+    public WordMetaInfo getWordMetaInfo() {
+        if (wordMetaInfo == null) {
+            wordMetaInfo = (WordMetaInfo) MyXStream.fromXml("word", meta);
+        }
+        return wordMetaInfo;
     }
 
 }

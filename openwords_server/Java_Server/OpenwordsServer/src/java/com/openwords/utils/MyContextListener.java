@@ -24,12 +24,14 @@ public class MyContextListener implements ServletContextListener {
         }
         UtilLog.logEnvironment(this, "Servlet Context Path: " + contextPath);
 
+        MyXStream.init();
         DatabaseHandler.getInstance();
         UtilLog.logEnvironment(this, "contextInitialized");
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
+        MyXStream.clean();
         DatabaseHandler.getInstance().clean();
         UtilLog.logEnvironment(this, "contextDestroyed");
     }
