@@ -76,8 +76,8 @@ public class WordConnection implements Serializable {
                 .list();
 
         for (WordConnection record : records) {
-            record.setWordOne(Word.getWord(s, langOneId));
-            record.setWordTwo(Word.getWord(s, langTwoId));
+            record.setWordOne(Word.getWord(s, record.getWordOneId()));
+            record.setWordTwo(Word.getWord(s, record.getWordTwoId()));
         }
         return records;
     }
