@@ -26,7 +26,7 @@ public class Word implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public static List<Word> getSameTranslation(Session s, String word, String langInCode, String langOutCode) {
+    public static List<Word> getSameTranslation(Session s, String word, String langInCode, String langOutCode, boolean increaseRank) {
         Language langIn = (Language) s.createCriteria(Language.class).add(Restrictions.eq("code", langInCode)).list().get(0);
         Language langOut = (Language) s.createCriteria(Language.class).add(Restrictions.eq("code", langOutCode)).list().get(0);
 
@@ -42,12 +42,20 @@ public class Word implements Serializable {
 
         List<Word> wordOut = new LinkedList<>();
         for (Word w : wordIn) {
+            if (increaseRank) {
+                Word.increaseRank(s, w, "popRank");
+            }
             @SuppressWarnings("unchecked")
             List<Word> words = s.createCriteria(Word.class)
                     .add(Restrictions.eq("md5", w.getMd5()))
                     .add(Restrictions.eq("languageId", langOut.getId()))
                     .list();
-            wordOut.addAll(words);
+            for (Word ww : words) {
+                if (increaseRank) {
+                    Word.increaseRank(s, ww, "popRank");
+                }
+                wordOut.add(ww);
+            }
         }
 
         return wordOut;

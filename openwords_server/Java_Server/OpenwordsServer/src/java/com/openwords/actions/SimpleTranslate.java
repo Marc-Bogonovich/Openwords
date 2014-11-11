@@ -26,7 +26,7 @@ public class SimpleTranslate extends MyAction {
         UtilLog.logInfo(this, "/simpleTranslate");
         Session s = DatabaseHandler.getSession();
         try {
-            result = Word.getSameTranslation(s, word, langIn, langOut);
+            result = Word.getSameTranslation(s, word, langIn, langOut, true);
         } catch (Exception e) {
             errorMessage = e.toString();
             UtilLog.logWarn(this, errorMessage);
