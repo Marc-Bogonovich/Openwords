@@ -15,15 +15,25 @@ import javax.persistence.Temporal;
 import javax.persistence.Transient;
 import org.apache.struts2.json.annotations.JSON;
 import org.hibernate.Session;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
 @Entity
 @Table(name = "words")
 public class Word implements Serializable {
-
+    
     private static final long serialVersionUID = 1L;
-
+    
+    public static List<Word> getSimilarWords(Session s, String form, int pageNumber, int pageSize) {
+        int firstRecord = (pageNumber - 1) * pageSize;
+        return s.createCriteria(Word.class)
+                .add(Restrictions.like("word", form, MatchMode.ANYWHERE))
+                .setFirstResult(firstRecord)
+                .setMaxResults(pageSize)
+                .list();
+    }
+    
     public static void increaseRank(Session s, Word word, String rankName) {
         WordMetaInfo meta = word.getWordMetaInfo();
         if (meta.getPopRank() == null) {
@@ -32,20 +42,21 @@ public class Word implements Serializable {
             meta.setPopRank(meta.getPopRank() + 1);
         }
         word.setMeta(meta.getXmlString());
+        word.setUpdatedTime(new Date());
         s.beginTransaction().commit();
     }
-
+    
     @SuppressWarnings("unchecked")
     public static List<Integer> getWordIds(Session s, String word) {
         return s.createCriteria(Word.class)
                 .add(Restrictions.eq("word", word))
                 .setProjection(Projections.property("wordId")).list();
     }
-
+    
     public static Word getWord(Session s, int wordId) {
         return (Word) s.get(Word.class, wordId);
     }
-
+    
     public static int countLanguageWord(Session s, int languageId) {
         int total;
         if (languageId <= 0) {
@@ -60,7 +71,7 @@ public class Word implements Serializable {
         }
         return total;
     }
-
+    
     public static void addWord(Session s, Word w) throws Exception {
         try {
             s.save(w);
@@ -69,22 +80,22 @@ public class Word implements Serializable {
             throw e;
         }
     }
-
+    
     @SuppressWarnings("unchecked")
     public static List<Word> getWordsWithSameCommonTranslation(Session s, String translation) throws NoSuchAlgorithmException {
         return s.createCriteria(Word.class).add(Restrictions.eq("md5", MyMessageDigest.digest(translation.getBytes())))
                 .list();
     }
-
+    
     private int wordId, languageId;
     private String word, meta, contributor;
     private Date updatedTime;
     private byte[] md5;
     private WordMetaInfo wordMetaInfo;
-
+    
     public Word() {
     }
-
+    
     public Word(int languageId, String word, String meta, String contributor, byte[] md5) {
         this.languageId = languageId;
         this.word = word;
@@ -92,75 +103,75 @@ public class Word implements Serializable {
         this.contributor = contributor;
         this.md5 = md5;
     }
-
+    
     @Id
     @GeneratedValue
     @Column(name = "word_id")
     public int getWordId() {
         return wordId;
     }
-
+    
     public void setWordId(int wordId) {
         this.wordId = wordId;
     }
-
+    
     @Column(name = "language_id")
     public int getLanguageId() {
         return languageId;
     }
-
+    
     public void setLanguageId(int languageId) {
         this.languageId = languageId;
     }
-
+    
     @Column(name = "word")
     public String getWord() {
         return word;
     }
-
+    
     public void setWord(String word) {
         this.word = word;
     }
-
+    
     @Column(name = "meta_info")
     @JSON(serialize = false, deserialize = false)
     public String getMeta() {
         return meta;
     }
-
+    
     public void setMeta(String meta) {
         this.meta = meta;
     }
-
+    
     @Column(name = "contributor_id")
     public String getContributor() {
         return contributor;
     }
-
+    
     public void setContributor(String contributor) {
         this.contributor = contributor;
     }
-
+    
     @Column(name = "updated_time")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     public Date getUpdatedTime() {
         return updatedTime;
     }
-
+    
     public void setUpdatedTime(Date updatedTime) {
         this.updatedTime = updatedTime;
     }
-
+    
     @Column(name = "translation_md5")
     @JSON(serialize = false, deserialize = false)
     public byte[] getMd5() {
         return md5;
     }
-
+    
     public void setMd5(byte[] md5) {
         this.md5 = md5;
     }
-
+    
     @Transient
     public WordMetaInfo getWordMetaInfo() {
         if (wordMetaInfo == null) {
