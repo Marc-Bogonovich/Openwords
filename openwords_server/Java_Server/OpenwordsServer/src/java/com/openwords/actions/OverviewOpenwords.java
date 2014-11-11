@@ -33,7 +33,7 @@ public class OverviewOpenwords extends MyAction {
             result = new LinkedList<>();
             result.add(new String[]{"ALL", String.valueOf(Word.countLanguageWord(s, -1))});
             for (Language lang : langs) {
-                result.add(new String[]{lang.getName(), String.valueOf(Word.countLanguageWord(s, lang.getId()))});
+                result.add(new String[]{lang.getName(), String.valueOf(Word.countLanguageWord(s, lang.getId())), lang.getCode(), String.valueOf(lang.getId())});
             }
 
         } catch (Exception e) {
