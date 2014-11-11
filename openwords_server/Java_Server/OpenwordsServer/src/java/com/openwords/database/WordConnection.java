@@ -39,8 +39,8 @@ public class WordConnection implements Serializable {
         List<WordConnection> connections = s.createSQLQuery(sql).addEntity(WordConnection.class).list();
 
         for (WordConnection record : connections) {
-            record.setWordOne(Word.getWord(s, langOneId));
-            record.setWordTwo(Word.getWord(s, langTwoId));
+            record.setWordOne(Word.getWord(s, record.getWordOneId()));
+            record.setWordTwo(Word.getWord(s, record.getWordTwoId()));
         }
         return connections;
     }
