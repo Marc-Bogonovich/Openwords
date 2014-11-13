@@ -1,0 +1,25 @@
+Something about Wiktionary data
+
+1)<br/>
+The main [data](https://dumps.wikimedia.org/enwiktionary/20141101/) of words are residing in both of the "pages-articles.xml" file and the "pages-meta-current.xml" file, but not sure about the difference between them (probably not related to the actual words).
+
+2)<br/>
+There are a lot of [tools](http://meta.wikimedia.org/wiki/Data_dumps/Tools_for_importing) for dumping Wiki data into a SQL database, but these are not helpful for Openwords context, because this is for general Wiki-format data, so it only stores each "page" text as a record.
+
+3)<br/>
+The Wiki/Wiktionary data follows a simple xml structure of:<br/>
+<page><br/>
+&nbsp;<title>dictionary</title><br/>
+&nbsp;<ns>0</ns><br/>
+&nbsp;<id>16</id><br/>
+&nbsp;&nbsp;<revision><br/>
+&nbsp;&nbsp;&nbsp;<text xml:space="preserve"><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;......<br/>
+&nbsp;&nbsp;&nbsp;</text><br/>
+&nbsp;&nbsp;</revision><br/>
+</page><br/><br/>
+
+The actual "page" of each word content are plaintext inside the "text" tag, such as the page for word ["dictionary"](https://en.wiktionary.org/w/index.php?title=dictionary&action=raw).
+
+4)<br/>
+The xml tags of the Wiki data are not very helpful to us so we don't need to store them into our words database. But the only useful piece is the "ns" value, which is the [Namespace](http://en.wikipedia.org/wiki/Wikipedia:Namespace) value of each Wiki page, so only the pages with "ns" value 0 are useful to us as they are pages about words. So we can then parse inside each "text" tag and extract the information we need for each word, this could be done by any simple text reader/program.
