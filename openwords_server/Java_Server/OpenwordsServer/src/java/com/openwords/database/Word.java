@@ -118,8 +118,11 @@ public class Word implements Serializable {
     }
 
     @SuppressWarnings("unchecked")
-    public static List<Word> getWordsWithSameCommonTranslation(Session s, String translation) throws NoSuchAlgorithmException {
-        return s.createCriteria(Word.class).add(Restrictions.eq("md5", MyMessageDigest.digest(translation.getBytes())))
+    public static List<Word> checkSameWord(Session s, String translation, int languageId, String word) throws NoSuchAlgorithmException {
+        return s.createCriteria(Word.class)
+                .add(Restrictions.eq("word", word))
+                .add(Restrictions.eq("languageId", languageId))
+                .add(Restrictions.eq("md5", MyMessageDigest.digest(translation.getBytes())))
                 .list();
     }
 
