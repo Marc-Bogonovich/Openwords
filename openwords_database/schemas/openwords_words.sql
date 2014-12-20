@@ -588,7 +588,7 @@ CREATE TABLE `word_connections` (
 -- Indexes for table `languages`
 --
 ALTER TABLE `languages`
- ADD PRIMARY KEY (`id`), ADD KEY `code` (`code`);
+ ADD PRIMARY KEY (`id`),  ADD UNIQUE KEY `language` (`language`), ADD KEY `code` (`code`);
 
 --
 -- Indexes for table `words`
