@@ -1,0 +1,421 @@
+=====Translations=====
+{{trans-top|domestic species}}
+* Abkhaz: {{t|ab|ацгә|sc=Cyrl}}
+* Acehnese: {{t|ace|mië}}
+* Adyghe: {{t|ady|кӏэтыу|sc=Cyrl}}
+* Afrikaans: {{t+|af|kat}}
+* Ainu: {{t|ain|チャペ|tr=cape}}
+* Akan: {{t|ak|agyinamoa|n}}
+* Albanian: {{t+|sq|mace|f}}
+* Alemannic German: {{t|gsw|Chàtz}}
+* Amharic: {{t|am|ድመት|sc=Ethi}}
+* Apache:
+*: Western Apache: {{t|apw|gídí}}
+* Arabic: {{t+|ar|قط|m|tr=qiṭṭ|sc=Arab}}, {{t+|ar|قطة|f|tr=qiṭṭa|sc=Arab}}
+*: Egyptian Arabic: {{t|arz|قط|m|tr=’uṭṭ}}, {{t|arz|قطة|f|tr=’uṭṭɑ}}, {{t|arz|بسة|f|tr=bissa|sc=Arab}}
+*: Libyan: {{t|ar|قطوس|m|tr=gɑṭṭūs|sc=Arab}}, {{t|ar|قطوسة|f|tr=gɑṭṭūsa|sc=Arab}}
+*: Moroccan Arabic: {{t|ary|مش|tr=mešš}}, {{t|ary|مشة|f|tr=mešša}}
+* Aramaic:
+*: Syriac: {{t|arc|ܫܘܢܪܐ|m|tr=šūnārā’|sc=Syrc}}, {{t|arc|ܫܘܢܪܬܐ|f|tr=šūnārtā’|sc=Syrc}}
+* Armenian: {{t+|hy|կատու|sc=Armn}}
+* Aromanian: {{t|rup|cãtushe}}
+* Assamese: {{t|as|মেকুৰী|tr=mekuri|sc=Beng}}
+* Asturian: {{t|ast|gatu|m}}
+* Avar: {{t|av|кету|sc=Cyrl}}
+* Azeri: {{t+|az|pişik}}
+* Bakung: {{t|xkl|miew}}
+* Baluchi: {{t|bal|پشی|tr=piší|sc=fa-Arab}}, {{t|bal|گربگ|tr=gurbag|sc=fa-Arab}}
+* Bambara: {{t|bm|jakuma}}
+* Bandjalang: {{t|bdy|budhigehn}}, {{t|bdy|budhigahn}}
+* Bashkir: {{t|ba|бесәй|sc=Cyrl}}
+* Basque: {{t+|eu|katu}}
+* Bau Bidayuh: {{t|sne|singow}}
+* Bavarian: {{t|bar|Katz|f}}, {{t|bar|Koda|m}}
+* Belarusian: {{t+|be|ко́шка|f|sc=Cyrl}}, {{t+|be|кот|m|sc=Cyrl}}
+* Bengali: {{t+|bn|বেড়াল|tr=beṛāl|sc=Beng}}, {{t|bn|বিলাড়|tr=bilāṛ|sc=Beng}}
+* Breton: {{t+|br|kazh|m}}, {{t+|br|kaz|m}}
+* Buginese: {{t|bug|coki}}
+* Bulgarian: {{t+|bg|ко́тка|f|sc=Cyrl}}, {{t|bg|ко́так|m|sc=Cyrl}}, {{t|bg|котара́к|m|sc=Cyrl}}
+* Burmese: {{t+|my|ကြောင်|sc=Mymr}}
+* Buryat: {{t|bua|миисгэй|sc=Cyrl}}
+* Catalan: {{t+|ca|gat|m}}, {{t+|ca|gata|f}}, {{t+|ca|mix|m}}, {{t|ca|mixa|f}}, {{t+|ca|moix|m}}, {{t|ca|moixa|f}}
+* Cebuano: {{t|ceb|iring}}
+* Central Atlas Tamazight: {{t|tzm|ⴰⵎⵓⵛⵛ|tr=amušš}}
+* Central Melanau: {{t|mel|sieng}}
+* Chagatai: {{t|chg|پیشیک|tr=pişik|sc=fa-Arab}}, {{t|chg|موشوک|tr=muşuq|sc=fa-Arab}}
+* Chamicuro: {{t|ccc|mishi}}
+* Chechen: {{t|ce|цициг|sc=Cyrl}}
+* Cherokee: {{t+|chr|ᏪᏌ|tr=wesa}}
+* Chinese:
+*: Cantonese: {{t-needed|yue}}
+*: Mandarin: {{t+|cmn|貓|sc=Hani}}, {{t+|cmn|猫|tr=māo|sc=Hani}}
+*: Min Nan: {{t+|nan|貓|tr=niau|sc=Hans}}
+* Chuvash: {{t|cv|кушак|sc=Cyrl}}
+* Coptic: {{t|cop|ⲉⲙⲟⲩ|tr=emou|sc=Copt}}
+* Cornish: {{t|kw|kath|f}}
+* Cree: {{t|cr|ᐴᔒ|tr=puushii}}
+* Czech: {{t+|cs|kočka|f}}, {{t+|cs|kocour|m}}
+* Danish: {{t+|da|huskat}}, {{t+|da|kat|c}}
+* Dargwa: {{t|dar|гата|sc=Cyrl}}
+* Dhivehi: {{t|dv|ފައި}}, {{t|dv|ބުޅާ|sc=Thaa}}
+* Dhuwal: {{t|duj|marurrumburr}}
+* Dutch: {{t|nl|huiskat}}, {{t+|nl|kat|m}}, {{t+|nl|poes|f}}, {{t+|nl|kater|m}}
+* Egyptian: {{t|egy|mjw|sc=Egyp}}
+*: <hiero>W19-M17-G43-E13</hiero>
+* Erzya: {{t|myv|псака}}, {{t|myv|катка}}, {{t|myv|писай}}
+* Eshtehardi: {{t|esh|گوربیه|tr=gurbiya|sc=fa-Arab}}
+* Esperanto: {{qualifier|♂}} {{t+|eo|kato}}, {{qualifier|♂}} {{t|eo|virkato}}, {{qualifier|♀}}, {{t+|eo|katino}}, {{qualifier|♂}} {{t|eo|katido}}, {{qualifier|♀}} {{t|eo|katidino}}
+* Estonian: {{t+|et|kass}}
+* Ewe: {{t|ee|dadi}}
+* Faroese: {{t|fo|ketta|f}}, {{t|fo|húsketta|f}}, {{t|fo|køttur|m}}, {{t|fo|húskøttur|m}}
+* Finnish: {{t+|fi|kissa}}
+* French: {{t+|fr|chat|m}}, {{t+|fr|chatte|f}}
+*: Old French: {{t|fro|chat|m}}, {{t|fro|chate|f}}
+*: Middle French: {{t|frm|chat|m}}, {{t|frm|chatte|f}}
+* Friulian: {{t|fur|gjat|m}}
+* Galician: {{t+|gl|gato}}
+* Gamilaraay: {{t|kld|burrgiyan}}
+* Georgian: {{t|ka|კატა|sc=Geor}}
+* German: {{qualifier|♂♀}} {{t+|de|Katze|f}}, {{qualifier|♂}} {{t+|de|Kater|m}}, {{qualifier|♀}} {{t+|de|Kätzin|f}}, {{t|de|Pantoffeltiger|m}} {{qualifier|humorous}}
+* Gilbertese: {{t|gil|katama}}
+* Gooniyandi: {{t|gni|minyawoo}}
+* Greek: {{t+|el|γάτα|f|sc=Grek}}, {{t+|el|γάτος|m|sc=Grek}}
+*: Ancient Greek: {{t|grc|γαλέη|f|sc=polytonic}}, {{t|grc|αἴλουρος|m|f|sc=polytonic}}
+* Greenlandic: {{t|kl|qitsuk}}
+* Guaraní: {{t+|gn|mbarakaja}}
+* Guernésiais: {{t|roa-grn|cat|m}}
+* Gujarati: {{t+|gu|બિલાડી|f|tr=bilāḍī|sc=Gujr}}, {{t|gu|બિલાડો|m|tr=bilāḍo|sc=Gujr}}
+* Hausa: {{t|ha|kyanwa|f|alt=kyânwā}}
+* Hawaiian: {{t|haw|pōpoki}}
+* Hebrew: {{t+|he|חָתוּל|m|tr=khatul|sc=Hebr}}, {{t|he|חתולה|f|tr=khatula|sc=Hebr}}
+* Hiligaynon: {{t|hil|kuring}}
+* Hindi: {{t+|hi|बिल्ली|f|tr=billī|sc=Deva}}, {{t+|hi|बिल्ला|m|tr=billā|sc=Deva}}
+* Hungarian: {{t+|hu|macska}}, {{t+|hu|kandúr|m}}, {{qualifier|childish}} {{t+|hu|cica}}
+* Icelandic: {{t+|is|köttur|m}}, {{t+|is|kisa|f}}
+* Ido: {{qualifier|♂♀}} {{t+|io|kato}}, {{qualifier|♂}} {{t+|io|katulo}}, {{qualifier|♀}}, {{t+|io|katino}}, {{qualifier|♂♀ offspring}} {{t+|io|katyuno}}, {{qualifier|♂}} {{t|io|katyunulo}}, {{qualifier|♀}} {{t|io|katyunino}}
+* Ilocano: {{t|ilo|pusa}}
+* Indonesian: {{t+|id|kucing}}
+* Ingush: {{t|inh|цициг|sc=Cyrl}}
+* Interlingua: {{t|ia|catto|m}}, {{t|ia|catta|f}}
+* Irish: {{t+|ga|cat|m}}
+*: Old Irish: {{t|sga|catt|m}}
+* Italian: {{t+|it|gatto|m}}, {{t+|it|gatta|f}}, {{t+|it|micio|m}}, {{t+|it|micia|f}}
+* Japanese: {{t+|ja|猫|tr=[[ねこ]], neko}}
+* Jèrriais: {{t|roa-jer|cat|m}}
+* Kabardian: {{t|kbd|джэду}}
+* Kabyle: {{t|kab|amcic|m}}
+* Kalmyk: {{t|xal|мис|sc=Cyrl}}
+* Kannada: {{t+|kn|ಬೆಕ್ಕು|sc=Knda}}
+* Karachay-Balkar: {{t|krc|киштик|tr=kiştik|sc=Cyrl}}
+* Karakalpak: {{t|kaa|pıshıq}}
+* Kashubian: {{t+|csb|kòt}}
+* Kazakh: {{t|kk|мысық|sc=Cyrl}}
+* Khakas: {{t|kjh|хоосха|tr=xoosxa|sc=Cyrl}}
+* Khmer: {{t+|km|ឆ្មា|tr=chmā|sc=Khmr}}
+* Kimaragang: {{t|kqr|tusing}}
+* Komi-Zyrian: {{t|kpv|кань|sc=Cyrl}}, {{t|kpv|кань|sc=Cyrl}}
+* Korean: {{t+|ko|고양이|sc=Hang}}
+* Kumyk: {{t|kum|мишик|tr=mişik|sc=Cyrl}}
+* Kurdish:
+*: Sorani: {{t|ku|پشیله‌}}
+* Kutenai: {{t|kut|pu·s}}
+{{trans-mid}}
+* Kyrgyz: {{t|ky|мышык|sc=Cyrl}}
+* Ladin: {{t|lld|giat|m}}
+* Lak: {{t|lbe|ччиту}}
+* Lao: {{t+|lo|ແມວ|sc=Laoo}}
+* Latgalian: {{t|ltg|kačs|m}}
+* Latin: {{t+|la|feles|f}}, {{t|la|cattus|m}}
+* Latvian: {{t+|lv|kaķis|m}}, {{t+|lv|kaķene|f}}
+* Laz: {{t|lzz|კატუ|sc=Geor}}
+* Lithuanian: {{t+|lt|katė|f}}, {{t+|lt|katinas|m}}
+* Lojban: {{t+|jbo|mlatu}}
+* Luxembourgish: {{t+|lb|Kaz|f}}, {{t|lb|Kueder|m}}
+* Macedonian: {{t|mk|мачка|f|sc=Cyrl}}, {{t|mk|мачор|m|sc=Cyrl}}
+* Malay:
+*: Rumi: {{t+|ms|kucing}}
+*: Jawi: {{t|ms|کوچيڠ|sc=Arab}}
+* Malayalam: {{t+|ml|പൂച്ച|sc=Mlym}}
+* Maltese: {{t|mt|qattus|m}}, {{t|mt|qattusa|f}}, {{t|mt|qtates|p}}
+* Manx: {{t+|gv|kayt|m}}
+* Maori: {{t+|mi|poti}}, {{t|mi|ngeru}}
+* Marathi: {{t|mr|मांजर|f|tr=mānjar|sc=Deva}}, {{t+|mr|बोका|m|tr=bokā|sc=Deva}}
+* Maricopa: {{t|mrc|posh}}
+* Mazanderani: {{t|mzn|بامشی|sc=fa-Arab}}
+* Meänkieli: {{t|fit|kissa}}
+* Mingrelian: {{t|xmf|კატუ|sc=Geor}}
+* Miyako: {{t|mvi|マユ|tr=maju}}
+* Mongolian: {{t|mn|муур|sc=Cyrl}}, {{t|mn|мий|sc=Cyrl}}
+* Montagnais: {{t|moe|minush}}
+* Murrinh-Patha: ''ku'' [[yirrthip]]
+* Nama: {{t|naq|ǀhôas}}
+* Navajo: {{t|nv|gídí}}, {{t|nv|mósí}}, {{t|nv|másí}}
+* Nepali: {{t+|ne|बिरालो|tr=birālō|sc=Deva}}
+* Ngazidja Comorian: {{t|zdj|paha|c5|c6}}
+* Nogai: {{t|nog|мысык|tr=mısıq|sc=Cyrl}}
+* North Frisian: {{qualifier|Mooring dialect}} {{t|frr|kåt|f}}, {{qualifier|Föhr-Amrum}} {{t|frr|kaat|f}}
+* Norwegian: {{t|no|huskatt|m}}, {{t+|no|katt|m}}, {{t+|no|katte|f}}
+* Novial: {{qualifier|♂♀}} {{t|nov|kate}}, {{qualifier|♂}} {{t|nov|kato}}, {{qualifier|♀}} {{t|nov|kata}}, {{qualifier|♂♀ offspring}} {{t|nov|katyune}}, {{qualifier|♂ offspring}} {{t|nov|katyuno}}, {{qualifier|♀ offspring}} {{t|nov|katyuna}}
+* Occitan: {{t+|oc|gat|m}}, {{t+|oc|cat|m}}
+* Ojibwe: {{t|oj|gaazhagens}} {{qualifier|animate}}
+* Okinawan: {{t|ryu|まやー|tr=mayaa}}
+* Old Church Slavonic:
+*: Cyrillic: {{t|cu|котъка|f|sc=Cyrs}}
+* Old East Slavic: {{t|orv|котъка|f}}
+* Old English: {{t|ang|catt|m}}
+* Oriya: {{t|or|ବିଲେଇ|tr=bilē'i|sc=Orya}}
+* Ossetian: {{t|os|гӕды|sc=Cyrl}}
+* Ottoman Turkish: {{t|ota|کدی|tr=kädi|sc=ota-Arab}}
+* Persian: {{t+|fa|گربه|tr=gorbe|sc=fa-Arab}}, {{t+|fa|پیشی|tr=piši|sc=fa-Arab}}
+* Polish: {{t+|pl|kot|m}}, {{t+|pl|kotka|f}}, {{t+|pl|kocur|m}}, {{t|pl|kocica|f}}, {{t+|pl|kotek|m}} (diminutive)
+* Portuguese: {{t+|pt|gato|m}}, {{t+|pt|gata|f}}, {{t|pt|gato-doméstico|m}}, {{t+|pt|bichano|m}}
+* Punjabi: {{t|pa|ਬਿੱਲੀ|tr=billī|sc=Guru}}
+* Rohingya: {{t|rhg|bilai}}
+* Romagnol: {{t|rgn|gat}}
+* Romani: {{t|rom|muca|f}}
+* Romanian: {{t+|ro|pisică|f}}
+* Romansch: {{t|rm|giat|m}}, {{t|rm|giatta|f}}
+* Russian: {{t+|ru|ко́шка|f|sc=Cyrl}}, {{t+|ru|кот|m|sc=Cyrl}}
+* Samoan: {{t|sm|pusi}}
+* Sanskrit: {{t|sa|मार्जार|m|tr=mārjāra|sc=Deva}}, {{t|sa|बिडाल|m|tr=biḍāla|sc=Deva}}
+* Sardinian: {{t|sc|gattu|m}}
+* Scottish Gaelic: {{t+|gd|cat|m}}
+* Sebop: {{t|sib|miew}}
+* Serbo-Croatian:
+*: Cyrillic: {{t|sh|мачка|f|sc=Cyrl}}, {{t|sh|мачак|m|sc=Cyrl}}
+*: Roman: {{t+|sh|mačka|f}}, {{t+|sh|mačak|m}}
+* Seri: {{t|sei|miist}}, {{t|sei|ziix canaao}}, {{t|sei|ziix ihamoc ano catax}}
+* Shor: {{t|cjs|кöшке|tr=köşke|sc=Cyrl}}
+* Sicilian: {{t+|scn|jattu|m}}, {{t+|scn|gattu|m}}
+* Sindhi: {{t+|sd|ٻلي|tr=ḅilī|alt=ٻِليِ|sc=sd-Arab}}
+* Sinhalese: {{t+|si|පූසා|sc=Sinh}}
+* Slovak: {{t|sk|mačka|f}}, {{t|sk|kocúr|m}}
+* Slovene: {{t|sl|maček|m}}, {{t+|sl|mačka|f}}
+* Somali: {{t|so|bisad}}, {{t|so|dinad}}
+* Sorbian:
+*: Lower Sorbian: {{t|dsb|kócka|f}}, {{t|dsb|kócor|m}}, {{t|dsb|mačka|f}}
+*: Upper Sorbian: {{t|hsb|kočka|f}}
+* Sotho: {{t+|st|katse}}
+* Southern Altai: {{t|alt|киске|tr=kiske|sc=Cyrl}}
+* Spanish: {{t+|es|gato|m}}, {{t+|es|gata|f}}
+* Sundanese: {{t|su|êméng}}
+* Swahili: {{t+|sw|paka|c9|c10}}
+* Swedish: {{t+|sv|katt|c}}
+* Tabasaran: {{t|tab|гату|sc=Cyrl}}
+* Tagal Murut: {{t|mvv|using}}, {{t|mvv|biung}}
+* Tagalog: {{t+|tl|pusa}}
+* Tajik: {{t+|tg|гурба|sc=Cyrl}}, {{t|tg|пишак|sc=Cyrl}}, {{t|tg|пушак|sc=Cyrl}}
+* Tamil: {{t+|ta|பூனை|sc=Taml}}, {{t+|ta|பூசை|sc=Taml}}
+* Taos: {{t|twf|mų̀si’ína}}
+* Tatar: {{t+|tt|мәче|sc=Cyrl}}, {{t+|tt|песи|sc=Cyrl}}
+* Telugu: {{t+|te|పిల్లి|sc=Telu}}
+* Tetum: {{t|tet|busa}}
+* Thai: {{t+|th|แมว|tr=maew|sc=Thai}}, {{t+|th|วิฬาร์|tr=wílaa|sc=Thai}}
+* Tibetan: {{t|bo|ཞི་མི|sc=Tibt}}
+* Tigrinya: {{t+|ti|ድሙ|sc=Ethi}}
+* Tongan: {{t|to|pusi}}
+* Torres Strait Creole: {{t|tcs|pusiket}}
+* Tswana: {{t|tn|katse}}
+* Turkish: {{t+|tr|kedi}}, {{t+|tr|pisi}} {{qualifier|obsolete}}
+* Turkmen: {{t|tk|pişik}}
+* Tuvan: {{t|tyv|диис|sc=Cyrl}}, {{t|tyv|моортай|sc=Cyrl}}
+* Uab Meto: {{t|aoz|meo}}
+* Ukrainian: {{t+|uk|кіт|m|sc=Cyrl}}, {{t+|uk|кі́шка|f|sc=Cyrl}}
+* Umbundu: {{t|umb|ongato}}
+* Unami: {{t|unm|pushis}}
+* Urdu: {{t|ur|بلی|f|tr=billī|sc=ur-Arab}}
+* Uyghur: {{t+|ug|مۈشۈك|sc=ug-Arab}}
+* Uzbek: {{t+|uz|mushuk}}
+* Vietnamese: {{t|vi|con mèo}}, {{t+|vi|mèo}}
+* Volapük: {{t+|vo|kat}} {{qualifier|male or female}}, {{t+|vo|hikat}} {{qualifier|male}}, {{t+|vo|jikat}} {{qualifier|female}}, {{t|vo|hokat}} {{qualifier|castrated male}}, {{t|vo|jokat}} {{qualifier|spayed female}}, {{t|vo|katül}} {{qualifier|male or female offspring}}
+* Walloon: {{t+|wa|tchet|m}}, {{t+|wa|cate|f}}
+* Welsh: {{t+|cy|cath|f}}
+* West Coast Bajau: {{t|bdr|using}}
+* West Frisian: {{t+|fy|kat|c}}
+* Wik-Mungkan: {{t|wim|ku'waak}}
+* Wolof: {{t+|wo|muus}}, {{t|wo|wundu|alt=wundu wi}}
+* Xhosa: {{t|xh|ikati}}
+* Yakut: {{t|sah|куоска|sc=Cyrl}}
+* Yiddish: {{t|yi|קאַץ|f|tr=kats|sc=Hebr}}, {{t|yi|קעץ|p|tr=kets|sc=Hebr}}, {{t|yi|קאָטער|m|tr=koter|sc=Hebr}}, {{t|yi|קאָטערס|p|tr=koters|sc=Hebr}}
+* Yindjibarndi: {{t|yij|buthi}}
+* Yoruba: {{t|yo|ológìnní}}, {{t|yo|ológbò}}
+* Zulu: {{t+|zu|ikati|c5|c6}}, {{t|zu|ingobe|c5|c6}}
+{{trans-bottom}}
+
+{{trans-top|member of the suborder (or superfamily) Feliformia (Feloidea), "cat-like" carnivorans}}
+* French: {{t|fr|féliforme|m}}, {{t|fr|féliformes|p}}, {{t|fr|féloidé|m}}, {{t|fr|féloidés|p}}
+* German: {{t|de|Katzenartige|m}}, {{t|de|Katzenartige|f}}, {{t|de|Katzenartigen|p}}, {{t|de|Feliformia|p}}, {{t|de|Feloidea|p}}
+{{trans-mid}}
+{{trans-bottom}}
+
+{{trans-top|member of the family ''Felidae''}}
+* Afrikaans: {{t+|af|kat}}
+* Azeri: {{t+|az|pişik}}
+* Bambara: {{t|bm|jakuma}}
+* Basque: {{t+|eu|katu}}
+* Breton: {{t+|br|kaz}}, {{t+|br|kazh|m}}, {{t+|br|kazhez|f}}
+* Bulgarian: {{t+|bg|ко́тка|f|sc=Cyrl}}
+* Catalan: {{t+|ca|gat|m}}, {{t+|ca|gata|f}}, {{t|ca|felí|m}}, {{t|ca|felina|f}}
+* Cherokee: {{t+|chr|ᏪᏌ|tr=wesa}}, {{t|chr|ᏪᏏ|tr=wesi}}
+* Chinese:
+*: Mandarin: {{t+|cmn|貓|sc=Hani}}, {{t+|cmn|猫|tr=māo|sc=Hani}}
+* Czech: {{t|cs|šelma kočkovitá|f}}
+* Danish: {{t+|da|kat|c}}
+* Dutch: {{t+|nl|kat}}, {{t+|nl|katachtige}}, {{t|nl|felien}}
+* Esperanto: {{t+|eo|kato}}, {{qualifier|eo: Felisedoj, la: Felidae}} {{t|eo|felisedo}}
+* Estonian: {{t|et|kaslane}}
+* Faroese: {{t|fo|ketta|f}}, {{t|fo|húsketta|f}}, {{t|fo|køttur|m}}, {{t|fo|húskøttur|m}}
+* Finnish: {{t+|fi|kissaeläin}}
+* French: {{t+|fr|félin|m}}, {{qualifier|la famille des félidés}} {{t+|fr|félidé|m}}
+* German: {{t+|de|Katze|f}}, {{t|de|Felide|m}}, {{t|de|Felide|f}}, {{t|de|Feliden|p}}, {{t|de|Felidae|p}}
+* Greek: (general) {{t+|el|αιλουροειδές|n|sc=Grek}}, {{t+|el|αίλουρος|m|sc=Grek}}
+* Greenlandic: {{t|kl|qitsuk}}
+* Gujarati: {{t+|gu|બિલાડી|f|tr=bilāḍī|sc=Gujr}}, {{t|gu|બિલાડો|m|tr=bilāḍo|sc=Gujr}}
+* Hebrew: {{t+|he|חָתוּל|tr=khatul|sc=Hebr}}
+* Hindi: {{t+|hi|बिल्ली|f|tr=billī|sc=Deva}}, {{t+|hi|बिल्ला|m|tr=billā|sc=Deva}}, {{t|hi|विडाल|m|tr=vidāl}}
+* Hungarian: {{t+|hu|macska}}
+* Icelandic: {{t+|is|köttur|m}}
+* Indonesian: {{t+|id|kucing}}, {{t+|id|cat}}
+* Interlingua: {{t|ia|felin}}
+* Irish: {{t+|ga|cat|m}}
+* Italian: {{t+|it|felino|m}}, {{t+|it|felina|f}}
+* Japanese: {{t+|ja|ネコ|tr=[[ねこ]], neko}}
+{{trans-mid}}
+* Kapampangan: {{t|pam|pusa}}
+* Latin: {{t+|la|feles|f}}, {{t+|la|felis|f}}
+* Latvian: {{t+|lv|kaķis|m}}
+* Lithuanian: {{t+|lt|katė|f}}
+* Lojban: {{t+|jbo|mlatu}}
+* Luxembourgish: {{t+|lb|Kaz|f}}, {{t+|lb|Kazen|p}}
+* Macedonian: {{t|mk|мачка|f|sc=Cyrl}}
+* Malay: {{t+|ms|kucing}}
+* Marathi: {{t|mr|मांजर|f|tr=mānjar|sc=Deva}}, {{t+|mr|बोका|m|tr=bokā|sc=Deva}}
+* Norwegian: {{t+|no|kattedyr|n}}, {{t+|no|katt|m}}
+* Novial: {{qualifier|♂♀}} {{t|nov|kate}}, {{qualifier|♂♀}} {{t|nov|kato}}, {{qualifier|♂♀}} {{t|nov|kata}}
+* Polish: {{t+|pl|kot|m}}
+* Portuguese: {{t+|pt|felino|m}}, {{t|pt|felina|f}}
+* Romanian: {{t+|ro|pisică|f}}, {{t+|ro|motan|m}}, {{t+|ro|cotoi|m}}, {{t+|ro|mâță|f}}, {{t+|ro|felină|f}}
+* Russian: {{t+|ru|ко́шка|f|sc=Cyrl}}
+* Scottish Gaelic: {{t+|gd|cat|m}}
+* Serbo-Croatian:
+*: Cyrillic: {{t|sh|мачка|f|sc=Cyrl}}, {{t|sh|мачак|m|sc=Cyrl}}
+*: Roman: {{t+|sh|mačka|f}}, {{t+|sh|mačak|m}}
+* Slovak: {{t|sk|mačka|f}}
+* Slovene: {{t+|sl|mačka|f}}
+* Spanish: {{t+|es|felino|m}}, {{t+|es|felina|f}}
+* Swedish: {{t+|sv|kattdjur|n}}
+* Tagalog: {{t+|tl|pusa}}
+* Telugu: {{t+|te|పిల్లి|sc=Telu}}, {{t+|te|మార్జాలము|sc=Telu}}
+* Thai: {{t+|th|แมว|tr=maew|sc=Thai}}
+* Turkish: {{t+|tr|kedi}}
+* Turkmen: {{t|tk|pişik}}
+* Tz'utujil: {{t|tzj|mix}}, {{t|tzj|sya}}
+* Urdu: {{t|ur|بلى|sc=ur-Arab}}
+* Vietnamese: {{t+|vi|mèo}}
+* West Frisian: {{t+|fy|kat|c}}
+{{trans-bottom}}
+
+{{trans-top|member of the subfamily Felinae}}
+* Esperanto: {{t|eo|feliseno}}
+* French: {{t|fr|féliné|m}}
+{{trans-mid}}
+* German: {{t|de|Kleinkatze|f}}, {{t|de|Feline|m}}, {{t|de|Feline|f}}, {{t|de|Felinen|p}}, {{t|de|Felinae|p}}
+{{trans-bottom}}
+
+{{trans-top|member of the subfamily Pantherinae}}
+* Esperanto: {{t|eo|pantereno}}
+* French: {{t|fr|panthériné|m}}
+{{trans-mid}}
+* German: {{t+|de|Großkatze|f}}, {{qualifier|Switzerland, Liechtenstein}} {{t+|de|Grosskatze|f}}, {{t|de|Pantherine|m}}, {{t|de|Pantherine|f}}, {{t|de|Pantherinen|p}}, {{t|de|Pantherinae|p}}
+{{trans-bottom}}
+
+{{trans-top|member of the extinct subfamily Machairodontinae}}
+* Esperanto: {{t|eo|maĥairodeno}}
+* French: {{t|fr|machairodontiné|m}}, {{t|fr|machairodontinés|p}}
+{{trans-mid}}
+* German: {{t|de|Säbelzahnkatze|f}}, {{t|de|Machairodontine|m}}, {{t|de|Machairodontine|f}}, {{t|de|Machairodontinen|p}}, {{t|de|Machairodontinae|p}}
+{{trans-bottom}}
+
+{{trans-see|type of fish|catfish}}
+
+{{trans-see|spiteful woman|bitch}}
+
+{{trans-top|jazz enthusiast}}
+{{trans-mid}}
+{{trans-bottom}}
+
+{{trans-top|guy, fellow}}
+* Danish: {{t+|da|fyr}}
+* Portuguese: {{t+|pt|cara|m}}, {{t+|pt|rapaz|m}}
+{{trans-mid}}
+* Spanish: {{t+|es|tío|m}}, {{t+|es|tipo|m}}
+{{trans-bottom}}
+
+{{trans-top|strong tackle used to hoist an anchor to the cathead of a ship}}
+* Danish: {{t+|da|kat}}, {{t|da|ankerkat}}
+* Finnish: {{t|fi|ankkuritalja}}
+{{trans-mid}}
+* French: {{t+|fr|capon|m}}
+{{trans-bottom}}
+
+{{trans-see|cat-o'-nine-tails}}
+
+{{trans-see|type of boat|catboat}}
+
+{{trans-top|game of "trap and ball" (or "cat and dog")}}
+{{trans-mid}}
+{{trans-bottom}}
+
+{{trans-top|the trap in the game of "trap and ball"}}
+{{trans-mid}}
+{{trans-bottom}}
+
+{{checktrans-top}}
+* Albanian: {{t-check|sq|macja}}
+* Basque: {{t+check|eu|katu}}
+* Belarusian: {{t+check|be|ко́шка|f|sc=Cyrl}}
+* Chiricahua: {{t-check|apm|gídí}}
+* French: {{qualifier|game of trap and ball, or the trap itself, or both?}} {{t+check|fr|bistoquet|m}}
+* Galician: {{t+check|gl|gato}}
+* Guaraní: {{qualifier|1}} {{t+check|gn|mbarakaja}}
+* Jicarilla: {{t-check|apj|gídí}}
+* Kannada: {{t-check|kn|tr=bekku}}
+* Korean: {{t-check|ko|고양잇과|sc=Hang}}, {{t-check|ko|고양이과의 동물|sc=Hang}}
+{{trans-mid}}
+* Lipan: {{t-check|apl|gídí}}
+* Lithuanian: {{t+check|lt|katė}}
+* Macedonian: {{t-check|mk|мачка|sc=Cyrl}}
+* Mongolian: {{t-check|mn|муур|sc=Cyrl}}
+* Occitan: {{t+check|oc|cat|m}}
+* Sardinian: {{t-check|sc|gattu}}, {{t-check|sc|pisittu}}, {{t-check|sc|muscittu}}, {{t-check|sc|pisiddu}}, {{t-check|sc|battu}}
+* Slovak: {{t-check|sk|kocúr|m}}, {{qualifier|1}} {{t-check|sk|mačka|f}}
+* Tamil: {{t+check|ta|பூனை|sc=Taml}}
+* Thai: {{t+check|th|แมว|tr=maew|sc=Thai}}
+* Western Apache: {{t-check|apw|gídí}}
+{{trans-bottom}}
+
+
+=====Translations=====
+{{trans-top|raise anchor to cathead}}
+* Danish: {{t|da|katte}}
+* French: {{t+|fr|caponner}}
+{{trans-mid}}
+* Italian: {{t|it|caponare}}
+* Norwegian: {{t+|no|katte}}
+{{trans-bottom}}
+
+{{trans-top|flog}}
+* French: {{t|fr|[[fouetter]] avec un [[chat à neuf queues]]}}
+{{trans-mid}}
+{{trans-bottom}}
+
+{{trans-top|vomit}}
+* Afrikaans: {{t|af|opgooi}}, {{t|af|kots}}
+* Danish: {{t+|da|brække sig}}
+* Estonian: {{t|et|oksendama}}
+* Finnish: {{qualifier|slang}} {{t+|fi|yrjötä}}
+{{trans-mid}}
+* French: {{t+|fr|dégobiller}}, {{t+|fr|débecter}}, {{t+|fr|débequeter}}
+* Polish: {{t+|pl|wymiotować}}
+* Portuguese: {{t+|pt|vomitar}}
+{{trans-bottom}}
