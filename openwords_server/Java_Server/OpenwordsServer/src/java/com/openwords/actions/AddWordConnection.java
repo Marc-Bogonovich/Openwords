@@ -36,14 +36,15 @@ public class AddWordConnection extends MyAction {
                 throw new Exception("AccessToken is not valid!");
             }
 
-            List<Word> checkWord = Word.getWordsWithSameCommonTranslation(s, translation);
+            List<Word> checkWord1 = Word.checkSameWord(s, translation, wordOneLang, wordOne);
+            List<Word> checkWord2 = Word.checkSameWord(s, translation, wordTwoLang, wordTwo);
+
             int wordOneId = -1, wordTwoId = -1;
-            for (Word word : checkWord) {
-                if (word.getWord().equals(wordOne)) {
-                    wordOneId = word.getWordId();
-                } else if (word.getWord().equals(wordTwo)) {
-                    wordTwoId = word.getWordId();
-                }
+            if (!checkWord1.isEmpty()) {
+                wordOneId = checkWord1.get(0).getWordId();
+            }
+            if (!checkWord2.isEmpty()) {
+                wordTwoId = checkWord2.get(0).getWordId();
             }
 
             if (wordOneId < 0) {
@@ -68,11 +69,12 @@ public class AddWordConnection extends MyAction {
                 UtilLog.logInfo(this, result);
             } else {
                 errorMessage = "Connection already exists!";
+                UtilLog.logInfo(this, errorMessage);
             }
 
         } catch (Exception e) {
             errorMessage = e.toString();
-            UtilLog.logWarn(this, e.toString() + "\nwordOne: " + wordOne + " wordTwo: " + wordTwo);
+            UtilLog.logWarn(this, errorMessage + "\nwordOne: " + wordOne + " wordTwo: " + wordTwo);
         } finally {
             DatabaseHandler.closeSession(s);
         }
