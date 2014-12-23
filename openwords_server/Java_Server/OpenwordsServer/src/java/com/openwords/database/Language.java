@@ -21,7 +21,17 @@ public class Language implements Serializable {
     }
 
     private int id;
-    private String name, code, meta;
+    private String name, code, meta, displayName;
+
+    public Language() {
+    }
+
+    public Language(String name, String code, String meta, String displayName) {
+        this.name = name;
+        this.code = code;
+        this.meta = meta;
+        this.displayName = displayName;
+    }
 
     @Id
     @GeneratedValue
@@ -59,6 +69,15 @@ public class Language implements Serializable {
 
     public void setMeta(String meta) {
         this.meta = meta;
+    }
+
+    @Column(name = "display_name")
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
     }
 
 }
