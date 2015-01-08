@@ -1,5 +1,6 @@
 package com.openwords.database;
 
+import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -7,10 +8,50 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import org.hibernate.Session;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 
 @Entity
 @Table(name = "user_info")
-public class UserInfo {
+public class UserInfo implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    public static boolean checkUserName(Session s, String username) {
+        int exist = ((Number) s.createCriteria(UserInfo.class)
+                .add(Restrictions.eq("username", username))
+                .setProjection(Projections.rowCount()
+                ).uniqueResult()).intValue();
+
+        return exist <= 0;
+    }
+
+    public static boolean checkEmail(Session s, String email) {
+        int exist = ((Number) s.createCriteria(UserInfo.class)
+                .add(Restrictions.eq("email", email))
+                .setProjection(Projections.rowCount()
+                ).uniqueResult()).intValue();
+
+        return exist <= 0;
+    }
+
+    public static boolean loginUser(Session s, String username, String password) {
+        int exist = ((Number) s.createCriteria(UserInfo.class)
+                .add(Restrictions.eq("username", username))
+                .add(Restrictions.eq("password", password))
+                .setProjection(Projections.rowCount()
+                ).uniqueResult()).intValue();
+
+        return exist >= 1;
+    }
+
+    public synchronized static int addUser(Session s, String username, String password, String email) {
+        UserInfo user = new UserInfo(username, email, password, "", new Date());
+        s.save(user);
+        s.beginTransaction().commit();
+        return user.getUserId();
+    }
 
     private int userId;
     private String username, email, password, lastLocation;
