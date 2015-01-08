@@ -11,6 +11,9 @@ import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.TextHttpResponseHandler;
 import com.openwords.R;
 import com.openwords.model.UserWords;
+import com.openwords.services.implementations.LoginUser;
+import com.openwords.services.interfaces.HttpResultHandler;
+import com.openwords.services.interfaces.RequestParamsBuilder;
 import com.openwords.ui.common.DialogForHTTP;
 import com.openwords.util.log.LogUtil;
 import java.util.List;
@@ -131,6 +134,48 @@ public class ActivityTest extends Activity {
 
             public void onClick(View view) {
                 //WordAudioManager.addAudioFiles(new int[]{1, 5938, 1, 139228, 139228, 5938, 36293, 1, 176, 53}, ActivityTest.this);
+            }
+        });
+
+        findViewById(R.id.act_test_test8).setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View view) {
+                new LoginUser().doRequest(new RequestParamsBuilder().addParam("username", "han")
+                        .addParam("password", "123456")
+                        .getParams(),
+                        new HttpResultHandler() {
+
+                            public void hasResult(Object resultObject) {
+                                LoginUser.Result r = (LoginUser.Result) resultObject;
+                                Toast.makeText(ActivityTest.this, "Login Success: " + r.userId, Toast.LENGTH_SHORT).show();
+                            }
+
+                            public void noResult(String errorMessage) {
+                                Toast.makeText(ActivityTest.this, "Login Fail: " + errorMessage, Toast.LENGTH_SHORT).show();
+                            }
+                        },
+                        0);
+            }
+        });
+
+        findViewById(R.id.act_test_test9).setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View view) {
+                new LoginUser().doRequest(new RequestParamsBuilder().addParam("username", "han")
+                        .addParam("password", "12345")
+                        .getParams(),
+                        new HttpResultHandler() {
+
+                            public void hasResult(Object resultObject) {
+                                LoginUser.Result r = (LoginUser.Result) resultObject;
+                                Toast.makeText(ActivityTest.this, "Login Success: " + r.userId, Toast.LENGTH_SHORT).show();
+                            }
+
+                            public void noResult(String errorMessage) {
+                                Toast.makeText(ActivityTest.this, "Login Fail: " + errorMessage, Toast.LENGTH_SHORT).show();
+                            }
+                        },
+                        0);
             }
         });
     }
