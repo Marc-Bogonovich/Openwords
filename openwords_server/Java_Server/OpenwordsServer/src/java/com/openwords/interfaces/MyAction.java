@@ -10,10 +10,6 @@ import org.apache.struts2.interceptor.ServletResponseAware;
 import org.apache.struts2.interceptor.SessionAware;
 import org.apache.struts2.util.ServletContextAware;
 
-/**
- *
- * @author hanaldo
- */
 public abstract class MyAction extends ActionSupport implements SessionAware, ServletResponseAware, ServletContextAware {
 
     private static final long serialVersionUID = 1L;
@@ -23,6 +19,8 @@ public abstract class MyAction extends ActionSupport implements SessionAware, Se
 
     @Override
     public abstract String execute() throws Exception;
+
+    public abstract void setErrorMessage(String errorMessage);
 
     public HttpServletResponse getHttpResponse() {
         return httpResponse;

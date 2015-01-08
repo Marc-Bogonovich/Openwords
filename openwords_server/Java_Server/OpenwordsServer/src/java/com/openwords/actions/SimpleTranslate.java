@@ -56,4 +56,8 @@ public class SimpleTranslate extends MyAction {
         return errorMessage;
     }
 
+    @Override
+    public void setErrorMessage(String errorMessage) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
