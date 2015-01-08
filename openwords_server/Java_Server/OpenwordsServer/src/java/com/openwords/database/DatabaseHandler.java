@@ -28,32 +28,32 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.transform.AliasToEntityMapResultTransformer;
 
 public class DatabaseHandler {
-
+    
     private static DatabaseHandler instance;
-
+    
     public static DatabaseHandler getInstance() {
         if (instance == null) {
             instance = new DatabaseHandler();
         }
         return instance;
     }
-
+    
     public static List<Map<String, Object>> Query(String sql, Session s) {
         Query q = s.createSQLQuery(sql).setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
         @SuppressWarnings("unchecked")
         List<Map<String, Object>> r = q.list();
         return r;
     }
-
+    
     public static Session getSession() {
         return DatabaseHandler.getInstance().getHibernateSession();
     }
-
+    
     public static void closeSession(Session session) {
         session.close();
     }
     private final SessionFactory sessionFactory;
-
+    
     private DatabaseHandler() {
         Configuration configuration = new Configuration();
         configuration.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
@@ -67,23 +67,24 @@ public class DatabaseHandler {
         configuration.setProperty("hibernate.connection.provider_class", "org.hibernate.c3p0.internal.C3P0ConnectionProvider");
         configuration.setProperty("hibernate.c3p0.idleConnectionTestPeriod", "600");
         configuration.setProperty("hibernate.c3p0.testConnectionOnCheckin", "true");
-
+        
         configuration.addAnnotatedClass(Word.class)
                 .addAnnotatedClass(WordConnection.class)
-                .addAnnotatedClass(Language.class);
-
+                .addAnnotatedClass(Language.class)
+                .addAnnotatedClass(UserInfo.class);
+        
         sessionFactory = configuration.buildSessionFactory(new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build());
         sessionFactory.getStatistics().setStatisticsEnabled(true);
-
+        
         UtilLog.logDatabase(DatabaseHandler.class, "SessionFactory created");
     }
-
+    
     public synchronized void clean() {
         sessionFactory.close();
         instance = null;
         UtilLog.logDatabase(this, "clean DatabaseHandler " + sessionFactory.isClosed());
     }
-
+    
     private synchronized Session getHibernateSession() {
         Session session = sessionFactory.openSession();
         return session;
