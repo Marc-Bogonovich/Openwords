@@ -23,11 +23,14 @@ public class GetWordAllConnections extends MyAction {
     })
     @Override
     public String execute() throws Exception {
-        UtilLog.logInfo(this, "/getWordAllConnections");
+        UtilLog.logInfo(this, "/getWordAllConnections: " + wordOne);
         Session s = DatabaseHandler.getSession();
         try {
             wordOne = wordOne.trim().toLowerCase();
             result = WordConnection.getWordAllConnections(s, wordOne, true);
+            if (result == null) {
+                errorMessage = "There is no such word yet: " + wordOne;
+            }
         } catch (Exception e) {
             errorMessage = e.toString();
             UtilLog.logWarn(this, errorMessage);

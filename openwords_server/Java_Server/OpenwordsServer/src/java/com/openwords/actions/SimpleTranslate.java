@@ -23,7 +23,7 @@ public class SimpleTranslate extends MyAction {
     })
     @Override
     public String execute() throws Exception {
-        UtilLog.logInfo(this, "/simpleTranslate");
+        UtilLog.logInfo(this, "/simpleTranslate: " + word + " to " + langOut);
         Session s = DatabaseHandler.getSession();
         try {
             result = Word.getSameTranslation(s, word, langIn, langOut, false);

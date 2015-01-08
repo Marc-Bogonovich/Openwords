@@ -26,7 +26,7 @@ public class GetWordInfo extends MyAction {
     public String execute() throws Exception {
         pageNumber = 1;
         pageSize = 10;
-        UtilLog.logInfo(this, "/getWordInfo");
+        UtilLog.logInfo(this, "/getWordInfo: " + wordForm);
         Session s = DatabaseHandler.getSession();
         try {
             result = Word.getSimilarWords(s, wordForm, pageNumber, pageSize);

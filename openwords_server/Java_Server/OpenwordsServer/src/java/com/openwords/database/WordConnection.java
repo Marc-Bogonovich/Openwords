@@ -1,5 +1,6 @@
 package com.openwords.database;
 
+import com.openwords.utils.UtilLog;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -47,10 +48,14 @@ public class WordConnection implements Serializable {
 
     public static List<WordConnection> getWordAllConnections(Session s, String wordOne, boolean increaseRank) {
         List<Integer> wordOneIds = Word.getWordIds(s, wordOne);
+        if (wordOneIds.isEmpty()) {
+            return null;
+        }
         if (increaseRank) {
             for (Integer id : wordOneIds) {
                 Word.increaseRank(s, Word.getWord(s, id), "popRank");
             }
+            UtilLog.logInfo(WordConnection.class, "popRanks increased");
         }
 
         @SuppressWarnings("unchecked")
