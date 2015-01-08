@@ -3,41 +3,37 @@ package com.openwords.actions;
 import static com.opensymphony.xwork2.Action.SUCCESS;
 import com.openwords.database.DatabaseHandler;
 import com.openwords.database.UserInfo;
-import static com.openwords.database.UserInfo.checkEmail;
-import static com.openwords.database.UserInfo.checkUserName;
 import com.openwords.interfaces.MyAction;
 import com.openwords.utils.MyFieldValidation;
 import com.openwords.utils.UtilLog;
-import java.util.Date;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 import org.hibernate.Session;
 
 @ParentPackage("json-default")
-public class CheckAddUser extends MyAction {
+public class LoginUser extends MyAction {
 
     private static final long serialVersionUID = 1L;
     private boolean result;
     private int userId = -1;
-    private String username, password, email, errorMessage;
+    private String username, password, errorMessage;
 
-    @Action(value = "/addUser", results = {
+    @Action(value = "/loginUser", results = {
         @Result(name = SUCCESS, type = "json"),
         @Result(name = INPUT, type = "json")
     })
     @Override
     public String execute() throws Exception {
-        UtilLog.logInfo(this, "/addUser");
+        UtilLog.logInfo(this, "/loginUser");
         Session s = DatabaseHandler.getSession();
         try {
-            if (checkUserName(s, username) && checkEmail(s, email)) {
-                UserInfo user = new UserInfo(username, email, password, "", new Date());
-                UserInfo.addUser(s, user);
+            UserInfo user = UserInfo.loginUser(s, username, password);
+            if (user == null) {
+                errorMessage = "login fail.";
+            } else {
                 userId = user.getUserId();
                 result = true;
-            } else {
-                errorMessage = "username or email is already registered.";
             }
         } catch (Exception e) {
             errorMessage = e.toString();
@@ -56,10 +52,6 @@ public class CheckAddUser extends MyAction {
         this.password = password;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public boolean isResult() {
         return result;
     }
@@ -76,7 +68,6 @@ public class CheckAddUser extends MyAction {
     public void validate() {
         MyFieldValidation.checkUsernameField(this, username);
         MyFieldValidation.checkPasswordField(this, password);
-        MyFieldValidation.checkEmailField(this, email);
     }
 
     @Override

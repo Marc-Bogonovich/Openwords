@@ -2,6 +2,7 @@ package com.openwords.database;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -36,21 +37,24 @@ public class UserInfo implements Serializable {
         return exist <= 0;
     }
 
-    public static boolean loginUser(Session s, String username, String password) {
-        int exist = ((Number) s.createCriteria(UserInfo.class)
+    public static UserInfo loginUser(Session s, String username, String password) {
+        @SuppressWarnings("unchecked")
+        List<UserInfo> users = s.createCriteria(UserInfo.class)
                 .add(Restrictions.eq("username", username))
-                .add(Restrictions.eq("password", password))
-                .setProjection(Projections.rowCount()
-                ).uniqueResult()).intValue();
+                .add(Restrictions.eq("password", password)).list();
 
-        return exist >= 1;
+        if (users.isEmpty()) {
+            return null;
+        }
+        UserInfo user = users.get(0);
+        user.setLastLogin(new Date());
+        s.beginTransaction().commit();
+        return user;
     }
 
-    public synchronized static int addUser(Session s, String username, String password, String email) {
-        UserInfo user = new UserInfo(username, email, password, "", new Date());
+    public synchronized static void addUser(Session s, UserInfo user) {
         s.save(user);
         s.beginTransaction().commit();
-        return user.getUserId();
     }
 
     private int userId;
