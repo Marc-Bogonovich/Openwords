@@ -5,9 +5,9 @@ import com.loopj.android.http.RequestParams;
 import com.openwords.services.interfaces.HttpResultHandler;
 import com.openwords.services.interfaces.HttpServiceRequester;
 
-public class LoginUser extends HttpServiceRequester implements HttpResultHandler {
+public class CheckEmail extends HttpServiceRequester implements HttpResultHandler {
 
-    public final String ServiceURL = "http://192.168.1.109:8080/OpenwordsServer/loginUser";
+    public final String ServiceURL = "http://192.168.1.109:8080/OpenwordsServer/checkEmail";
 
     private HttpResultHandler resultHandler;
 
@@ -34,7 +34,6 @@ public class LoginUser extends HttpServiceRequester implements HttpResultHandler
     public class Result {
 
         public boolean result;
-        public int userId;
         public String errorMessage;
     }
 }

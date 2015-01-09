@@ -7,7 +7,7 @@ import org.apache.http.Header;
 
 public abstract class HttpServiceRequester {
 
-    public abstract void doRequest(RequestParams params, HttpResultHandler resultHandler, int timeout);
+    public abstract void doRequest(RequestParams params, HttpResultHandler resultHandler);
 
     public void request(String serviceUrl, RequestParams params, int timeout, final HttpResultHandler callback) {
         AsyncHttpClient http = new AsyncHttpClient();

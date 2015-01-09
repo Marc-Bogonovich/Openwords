@@ -153,8 +153,7 @@ public class ActivityTest extends Activity {
                             public void noResult(String errorMessage) {
                                 Toast.makeText(ActivityTest.this, "Login Fail: " + errorMessage, Toast.LENGTH_SHORT).show();
                             }
-                        },
-                        0);
+                        });
             }
         });
 
@@ -174,8 +173,7 @@ public class ActivityTest extends Activity {
                             public void noResult(String errorMessage) {
                                 Toast.makeText(ActivityTest.this, "Login Fail: " + errorMessage, Toast.LENGTH_SHORT).show();
                             }
-                        },
-                        0);
+                        });
             }
         });
     }
