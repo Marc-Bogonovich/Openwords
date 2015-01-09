@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 
 @Entity
 @Table(name = "languages")
@@ -18,6 +19,12 @@ public class Language implements Serializable {
     @SuppressWarnings("unchecked")
     public static List<Language> getAllLanguages(Session s) {
         return s.createCriteria(Language.class).list();
+    }
+
+    public static List<Language> getLanguages(Session s, List<Integer> langIds) {
+        return s.createCriteria(Language.class)
+                .add(Restrictions.in("id", langIds))
+                .list();
     }
 
     private int id;
