@@ -1,0 +1,71 @@
+package com.openwords.actions.languages;
+
+import com.google.common.reflect.TypeToken;
+import com.google.gson.Gson;
+import static com.opensymphony.xwork2.Action.SUCCESS;
+import com.openwords.database.DatabaseHandler;
+import com.openwords.database.UserLanguage;
+import com.openwords.interfaces.MyAction;
+import com.openwords.utils.MyGson;
+import com.openwords.utils.UtilLog;
+import java.lang.reflect.Type;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
+import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.ParentPackage;
+import org.apache.struts2.convention.annotation.Result;
+import org.hibernate.Session;
+
+@ParentPackage("json-default")
+public class SetUserLanguages extends MyAction {
+
+    private static final long serialVersionUID = 1L;
+    private String langTwoIds;
+    private String errorMessage;
+    private int userId, langOneId;
+
+    @Action(value = "/setUserLanguages", results = {
+        @Result(name = SUCCESS, type = "json")
+    })
+    @Override
+    public String execute() throws Exception {
+        UtilLog.logInfo(this, "/setUserLanguages: " + userId + " " + langOneId + " " + langTwoIds);
+        Session s = DatabaseHandler.getSession();
+        try {
+            int[] langTwoIdsInt = new Gson().fromJson(langTwoIds, int[].class);
+            List<UserLanguage> langTwos = new LinkedList<>();
+            for (int langTwo : langTwoIdsInt) {
+                langTwos.add(new UserLanguage(userId, langOneId, langTwo));
+            }
+            UserLanguage.setUserLearningLanguages(s, langTwos);
+
+        } catch (Exception e) {
+            errorMessage = e.toString();
+            UtilLog.logWarn(this, errorMessage);
+        } finally {
+            DatabaseHandler.closeSession(s);
+        }
+        return SUCCESS;
+    }
+
+    public void setLangTwoIds(String langTwoIds) {
+        this.langTwoIds = langTwoIds;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public void setLangOneId(int langOneId) {
+        this.langOneId = langOneId;
+    }
+
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+
+    @Override
+    public void setErrorMessage(String errorMessage) {
+    }
+}
