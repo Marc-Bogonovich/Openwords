@@ -1,8 +1,8 @@
-package com.openwords.actions;
+package com.openwords.actions.connections;
 
 import static com.opensymphony.xwork2.Action.SUCCESS;
 import com.openwords.database.DatabaseHandler;
-import com.openwords.database.Word;
+import com.openwords.database.WordConnection;
 import com.openwords.interfaces.MyAction;
 import com.openwords.utils.UtilLog;
 import java.util.List;
@@ -12,24 +12,25 @@ import org.apache.struts2.convention.annotation.Result;
 import org.hibernate.Session;
 
 @ParentPackage("json-default")
-public class GetWordInfo extends MyAction {
+public class GetWordAllConnections extends MyAction {
 
     private static final long serialVersionUID = 1L;
-    private List<Word> result;
-    private String wordForm, errorMessage;
-    private int pageNumber, pageSize;
+    private List<WordConnection> result;
+    private String wordOne, errorMessage;
 
-    @Action(value = "/getWordInfo", results = {
+    @Action(value = "/getWordAllConnections", results = {
         @Result(name = SUCCESS, type = "json")
     })
     @Override
     public String execute() throws Exception {
-        pageNumber = 1;
-        pageSize = 10;
-        UtilLog.logInfo(this, "/getWordInfo: " + wordForm);
+        UtilLog.logInfo(this, "/getWordAllConnections: " + wordOne);
         Session s = DatabaseHandler.getSession();
         try {
-            result = Word.getSimilarWords(s, wordForm, pageNumber, pageSize);
+            wordOne = wordOne.trim().toLowerCase();
+            result = WordConnection.getWordAllConnections(s, wordOne, true);
+            if (result == null) {
+                errorMessage = "There is no such word yet: " + wordOne;
+            }
         } catch (Exception e) {
             errorMessage = e.toString();
             UtilLog.logWarn(this, errorMessage);
@@ -39,16 +40,16 @@ public class GetWordInfo extends MyAction {
         return SUCCESS;
     }
 
-    public void setWordForm(String wordForm) {
-        this.wordForm = wordForm;
-    }
-
-    public List<Word> getResult() {
-        return result;
+    public void setWordOne(String wordOne) {
+        this.wordOne = wordOne;
     }
 
     public String getErrorMessage() {
         return errorMessage;
+    }
+
+    public List<WordConnection> getResult() {
+        return result;
     }
 
     @Override

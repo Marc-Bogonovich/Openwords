@@ -1,4 +1,4 @@
-package com.openwords.actions;
+package com.openwords.actions.words;
 
 import static com.opensymphony.xwork2.Action.SUCCESS;
 import com.openwords.database.DatabaseHandler;
@@ -12,21 +12,24 @@ import org.apache.struts2.convention.annotation.Result;
 import org.hibernate.Session;
 
 @ParentPackage("json-default")
-public class SimpleTranslate extends MyAction {
+public class GetWordInfo extends MyAction {
 
     private static final long serialVersionUID = 1L;
     private List<Word> result;
-    private String word, errorMessage, langIn, langOut;
+    private String wordForm, errorMessage;
+    private int pageNumber, pageSize;
 
-    @Action(value = "/simpleTranslate", results = {
+    @Action(value = "/getWordInfo", results = {
         @Result(name = SUCCESS, type = "json")
     })
     @Override
     public String execute() throws Exception {
-        UtilLog.logInfo(this, "/simpleTranslate: " + word + " to " + langOut);
+        pageNumber = 1;
+        pageSize = 10;
+        UtilLog.logInfo(this, "/getWordInfo: " + wordForm);
         Session s = DatabaseHandler.getSession();
         try {
-            result = Word.getSameTranslation(s, word, langIn, langOut, false);
+            result = Word.getSimilarWords(s, wordForm, pageNumber, pageSize);
         } catch (Exception e) {
             errorMessage = e.toString();
             UtilLog.logWarn(this, errorMessage);
@@ -36,16 +39,8 @@ public class SimpleTranslate extends MyAction {
         return SUCCESS;
     }
 
-    public void setWord(String word) {
-        this.word = word;
-    }
-
-    public void setLangIn(String langIn) {
-        this.langIn = langIn;
-    }
-
-    public void setLangOut(String langOut) {
-        this.langOut = langOut;
+    public void setWordForm(String wordForm) {
+        this.wordForm = wordForm;
     }
 
     public List<Word> getResult() {

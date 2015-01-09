@@ -1,4 +1,4 @@
-package com.openwords.actions;
+package com.openwords.actions.accounts;
 
 import static com.opensymphony.xwork2.Action.SUCCESS;
 import com.openwords.database.DatabaseHandler;
@@ -12,22 +12,29 @@ import org.apache.struts2.convention.annotation.Result;
 import org.hibernate.Session;
 
 @ParentPackage("json-default")
-public class CheckEmail extends MyAction {
+public class LoginUser extends MyAction {
 
     private static final long serialVersionUID = 1L;
     private boolean result;
-    private String email, errorMessage;
+    private int userId = -1;
+    private String username, password, errorMessage;
 
-    @Action(value = "/checkEmail", results = {
+    @Action(value = "/loginUser", results = {
         @Result(name = SUCCESS, type = "json"),
         @Result(name = INPUT, type = "json")
     })
     @Override
     public String execute() throws Exception {
-        UtilLog.logInfo(this, "/checkEmail: " + email);
+        UtilLog.logInfo(this, "/loginUser");
         Session s = DatabaseHandler.getSession();
         try {
-            result = UserInfo.checkEmail(s, email);
+            UserInfo user = UserInfo.loginUser(s, username, password);
+            if (user == null) {
+                errorMessage = "login fail.";
+            } else {
+                userId = user.getUserId();
+                result = true;
+            }
         } catch (Exception e) {
             errorMessage = e.toString();
             UtilLog.logWarn(this, errorMessage);
@@ -37,12 +44,20 @@ public class CheckEmail extends MyAction {
         return SUCCESS;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public boolean isResult() {
         return result;
+    }
+
+    public int getUserId() {
+        return userId;
     }
 
     public String getErrorMessage() {
@@ -51,7 +66,8 @@ public class CheckEmail extends MyAction {
 
     @Override
     public void validate() {
-        MyFieldValidation.checkEmailField(this, email);
+        MyFieldValidation.checkUsernameField(this, username);
+        MyFieldValidation.checkPasswordField(this, password);
     }
 
     @Override

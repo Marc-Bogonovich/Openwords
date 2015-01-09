@@ -1,4 +1,4 @@
-package com.openwords.actions;
+package com.openwords.actions.accounts;
 
 import static com.opensymphony.xwork2.Action.SUCCESS;
 import com.openwords.database.DatabaseHandler;
