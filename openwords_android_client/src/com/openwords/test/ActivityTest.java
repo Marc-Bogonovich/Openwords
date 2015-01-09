@@ -11,6 +11,7 @@ import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.TextHttpResponseHandler;
 import com.openwords.R;
 import com.openwords.model.UserWords;
+import com.openwords.services.implementations.AddUser;
 import com.openwords.services.implementations.CheckEmail;
 import com.openwords.services.implementations.CheckUsername;
 import com.openwords.services.implementations.LoginUser;
@@ -210,6 +211,27 @@ public class ActivityTest extends Activity {
 
                             public void noResult(String errorMessage) {
                                 Toast.makeText(ActivityTest.this, "Email not ok: " + errorMessage, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+            }
+        });
+
+        findViewById(R.id.act_test_test12).setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View view) {
+                new AddUser().doRequest(new RequestParamsBuilder().addParam("email", "han@han.com")
+                        .addParam("username", "han")
+                        .addParam("password", "111111")
+                        .getParams(),
+                        new HttpResultHandler() {
+
+                            public void hasResult(Object resultObject) {
+                                AddUser.Result r = (AddUser.Result) resultObject;
+                                Toast.makeText(ActivityTest.this, "AddUser ok: " + r.userId, Toast.LENGTH_SHORT).show();
+                            }
+
+                            public void noResult(String errorMessage) {
+                                Toast.makeText(ActivityTest.this, "AddUser fail: " + errorMessage, Toast.LENGTH_SHORT).show();
                             }
                         });
             }
