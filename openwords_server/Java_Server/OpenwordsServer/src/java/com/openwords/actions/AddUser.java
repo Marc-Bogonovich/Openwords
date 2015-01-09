@@ -15,7 +15,7 @@ import org.apache.struts2.convention.annotation.Result;
 import org.hibernate.Session;
 
 @ParentPackage("json-default")
-public class CheckAddUser extends MyAction {
+public class AddUser extends MyAction {
 
     private static final long serialVersionUID = 1L;
     private boolean result;
