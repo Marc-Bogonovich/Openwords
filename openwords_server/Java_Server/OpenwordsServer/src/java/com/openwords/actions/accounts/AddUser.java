@@ -37,7 +37,7 @@ public class AddUser extends MyAction {
                 userId = user.getUserId();
                 result = true;
             } else {
-                errorMessage = "username or email is already registered.";
+                errorMessage = "username or email is already registered";
             }
         } catch (Exception e) {
             errorMessage = e.toString();

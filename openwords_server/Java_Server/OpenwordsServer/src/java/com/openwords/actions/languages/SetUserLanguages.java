@@ -1,15 +1,11 @@
 package com.openwords.actions.languages;
 
-import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import static com.opensymphony.xwork2.Action.SUCCESS;
 import com.openwords.database.DatabaseHandler;
 import com.openwords.database.UserLanguage;
 import com.openwords.interfaces.MyAction;
-import com.openwords.utils.MyGson;
 import com.openwords.utils.UtilLog;
-import java.lang.reflect.Type;
-import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import org.apache.struts2.convention.annotation.Action;

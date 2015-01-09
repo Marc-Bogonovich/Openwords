@@ -30,7 +30,7 @@ public class LoginUser extends MyAction {
         try {
             UserInfo user = UserInfo.loginUser(s, username, password);
             if (user == null) {
-                errorMessage = "login fail.";
+                errorMessage = "login fail";
             } else {
                 userId = user.getUserId();
                 result = true;
