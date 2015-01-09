@@ -11,6 +11,8 @@ import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.TextHttpResponseHandler;
 import com.openwords.R;
 import com.openwords.model.UserWords;
+import com.openwords.services.implementations.CheckEmail;
+import com.openwords.services.implementations.CheckUsername;
 import com.openwords.services.implementations.LoginUser;
 import com.openwords.services.interfaces.HttpResultHandler;
 import com.openwords.services.interfaces.RequestParamsBuilder;
@@ -172,6 +174,42 @@ public class ActivityTest extends Activity {
 
                             public void noResult(String errorMessage) {
                                 Toast.makeText(ActivityTest.this, "Login Fail: " + errorMessage, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+            }
+        });
+
+        findViewById(R.id.act_test_test10).setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View view) {
+                new CheckUsername().doRequest(new RequestParamsBuilder().addParam("username", "han")
+                        .getParams(),
+                        new HttpResultHandler() {
+
+                            public void hasResult(Object resultObject) {
+                                Toast.makeText(ActivityTest.this, "Username ok", Toast.LENGTH_SHORT).show();
+                            }
+
+                            public void noResult(String errorMessage) {
+                                Toast.makeText(ActivityTest.this, "Username not ok: " + errorMessage, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+            }
+        });
+
+        findViewById(R.id.act_test_test11).setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View view) {
+                new CheckEmail().doRequest(new RequestParamsBuilder().addParam("email", "han@han.com")
+                        .getParams(),
+                        new HttpResultHandler() {
+
+                            public void hasResult(Object resultObject) {
+                                Toast.makeText(ActivityTest.this, "Email ok", Toast.LENGTH_SHORT).show();
+                            }
+
+                            public void noResult(String errorMessage) {
+                                Toast.makeText(ActivityTest.this, "Email not ok: " + errorMessage, Toast.LENGTH_SHORT).show();
                             }
                         });
             }

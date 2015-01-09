@@ -1,55 +1,70 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
-    
-    <Button android:id="@+id/act_test_test1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Test AsyncTask with Dialog" />
-    
-    
-    <Button android:id="@+id/act_test_test2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="UserWords.findByLanguage(2)" />
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        
+    <LinearLayout android:orientation="vertical"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content">
+        
+        <Button android:id="@+id/act_test_test1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test AsyncTask with Dialog" />
     
     
-    <Button android:id="@+id/act_test_test3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Chain HTTP requests" />
+        <Button android:id="@+id/act_test_test2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="UserWords.findByLanguage(2)" />
     
     
-    <Button android:id="@+id/act_test_test4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Try Different Audio Bitrates" />
+        <Button android:id="@+id/act_test_test3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Chain HTTP requests" />
     
     
-    <Button android:id="@+id/act_test_test5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Play and Download Audio Files" />
+        <Button android:id="@+id/act_test_test4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Try Different Audio Bitrates" />
     
-    <Button android:id="@+id/act_test_test6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Test Autofit-Text" />
     
-    <Button android:id="@+id/act_test_test7"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Test GetWordAudioNames" />
+        <Button android:id="@+id/act_test_test5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Play and Download Audio Files" />
     
-    <Button android:id="@+id/act_test_test8"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Test Login Success" />
+        <Button android:id="@+id/act_test_test6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test Autofit-Text" />
     
-    <Button android:id="@+id/act_test_test9"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Test Login Fail" />
-
-</LinearLayout>
+        <Button android:id="@+id/act_test_test7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test GetWordAudioNames" />
+    
+        <Button android:id="@+id/act_test_test8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test Login Success" />
+    
+        <Button android:id="@+id/act_test_test9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test Login Fail" />
+    
+        <Button android:id="@+id/act_test_test10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test Check Username" />
+    
+        <Button android:id="@+id/act_test_test11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test Check Email" />
+    </LinearLayout>
+        
+</ScrollView>
