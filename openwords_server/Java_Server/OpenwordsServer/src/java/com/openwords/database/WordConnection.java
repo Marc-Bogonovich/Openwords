@@ -12,6 +12,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.Transient;
 import org.hibernate.Session;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
 @Entity
@@ -19,6 +20,14 @@ import org.hibernate.criterion.Restrictions;
 public class WordConnection implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    @SuppressWarnings("unchecked")
+    public static List<Integer> getLearnableLanguageIds(Session s, int langOne) {
+        return s.createCriteria(WordConnection.class)
+                .add(Restrictions.eq("wordOneLangId", langOne))
+                .setProjection(Projections.distinct(Projections.property("wordTwoLangId")))
+                .list();
+    }
 
     public static List<WordConnection> getConnectionsPageWithOrder(Session s, int langOneId, int langTwoId, int pageNumber, int pageSize, String orderItem) {
         int firstRecord = (pageNumber - 1) * pageSize;

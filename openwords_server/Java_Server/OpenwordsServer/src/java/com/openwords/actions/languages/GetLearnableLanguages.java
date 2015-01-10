@@ -1,12 +1,11 @@
 package com.openwords.actions.languages;
 
-import com.google.gson.Gson;
 import static com.opensymphony.xwork2.Action.SUCCESS;
 import com.openwords.database.DatabaseHandler;
-import com.openwords.database.UserLanguage;
+import com.openwords.database.Language;
+import com.openwords.database.WordConnection;
 import com.openwords.interfaces.MyAction;
 import com.openwords.utils.UtilLog;
-import java.util.LinkedList;
 import java.util.List;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.ParentPackage;
@@ -14,28 +13,26 @@ import org.apache.struts2.convention.annotation.Result;
 import org.hibernate.Session;
 
 @ParentPackage("json-default")
-public class SetUserLanguages extends MyAction {
+public class GetLearnableLanguages extends MyAction {
 
     private static final long serialVersionUID = 1L;
-    private String langTwoIds;
+    private List<Language> result;
     private String errorMessage;
-    private int userId, langOneId;
+    private int langOneId;
 
-    @Action(value = "/setUserLanguages", results = {
+    @Action(value = "/getLearnableLanguages", results = {
         @Result(name = SUCCESS, type = "json")
     })
     @Override
     public String execute() throws Exception {
-        UtilLog.logInfo(this, "/setUserLanguages: " + userId + " " + langOneId + " " + langTwoIds);
+        UtilLog.logInfo(this, "/getLearnableLanguages: " + langOneId);
         Session s = DatabaseHandler.getSession();
         try {
-            int[] langTwoIdsInt = new Gson().fromJson(langTwoIds, int[].class);
-            List<UserLanguage> langTwos = new LinkedList<>();
-            for (int langTwo : langTwoIdsInt) {
-                langTwos.add(new UserLanguage(userId, langOneId, langTwo));
+            List<Integer> langIds = WordConnection.getLearnableLanguageIds(s, langOneId);
+            if (langIds.isEmpty()) {
+                return SUCCESS;
             }
-            UserLanguage.setUserLearningLanguages(s, langTwos);
-
+            result = Language.getLanguages(s, langIds);
         } catch (Exception e) {
             errorMessage = e.toString();
             UtilLog.logWarn(this, errorMessage);
@@ -45,20 +42,16 @@ public class SetUserLanguages extends MyAction {
         return SUCCESS;
     }
 
-    public void setLangTwoIds(String langTwoIds) {
-        this.langTwoIds = langTwoIds;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
     public void setLangOneId(int langOneId) {
         this.langOneId = langOneId;
     }
 
     public String getErrorMessage() {
         return errorMessage;
+    }
+
+    public List<Language> getResult() {
+        return result;
     }
 
     @Override
