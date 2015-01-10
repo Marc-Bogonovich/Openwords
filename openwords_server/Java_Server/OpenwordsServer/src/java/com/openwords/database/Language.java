@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
@@ -17,11 +18,14 @@ public class Language implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public static int countLanguages(Session s) {
-        int total = ((Number) s.createCriteria(Language.class)
-                .setProjection(Projections.rowCount()
-                ).uniqueResult()).intValue();
-        return total;
+    @SuppressWarnings("unchecked")
+    public static List<Integer> getNewLanguageIds(Session s, List<Integer> old) {
+        Criteria c = s.createCriteria(Language.class);
+        c.setProjection(Projections.property("langId"));
+        if (!old.isEmpty()) {
+            c.add(Restrictions.not(Restrictions.in("langId", old)));
+        }
+        return c.list();
     }
 
     @SuppressWarnings("unchecked")
