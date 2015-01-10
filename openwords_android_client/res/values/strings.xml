@@ -95,6 +95,10 @@
         <item>Username</item>
         <item>用户名</item>
     </string-array>
+    <string-array name="email">
+        <item>Email</item>
+        <item>电子邮件</item>
+    </string-array>
     <string-array name="password">
         <item>Password</item>
         <item>密码</item>

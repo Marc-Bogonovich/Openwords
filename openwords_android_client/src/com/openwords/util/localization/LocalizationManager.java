@@ -11,7 +11,7 @@ public class LocalizationManager {
 
     public static Object[][] LanguageNamesTypesIdsLocales = new Object[][]{
         new Object[]{"English", LocalLanguage.English, 1, Locale.ENGLISH.getDisplayLanguage()},
-        new Object[]{"简体中文", LocalLanguage.Chinese, 11, Locale.CHINA.getDisplayLanguage()}
+        new Object[]{"简体中文", LocalLanguage.Chinese, 98, Locale.CHINA.getDisplayLanguage()}
     };
 
     private static Context c;
@@ -22,7 +22,8 @@ public class LocalizationManager {
             textGo, textOptionReview, textOptionSelf, textOptionType, textOptionHearing, textExitContent,
             textYes, textNo, textLogoutContent, textLangOptionGreet, textLangOptionTitle, textAreYouSure, textLangOptionChange,
             textHintUser, textHintPass, textBye, textMoreLang, textSettingProfile, textSettingSetting, textSettingTutor, textSettingLogout,
-            textPCNext, textPCEnd, textWordsNext, textWordsSearch, textWordsSets, textWordsView, textHintPassRe, textReg;
+            textPCNext, textPCEnd, textWordsNext, textWordsSearch, textWordsSets, textWordsView, textHintPassRe, textReg,
+            TextHintEmail;
 
     public static void init(Context context) {
         c = context;
@@ -73,6 +74,7 @@ public class LocalizationManager {
         textWordsSets = getText(R.array.words_sets);
         textWordsView = getText(R.array.words_view);
         textReg = getText(R.array.reg_submit);
+        TextHintEmail = getText(R.array.email);
     }
 
     private static String getText(int id) {
@@ -217,6 +219,10 @@ public class LocalizationManager {
 
     public static String getTextBye() {
         return textBye;
+    }
+
+    public static String getTextHintEmail() {
+        return TextHintEmail;
     }
 
     private LocalizationManager() {
