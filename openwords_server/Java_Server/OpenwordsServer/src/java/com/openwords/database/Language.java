@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import org.hibernate.Session;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
 @Entity
@@ -15,6 +16,13 @@ import org.hibernate.criterion.Restrictions;
 public class Language implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    public static int countLanguages(Session s) {
+        int total = ((Number) s.createCriteria(Language.class)
+                .setProjection(Projections.rowCount()
+                ).uniqueResult()).intValue();
+        return total;
+    }
 
     @SuppressWarnings("unchecked")
     public static List<Language> getAllLanguages(Session s) {

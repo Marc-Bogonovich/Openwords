@@ -20,6 +20,7 @@ public class OverviewOpenwords extends MyAction {
 
     private List<String[]> result;
     private String errorMessage;
+    private boolean countLang;
 
     @Action(value = "/overviewOpenwords", results = {
         @Result(name = SUCCESS, type = "json")
@@ -29,6 +30,12 @@ public class OverviewOpenwords extends MyAction {
         UtilLog.logInfo(this, "/overviewOpenwords");
         Session s = DatabaseHandler.getSession();
         try {
+            if (countLang) {
+                result = new LinkedList<>();
+                result.add(new String[]{String.valueOf(Language.countLanguages(s))});
+                return SUCCESS;
+            }
+
             List<Language> langs = Language.getAllLanguages(s);
             result = new LinkedList<>();
             result.add(new String[]{"ALL", String.valueOf(Word.countLanguageWord(s, -1))});
@@ -53,8 +60,11 @@ public class OverviewOpenwords extends MyAction {
         return errorMessage;
     }
 
+    public void setCountLang(boolean countLang) {
+        this.countLang = countLang;
+    }
+
     @Override
     public void setErrorMessage(String errorMessage) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
