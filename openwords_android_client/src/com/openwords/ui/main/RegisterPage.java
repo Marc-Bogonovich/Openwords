@@ -6,38 +6,27 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.method.PasswordTransformationMethod;
-import android.util.Log;
-import android.view.Gravity;
-import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 import com.openwords.R;
-import com.openwords.model.JSONParser;
 import com.openwords.model.UserInfo;
+import com.openwords.services.implementations.AddUser;
+import com.openwords.services.implementations.CheckEmail;
+import com.openwords.services.implementations.CheckUsername;
+import com.openwords.services.interfaces.HttpResultHandler;
+import com.openwords.services.interfaces.RequestParamsBuilder;
 import com.openwords.util.localization.LocalizationManager;
+import com.openwords.util.log.QuickToast;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
-import java.util.ArrayList;
-import java.util.List;
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONObject;
 
-public class RegisterPage extends Activity implements OnClickListener {
+public class RegisterPage extends Activity {
 
-    public static final String TAG_SUCCESS = "success";
-    public static final String TAG_MESSAGE = "message";
-    public static final String TAG_USERID = "userid";
-    private static final String url_user_exist = "http://www.openwords.org/ServerPages/OpenwordsDB/userExist.php";
-    private static final String url_user_register = "http://www.openwords.org/ServerPages/OpenwordsDB/userRegister.php";
-    private String username = null;
-    private String password = null;
     private ProgressDialog pDialog = null;
-    private boolean usernameExist = true;
     private EditText usernameField;
+    private EditText emailField;
     private EditText passwdField;
     private EditText passwdField2;
     private Button submitButton;
@@ -48,7 +37,7 @@ public class RegisterPage extends Activity implements OnClickListener {
         setContentView(R.layout.activity_register_page);
 
         usernameField = (EditText) findViewById(R.id.registerPage_EditText_username);
-        //modify textfield to password input field
+        emailField = (EditText) findViewById(R.id.registerPage_EditText_email);
         passwdField = (EditText) findViewById(R.id.registerPage_EditText_password);
         passwdField.setTypeface(Typeface.DEFAULT);
         passwdField.setTransformationMethod(new PasswordTransformationMethod());
@@ -57,12 +46,25 @@ public class RegisterPage extends Activity implements OnClickListener {
         passwdField2.setTransformationMethod(new PasswordTransformationMethod());
 
         submitButton = (Button) findViewById(R.id.registerPage_Button_registerSubmit);
-        submitButton.setOnClickListener(this);
+        submitButton.setOnClickListener(new OnClickListener() {
+
+            public void onClick(View view) {
+                register();
+            }
+        });
 
         usernameField.setOnFocusChangeListener(new OnFocusChangeListener() {
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
-                    validUsername();
+                    validateUsername();
+                }
+            }
+        });
+
+        emailField.setOnFocusChangeListener(new OnFocusChangeListener() {
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    validateEmail();
                 }
             }
         });
@@ -81,117 +83,70 @@ public class RegisterPage extends Activity implements OnClickListener {
         fillUI();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    private void validateEmail() {
+        new CheckEmail().doRequest(new RequestParamsBuilder()
+                .addParam("email", emailField.getText().toString())
+                .getParams(),
+                new HttpResultHandler() {
 
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.register_page, menu);
-        return true;
-    }
-
-    @Override
-    public void onClick(View v) {
-        // TODO Auto-generated method stub
-        switch (v.getId()) {
-            case R.id.registerPage_Button_registerSubmit:
-                languagePageButtonClick();
-                break;
-        }
-    }
-
-    private void languagePageButtonClick() {
-        // TODO Auto-generated method stub
-        registerUsername();
-    }
-
-    private void validUsername() {
-        username = usernameField.getText().toString();
-        new Thread(new Runnable() {
-            public void run() {
-                valid();
-            }
-        }).start();
-    }
-
-    private void registerUsername() {
-        username = usernameField.getText().toString();
-        password = passwdField.getText().toString();
-
-        if (!usernameExist) {
-            if (identicalPassword()) {
-                pDialog = ProgressDialog.show(RegisterPage.this, "",
-                        "Writing to database...", true);
-                new Thread(new Runnable() {
-                    public void run() {
-                        register();
+                    public void hasResult(Object resultObject) {
+                        QuickToast.showShort(RegisterPage.this, "email is valid");
                     }
-                }).start();
-            }
-        }
-    }
 
-    void valid() {
-        try {
-            Log.e("Info", "In valid");
-            List<NameValuePair> params = new ArrayList<NameValuePair>(2);
-            params.add(new BasicNameValuePair("email", username.trim()));
-
-            JSONParser jsonParse = new JSONParser();
-            boolean flag = true;
-            int success = 0;
-            try {
-                JSONObject jObj = jsonParse.makeHttpRequest(url_user_exist, "POST", params);
-                //Log.d("Res",jObj.toString());
-                success = jObj.getInt(TAG_SUCCESS);
-                String msg = jObj.getString(TAG_MESSAGE);
-                Log.d("RegisterPage", "Return info: " + msg);
-            } catch (Exception e) {
-                flag = false;
-                e.printStackTrace();
-            }
-
-            if (flag == false) {
-
-                runOnUiThread(new Runnable() {
-                    public void run() {
-                        Toast toast = Toast.makeText(RegisterPage.this, "Server error", Toast.LENGTH_SHORT);
-                        toast.setGravity(Gravity.TOP, 0, 0);
-                        toast.show();
-                    }
-                });
-                return;
-            }
-
-//            runOnUiThread(new Runnable() {
-//                public void run() {
-//                    pDialog.dismiss();
-//                }
-//            });
-            if (success == 1) {
-                //Log.d("RegisterPage","user doesn't exist");
-                usernameExist = false;
-                runOnUiThread(new Runnable() {
-                    public void run() {
-                        Toast toast = Toast.makeText(RegisterPage.this, "Username is valid", Toast.LENGTH_SHORT);
-                        toast.setGravity(Gravity.TOP, 0, 0);
-                        toast.show();
+                    public void noResult(String errorMessage) {
+                        QuickToast.showShort(RegisterPage.this, errorMessage);
                     }
                 });
 
-            } else {
-                usernameExist = true;
-                runOnUiThread(new Runnable() {
-                    public void run() {
-                        Toast toast = Toast.makeText(RegisterPage.this, "Username exists", Toast.LENGTH_SHORT);
-                        toast.setGravity(Gravity.TOP, 0, 0);
-                        toast.show();
+    }
+
+    private void validateUsername() {
+        new CheckUsername().doRequest(new RequestParamsBuilder()
+                .addParam("username", usernameField.getText().toString())
+                .getParams(),
+                new HttpResultHandler() {
+
+                    public void hasResult(Object resultObject) {
+                        QuickToast.showShort(RegisterPage.this, "username is valid");
+                    }
+
+                    public void noResult(String errorMessage) {
+                        QuickToast.showShort(RegisterPage.this, errorMessage);
                     }
                 });
-            }
+    }
 
-        } catch (Exception e) {
-            pDialog.dismiss();
-            Log.e("Exception : ", e.getMessage());
+    private void register() {
+        if (identicalPassword()) {
+            pDialog = ProgressDialog.show(RegisterPage.this, "",
+                    "Connecting server...", true);
+
+            final String username = usernameField.getText().toString();
+            final String password = passwdField.getText().toString();
+
+            new AddUser().doRequest(new RequestParamsBuilder()
+                    .addParam("email", emailField.getText().toString())
+                    .addParam("username", username)
+                    .addParam("password", password)
+                    .getParams(),
+                    new HttpResultHandler() {
+
+                        public void hasResult(Object resultObject) {
+                            pDialog.dismiss();
+                            AddUser.Result r = (AddUser.Result) resultObject;
+                            OpenwordsSharedPreferences.setUserInfo(new UserInfo(r.userId, username, password, System.currentTimeMillis()));
+                            QuickToast.showShort(RegisterPage.this, "AddUser ok: " + r.userId);
+                            finish();
+                            LoginPage.setUserPass(username, password);
+                            LoginPage.DoRegistration = true;
+                            RegisterPage.this.startActivity(new Intent(RegisterPage.this, LanguagePage.class));
+                        }
+
+                        public void noResult(String errorMessage) {
+                            pDialog.dismiss();
+                            QuickToast.showShort(RegisterPage.this, "AddUser fail: " + errorMessage);
+                        }
+                    });
         }
     }
 
@@ -199,61 +154,10 @@ public class RegisterPage extends Activity implements OnClickListener {
         String passwd1 = passwdField.getText().toString();
         String passwd2 = passwdField2.getText().toString();
         if (passwd1.equals(passwd2)) {
-            Log.d("Info", "passwd are same");
             return true;
         } else {
-            runOnUiThread(new Runnable() {
-                public void run() {
-                    Toast.makeText(RegisterPage.this, "Passwords are inconsistent", Toast.LENGTH_SHORT).show();
-                }
-            });
+            QuickToast.showShort(RegisterPage.this, "passwords are inconsistent");
         }
-        Log.d("Info", "passwd are different");
         return false;
-    }
-
-    private void register() {
-        try {
-            List<NameValuePair> params = new ArrayList<NameValuePair>(2);
-            params.add(new BasicNameValuePair("email", username.trim()));
-            params.add(new BasicNameValuePair("password", password.trim()));
-            JSONParser jsonParse = new JSONParser();
-            JSONObject jObj = jsonParse.makeHttpRequest(url_user_register, "POST", params);
-            Log.d("Res", jObj.toString());
-            int success = jObj.getInt(TAG_SUCCESS);
-            String msg = jObj.getString(TAG_MESSAGE);
-            int userid = jObj.getInt(TAG_USERID);
-            Log.d("USERID", Integer.toString(userid));
-            runOnUiThread(new Runnable() {
-                public void run() {
-                    pDialog.dismiss();
-                }
-            });
-            if (success == 1) {
-                Log.d("Info", "create successfully");
-                OpenwordsSharedPreferences.setUserInfo(new UserInfo(userid, username, password, System.currentTimeMillis()));
-                usernameExist = true;
-                runOnUiThread(new Runnable() {
-                    public void run() {
-                        Toast.makeText(RegisterPage.this, "User create successfully", Toast.LENGTH_SHORT).show();
-                    }
-                });
-                finish();
-                LoginPage.setUserPass(username, password);
-                LoginPage.DoRegistration = true;
-                RegisterPage.this.startActivity(new Intent(RegisterPage.this, LanguagePage.class));
-            } else {
-                usernameExist = false;
-                runOnUiThread(new Runnable() {
-                    public void run() {
-                        Toast.makeText(RegisterPage.this, "User create fail", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-
-        } catch (Exception e) {
-            pDialog.dismiss();
-            Log.e("Exception : ", e.getMessage());
-        }
     }
 }
