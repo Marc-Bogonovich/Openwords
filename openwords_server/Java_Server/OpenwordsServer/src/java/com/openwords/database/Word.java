@@ -33,7 +33,7 @@ public class Word implements Serializable {
         @SuppressWarnings("unchecked")
         List<Word> wordIn = s.createCriteria(Word.class)
                 .add(Restrictions.eq("word", word))
-                .add(Restrictions.eq("languageId", langIn.getId()))
+                .add(Restrictions.eq("languageId", langIn.getLangId()))
                 .list();
 
         if (wordIn.isEmpty()) {
@@ -48,7 +48,7 @@ public class Word implements Serializable {
             @SuppressWarnings("unchecked")
             List<Word> words = s.createCriteria(Word.class)
                     .add(Restrictions.eq("md5", w.getMd5()))
-                    .add(Restrictions.eq("languageId", langOut.getId()))
+                    .add(Restrictions.eq("languageId", langOut.getLangId()))
                     .list();
             for (Word ww : words) {
                 if (increaseRank) {

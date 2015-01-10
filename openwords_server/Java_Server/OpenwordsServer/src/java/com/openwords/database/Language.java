@@ -23,11 +23,11 @@ public class Language implements Serializable {
 
     public static List<Language> getLanguages(Session s, List<Integer> langIds) {
         return s.createCriteria(Language.class)
-                .add(Restrictions.in("id", langIds))
+                .add(Restrictions.in("langId", langIds))
                 .list();
     }
 
-    private int id;
+    private int langId;
     private String name, code, meta, displayName;
 
     public Language() {
@@ -42,13 +42,13 @@ public class Language implements Serializable {
 
     @Id
     @GeneratedValue
-    @Column(name = "id")
-    public int getId() {
-        return id;
+    @Column(name = "language_id")
+    public int getLangId() {
+        return langId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setLangId(int langId) {
+        this.langId = langId;
     }
 
     @Column(name = "language")
