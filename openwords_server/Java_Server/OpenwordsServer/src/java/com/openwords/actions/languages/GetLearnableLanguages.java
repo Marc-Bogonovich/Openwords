@@ -2,7 +2,6 @@ package com.openwords.actions.languages;
 
 import static com.opensymphony.xwork2.Action.SUCCESS;
 import com.openwords.database.DatabaseHandler;
-import com.openwords.database.Language;
 import com.openwords.database.WordConnection;
 import com.openwords.interfaces.MyAction;
 import com.openwords.utils.UtilLog;
@@ -16,7 +15,7 @@ import org.hibernate.Session;
 public class GetLearnableLanguages extends MyAction {
 
     private static final long serialVersionUID = 1L;
-    private List<Language> result;
+    private List<Integer> result;
     private String errorMessage;
     private int langOneId;
 
@@ -28,11 +27,7 @@ public class GetLearnableLanguages extends MyAction {
         UtilLog.logInfo(this, "/getLearnableLanguages: " + langOneId);
         Session s = DatabaseHandler.getSession();
         try {
-            List<Integer> langIds = WordConnection.getLearnableLanguageIds(s, langOneId);
-            if (langIds.isEmpty()) {
-                return SUCCESS;
-            }
-            result = Language.getLanguages(s, langIds);
+            result = WordConnection.getLearnableLanguageIds(s, langOneId);
         } catch (Exception e) {
             errorMessage = e.toString();
             UtilLog.logWarn(this, errorMessage);
@@ -50,7 +45,7 @@ public class GetLearnableLanguages extends MyAction {
         return errorMessage;
     }
 
-    public List<Language> getResult() {
+    public List<Integer> getResult() {
         return result;
     }
 

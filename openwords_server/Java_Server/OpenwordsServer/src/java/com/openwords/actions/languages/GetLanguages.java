@@ -14,19 +14,19 @@ import org.apache.struts2.convention.annotation.Result;
 import org.hibernate.Session;
 
 @ParentPackage("json-default")
-public class GetNewLanguages extends MyAction {
+public class GetLanguages extends MyAction {
 
     private static final long serialVersionUID = 1L;
     private List<Language> result;
     private String errorMessage;
     private String exclude;
 
-    @Action(value = "/getNewLanguages", results = {
+    @Action(value = "/getLanguages", results = {
         @Result(name = SUCCESS, type = "json")
     })
     @Override
     public String execute() throws Exception {
-        UtilLog.logInfo(this, "/getNewLanguages");
+        UtilLog.logInfo(this, "/getLanguages: " + exclude);
         Session s = DatabaseHandler.getSession();
         try {
             List<Integer> old = new Gson().fromJson(exclude, new TypeToken<List<Integer>>() {
