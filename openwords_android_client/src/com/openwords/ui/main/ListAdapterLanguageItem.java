@@ -6,11 +6,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.TextView;
 import com.openwords.R;
 import com.openwords.model.Language;
-import com.openwords.util.log.QuickToast;
+import com.openwords.util.ui.QuickToast;
 import java.util.List;
 
 public class ListAdapterLanguageItem extends ArrayAdapter<Language> {

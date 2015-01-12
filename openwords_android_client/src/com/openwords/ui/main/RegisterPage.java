@@ -19,8 +19,8 @@ import com.openwords.services.implementations.CheckUsername;
 import com.openwords.services.interfaces.HttpResultHandler;
 import com.openwords.services.interfaces.RequestParamsBuilder;
 import com.openwords.util.localization.LocalizationManager;
-import com.openwords.util.log.QuickToast;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
+import com.openwords.util.ui.QuickToast;
 
 public class RegisterPage extends Activity {
 

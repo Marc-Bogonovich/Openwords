@@ -1,4 +1,4 @@
-package com.openwords.util.log;
+package com.openwords.util.ui;
 
 import android.content.Context;
 import android.widget.Toast;
