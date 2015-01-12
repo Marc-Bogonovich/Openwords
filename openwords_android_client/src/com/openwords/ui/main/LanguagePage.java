@@ -26,7 +26,6 @@ import java.util.Set;
 
 public class LanguagePage extends Activity {
 
-    public static int UserId = -1;
     private ListView listView;
     private ListView listView2;
     private ListAdapterLanguageItem listAdapter;
@@ -52,7 +51,7 @@ public class LanguagePage extends Activity {
 
             public void onClick(View view) {
                 if (doneChosen) {
-                    if (UserId <= 0) {
+                    if (DataPool.UserId <= 0) {
                         MyQuickToast.showShort(LanguagePage.this, "user id is corrupt");
                         return;
                     }
@@ -60,7 +59,7 @@ public class LanguagePage extends Activity {
                     MyDialogHelper.tryShowQuickProgressDialog(LanguagePage.this, "Saving your preference to server...");
 
                     new SetUserLanguages().doRequest(new RequestParamsBuilder()
-                            .addParam("userId", String.valueOf(UserId))
+                            .addParam("userId", String.valueOf(DataPool.UserId))
                             .addParam("langOneId", String.valueOf(DataPool.BaseLanguage))
                             .addParam("langTwoIds", new Gson().toJson(chosenLangIds))
                             .getParams(),

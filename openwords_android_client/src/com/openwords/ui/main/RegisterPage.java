@@ -11,6 +11,7 @@ import android.view.View.OnFocusChangeListener;
 import android.widget.Button;
 import android.widget.EditText;
 import com.openwords.R;
+import com.openwords.model.DataPool;
 import com.openwords.model.Language;
 import com.openwords.model.UserInfo;
 import com.openwords.services.implementations.AddUser;
@@ -140,7 +141,7 @@ public class RegisterPage extends Activity {
                             finish();
                             LoginPage.setUserPass(username, password);
                             LoginPage.DoRegistration = true;
-                            LanguagePage.UserId = r.userId;
+                            DataPool.UserId = r.userId;
                             RegisterPage.this.startActivity(new Intent(RegisterPage.this, LanguagePage.class));
                         }
 
