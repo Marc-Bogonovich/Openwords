@@ -3,12 +3,12 @@ package com.openwords.util.ui;
 import android.content.Context;
 import android.widget.Toast;
 
-public class QuickToast {
+public class MyQuickToast {
 
     public static void showShort(Context context, String message) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
     }
 
-    private QuickToast() {
+    private MyQuickToast() {
     }
 }

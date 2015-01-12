@@ -29,7 +29,6 @@ import com.openwords.model.UserInfo;
 import com.openwords.model.UserWords;
 import com.openwords.model.WordTranscription;
 import com.openwords.services.GetWords;
-import com.openwords.services.ModelLanguage;
 import com.openwords.services.ModelWordConnection;
 import com.openwords.services.SetUserWords;
 import com.openwords.sound.WordAudioManager;
@@ -128,24 +127,24 @@ public class HomePage extends Activity {
 
     private void refreshLanguageOptions() {
         LogUtil.logDeubg(this, "refreshLanguageOptions");
-        DataPool.LanguageList.remove(DataPool.LanguageList.size() - 1);
-        DataPool.LanguageList.add(new ModelLanguage(-999, LocalizationManager.getTextMoreLang()));
-
-        languageOptions.clear();
-        language_position = -1;
-        for (ModelLanguage l : DataPool.LanguageList) {
-            languageOptions.add(l.getL2name());
-            LogUtil.logDeubg(this, "user " + userinfo.getUserId() + " has lang: " + l.getL2name());
-            if (l.getL2id() == OpenwordsSharedPreferences.getUserInfo().getLang_id()) {
-                language_position = languageOptions.size() - 1;
-            }
-        }
-        dropdownAdapter.notifyDataSetChanged();
-        if (language_position != -1) {
-            l2_dropdown.setSelection(language_position);
-        } else {
-            l2_dropdown.setSelection(0);
-        }
+//        DataPool.LanguageList.remove(DataPool.LanguageList.size() - 1);
+//        DataPool.LanguageList.add(new ModelLanguage(-999, LocalizationManager.getTextMoreLang()));
+//
+//        languageOptions.clear();
+//        language_position = -1;
+//        for (ModelLanguage l : DataPool.LanguageList) {
+//            languageOptions.add(l.getL2name());
+//            LogUtil.logDeubg(this, "user " + userinfo.getUserId() + " has lang: " + l.getL2name());
+//            if (l.getL2id() == OpenwordsSharedPreferences.getUserInfo().getLang_id()) {
+//                language_position = languageOptions.size() - 1;
+//            }
+//        }
+//        dropdownAdapter.notifyDataSetChanged();
+//        if (language_position != -1) {
+//            l2_dropdown.setSelection(language_position);
+//        } else {
+//            l2_dropdown.setSelection(0);
+//        }
     }
 
     private void fillLanguageOptions() {

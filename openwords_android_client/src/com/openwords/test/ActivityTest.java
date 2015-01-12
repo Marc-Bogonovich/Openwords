@@ -18,7 +18,6 @@ import com.openwords.services.implementations.LoginUser;
 import com.openwords.services.interfaces.HttpResultHandler;
 import com.openwords.services.interfaces.RequestParamsBuilder;
 import com.openwords.ui.common.DialogForHTTP;
-import com.openwords.ui.main.LanguagePage;
 import com.openwords.util.log.LogUtil;
 import java.util.List;
 import java.util.logging.Level;
@@ -241,7 +240,6 @@ public class ActivityTest extends Activity {
         findViewById(R.id.act_test_test99).setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
-                ActivityTest.this.startActivity(new Intent(ActivityTest.this, LanguagePage.class));
             }
         });
     }

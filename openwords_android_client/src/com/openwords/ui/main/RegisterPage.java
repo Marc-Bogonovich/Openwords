@@ -1,7 +1,6 @@
 package com.openwords.ui.main;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -12,6 +11,7 @@ import android.view.View.OnFocusChangeListener;
 import android.widget.Button;
 import android.widget.EditText;
 import com.openwords.R;
+import com.openwords.model.Language;
 import com.openwords.model.UserInfo;
 import com.openwords.services.implementations.AddUser;
 import com.openwords.services.implementations.CheckEmail;
@@ -20,11 +20,11 @@ import com.openwords.services.interfaces.HttpResultHandler;
 import com.openwords.services.interfaces.RequestParamsBuilder;
 import com.openwords.util.localization.LocalizationManager;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
-import com.openwords.util.ui.QuickToast;
+import com.openwords.util.ui.MyDialogHelper;
+import com.openwords.util.ui.MyQuickToast;
 
 public class RegisterPage extends Activity {
 
-    private ProgressDialog pDialog = null;
     private EditText usernameField;
     private EditText emailField;
     private EditText passwdField;
@@ -91,11 +91,11 @@ public class RegisterPage extends Activity {
                 new HttpResultHandler() {
 
                     public void hasResult(Object resultObject) {
-                        QuickToast.showShort(RegisterPage.this, "email is valid");
+                        MyQuickToast.showShort(RegisterPage.this, "email is valid");
                     }
 
                     public void noResult(String errorMessage) {
-                        QuickToast.showShort(RegisterPage.this, errorMessage);
+                        MyQuickToast.showShort(RegisterPage.this, errorMessage);
                     }
                 });
 
@@ -108,19 +108,18 @@ public class RegisterPage extends Activity {
                 new HttpResultHandler() {
 
                     public void hasResult(Object resultObject) {
-                        QuickToast.showShort(RegisterPage.this, "username is valid");
+                        MyQuickToast.showShort(RegisterPage.this, "username is valid");
                     }
 
                     public void noResult(String errorMessage) {
-                        QuickToast.showShort(RegisterPage.this, errorMessage);
+                        MyQuickToast.showShort(RegisterPage.this, errorMessage);
                     }
                 });
     }
 
     private void register() {
         if (identicalPassword()) {
-            pDialog = ProgressDialog.show(RegisterPage.this, "",
-                    "Connecting server...", true);
+            MyDialogHelper.tryShowQuickProgressDialog(this, "Connection to server...");
 
             final String username = usernameField.getText().toString();
             final String password = passwdField.getText().toString();
@@ -133,10 +132,11 @@ public class RegisterPage extends Activity {
                     new HttpResultHandler() {
 
                         public void hasResult(Object resultObject) {
-                            pDialog.dismiss();
+                            MyDialogHelper.tryDismissQuickProgressDialog();
+                            Language.deleteAll(Language.class);
                             AddUser.Result r = (AddUser.Result) resultObject;
                             OpenwordsSharedPreferences.setUserInfo(new UserInfo(r.userId, username, password, System.currentTimeMillis()));
-                            QuickToast.showShort(RegisterPage.this, "AddUser ok: " + r.userId);
+                            MyQuickToast.showShort(RegisterPage.this, "AddUser ok: " + r.userId);
                             finish();
                             LoginPage.setUserPass(username, password);
                             LoginPage.DoRegistration = true;
@@ -144,8 +144,8 @@ public class RegisterPage extends Activity {
                         }
 
                         public void noResult(String errorMessage) {
-                            pDialog.dismiss();
-                            QuickToast.showShort(RegisterPage.this, "AddUser fail: " + errorMessage);
+                            MyDialogHelper.tryDismissQuickProgressDialog();
+                            MyQuickToast.showShort(RegisterPage.this, "AddUser fail: " + errorMessage);
                         }
                     });
         }
@@ -157,7 +157,7 @@ public class RegisterPage extends Activity {
         if (passwd1.equals(passwd2)) {
             return true;
         } else {
-            QuickToast.showShort(RegisterPage.this, "passwords are inconsistent");
+            MyQuickToast.showShort(RegisterPage.this, "passwords are inconsistent");
         }
         return false;
     }

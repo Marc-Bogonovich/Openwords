@@ -9,7 +9,7 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 import com.openwords.R;
 import com.openwords.model.Language;
-import com.openwords.util.ui.QuickToast;
+import com.openwords.util.ui.MyQuickToast;
 import java.util.List;
 
 public class ListAdapterLanguageItem extends ArrayAdapter<Language> {
@@ -46,7 +46,7 @@ public class ListAdapterLanguageItem extends ArrayAdapter<Language> {
                     lang.chosen = !lang.chosen;
                     lang.save();
                     itemObj.setChecked(lang.chosen);
-                    QuickToast.showShort(context, lang.chosen + " " + lang.langId + " " + lang.name);
+                    MyQuickToast.showShort(context, lang.chosen + " " + lang.langId + " " + lang.name);
                 }
             });
         }

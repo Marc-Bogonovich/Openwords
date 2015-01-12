@@ -1,7 +1,6 @@
 package com.openwords.ui.main;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -14,12 +13,9 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 import com.openwords.R;
-import com.openwords.model.DataPool;
-import com.openwords.model.InitDatabase;
-import com.openwords.model.UserInfo;
-import com.openwords.services.CheckUser;
-import com.openwords.services.GetLanguages;
-import com.openwords.services.ModelLanguage;
+import com.openwords.services.implementations.LoginUser;
+import com.openwords.services.interfaces.HttpResultHandler;
+import com.openwords.services.interfaces.RequestParamsBuilder;
 import com.openwords.sound.SoundPlayer;
 import com.openwords.test.ActivityTest;
 import com.openwords.tts.Speak;
@@ -33,7 +29,8 @@ import com.openwords.util.localization.LocalLanguage;
 import com.openwords.util.localization.LocalizationManager;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
-import java.util.List;
+import com.openwords.util.ui.MyDialogHelper;
+import com.openwords.util.ui.MyQuickToast;
 
 public class LoginPage extends Activity {
 
@@ -48,7 +45,6 @@ public class LoginPage extends Activity {
     private Button loginButton, registerButton;
     private CheckBox remember;
 
-    private ProgressDialog pDialog = null;
     private EditText usernameField;
     private EditText passwdField;
 
@@ -95,8 +91,7 @@ public class LoginPage extends Activity {
 
             public void onClick(View view) {
                 if (InternetCheck.checkConn(LoginPage.this)) {
-                    pDialog = ProgressDialog.show(LoginPage.this, "",
-                            LocalizationManager.getTextValidatingUser() + "...", true);
+                    MyDialogHelper.tryShowQuickProgressDialog(LoginPage.this, LocalizationManager.getTextValidatingUser() + "...");
                     login(usernameField.getText().toString(), passwdField.getText().toString());
                 } else {
                     Toast.makeText(LoginPage.this, LocalizationManager.getTextInternetError(), Toast.LENGTH_SHORT).show();
@@ -142,62 +137,84 @@ public class LoginPage extends Activity {
     }
 
     private void login(final String username, final String password) {
-        LogUtil.logDeubg(this, "username " + username);
-        LogUtil.logDeubg(this, "passwd " + password);
+        new LoginUser().doRequest(new RequestParamsBuilder()
+                .addParam("username", username)
+                .addParam("password", password)
+                .getParams(),
+                new HttpResultHandler() {
 
-        CheckUser.request(username, password, 0, new CheckUser.AsyncCallback() {
-
-            public void callback(int userId, String message, Throwable error) {
-                try {
-                    if (userId > 0) {
+                    public void hasResult(Object resultObject) {
+                        int userId = (Integer) resultObject;
                         if (remember.isChecked()) {
                             OpenwordsSharedPreferences.setUserCredentials(new String[]{username, password});
                         } else {
                             OpenwordsSharedPreferences.setUserCredentials(null);
                         }
+                        MyDialogHelper.tryDismissQuickProgressDialog();
+                        startActivity(new Intent(LoginPage.this, HomePage.class));
 
-                        int lu = 0;
-                        long lupd = 0;
-                        if (OpenwordsSharedPreferences.getUserInfo() != null) {
-                            lu = OpenwordsSharedPreferences.getUserInfo().getUserId();
-                            lupd = OpenwordsSharedPreferences.getUserInfo().getLastPerfUpd();
-                        }
-                        OpenwordsSharedPreferences.setUserInfo(new UserInfo(lu, 0, userId, username, password, System.currentTimeMillis(), lupd));
-
-                        /* ********************************
-                         * Refreshing User's data on client (if needed)
-                         * ********************************
-                         * */
-                        InitDatabase.checkAndRefreshPerf(LoginPage.this, 0, 0);
-
-                        //pre-load language information
-                        GetLanguages.request(Integer.toString(userId), 0, new GetLanguages.AsyncCallback() {
-
-                            public void callback(List<ModelLanguage> languages, Throwable error) {
-                                if (languages != null) {
-                                    languages.add(new ModelLanguage(-999, "empty holder"));
-                                    DataPool.LanguageList.clear();
-                                    DataPool.LanguageList.addAll(languages);
-                                    startActivity(new Intent(LoginPage.this, HomePage.class));
-                                } else {
-                                    Toast.makeText(LoginPage.this, error.toString(), Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
-                    } else {
-                        Toast.makeText(LoginPage.this, LocalizationManager.getTextLoginError(), Toast.LENGTH_SHORT).show();
-                        if (error != null) {
-                            Toast.makeText(LoginPage.this, error.toString(), Toast.LENGTH_SHORT).show();
-                        }
                     }
-                } catch (Exception e) {
-                    Toast.makeText(LoginPage.this, e.toString(), Toast.LENGTH_SHORT).show();
-                }
-                if (pDialog != null) {
-                    pDialog.dismiss();
-                }
-            }
-        });
+
+                    public void noResult(String errorMessage) {
+                        MyDialogHelper.tryDismissQuickProgressDialog();
+                        MyQuickToast.showShort(LoginPage.this, "Login fail: " + errorMessage);
+                    }
+                });
+
+//        
+//        CheckUser.request(username, password, 0, new CheckUser.AsyncCallback() {
+//
+//            public void callback(int userId, String message, Throwable error) {
+//                try {
+//                    if (userId > 0) {
+//                        if (remember.isChecked()) {
+//                            OpenwordsSharedPreferences.setUserCredentials(new String[]{username, password});
+//                        } else {
+//                            OpenwordsSharedPreferences.setUserCredentials(null);
+//                        }
+//
+//                        int lu = 0;
+//                        long lupd = 0;
+//                        if (OpenwordsSharedPreferences.getUserInfo() != null) {
+//                            lu = OpenwordsSharedPreferences.getUserInfo().getUserId();
+//                            lupd = OpenwordsSharedPreferences.getUserInfo().getLastPerfUpd();
+//                        }
+//                        OpenwordsSharedPreferences.setUserInfo(new UserInfo(lu, 0, userId, username, password, System.currentTimeMillis(), lupd));
+//
+//                        /* ********************************
+//                         * Refreshing User's data on client (if needed)
+//                         * ********************************
+//                         * */
+//                        InitDatabase.checkAndRefreshPerf(LoginPage.this, 0, 0);
+//
+//                        //pre-load language information
+//                        GetLanguages.request(Integer.toString(userId), 0, new GetLanguages.AsyncCallback() {
+//
+//                            public void callback(List<ModelLanguage> languages, Throwable error) {
+//                                if (languages != null) {
+//                                    languages.add(new ModelLanguage(-999, "empty holder"));
+//                                    DataPool.LanguageList.clear();
+//                                    DataPool.LanguageList.addAll(languages);
+//                                    startActivity(new Intent(LoginPage.this, HomePage.class));
+//                                } else {
+//                                    Toast.makeText(LoginPage.this, error.toString(), Toast.LENGTH_SHORT).show();
+//                                }
+//                            }
+//                        });
+//                    } else {
+//                        Toast.makeText(LoginPage.this, LocalizationManager.getTextLoginError(), Toast.LENGTH_SHORT).show();
+//                        if (error != null) {
+//                            Toast.makeText(LoginPage.this, error.toString(), Toast.LENGTH_SHORT).show();
+//                        }
+//                    }
+//                } catch (Exception e) {
+//                    Toast.makeText(LoginPage.this, e.toString(), Toast.LENGTH_SHORT).show();
+//                }
+//                if (pDialog != null) {
+//                    pDialog.dismiss();
+//                }
+//            }
+//        });
     }
 
     @Override

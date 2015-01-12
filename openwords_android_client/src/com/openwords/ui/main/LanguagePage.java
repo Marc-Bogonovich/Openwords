@@ -1,7 +1,6 @@
 package com.openwords.ui.main;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -15,7 +14,8 @@ import com.openwords.services.implementations.GetLanguages;
 import com.openwords.services.implementations.GetLearnableLanguages;
 import com.openwords.services.interfaces.HttpResultHandler;
 import com.openwords.services.interfaces.RequestParamsBuilder;
-import com.openwords.util.ui.QuickToast;
+import com.openwords.util.ui.MyDialogHelper;
+import com.openwords.util.ui.MyQuickToast;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -30,7 +30,6 @@ public class LanguagePage extends Activity {
     private List<Language> localLanguages;
     private TextView topText;
     private Button doneButton;
-    private ProgressDialog pDialog;
     private boolean doneChosen;
 
     @Override
@@ -58,7 +57,7 @@ public class LanguagePage extends Activity {
     }
 
     private void refreshList() {
-        pDialog = ProgressDialog.show(this, null, "Connection to server...", true, false);
+        MyDialogHelper.tryShowQuickProgressDialog(this, "Connection to server...");
         listAdapter.clear();
         localLanguages = Language.listAll(Language.class);
         listAdapter.addAll(localLanguages);
@@ -74,7 +73,7 @@ public class LanguagePage extends Activity {
             }
         }
         if (chosenLangNames.isEmpty()) {
-            QuickToast.showShort(LanguagePage.this, "You must select at least one language");
+            MyQuickToast.showShort(LanguagePage.this, "You must select at least one language");
             return;
         }
         topText.setText("You have chosen:");
@@ -94,14 +93,14 @@ public class LanguagePage extends Activity {
                 .getParams(), new HttpResultHandler() {
 
                     public void hasResult(Object resultObject) {
-                        pDialog.dismiss();
+                        MyDialogHelper.tryDismissQuickProgressDialog();
                         @SuppressWarnings("unchecked")
                         List<Integer> learnableIds = (List<Integer>) resultObject;
                         String sqlIds = learnableIds.toString().replace("[", "(").replace("]", ")");
 
                         String sql = "SELECT * FROM LANGUAGE WHERE LANG_ID IN " + sqlIds;
                         List<Language> localSameLangs = Language.findWithQuery(Language.class, sql);
-                        QuickToast.showShort(LanguagePage.this, "total local same: " + localSameLangs.size());
+                        MyQuickToast.showShort(LanguagePage.this, "total local same: " + localSameLangs.size());
 
                         Set<Integer> newLangIds = new HashSet<Integer>(learnableIds);
                         for (Language lang : localSameLangs) {
@@ -109,18 +108,18 @@ public class LanguagePage extends Activity {
                                 newLangIds.remove(lang.langId);
                             }
                         }
-                        QuickToast.showShort(LanguagePage.this, "total new: " + newLangIds.size());
+                        MyQuickToast.showShort(LanguagePage.this, "total new: " + newLangIds.size());
 
                         if (!newLangIds.isEmpty()) {
                             getAndSaveLanguageInformation(newLangIds);
                         } else {
-                            QuickToast.showShort(LanguagePage.this, "no new learnable languages");
+                            MyQuickToast.showShort(LanguagePage.this, "no new learnable languages");
                         }
                     }
 
                     public void noResult(String errorMessage) {
-                        pDialog.dismiss();
-                        QuickToast.showShort(LanguagePage.this, "Cannot connect to server: " + errorMessage);
+                        MyDialogHelper.tryDismissQuickProgressDialog();
+                        MyQuickToast.showShort(LanguagePage.this, "Cannot connect to server: " + errorMessage);
                     }
                 });
     }
@@ -138,11 +137,11 @@ public class LanguagePage extends Activity {
                         localLanguages = Language.listAll(Language.class);
                         listAdapter.addAll(localLanguages);
                         listAdapter.notifyDataSetChanged();
-                        QuickToast.showShort(LanguagePage.this, "local total: " + Language.count(Language.class));
+                        MyQuickToast.showShort(LanguagePage.this, "local total: " + Language.count(Language.class));
                     }
 
                     public void noResult(String errorMessage) {
-                        QuickToast.showShort(LanguagePage.this, "not ok: " + errorMessage);
+                        MyQuickToast.showShort(LanguagePage.this, "not ok: " + errorMessage);
                     }
                 });
     }
