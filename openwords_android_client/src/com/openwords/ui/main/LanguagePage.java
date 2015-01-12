@@ -9,9 +9,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 import com.google.gson.Gson;
 import com.openwords.R;
+import com.openwords.model.DataPool;
 import com.openwords.model.Language;
 import com.openwords.services.implementations.GetLanguages;
 import com.openwords.services.implementations.GetLearnableLanguages;
+import com.openwords.services.implementations.SetUserLanguages;
 import com.openwords.services.interfaces.HttpResultHandler;
 import com.openwords.services.interfaces.RequestParamsBuilder;
 import com.openwords.util.ui.MyDialogHelper;
@@ -24,6 +26,7 @@ import java.util.Set;
 
 public class LanguagePage extends Activity {
 
+    public static int UserId = -1;
     private ListView listView;
     private ListView listView2;
     private ListAdapterLanguageItem listAdapter;
@@ -31,6 +34,7 @@ public class LanguagePage extends Activity {
     private TextView topText;
     private Button doneButton;
     private boolean doneChosen;
+    private List<Integer> chosenLangIds;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +52,32 @@ public class LanguagePage extends Activity {
 
             public void onClick(View view) {
                 if (doneChosen) {
-                    finish();
+                    if (UserId <= 0) {
+                        MyQuickToast.showShort(LanguagePage.this, "user id is corrupt");
+                        return;
+                    }
+
+                    MyDialogHelper.tryShowQuickProgressDialog(LanguagePage.this, "Saving your preference to server...");
+
+                    new SetUserLanguages().doRequest(new RequestParamsBuilder()
+                            .addParam("userId", String.valueOf(UserId))
+                            .addParam("langOneId", String.valueOf(DataPool.BaseLanguage))
+                            .addParam("langTwoIds", new Gson().toJson(chosenLangIds))
+                            .getParams(),
+                            new HttpResultHandler() {
+
+                                public void hasResult(Object resultObject) {
+                                    MyDialogHelper.tryDismissQuickProgressDialog();
+                                    finish();
+                                }
+
+                                public void noResult(String errorMessage) {
+                                    MyQuickToast.showShort(LanguagePage.this, errorMessage);
+                                    MyDialogHelper.tryDismissQuickProgressDialog();
+                                    finish();
+                                }
+                            });
+
                 } else {
                     showSimpleList();
                 }
@@ -67,9 +96,11 @@ public class LanguagePage extends Activity {
 
     private void showSimpleList() {
         List<String> chosenLangNames = new LinkedList<String>();
+        chosenLangIds = new LinkedList<Integer>();
         for (Language lang : localLanguages) {
             if (lang.chosen) {
                 chosenLangNames.add(lang.name);
+                chosenLangIds.add(lang.langId);
             }
         }
         if (chosenLangNames.isEmpty()) {
@@ -89,13 +120,21 @@ public class LanguagePage extends Activity {
 
     private void checkAndMergeNewLanguages() {
         new GetLearnableLanguages().doRequest(new RequestParamsBuilder()
-                .addParam("langOneId", "1")
+                .addParam("langOneId", String.valueOf(DataPool.BaseLanguage))
                 .getParams(), new HttpResultHandler() {
 
                     public void hasResult(Object resultObject) {
                         MyDialogHelper.tryDismissQuickProgressDialog();
                         @SuppressWarnings("unchecked")
                         List<Integer> learnableIds = (List<Integer>) resultObject;
+                        if (learnableIds.isEmpty()) {
+                            MyQuickToast.showShort(LanguagePage.this,
+                                    "Sorry, seems we don't have learnable languages for your local language yet,\n"
+                                    + "but please have a look round");
+                            finish();
+                            return;
+                        }
+
                         String sqlIds = learnableIds.toString().replace("[", "(").replace("]", ")");
 
                         String sql = "SELECT * FROM LANGUAGE WHERE LANG_ID IN " + sqlIds;
