@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `languages` (
-`id` int(11) NOT NULL,
+`language_id` int(11) NOT NULL,
   `language` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `code` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `meta_info` mediumtext COLLATE utf8_unicode_ci NOT NULL,
@@ -29,7 +29,7 @@ CREATE TABLE `languages` (
 -- Dumping data for table `languages`
 --
 
-INSERT INTO `languages` (`id`, `language`, `code`, `meta_info`, `display_name`) VALUES
+INSERT INTO `languages` (`language_id`, `language`, `code`, `meta_info`, `display_name`) VALUES
 (1, '[english]', 'en', '', ''),
 (2, '[abau]', 'aau', '', ''),
 (3, '[abkhaz]', 'ab', '', ''),
@@ -550,6 +550,21 @@ INSERT INTO `languages` (`id`, `language`, `code`, `meta_info`, `display_name`) 
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `user_info`
+--
+
+CREATE TABLE `user_info` (
+  `user_id` bigint(20) NOT NULL,
+  `user_name` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `email` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `password` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
+  `last_login` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `last_location` varchar(100) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `words`
 --
 
@@ -588,7 +603,13 @@ CREATE TABLE `word_connections` (
 -- Indexes for table `languages`
 --
 ALTER TABLE `languages`
- ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `code` (`code`);
+ ADD PRIMARY KEY (`language_id`), ADD UNIQUE KEY `code` (`code`);
+
+--
+-- Indexes for table `user_info`
+--
+ALTER TABLE `user_info`
+ADD PRIMARY KEY (`user_id`);
 
 --
 -- Indexes for table `words`
@@ -610,7 +631,12 @@ ALTER TABLE `word_connections`
 -- AUTO_INCREMENT for table `languages`
 --
 ALTER TABLE `languages`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `language_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `user_info`
+--
+ALTER TABLE `user_info`
+MODIFY `user_id` bigint(20) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `words`
 --
@@ -629,9 +655,9 @@ MODIFY `connection_id` bigint(20) NOT NULL AUTO_INCREMENT;
 -- Constraints for table `word_connections`
 --
 ALTER TABLE `word_connections`
-ADD CONSTRAINT `word2_lang_fk` FOREIGN KEY (`word2_language`) REFERENCES `languages` (`id`),
+ADD CONSTRAINT `word2_lang_fk` FOREIGN KEY (`word2_language`) REFERENCES `languages` (`language_id`),
 ADD CONSTRAINT `word1_fk` FOREIGN KEY (`word1_id`) REFERENCES `words` (`word_id`),
-ADD CONSTRAINT `word1_lang_fk` FOREIGN KEY (`word1_language`) REFERENCES `languages` (`id`),
+ADD CONSTRAINT `word1_lang_fk` FOREIGN KEY (`word1_language`) REFERENCES `languages` (`language_id`),
 ADD CONSTRAINT `word2_fk` FOREIGN KEY (`word2_id`) REFERENCES `words` (`word_id`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
