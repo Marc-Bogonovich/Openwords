@@ -140,6 +140,7 @@ public class RegisterPage extends Activity {
                             finish();
                             LoginPage.setUserPass(username, password);
                             LoginPage.DoRegistration = true;
+                            LanguagePage.UserId = r.userId;
                             RegisterPage.this.startActivity(new Intent(RegisterPage.this, LanguagePage.class));
                         }
 
