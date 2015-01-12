@@ -23,6 +23,9 @@ public class CheckUsername extends HttpServiceRequester implements HttpResultHan
         if (r.result) {
             resultHandler.hasResult(r);
         } else {
+            if (r.errorMessage == null) {
+                r.errorMessage = "username exists";
+            }
             resultHandler.noResult(r.errorMessage);
         }
     }

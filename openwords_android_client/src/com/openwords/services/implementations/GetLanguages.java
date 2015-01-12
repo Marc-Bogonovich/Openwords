@@ -9,7 +9,7 @@ import java.util.List;
 
 public class GetLanguages extends HttpServiceRequester implements HttpResultHandler {
 
-    public final String ServiceURL = "http://192.168.1.104:8080/OpenwordsServer/getLanguages";
+    public final String ServiceURL = "http://192.168.1.109:8080/OpenwordsServer/getLanguages";
 
     private HttpResultHandler resultHandler;
 

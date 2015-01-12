@@ -23,6 +23,9 @@ public class CheckEmail extends HttpServiceRequester implements HttpResultHandle
         if (r.result) {
             resultHandler.hasResult(r);
         } else {
+            if (r.errorMessage == null) {
+                r.errorMessage = "this email is already registered";
+            }
             resultHandler.noResult(r.errorMessage);
         }
     }

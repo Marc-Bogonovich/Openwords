@@ -8,7 +8,7 @@ import java.util.List;
 
 public class GetLearnableLanguages extends HttpServiceRequester implements HttpResultHandler {
 
-    public final String ServiceURL = "http://192.168.1.104:8080/OpenwordsServer/getLearnableLanguages";
+    public final String ServiceURL = "http://192.168.1.109:8080/OpenwordsServer/getLearnableLanguages";
 
     private HttpResultHandler resultHandler;
 
