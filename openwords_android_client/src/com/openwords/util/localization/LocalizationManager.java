@@ -3,6 +3,7 @@ package com.openwords.util.localization;
 import android.content.Context;
 import android.content.res.Resources;
 import com.openwords.R;
+import com.openwords.model.DataPool;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -36,7 +37,21 @@ public class LocalizationManager {
         return lang;
     }
 
+    /**
+     * This method procedure should be made dynamic later!
+     *
+     * @param localLanguage
+     */
+    private static void setBaseLanguage(LocalLanguage localLanguage) {
+        if (localLanguage.equals(LocalLanguage.English)) {
+            DataPool.BaseLanguage = 1;
+        } else if (localLanguage.equals(LocalLanguage.Chinese)) {
+            DataPool.BaseLanguage = 98;
+        }
+    }
+
     public static void setLocalLanguage(LocalLanguage localLanguage) {
+        setBaseLanguage(localLanguage);
         res = c.getResources();
         lang = localLanguage;
         textLogin = getText(R.array.pushMe_start_activity_button_loginPageGo);
