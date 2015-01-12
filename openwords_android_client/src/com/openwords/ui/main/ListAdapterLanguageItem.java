@@ -6,9 +6,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 import com.openwords.R;
 import com.openwords.model.Language;
+import com.openwords.util.log.QuickToast;
 import java.util.List;
 
 public class ListAdapterLanguageItem extends ArrayAdapter<Language> {
@@ -33,12 +35,21 @@ public class ListAdapterLanguageItem extends ArrayAdapter<Language> {
             view = layoutInflater.inflate(listItemResourceId, null);
         }
 
-        Language lang = itemContent.get(position);
+        final Language lang = itemContent.get(position);
         if (lang != null) {
-            TextView itemObj = (TextView) view.findViewById(R.id.code);
-            CheckBox itemObj2 = (CheckBox) view.findViewById(R.id.checkBox1);
-            itemObj.setText(lang.name);
-            itemObj2.setChecked(lang.chosen);
+            final CheckBox itemObj = (CheckBox) view.findViewById(R.id.list_item_lang_1);
+            TextView itemObj2 = (TextView) view.findViewById(R.id.list_item_lang_2);
+            itemObj2.setText(lang.name);
+            itemObj.setChecked(lang.chosen);
+            itemObj.setOnClickListener(new View.OnClickListener() {
+
+                public void onClick(View view) {
+                    lang.chosen = !lang.chosen;
+                    lang.save();
+                    itemObj.setChecked(lang.chosen);
+                    QuickToast.showShort(context, lang.chosen + " " + lang.langId + " " + lang.name);
+                }
+            });
         }
         return view;
     }

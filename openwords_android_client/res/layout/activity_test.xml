@@ -70,6 +70,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Test Add User" />
+        
+        <Button android:id="@+id/act_test_test99"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test Other" />
     </LinearLayout>
         
 </ScrollView>
