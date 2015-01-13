@@ -15,7 +15,6 @@ import java.util.List;
 public class UserLearningLanguages extends SugarRecord<UserLearningLanguages> {
 
     public static void loadUserLanguagePreferenceRemotely(final Context context, int newUserId, final int baseLang, final boolean clearOtherBase) {
-        DataPool.CurrentLearningLanguages.clear();
         if (clearOtherBase) {
             UserLearningLanguages.deleteAll(UserLearningLanguages.class);
         }
@@ -27,6 +26,7 @@ public class UserLearningLanguages extends SugarRecord<UserLearningLanguages> {
                 new HttpResultHandler() {
 
                     public void hasResult(Object resultObject) {
+                        DataPool.CurrentLearningLanguages.clear();
                         @SuppressWarnings("unchecked")
                         List<Integer> ids = (List<Integer>) resultObject;
                         DataPool.CurrentLearningLanguages.addAll(ids);

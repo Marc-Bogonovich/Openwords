@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 import com.openwords.R;
 import com.openwords.model.DataPool;
+import com.openwords.model.UserLearningLanguages;
 import com.openwords.services.implementations.LoginUser;
 import com.openwords.services.interfaces.HttpResultHandler;
 import com.openwords.services.interfaces.RequestParamsBuilder;
@@ -136,7 +137,12 @@ public class LoginPage extends Activity {
                 new HttpResultHandler() {
 
                     public void hasResult(Object resultObject) {
-                        DataPool.UserId = (Integer) resultObject;
+                        int newUserId = (Integer) resultObject;
+                        if (DataPool.UserId != newUserId) {
+                            MyQuickToast.showShort(LoginPage.this, "User changed");
+                            DataPool.CurrentLearningLanguages.clear();
+                            UserLearningLanguages.deleteAll(UserLearningLanguages.class);
+                        }
                         if (remember.isChecked()) {
                             OpenwordsSharedPreferences.setUserCredentials(new String[]{username, password});
                         } else {

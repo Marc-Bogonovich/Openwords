@@ -14,6 +14,7 @@ import com.openwords.R;
 import com.openwords.model.DataPool;
 import com.openwords.model.Language;
 import com.openwords.model.UserInfo;
+import com.openwords.model.UserLearningLanguages;
 import com.openwords.services.implementations.AddUser;
 import com.openwords.services.implementations.CheckEmail;
 import com.openwords.services.implementations.CheckUsername;
@@ -135,6 +136,9 @@ public class RegisterPage extends Activity {
                         public void hasResult(Object resultObject) {
                             MyDialogHelper.tryDismissQuickProgressDialog();
                             Language.deleteAll(Language.class);
+                            DataPool.CurrentLearningLanguages.clear();
+                            UserLearningLanguages.deleteAll(UserLearningLanguages.class);
+
                             AddUser.Result r = (AddUser.Result) resultObject;
                             OpenwordsSharedPreferences.setUserInfo(new UserInfo(r.userId, username, password, System.currentTimeMillis()));
                             MyQuickToast.showShort(RegisterPage.this, "AddUser ok: " + r.userId);

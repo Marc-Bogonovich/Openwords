@@ -11,6 +11,7 @@ import com.google.gson.Gson;
 import com.openwords.R;
 import com.openwords.model.DataPool;
 import com.openwords.model.Language;
+import com.openwords.model.UserLearningLanguages;
 import com.openwords.services.implementations.GetLanguages;
 import com.openwords.services.implementations.GetLearnableLanguages;
 import com.openwords.services.implementations.SetUserLanguages;
@@ -33,7 +34,6 @@ public class LanguagePage extends Activity {
     private TextView topText;
     private Button doneButton;
     private boolean doneChosen;
-    private List<Integer> chosenLangIds;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +51,8 @@ public class LanguagePage extends Activity {
 
             public void onClick(View view) {
                 if (doneChosen) {
+                    new UserLearningLanguages(DataPool.BaseLanguage, new Gson().toJson(DataPool.CurrentLearningLanguages)).save();
+
                     if (DataPool.UserId <= 0) {
                         MyQuickToast.showShort(LanguagePage.this, "user id is corrupt");
                         return;
@@ -61,7 +63,7 @@ public class LanguagePage extends Activity {
                     new SetUserLanguages().doRequest(new RequestParamsBuilder()
                             .addParam("userId", String.valueOf(DataPool.UserId))
                             .addParam("langOneId", String.valueOf(DataPool.BaseLanguage))
-                            .addParam("langTwoIds", new Gson().toJson(chosenLangIds))
+                            .addParam("langTwoIds", new Gson().toJson(DataPool.CurrentLearningLanguages))
                             .getParams(),
                             new HttpResultHandler() {
 
@@ -95,11 +97,9 @@ public class LanguagePage extends Activity {
 
     private void showSimpleList() {
         List<String> chosenLangNames = new LinkedList<String>();
-        chosenLangIds = new LinkedList<Integer>();
         for (Language lang : localLanguages) {
-            if (lang.chosen) {
+            if (DataPool.CurrentLearningLanguages.contains(lang.langId)) {
                 chosenLangNames.add(lang.name);
-                chosenLangIds.add(lang.langId);
             }
         }
         if (chosenLangNames.isEmpty()) {
