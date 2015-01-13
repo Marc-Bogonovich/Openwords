@@ -12,18 +12,13 @@ import com.openwords.R;
 import com.openwords.model.DataPool;
 import com.openwords.model.Language;
 import com.openwords.model.UserLearningLanguages;
-import com.openwords.services.implementations.GetLanguages;
-import com.openwords.services.implementations.GetLearnableLanguages;
 import com.openwords.services.implementations.SetUserLanguages;
 import com.openwords.services.interfaces.HttpResultHandler;
 import com.openwords.services.interfaces.RequestParamsBuilder;
 import com.openwords.util.ui.MyDialogHelper;
 import com.openwords.util.ui.MyQuickToast;
-import java.util.Collection;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
 public class LanguagePage extends Activity {
 
@@ -87,12 +82,25 @@ public class LanguagePage extends Activity {
     }
 
     private void refreshList() {
-        MyDialogHelper.tryShowQuickProgressDialog(this, "Connection to server...");
         listAdapter.clear();
         localLanguages = Language.listAll(Language.class);
         listAdapter.addAll(localLanguages);
         listAdapter.notifyDataSetChanged();
-        checkAndMergeNewLanguages();
+
+        Language.checkAndMergeNewLanguages(this, DataPool.BaseLanguage, new HttpResultHandler() {
+
+            public void hasResult(Object resultObject) {
+                listAdapter.clear();
+                localLanguages = Language.listAll(Language.class);
+                listAdapter.addAll(localLanguages);
+                listAdapter.notifyDataSetChanged();
+            }
+
+            public void noResult(String errorMessage) {
+                MyQuickToast.showShort(LanguagePage.this, "checkAndMergeNewLanguages no result");
+                LanguagePage.this.finish();
+            }
+        });
     }
 
     private void showSimpleList() {
@@ -115,73 +123,6 @@ public class LanguagePage extends Activity {
         listView.setVisibility(View.GONE);
         listView2.setVisibility(View.VISIBLE);
         doneChosen = true;
-    }
-
-    private void checkAndMergeNewLanguages() {
-        new GetLearnableLanguages().doRequest(new RequestParamsBuilder()
-                .addParam("langOneId", String.valueOf(DataPool.BaseLanguage))
-                .getParams(), new HttpResultHandler() {
-
-                    public void hasResult(Object resultObject) {
-                        MyDialogHelper.tryDismissQuickProgressDialog();
-                        @SuppressWarnings("unchecked")
-                        List<Integer> learnableIds = (List<Integer>) resultObject;
-                        if (learnableIds.isEmpty()) {
-                            MyQuickToast.showShort(LanguagePage.this,
-                                    "Sorry, seems we don't have learnable languages for your local language yet,\n"
-                                    + "but please have a look round");
-                            finish();
-                            return;
-                        }
-
-                        String sqlIds = learnableIds.toString().replace("[", "(").replace("]", ")");
-
-                        String sql = "SELECT * FROM LANGUAGE WHERE LANG_ID IN " + sqlIds;
-                        List<Language> localSameLangs = Language.findWithQuery(Language.class, sql);
-                        MyQuickToast.showShort(LanguagePage.this, "total local same: " + localSameLangs.size());
-
-                        Set<Integer> newLangIds = new HashSet<Integer>(learnableIds);
-                        for (Language lang : localSameLangs) {
-                            if (newLangIds.contains(lang.langId)) {
-                                newLangIds.remove(lang.langId);
-                            }
-                        }
-                        MyQuickToast.showShort(LanguagePage.this, "total new: " + newLangIds.size());
-
-                        if (!newLangIds.isEmpty()) {
-                            getAndSaveLanguageInformation(newLangIds);
-                        } else {
-                            MyQuickToast.showShort(LanguagePage.this, "no new learnable languages");
-                        }
-                    }
-
-                    public void noResult(String errorMessage) {
-                        MyDialogHelper.tryDismissQuickProgressDialog();
-                        MyQuickToast.showShort(LanguagePage.this, "Cannot connect to server: " + errorMessage);
-                    }
-                });
-    }
-
-    private void getAndSaveLanguageInformation(Collection<Integer> langIds) {
-        new GetLanguages().doRequest(new RequestParamsBuilder()
-                .addParam("include", new Gson().toJson(langIds))
-                .getParams(), new HttpResultHandler() {
-
-                    public void hasResult(Object resultObject) {
-                        @SuppressWarnings("unchecked")
-                        List<Language> langs = (List<Language>) resultObject;
-                        Language.saveInTx(langs);
-                        listAdapter.clear();
-                        localLanguages = Language.listAll(Language.class);
-                        listAdapter.addAll(localLanguages);
-                        listAdapter.notifyDataSetChanged();
-                        MyQuickToast.showShort(LanguagePage.this, "local total: " + Language.count(Language.class));
-                    }
-
-                    public void noResult(String errorMessage) {
-                        MyQuickToast.showShort(LanguagePage.this, "not ok: " + errorMessage);
-                    }
-                });
     }
 
     @Override
