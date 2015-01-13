@@ -6,6 +6,7 @@ import com.openwords.services.implementations.GetLanguages;
 import com.openwords.services.implementations.GetLearnableLanguages;
 import com.openwords.services.interfaces.HttpResultHandler;
 import com.openwords.services.interfaces.RequestParamsBuilder;
+import com.openwords.util.ui.CallbackOkButton;
 import com.openwords.util.ui.MyDialogHelper;
 import com.openwords.util.ui.MyQuickToast;
 import com.orm.SugarRecord;
@@ -28,10 +29,15 @@ public class Language extends SugarRecord<Language> {
                         List<Integer> learnableIds = (List<Integer>) resultObject;
                         if (learnableIds.isEmpty()) {
                             MyDialogHelper.tryDismissQuickProgressDialog();
-                            MyQuickToast.showLong(context,
+                            MyDialogHelper.showMessageDialog(context, null,
                                     "Sorry, seems we don't have learnable languages for your local language yet,\n"
-                                    + "but please have a look round or change your native language");
-                            resultHandler.noResult(null);
+                                    + "but please have a look round or change your native language",
+                                    new CallbackOkButton() {
+
+                                        public void okPressed() {
+                                            resultHandler.noResult(null);
+                                        }
+                                    });
                             return;
                         }
 
