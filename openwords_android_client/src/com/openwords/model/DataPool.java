@@ -17,6 +17,7 @@ public class DataPool {
     public static String Username;
     public static String Password;
     public static boolean DoRegistration = false;
+    public static List<Integer> CurrentLearningLanguages = new LinkedList<Integer>();
 
     private DataPool() {
     }
