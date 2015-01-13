@@ -136,7 +136,7 @@ public class LoginPage extends Activity {
                 new HttpResultHandler() {
 
                     public void hasResult(Object resultObject) {
-                        int userId = (Integer) resultObject;
+                        DataPool.UserId = (Integer) resultObject;
                         if (remember.isChecked()) {
                             OpenwordsSharedPreferences.setUserCredentials(new String[]{username, password});
                         } else {
