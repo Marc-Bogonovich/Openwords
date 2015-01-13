@@ -14,18 +14,21 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
+import com.google.gson.Gson;
 import com.openwords.R;
 import com.openwords.learningmodule.ActivityInstantiationCallbackBundle;
 import com.openwords.learningmodule.ActivityLM;
 import com.openwords.learningmodule.LearningModuleType;
 import com.openwords.learningmodule.ProgressLM;
 import com.openwords.model.DataPool;
+import com.openwords.model.Language;
 import com.openwords.model.LeafCard;
 import com.openwords.model.LeafCardHearingAdapter;
 import com.openwords.model.LeafCardReviewAdapter;
 import com.openwords.model.LeafCardSelfEvalAdapter;
 import com.openwords.model.LeafCardTypeEvalAdapter;
 import com.openwords.model.UserInfo;
+import com.openwords.model.UserLearningLanguages;
 import com.openwords.model.UserWords;
 import com.openwords.model.WordTranscription;
 import com.openwords.services.GetWords;
@@ -38,6 +41,8 @@ import com.openwords.util.TimeConvertor;
 import com.openwords.util.localization.LocalizationManager;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
+import com.openwords.util.ui.MyDialogHelper;
+import com.openwords.util.ui.MyQuickToast;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -112,6 +117,13 @@ public class HomePage extends Activity {
         userinfo = OpenwordsSharedPreferences.getUserInfo();
 
         fillLanguageOptions();
+
+        if (Language.count(Language.class) <= 0 || DataPool.CurrentLearningLanguages.isEmpty()) {
+            startActivity(new Intent(HomePage.this, LanguagePage.class));
+        } else {
+            MyDialogHelper.showMessageDialog(this, null, "nothing to do, but maybe check new languages", null);
+        }
+        MyQuickToast.showShort(this, "total langs: " + Language.count(Language.class));
     }
 
     private void fillUI() {
@@ -183,29 +195,6 @@ public class HomePage extends Activity {
         }
     }
 
-    //-------- Getting first 10 words from server for a language -----------------
-    /*public void getFirstWordsFromServer() {
-     ArrayList<WordsPageTool> words_list = new ArrayList<WordsPageTool>();
-     try {
-     List<NameValuePair> params = new ArrayList<NameValuePair>(3);
-     params.add(new BasicNameValuePair("user", Integer.toString(OpenwordsSharedPreferences.getUserInfo().getUserId())));
-     params.add(new BasicNameValuePair("langOne", "1"));
-     params.add(new BasicNameValuePair("langTwo", Integer.toString(OpenwordsSharedPreferences.getUserInfo().getLang_id())));
-     LogUtil.logDeubg(HomePage.this, params.toString());
-     JSONParser jsonParse = new JSONParser();
-     JSONObject jObj = jsonParse.makeHttpRequest(nextwords_url, "POST", params);
-     Log.d("Obj", jObj.toString());
-     if (jObj.getInt("success") == 1) {
-     JSONArray jArr = jObj.getJSONArray("data");
-     String abc = Integer.toString(jArr.length());
-     Log.d("Array", abc);
-     jArrMain = jArr;
-     }
-
-     } catch (Exception e) {
-     e.printStackTrace();
-     }
-     }*/
     private void updateWordsOnServer(String conIds, long dTime) {
         LogUtil.logDeubg(HomePage.this, "updateWordsOnServer: " + conIds);
         int user = OpenwordsSharedPreferences.getUserInfo().getUserId();

@@ -142,15 +142,23 @@ public class LoginPage extends Activity {
                             MyQuickToast.showShort(LoginPage.this, "User changed");
                             DataPool.CurrentLearningLanguages.clear();
                             UserLearningLanguages.deleteAll(UserLearningLanguages.class);
-                        }
-                        if (remember.isChecked()) {
-                            OpenwordsSharedPreferences.setUserCredentials(new String[]{username, password});
                         } else {
-                            OpenwordsSharedPreferences.setUserCredentials(null);
+                            UserLearningLanguages.loadUserLanguagePreferenceLocally(LoginPage.this, DataPool.BaseLanguage);
                         }
-                        MyDialogHelper.tryDismissQuickProgressDialog();
-                        startActivity(new Intent(LoginPage.this, HomePage.class));
+                        DataPool.UserId = newUserId;
+                        UserLearningLanguages.loadAndMergeUserLanguagePreferenceRemotely(LoginPage.this,
+                                DataPool.UserId,
+                                DataPool.BaseLanguage,
+                                new HttpResultHandler() {
 
+                                    public void hasResult(Object resultObject) {
+                                        goToHomePage();
+                                    }
+
+                                    public void noResult(String errorMessage) {
+                                        goToHomePage();
+                                    }
+                                });
                     }
 
                     public void noResult(String errorMessage) {
@@ -158,61 +166,16 @@ public class LoginPage extends Activity {
                         MyQuickToast.showShort(LoginPage.this, "Login fail: " + errorMessage);
                     }
                 });
+    }
 
-//        
-//        CheckUser.request(username, password, 0, new CheckUser.AsyncCallback() {
-//
-//            public void callback(int userId, String message, Throwable error) {
-//                try {
-//                    if (userId > 0) {
-//                        if (remember.isChecked()) {
-//                            OpenwordsSharedPreferences.setUserCredentials(new String[]{username, password});
-//                        } else {
-//                            OpenwordsSharedPreferences.setUserCredentials(null);
-//                        }
-//
-//                        int lu = 0;
-//                        long lupd = 0;
-//                        if (OpenwordsSharedPreferences.getUserInfo() != null) {
-//                            lu = OpenwordsSharedPreferences.getUserInfo().getUserId();
-//                            lupd = OpenwordsSharedPreferences.getUserInfo().getLastPerfUpd();
-//                        }
-//                        OpenwordsSharedPreferences.setUserInfo(new UserInfo(lu, 0, userId, username, password, System.currentTimeMillis(), lupd));
-//
-//                        /* ********************************
-//                         * Refreshing User's data on client (if needed)
-//                         * ********************************
-//                         * */
-//                        InitDatabase.checkAndRefreshPerf(LoginPage.this, 0, 0);
-//
-//                        //pre-load language information
-//                        GetLanguages.request(Integer.toString(userId), 0, new GetLanguages.AsyncCallback() {
-//
-//                            public void callback(List<ModelLanguage> languages, Throwable error) {
-//                                if (languages != null) {
-//                                    languages.add(new ModelLanguage(-999, "empty holder"));
-//                                    DataPool.LanguageList.clear();
-//                                    DataPool.LanguageList.addAll(languages);
-//                                    startActivity(new Intent(LoginPage.this, HomePage.class));
-//                                } else {
-//                                    Toast.makeText(LoginPage.this, error.toString(), Toast.LENGTH_SHORT).show();
-//                                }
-//                            }
-//                        });
-//                    } else {
-//                        Toast.makeText(LoginPage.this, LocalizationManager.getTextLoginError(), Toast.LENGTH_SHORT).show();
-//                        if (error != null) {
-//                            Toast.makeText(LoginPage.this, error.toString(), Toast.LENGTH_SHORT).show();
-//                        }
-//                    }
-//                } catch (Exception e) {
-//                    Toast.makeText(LoginPage.this, e.toString(), Toast.LENGTH_SHORT).show();
-//                }
-//                if (pDialog != null) {
-//                    pDialog.dismiss();
-//                }
-//            }
-//        });
+    private void goToHomePage() {
+        if (remember.isChecked()) {
+            OpenwordsSharedPreferences.setUserCredentials(new String[]{DataPool.Username, DataPool.Password});
+        } else {
+            OpenwordsSharedPreferences.setUserCredentials(null);
+        }
+        MyDialogHelper.tryDismissQuickProgressDialog();
+        startActivity(new Intent(LoginPage.this, HomePage.class));
     }
 
     @Override
