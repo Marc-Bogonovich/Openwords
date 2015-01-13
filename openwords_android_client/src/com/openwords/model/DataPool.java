@@ -14,6 +14,9 @@ public class DataPool {
     public static List<ModelLanguage> LanguageList = new LinkedList<ModelLanguage>();
     public static int BaseLanguage = -1;
     public static int UserId = -1;
+    public static String Username;
+    public static String Password;
+    public static boolean DoRegistration = false;
 
     private DataPool() {
     }

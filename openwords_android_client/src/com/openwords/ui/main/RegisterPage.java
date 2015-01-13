@@ -139,8 +139,9 @@ public class RegisterPage extends Activity {
                             OpenwordsSharedPreferences.setUserInfo(new UserInfo(r.userId, username, password, System.currentTimeMillis()));
                             MyQuickToast.showShort(RegisterPage.this, "AddUser ok: " + r.userId);
                             finish();
-                            LoginPage.setUserPass(username, password);
-                            LoginPage.DoRegistration = true;
+                            DataPool.Username = username;
+                            DataPool.Password = password;
+                            DataPool.DoRegistration = true;
                             DataPool.UserId = r.userId;
                             RegisterPage.this.startActivity(new Intent(RegisterPage.this, LanguagePage.class));
                         }

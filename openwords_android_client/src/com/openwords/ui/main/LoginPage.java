@@ -13,6 +13,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 import com.openwords.R;
+import com.openwords.model.DataPool;
 import com.openwords.services.implementations.LoginUser;
 import com.openwords.services.interfaces.HttpResultHandler;
 import com.openwords.services.interfaces.RequestParamsBuilder;
@@ -34,17 +35,8 @@ import com.openwords.util.ui.MyQuickToast;
 
 public class LoginPage extends Activity {
 
-    public static boolean DoRegistration = false;
-    private static String username;
-    private static String password;
-
-    public static void setUserPass(String username, String password) {
-        LoginPage.username = username;
-        LoginPage.password = password;
-    }
     private Button loginButton, registerButton;
     private CheckBox remember;
-
     private EditText usernameField;
     private EditText passwdField;
 
@@ -117,10 +109,10 @@ public class LoginPage extends Activity {
 
         String[] cred = OpenwordsSharedPreferences.getUserCredentials();
         if (cred != null) {
-            username = cred[0];
-            password = cred[1];
-            usernameField.setText(username);
-            passwdField.setText(password);
+            DataPool.Username = cred[0];
+            DataPool.Password = cred[1];
+            usernameField.setText(DataPool.Username);
+            passwdField.setText(DataPool.Password);
             remember.setChecked(true);
         }
     }
@@ -129,9 +121,9 @@ public class LoginPage extends Activity {
     protected void onResume() {
         super.onResume();
         LogUtil.logDeubg(this, "onResume");
-        if (DoRegistration) {
-            DoRegistration = false;
-            login(username, password);
+        if (DataPool.DoRegistration) {
+            DataPool.DoRegistration = false;
+            login(DataPool.Username, DataPool.Password);
         }
         fillUI();
     }
