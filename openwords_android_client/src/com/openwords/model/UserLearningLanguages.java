@@ -13,45 +13,42 @@ import com.orm.query.Select;
 import java.util.List;
 
 public class UserLearningLanguages extends SugarRecord<UserLearningLanguages> {
-
-    public static void loadUserLanguagePreferenceRemotely(final Context context, int newUserId, final int baseLang, final boolean clearOtherBase) {
-        if (clearOtherBase) {
-            UserLearningLanguages.deleteAll(UserLearningLanguages.class);
-        }
-
+    
+    public static void loadAndMergeUserLanguagePreferenceRemotely(final Context context, int newUserId, final int baseLang, final HttpResultHandler resultHandler) {
         new GetUserLanguages().doRequest(new RequestParamsBuilder()
                 .addParam("userId", String.valueOf(newUserId))
                 .addParam("langOneId", String.valueOf(baseLang))
                 .getParams(),
                 new HttpResultHandler() {
-
+                    
                     public void hasResult(Object resultObject) {
                         DataPool.CurrentLearningLanguages.clear();
                         @SuppressWarnings("unchecked")
                         List<Integer> ids = (List<Integer>) resultObject;
                         DataPool.CurrentLearningLanguages.addAll(ids);
-                        if (!clearOtherBase) {
-                            UserLearningLanguages.deleteAll(UserLearningLanguages.class, "BASE_LANG = ?", String.valueOf(baseLang));
-                        }
+                        
+                        UserLearningLanguages.deleteAll(UserLearningLanguages.class, "BASE_LANG = ?", String.valueOf(baseLang));
                         new UserLearningLanguages(baseLang, new Gson().toJson(DataPool.CurrentLearningLanguages)).save();
-
+                        
                         MyQuickToast.showShort(context, "CurrentLearningLanguages:\n"
                                 + new Gson().toJson(DataPool.CurrentLearningLanguages));
                         MyQuickToast.showLong(context, "database:\n"
                                 + new Gson().toJson(UserLearningLanguages.listAll(UserLearningLanguages.class)));
+                        resultHandler.hasResult(null);
                     }
-
+                    
                     public void noResult(String errorMessage) {
                         MyQuickToast.showShort(context, "Cannot retrieve user language preference");
+                        resultHandler.noResult(null);
                     }
                 });
     }
-
+    
     public static void loadUserLanguagePreferenceLocally(final Context context, final int baseLang) {
         List<UserLearningLanguages> r = Select.from(UserLearningLanguages.class)
                 .where(Condition.prop("BASE_LANG").eq(String.valueOf(baseLang)))
                 .list();
-
+        
         if (r.isEmpty()) {
             MyQuickToast.showShort(context, "No preference for lang " + baseLang);
         } else {
@@ -64,16 +61,16 @@ public class UserLearningLanguages extends SugarRecord<UserLearningLanguages> {
                     + new Gson().toJson(DataPool.CurrentLearningLanguages));
         }
     }
-
+    
     public int baseLang;
     public String learningLang;
-
+    
     public UserLearningLanguages() {
     }
-
+    
     public UserLearningLanguages(int baseLang, String learningLang) {
         this.baseLang = baseLang;
         this.learningLang = learningLang;
     }
-
+    
 }
