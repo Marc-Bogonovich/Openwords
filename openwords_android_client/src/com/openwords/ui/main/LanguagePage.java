@@ -38,7 +38,7 @@ public class LanguagePage extends Activity {
         doneButton = (Button) findViewById(R.id.act_language_button);
         listView = (ListView) findViewById(R.id.act_language_list_view);
         localLanguages = new LinkedList<Language>();
-        listAdapter = new ListAdapterLanguageItem(this, R.layout.list_item_language, localLanguages);
+        listAdapter = new ListAdapterLanguageItem(this, localLanguages);
         listView.setAdapter(listAdapter);
         refreshList();
 

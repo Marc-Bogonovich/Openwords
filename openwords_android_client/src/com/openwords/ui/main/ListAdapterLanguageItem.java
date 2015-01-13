@@ -14,27 +14,25 @@ import com.openwords.util.ui.MyQuickToast;
 import java.util.List;
 
 public class ListAdapterLanguageItem extends ArrayAdapter<Language> {
-    
+
     private List<Language> itemContent;
     private Context context;
-    private int listItemResourceId;
-    
-    public ListAdapterLanguageItem(Context context, int listItemResourceId, List<Language> objects) {
-        super(context, listItemResourceId, objects);
+
+    public ListAdapterLanguageItem(Context context, List<Language> objects) {
+        super(context, R.layout.list_item_language, objects);
         this.context = context;
-        this.listItemResourceId = listItemResourceId;
         itemContent = objects;
     }
-    
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
-        
+
         if (view == null) {
             LayoutInflater layoutInflater = LayoutInflater.from(context);
-            view = layoutInflater.inflate(listItemResourceId, null);
+            view = layoutInflater.inflate(R.layout.list_item_language, null);
         }
-        
+
         final Language lang = itemContent.get(position);
         if (lang != null) {
             final CheckBox itemObj = (CheckBox) view.findViewById(R.id.list_item_lang_1);
@@ -42,7 +40,7 @@ public class ListAdapterLanguageItem extends ArrayAdapter<Language> {
             itemObj2.setText(lang.name);
             itemObj.setChecked(DataPool.CurrentLearningLanguages.contains(lang.langId));
             itemObj.setOnClickListener(new View.OnClickListener() {
-                
+
                 public void onClick(View view) {
                     if (DataPool.CurrentLearningLanguages.contains(lang.langId)) {
                         DataPool.CurrentLearningLanguages.remove(Integer.valueOf(lang.langId));
