@@ -25,7 +25,7 @@ public class UserLearningLanguages extends SugarRecord<UserLearningLanguages> {
                     public void hasResult(Object resultObject) {
                         @SuppressWarnings("unchecked")
                         List<Integer> ids = (List<Integer>) resultObject;
-                        saveUserLearningLanguagesToLocal(context, baseLang, ids);
+                        saveUserLearningLanguagesToLocal(baseLang, ids);
                         resultHandler.hasResult(ids);
                     }
 
@@ -52,15 +52,11 @@ public class UserLearningLanguages extends SugarRecord<UserLearningLanguages> {
         }
     }
 
-    public static void saveUserLearningLanguagesToLocal(Context context, int baseLang, List<Integer> learningLangs) {
+    public static void saveUserLearningLanguagesToLocal(int baseLang, List<Integer> learningLangs) {
         UserLearningLanguages.deleteAll(UserLearningLanguages.class, "base_lang = ?", String.valueOf(baseLang));
         new UserLearningLanguages(baseLang, learningLangs).save();
         LogUtil.logDeubg(UserLearningLanguages.class, "UserLearningLanguages data:\n"
                 + MyGson.toJson(UserLearningLanguages.listAll(UserLearningLanguages.class)));
-    }
-
-    public static void saveUserLearningLanguagesToRemote(Context context, int userId, int baseLang, List<Integer> learningLangs) {
-
     }
 
     public int baseLang;
