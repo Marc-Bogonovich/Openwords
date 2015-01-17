@@ -2,10 +2,10 @@ package com.openwords.database;
 
 import com.openwords.utils.MyMessageDigest;
 import com.openwords.utils.MyXStream;
+import com.openwords.utils.UtilLog;
 import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -26,39 +26,49 @@ public class Word implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public static List<Word> getSameTranslation(Session s, String word, String langInCode, String langOutCode, boolean increaseRank) {
+    public static List<Word> getDirectConnections(Session s, String word, String langInCode, String langOutCode) {
         Language langIn = (Language) s.createCriteria(Language.class).add(Restrictions.eq("code", langInCode)).list().get(0);
         Language langOut = (Language) s.createCriteria(Language.class).add(Restrictions.eq("code", langOutCode)).list().get(0);
 
         @SuppressWarnings("unchecked")
-        List<Word> wordIn = s.createCriteria(Word.class)
+        List<Integer> inputWordIds = s.createCriteria(Word.class)
                 .add(Restrictions.eq("word", word))
                 .add(Restrictions.eq("languageId", langIn.getLangId()))
+                .setProjection(Projections.property("wordId"))
                 .list();
+        if (inputWordIds.isEmpty()) {
+            return null;
+        }
+        UtilLog.logInfo(Word.class, "get word ids: " + word + " " + inputWordIds.toString());
 
-        if (wordIn.isEmpty()) {
+        //get wordOne as output
+        @SuppressWarnings("unchecked")
+        List<Integer> wordOneIdsInConnection = s.createCriteria(WordConnection.class)
+                .add(Restrictions.in("wordTwoId", inputWordIds))
+                .add(Restrictions.eq("wordTwoLangId", langIn.getLangId()))
+                .add(Restrictions.eq("wordOneLangId", langOut.getLangId()))
+                .setProjection(Projections.property("wordOneId"))
+                .list();
+        UtilLog.logInfo(Word.class, "wordOneIdsInConnection: " + wordOneIdsInConnection.toString());
+        //get wordTwo as output
+        @SuppressWarnings("unchecked")
+        List<Integer> wordTwoIdsInConnection = s.createCriteria(WordConnection.class)
+                .add(Restrictions.in("wordOneId", inputWordIds))
+                .add(Restrictions.eq("wordOneLangId", langIn.getLangId()))
+                .add(Restrictions.eq("wordTwoLangId", langOut.getLangId()))
+                .setProjection(Projections.property("wordTwoId"))
+                .list();
+        UtilLog.logInfo(Word.class, "wordTwoIdsInConnection: " + wordTwoIdsInConnection.toString());
+        wordOneIdsInConnection.addAll(wordTwoIdsInConnection);
+        if (wordOneIdsInConnection.isEmpty()) {
             return null;
         }
 
-        List<Word> wordOut = new LinkedList<>();
-        for (Word w : wordIn) {
-            if (increaseRank) {
-                Word.increaseRank(s, w, "popRank");
-            }
-            @SuppressWarnings("unchecked")
-            List<Word> words = s.createCriteria(Word.class)
-                    .add(Restrictions.eq("md5", w.getMd5()))
-                    .add(Restrictions.eq("languageId", langOut.getLangId()))
-                    .list();
-            for (Word ww : words) {
-                if (increaseRank) {
-                    Word.increaseRank(s, ww, "popRank");
-                }
-                wordOut.add(ww);
-            }
-        }
-
-        return wordOut;
+        @SuppressWarnings("unchecked")
+        List<Word> wordsOut = s.createCriteria(Word.class)
+                .add(Restrictions.in("wordId", wordOneIdsInConnection))
+                .list();
+        return wordsOut;
     }
 
     public static List<Word> getSimilarWords(Session s, String form, int pageNumber, int pageSize) {
@@ -79,6 +89,24 @@ public class Word implements Serializable {
         }
         word.setMeta(meta.getXmlString());
         word.setUpdatedTime(new Date());
+        s.beginTransaction().commit();
+    }
+
+    public static void increaseRank(Session s, List<Integer> wordIds, String rankName) {
+        @SuppressWarnings("unchecked")
+        List<Word> words = s.createCriteria(Word.class)
+                .add(Restrictions.in("wordId", wordIds))
+                .list();
+        for (Word word : words) {
+            WordMetaInfo meta = word.getWordMetaInfo();
+            if (meta.getPopRank() == null) {
+                meta.setPopRank(1);
+            } else {
+                meta.setPopRank(meta.getPopRank() + 1);
+            }
+            word.setMeta(meta.getXmlString());
+            word.setUpdatedTime(new Date());
+        }
         s.beginTransaction().commit();
     }
 

@@ -23,10 +23,10 @@ public class SimpleTranslate extends MyAction {
     })
     @Override
     public String execute() throws Exception {
-        UtilLog.logInfo(this, "/simpleTranslate: " + word + " to " + langOut);
+        UtilLog.logInfo(this, "/simpleTranslate: " + word + ", from " + langIn + " to " + langOut);
         Session s = DatabaseHandler.getSession();
         try {
-            result = Word.getSameTranslation(s, word, langIn, langOut, false);
+            result = Word.getDirectConnections(s, word, langIn, langOut);
         } catch (Exception e) {
             errorMessage = e.toString();
             UtilLog.logWarn(this, errorMessage);

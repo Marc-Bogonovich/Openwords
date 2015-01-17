@@ -61,9 +61,7 @@ public class WordConnection implements Serializable {
             return null;
         }
         if (increaseRank) {
-            for (Integer id : wordOneIds) {
-                Word.increaseRank(s, Word.getWord(s, id), "popRank");
-            }
+            Word.increaseRank(s, wordOneIds, "popRank");
             UtilLog.logInfo(WordConnection.class, "popRanks increased");
         }
 
