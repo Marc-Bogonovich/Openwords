@@ -10,6 +10,7 @@ import com.openwords.util.ui.MyQuickToast;
 import com.orm.SugarRecord;
 import com.orm.query.Condition;
 import com.orm.query.Select;
+import java.util.LinkedList;
 import java.util.List;
 
 public class UserLearningLanguages extends SugarRecord<UserLearningLanguages> {
@@ -35,17 +36,17 @@ public class UserLearningLanguages extends SugarRecord<UserLearningLanguages> {
                 });
     }
 
-    public static List<Integer> loadUserLearningLanguagesFromLocal(final Context context, final int baseLang) {
+    public static List<Integer> loadUserLearningLanguagesFromLocal(int baseLang) {
         List<UserLearningLanguages> r = Select.from(UserLearningLanguages.class)
                 .where(Condition.prop("base_lang").eq(String.valueOf(baseLang)))
                 .list();
 
         if (r.isEmpty()) {
-            MyQuickToast.showShort(context, "No preference for base lang " + baseLang);
-            return null;
+            LogUtil.logDeubg(UserLearningLanguages.class, "No learning langs for base lang " + baseLang);
+            return new LinkedList<Integer>();
         } else {
             List<Integer> ids = r.get(0).getLearningLangs();
-            MyQuickToast.showShort(context, "Got current learning languages for " + baseLang + ":\n"
+            LogUtil.logDeubg(UserLearningLanguages.class, "Got current learning languages for " + baseLang + ":\n"
                     + MyGson.toJson(ids));
             return ids;
         }
