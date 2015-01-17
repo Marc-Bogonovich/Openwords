@@ -11,9 +11,9 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.TextView;
 import com.openwords.R;
+import com.openwords.model.DataPool;
 import com.openwords.util.localization.LocalLanguage;
 import com.openwords.util.localization.LocalizationManager;
-import com.openwords.util.preference.OpenwordsSharedPreferences;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -44,7 +44,7 @@ public class LocalOptionPage extends Activity {
                                 Object choice = LocalizationManager.LanguageNamesTypesIdsLocales[i][1];
                                 LocalLanguage lang = (LocalLanguage) choice;
                                 LocalizationManager.setLocalLanguage(lang);
-                                OpenwordsSharedPreferences.setAppLanguage(lang);
+                                DataPool.getLocalSettings().setLocalLanguage(lang);
                                 d[0].cancel();
                                 d[1].cancel();
                                 act.finish();
@@ -88,7 +88,7 @@ public class LocalOptionPage extends Activity {
         buttonYes.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
-                OpenwordsSharedPreferences.setAppLanguage(LocalizationManager.getCurrentLang());
+                DataPool.getLocalSettings().setLocalLanguage(LocalizationManager.getCurrentLang());
                 LocalOptionPage.this.finish();
             }
         });

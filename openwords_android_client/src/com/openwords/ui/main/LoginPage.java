@@ -105,15 +105,13 @@ public class LoginPage extends Activity {
         loginButton.setText(LocalizationManager.getTextLogin());
         registerButton.setText(LocalizationManager.getTextRegister());
         remember.setText(LocalizationManager.getTextRememberMe());
+        remember.setChecked(DataPool.getLocalSettings().isRemember());
         usernameField.setHint(LocalizationManager.getTextHintUser());
         passwdField.setHint(LocalizationManager.getTextHintPass());
 
-        String[] cred = OpenwordsSharedPreferences.getUserCredentials();
-        if (cred != null) {
-            DataPool.Username = cred[0];
-            DataPool.Password = cred[1];
-            usernameField.setText(DataPool.Username);
-            passwdField.setText(DataPool.Password);
+        if (DataPool.getLocalSettings().isRemember()) {
+            usernameField.setText(DataPool.getLocalSettings().getUsername());
+            passwdField.setText(DataPool.getLocalSettings().getPassword());
             remember.setChecked(true);
         }
     }
@@ -124,7 +122,7 @@ public class LoginPage extends Activity {
         LogUtil.logDeubg(this, "onResume");
         if (DataPool.DoRegistration) {
             DataPool.DoRegistration = false;
-            login(DataPool.Username, DataPool.Password);
+            login(DataPool.getLocalSettings().getUsername(), DataPool.getLocalSettings().getPassword());
         }
         fillUI();
     }
@@ -137,18 +135,22 @@ public class LoginPage extends Activity {
                 new HttpResultHandler() {
 
                     public void hasResult(Object resultObject) {
+                        DataPool.getLocalSettings().setRemember(remember.isChecked());
+                        DataPool.getLocalSettings().setUsername(username);
+                        DataPool.getLocalSettings().setPassword(password);
                         int newUserId = (Integer) resultObject;
-                        if (DataPool.UserId != newUserId) {
+                        if (DataPool.getLocalSettings().getUserId() != newUserId) {
                             MyQuickToast.showShort(LoginPage.this, "User changed");
-                            DataPool.CurrentLearningLanguages.clear();
                             UserLearningLanguages.deleteAll(UserLearningLanguages.class);
                         } else {
-                            UserLearningLanguages.loadUserLanguagePreferenceLocally(LoginPage.this, DataPool.BaseLanguage);
+                            //in case cannot connect to server
+                            UserLearningLanguages.loadUserLearningLanguagesFromLocal(DataPool.getLocalSettings().getBaseLanguageId());
                         }
-                        DataPool.UserId = newUserId;
-                        UserLearningLanguages.loadAndMergeUserLanguagePreferenceRemotely(LoginPage.this,
-                                DataPool.UserId,
-                                DataPool.BaseLanguage,
+                        DataPool.getLocalSettings().setUserId(newUserId);
+                        DataPool.getLocalSettings().save();
+                        UserLearningLanguages.loadUserLearningLanguagesFromRemote(LoginPage.this,
+                                DataPool.getLocalSettings().getUserId(),
+                                DataPool.getLocalSettings().getBaseLanguageId(),
                                 new HttpResultHandler() {
 
                                     public void hasResult(Object resultObject) {
@@ -169,11 +171,6 @@ public class LoginPage extends Activity {
     }
 
     private void goToHomePage() {
-        if (remember.isChecked()) {
-            OpenwordsSharedPreferences.setUserCredentials(new String[]{DataPool.Username, DataPool.Password});
-        } else {
-            OpenwordsSharedPreferences.setUserCredentials(null);
-        }
         MyDialogHelper.tryDismissQuickProgressDialog();
         startActivity(new Intent(LoginPage.this, HomePage.class));
     }
@@ -194,7 +191,7 @@ public class LoginPage extends Activity {
         LocalFileSystem.makeFolders();
         LocalizationManager.init(this);
 
-        LocalLanguage lang = OpenwordsSharedPreferences.getAppLanguage();
+        LocalLanguage lang = DataPool.getLocalSettings().getLocalLanguage();
         if (lang == null) {
             String current = getResources().getConfiguration().locale.getDisplayLanguage();
             for (Object[] item : LocalizationManager.LanguageNamesTypesIdsLocales) {

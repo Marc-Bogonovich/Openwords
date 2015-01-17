@@ -1,5 +1,6 @@
 package com.openwords.model;
 
+import com.openwords.util.gson.MyGson;
 import com.openwords.util.localization.LocalLanguage;
 import com.orm.SugarRecord;
 
@@ -53,10 +54,10 @@ public class LocalSettings extends SugarRecord<LocalSettings> {
     }
 
     public LocalLanguage getLocalLanguage() {
-        return null;
+        return (LocalLanguage) MyGson.fromJson(localLanguage, LocalLanguage.class);
     }
 
-    public void setLocalLanguage() {
-
+    public void setLocalLanguage(LocalLanguage lang) {
+        localLanguage = MyGson.toJson(lang);
     }
 }

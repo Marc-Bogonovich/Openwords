@@ -11,7 +11,6 @@ import com.openwords.learningmodule.ProgressLM;
 import com.openwords.model.LeafCard;
 import com.openwords.model.UserInfo;
 import com.openwords.util.WSAinterface;
-import com.openwords.util.localization.LocalLanguage;
 import com.openwords.util.log.LogUtil;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,8 +26,6 @@ public class OpenwordsSharedPreferences {
     public static final String HEARING_PROGRESS = "app.hearing.progress";
     public static final String TYPE_EVALUATION_PROGRESS = "app.typeeval.progress";
     public static final String HIDE_PORTAL = "app.hide.portal";
-    public static final String APP_LANG = "app.lang";
-    public static final String USER_CRED = "user.cred";
     private static int ALG_INDEX = 0;
     private static int LEAF_CARD_SIZE = 10;
     private static List<WSAinterface> wordSelectionAlgList = new ArrayList<WSAinterface>(5);
@@ -153,34 +150,6 @@ public class OpenwordsSharedPreferences {
         Editor editor = pref.edit();
         editor.remove(itemName);
         return editor.commit();
-    }
-
-    public static boolean setAppLanguage(LocalLanguage lang) {
-        Editor editor = pref.edit();
-        editor.putString(APP_LANG, new Gson().toJson(lang));
-        return editor.commit();
-    }
-
-    public static LocalLanguage getAppLanguage() {
-        String json = pref.getString(APP_LANG, null);
-        if (json == null) {
-            return null;
-        }
-        return new Gson().fromJson(json, LocalLanguage.class);
-    }
-
-    public static boolean setUserCredentials(String[] cred) {
-        Editor editor = pref.edit();
-        editor.putString(USER_CRED, new Gson().toJson(cred));
-        return editor.commit();
-    }
-
-    public static String[] getUserCredentials() {
-        String json = pref.getString(USER_CRED, null);
-        if (json == null) {
-            return null;
-        }
-        return new Gson().fromJson(json, String[].class);
     }
 
     private OpenwordsSharedPreferences() {

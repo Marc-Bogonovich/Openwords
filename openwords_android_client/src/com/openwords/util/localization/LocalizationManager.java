@@ -44,9 +44,9 @@ public class LocalizationManager {
      */
     private static void setBaseLanguage(LocalLanguage localLanguage) {
         if (localLanguage.equals(LocalLanguage.English)) {
-            DataPool.BaseLanguage = 1;
+            DataPool.getLocalSettings().setBaseLanguageId(1);
         } else if (localLanguage.equals(LocalLanguage.Chinese)) {
-            DataPool.BaseLanguage = 98;
+            DataPool.getLocalSettings().setBaseLanguageId(98);
         }
     }
 

@@ -10,6 +10,7 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.TextHttpResponseHandler;
 import com.openwords.R;
+import com.openwords.model.UserLearningLanguages;
 import com.openwords.model.UserWords;
 import com.openwords.services.implementations.AddUser;
 import com.openwords.services.implementations.CheckEmail;
@@ -240,6 +241,37 @@ public class ActivityTest extends Activity {
         findViewById(R.id.act_test_test99).setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
+                List<Integer> local = UserLearningLanguages.loadUserLearningLanguagesFromLocal(1);
+                LogUtil.logDeubg(this, "local 1: " + local);
+                local = UserLearningLanguages.loadUserLearningLanguagesFromLocal(98);
+                LogUtil.logDeubg(this, "local 98: " + local);
+
+                UserLearningLanguages.loadUserLearningLanguagesFromRemote(ActivityTest.this, 1, 1, new HttpResultHandler() {
+
+                    public void hasResult(Object resultObject) {
+                        List<Integer> ids = (List<Integer>) resultObject;
+                        LogUtil.logDeubg(this, "got remote ids: " + ids);
+
+                        List<Integer> local = UserLearningLanguages.loadUserLearningLanguagesFromLocal(1);
+                        LogUtil.logDeubg(this, "local 1: " + local);
+
+                        UserLearningLanguages.loadUserLearningLanguagesFromRemote(ActivityTest.this, 1, 98, new HttpResultHandler() {
+
+                            public void hasResult(Object resultObject) {
+                                List<Integer> ids = (List<Integer>) resultObject;
+                                LogUtil.logDeubg(this, "got remote ids: " + ids);
+                            }
+
+                            public void noResult(String errorMessage) {
+
+                            }
+                        });
+                    }
+
+                    public void noResult(String errorMessage) {
+
+                    }
+                });
             }
         });
     }
