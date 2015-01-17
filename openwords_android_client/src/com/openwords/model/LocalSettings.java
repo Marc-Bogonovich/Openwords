@@ -59,5 +59,6 @@ public class LocalSettings extends SugarRecord<LocalSettings> {
 
     public void setLocalLanguage(LocalLanguage lang) {
         localLanguage = MyGson.toJson(lang);
+        this.save();
     }
 }
