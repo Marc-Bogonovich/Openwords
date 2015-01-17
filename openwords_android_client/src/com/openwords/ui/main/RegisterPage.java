@@ -136,17 +136,17 @@ public class RegisterPage extends Activity {
                         public void hasResult(Object resultObject) {
                             MyDialogHelper.tryDismissQuickProgressDialog();
                             Language.deleteAll(Language.class);
-                            DataPool.CurrentLearningLanguages.clear();
                             UserLearningLanguages.deleteAll(UserLearningLanguages.class);
 
                             AddUser.Result r = (AddUser.Result) resultObject;
                             OpenwordsSharedPreferences.setUserInfo(new UserInfo(r.userId, username, password, System.currentTimeMillis()));
                             MyQuickToast.showShort(RegisterPage.this, "AddUser ok: " + r.userId);
                             finish();
-                            DataPool.Username = username;
-                            DataPool.Password = password;
+                            DataPool.getLocalSettings().setUsername(username);
+                            DataPool.getLocalSettings().setPassword(password);
                             DataPool.DoRegistration = true;
-                            DataPool.UserId = r.userId;
+                            DataPool.getLocalSettings().setUserId(r.userId);
+                            DataPool.saveLocalSettings();
                             RegisterPage.this.startActivity(new Intent(RegisterPage.this, LanguagePage.class));
                         }
 
