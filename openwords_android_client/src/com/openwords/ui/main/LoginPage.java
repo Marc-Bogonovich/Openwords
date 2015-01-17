@@ -83,12 +83,8 @@ public class LoginPage extends Activity {
         loginButton.setOnClickListener(new OnClickListener() {
 
             public void onClick(View view) {
-                if (InternetCheck.checkConn(LoginPage.this)) {
-                    MyDialogHelper.tryShowQuickProgressDialog(LoginPage.this, LocalizationManager.getTextValidatingUser() + "...");
-                    login(usernameField.getText().toString(), passwdField.getText().toString());
-                } else {
-                    Toast.makeText(LoginPage.this, LocalizationManager.getTextInternetError(), Toast.LENGTH_SHORT).show();
-                }
+                MyDialogHelper.tryShowQuickProgressDialog(LoginPage.this, LocalizationManager.getTextValidatingUser() + "...");
+                login(usernameField.getText().toString(), passwdField.getText().toString());
             }
         });
         registerButton = (Button) findViewById(R.id.loginPage_Button_registerGo);
@@ -128,6 +124,16 @@ public class LoginPage extends Activity {
     }
 
     private void login(final String username, final String password) {
+        if (!InternetCheck.hasNetwork(this)) {
+            if (DataPool.getLocalSettings().getUsername().equals(username)
+                    && DataPool.getLocalSettings().getPassword().equals(password)) {
+                DataPool.OffLine = true;
+                MyQuickToast.showLong(this, "You are now in offline mode");
+                goToHomePage();
+                return;
+            }
+        }
+
         new LoginUser().doRequest(new RequestParamsBuilder()
                 .addParam("username", username)
                 .addParam("password", password)
