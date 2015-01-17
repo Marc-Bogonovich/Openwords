@@ -2,12 +2,13 @@ package com.openwords.services.implementations;
 
 import com.google.gson.Gson;
 import com.loopj.android.http.RequestParams;
+import static com.openwords.model.DataPool.ServerAddress;
 import com.openwords.services.interfaces.HttpResultHandler;
 import com.openwords.services.interfaces.HttpServiceRequester;
 
 public class LoginUser extends HttpServiceRequester implements HttpResultHandler {
 
-    public final String ServiceURL = "http://192.168.1.109:8080/OpenwordsServer/loginUser";
+    public final String ServiceURL = "http://" + ServerAddress + "/loginUser";
 
     private HttpResultHandler resultHandler;
 

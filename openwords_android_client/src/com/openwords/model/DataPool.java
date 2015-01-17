@@ -11,13 +11,31 @@ import java.util.List;
  */
 public class DataPool {
 
+    public final static String ServerAddress = "192.168.1.104:8080/OpenwordsServer";
     public static List<ModelLanguage> LanguageList = new LinkedList<ModelLanguage>();
-    public static int BaseLanguage = -1;
-    public static int UserId = -1;
-    public static String Username;
-    public static String Password;
     public static boolean DoRegistration = false;
-    public static List<Integer> CurrentLearningLanguages = new LinkedList<Integer>();
+    //public static List<Integer> CurrentLearningLanguages = new LinkedList<Integer>();
+    private static LocalSettings localSettings = null;
+
+    public static LocalSettings getLocalSettings() {
+        if (localSettings == null) {
+            List<LocalSettings> r = LocalSettings.listAll(LocalSettings.class);
+            if (r.isEmpty()) {
+                localSettings = new LocalSettings();
+            } else {
+                localSettings = r.get(0);
+            }
+        }
+        return localSettings;
+    }
+
+    public static void saveLocalSettings() {
+        localSettings.save();
+    }
+
+    public static void clearLocalSettings() {
+        LocalSettings.deleteAll(LocalSettings.class);
+    }
 
     private DataPool() {
     }
