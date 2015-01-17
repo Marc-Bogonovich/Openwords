@@ -106,8 +106,6 @@ public class LanguagePage extends Activity {
 
     private void showSimpleList() {
         List<String> chosenLangNames = new LinkedList<String>();
-        ChosenLangIds.clear();
-        ChosenLangIds.addAll(UserLearningLanguages.loadUserLearningLanguagesFromLocal(DataPool.getLocalSettings().getBaseLanguageId()));
         for (Language lang : localLanguages) {
             if (ChosenLangIds.contains(lang.langId)) {
                 chosenLangNames.add(lang.name);
@@ -131,5 +129,12 @@ public class LanguagePage extends Activity {
     @Override
     public void onBackPressed() {
         //Do nothing. So force user to chose the languages.
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ChosenLangIds.clear();
+        MyQuickToast.showShort(this, "ChosenLangIds cleared");
     }
 }
