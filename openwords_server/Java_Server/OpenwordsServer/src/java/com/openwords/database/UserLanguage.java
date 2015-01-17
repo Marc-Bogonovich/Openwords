@@ -32,11 +32,15 @@ public class UserLanguage implements Serializable {
 
     @SuppressWarnings("unchecked")
     public static List<Integer> getUserLearningLanguages(Session s, int userId, int baseLang) {
-        return s.createCriteria(UserLanguage.class)
+        List<Integer> ids = s.createCriteria(UserLanguage.class)
                 .add(Restrictions.eq("userId", userId))
                 .add(Restrictions.eq("baseLang", baseLang))
                 .setProjection(Projections.property("learningLang"))
                 .list();
+        if (ids.isEmpty()) {
+            return null;
+        }
+        return ids;
     }
 
     private int userId, baseLang, learningLang;

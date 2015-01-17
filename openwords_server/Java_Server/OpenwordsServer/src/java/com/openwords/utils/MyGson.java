@@ -15,6 +15,7 @@ public class MyGson {
 
     public static void clean() {
         gson = null;
+        prettyGson = null;
     }
 
     public static String toJson(Object o) {
