@@ -1,11 +1,11 @@
 package com.openwords.model;
 
 import android.content.Context;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.openwords.services.implementations.GetUserLanguages;
 import com.openwords.services.interfaces.HttpResultHandler;
 import com.openwords.services.interfaces.RequestParamsBuilder;
+import com.openwords.util.gson.MyGson;
+import com.openwords.util.log.LogUtil;
 import com.openwords.util.ui.MyQuickToast;
 import com.orm.SugarRecord;
 import com.orm.query.Condition;
@@ -14,27 +14,18 @@ import java.util.List;
 
 public class UserLearningLanguages extends SugarRecord<UserLearningLanguages> {
 
-    public static void loadAndMergeUserLanguagePreferenceRemotely(final Context context, int newUserId, final int baseLang, final HttpResultHandler resultHandler) {
+    public static void loadUserLearningLanguagesFromRemote(final Context context, int userId, final int baseLang, final HttpResultHandler resultHandler) {
         new GetUserLanguages().doRequest(new RequestParamsBuilder()
-                .addParam("userId", String.valueOf(newUserId))
+                .addParam("userId", String.valueOf(userId))
                 .addParam("langOneId", String.valueOf(baseLang))
                 .getParams(),
                 new HttpResultHandler() {
 
                     public void hasResult(Object resultObject) {
-                        DataPool.CurrentLearningLanguages.clear();
                         @SuppressWarnings("unchecked")
                         List<Integer> ids = (List<Integer>) resultObject;
-                        DataPool.CurrentLearningLanguages.addAll(ids);
-
-                        UserLearningLanguages.deleteAll(UserLearningLanguages.class, "BASE_LANG = ?", String.valueOf(baseLang));
-                        new UserLearningLanguages(baseLang, new Gson().toJson(DataPool.CurrentLearningLanguages)).save();
-
-                        MyQuickToast.showShort(context, "CurrentLearningLanguages:\n"
-                                + new Gson().toJson(DataPool.CurrentLearningLanguages));
-                        MyQuickToast.showLong(context, "database:\n"
-                                + new Gson().toJson(UserLearningLanguages.listAll(UserLearningLanguages.class)));
-                        resultHandler.hasResult(null);
+                        saveUserLearningLanguagesToLocal(context, baseLang, ids);
+                        resultHandler.hasResult(ids);
                     }
 
                     public void noResult(String errorMessage) {
@@ -44,33 +35,52 @@ public class UserLearningLanguages extends SugarRecord<UserLearningLanguages> {
                 });
     }
 
-    public static void loadUserLanguagePreferenceLocally(final Context context, final int baseLang) {
+    public static List<Integer> loadUserLearningLanguagesFromLocal(final Context context, final int baseLang) {
         List<UserLearningLanguages> r = Select.from(UserLearningLanguages.class)
-                .where(Condition.prop("BASE_LANG").eq(String.valueOf(baseLang)))
+                .where(Condition.prop("base_lang").eq(String.valueOf(baseLang)))
                 .list();
 
         if (r.isEmpty()) {
-            MyQuickToast.showShort(context, "No preference for lang " + baseLang);
+            MyQuickToast.showShort(context, "No preference for base lang " + baseLang);
+            return null;
         } else {
-            DataPool.CurrentLearningLanguages.clear();
-            DataPool.CurrentLearningLanguages.addAll((List<Integer>) new Gson().fromJson(
-                    r.get(0).learningLang,
-                    new TypeToken<List<Integer>>() {
-                    }.getType()));
-            MyQuickToast.showShort(context, "CurrentLearningLanguages:\n"
-                    + new Gson().toJson(DataPool.CurrentLearningLanguages));
+            List<Integer> ids = r.get(0).getLearningLangs();
+            MyQuickToast.showShort(context, "Got current learning languages for " + baseLang + ":\n"
+                    + MyGson.toJson(ids));
+            return ids;
         }
     }
 
+    public static void saveUserLearningLanguagesToLocal(Context context, int baseLang, List<Integer> learningLangs) {
+        UserLearningLanguages.deleteAll(UserLearningLanguages.class, "base_lang = ?", String.valueOf(baseLang));
+        new UserLearningLanguages(baseLang, learningLangs).save();
+        LogUtil.logDeubg(UserLearningLanguages.class, "UserLearningLanguages data:\n"
+                + MyGson.toJson(UserLearningLanguages.listAll(UserLearningLanguages.class)));
+    }
+
+    public static void saveUserLearningLanguagesToRemote(Context context, int userId, int baseLang, List<Integer> learningLangs) {
+
+    }
+
     public int baseLang;
-    public String learningLang;
+    public String learningLangs;
 
     public UserLearningLanguages() {
     }
 
-    public UserLearningLanguages(int baseLang, String learningLang) {
+    public UserLearningLanguages(int baseLang, String learningLangs) {
         this.baseLang = baseLang;
-        this.learningLang = learningLang;
+        this.learningLangs = learningLangs;
+    }
+
+    public UserLearningLanguages(int baseLang, List<Integer> learningLangs) {
+        this.baseLang = baseLang;
+        this.learningLangs = MyGson.toJson(new LearningLanguageIdsPack(learningLangs));
+    }
+
+    public List<Integer> getLearningLangs() {
+        LearningLanguageIdsPack pack = (LearningLanguageIdsPack) MyGson.fromJson(learningLangs, LearningLanguageIdsPack.class);
+        return pack.ids;
     }
 
 }
