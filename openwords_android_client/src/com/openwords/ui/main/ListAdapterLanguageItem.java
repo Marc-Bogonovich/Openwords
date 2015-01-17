@@ -8,7 +8,6 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.TextView;
 import com.openwords.R;
-import com.openwords.model.DataPool;
 import com.openwords.model.Language;
 import com.openwords.util.ui.MyQuickToast;
 import java.util.List;
@@ -38,15 +37,15 @@ public class ListAdapterLanguageItem extends ArrayAdapter<Language> {
             final CheckBox itemObj = (CheckBox) view.findViewById(R.id.list_item_lang_1);
             TextView itemObj2 = (TextView) view.findViewById(R.id.list_item_lang_2);
             itemObj2.setText(lang.name);
-            itemObj.setChecked(DataPool.CurrentLearningLanguages.contains(lang.langId));
+            itemObj.setChecked(LanguagePage.ChosenLangIds.contains(lang.langId));
             itemObj.setOnClickListener(new View.OnClickListener() {
 
                 public void onClick(View view) {
-                    if (DataPool.CurrentLearningLanguages.contains(lang.langId)) {
-                        DataPool.CurrentLearningLanguages.remove(Integer.valueOf(lang.langId));
+                    if (LanguagePage.ChosenLangIds.contains(lang.langId)) {
+                        LanguagePage.ChosenLangIds.remove(Integer.valueOf(lang.langId));
                         itemObj.setChecked(false);
                     } else {
-                        DataPool.CurrentLearningLanguages.add(lang.langId);
+                        LanguagePage.ChosenLangIds.add(lang.langId);
                         itemObj.setChecked(true);
                     }
                     MyQuickToast.showShort(context, itemObj.isChecked() + " " + lang.langId + " " + lang.name);

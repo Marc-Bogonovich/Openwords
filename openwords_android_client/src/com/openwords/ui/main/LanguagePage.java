@@ -7,7 +7,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-import com.google.gson.Gson;
 import com.openwords.R;
 import com.openwords.model.DataPool;
 import com.openwords.model.Language;
@@ -15,6 +14,7 @@ import com.openwords.model.UserLearningLanguages;
 import com.openwords.services.implementations.SetUserLanguages;
 import com.openwords.services.interfaces.HttpResultHandler;
 import com.openwords.services.interfaces.RequestParamsBuilder;
+import com.openwords.util.gson.MyGson;
 import com.openwords.util.ui.MyDialogHelper;
 import com.openwords.util.ui.MyQuickToast;
 import java.util.LinkedList;
@@ -22,6 +22,7 @@ import java.util.List;
 
 public class LanguagePage extends Activity {
 
+    public final static List<Integer> ChosenLangIds = new LinkedList<Integer>();
     private ListView listView;
     private ListView listView2;
     private ListAdapterLanguageItem listAdapter;
@@ -46,19 +47,19 @@ public class LanguagePage extends Activity {
 
             public void onClick(View view) {
                 if (doneChosen) {
-                    new UserLearningLanguages(DataPool.BaseLanguage, new Gson().toJson(DataPool.CurrentLearningLanguages)).save();
-
-                    if (DataPool.UserId <= 0) {
+                    if (DataPool.getLocalSettings().getUserId() <= 0) {
                         MyQuickToast.showShort(LanguagePage.this, "user id is corrupt");
                         return;
                     }
+                    UserLearningLanguages.saveUserLearningLanguagesToLocal(DataPool.getLocalSettings().getBaseLanguageId(),
+                            ChosenLangIds);
 
                     MyDialogHelper.tryShowQuickProgressDialog(LanguagePage.this, "Saving your preference to server...");
 
                     new SetUserLanguages().doRequest(new RequestParamsBuilder()
-                            .addParam("userId", String.valueOf(DataPool.UserId))
-                            .addParam("langOneId", String.valueOf(DataPool.BaseLanguage))
-                            .addParam("langTwoIds", new Gson().toJson(DataPool.CurrentLearningLanguages))
+                            .addParam("userId", String.valueOf(DataPool.getLocalSettings().getUserId()))
+                            .addParam("langOneId", String.valueOf(DataPool.getLocalSettings().getBaseLanguageId()))
+                            .addParam("langTwoIds", MyGson.toJson(ChosenLangIds))
                             .getParams(),
                             new HttpResultHandler() {
 
@@ -87,7 +88,7 @@ public class LanguagePage extends Activity {
         listAdapter.addAll(localLanguages);
         listAdapter.notifyDataSetChanged();
 
-        Language.checkAndMergeNewLanguages(this, DataPool.BaseLanguage, new HttpResultHandler() {
+        Language.checkAndMergeNewLanguages(this, DataPool.getLocalSettings().getBaseLanguageId(), new HttpResultHandler() {
 
             public void hasResult(Object resultObject) {
                 listAdapter.clear();
@@ -105,8 +106,10 @@ public class LanguagePage extends Activity {
 
     private void showSimpleList() {
         List<String> chosenLangNames = new LinkedList<String>();
+        ChosenLangIds.clear();
+        ChosenLangIds.addAll(UserLearningLanguages.loadUserLearningLanguagesFromLocal(DataPool.getLocalSettings().getBaseLanguageId()));
         for (Language lang : localLanguages) {
-            if (DataPool.CurrentLearningLanguages.contains(lang.langId)) {
+            if (ChosenLangIds.contains(lang.langId)) {
                 chosenLangNames.add(lang.name);
             }
         }
