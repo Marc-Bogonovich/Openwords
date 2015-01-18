@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 import com.openwords.R;
 import com.openwords.model.DataPool;
+import com.openwords.model.Language;
 import com.openwords.model.UserLearningLanguages;
 import com.openwords.services.implementations.LoginUser;
 import com.openwords.services.interfaces.HttpResultHandler;
@@ -160,11 +161,11 @@ public class LoginPage extends Activity {
                                 new HttpResultHandler() {
 
                                     public void hasResult(Object resultObject) {
-                                        goToHomePage();
+                                        loadLanguageDataAndGoHome();
                                     }
 
                                     public void noResult(String errorMessage) {
-                                        goToHomePage();
+                                        loadLanguageDataAndGoHome();
                                     }
                                 });
                     }
@@ -174,6 +175,21 @@ public class LoginPage extends Activity {
                         MyQuickToast.showShort(LoginPage.this, "Login fail: " + errorMessage);
                     }
                 });
+    }
+
+    private void loadLanguageDataAndGoHome() {
+        Language.checkAndMergeNewLanguages(this, DataPool.getLocalSettings().getBaseLanguageId(), new HttpResultHandler() {
+
+            public void hasResult(Object resultObject) {
+                goToHomePage();
+            }
+
+            public void noResult(String errorMessage) {
+                MyQuickToast.showShort(LoginPage.this, "checkAndMergeNewLanguages no result");
+                goToHomePage();
+
+            }
+        });
     }
 
     private void goToHomePage() {
