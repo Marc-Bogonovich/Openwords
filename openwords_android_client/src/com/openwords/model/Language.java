@@ -12,10 +12,21 @@ import com.openwords.util.ui.MyQuickToast;
 import com.orm.SugarRecord;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
 public class Language extends SugarRecord<Language> {
+
+    public static List<Language> getLearningLanguages(int baseLang) {
+        List<Integer> ids = UserLearningLanguages.loadUserLearningLanguagesFromLocal(baseLang);
+        if (ids.isEmpty()) {
+            return new LinkedList<Language>();
+        }
+        String sqlIds = ids.toString().replace("[", "(").replace("]", ")");
+        String sql = "select * from Language where lang_id in " + sqlIds;
+        return Language.findWithQuery(Language.class, sql);
+    }
 
     public static void checkAndMergeNewLanguages(final Context context, final int baseLang, final HttpResultHandler resultHandler) {
         MyDialogHelper.tryShowQuickProgressDialog(context, "Checking new languages...");
@@ -43,7 +54,7 @@ public class Language extends SugarRecord<Language> {
 
                         String sqlIds = learnableIds.toString().replace("[", "(").replace("]", ")");
 
-                        String sql = "SELECT * FROM LANGUAGE WHERE LANG_ID IN " + sqlIds;
+                        String sql = "select * from Language where lang_id in " + sqlIds;
                         List<Language> localSameLangs = Language.findWithQuery(Language.class, sql);
                         MyQuickToast.showShort(context, "total local same: " + localSameLangs.size());
 
