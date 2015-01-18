@@ -85,6 +85,9 @@ public class LanguagePage extends Activity {
     private void refreshList() {
         listAdapter.clear();
         localLanguages = Language.listAll(Language.class);
+        List<Integer> chosen = UserLearningLanguages.loadUserLearningLanguagesFromLocal(DataPool.getLocalSettings().getBaseLanguageId());
+        ChosenLangIds.clear();
+        ChosenLangIds.addAll(chosen);
         listAdapter.addAll(localLanguages);
         listAdapter.notifyDataSetChanged();
 
@@ -99,7 +102,6 @@ public class LanguagePage extends Activity {
 
             public void noResult(String errorMessage) {
                 MyQuickToast.showShort(LanguagePage.this, "checkAndMergeNewLanguages no result");
-                LanguagePage.this.finish();
             }
         });
     }
