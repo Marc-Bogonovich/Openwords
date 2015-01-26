@@ -26,11 +26,10 @@ public class Word implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public static List<Word> getDirectConnections(Session s, String word, String langInCode, String langOutCode) {
+    public static List<Word> getConnectionsByEnglish(Session s, String word, String langInCode, String langOutCode) {
         Language langIn = (Language) s.createCriteria(Language.class).add(Restrictions.eq("code", langInCode)).list().get(0);
         Language langOut = (Language) s.createCriteria(Language.class).add(Restrictions.eq("code", langOutCode)).list().get(0);
 
-        @SuppressWarnings("unchecked")
         List<Integer> inputWordIds = s.createCriteria(Word.class)
                 .add(Restrictions.eq("word", word))
                 .add(Restrictions.eq("languageId", langIn.getLangId()))
@@ -41,32 +40,40 @@ public class Word implements Serializable {
         }
         UtilLog.logInfo(Word.class, "get word ids: " + word + " " + inputWordIds.toString());
 
-        //get wordOne as output
-        @SuppressWarnings("unchecked")
-        List<Integer> wordOneIdsInConnection = s.createCriteria(WordConnection.class)
-                .add(Restrictions.in("wordTwoId", inputWordIds))
-                .add(Restrictions.eq("wordTwoLangId", langIn.getLangId()))
-                .add(Restrictions.eq("wordOneLangId", langOut.getLangId()))
-                .setProjection(Projections.property("wordOneId"))
-                .list();
-        UtilLog.logInfo(Word.class, "wordOneIdsInConnection: " + wordOneIdsInConnection.toString());
-        //get wordTwo as output
-        @SuppressWarnings("unchecked")
-        List<Integer> wordTwoIdsInConnection = s.createCriteria(WordConnection.class)
-                .add(Restrictions.in("wordOneId", inputWordIds))
-                .add(Restrictions.eq("wordOneLangId", langIn.getLangId()))
-                .add(Restrictions.eq("wordTwoLangId", langOut.getLangId()))
-                .setProjection(Projections.property("wordTwoId"))
-                .list();
-        UtilLog.logInfo(Word.class, "wordTwoIdsInConnection: " + wordTwoIdsInConnection.toString());
-        wordOneIdsInConnection.addAll(wordTwoIdsInConnection);
-        if (wordOneIdsInConnection.isEmpty()) {
-            return null;
+        List<Integer> resultIds;
+        if (langIn.getLangId() == 1) {//from English
+            resultIds = s.createCriteria(WordConnection.class)
+                    .add(Restrictions.in("wordOneId", inputWordIds))
+                    .add(Restrictions.eq("wordOneLangId", 1))
+                    .add(Restrictions.eq("wordTwoLangId", langOut.getLangId()))
+                    .setProjection(Projections.property("wordTwoId"))
+                    .list();
+            UtilLog.logInfo(Word.class, "from English: " + resultIds.toString());
+        } else if (langOut.getLangId() == 1) {//to English
+            resultIds = s.createCriteria(WordConnection.class)
+                    .add(Restrictions.in("wordTwoId", inputWordIds))
+                    .add(Restrictions.eq("wordTwoLangId", langIn.getLangId()))
+                    .add(Restrictions.eq("wordOneLangId", 1))
+                    .setProjection(Projections.property("wordOneId"))
+                    .list();
+            UtilLog.logInfo(Word.class, "to English: " + resultIds.toString());
+        } else {//no English
+            List<Integer> engWordIds = s.createCriteria(WordConnection.class)
+                    .add(Restrictions.in("wordTwoId", inputWordIds))
+                    .add(Restrictions.eq("wordTwoLangId", langIn.getLangId()))
+                    .add(Restrictions.eq("wordOneLangId", 1))
+                    .setProjection(Projections.property("wordOneId"))
+                    .list();
+            resultIds = s.createCriteria(WordConnection.class)
+                    .add(Restrictions.in("wordOneId", engWordIds))
+                    .add(Restrictions.eq("wordOneLangId", 1))
+                    .add(Restrictions.eq("wordTwoLangId", langOut.getLangId()))
+                    .setProjection(Projections.property("wordTwoId"))
+                    .list();
         }
 
-        @SuppressWarnings("unchecked")
         List<Word> wordsOut = s.createCriteria(Word.class)
-                .add(Restrictions.in("wordId", wordOneIdsInConnection))
+                .add(Restrictions.in("wordId", resultIds))
                 .list();
         return wordsOut;
     }

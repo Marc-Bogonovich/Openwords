@@ -26,7 +26,7 @@ public class SimpleTranslate extends MyAction {
         UtilLog.logInfo(this, "/simpleTranslate: " + word + ", from " + langIn + " to " + langOut);
         Session s = DatabaseHandler.getSession();
         try {
-            result = Word.getDirectConnections(s, word, langIn, langOut);
+            result = Word.getConnectionsByEnglish(s, word, langIn, langOut);
         } catch (Exception e) {
             errorMessage = e.toString();
             UtilLog.logWarn(this, errorMessage);
