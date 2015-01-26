@@ -12,6 +12,8 @@ import com.loopj.android.http.TextHttpResponseHandler;
 import com.openwords.R;
 import com.openwords.interfaces.HttpResultHandler;
 import com.openwords.interfaces.SimpleResultHandler;
+import com.openwords.model.DataPool;
+import com.openwords.model.Language;
 import com.openwords.model.UserLearningLanguages;
 import com.openwords.model.UserWords;
 import com.openwords.services.implementations.AddUser;
@@ -242,18 +244,24 @@ public class ActivityTest extends Activity {
         findViewById(R.id.act_test_test99).setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
-                List<Integer> local = UserLearningLanguages.loadUserLearningLanguagesFromLocal(1);
-                LogUtil.logDeubg(this, "local 1: " + local);
-                local = UserLearningLanguages.loadUserLearningLanguagesFromLocal(98);
-                LogUtil.logDeubg(this, "local 98: " + local);
-
-                UserLearningLanguages.loadUserLearningLanguages(1, 1, new SimpleResultHandler() {
+                Language.checkAndMergeNewLanguages(ActivityTest.this, DataPool.getLocalSettings().getBaseLanguageId(), new SimpleResultHandler() {
 
                     public void hasResult(Object resultObject) {
-                        List<Integer> ids = (List<Integer>) resultObject;
-                        LogUtil.logDeubg(this, "loadUserLearningLanguages got ids: " + ids);
+                        List<Integer> local = UserLearningLanguages.loadUserLearningLanguagesFromLocal(1);
+                        LogUtil.logDeubg(this, "local 1: " + local);
+                        local = UserLearningLanguages.loadUserLearningLanguagesFromLocal(98);
+                        LogUtil.logDeubg(this, "local 98: " + local);
+
+                        UserLearningLanguages.loadUserLearningLanguages(1, 1, new SimpleResultHandler() {
+
+                            public void hasResult(Object resultObject) {
+                                List<Integer> ids = (List<Integer>) resultObject;
+                                LogUtil.logDeubg(this, "loadUserLearningLanguages got ids: " + ids);
+                            }
+                        });
                     }
                 });
+
             }
         });
     }

@@ -8,11 +8,12 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import com.openwords.R;
+import com.openwords.interfaces.HttpResultHandler;
+import com.openwords.interfaces.SimpleResultHandler;
 import com.openwords.model.DataPool;
 import com.openwords.model.Language;
 import com.openwords.model.UserLearningLanguages;
 import com.openwords.services.implementations.SetUserLanguages;
-import com.openwords.services.interfaces.HttpResultHandler;
 import com.openwords.services.interfaces.RequestParamsBuilder;
 import com.openwords.util.gson.MyGson;
 import com.openwords.util.ui.MyDialogHelper;
@@ -83,27 +84,35 @@ public class LanguagePage extends Activity {
     }
 
     private void refreshList() {
-        listAdapter.clear();
-        localLanguages = Language.listAll(Language.class);
-        List<Integer> chosen = UserLearningLanguages.loadUserLearningLanguagesFromLocal(DataPool.getLocalSettings().getBaseLanguageId());
-        ChosenLangIds.clear();
-        ChosenLangIds.addAll(chosen);
-        listAdapter.addAll(localLanguages);
-        listAdapter.notifyDataSetChanged();
-
-        Language.checkAndMergeNewLanguages(this, DataPool.getLocalSettings().getBaseLanguageId(), new HttpResultHandler() {
+        MyDialogHelper.tryShowQuickProgressDialog(this, "Refresh languages data...");
+        Language.checkAndMergeNewLanguages(this, DataPool.getLocalSettings().getBaseLanguageId(), new SimpleResultHandler() {
 
             public void hasResult(Object resultObject) {
-                listAdapter.clear();
-                localLanguages = Language.listAll(Language.class);
-                listAdapter.addAll(localLanguages);
-                listAdapter.notifyDataSetChanged();
-            }
-
-            public void noResult(String errorMessage) {
-                MyQuickToast.showShort(LanguagePage.this, "checkAndMergeNewLanguages no result");
+                refreshUserLearningLanguages();
             }
         });
+    }
+
+    private void refreshListView() {
+        listAdapter.clear();
+        localLanguages = Language.listAll(Language.class);
+        listAdapter.addAll(localLanguages);
+        listAdapter.notifyDataSetChanged();
+    }
+
+    private void refreshUserLearningLanguages() {
+        ChosenLangIds.clear();
+        UserLearningLanguages.loadUserLearningLanguages(
+                DataPool.getLocalSettings().getUserId(),
+                DataPool.getLocalSettings().getBaseLanguageId(),
+                new SimpleResultHandler() {
+
+                    public void hasResult(Object resultObject) {
+                        List<Integer> chosen = (List<Integer>) resultObject;
+                        ChosenLangIds.addAll(chosen);
+                        refreshListView();
+                    }
+                });
     }
 
     private void showSimpleList() {

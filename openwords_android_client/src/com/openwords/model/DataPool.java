@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class DataPool {
 
-    public final static String ServerAddress = "192.168.1.104:8080/OpenwordsServer";
+    public final static String ServerAddress = "192.168.1.109:8080/OpenwordsServer";
     public static boolean DoRegistration = false;
     public static boolean OffLine = false;
     private static LocalSettings localSettings = null;

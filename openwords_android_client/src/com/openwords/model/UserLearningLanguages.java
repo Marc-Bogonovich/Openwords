@@ -67,6 +67,7 @@ public class UserLearningLanguages extends SugarRecord<UserLearningLanguages> {
     }
 
     public static List<Integer> loadUserLearningLanguagesFromLocal(int baseLang) {
+        LogUtil.logDeubg(UserLearningLanguages.class, "loadUserLearningLanguagesFromLocal()");
         List<UserLearningLanguages> r = Select.from(UserLearningLanguages.class)
                 .where(Condition.prop("base_lang").eq(String.valueOf(baseLang)))
                 .list();
@@ -85,7 +86,7 @@ public class UserLearningLanguages extends SugarRecord<UserLearningLanguages> {
     public static void saveUserLearningLanguagesToLocal(int baseLang, List<Integer> learningLangs) {
         UserLearningLanguages.deleteAll(UserLearningLanguages.class, "base_lang = ?", String.valueOf(baseLang));
         new UserLearningLanguages(baseLang, learningLangs).save();
-        LogUtil.logDeubg(UserLearningLanguages.class, "UserLearningLanguages data:\n"
+        LogUtil.logDeubg(UserLearningLanguages.class, "saveUserLearningLanguagesToLocal():\n"
                 + MyGson.toJson(UserLearningLanguages.listAll(UserLearningLanguages.class)));
     }
 
