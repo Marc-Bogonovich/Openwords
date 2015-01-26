@@ -1,8 +1,9 @@
 package com.openwords.model;
 
 import android.content.Context;
+import com.openwords.interfaces.HttpResultHandler;
+import com.openwords.interfaces.SimpleResultHandler;
 import com.openwords.services.implementations.GetUserLanguages;
-import com.openwords.services.interfaces.HttpResultHandler;
 import com.openwords.services.interfaces.RequestParamsBuilder;
 import com.openwords.util.gson.MyGson;
 import com.openwords.util.log.LogUtil;
@@ -14,6 +15,35 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class UserLearningLanguages extends SugarRecord<UserLearningLanguages> {
+
+    /**
+     * Try to load user learning language settings from server first: if it is
+     * not successful then load user learning language settings from local; if
+     * successful then update the user learning language settings locally.
+     *
+     * @param userId
+     * @param baseLang
+     * @param resultHandler Simple callback.
+     */
+    public static void loadUserLearningLanguages(int userId, final int baseLang, final SimpleResultHandler resultHandler) {
+        new GetUserLanguages().doRequest(
+                userId,
+                baseLang,
+                new HttpResultHandler() {
+
+                    public void hasResult(Object resultObject) {
+                        @SuppressWarnings("unchecked")
+                        List<Integer> ids = (List<Integer>) resultObject;
+                        saveUserLearningLanguagesToLocal(baseLang, ids);
+                        resultHandler.hasResult(ids);
+                    }
+
+                    public void noResult(String errorMessage) {
+                        List<Integer> ids = loadUserLearningLanguagesFromLocal(baseLang);
+                        resultHandler.hasResult(ids);
+                    }
+                });
+    }
 
     public static void loadUserLearningLanguagesFromRemote(final Context context, int userId, final int baseLang, final HttpResultHandler resultHandler) {
         new GetUserLanguages().doRequest(new RequestParamsBuilder()

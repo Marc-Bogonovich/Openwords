@@ -23,10 +23,6 @@ public class GetUserLanguages extends HttpServiceRequester implements HttpResult
                 .getParams(), 0, this);
     }
 
-    @Override
-    public void doRequest(RequestParams params, HttpResultHandler resultHandler) {
-    }
-
     public void hasResult(Object resultObject) {
         String jsonReply = (String) resultObject;
         Result r = new Gson().fromJson(jsonReply, Result.class);
@@ -50,6 +46,11 @@ public class GetUserLanguages extends HttpServiceRequester implements HttpResult
     }
 
     public List<Integer> getResult() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void doRequest(RequestParams params, HttpResultHandler resultHandler) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

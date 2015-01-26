@@ -10,13 +10,14 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.TextHttpResponseHandler;
 import com.openwords.R;
+import com.openwords.interfaces.HttpResultHandler;
+import com.openwords.interfaces.SimpleResultHandler;
 import com.openwords.model.UserLearningLanguages;
 import com.openwords.model.UserWords;
 import com.openwords.services.implementations.AddUser;
 import com.openwords.services.implementations.CheckEmail;
 import com.openwords.services.implementations.CheckUsername;
 import com.openwords.services.implementations.LoginUser;
-import com.openwords.services.interfaces.HttpResultHandler;
 import com.openwords.services.interfaces.RequestParamsBuilder;
 import com.openwords.ui.common.DialogForHTTP;
 import com.openwords.util.log.LogUtil;
@@ -246,30 +247,11 @@ public class ActivityTest extends Activity {
                 local = UserLearningLanguages.loadUserLearningLanguagesFromLocal(98);
                 LogUtil.logDeubg(this, "local 98: " + local);
 
-                UserLearningLanguages.loadUserLearningLanguagesFromRemote(ActivityTest.this, 1, 1, new HttpResultHandler() {
+                UserLearningLanguages.loadUserLearningLanguages(1, 1, new SimpleResultHandler() {
 
                     public void hasResult(Object resultObject) {
                         List<Integer> ids = (List<Integer>) resultObject;
-                        LogUtil.logDeubg(this, "got remote ids: " + ids);
-
-                        List<Integer> local = UserLearningLanguages.loadUserLearningLanguagesFromLocal(1);
-                        LogUtil.logDeubg(this, "local 1: " + local);
-
-                        UserLearningLanguages.loadUserLearningLanguagesFromRemote(ActivityTest.this, 1, 98, new HttpResultHandler() {
-
-                            public void hasResult(Object resultObject) {
-                                List<Integer> ids = (List<Integer>) resultObject;
-                                LogUtil.logDeubg(this, "got remote ids: " + ids);
-                            }
-
-                            public void noResult(String errorMessage) {
-
-                            }
-                        });
-                    }
-
-                    public void noResult(String errorMessage) {
-
+                        LogUtil.logDeubg(this, "loadUserLearningLanguages got ids: " + ids);
                     }
                 });
             }

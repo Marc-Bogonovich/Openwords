@@ -37,15 +37,15 @@ public class InitDatabase {
 	//-----
 	public static void checkAndRefreshPerf(Context ctx, int module, int override)
 	{
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
+            //StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        //StrictMode.setThreadPolicy(policy);
 		user=OpenwordsSharedPreferences.getUserInfo();
 		userId = user.getUserId();
 		prevUser = user.getLast_userid();
 		dirtyPerf = UserPerformanceDirty.listAll(UserPerformanceDirty.class);
 		List<UserWords> uwList = UserWords.listAll(UserWords.class);
 		
-		boolean connected = InternetCheck.checkConn(ctx);
+		boolean connected = InternetCheck.hasNetwork(ctx);
 		//if Dirty performance has records for this user...
 		
 		Log.d("last upd time", ""+OpenwordsSharedPreferences.getUserInfo().getLastPerfUpd());

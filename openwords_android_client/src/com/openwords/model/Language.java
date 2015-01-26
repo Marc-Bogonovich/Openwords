@@ -2,9 +2,10 @@ package com.openwords.model;
 
 import android.content.Context;
 import com.google.gson.Gson;
+import com.openwords.interfaces.HttpResultHandler;
+import com.openwords.interfaces.SimpleResultHandler;
 import com.openwords.services.implementations.GetLanguages;
 import com.openwords.services.implementations.GetLearnableLanguages;
-import com.openwords.services.interfaces.HttpResultHandler;
 import com.openwords.services.interfaces.RequestParamsBuilder;
 import com.openwords.util.ui.CallbackOkButton;
 import com.openwords.util.ui.MyDialogHelper;
@@ -28,68 +29,61 @@ public class Language extends SugarRecord<Language> {
         return Language.findWithQuery(Language.class, sql);
     }
 
-    public static void checkAndMergeNewLanguages(final Context context, final int baseLang, final HttpResultHandler resultHandler) {
-        MyDialogHelper.tryShowQuickProgressDialog(context, "Checking new languages...");
+    public static void checkAndMergeNewLanguages(final Context context, final int baseLang, final SimpleResultHandler resultHandler) {
+        new GetLearnableLanguages().doRequest(baseLang, new HttpResultHandler() {
 
-        new GetLearnableLanguages().doRequest(new RequestParamsBuilder()
-                .addParam("langOneId", String.valueOf(baseLang))
-                .getParams(), new HttpResultHandler() {
+            public void hasResult(Object resultObject) {
+                @SuppressWarnings("unchecked")
+                List<Integer> learnableIds = (List<Integer>) resultObject;
+                if (learnableIds.isEmpty()) {
+                    MyDialogHelper.tryDismissQuickProgressDialog();
+                    MyDialogHelper.showMessageDialog(context, null,
+                            "Sorry, seems we don't have learnable languages for your local language yet,\n"
+                            + "but please have a look round or change your native language",
+                            new CallbackOkButton() {
 
-                    public void hasResult(Object resultObject) {
-                        @SuppressWarnings("unchecked")
-                        List<Integer> learnableIds = (List<Integer>) resultObject;
-                        if (learnableIds.isEmpty()) {
-                            MyDialogHelper.tryDismissQuickProgressDialog();
-                            MyDialogHelper.showMessageDialog(context, null,
-                                    "Sorry, seems we don't have learnable languages for your local language yet,\n"
-                                    + "but please have a look round or change your native language",
-                                    new CallbackOkButton() {
+                                public void okPressed() {
+                                    resultHandler.hasResult(null);
+                                }
+                            });
+                    return;
+                }
 
-                                        public void okPressed() {
-                                            resultHandler.noResult(null);
-                                        }
-                                    });
-                            return;
-                        }
+                String sqlIds = learnableIds.toString().replace("[", "(").replace("]", ")");
 
-                        String sqlIds = learnableIds.toString().replace("[", "(").replace("]", ")");
+                String sql = "select * from Language where lang_id in " + sqlIds;
+                List<Language> localSameLangs = Language.findWithQuery(Language.class, sql);
+                MyQuickToast.showShort(context, "total local same: " + localSameLangs.size());
 
-                        String sql = "select * from Language where lang_id in " + sqlIds;
-                        List<Language> localSameLangs = Language.findWithQuery(Language.class, sql);
-                        MyQuickToast.showShort(context, "total local same: " + localSameLangs.size());
-
-                        Set<Integer> newLangIds = new HashSet<Integer>(learnableIds);
-                        for (Language lang : localSameLangs) {
-                            if (newLangIds.contains(lang.langId)) {
-                                newLangIds.remove(lang.langId);
-                            }
-                        }
-                        MyQuickToast.showShort(context, "total new: " + newLangIds.size());
-
-                        if (!newLangIds.isEmpty()) {
-                            getAndSaveLanguageInformation(context, newLangIds, resultHandler);
-                        } else {
-                            MyDialogHelper.tryDismissQuickProgressDialog();
-                            MyQuickToast.showShort(context, "no new learnable languages");
-                            resultHandler.noResult(null);
-                        }
+                Set<Integer> newLangIds = new HashSet<Integer>(learnableIds);
+                for (Language lang : localSameLangs) {
+                    if (newLangIds.contains(lang.langId)) {
+                        newLangIds.remove(lang.langId);
                     }
+                }
+                MyQuickToast.showShort(context, "total new: " + newLangIds.size());
 
-                    public void noResult(String errorMessage) {
-                        MyDialogHelper.tryDismissQuickProgressDialog();
-                        MyQuickToast.showShort(context, "Cannot connect to server: " + errorMessage);
-                        resultHandler.noResult(null);
-                    }
-                });
+                if (!newLangIds.isEmpty()) {
+                    getAndSaveLanguageInformation(context, newLangIds, resultHandler);
+                } else {
+                    MyQuickToast.showShort(context, "no new learnable languages");
+                    resultHandler.hasResult(null);
+                }
+            }
+
+            public void noResult(String errorMessage) {
+                MyQuickToast.showShort(context, "Cannot connect to server: " + errorMessage);
+                resultHandler.hasResult(null);
+            }
+        });
     }
 
-    private static void getAndSaveLanguageInformation(final Context context, Collection<Integer> langIds, final HttpResultHandler resultHandler) {
+    private static void getAndSaveLanguageInformation(final Context context, Collection<Integer> langIds, final SimpleResultHandler resultHandler) {
         new GetLanguages().doRequest(new RequestParamsBuilder()
                 .addParam("include", new Gson().toJson(langIds))
                 .getParams(), new HttpResultHandler() {
 
                     public void hasResult(Object resultObject) {
-                        MyDialogHelper.tryDismissQuickProgressDialog();
                         @SuppressWarnings("unchecked")
                         List<Language> langs = (List<Language>) resultObject;
                         Language.saveInTx(langs);
@@ -98,9 +92,8 @@ public class Language extends SugarRecord<Language> {
                     }
 
                     public void noResult(String errorMessage) {
-                        MyDialogHelper.tryDismissQuickProgressDialog();
                         MyQuickToast.showShort(context, "not ok: " + errorMessage);
-                        resultHandler.noResult(null);
+                        resultHandler.hasResult(null);
                     }
                 });
     }
