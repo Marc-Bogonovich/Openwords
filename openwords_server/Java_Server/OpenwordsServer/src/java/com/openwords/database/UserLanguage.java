@@ -37,9 +37,6 @@ public class UserLanguage implements Serializable {
                 .add(Restrictions.eq("baseLang", baseLang))
                 .setProjection(Projections.property("learningLang"))
                 .list();
-        if (ids.isEmpty()) {
-            return null;
-        }
         return ids;
     }
 
