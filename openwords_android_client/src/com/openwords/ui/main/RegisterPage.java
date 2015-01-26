@@ -11,6 +11,7 @@ import android.view.View.OnFocusChangeListener;
 import android.widget.Button;
 import android.widget.EditText;
 import com.openwords.R;
+import com.openwords.interfaces.HttpResultHandler;
 import com.openwords.model.DataPool;
 import com.openwords.model.Language;
 import com.openwords.model.UserInfo;
@@ -18,7 +19,6 @@ import com.openwords.model.UserLearningLanguages;
 import com.openwords.services.implementations.AddUser;
 import com.openwords.services.implementations.CheckEmail;
 import com.openwords.services.implementations.CheckUsername;
-import com.openwords.services.interfaces.HttpResultHandler;
 import com.openwords.services.interfaces.RequestParamsBuilder;
 import com.openwords.util.localization.LocalizationManager;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
@@ -121,7 +121,7 @@ public class RegisterPage extends Activity {
 
     private void register() {
         if (identicalPassword()) {
-            MyDialogHelper.tryShowQuickProgressDialog(this, "Connection to server...");
+            MyDialogHelper.tryShowQuickProgressDialog(this, "Connecting to server...");
 
             final String username = usernameField.getText().toString();
             final String password = passwdField.getText().toString();

@@ -98,6 +98,7 @@ public class LanguagePage extends Activity {
         localLanguages = Language.listAll(Language.class);
         listAdapter.addAll(localLanguages);
         listAdapter.notifyDataSetChanged();
+        MyDialogHelper.tryDismissQuickProgressDialog();
     }
 
     private void refreshUserLearningLanguages() {
