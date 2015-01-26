@@ -25,8 +25,6 @@ public class GetUserLanguages extends HttpServiceRequester implements HttpResult
 
     @Override
     public void doRequest(RequestParams params, HttpResultHandler resultHandler) {
-        this.resultHandler = resultHandler;
-        request(ServiceURL, params, 0, this);
     }
 
     public void hasResult(Object resultObject) {
