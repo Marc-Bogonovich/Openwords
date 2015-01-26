@@ -65,5 +65,7 @@ public class GetUserLanguages extends MyAction implements InterfaceGetUserLangua
 
     @Override
     public void doRequest(int i, int i1, HttpResultHandler hrh) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
 }

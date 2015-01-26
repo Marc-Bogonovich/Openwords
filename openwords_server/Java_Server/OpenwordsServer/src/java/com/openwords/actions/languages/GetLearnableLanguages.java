@@ -59,6 +59,7 @@ public class GetLearnableLanguages extends MyAction implements InterfaceGetLearn
 
     @Override
     public void doRequest(int i, HttpResultHandler hrh) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }
