@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
@@ -109,13 +111,23 @@ public class HomePage extends Activity {
         LogUtil.logDeubg(this, "refreshLanguageOptions");
         final List<Language> languages = Language.getLearningLanguages(DataPool.getLocalSettings().getBaseLanguageId());
         List<String> languageNames = new LinkedList<String>();
-        final boolean noLangs[] = new boolean[]{false};
         if (!languages.isEmpty()) {
             for (Language lang : languages) {
                 languageNames.add(lang.name);
             }
         } else {
-            noLangs[0] = true;
+            final boolean[] touched = new boolean[]{false};
+            languageOption.setOnTouchListener(new View.OnTouchListener() {
+
+                public boolean onTouch(View view, MotionEvent me) {
+                    if (touched[0]) {
+                        return true;
+                    }
+                    touched[0] = true;
+                    startActivity(new Intent(HomePage.this, LanguagePage.class));
+                    return true;
+                }
+            });
         }
 
         languageNames.add(LocalizationManager.getTextMoreLang());
@@ -123,10 +135,7 @@ public class HomePage extends Activity {
         languageOption.setOnItemSelectedListener(new OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                MyQuickToast.showShort(HomePage.this, "item " + position);//To-do select the same thing when one item
-                if (noLangs[0]) {
-                    noLangs[0] = false;
-                    LogUtil.logDeubg(this, "omit default touch for the first time");
+                if (languages.isEmpty()) {
                     return;
                 }
                 if (position >= languages.size()) {
