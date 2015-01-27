@@ -11,9 +11,13 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.TextView;
 import com.openwords.R;
+import com.openwords.interfaces.SimpleResultHandler;
 import com.openwords.model.DataPool;
+import com.openwords.model.Language;
+import com.openwords.model.UserLearningLanguages;
 import com.openwords.util.localization.LocalLanguage;
 import com.openwords.util.localization.LocalizationManager;
+import com.openwords.util.ui.MyQuickToast;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -47,7 +51,31 @@ public class LocalOptionPage extends Activity {
                                 DataPool.getLocalSettings().setLocalLanguage(lang);
                                 d[0].cancel();
                                 d[1].cancel();
-                                act.finish();
+
+                                MyQuickToast.showShort(act, "Base Language changed to " + DataPool.getLocalSettings().getBaseLanguageId());
+                                Language.checkAndMergeNewLanguages(act, DataPool.getLocalSettings().getBaseLanguageId(), new SimpleResultHandler() {
+
+                                    public void hasResult(Object resultObject) {
+                                        if (resultObject != null && resultObject.equals("no-langs")) {
+                                            act.finish();
+                                            return;
+                                        }
+                                        if (DataPool.getLocalSettings().getUserId() > 0) {
+                                            UserLearningLanguages.loadUserLearningLanguages(
+                                                    DataPool.getLocalSettings().getUserId(),
+                                                    DataPool.getLocalSettings().getBaseLanguageId(),
+                                                    new SimpleResultHandler() {
+
+                                                        public void hasResult(Object resultObject) {
+                                                            act.finish();
+                                                        }
+                                                    });
+                                        } else {
+                                            act.finish();
+                                        }
+                                    }
+                                });
+
                             }
                         }).create();
                 d[1].show();

@@ -43,7 +43,7 @@ public class Language extends SugarRecord<Language> {
                             new CallbackOkButton() {
 
                                 public void okPressed() {
-                                    resultHandler.hasResult(null);
+                                    resultHandler.hasResult("no-langs");
                                 }
                             });
                     return;

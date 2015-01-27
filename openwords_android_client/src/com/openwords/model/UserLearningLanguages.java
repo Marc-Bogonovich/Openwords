@@ -1,13 +1,10 @@
 package com.openwords.model;
 
-import android.content.Context;
 import com.openwords.interfaces.HttpResultHandler;
 import com.openwords.interfaces.SimpleResultHandler;
 import com.openwords.services.implementations.GetUserLanguages;
-import com.openwords.services.interfaces.RequestParamsBuilder;
 import com.openwords.util.gson.MyGson;
 import com.openwords.util.log.LogUtil;
-import com.openwords.util.ui.MyQuickToast;
 import com.orm.SugarRecord;
 import com.orm.query.Condition;
 import com.orm.query.Select;
@@ -41,27 +38,6 @@ public class UserLearningLanguages extends SugarRecord<UserLearningLanguages> {
                     public void noResult(String errorMessage) {
                         List<Integer> ids = loadUserLearningLanguagesFromLocal(baseLang);
                         resultHandler.hasResult(ids);
-                    }
-                });
-    }
-
-    public static void loadUserLearningLanguagesFromRemote(final Context context, int userId, final int baseLang, final HttpResultHandler resultHandler) {
-        new GetUserLanguages().doRequest(new RequestParamsBuilder()
-                .addParam("userId", String.valueOf(userId))
-                .addParam("langOneId", String.valueOf(baseLang))
-                .getParams(),
-                new HttpResultHandler() {
-
-                    public void hasResult(Object resultObject) {
-                        @SuppressWarnings("unchecked")
-                        List<Integer> ids = (List<Integer>) resultObject;
-                        saveUserLearningLanguagesToLocal(baseLang, ids);
-                        resultHandler.hasResult(ids);
-                    }
-
-                    public void noResult(String errorMessage) {
-                        MyQuickToast.showShort(context, "Cannot retrieve user language preference");
-                        resultHandler.noResult(null);
                     }
                 });
     }
