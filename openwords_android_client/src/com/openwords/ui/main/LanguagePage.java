@@ -88,6 +88,11 @@ public class LanguagePage extends Activity {
         Language.checkAndMergeNewLanguages(this, DataPool.getLocalSettings().getBaseLanguageId(), new SimpleResultHandler() {
 
             public void hasResult(Object resultObject) {
+                if (resultObject != null && resultObject.equals("no-langs")) {
+                    MyDialogHelper.tryDismissQuickProgressDialog();
+                    finish();
+                    return;
+                }
                 refreshUserLearningLanguages();
             }
         });
