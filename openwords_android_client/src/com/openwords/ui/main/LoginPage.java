@@ -13,11 +13,12 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 import com.openwords.R;
+import com.openwords.interfaces.HttpResultHandler;
+import com.openwords.interfaces.SimpleResultHandler;
 import com.openwords.model.DataPool;
 import com.openwords.model.Language;
 import com.openwords.model.UserLearningLanguages;
 import com.openwords.services.implementations.LoginUser;
-import com.openwords.services.interfaces.HttpResultHandler;
 import com.openwords.services.interfaces.RequestParamsBuilder;
 import com.openwords.sound.SoundPlayer;
 import com.openwords.test.ActivityTest;
@@ -155,16 +156,12 @@ public class LoginPage extends Activity {
                         }
                         DataPool.getLocalSettings().setUserId(newUserId);
                         DataPool.getLocalSettings().save();
-                        UserLearningLanguages.loadUserLearningLanguagesFromRemote(LoginPage.this,
+                        UserLearningLanguages.loadUserLearningLanguages(
                                 DataPool.getLocalSettings().getUserId(),
                                 DataPool.getLocalSettings().getBaseLanguageId(),
-                                new HttpResultHandler() {
+                                new SimpleResultHandler() {
 
                                     public void hasResult(Object resultObject) {
-                                        loadLanguageDataAndGoHome();
-                                    }
-
-                                    public void noResult(String errorMessage) {
                                         loadLanguageDataAndGoHome();
                                     }
                                 });
@@ -178,16 +175,10 @@ public class LoginPage extends Activity {
     }
 
     private void loadLanguageDataAndGoHome() {
-        Language.checkAndMergeNewLanguages(this, DataPool.getLocalSettings().getBaseLanguageId(), new HttpResultHandler() {
+        Language.checkAndMergeNewLanguages(this, DataPool.getLocalSettings().getBaseLanguageId(), new SimpleResultHandler() {
 
             public void hasResult(Object resultObject) {
                 goToHomePage();
-            }
-
-            public void noResult(String errorMessage) {
-                MyQuickToast.showShort(LoginPage.this, "checkAndMergeNewLanguages no result");
-                goToHomePage();
-
             }
         });
     }
