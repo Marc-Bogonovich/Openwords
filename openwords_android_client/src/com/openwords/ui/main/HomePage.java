@@ -92,8 +92,6 @@ public class HomePage extends Activity {
                 testPageButtonClick();
             }
         });
-
-        refreshLanguageOptions();
     }
 
     private void fillUI() {
@@ -111,16 +109,26 @@ public class HomePage extends Activity {
         LogUtil.logDeubg(this, "refreshLanguageOptions");
         final List<Language> languages = Language.getLearningLanguages(DataPool.getLocalSettings().getBaseLanguageId());
         List<String> languageNames = new LinkedList<String>();
+        final boolean noLangs[] = new boolean[]{false};
         if (!languages.isEmpty()) {
             for (Language lang : languages) {
                 languageNames.add(lang.name);
             }
+        } else {
+            noLangs[0] = true;
         }
+
         languageNames.add(LocalizationManager.getTextMoreLang());
         languageOption.setAdapter(new ArrayAdapter<String>(HomePage.this, android.R.layout.simple_list_item_1, android.R.id.text1, languageNames));
         languageOption.setOnItemSelectedListener(new OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                MyQuickToast.showShort(HomePage.this, "item " + position);//To-do select the same thing when one item
+                if (noLangs[0]) {
+                    noLangs[0] = false;
+                    LogUtil.logDeubg(this, "omit default touch for the first time");
+                    return;
+                }
                 if (position >= languages.size()) {
                     startActivity(new Intent(HomePage.this, LanguagePage.class));
                     return;
@@ -131,6 +139,7 @@ public class HomePage extends Activity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
+                MyQuickToast.showShort(HomePage.this, "onNothingSelected");
             }
         });
     }
