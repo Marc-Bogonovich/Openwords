@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -20,13 +19,13 @@ import com.openwords.learningmodule.ActivityInstantiationCallbackBundle;
 import com.openwords.learningmodule.ActivityLM;
 import com.openwords.learningmodule.LearningModuleType;
 import com.openwords.learningmodule.ProgressLM;
-import com.openwords.model.DataPool;
 import com.openwords.model.Language;
 import com.openwords.model.LeafCard;
 import com.openwords.model.LeafCardHearingAdapter;
 import com.openwords.model.LeafCardReviewAdapter;
 import com.openwords.model.LeafCardSelfEvalAdapter;
 import com.openwords.model.LeafCardTypeEvalAdapter;
+import com.openwords.model.LocalSettings;
 import com.openwords.sound.WordAudioManager;
 import com.openwords.ui.common.BackButtonBehavior;
 import com.openwords.ui.other.ActionBarBuilder;
@@ -109,7 +108,7 @@ public class HomePage extends Activity {
 
     private void refreshLanguageOptions() {
         LogUtil.logDeubg(this, "refreshLanguageOptions");
-        final List<Language> languages = Language.getLearningLanguages(DataPool.getLocalSettings().getBaseLanguageId());
+        final List<Language> languages = Language.getLearningLanguages(LocalSettings.getBaseLanguageId());
         List<String> languageNames = new LinkedList<String>();
         if (!languages.isEmpty()) {
             for (Language lang : languages) {

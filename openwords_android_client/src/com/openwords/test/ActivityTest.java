@@ -12,8 +12,8 @@ import com.loopj.android.http.TextHttpResponseHandler;
 import com.openwords.R;
 import com.openwords.interfaces.HttpResultHandler;
 import com.openwords.interfaces.SimpleResultHandler;
-import com.openwords.model.DataPool;
 import com.openwords.model.Language;
+import com.openwords.model.LocalSettings;
 import com.openwords.model.UserLearningLanguages;
 import com.openwords.model.UserWords;
 import com.openwords.services.implementations.AddUser;
@@ -244,7 +244,7 @@ public class ActivityTest extends Activity {
         findViewById(R.id.act_test_test99).setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
-                Language.checkAndMergeNewLanguages(ActivityTest.this, DataPool.getLocalSettings().getBaseLanguageId(), new SimpleResultHandler() {
+                Language.checkAndMergeNewLanguages(ActivityTest.this, LocalSettings.getBaseLanguageId(), new SimpleResultHandler() {
 
                     public void hasResult(Object resultObject) {
                         List<Integer> local = UserLearningLanguages.loadUserLearningLanguagesFromLocal(1);

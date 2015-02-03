@@ -17,6 +17,7 @@ import com.openwords.interfaces.HttpResultHandler;
 import com.openwords.interfaces.SimpleResultHandler;
 import com.openwords.model.DataPool;
 import com.openwords.model.Language;
+import com.openwords.model.LocalSettings;
 import com.openwords.model.UserLearningLanguages;
 import com.openwords.services.implementations.LoginUser;
 import com.openwords.services.interfaces.RequestParamsBuilder;
@@ -103,13 +104,13 @@ public class LoginPage extends Activity {
         loginButton.setText(LocalizationManager.getTextLogin());
         registerButton.setText(LocalizationManager.getTextRegister());
         remember.setText(LocalizationManager.getTextRememberMe());
-        remember.setChecked(DataPool.getLocalSettings().isRemember());
+        remember.setChecked(LocalSettings.isRemember());
         usernameField.setHint(LocalizationManager.getTextHintUser());
         passwdField.setHint(LocalizationManager.getTextHintPass());
 
-        if (DataPool.getLocalSettings().isRemember()) {
-            usernameField.setText(DataPool.getLocalSettings().getUsername());
-            passwdField.setText(DataPool.getLocalSettings().getPassword());
+        if (LocalSettings.isRemember()) {
+            usernameField.setText(LocalSettings.getUsername());
+            passwdField.setText(LocalSettings.getPassword());
             remember.setChecked(true);
         }
     }
@@ -120,15 +121,15 @@ public class LoginPage extends Activity {
         LogUtil.logDeubg(this, "onResume");
         if (DataPool.DoRegistration) {
             DataPool.DoRegistration = false;
-            login(DataPool.getLocalSettings().getUsername(), DataPool.getLocalSettings().getPassword());
+            login(LocalSettings.getUsername(), LocalSettings.getPassword());
         }
         fillUI();
     }
 
     private void login(final String username, final String password) {
         if (!InternetCheck.hasNetwork(this)) {
-            if (DataPool.getLocalSettings().getUsername().equals(username)
-                    && DataPool.getLocalSettings().getPassword().equals(password)) {
+            if (LocalSettings.getUsername().equals(username)
+                    && LocalSettings.getPassword().equals(password)) {
                 DataPool.OffLine = true;
                 MyQuickToast.showLong(this, "You are now in offline mode");
                 goToHomePage();
@@ -143,22 +144,21 @@ public class LoginPage extends Activity {
                 new HttpResultHandler() {
 
                     public void hasResult(Object resultObject) {
-                        DataPool.getLocalSettings().setRemember(remember.isChecked());
-                        DataPool.getLocalSettings().setUsername(username);
-                        DataPool.getLocalSettings().setPassword(password);
+                        LocalSettings.setRemember(remember.isChecked());
+                        LocalSettings.setUsername(username);
+                        LocalSettings.setPassword(password);
                         int newUserId = (Integer) resultObject;
-                        if (DataPool.getLocalSettings().getUserId() != newUserId) {
+                        if (LocalSettings.getUserId() != newUserId) {
                             MyQuickToast.showShort(LoginPage.this, "User changed");
                             UserLearningLanguages.deleteAll(UserLearningLanguages.class);
                         } else {
                             //in case cannot connect to server
-                            UserLearningLanguages.loadUserLearningLanguagesFromLocal(DataPool.getLocalSettings().getBaseLanguageId());
+                            UserLearningLanguages.loadUserLearningLanguagesFromLocal(LocalSettings.getBaseLanguageId());
                         }
-                        DataPool.getLocalSettings().setUserId(newUserId);
-                        DataPool.getLocalSettings().save();
+                        LocalSettings.setUserId(newUserId);
                         UserLearningLanguages.loadUserLearningLanguages(
-                                DataPool.getLocalSettings().getUserId(),
-                                DataPool.getLocalSettings().getBaseLanguageId(),
+                                LocalSettings.getUserId(),
+                                LocalSettings.getBaseLanguageId(),
                                 new SimpleResultHandler() {
 
                                     public void hasResult(Object resultObject) {
@@ -175,7 +175,7 @@ public class LoginPage extends Activity {
     }
 
     private void loadLanguageDataAndGoHome() {
-        Language.checkAndMergeNewLanguages(this, DataPool.getLocalSettings().getBaseLanguageId(), new SimpleResultHandler() {
+        Language.checkAndMergeNewLanguages(this, LocalSettings.getBaseLanguageId(), new SimpleResultHandler() {
 
             public void hasResult(Object resultObject) {
                 goToHomePage();
@@ -204,7 +204,7 @@ public class LoginPage extends Activity {
         LocalFileSystem.makeFolders();
         LocalizationManager.init(this);
 
-        LocalLanguage lang = DataPool.getLocalSettings().getLocalLanguage();
+        LocalLanguage lang = LocalSettings.getLocalLanguage();
         if (lang == null) {
             String current = getResources().getConfiguration().locale.getDisplayLanguage();
             for (Object[] item : LocalizationManager.LanguageNamesTypesIdsLocales) {

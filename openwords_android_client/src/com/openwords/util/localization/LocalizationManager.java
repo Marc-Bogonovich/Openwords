@@ -3,7 +3,7 @@ package com.openwords.util.localization;
 import android.content.Context;
 import android.content.res.Resources;
 import com.openwords.R;
-import com.openwords.model.DataPool;
+import com.openwords.model.LocalSettings;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -44,9 +44,9 @@ public class LocalizationManager {
      */
     private static void setBaseLanguage(LocalLanguage localLanguage) {
         if (localLanguage.equals(LocalLanguage.English)) {
-            DataPool.getLocalSettings().setBaseLanguageId(1);
+            LocalSettings.setBaseLanguageId(1);
         } else if (localLanguage.equals(LocalLanguage.Chinese)) {
-            DataPool.getLocalSettings().setBaseLanguageId(98);
+            LocalSettings.setBaseLanguageId(98);
         }
     }
 

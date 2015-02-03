@@ -14,6 +14,7 @@ import com.openwords.R;
 import com.openwords.interfaces.HttpResultHandler;
 import com.openwords.model.DataPool;
 import com.openwords.model.Language;
+import com.openwords.model.LocalSettings;
 import com.openwords.model.UserInfo;
 import com.openwords.model.UserLearningLanguages;
 import com.openwords.services.implementations.AddUser;
@@ -142,11 +143,10 @@ public class RegisterPage extends Activity {
                             OpenwordsSharedPreferences.setUserInfo(new UserInfo(r.userId, username, password, System.currentTimeMillis()));
                             MyQuickToast.showShort(RegisterPage.this, "AddUser ok: " + r.userId);
                             finish();
-                            DataPool.getLocalSettings().setUsername(username);
-                            DataPool.getLocalSettings().setPassword(password);
+                            LocalSettings.setUsername(username);
+                            LocalSettings.setPassword(password);
                             DataPool.DoRegistration = true;
-                            DataPool.getLocalSettings().setUserId(r.userId);
-                            DataPool.saveLocalSettings();
+                            LocalSettings.setUserId(r.userId);
                             RegisterPage.this.startActivity(new Intent(RegisterPage.this, LanguagePage.class));
                         }
 

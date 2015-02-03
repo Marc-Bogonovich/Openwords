@@ -10,8 +10,8 @@ import android.widget.TextView;
 import com.openwords.R;
 import com.openwords.interfaces.HttpResultHandler;
 import com.openwords.interfaces.SimpleResultHandler;
-import com.openwords.model.DataPool;
 import com.openwords.model.Language;
+import com.openwords.model.LocalSettings;
 import com.openwords.model.UserLearningLanguages;
 import com.openwords.services.implementations.SetUserLanguages;
 import com.openwords.services.interfaces.RequestParamsBuilder;
@@ -48,18 +48,18 @@ public class LanguagePage extends Activity {
 
             public void onClick(View view) {
                 if (doneChosen) {
-                    if (DataPool.getLocalSettings().getUserId() <= 0) {
+                    if (LocalSettings.getUserId() <= 0) {
                         MyQuickToast.showShort(LanguagePage.this, "user id is corrupt");
                         return;
                     }
-                    UserLearningLanguages.saveUserLearningLanguagesToLocal(DataPool.getLocalSettings().getBaseLanguageId(),
+                    UserLearningLanguages.saveUserLearningLanguagesToLocal(LocalSettings.getBaseLanguageId(),
                             ChosenLangIds);
 
                     MyDialogHelper.tryShowQuickProgressDialog(LanguagePage.this, "Saving your preference to server...");
 
                     new SetUserLanguages().doRequest(new RequestParamsBuilder()
-                            .addParam("userId", String.valueOf(DataPool.getLocalSettings().getUserId()))
-                            .addParam("langOneId", String.valueOf(DataPool.getLocalSettings().getBaseLanguageId()))
+                            .addParam("userId", String.valueOf(LocalSettings.getUserId()))
+                            .addParam("langOneId", String.valueOf(LocalSettings.getBaseLanguageId()))
                             .addParam("langTwoIds", MyGson.toJson(ChosenLangIds))
                             .getParams(),
                             new HttpResultHandler() {
@@ -85,7 +85,7 @@ public class LanguagePage extends Activity {
 
     private void refreshList() {
         MyDialogHelper.tryShowQuickProgressDialog(this, "Refresh languages data...");
-        Language.checkAndMergeNewLanguages(this, DataPool.getLocalSettings().getBaseLanguageId(), new SimpleResultHandler() {
+        Language.checkAndMergeNewLanguages(this, LocalSettings.getBaseLanguageId(), new SimpleResultHandler() {
 
             public void hasResult(Object resultObject) {
                 if (resultObject != null && resultObject.equals("no-langs")) {
@@ -109,8 +109,8 @@ public class LanguagePage extends Activity {
     private void refreshUserLearningLanguages() {
         ChosenLangIds.clear();
         UserLearningLanguages.loadUserLearningLanguages(
-                DataPool.getLocalSettings().getUserId(),
-                DataPool.getLocalSettings().getBaseLanguageId(),
+                LocalSettings.getUserId(),
+                LocalSettings.getBaseLanguageId(),
                 new SimpleResultHandler() {
 
                     public void hasResult(Object resultObject) {

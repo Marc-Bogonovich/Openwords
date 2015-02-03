@@ -3,62 +3,97 @@ package com.openwords.model;
 import com.openwords.util.gson.MyGson;
 import com.openwords.util.localization.LocalLanguage;
 import com.orm.SugarRecord;
+import java.util.List;
 
 public class LocalSettings extends SugarRecord<LocalSettings> {
+
+    private static LocalSettings instance;
+
+    private static void loadLocalSettings() {
+        if (instance == null) {
+            List<LocalSettings> r = LocalSettings.listAll(LocalSettings.class);
+            if (r.isEmpty()) {
+                instance = new LocalSettings();
+            } else {
+                instance = r.get(0);
+            }
+        }
+    }
+
+    public static void clearLocalSettings() {
+        LocalSettings.deleteAll(LocalSettings.class);
+    }
+
+    public static int getUserId() {
+        loadLocalSettings();
+        return instance.userId;
+    }
+
+    public static void setUserId(int userId) {
+        loadLocalSettings();
+        instance.userId = userId;
+        instance.save();
+    }
+
+    public static String getUsername() {
+        loadLocalSettings();
+        return instance.username;
+    }
+
+    public static void setUsername(String username) {
+        loadLocalSettings();
+        instance.username = username;
+        instance.save();
+    }
+
+    public static String getPassword() {
+        loadLocalSettings();
+        return instance.password;
+    }
+
+    public static void setPassword(String password) {
+        loadLocalSettings();
+        instance.password = password;
+        instance.save();
+    }
+
+    public static int getBaseLanguageId() {
+        loadLocalSettings();
+        return instance.baseLanguageId;
+    }
+
+    public static void setBaseLanguageId(int baseLanguageId) {
+        loadLocalSettings();
+        instance.baseLanguageId = baseLanguageId;
+        instance.save();
+    }
+
+    public static boolean isRemember() {
+        loadLocalSettings();
+        return instance.remember;
+    }
+
+    public static void setRemember(boolean remember) {
+        loadLocalSettings();
+        instance.remember = remember;
+        instance.save();
+    }
+
+    public static LocalLanguage getLocalLanguage() {
+        loadLocalSettings();
+        return (LocalLanguage) MyGson.fromJson(instance.localLanguage, LocalLanguage.class);
+    }
+
+    public static void setLocalLanguage(LocalLanguage lang) {
+        loadLocalSettings();
+        instance.localLanguage = MyGson.toJson(lang);
+        instance.save();
+    }
 
     private int userId, baseLanguageId;
     private String username, password, localLanguage;
     private boolean remember;
 
     public LocalSettings() {
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public int getBaseLanguageId() {
-        return baseLanguageId;
-    }
-
-    public void setBaseLanguageId(int baseLanguageId) {
-        this.baseLanguageId = baseLanguageId;
-    }
-
-    public boolean isRemember() {
-        return remember;
-    }
-
-    public void setRemember(boolean remember) {
-        this.remember = remember;
-    }
-
-    public LocalLanguage getLocalLanguage() {
-        return (LocalLanguage) MyGson.fromJson(localLanguage, LocalLanguage.class);
-    }
-
-    public void setLocalLanguage(LocalLanguage lang) {
-        localLanguage = MyGson.toJson(lang);
-        this.save();
     }
 }
