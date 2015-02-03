@@ -80,7 +80,7 @@ public class WordConnection implements Serializable {
     }
 
     @SuppressWarnings("unchecked")
-    public static List<WordConnection> getConnectionsPage(Session s, int langOneId, int langTwoId, int pageNumber, int pageSize) {
+    public static List<WordConnection> getConnectionsPage(Session s, int langOneId, int langTwoId, int pageNumber, int pageSize, boolean includeWords) {
         int firstRecord = (pageNumber - 1) * pageSize;
         List<WordConnection> records = s.createCriteria(WordConnection.class)
                 .add(Restrictions.eq("wordOneLangId", langOneId))
@@ -89,9 +89,11 @@ public class WordConnection implements Serializable {
                 .setMaxResults(pageSize)
                 .list();
 
-        for (WordConnection record : records) {
-            record.setWordOne(Word.getWord(s, record.getWordOneId()));
-            record.setWordTwo(Word.getWord(s, record.getWordTwoId()));
+        if (includeWords) {
+            for (WordConnection record : records) {
+                record.setWordOne(Word.getWord(s, record.getWordOneId()));
+                record.setWordTwo(Word.getWord(s, record.getWordTwoId()));
+            }
         }
         return records;
     }

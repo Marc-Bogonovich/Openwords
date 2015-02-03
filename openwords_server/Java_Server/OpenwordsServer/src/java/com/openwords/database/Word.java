@@ -5,6 +5,7 @@ import com.openwords.utils.MyXStream;
 import com.openwords.utils.UtilLog;
 import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Column;
@@ -126,6 +127,11 @@ public class Word implements Serializable {
 
     public static Word getWord(Session s, int wordId) {
         return (Word) s.get(Word.class, wordId);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static List<Word> getWords(Session s, Collection<Integer> ids) {
+        return s.createCriteria(Word.class).add(Restrictions.in("wordId", ids)).list();
     }
 
     public static int countLanguageWord(Session s, int languageId) {
