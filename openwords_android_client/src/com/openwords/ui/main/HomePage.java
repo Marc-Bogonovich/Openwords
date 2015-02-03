@@ -111,6 +111,7 @@ public class HomePage extends Activity {
         final List<Language> languages = Language.getLearningLanguages(LocalSettings.getBaseLanguageId());
         List<String> languageNames = new LinkedList<String>();
         if (!languages.isEmpty()) {
+            languageOption.setOnTouchListener(null);
             for (Language lang : languages) {
                 languageNames.add(lang.name);
             }
