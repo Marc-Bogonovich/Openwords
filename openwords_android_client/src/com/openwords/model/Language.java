@@ -73,7 +73,7 @@ public class Language extends SugarRecord<Language> {
 
             public void noResult(String errorMessage) {
                 MyQuickToast.showShort(context, "Cannot connect to server: " + errorMessage);
-                resultHandler.hasResult(null);
+                resultHandler.hasResult("no-server");
             }
         });
     }
@@ -93,7 +93,7 @@ public class Language extends SugarRecord<Language> {
 
                     public void noResult(String errorMessage) {
                         MyQuickToast.showShort(context, "not ok: " + errorMessage);
-                        resultHandler.hasResult(null);
+                        resultHandler.hasResult("no-server");
                     }
                 });
     }

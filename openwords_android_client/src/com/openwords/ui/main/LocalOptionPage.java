@@ -17,6 +17,7 @@ import com.openwords.model.LocalSettings;
 import com.openwords.model.UserLearningLanguages;
 import com.openwords.util.localization.LocalLanguage;
 import com.openwords.util.localization.LocalizationManager;
+import com.openwords.util.ui.MyDialogHelper;
 import com.openwords.util.ui.MyQuickToast;
 import java.util.LinkedList;
 import java.util.List;
@@ -57,6 +58,12 @@ public class LocalOptionPage extends Activity {
 
                                     public void hasResult(Object resultObject) {
                                         if (resultObject != null && resultObject.equals("no-langs")) {
+                                            act.finish();
+                                            return;
+                                        }
+                                        if (resultObject != null && resultObject.equals("no-server")) {
+                                            MyDialogHelper.tryDismissQuickProgressDialog();
+                                            MyQuickToast.showShort(act, "No server response");
                                             act.finish();
                                             return;
                                         }

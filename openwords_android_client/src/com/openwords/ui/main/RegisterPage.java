@@ -140,7 +140,7 @@ public class RegisterPage extends Activity {
                             UserLearningLanguages.deleteAll(UserLearningLanguages.class);
 
                             AddUser.Result r = (AddUser.Result) resultObject;
-                            OpenwordsSharedPreferences.setUserInfo(new UserInfo(r.userId, username, password, System.currentTimeMillis()));
+                            OpenwordsSharedPreferences.setUserInfo(new UserInfo(r.userId, username, password, System.currentTimeMillis()));//delete soon
                             MyQuickToast.showShort(RegisterPage.this, "AddUser ok: " + r.userId);
                             finish();
                             LocalSettings.setUsername(username);

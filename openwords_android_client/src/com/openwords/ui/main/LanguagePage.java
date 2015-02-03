@@ -93,6 +93,12 @@ public class LanguagePage extends Activity {
                     finish();
                     return;
                 }
+                if (resultObject != null && resultObject.equals("no-server")) {
+                    MyDialogHelper.tryDismissQuickProgressDialog();
+                    MyQuickToast.showShort(LanguagePage.this, "No server response");
+                    finish();
+                    return;
+                }
                 refreshUserLearningLanguages();
             }
         });
