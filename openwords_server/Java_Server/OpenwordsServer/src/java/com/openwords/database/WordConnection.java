@@ -29,7 +29,7 @@ public class WordConnection implements Serializable {
                 .list();
     }
 
-    public static List<WordConnection> getConnectionsPageWithOrder(Session s, int langOneId, int langTwoId, int pageNumber, int pageSize, String orderItem) {
+    public static List<WordConnection> getConnectionsPageWithOrder(Session s, int langOneId, int langTwoId, int pageNumber, int pageSize, String orderItem, boolean includeWords) {
         int firstRecord = (pageNumber - 1) * pageSize;
 
         String sql = "select c.* from words w,word_connections c "
@@ -48,9 +48,11 @@ public class WordConnection implements Serializable {
         @SuppressWarnings("unchecked")
         List<WordConnection> connections = s.createSQLQuery(sql).addEntity(WordConnection.class).list();
 
-        for (WordConnection record : connections) {
-            record.setWordOne(Word.getWord(s, record.getWordOneId()));
-            record.setWordTwo(Word.getWord(s, record.getWordTwoId()));
+        if (includeWords) {
+            for (WordConnection record : connections) {
+                record.setWordOne(Word.getWord(s, record.getWordOneId()));
+                record.setWordTwo(Word.getWord(s, record.getWordTwoId()));
+            }
         }
         return connections;
     }

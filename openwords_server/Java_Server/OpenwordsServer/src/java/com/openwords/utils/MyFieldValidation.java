@@ -46,6 +46,34 @@ public class MyFieldValidation {
         }
     }
 
+    public static void checkPageSize(MyAction action, int size, int max, int min) {
+        try {
+            if (size > max) {
+                throw new Exception("pageSize is too large");
+            } else if (size < min) {
+                throw new Exception("pageSize is too small");
+            }
+        } catch (Exception e) {
+            action.setErrorMessage(e.getMessage());
+            validateFail(action);
+            UtilLog.logWarn(MyFieldValidation.class, e.toString());
+        }
+    }
+
+    public static void checkBooleanAndString(MyAction action, String name, boolean doOption, String option) {
+        try {
+            if (doOption) {
+                if (option == null || option.isEmpty()) {
+                    throw new Exception("no " + name + " option value is given");
+                }
+            }
+        } catch (Exception e) {
+            action.setErrorMessage(e.getMessage());
+            validateFail(action);
+            UtilLog.logWarn(MyFieldValidation.class, e.toString());
+        }
+    }
+
     private static void validateFail(MyAction action) {
         action.addFieldError("error", "error");//not used
     }

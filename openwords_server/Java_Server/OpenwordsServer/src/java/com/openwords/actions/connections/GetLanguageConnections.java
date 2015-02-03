@@ -4,6 +4,7 @@ import static com.opensymphony.xwork2.Action.SUCCESS;
 import com.openwords.database.DatabaseHandler;
 import com.openwords.database.WordConnection;
 import com.openwords.interfaces.MyAction;
+import com.openwords.utils.MyFieldValidation;
 import com.openwords.utils.UtilLog;
 import java.util.List;
 import org.apache.struts2.convention.annotation.Action;
@@ -22,23 +23,16 @@ public class GetLanguageConnections extends MyAction {
     private String orderBy;
 
     @Action(value = "/getLanguageConnections", results = {
-        @Result(name = SUCCESS, type = "json")
+        @Result(name = SUCCESS, type = "json"),
+        @Result(name = INPUT, type = "json")
     })
     @Override
     public String execute() throws Exception {
         UtilLog.logInfo(this, "/getLanguageConnections");
         Session s = DatabaseHandler.getSession();
         try {
-            if (pageSize > 100) {
-                throw new Exception("PageSize is too large!");
-            }
             if (doOrder) {
-                if (orderBy == null || orderBy.isEmpty()) {
-                    throw new Exception("Please give an order criteria!");
-                }
-            }
-            if (doOrder) {
-                result = WordConnection.getConnectionsPageWithOrder(s, langOneId, langTwoId, pageNumber, pageSize, orderBy.trim());
+                result = WordConnection.getConnectionsPageWithOrder(s, langOneId, langTwoId, pageNumber, pageSize, orderBy.trim(), true);
             } else {
                 result = WordConnection.getConnectionsPage(s, langOneId, langTwoId, pageNumber, pageSize);
             }
@@ -84,7 +78,13 @@ public class GetLanguageConnections extends MyAction {
     }
 
     @Override
+    public void validate() {
+        MyFieldValidation.checkPageSize(this, pageSize, 100, 10);
+        MyFieldValidation.checkBooleanAndString(this, "doOrder", doOrder, orderBy);
+    }
+
+    @Override
     public void setErrorMessage(String errorMessage) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.errorMessage = errorMessage;
     }
 }
