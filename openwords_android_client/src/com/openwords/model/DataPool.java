@@ -16,6 +16,7 @@ public class DataPool {
     public static List<WordConnection> LmPool;
     public static int LmCurrentCard = -1;
     public static boolean LmReverseNav;
+    public static int LmLearningLang = -1;
 
     private DataPool() {
     }

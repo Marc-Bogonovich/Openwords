@@ -8,7 +8,10 @@ import android.view.inputmethod.InputMethodManager;
 import com.openwords.R;
 import static com.openwords.learningmodule.InterfaceLearningModule.Learning_Type_Review;
 import com.openwords.model.DataPool;
+import com.openwords.model.LocalSettings;
+import com.openwords.model.WordConnection;
 import com.openwords.util.log.LogUtil;
+import com.openwords.util.ui.MyDialogHelper;
 import com.openwords.util.ui.MyQuickToast;
 
 /**
@@ -26,6 +29,12 @@ public class ActivityLearning extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lm);
+
+        MyDialogHelper.tryShowQuickProgressDialog(this, "Assembling your words...");
+        DataPool.LmPool = WordConnection.getConnections(LocalSettings.getBaseLanguageId(), DataPool.LmLearningLang, 3, 2);
+        DataPool.LmCurrentCard = 0;
+        DataPool.LmReverseNav = false;
+        MyDialogHelper.tryDismissQuickProgressDialog();
 
         LogUtil.logDeubg(this, "reverseNav set to: " + DataPool.LmReverseNav);
         if (DataPool.LmReverseNav) {

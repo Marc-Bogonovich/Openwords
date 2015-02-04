@@ -18,12 +18,10 @@ import com.openwords.learningmodule.InterfaceLearningModule;
 import com.openwords.model.DataPool;
 import com.openwords.model.Language;
 import com.openwords.model.LocalSettings;
-import com.openwords.model.WordConnection;
 import com.openwords.ui.common.BackButtonBehavior;
 import com.openwords.ui.other.ActionBarBuilder;
 import com.openwords.util.localization.LocalizationManager;
 import com.openwords.util.log.LogUtil;
-import com.openwords.util.ui.MyDialogHelper;
 import com.openwords.util.ui.MyQuickToast;
 import java.util.LinkedList;
 import java.util.List;
@@ -143,19 +141,13 @@ public class HomePage extends Activity {
     }
 
     public void testPageButtonClick() {
-        MyDialogHelper.tryShowQuickProgressDialog(this, "Assembling your words...");
-        if (learningType == InterfaceLearningModule.Learning_Type_Review) {
-            if (nextLangToLearn != null) {
-                DataPool.LmType = learningType;
-                DataPool.LmPool = WordConnection.getConnections(LocalSettings.getBaseLanguageId(), nextLangToLearn.langId, 5, 1);
-                DataPool.LmCurrentCard = 0;
-                DataPool.LmReverseNav = false;
-                startActivity(new Intent(HomePage.this, ActivityLearning.class));
-            } else {
-                MyQuickToast.showShort(this, "You need to chose a language to learn");
-            }
+        if (nextLangToLearn != null) {
+            DataPool.LmType = learningType;
+            DataPool.LmLearningLang = nextLangToLearn.langId;
+            startActivity(new Intent(HomePage.this, ActivityLearning.class));
+        } else {
+            MyQuickToast.showShort(this, "You need to chose a language to learn");
         }
-        MyDialogHelper.tryDismissQuickProgressDialog();
     }
 
     @Override
