@@ -225,4 +225,8 @@ public class WordConnection implements Serializable {
         this.wordOne = wordOne;
     }
 
+    @Transient
+    public long getUpdatedTimeLong() {
+        return updatedTime.getTime();
+    }
 }

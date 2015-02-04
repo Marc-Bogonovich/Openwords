@@ -259,4 +259,9 @@ public class Word implements Serializable {
         }
         return wordMetaInfo;
     }
+
+    @Transient
+    public long getUpdatedTimeLong() {
+        return updatedTime.getTime();
+    }
 }
