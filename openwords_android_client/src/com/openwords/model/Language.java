@@ -2,11 +2,11 @@ package com.openwords.model;
 
 import android.content.Context;
 import com.google.gson.Gson;
-import com.openwords.interfaces.HttpResultHandler;
-import com.openwords.interfaces.SimpleResultHandler;
 import com.openwords.services.implementations.GetLanguages;
 import com.openwords.services.implementations.GetLearnableLanguages;
+import com.openwords.services.interfaces.HttpResultHandler;
 import com.openwords.services.interfaces.RequestParamsBuilder;
+import com.openwords.services.interfaces.SimpleResultHandler;
 import com.openwords.util.ui.CallbackOkButton;
 import com.openwords.util.ui.MyDialogHelper;
 import com.openwords.util.ui.MyQuickToast;

@@ -3,7 +3,6 @@ package com.openwords.services.interfaces;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.TextHttpResponseHandler;
-import com.openwords.interfaces.HttpResultHandler;
 import org.apache.http.Header;
 
 public abstract class HttpServiceRequester {

@@ -2,9 +2,9 @@ package com.openwords.services.implementations;
 
 import com.google.gson.Gson;
 import com.loopj.android.http.RequestParams;
-import com.openwords.interfaces.HttpResultHandler;
 import static com.openwords.model.DataPool.ServerAddress;
 import com.openwords.model.Language;
+import com.openwords.services.interfaces.HttpResultHandler;
 import com.openwords.services.interfaces.HttpServiceRequester;
 import java.util.List;
 

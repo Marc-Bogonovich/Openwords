@@ -1,8 +1,8 @@
 package com.openwords.model;
 
-import com.openwords.interfaces.HttpResultHandler;
-import com.openwords.interfaces.SimpleResultHandler;
 import com.openwords.services.implementations.GetUserLanguages;
+import com.openwords.services.interfaces.HttpResultHandler;
+import com.openwords.services.interfaces.SimpleResultHandler;
 import com.openwords.util.gson.MyGson;
 import com.openwords.util.log.LogUtil;
 import com.orm.SugarRecord;

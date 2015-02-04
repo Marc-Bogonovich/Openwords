@@ -2,16 +2,15 @@ package com.openwords.services.implementations;
 
 import com.google.gson.Gson;
 import com.loopj.android.http.RequestParams;
-import com.openwords.interfaces.HttpResultHandler;
-import com.openwords.interfaces.InterfaceGetUserLanguages;
 import static com.openwords.model.DataPool.ServerAddress;
+import com.openwords.services.interfaces.HttpResultHandler;
 import com.openwords.services.interfaces.HttpServiceRequester;
 import com.openwords.services.interfaces.RequestParamsBuilder;
 import java.util.List;
 
-public class GetUserLanguages extends HttpServiceRequester implements HttpResultHandler, InterfaceGetUserLanguages {
+public class GetUserLanguages extends HttpServiceRequester implements HttpResultHandler {
 
-    public final String ServiceURL = "http://" + ServerAddress + servicePath;
+    public final String ServiceURL = "http://" + ServerAddress + "/getUserLanguages";
 
     private HttpResultHandler resultHandler;
 
@@ -35,18 +34,6 @@ public class GetUserLanguages extends HttpServiceRequester implements HttpResult
 
     public void noResult(String errorMessage) {
         resultHandler.noResult(errorMessage);
-    }
-
-    public void setUserId(int i) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public void setLangOneId(int i) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public List<Integer> getResult() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
