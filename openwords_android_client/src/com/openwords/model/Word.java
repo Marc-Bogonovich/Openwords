@@ -9,6 +9,10 @@ import java.util.Set;
 
 public class Word extends SugarRecord<Word> {
 
+    public static Word getWord(int wordId) {
+        return Word.find(Word.class, "word_id = ?", String.valueOf(wordId)).get(0);
+    }
+
     public static void saveOrUpdateAll(List<Word> ws) {
         Set<Integer> ids = new HashSet<Integer>(ws.size());
         for (Word c : ws) {
@@ -34,5 +38,12 @@ public class Word extends SugarRecord<Word> {
     public Word saveMetaToJson() {
         meta = MyGson.toJson(wordMetaInfo);
         return this;
+    }
+
+    public WordMetaInfo getMeta() {
+        if (wordMetaInfo == null) {
+            wordMetaInfo = (WordMetaInfo) MyGson.fromJson(meta, WordMetaInfo.class);
+        }
+        return wordMetaInfo;
     }
 }
