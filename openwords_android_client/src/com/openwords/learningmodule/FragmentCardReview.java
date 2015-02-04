@@ -8,25 +8,22 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.openwords.R;
-import com.openwords.model.LeafCard;
-import com.openwords.util.TimeConvertor;
+import com.openwords.model.DataPool;
+import com.openwords.model.Word;
+import com.openwords.model.WordConnection;
 import com.openwords.util.log.LogUtil;
-import java.util.List;
 
 public class FragmentCardReview extends FragmentLearningModule {
 
     private final int cardIndex;
     private TextView problem, transcription, answer;
     private ImageView audioPlay;
-    private LeafCard card;
     private LinearLayout breadcrumbs;
     private View myFragmentView;
-    private List<LeafCard> cardsPool;
-    private ActivityLM lmActivity;
+    private ActivityLearning lmActivity;
 
-    public FragmentCardReview(int cardIndex, List<LeafCard> cardsPool, ActivityLM lmActivity) {
+    public FragmentCardReview(int cardIndex, ActivityLearning lmActivity) {
         this.cardIndex = cardIndex;
-        this.cardsPool = cardsPool;
         this.lmActivity = lmActivity;
     }
 
@@ -42,7 +39,9 @@ public class FragmentCardReview extends FragmentLearningModule {
         LogUtil.logDeubg(this, "onCreateView for card: " + cardIndex);
 
         myFragmentView = inflater.inflate(R.layout.fragment_review, container, false);
-        card = cardsPool.get(cardIndex);
+        WordConnection wc = DataPool.LmPool.get(cardIndex);
+        Word w1 = Word.getWord(wc.wordOneId);
+        Word w2 = Word.getWord(wc.wordTwoId);
 
         problem = (TextView) myFragmentView.findViewById(R.id.review_TextView_question);
         transcription = (TextView) myFragmentView.findViewById(R.id.review_TextView_transcription);
@@ -50,14 +49,12 @@ public class FragmentCardReview extends FragmentLearningModule {
 
         audioPlay = (ImageView) myFragmentView.findViewById(R.id.review_ImageView_audioPlay);
         //makeBreadCrumbs(); //According to Marc's requirement
-        problem.setText(card.getWordLang2());
-        answer.setText(card.getWordLang1());
-        transcription.setText(card.getTranscription());
-        card.setLastTime(TimeConvertor.getUnixTime());
+        problem.setText(w1.word);
+        answer.setText(w2.word);
+        transcription.setText("test transcription");
 
-        updateAudioIcon(audioPlay, card.getWordTwoId());
-        addClarificationTrigger(lmActivity, new View[]{answer, problem}, answer, card.getWordTwoId());
-
+        //updateAudioIcon(audioPlay, card.getWordTwoId());
+        addClarificationTrigger(lmActivity, new View[]{answer, problem}, answer, w1.getMeta().commonTranslation);
         myFragmentView.findViewById(R.id.review_View_actionBarBlank).setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 lmActivity.goToNextCard();
