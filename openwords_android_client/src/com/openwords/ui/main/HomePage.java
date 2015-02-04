@@ -1,7 +1,6 @@
 package com.openwords.ui.main;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -13,29 +12,18 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
-import android.widget.Toast;
 import com.openwords.R;
-import com.openwords.learningmodule.ActivityInstantiationCallbackBundle;
-import com.openwords.learningmodule.ActivityLM;
 import com.openwords.learningmodule.ActivityLearning;
 import com.openwords.learningmodule.InterfaceLearningModule;
-import com.openwords.learningmodule.LearningModuleType;
-import com.openwords.learningmodule.ProgressLM;
 import com.openwords.model.DataPool;
 import com.openwords.model.Language;
-import com.openwords.model.LeafCard;
-import com.openwords.model.LeafCardHearingAdapter;
-import com.openwords.model.LeafCardReviewAdapter;
-import com.openwords.model.LeafCardSelfEvalAdapter;
-import com.openwords.model.LeafCardTypeEvalAdapter;
 import com.openwords.model.LocalSettings;
 import com.openwords.model.WordConnection;
-import com.openwords.sound.WordAudioManager;
 import com.openwords.ui.common.BackButtonBehavior;
 import com.openwords.ui.other.ActionBarBuilder;
 import com.openwords.util.localization.LocalizationManager;
 import com.openwords.util.log.LogUtil;
-import com.openwords.util.preference.OpenwordsSharedPreferences;
+import com.openwords.util.ui.MyDialogHelper;
 import com.openwords.util.ui.MyQuickToast;
 import java.util.LinkedList;
 import java.util.List;
@@ -44,10 +32,7 @@ public class HomePage extends Activity {
 
     public static HomePage instance;
     private Spinner learningModuleOption, languageOption;
-    private ProgressDialog pDialog = null;
-    private int SIZE = 10;
     private ActionBarBuilder actionBar;
-    private LearningModuleType lmType = null;
     private int learningType;
     private Button testPageGo;
     private Language nextLangToLearn;
@@ -67,25 +52,22 @@ public class HomePage extends Activity {
             public void onItemSelected(AdapterView<?> av, View view, int i, long l) {
                 switch (i) {
                     case 0:
-                        lmType = LearningModuleType.LM_Review;
                         learningType = InterfaceLearningModule.Learning_Type_Review;
                         break;
                     case 1:
-                        lmType = LearningModuleType.LM_SelfEvaluation;
+                        learningType = InterfaceLearningModule.Learning_Type_Self;
                         break;
                     case 2:
-                        lmType = LearningModuleType.LM_TypeEvaluation;
+                        learningType = InterfaceLearningModule.Learning_Type_Type;
                         break;
                     case 3:
-                        lmType = LearningModuleType.LM_HearingEvaluation;
+                        learningType = InterfaceLearningModule.Learning_Type_Hearing;
                         break;
                     default:
-                        lmType = null;
+                        learningType = 0;
                         break;
                 }
-                if (lmType != null) {
-                    Toast.makeText(HomePage.this, "Current LM type: " + lmType.toString(), Toast.LENGTH_SHORT).show();
-                }
+                MyQuickToast.showShort(HomePage.this, "Current LM type: " + learningType);
             }
 
             public void onNothingSelected(AdapterView<?> av) {
@@ -161,83 +143,19 @@ public class HomePage extends Activity {
     }
 
     public void testPageButtonClick() {
-        final List<LeafCard> cards;
-        final int currentCard;
-        final ProgressLM progress;
-
-        switch (lmType) {
-            case LM_Review:
-                progress = null;//OpenwordsSharedPreferences.getReviewProgress();
-                break;
-            case LM_SelfEvaluation:
-                progress = OpenwordsSharedPreferences.getSelfEvaluationProgress();
-                break;
-            case LM_TypeEvaluation:
-                progress = OpenwordsSharedPreferences.getTypeEvaluationProgress();
-                break;
-            case LM_HearingEvaluation:
-                progress = OpenwordsSharedPreferences.getHearingProgress();
-                break;
-            default:
-                return;
-        }
-
-        pDialog = ProgressDialog.show(this, "", "Assembling leaf cards", true);
+        MyDialogHelper.tryShowQuickProgressDialog(this, "Assembling your words...");
         if (learningType == InterfaceLearningModule.Learning_Type_Review) {
             if (nextLangToLearn != null) {
                 DataPool.LmType = learningType;
                 DataPool.LmPool = WordConnection.getConnections(LocalSettings.getBaseLanguageId(), nextLangToLearn.langId, 5, 1);
                 DataPool.LmCurrentCard = 0;
                 DataPool.LmReverseNav = false;
-                pDialog.dismiss();
                 startActivity(new Intent(HomePage.this, ActivityLearning.class));
             } else {
                 MyQuickToast.showShort(this, "You need to chose a language to learn");
             }
-            return;
         }
-        if (progress == null || progress.getLanguageID() != OpenwordsSharedPreferences.getUserInfo().getLang_id()) {
-            switch (lmType) {
-                case LM_Review:
-                    cards = new LeafCardReviewAdapter().getList(SIZE);
-                    break;
-                case LM_SelfEvaluation:
-                    cards = new LeafCardSelfEvalAdapter().getList(SIZE);
-                    break;
-                case LM_TypeEvaluation:
-                    cards = new LeafCardTypeEvalAdapter().getList(SIZE);
-                    break;
-                case LM_HearingEvaluation:
-                    cards = new LeafCardHearingAdapter().getList(SIZE);
-                    break;
-                default:
-                    return;
-            }
-            if (cards.size() <= 0) {
-                Toast.makeText(HomePage.this, "Please select word first", Toast.LENGTH_SHORT).show();
-                pDialog.dismiss();
-                return;
-            } else {
-                currentCard = 0;
-            }
-        } else {
-            cards = progress.getCardsPool();
-            currentCard = progress.getCurrentCard();
-        }
-
-        ActivityInstantiationCallbackBundle.setBundle(lmType,
-                false,
-                cards,
-                currentCard,
-                true,
-                this,
-                new WordAudioManager.AsyncCallback() {
-
-                    public void doneAddAudioFiles() {
-                        startActivity(new Intent(HomePage.this, ActivityLM.class));
-                        pDialog.dismiss();
-                    }
-                });
+        MyDialogHelper.tryDismissQuickProgressDialog();
     }
 
     @Override
@@ -245,7 +163,6 @@ public class HomePage extends Activity {
         super.onResume();
         LogUtil.logDeubg(this, "onResume");
         actionBar.checkSetting();
-        SIZE = OpenwordsSharedPreferences.getLeafCardSize();
         refreshLanguageOptions();
         fillUI();
     }
