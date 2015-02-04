@@ -33,7 +33,7 @@ public class ActivityLearning extends FragmentActivity {
         MyDialogHelper.tryShowQuickProgressDialog(this, "Assembling your words...");
         DataPool.LmPool = WordConnection.getConnections(LocalSettings.getBaseLanguageId(), DataPool.LmLearningLang, 3, 2);
         DataPool.LmCurrentCard = 0;
-        DataPool.LmReverseNav = false;
+        DataPool.LmReverseNav = true;
         MyDialogHelper.tryDismissQuickProgressDialog();
 
         LogUtil.logDeubg(this, "reverseNav set to: " + DataPool.LmReverseNav);
