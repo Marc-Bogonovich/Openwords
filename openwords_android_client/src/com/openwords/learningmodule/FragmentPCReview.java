@@ -1,12 +1,9 @@
 package com.openwords.learningmodule;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -14,16 +11,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import com.openwords.R;
-import com.openwords.model.InitDatabase;
-import com.openwords.model.LeafCard;
-import com.openwords.model.LeafCardReviewAdapter;
-import com.openwords.model.UserPerformanceDirty;
-import com.openwords.sound.WordAudioManager;
 import com.openwords.util.localization.LocalizationManager;
 import com.openwords.util.log.LogUtil;
-import com.openwords.util.preference.OpenwordsSharedPreferences;
-import static com.openwords.util.preference.OpenwordsSharedPreferences.REVIEW_PROGRESS;
-import java.util.List;
 
 public class FragmentPCReview extends Fragment {
 
@@ -34,25 +23,13 @@ public class FragmentPCReview extends Fragment {
             RefreshHandler.sendEmptyMessage(0);
         }
     }
-    private Activity activity;
-    private int user_id;
-    private int SIZE = 10;
-
     private TextView vocabSize, performance, skip, birthday, birthdayDetail, evaluation;
     private Button nextPlate, exit;
-    private List<LeafCard> cardsPool;
-
-    public FragmentPCReview(List<LeafCard> cardsPool) {
-        this.cardsPool = cardsPool;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LogUtil.logDeubg(this, "onCreate");
-        OpenwordsSharedPreferences.setLMProgress(REVIEW_PROGRESS, null);
-        activity = getActivity();
-        user_id = OpenwordsSharedPreferences.getUserInfo().getUserId();
         RefreshHandler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
@@ -82,76 +59,31 @@ public class FragmentPCReview extends Fragment {
         exit = (Button) myFragmentView.findViewById(R.id.plc_button_Exit);
         exit.setText(LocalizationManager.getTextPCEnd());
 
-        /*
-         newWords.setOnClickListener(new OnClickListener() {
-         public void onClick(View view) {
-         activity.finish();
-         saveRecord();
-         Intent i = new Intent(activity, WordsPage.class);
-         i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-         activity.startActivity(i);
-         HomePage.instance.finish();
-         }
-         });
-         */
         nextPlate.setOnClickListener(new OnClickListener() {
             public void onClick(View view) {
-                saveRecord();
-                final List<LeafCard> cards = new LeafCardReviewAdapter().getList(SIZE);
-                ActivityInstantiationCallbackBundle.setBundle(LearningModuleType.LM_Review,
-                        false,
-                        cards,
-                        0,
-                        true,
-                        activity,
-                        new WordAudioManager.AsyncCallback() {
-
-                            public void doneAddAudioFiles() {
-                                activity.finish();
-                                startActivity(new Intent(activity, ActivityLM.class));
-                            }
-                        });
+                getActivity().finish();
             }
         });
         exit.setOnClickListener(new OnClickListener() {
             public void onClick(View view) {
-                activity.finish();
-                saveRecord();
+                getActivity().finish();
             }
         });
 
         refresh();
-
         return myFragmentView;
-    }
-
-    //when view pager get the second last page, this page, as last page, will be pre-loaded.
-    //if place save data back to database into oncreate or other automatically executed function, writing will be run twice
-    //encapsulate it into a function, and it would be called for any operation (i.e. click the button)
-    private void saveRecord() {
-        Log.d("FragmentPCReview", "Save Record");
-        for (LeafCard card : cardsPool) {
-            //(int connection_id, int user_id, int type, long last_time, int performance,int l1Id,int l2Id int user_exclude, Context c)
-            new UserPerformanceDirty(card.getConnectionId(), user_id, 0, card.getLastTime(), 3, 1,
-                    OpenwordsSharedPreferences.getUserInfo().getLang_id(), 0, getActivity().getApplicationContext()).save();
-        }
-
-        InitDatabase.updateLocalPerformanceSummary(getActivity().getApplicationContext());
-        //set current card index to 0. Why here? I don't know. Maybe the function above has some side-effect 
-        //ActivityReview.setCurrentCard(0);
     }
 
     private void refresh() {
         LogUtil.logDeubg(this, "refresh");
         int totalCards = 0;
-        totalCards = cardsPool.size();
+        totalCards = 10;
 
-        vocabSize.setText("329"); //wait for varun figure out how to count how many word the user know
+        vocabSize.setText("329");
         performance.setText(totalCards + "/" + totalCards);
         skip.setText("");
         birthday.setText("");
         birthdayDetail.setText("");
         evaluation.setText("");
-
     }
 }

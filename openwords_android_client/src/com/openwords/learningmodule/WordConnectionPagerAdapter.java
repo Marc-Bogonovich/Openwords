@@ -3,6 +3,7 @@ package com.openwords.learningmodule;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import static com.openwords.learningmodule.InterfaceLearningModule.Learning_Type_Review;
 import com.openwords.model.DataPool;
 
 public class WordConnectionPagerAdapter extends FragmentPagerAdapter {
@@ -33,7 +34,7 @@ public class WordConnectionPagerAdapter extends FragmentPagerAdapter {
 
     private Fragment makePageFragment(int index) {
         switch (DataPool.LmType) {
-            case LM_Review:
+            case Learning_Type_Review:
                 return new FragmentCardReview(index, activityInstance);
             default:
                 return null;
@@ -42,7 +43,7 @@ public class WordConnectionPagerAdapter extends FragmentPagerAdapter {
 
     public Fragment makePCFragment() {
         switch (DataPool.LmType) {
-            case LM_Review:
+            case Learning_Type_Review:
                 return new FragmentPCReview();
             default:
                 return null;

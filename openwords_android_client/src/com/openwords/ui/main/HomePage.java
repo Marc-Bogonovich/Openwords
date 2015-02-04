@@ -17,8 +17,11 @@ import android.widget.Toast;
 import com.openwords.R;
 import com.openwords.learningmodule.ActivityInstantiationCallbackBundle;
 import com.openwords.learningmodule.ActivityLM;
+import com.openwords.learningmodule.ActivityLearning;
+import com.openwords.learningmodule.InterfaceLearningModule;
 import com.openwords.learningmodule.LearningModuleType;
 import com.openwords.learningmodule.ProgressLM;
+import com.openwords.model.DataPool;
 import com.openwords.model.Language;
 import com.openwords.model.LeafCard;
 import com.openwords.model.LeafCardHearingAdapter;
@@ -26,6 +29,7 @@ import com.openwords.model.LeafCardReviewAdapter;
 import com.openwords.model.LeafCardSelfEvalAdapter;
 import com.openwords.model.LeafCardTypeEvalAdapter;
 import com.openwords.model.LocalSettings;
+import com.openwords.model.WordConnection;
 import com.openwords.sound.WordAudioManager;
 import com.openwords.ui.common.BackButtonBehavior;
 import com.openwords.ui.other.ActionBarBuilder;
@@ -44,7 +48,9 @@ public class HomePage extends Activity {
     private int SIZE = 10;
     private ActionBarBuilder actionBar;
     private LearningModuleType lmType = null;
+    private int learningType;
     private Button testPageGo;
+    private Language nextLangToLearn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +68,7 @@ public class HomePage extends Activity {
                 switch (i) {
                     case 0:
                         lmType = LearningModuleType.LM_Review;
+                        learningType = InterfaceLearningModule.Learning_Type_Review;
                         break;
                     case 1:
                         lmType = LearningModuleType.LM_SelfEvaluation;
@@ -142,8 +149,8 @@ public class HomePage extends Activity {
                     startActivity(new Intent(HomePage.this, LanguagePage.class));
                     return;
                 }
-                Language chosen = languages.get(position);
-                MyQuickToast.showShort(HomePage.this, "got " + chosen.name);
+                nextLangToLearn = languages.get(position);
+                MyQuickToast.showShort(HomePage.this, "got " + nextLangToLearn.name + " " + nextLangToLearn.langId);
             }
 
             @Override
@@ -160,7 +167,7 @@ public class HomePage extends Activity {
 
         switch (lmType) {
             case LM_Review:
-                progress = OpenwordsSharedPreferences.getReviewProgress();
+                progress = null;//OpenwordsSharedPreferences.getReviewProgress();
                 break;
             case LM_SelfEvaluation:
                 progress = OpenwordsSharedPreferences.getSelfEvaluationProgress();
@@ -176,6 +183,19 @@ public class HomePage extends Activity {
         }
 
         pDialog = ProgressDialog.show(this, "", "Assembling leaf cards", true);
+        if (learningType == InterfaceLearningModule.Learning_Type_Review) {
+            if (nextLangToLearn != null) {
+                DataPool.LmType = learningType;
+                DataPool.LmPool = WordConnection.getConnections(LocalSettings.getBaseLanguageId(), nextLangToLearn.langId, 5, 1);
+                DataPool.LmCurrentCard = 0;
+                DataPool.LmReverseNav = false;
+                pDialog.dismiss();
+                startActivity(new Intent(HomePage.this, ActivityLearning.class));
+            } else {
+                MyQuickToast.showShort(this, "You need to chose a language to learn");
+            }
+            return;
+        }
         if (progress == null || progress.getLanguageID() != OpenwordsSharedPreferences.getUserInfo().getLang_id()) {
             switch (lmType) {
                 case LM_Review:

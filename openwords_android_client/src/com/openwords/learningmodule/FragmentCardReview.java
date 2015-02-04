@@ -51,7 +51,7 @@ public class FragmentCardReview extends FragmentLearningModule {
         //makeBreadCrumbs(); //According to Marc's requirement
         problem.setText(w1.word);
         answer.setText(w2.word);
-        transcription.setText("test transcription");
+        //transcription.setText("test transcription");
 
         //updateAudioIcon(audioPlay, card.getWordTwoId());
         addClarificationTrigger(lmActivity, new View[]{answer, problem}, answer, w1.getMeta().commonTranslation);
