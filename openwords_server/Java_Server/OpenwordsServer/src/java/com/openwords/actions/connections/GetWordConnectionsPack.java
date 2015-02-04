@@ -4,7 +4,6 @@ import static com.opensymphony.xwork2.Action.SUCCESS;
 import com.openwords.database.DatabaseHandler;
 import com.openwords.database.Word;
 import com.openwords.database.WordConnection;
-import com.openwords.interfaces.InterfaceGetWordConnectionsPack;
 import com.openwords.interfaces.MyAction;
 import com.openwords.utils.MyFieldValidation;
 import com.openwords.utils.UtilLog;
@@ -17,7 +16,7 @@ import org.apache.struts2.convention.annotation.Result;
 import org.hibernate.Session;
 
 @ParentPackage("json-default")
-public class GetWordConnectionsPack extends MyAction implements InterfaceGetWordConnectionsPack {
+public class GetWordConnectionsPack extends MyAction {
 
     private static final long serialVersionUID = 1L;
     private int langOneId, langTwoId, pageNumber, pageSize;
@@ -27,13 +26,13 @@ public class GetWordConnectionsPack extends MyAction implements InterfaceGetWord
     private List<WordConnection> connections;
     private List<Word> words;
 
-    @Action(value = servicePath, results = {
+    @Action(value = "/getWordConnectionsPack", results = {
         @Result(name = SUCCESS, type = "json"),
         @Result(name = INPUT, type = "json")
     })
     @Override
     public String execute() throws Exception {
-        UtilLog.logInfo(this, servicePath);
+        UtilLog.logInfo(this, "/getWordConnectionsPack");
         Session s = DatabaseHandler.getSession();
         try {
             if (doOrder) {
@@ -60,22 +59,18 @@ public class GetWordConnectionsPack extends MyAction implements InterfaceGetWord
         return SUCCESS;
     }
 
-    @Override
     public void setLangOneId(int langOneId) {
         this.langOneId = langOneId;
     }
 
-    @Override
     public void setLangTwoId(int langTwoId) {
         this.langTwoId = langTwoId;
     }
 
-    @Override
     public void setPageNumber(int pageNumber) {
         this.pageNumber = pageNumber;
     }
 
-    @Override
     public void setPageSize(int pageSize) {
         this.pageSize = pageSize;
     }
@@ -84,12 +79,10 @@ public class GetWordConnectionsPack extends MyAction implements InterfaceGetWord
         return errorMessage;
     }
 
-    @Override
     public void setDoOrder(boolean doOrder) {
         this.doOrder = doOrder;
     }
 
-    @Override
     public void setOrderBy(String orderBy) {
         this.orderBy = orderBy;
     }
@@ -105,14 +98,11 @@ public class GetWordConnectionsPack extends MyAction implements InterfaceGetWord
         this.errorMessage = errorMessage;
     }
 
-    @Override
-    public Object getResultConnections() {
+    public List<WordConnection> getConnections() {
         return connections;
     }
 
-    @Override
-    public Object getResultWords() {
+    public List<Word> getWords() {
         return words;
     }
-
 }
