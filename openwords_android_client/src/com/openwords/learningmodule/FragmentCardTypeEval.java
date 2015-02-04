@@ -90,7 +90,7 @@ public class FragmentCardTypeEval extends FragmentLearningModule {
         answer.setVisibility(View.INVISIBLE);
 
         updateAudioIcon(audioPlay, card.getWordTwoId());
-        addClarificationTrigger(lmActivity, new View[]{answer, question}, answer, card.getWordTwoId());
+        //addClarificationTrigger(lmActivity, new View[]{answer, question}, answer, card.getWordTwoId());
 
         userInput.addTextChangedListener(new TextWatcher() {
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {

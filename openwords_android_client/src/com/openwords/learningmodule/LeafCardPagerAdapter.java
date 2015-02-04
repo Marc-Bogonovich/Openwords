@@ -41,7 +41,7 @@ public class LeafCardPagerAdapter extends FragmentPagerAdapter {
     private Fragment makePageFragment(int index) {
         switch (type) {
             case LM_Review:
-                return new FragmentCardReview(index, cards, activityInstance);
+                return null;
             case LM_SelfEvaluation:
                 return new FragmentCardSelfEval(index, cards, activityInstance);
             case LM_TypeEvaluation:
@@ -56,7 +56,7 @@ public class LeafCardPagerAdapter extends FragmentPagerAdapter {
     public Fragment makePCFragment() {
         switch (type) {
             case LM_Review:
-                return new FragmentPCReview(cards);
+                return new FragmentPCReview();
             case LM_SelfEvaluation:
                 return new FragmentPCSelfEval(cards);
             case LM_TypeEvaluation:

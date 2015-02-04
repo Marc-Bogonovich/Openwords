@@ -63,7 +63,7 @@ public class FragmentCardHearing extends FragmentLearningModule {
         audioPlayButton = (ImageView) myFragmentView.findViewById(R.id.hearing_ImageView_audioPlay);
         container2 = (ScrollView) myFragmentView.findViewById(R.id.hearingEvaluate_ScrollView_Container);
         updateAudioIcon(audioPlayButton, card.getWordTwoId());
-        addClarificationTrigger(lmActivity, new View[]{indicator}, answer, card.getWordTwoId());
+        //addClarificationTrigger(lmActivity, new View[]{indicator}, answer, card.getWordTwoId());
         setInterfaceView();
         //makeBreadCrumbs(); according to Marc's requirement
         userInput.addTextChangedListener(new TextWatcher() {
