@@ -2,7 +2,6 @@ package com.openwords.model;
 
 import com.openwords.services.implementations.GetUserLanguages;
 import com.openwords.services.interfaces.HttpResultHandler;
-import com.openwords.services.interfaces.SimpleResultHandler;
 import com.openwords.util.gson.MyGson;
 import com.openwords.util.log.LogUtil;
 import com.orm.SugarRecord;
@@ -20,9 +19,15 @@ public class UserLearningLanguages extends SugarRecord<UserLearningLanguages> {
      *
      * @param userId
      * @param baseLang
+     * @param tryRemote If false, not try to connect remote server at all.
      * @param resultHandler Simple callback.
+     * @return
      */
-    public static void loadUserLearningLanguages(int userId, final int baseLang, final SimpleResultHandler resultHandler) {
+    public static List<UserLearningLanguages> loadFreshUserLearningLanguages(int userId, final int baseLang, boolean tryRemote, final ResultUserLearningLanguages resultHandler) {
+        if (!tryRemote) {
+            return loadUserLearningLanguagesLocal(baseLang);
+        }
+
         new GetUserLanguages().doRequest(
                 userId,
                 baseLang,
@@ -30,61 +35,63 @@ public class UserLearningLanguages extends SugarRecord<UserLearningLanguages> {
 
                     public void hasResult(Object resultObject) {
                         @SuppressWarnings("unchecked")
-                        List<Integer> ids = (List<Integer>) resultObject;
-                        saveUserLearningLanguagesToLocal(baseLang, ids);
-                        resultHandler.hasResult(ids);
+                        List<UserLearningLanguages> langs = (List<UserLearningLanguages>) resultObject;
+                        saveUserLearningLanguagesToLocal(baseLang, langs);
+                        resultHandler.result(langs);
                     }
 
                     public void noResult(String errorMessage) {
-                        List<Integer> ids = loadUserLearningLanguagesFromLocal(baseLang);
-                        resultHandler.hasResult(ids);
+                        resultHandler.result(loadUserLearningLanguagesLocal(baseLang));
                     }
                 });
+        return null;
     }
 
-    public static List<Integer> loadUserLearningLanguagesFromLocal(int baseLang) {
-        LogUtil.logDeubg(UserLearningLanguages.class, "loadUserLearningLanguagesFromLocal()");
-        List<UserLearningLanguages> r = Select.from(UserLearningLanguages.class)
+    private static List<UserLearningLanguages> loadUserLearningLanguagesLocal(int baseLang) {
+        LogUtil.logDeubg(UserLearningLanguages.class, "loadUserLearningLanguagesLocal()");
+        return Select.from(UserLearningLanguages.class)
                 .where(Condition.prop("base_lang").eq(String.valueOf(baseLang)))
                 .list();
-
-        if (r.isEmpty()) {
-            LogUtil.logDeubg(UserLearningLanguages.class, "No learning langs for base lang " + baseLang);
-            return new LinkedList<Integer>();
-        } else {
-            List<Integer> ids = r.get(0).getLearningLangs();
-            LogUtil.logDeubg(UserLearningLanguages.class, "Got current learning languages for " + baseLang + ":\n"
-                    + MyGson.toJson(ids));
-            return ids;
-        }
     }
 
-    public static void saveUserLearningLanguagesToLocal(int baseLang, List<Integer> learningLangs) {
+    public static List<Integer> unpackLearningLangIds(List<UserLearningLanguages> langs) {
+        List<Integer> l = new LinkedList<Integer>();
+        if (langs != null) {
+            for (UserLearningLanguages lang : langs) {
+                l.add(lang.learningLang);
+            }
+        }
+        return l;
+    }
+
+    public static List<UserLearningLanguages> packNewLearningLangs(List<Integer> learningLangs) {
+        List<UserLearningLanguages> l = new LinkedList<UserLearningLanguages>();
+        if (learningLangs != null) {
+            for (Integer lang : learningLangs) {
+                l.add(new UserLearningLanguages(-1, lang, 0));//baseLang add later
+            }
+        }
+        return l;
+    }
+
+    public static void saveUserLearningLanguagesToLocal(int baseLang, List<UserLearningLanguages> learningLangs) {
         UserLearningLanguages.deleteAll(UserLearningLanguages.class, "base_lang = ?", String.valueOf(baseLang));
-        new UserLearningLanguages(baseLang, learningLangs).save();
+        for (UserLearningLanguages lang : learningLangs) {
+            lang.baseLang = baseLang;
+            lang.save();
+        }
         LogUtil.logDeubg(UserLearningLanguages.class, "saveUserLearningLanguagesToLocal():\n"
                 + MyGson.toJson(UserLearningLanguages.listAll(UserLearningLanguages.class)));
     }
 
-    public int baseLang;
-    public String learningLangs;
+    public int baseLang, learningLang, version;
 
     public UserLearningLanguages() {
     }
 
-    public UserLearningLanguages(int baseLang, String learningLangs) {
+    public UserLearningLanguages(int baseLang, int learningLang, int version) {
         this.baseLang = baseLang;
-        this.learningLangs = learningLangs;
+        this.learningLang = learningLang;
+        this.version = version;
     }
-
-    public UserLearningLanguages(int baseLang, List<Integer> learningLangs) {
-        this.baseLang = baseLang;
-        this.learningLangs = MyGson.toJson(new LearningLanguageIdsPack(learningLangs));
-    }
-
-    public List<Integer> getLearningLangs() {
-        LearningLanguageIdsPack pack = (LearningLanguageIdsPack) MyGson.fromJson(learningLangs, LearningLanguageIdsPack.class);
-        return pack.ids;
-    }
-
 }

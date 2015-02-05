@@ -6,7 +6,6 @@ import com.openwords.services.implementations.GetLanguages;
 import com.openwords.services.implementations.GetLearnableLanguages;
 import com.openwords.services.interfaces.HttpResultHandler;
 import com.openwords.services.interfaces.RequestParamsBuilder;
-import com.openwords.services.interfaces.SimpleResultHandler;
 import com.openwords.util.ui.CallbackOkButton;
 import com.openwords.util.ui.MyDialogHelper;
 import com.openwords.util.ui.MyQuickToast;
@@ -20,7 +19,8 @@ import java.util.Set;
 public class Language extends SugarRecord<Language> {
 
     public static List<Language> getLearningLanguages(int baseLang) {
-        List<Integer> ids = UserLearningLanguages.loadUserLearningLanguagesFromLocal(baseLang);
+        List<Integer> ids = UserLearningLanguages.unpackLearningLangIds(
+                UserLearningLanguages.loadFreshUserLearningLanguages(-1, baseLang, false, null));
         if (ids.isEmpty()) {
             return new LinkedList<Language>();
         }
@@ -29,7 +29,7 @@ public class Language extends SugarRecord<Language> {
         return Language.findWithQuery(Language.class, sql);
     }
 
-    public static void checkAndMergeNewLanguages(final Context context, final int baseLang, final SimpleResultHandler resultHandler) {
+    public static void checkAndMergeNewLanguages(final Context context, final int baseLang, final ResultLanguage resultHandler) {
         new GetLearnableLanguages().doRequest(baseLang, new HttpResultHandler() {
 
             public void hasResult(Object resultObject) {
@@ -43,7 +43,7 @@ public class Language extends SugarRecord<Language> {
                             new CallbackOkButton() {
 
                                 public void okPressed() {
-                                    resultHandler.hasResult("no-langs");
+                                    resultHandler.result(ResultLanguage.Result_No_Language_Data);
                                 }
                             });
                     return;
@@ -67,18 +67,18 @@ public class Language extends SugarRecord<Language> {
                     getAndSaveLanguageInformation(context, newLangIds, resultHandler);
                 } else {
                     MyQuickToast.showShort(context, "no new learnable languages");
-                    resultHandler.hasResult(null);
+                    resultHandler.result(null);
                 }
             }
 
             public void noResult(String errorMessage) {
                 MyQuickToast.showShort(context, "Cannot connect to server: " + errorMessage);
-                resultHandler.hasResult("no-server");
+                resultHandler.result(ResultLanguage.Result_No_Server_Response);
             }
         });
     }
 
-    private static void getAndSaveLanguageInformation(final Context context, Collection<Integer> langIds, final SimpleResultHandler resultHandler) {
+    private static void getAndSaveLanguageInformation(final Context context, Collection<Integer> langIds, final ResultLanguage resultHandler) {
         new GetLanguages().doRequest(new RequestParamsBuilder()
                 .addParam("include", new Gson().toJson(langIds))
                 .getParams(), new HttpResultHandler() {
@@ -88,12 +88,13 @@ public class Language extends SugarRecord<Language> {
                         List<Language> langs = (List<Language>) resultObject;
                         Language.saveInTx(langs);
                         MyQuickToast.showShort(context, "local total: " + Language.count(Language.class));
-                        resultHandler.hasResult(null);
+                        resultHandler.result(null);
+
                     }
 
                     public void noResult(String errorMessage) {
                         MyQuickToast.showShort(context, "not ok: " + errorMessage);
-                        resultHandler.hasResult("no-server");
+                        resultHandler.result(ResultLanguage.Result_No_Server_Response);
                     }
                 });
     }
