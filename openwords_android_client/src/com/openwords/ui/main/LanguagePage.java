@@ -10,11 +10,12 @@ import android.widget.TextView;
 import com.openwords.R;
 import com.openwords.model.Language;
 import com.openwords.model.LocalSettings;
+import com.openwords.model.ResultLanguage;
+import com.openwords.model.ResultUserLearningLanguages;
 import com.openwords.model.UserLearningLanguages;
 import com.openwords.services.implementations.SetUserLanguages;
 import com.openwords.services.interfaces.HttpResultHandler;
 import com.openwords.services.interfaces.RequestParamsBuilder;
-import com.openwords.services.interfaces.SimpleResultHandler;
 import com.openwords.util.gson.MyGson;
 import com.openwords.util.ui.MyDialogHelper;
 import com.openwords.util.ui.MyQuickToast;
@@ -53,7 +54,7 @@ public class LanguagePage extends Activity {
                         return;
                     }
                     UserLearningLanguages.saveUserLearningLanguagesToLocal(LocalSettings.getBaseLanguageId(),
-                            ChosenLangIds);
+                            UserLearningLanguages.packNewLearningLangs(ChosenLangIds));
 
                     MyDialogHelper.tryShowQuickProgressDialog(LanguagePage.this, "Saving your preference to server...");
 
@@ -85,15 +86,16 @@ public class LanguagePage extends Activity {
 
     private void refreshList() {
         MyDialogHelper.tryShowQuickProgressDialog(this, "Refresh languages data...");
-        Language.checkAndMergeNewLanguages(this, LocalSettings.getBaseLanguageId(), new SimpleResultHandler() {
+        Language.checkAndMergeNewLanguages(this, LocalSettings.getBaseLanguageId(), new ResultLanguage() {
 
-            public void hasResult(Object resultObject) {
-                if (resultObject != null && resultObject.equals("no-langs")) {
+            public void result(String resultObject) {
+                if (resultObject != null && resultObject.equals(Result_No_Language_Data)) {
                     MyDialogHelper.tryDismissQuickProgressDialog();
+                    MyQuickToast.showShort(LanguagePage.this, "No language data");
                     finish();
                     return;
                 }
-                if (resultObject != null && resultObject.equals("no-server")) {
+                if (resultObject != null && resultObject.equals(Result_No_Server_Response)) {
                     MyDialogHelper.tryDismissQuickProgressDialog();
                     MyQuickToast.showShort(LanguagePage.this, "No server response");
                     finish();
@@ -114,13 +116,14 @@ public class LanguagePage extends Activity {
 
     private void refreshUserLearningLanguages() {
         ChosenLangIds.clear();
-        UserLearningLanguages.loadUserLearningLanguages(
+        UserLearningLanguages.loadFreshUserLearningLanguages(
                 LocalSettings.getUserId(),
                 LocalSettings.getBaseLanguageId(),
-                new SimpleResultHandler() {
+                true,
+                new ResultUserLearningLanguages() {
 
-                    public void hasResult(Object resultObject) {
-                        List<Integer> chosen = (List<Integer>) resultObject;
+                    public void result(List<UserLearningLanguages> result) {
+                        List<Integer> chosen = UserLearningLanguages.unpackLearningLangIds(result);
                         ChosenLangIds.addAll(chosen);
                         refreshListView();
                     }

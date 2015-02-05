@@ -16,11 +16,12 @@ import com.openwords.R;
 import com.openwords.model.DataPool;
 import com.openwords.model.Language;
 import com.openwords.model.LocalSettings;
+import com.openwords.model.ResultLanguage;
+import com.openwords.model.ResultUserLearningLanguages;
 import com.openwords.model.UserLearningLanguages;
 import com.openwords.services.implementations.LoginUser;
 import com.openwords.services.interfaces.HttpResultHandler;
 import com.openwords.services.interfaces.RequestParamsBuilder;
-import com.openwords.services.interfaces.SimpleResultHandler;
 import com.openwords.sound.SoundPlayer;
 import com.openwords.test.ActivityTest;
 import com.openwords.tts.Speak;
@@ -36,6 +37,7 @@ import com.openwords.util.log.LogUtil;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
 import com.openwords.util.ui.MyDialogHelper;
 import com.openwords.util.ui.MyQuickToast;
+import java.util.List;
 
 public class LoginPage extends Activity {
 
@@ -153,15 +155,16 @@ public class LoginPage extends Activity {
                             UserLearningLanguages.deleteAll(UserLearningLanguages.class);
                         } else {
                             //in case cannot connect to server
-                            UserLearningLanguages.loadUserLearningLanguagesFromLocal(LocalSettings.getBaseLanguageId());
+                            //???UserLearningLanguages.loadUserLearningLanguagesLocal(LocalSettings.getBaseLanguageId());
                         }
                         LocalSettings.setUserId(newUserId);
-                        UserLearningLanguages.loadUserLearningLanguages(
+                        UserLearningLanguages.loadFreshUserLearningLanguages(
                                 LocalSettings.getUserId(),
                                 LocalSettings.getBaseLanguageId(),
-                                new SimpleResultHandler() {
+                                true,
+                                new ResultUserLearningLanguages() {
 
-                                    public void hasResult(Object resultObject) {
+                                    public void result(List<UserLearningLanguages> result) {
                                         loadLanguageDataAndGoHome();
                                     }
                                 });
@@ -175,9 +178,9 @@ public class LoginPage extends Activity {
     }
 
     private void loadLanguageDataAndGoHome() {
-        Language.checkAndMergeNewLanguages(this, LocalSettings.getBaseLanguageId(), new SimpleResultHandler() {
+        Language.checkAndMergeNewLanguages(this, LocalSettings.getBaseLanguageId(), new ResultLanguage() {
 
-            public void hasResult(Object resultObject) {
+            public void result(String result) {
                 goToHomePage();
             }
         });

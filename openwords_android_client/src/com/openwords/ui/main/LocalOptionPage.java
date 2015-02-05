@@ -13,8 +13,9 @@ import android.widget.TextView;
 import com.openwords.R;
 import com.openwords.model.Language;
 import com.openwords.model.LocalSettings;
+import com.openwords.model.ResultLanguage;
+import com.openwords.model.ResultUserLearningLanguages;
 import com.openwords.model.UserLearningLanguages;
-import com.openwords.services.interfaces.SimpleResultHandler;
 import com.openwords.util.localization.LocalLanguage;
 import com.openwords.util.localization.LocalizationManager;
 import com.openwords.util.ui.MyDialogHelper;
@@ -54,26 +55,29 @@ public class LocalOptionPage extends Activity {
                                 d[1].cancel();
 
                                 MyQuickToast.showShort(act, "Base Language changed to " + LocalSettings.getBaseLanguageId());
-                                Language.checkAndMergeNewLanguages(act, LocalSettings.getBaseLanguageId(), new SimpleResultHandler() {
+                                Language.checkAndMergeNewLanguages(act, LocalSettings.getBaseLanguageId(), new ResultLanguage() {
 
-                                    public void hasResult(Object resultObject) {
-                                        if (resultObject != null && resultObject.equals("no-langs")) {
+                                    public void result(String resultObject) {
+                                        if (resultObject != null && resultObject.equals(Result_No_Language_Data)) {
+                                            MyDialogHelper.tryDismissQuickProgressDialog();
+                                            MyQuickToast.showShort(act, "No language data");
                                             act.finish();
                                             return;
                                         }
-                                        if (resultObject != null && resultObject.equals("no-server")) {
+                                        if (resultObject != null && resultObject.equals(Result_No_Server_Response)) {
                                             MyDialogHelper.tryDismissQuickProgressDialog();
                                             MyQuickToast.showShort(act, "No server response");
                                             act.finish();
                                             return;
                                         }
                                         if (LocalSettings.getUserId() > 0) {
-                                            UserLearningLanguages.loadUserLearningLanguages(
+                                            UserLearningLanguages.loadFreshUserLearningLanguages(
                                                     LocalSettings.getUserId(),
                                                     LocalSettings.getBaseLanguageId(),
-                                                    new SimpleResultHandler() {
+                                                    true,
+                                                    new ResultUserLearningLanguages() {
 
-                                                        public void hasResult(Object resultObject) {
+                                                        public void result(List<UserLearningLanguages> result) {
                                                             act.finish();
                                                         }
                                                     });
