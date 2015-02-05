@@ -16,16 +16,28 @@ public class UserLanguage implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public static void setUserLearningLanguages(Session s, List<UserLanguage> userLangs) {
-        int userId = userLangs.get(0).getUserId();
-        int baseLang = userLangs.get(0).getBaseLang();
-        String sqlDelete = "delete from user_languages where user_id=@user_id@ and base_language=@base_language@";
-        sqlDelete = sqlDelete.replace("@user_id@", String.valueOf(userId))
-                .replace("@base_language@", String.valueOf(baseLang));
-        s.createSQLQuery(sqlDelete).executeUpdate();
+    public static void setUserLearningLanguages(Session s, int userId, int baseLang, int[] learningLangs) {
+        @SuppressWarnings("unchecked")
+        List<UserLanguage> all = s.createCriteria(UserLanguage.class)
+                .add(Restrictions.eq("userId", userId))
+                .add(Restrictions.eq("baseLang", baseLang)).list();
 
-        for (UserLanguage lang : userLangs) {
-            s.save(lang);
+        for (UserLanguage lang : all) {
+            lang.setUse(false);
+        }
+
+        for (int uselang : learningLangs) {
+            boolean exist = false;
+            for (UserLanguage oldlang : all) {
+                if (uselang == oldlang.getLearningLang()) {
+                    oldlang.setUse(true);
+                    exist = true;
+                    break;
+                }
+            }
+            if (!exist) {
+                s.save(new UserLanguage(userId, baseLang, uselang, 0, "", true));
+            }
         }
         s.beginTransaction().commit();
     }
@@ -35,12 +47,15 @@ public class UserLanguage implements Serializable {
         List<Integer> ids = s.createCriteria(UserLanguage.class)
                 .add(Restrictions.eq("userId", userId))
                 .add(Restrictions.eq("baseLang", baseLang))
+                .add(Restrictions.eq("use", true))
                 .setProjection(Projections.property("learningLang"))
                 .list();
         return ids;
     }
 
-    private int userId, baseLang, learningLang;
+    private int userId, baseLang, learningLang, version;
+    private String meta;
+    private boolean use;
 
     public UserLanguage() {
     }
@@ -49,6 +64,15 @@ public class UserLanguage implements Serializable {
         this.userId = userId;
         this.baseLang = baseLang;
         this.learningLang = learningLang;
+    }
+
+    public UserLanguage(int userId, int baseLang, int learningLang, int version, String meta, boolean use) {
+        this.userId = userId;
+        this.baseLang = baseLang;
+        this.learningLang = learningLang;
+        this.version = version;
+        this.meta = meta;
+        this.use = use;
     }
 
     @Id
@@ -79,6 +103,33 @@ public class UserLanguage implements Serializable {
 
     public void setLearningLang(int learningLang) {
         this.learningLang = learningLang;
+    }
+
+    @Column(name = "version")
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
+    }
+
+    @Column(name = "meta_info")
+    public String getMeta() {
+        return meta;
+    }
+
+    public void setMeta(String meta) {
+        this.meta = meta;
+    }
+
+    @Column(name = "under_use")
+    public boolean isUse() {
+        return use;
+    }
+
+    public void setUse(boolean use) {
+        this.use = use;
     }
 
 }

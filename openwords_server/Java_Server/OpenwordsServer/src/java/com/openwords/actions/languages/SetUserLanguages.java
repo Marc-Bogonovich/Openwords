@@ -6,8 +6,6 @@ import com.openwords.database.DatabaseHandler;
 import com.openwords.database.UserLanguage;
 import com.openwords.interfaces.MyAction;
 import com.openwords.utils.UtilLog;
-import java.util.LinkedList;
-import java.util.List;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
@@ -30,16 +28,12 @@ public class SetUserLanguages extends MyAction {
         UtilLog.logInfo(this, "/setUserLanguages: " + userId + " " + langOneId + " " + langTwoIds);
         Session s = DatabaseHandler.getSession();
         try {
-            int[] langTwoIdsInt = new Gson().fromJson(langTwoIds, int[].class);
-            if (langTwoIdsInt.length == 0) {
+            int[] langTwos = new Gson().fromJson(langTwoIds, int[].class);
+            if (langTwos.length == 0) {
                 errorMessage = "langTwoIds is empty";
                 return SUCCESS;
             }
-            List<UserLanguage> langTwos = new LinkedList<>();
-            for (int langTwo : langTwoIdsInt) {
-                langTwos.add(new UserLanguage(userId, langOneId, langTwo));
-            }
-            UserLanguage.setUserLearningLanguages(s, langTwos);
+            UserLanguage.setUserLearningLanguages(s, userId, langOneId, langTwos);
             result = true;
 
         } catch (Exception e) {
