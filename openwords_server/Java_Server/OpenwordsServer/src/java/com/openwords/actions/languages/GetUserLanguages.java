@@ -15,7 +15,7 @@ import org.hibernate.Session;
 public class GetUserLanguages extends MyAction {
 
     private static final long serialVersionUID = 1L;
-    private List<Integer> result;
+    private List<UserLanguage> result;
     private String errorMessage;
     private int userId, langOneId;
 
@@ -46,7 +46,7 @@ public class GetUserLanguages extends MyAction {
         this.langOneId = langOneId;
     }
 
-    public List<Integer> getResult() {
+    public List<UserLanguage> getResult() {
         return result;
     }
 

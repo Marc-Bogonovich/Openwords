@@ -7,7 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import org.hibernate.Session;
-import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
 @Entity
@@ -43,12 +42,11 @@ public class UserLanguage implements Serializable {
     }
 
     @SuppressWarnings("unchecked")
-    public static List<Integer> getUserLearningLanguages(Session s, int userId, int baseLang) {
-        List<Integer> ids = s.createCriteria(UserLanguage.class)
+    public static List<UserLanguage> getUserLearningLanguages(Session s, int userId, int baseLang) {
+        List<UserLanguage> ids = s.createCriteria(UserLanguage.class)
                 .add(Restrictions.eq("userId", userId))
                 .add(Restrictions.eq("baseLang", baseLang))
                 .add(Restrictions.eq("use", true))
-                .setProjection(Projections.property("learningLang"))
                 .list();
         return ids;
     }
