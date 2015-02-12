@@ -12,6 +12,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.Transient;
 import org.hibernate.Session;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
@@ -85,6 +86,7 @@ public class WordConnection implements Serializable {
         List<WordConnection> records = s.createCriteria(WordConnection.class)
                 .add(Restrictions.eq("wordOneLangId", langOneId))
                 .add(Restrictions.eq("wordTwoLangId", langTwoId))
+                .addOrder(Order.asc("connectionId"))//ensure the default order
                 .setFirstResult(firstRecord)
                 .setMaxResults(pageSize)
                 .list();
