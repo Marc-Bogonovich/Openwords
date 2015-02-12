@@ -15,11 +15,26 @@ public class UserLanguage implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    public static boolean advanceLanguagePage(Session s, UserLanguageId id, int nextPage) {
+        UserLanguage ul = (UserLanguage) s.get(UserLanguage.class, id);
+
+        if (ul == null) {
+            return false;
+        } else {
+            if (ul.getPage() >= nextPage) {
+                return false;
+            }
+            ul.setPage(nextPage);
+            s.beginTransaction().commit();
+            return true;
+        }
+    }
+
     public static void setUserLearningLanguages(Session s, int userId, int baseLang, int[] learningLangs) {
         @SuppressWarnings("unchecked")
         List<UserLanguage> all = s.createCriteria(UserLanguage.class)
-                .add(Restrictions.eq("userId", userId))
-                .add(Restrictions.eq("baseLang", baseLang)).list();
+                .add(Restrictions.eq("id.userId", userId))
+                .add(Restrictions.eq("id.baseLang", baseLang)).list();
 
         for (UserLanguage lang : all) {
             lang.setUse(false);
@@ -28,7 +43,7 @@ public class UserLanguage implements Serializable {
         for (int uselang : learningLangs) {
             boolean exist = false;
             for (UserLanguage oldlang : all) {
-                if (uselang == oldlang.getLearningLang()) {
+                if (uselang == oldlang.getId().getLearningLang()) {
                     oldlang.setUse(true);
                     exist = true;
                     break;
@@ -44,14 +59,16 @@ public class UserLanguage implements Serializable {
     @SuppressWarnings("unchecked")
     public static List<UserLanguage> getUserLearningLanguages(Session s, int userId, int baseLang) {
         List<UserLanguage> ids = s.createCriteria(UserLanguage.class)
-                .add(Restrictions.eq("userId", userId))
-                .add(Restrictions.eq("baseLang", baseLang))
+                .add(Restrictions.eq("id.userId", userId))
+                .add(Restrictions.eq("id.baseLang", baseLang))
                 .add(Restrictions.eq("use", true))
                 .list();
         return ids;
     }
 
-    private int userId, baseLang, learningLang, version;
+    private UserLanguageId id;
+
+    private int page;
     private String meta;
     private boolean use;
 
@@ -59,57 +76,32 @@ public class UserLanguage implements Serializable {
     }
 
     public UserLanguage(int userId, int baseLang, int learningLang) {
-        this.userId = userId;
-        this.baseLang = baseLang;
-        this.learningLang = learningLang;
+        this.id = new UserLanguageId(userId, baseLang, learningLang);
     }
 
-    public UserLanguage(int userId, int baseLang, int learningLang, int version, String meta, boolean use) {
-        this.userId = userId;
-        this.baseLang = baseLang;
-        this.learningLang = learningLang;
-        this.version = version;
+    public UserLanguage(int userId, int baseLang, int learningLang, int page, String meta, boolean use) {
+        this.id = new UserLanguageId(userId, baseLang, learningLang);
+        this.page = page;
         this.meta = meta;
         this.use = use;
     }
 
     @Id
-    @Column(name = "user_id")
-    public int getUserId() {
-        return userId;
+    public UserLanguageId getId() {
+        return id;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setId(UserLanguageId id) {
+        this.id = id;
     }
 
-    @Id
-    @Column(name = "base_language")
-    public int getBaseLang() {
-        return baseLang;
+    @Column(name = "page")
+    public int getPage() {
+        return page;
     }
 
-    public void setBaseLang(int baseLang) {
-        this.baseLang = baseLang;
-    }
-
-    @Id
-    @Column(name = "learning_language")
-    public int getLearningLang() {
-        return learningLang;
-    }
-
-    public void setLearningLang(int learningLang) {
-        this.learningLang = learningLang;
-    }
-
-    @Column(name = "version")
-    public int getVersion() {
-        return version;
-    }
-
-    public void setVersion(int version) {
-        this.version = version;
+    public void setPage(int page) {
+        this.page = page;
     }
 
     @Column(name = "meta_info")
