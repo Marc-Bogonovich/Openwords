@@ -6,6 +6,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+import org.apache.struts2.json.annotations.JSON;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
@@ -87,6 +89,7 @@ public class UserLanguage implements Serializable {
     }
 
     @Id
+    @JSON(serialize = false, deserialize = false)
     public UserLanguageId getId() {
         return id;
     }
@@ -122,4 +125,13 @@ public class UserLanguage implements Serializable {
         this.use = use;
     }
 
+    @Transient
+    public int getBaseLang() {
+        return id.getBaseLang();
+    }
+
+    @Transient
+    public int getLearningLang() {
+        return id.getLearningLang();
+    }
 }

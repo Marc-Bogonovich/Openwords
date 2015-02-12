@@ -84,14 +84,14 @@ public class UserLearningLanguages extends SugarRecord<UserLearningLanguages> {
                 + MyGson.toJson(UserLearningLanguages.listAll(UserLearningLanguages.class)));
     }
 
-    public int baseLang, learningLang, version;
+    public int baseLang, learningLang, page;
 
     public UserLearningLanguages() {
     }
 
-    public UserLearningLanguages(int baseLang, int learningLang, int version) {
+    public UserLearningLanguages(int baseLang, int learningLang, int page) {
         this.baseLang = baseLang;
         this.learningLang = learningLang;
-        this.version = version;
+        this.page = page;
     }
 }
