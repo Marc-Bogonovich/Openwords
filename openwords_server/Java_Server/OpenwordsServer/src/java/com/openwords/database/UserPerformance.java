@@ -11,12 +11,20 @@ import javax.persistence.Temporal;
 import javax.persistence.Transient;
 import org.apache.struts2.json.annotations.JSON;
 import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 
 @Entity
 @Table(name = "user_performances")
 public class UserPerformance implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    @SuppressWarnings("unchecked")
+    public static List<UserPerformance> getPerformances(Session s, int userId, Integer[] connectionIds) {
+        return s.createCriteria(UserPerformance.class)
+                .add(Restrictions.eq("id.userId", userId))
+                .add(Restrictions.in("id.wordConnectionId", connectionIds)).list();
+    }
 
     public static void updatePerformances(Session s, List<UserPerformance> perfs) {
         for (UserPerformance perf : perfs) {
