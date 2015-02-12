@@ -16,10 +16,9 @@ import org.hibernate.Session;
 public class GetUserPerformance extends MyAction {
 
     private static final long serialVersionUID = 1L;
-    private List<UserPerformance> performance;
-    private String connctions;
+    private List<UserPerformance> result;
+    private String connections;
     private String errorMessage;
-    private boolean result;
     private int userId;
 
     @Action(value = "/getUserPerformance", results = {
@@ -27,11 +26,10 @@ public class GetUserPerformance extends MyAction {
     })
     @Override
     public String execute() throws Exception {
-        UtilLog.logInfo(this, "/getUserPerformance: " + userId);
+        UtilLog.logInfo(this, "/getUserPerformance: " + userId + " " + connections);
         Session s = DatabaseHandler.getSession();
         try {
-            performance = UserPerformance.getPerformances(s, userId, (Integer[]) MyGson.fromJson(connctions, Integer[].class));
-            result = true;
+            result = UserPerformance.getPerformances(s, userId, (Integer[]) MyGson.fromJson(connections, Integer[].class));
         } catch (Exception e) {
             errorMessage = e.toString();
             UtilLog.logWarn(this, errorMessage);
@@ -41,24 +39,20 @@ public class GetUserPerformance extends MyAction {
         return SUCCESS;
     }
 
-    public void setConnctions(String connctions) {
-        this.connctions = connctions;
+    public void setConnections(String connections) {
+        this.connections = connections;
     }
 
     public void setUserId(int userId) {
         this.userId = userId;
     }
 
-    public List<UserPerformance> getPerformance() {
-        return performance;
+    public List<UserPerformance> getResult() {
+        return result;
     }
 
     public String getErrorMessage() {
         return errorMessage;
-    }
-
-    public boolean isResult() {
-        return result;
     }
 
     @Override

@@ -48,9 +48,6 @@ public class UserPerformance implements Serializable {
     private Date updatedTime;
     private int version;//times
 
-    private int wordConnectionId;
-    private String learningType;
-
     public UserPerformance() {
     }
 
@@ -61,6 +58,7 @@ public class UserPerformance implements Serializable {
     }
 
     @Id
+    @JSON(serialize = false, deserialize = false)
     public UserPerformanceId getId() {
         return id;
     }
@@ -100,20 +98,12 @@ public class UserPerformance implements Serializable {
 
     @Transient
     public int getWordConnectionId() {
-        return wordConnectionId;
-    }
-
-    public void setWordConnectionId(int wordConnectionId) {
-        this.wordConnectionId = wordConnectionId;
+        return id.getWordConnectionId();
     }
 
     @Transient
     public String getLearningType() {
-        return learningType;
-    }
-
-    public void setLearningType(String learningType) {
-        this.learningType = learningType;
+        return id.getLearningType();
     }
 
 }
