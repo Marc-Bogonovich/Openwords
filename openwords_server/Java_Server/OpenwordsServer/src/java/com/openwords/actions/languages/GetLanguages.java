@@ -1,12 +1,11 @@
 package com.openwords.actions.languages;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import static com.opensymphony.xwork2.Action.SUCCESS;
 import com.openwords.database.DatabaseHandler;
 import com.openwords.database.Language;
 import com.openwords.interfaces.MyAction;
 import com.openwords.utils.MyFieldValidation;
+import com.openwords.utils.MyGson;
 import com.openwords.utils.UtilLog;
 import java.util.List;
 import org.apache.struts2.convention.annotation.Action;
@@ -33,17 +32,15 @@ public class GetLanguages extends MyAction {
         Session s = DatabaseHandler.getSession();
         try {
             if (include == null) {
-                List<Integer> old = new Gson().fromJson(exclude, new TypeToken<List<Integer>>() {
-                }.getType());
+                Integer[] old = (Integer[]) MyGson.fromJson(exclude, Integer[].class);
                 List<Integer> langIds = Language.getNewLanguageIds(s, old);
                 if (langIds.isEmpty()) {
                     return SUCCESS;
                 }
                 result = Language.getLanguages(s, langIds);
             } else {
-                List<Integer> needed = new Gson().fromJson(include, new TypeToken<List<Integer>>() {
-                }.getType());
-                if (needed.isEmpty()) {
+                Integer[] needed = (Integer[]) MyGson.fromJson(include, Integer[].class);
+                if (needed.length == 0) {
                     return SUCCESS;
                 }
                 result = Language.getLanguages(s, needed);

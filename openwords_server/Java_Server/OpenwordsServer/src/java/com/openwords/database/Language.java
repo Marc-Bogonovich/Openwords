@@ -19,10 +19,10 @@ public class Language implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @SuppressWarnings("unchecked")
-    public static List<Integer> getNewLanguageIds(Session s, List<Integer> old) {
+    public static List<Integer> getNewLanguageIds(Session s, Integer[] old) {
         Criteria c = s.createCriteria(Language.class);
         c.setProjection(Projections.property("langId"));
-        if (!old.isEmpty()) {
+        if (old.length != 0) {
             c.add(Restrictions.not(Restrictions.in("langId", old)));
         }
         return c.list();
@@ -33,6 +33,14 @@ public class Language implements Serializable {
         return s.createCriteria(Language.class).list();
     }
 
+    @SuppressWarnings("unchecked")
+    public static List<Language> getLanguages(Session s, Integer[] langIds) {
+        return s.createCriteria(Language.class)
+                .add(Restrictions.in("langId", langIds))
+                .list();
+    }
+
+    @SuppressWarnings("unchecked")
     public static List<Language> getLanguages(Session s, List<Integer> langIds) {
         return s.createCriteria(Language.class)
                 .add(Restrictions.in("langId", langIds))
