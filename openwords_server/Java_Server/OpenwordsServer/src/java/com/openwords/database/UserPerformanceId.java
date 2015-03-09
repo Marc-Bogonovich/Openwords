@@ -48,4 +48,8 @@ public class UserPerformanceId implements Serializable {
         this.learningType = learningType;
     }
 
+    @Override
+    public String toString() {
+        return "[" + userId + "," + wordConnectionId + "," + learningType + "]";
+    }
 }
