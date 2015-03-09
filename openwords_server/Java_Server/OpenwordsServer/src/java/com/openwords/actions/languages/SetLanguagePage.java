@@ -27,7 +27,8 @@ public class SetLanguagePage extends MyAction {
         UtilLog.logInfo(this, "/setLanguagesPage: " + userId + " " + langOneId + " " + langTwoId + " " + nextPage);
         Session s = DatabaseHandler.getSession();
         try {
-            result = UserLanguage.advanceLanguagePage(s, new UserLanguageId(userId, langOneId, langTwoId), nextPage);
+            UserLanguage.advanceLanguagePage(s, new UserLanguageId(userId, langOneId, langTwoId), nextPage);
+            result = true;
         } catch (Exception e) {
             errorMessage = e.toString();
             UtilLog.logWarn(this, errorMessage);
