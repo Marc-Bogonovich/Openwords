@@ -9,10 +9,13 @@ import com.openwords.R;
 import static com.openwords.learningmodule.InterfaceLearningModule.Learning_Type_Review;
 import com.openwords.model.DataPool;
 import com.openwords.model.LocalSettings;
+import com.openwords.model.ResultWordConnections;
+import com.openwords.model.UserLearningLanguages;
 import com.openwords.model.WordConnection;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.ui.MyDialogHelper;
 import com.openwords.util.ui.MyQuickToast;
+import java.util.List;
 
 /**
  * The Activity class for all LMs, so it applies the same Reverse Navigation,
@@ -22,25 +25,50 @@ import com.openwords.util.ui.MyQuickToast;
  */
 public class ActivityLearning extends FragmentActivity {
 
+    private ActivityLearning act;//for referencing purpose only
     private ViewPager pager;
     private WordConnectionPagerAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        act = this;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lm);
 
-        MyDialogHelper.tryShowQuickProgressDialog(this, "Assembling your words...");
-        DataPool.LmPool = WordConnection.getConnections(LocalSettings.getBaseLanguageId(), DataPool.LmLearningLang, 3, 2);
+        MyDialogHelper.tryShowQuickProgressDialog(act, "Assembling your words...");
+        UserLearningLanguages languageInfo = UserLearningLanguages.getUserLanguageInfo(LocalSettings.getBaseLanguageId(), DataPool.LmLearningLang);
+        if (languageInfo == null) {
+            MyQuickToast.showShort(act, "Error: no language information specified");
+            finish();
+            return;
+        }
+
+        WordConnection.loadWordConnectionsFullPack(true,
+                languageInfo.baseLang, languageInfo.learningLang, languageInfo.page, 10, false, null,
+                new ResultWordConnections() {
+
+                    public void result(List<WordConnection> result) {
+                        if (result == null) {
+                            MyQuickToast.showShort(act, "Error when loading words data");
+                            finish();
+                            return;
+                        }
+                        DataPool.LmPool = result;
+                        init();
+                    }
+                });
+    }
+
+    private void init() {
         DataPool.LmCurrentCard = 0;
-        DataPool.LmReverseNav = true;
+        DataPool.LmReverseNav = false;
         MyDialogHelper.tryDismissQuickProgressDialog();
 
-        LogUtil.logDeubg(this, "reverseNav set to: " + DataPool.LmReverseNav);
+        LogUtil.logDeubg(act, "reverseNav set to: " + DataPool.LmReverseNav);
         if (DataPool.LmReverseNav) {
-            MyQuickToast.showShort(this, "Read from Right to Left");
+            MyQuickToast.showShort(act, "Read from Right to Left");
         } else {
-            MyQuickToast.showShort(this, "Read from Left to Right");
+            MyQuickToast.showShort(act, "Read from Left to Right");
         }
 
         pager = (ViewPager) findViewById(R.id.act_lm_pager);
@@ -68,7 +96,7 @@ public class ActivityLearning extends FragmentActivity {
             }
         });
 
-        adapter = new WordConnectionPagerAdapter(getSupportFragmentManager(), this);
+        adapter = new WordConnectionPagerAdapter(getSupportFragmentManager(), act);
         pager.setAdapter(adapter);
         pager.setPageTransformer(true, new PageTransformerForLeafCard(DataPool.LmReverseNav));
 
@@ -101,13 +129,13 @@ public class ActivityLearning extends FragmentActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        LogUtil.logDeubg(this, "onResume");
+        LogUtil.logDeubg(act, "onResume");
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        LogUtil.logDeubg(this, "onDestroy");
+        LogUtil.logDeubg(act, "onDestroy");
     }
 
     public void refreshPC() {

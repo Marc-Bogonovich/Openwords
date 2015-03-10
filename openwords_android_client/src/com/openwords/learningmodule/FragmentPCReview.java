@@ -1,5 +1,6 @@
 package com.openwords.learningmodule;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -11,8 +12,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import com.openwords.R;
+import com.openwords.model.DataPool;
+import com.openwords.model.LocalSettings;
+import com.openwords.model.UserLearningLanguages;
 import com.openwords.util.localization.LocalizationManager;
 import com.openwords.util.log.LogUtil;
+import com.openwords.util.ui.MyQuickToast;
 
 public class FragmentPCReview extends Fragment {
 
@@ -61,17 +66,31 @@ public class FragmentPCReview extends Fragment {
 
         nextPlate.setOnClickListener(new OnClickListener() {
             public void onClick(View view) {
+                advanceToNextPageData();
                 getActivity().finish();
+                startActivity(new Intent(getActivity(), ActivityLearning.class));
             }
         });
         exit.setOnClickListener(new OnClickListener() {
             public void onClick(View view) {
+                advanceToNextPageData();
                 getActivity().finish();
             }
         });
 
         refresh();
         return myFragmentView;
+    }
+
+    private void advanceToNextPageData() {
+        UserLearningLanguages languageInfo = UserLearningLanguages.getUserLanguageInfo(LocalSettings.getBaseLanguageId(), DataPool.LmLearningLang);
+        if (languageInfo == null) {
+            MyQuickToast.showShort(getActivity(), "Error: no language information specified");
+            getActivity().finish();
+            return;
+        }
+        languageInfo.page += 1;
+        languageInfo.save();
     }
 
     private void refresh() {
