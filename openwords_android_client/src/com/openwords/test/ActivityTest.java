@@ -11,11 +11,14 @@ import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.TextHttpResponseHandler;
 import com.openwords.R;
 import com.openwords.model.Performance;
+import com.openwords.model.ResultUserPerformance;
+import com.openwords.model.ResultWordConnections;
 import com.openwords.model.UserWords;
+import com.openwords.model.Word;
+import com.openwords.model.WordConnection;
 import com.openwords.services.implementations.AddUser;
 import com.openwords.services.implementations.CheckEmail;
 import com.openwords.services.implementations.CheckUsername;
-import com.openwords.services.implementations.GetUserPerformance;
 import com.openwords.services.implementations.LoginUser;
 import com.openwords.services.interfaces.HttpResultHandler;
 import com.openwords.ui.common.DialogForHTTP;
@@ -32,6 +35,8 @@ import org.apache.http.Header;
  * @author hanaldo
  */
 public class ActivityTest extends Activity {
+
+    private ActivityTest act = ActivityTest.this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -234,20 +239,32 @@ public class ActivityTest extends Activity {
         findViewById(R.id.act_test_test99).setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
-                List<Integer> conns = new LinkedList<Integer>();
-                conns.add(1);
-                conns.add(3);
-                conns.add(558);
-                conns.add(559);
-                new GetUserPerformance().doRequest(1, conns, new HttpResultHandler() {
+                WordConnection.loadWordConnectionsFullPack(true, 1, 98, 1, 10, false, null, new ResultWordConnections() {
 
-                    public void hasResult(Object resultObject) {
-                        List<Performance> r = (List<Performance>) resultObject;
-                        LogUtil.logDeubg(this, MyGson.toJson(r));
-                    }
-
-                    public void noResult(String errorMessage) {
-                        LogUtil.logDeubg(this, "noResult");
+                    public void result(List<WordConnection> result) {
+//                        LogUtil.logDeubg(act, MyGson.toJson(result));
+//                        final List<Integer> ids = WordConnection.unpackConnectionIds(result);
+//
+//                        Performance.loadUserPerformance(true, 1, ids, new ResultUserPerformance() {
+//
+//                            public void result(List<Performance> result) {
+//                                LogUtil.logDeubg(act, MyGson.toJson(result));
+//                                if (result.size() < ids.size()) {
+//                                    LogUtil.logDeubg(act, "no complete performance, so make new");
+//                                    for (Performance perf : result) {
+//                                        ids.remove(Integer.valueOf(perf.wordConnectionId));
+//                                    }
+//
+//                                    List<Performance> newPerf = new LinkedList<Performance>();
+//                                    for (Integer newConnection : ids) {
+//                                        newPerf.add(new Performance(newConnection, "all", "new", 0));
+//                                    }
+//                                    Performance.saveOrUpdateAll(newPerf, "all");
+//
+//                                    LogUtil.logDeubg(act, MyGson.toJson(Performance.loadUserPerformance(false, 1, ids, null)));
+//                                }
+//                            }
+//                        });
                     }
                 });
 
