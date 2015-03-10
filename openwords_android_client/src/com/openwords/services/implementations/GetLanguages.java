@@ -1,11 +1,12 @@
 package com.openwords.services.implementations;
 
 import com.google.gson.Gson;
-import com.loopj.android.http.RequestParams;
 import static com.openwords.model.DataPool.ServerAddress;
 import com.openwords.model.Language;
 import com.openwords.services.interfaces.HttpResultHandler;
 import com.openwords.services.interfaces.HttpServiceRequester;
+import com.openwords.services.interfaces.RequestParamsBuilder;
+import java.util.Collection;
 import java.util.List;
 
 public class GetLanguages extends HttpServiceRequester implements HttpResultHandler {
@@ -14,10 +15,12 @@ public class GetLanguages extends HttpServiceRequester implements HttpResultHand
 
     private HttpResultHandler resultHandler;
 
-    @Override
-    public void doRequest(RequestParams params, HttpResultHandler resultHandler) {
+    public void doRequest(Collection<Integer> langIds, HttpResultHandler resultHandler) {
         this.resultHandler = resultHandler;
-        request(ServiceURL, params, 0, this);
+        request(ServiceURL,
+                new RequestParamsBuilder()
+                .addParam("include", new Gson().toJson(langIds))
+                .getParams(), 0, this);
     }
 
     public void hasResult(Object resultObject) {

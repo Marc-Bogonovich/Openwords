@@ -15,8 +15,6 @@ import com.openwords.model.ResultUserLearningLanguages;
 import com.openwords.model.UserLearningLanguages;
 import com.openwords.services.implementations.SetUserLanguages;
 import com.openwords.services.interfaces.HttpResultHandler;
-import com.openwords.services.interfaces.RequestParamsBuilder;
-import com.openwords.util.gson.MyGson;
 import com.openwords.util.ui.MyDialogHelper;
 import com.openwords.util.ui.MyQuickToast;
 import java.util.LinkedList;
@@ -58,11 +56,7 @@ public class LanguagePage extends Activity {
 
                     MyDialogHelper.tryShowQuickProgressDialog(LanguagePage.this, "Saving your preference to server...");
 
-                    new SetUserLanguages().doRequest(new RequestParamsBuilder()
-                            .addParam("userId", String.valueOf(LocalSettings.getUserId()))
-                            .addParam("langOneId", String.valueOf(LocalSettings.getBaseLanguageId()))
-                            .addParam("langTwoIds", MyGson.toJson(ChosenLangIds))
-                            .getParams(),
+                    new SetUserLanguages().doRequest(LocalSettings.getUserId(), LocalSettings.getBaseLanguageId(), ChosenLangIds,
                             new HttpResultHandler() {
 
                                 public void hasResult(Object resultObject) {

@@ -21,7 +21,6 @@ import com.openwords.model.ResultUserLearningLanguages;
 import com.openwords.model.UserLearningLanguages;
 import com.openwords.services.implementations.LoginUser;
 import com.openwords.services.interfaces.HttpResultHandler;
-import com.openwords.services.interfaces.RequestParamsBuilder;
 import com.openwords.sound.SoundPlayer;
 import com.openwords.test.ActivityTest;
 import com.openwords.tts.Speak;
@@ -139,10 +138,7 @@ public class LoginPage extends Activity {
             }
         }
 
-        new LoginUser().doRequest(new RequestParamsBuilder()
-                .addParam("username", username)
-                .addParam("password", password)
-                .getParams(),
+        new LoginUser().doRequest(username, password,
                 new HttpResultHandler() {
 
                     public void hasResult(Object resultObject) {

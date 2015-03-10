@@ -1,10 +1,10 @@
 package com.openwords.services.implementations;
 
 import com.google.gson.Gson;
-import com.loopj.android.http.RequestParams;
 import static com.openwords.model.DataPool.ServerAddress;
 import com.openwords.services.interfaces.HttpResultHandler;
 import com.openwords.services.interfaces.HttpServiceRequester;
+import com.openwords.services.interfaces.RequestParamsBuilder;
 
 public class CheckUsername extends HttpServiceRequester implements HttpResultHandler {
 
@@ -12,10 +12,12 @@ public class CheckUsername extends HttpServiceRequester implements HttpResultHan
 
     private HttpResultHandler resultHandler;
 
-    @Override
-    public void doRequest(RequestParams params, HttpResultHandler resultHandler) {
+    public void doRequest(String username, HttpResultHandler resultHandler) {
         this.resultHandler = resultHandler;
-        request(ServiceURL, params, 0, this);
+        request(ServiceURL,
+                new RequestParamsBuilder()
+                .addParam("username", username)
+                .getParams(), 0, this);
     }
 
     public void hasResult(Object resultObject) {

@@ -20,7 +20,6 @@ import com.openwords.services.implementations.AddUser;
 import com.openwords.services.implementations.CheckEmail;
 import com.openwords.services.implementations.CheckUsername;
 import com.openwords.services.interfaces.HttpResultHandler;
-import com.openwords.services.interfaces.RequestParamsBuilder;
 import com.openwords.util.localization.LocalizationManager;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
 import com.openwords.util.ui.MyDialogHelper;
@@ -88,9 +87,7 @@ public class RegisterPage extends Activity {
     }
 
     private void validateEmail() {
-        new CheckEmail().doRequest(new RequestParamsBuilder()
-                .addParam("email", emailField.getText().toString())
-                .getParams(),
+        new CheckEmail().doRequest(emailField.getText().toString(),
                 new HttpResultHandler() {
 
                     public void hasResult(Object resultObject) {
@@ -105,9 +102,7 @@ public class RegisterPage extends Activity {
     }
 
     private void validateUsername() {
-        new CheckUsername().doRequest(new RequestParamsBuilder()
-                .addParam("username", usernameField.getText().toString())
-                .getParams(),
+        new CheckUsername().doRequest(usernameField.getText().toString(),
                 new HttpResultHandler() {
 
                     public void hasResult(Object resultObject) {
@@ -127,11 +122,7 @@ public class RegisterPage extends Activity {
             final String username = usernameField.getText().toString();
             final String password = passwdField.getText().toString();
 
-            new AddUser().doRequest(new RequestParamsBuilder()
-                    .addParam("email", emailField.getText().toString())
-                    .addParam("username", username)
-                    .addParam("password", password)
-                    .getParams(),
+            new AddUser().doRequest(emailField.getText().toString(), username, password,
                     new HttpResultHandler() {
 
                         public void hasResult(Object resultObject) {

@@ -1,6 +1,5 @@
 package com.openwords.services.implementations;
 
-import com.loopj.android.http.RequestParams;
 import static com.openwords.model.DataPool.ServerAddress;
 import com.openwords.model.Performance;
 import com.openwords.services.interfaces.HttpResultHandler;
@@ -21,11 +20,6 @@ public class GetUserPerformance extends HttpServiceRequester implements HttpResu
                 .addParam("userId", String.valueOf(userId))
                 .addParam("connections", MyGson.toJson(connections))
                 .getParams(), 0, this);
-    }
-
-    @Override
-    public void doRequest(RequestParams params, HttpResultHandler resultHandler) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public void hasResult(Object resultObject) {

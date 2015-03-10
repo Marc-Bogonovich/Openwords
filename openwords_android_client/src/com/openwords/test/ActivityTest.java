@@ -10,20 +10,18 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.TextHttpResponseHandler;
 import com.openwords.R;
+import com.openwords.model.Performance;
 import com.openwords.model.UserWords;
-import com.openwords.model.Word;
-import com.openwords.model.WordConnection;
 import com.openwords.services.implementations.AddUser;
 import com.openwords.services.implementations.CheckEmail;
 import com.openwords.services.implementations.CheckUsername;
-import com.openwords.services.implementations.GetWordConnectionsPack;
+import com.openwords.services.implementations.GetUserPerformance;
 import com.openwords.services.implementations.LoginUser;
 import com.openwords.services.interfaces.HttpResultHandler;
-import com.openwords.services.interfaces.RequestParamsBuilder;
 import com.openwords.ui.common.DialogForHTTP;
 import com.openwords.util.gson.MyGson;
 import com.openwords.util.log.LogUtil;
-import com.openwords.util.ui.MyQuickToast;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -148,9 +146,7 @@ public class ActivityTest extends Activity {
         findViewById(R.id.act_test_test8).setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
-                new LoginUser().doRequest(new RequestParamsBuilder().addParam("username", "han")
-                        .addParam("password", "123456")
-                        .getParams(),
+                new LoginUser().doRequest("han", "123456",
                         new HttpResultHandler() {
 
                             public void hasResult(Object resultObject) {
@@ -168,9 +164,7 @@ public class ActivityTest extends Activity {
         findViewById(R.id.act_test_test9).setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
-                new LoginUser().doRequest(new RequestParamsBuilder().addParam("username", "han")
-                        .addParam("password", "12345")
-                        .getParams(),
+                new LoginUser().doRequest("han", "12345",
                         new HttpResultHandler() {
 
                             public void hasResult(Object resultObject) {
@@ -188,8 +182,7 @@ public class ActivityTest extends Activity {
         findViewById(R.id.act_test_test10).setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
-                new CheckUsername().doRequest(new RequestParamsBuilder().addParam("username", "han")
-                        .getParams(),
+                new CheckUsername().doRequest("han",
                         new HttpResultHandler() {
 
                             public void hasResult(Object resultObject) {
@@ -206,8 +199,7 @@ public class ActivityTest extends Activity {
         findViewById(R.id.act_test_test11).setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
-                new CheckEmail().doRequest(new RequestParamsBuilder().addParam("email", "han@han.com")
-                        .getParams(),
+                new CheckEmail().doRequest("han@han.com",
                         new HttpResultHandler() {
 
                             public void hasResult(Object resultObject) {
@@ -224,10 +216,7 @@ public class ActivityTest extends Activity {
         findViewById(R.id.act_test_test12).setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
-                new AddUser().doRequest(new RequestParamsBuilder().addParam("email", "han@han.com")
-                        .addParam("username", "han")
-                        .addParam("password", "111111")
-                        .getParams(),
+                new AddUser().doRequest("han@han.com", "han", "111111",
                         new HttpResultHandler() {
 
                             public void hasResult(Object resultObject) {
@@ -245,28 +234,22 @@ public class ActivityTest extends Activity {
         findViewById(R.id.act_test_test99).setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
-                new GetWordConnectionsPack().doRequest(1, 98, 1, 10, false, null,
-                        new HttpResultHandler() {
+                List<Integer> conns = new LinkedList<Integer>();
+                conns.add(1);
+                conns.add(3);
+                conns.add(558);
+                conns.add(559);
+                new GetUserPerformance().doRequest(1, conns, new HttpResultHandler() {
 
-                            public void hasResult(Object resultObject) {
-                                Object[] r = (Object[]) resultObject;
-                                List<WordConnection> cs = (List<WordConnection>) r[0];
-                                WordConnection.saveOrUpdateAll(cs);
-                                List<Word> ws = (List<Word>) r[1];
-                                Word.saveOrUpdateAll(ws);
-                                MyQuickToast.showLong(ActivityTest.this, "total conn: " + cs.size());
-                                LogUtil.logDeubg(this, MyGson.toPrettyJson(Word.listAll(Word.class)));
+                    public void hasResult(Object resultObject) {
+                        List<Performance> r = (List<Performance>) resultObject;
+                        LogUtil.logDeubg(this, MyGson.toJson(r));
+                    }
 
-                                LogUtil.logDeubg(this, MyGson.toPrettyJson(WordConnection.getConnections(1, 98, 2, 2)));
-
-                                LogUtil.logDeubg(this, MyGson.toPrettyJson(Word.getWord(cs.get(2).wordOneId)));
-                                LogUtil.logDeubg(this, MyGson.toPrettyJson(Word.getWord(cs.get(2).wordTwoId)));
-                            }
-
-                            public void noResult(String errorMessage) {
-                                MyQuickToast.showLong(ActivityTest.this, errorMessage);
-                            }
-                        });
+                    public void noResult(String errorMessage) {
+                        LogUtil.logDeubg(this, "noResult");
+                    }
+                });
 
             }
         });

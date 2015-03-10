@@ -1,7 +1,6 @@
 package com.openwords.services.implementations;
 
 import com.google.gson.Gson;
-import com.loopj.android.http.RequestParams;
 import static com.openwords.model.DataPool.ServerAddress;
 import com.openwords.services.interfaces.HttpResultHandler;
 import com.openwords.services.interfaces.HttpServiceRequester;
@@ -33,11 +32,6 @@ public class GetLearnableLanguages extends HttpServiceRequester implements HttpR
 
     public void noResult(String errorMessage) {
         resultHandler.noResult(errorMessage);
-    }
-
-    @Override
-    public void doRequest(RequestParams params, HttpResultHandler resultHandler) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public class Result {
