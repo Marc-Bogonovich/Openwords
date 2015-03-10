@@ -20,6 +20,7 @@ public class SetUserPerformance extends MyAction {
     private static final long serialVersionUID = 1L;
     private String performance;
     private String errorMessage;
+    private String learningType;
     private boolean result;
     private int userId;
 
@@ -28,7 +29,7 @@ public class SetUserPerformance extends MyAction {
     })
     @Override
     public String execute() throws Exception {
-        UtilLog.logInfo(this, "/setUserPerformance: " + userId + " " + performance);
+        UtilLog.logInfo(this, "/setUserPerformance: " + userId + " " + learningType + " " + performance);
         Session s = DatabaseHandler.getSession();
         try {
             Object[] versions = (Object[]) MyGson.fromJson(performance, Object[].class);
@@ -56,6 +57,10 @@ public class SetUserPerformance extends MyAction {
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+    public void setLearningType(String learningType) {
+        this.learningType = learningType;
     }
 
     public String getErrorMessage() {
