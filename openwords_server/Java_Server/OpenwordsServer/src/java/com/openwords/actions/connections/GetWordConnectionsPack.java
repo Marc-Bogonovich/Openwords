@@ -32,7 +32,7 @@ public class GetWordConnectionsPack extends MyAction {
     })
     @Override
     public String execute() throws Exception {
-        UtilLog.logInfo(this, "/getWordConnectionsPack");
+        UtilLog.logInfo(this, "/getWordConnectionsPack: " + langOneId + " " + langTwoId + " " + pageNumber + " " + pageSize);
         Session s = DatabaseHandler.getSession();
         try {
             if (doOrder) {
