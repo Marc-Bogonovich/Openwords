@@ -12,6 +12,13 @@ import java.util.List;
 
 public class UserLearningLanguages extends SugarRecord<UserLearningLanguages> {
 
+    public static UserLearningLanguages getUserLanguageInfo(int baseLang, int learningLang) {
+        return Word.find(UserLearningLanguages.class, "base_lang = ? and learning_lang = ?",
+                String.valueOf(baseLang),
+                String.valueOf(learningLang)
+        ).get(0);
+    }
+
     /**
      * Try to load user learning language settings from server first: if it is
      * not successful then load user learning language settings from local; if
@@ -36,7 +43,7 @@ public class UserLearningLanguages extends SugarRecord<UserLearningLanguages> {
                     public void hasResult(Object resultObject) {
                         @SuppressWarnings("unchecked")
                         List<UserLearningLanguages> langs = (List<UserLearningLanguages>) resultObject;
-                        saveUserLearningLanguagesToLocal(baseLang, langs);
+                        saveOrUpdateAll(baseLang, langs);
                         resultHandler.result(langs);
                     }
 
@@ -74,7 +81,7 @@ public class UserLearningLanguages extends SugarRecord<UserLearningLanguages> {
         return l;
     }
 
-    public static void saveUserLearningLanguagesToLocal(int baseLang, List<UserLearningLanguages> learningLangs) {
+    public static void saveOrUpdateAll(int baseLang, List<UserLearningLanguages> learningLangs) {
         UserLearningLanguages.deleteAll(UserLearningLanguages.class, "base_lang = ?", String.valueOf(baseLang));
         for (UserLearningLanguages lang : learningLangs) {
             lang.baseLang = baseLang;

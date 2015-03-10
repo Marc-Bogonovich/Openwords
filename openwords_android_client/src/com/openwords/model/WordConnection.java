@@ -1,13 +1,53 @@
 package com.openwords.model;
 
+import com.openwords.services.implementations.GetWordConnectionsPack;
+import com.openwords.services.interfaces.HttpResultHandler;
 import com.orm.SugarRecord;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
 public class WordConnection extends SugarRecord<WordConnection> {
 
-    public static List<WordConnection> getConnections(int baseLang, int learningLang, int pageSize, int pageNumber) {
+    public static List<WordConnection> loadWordConnectionsFullPack(boolean tryRemote,
+            final int langOneId, final int langTwoId, final int pageNumber, final int pageSize,
+            boolean doOrder, String orderBy,
+            final ResultWordConnections resultHandler) {
+
+        if (!tryRemote) {
+            return getConnections(langOneId, langTwoId, pageSize, pageNumber);
+        }
+
+        new GetWordConnectionsPack().doRequest(
+                langOneId, langTwoId, pageNumber, pageSize, doOrder, orderBy,
+                new HttpResultHandler() {
+
+                    public void hasResult(Object resultObject) {
+                        Object[] r = (Object[]) resultObject;
+                        @SuppressWarnings("unchecked")
+                        List<WordConnection> connections = (List<WordConnection>) r[0];
+                        @SuppressWarnings("unchecked")
+                        List<Word> words = (List<Word>) r[1];
+
+                        if (connections == null || words == null) {
+                            resultHandler.result(null);
+                            return;
+                        }
+
+                        saveOrUpdateAll(connections);
+                        Word.saveOrUpdateAll(words);
+                        resultHandler.result(connections);
+                    }
+
+                    public void noResult(String errorMessage) {
+                        resultHandler.result(getConnections(langOneId, langTwoId, pageSize, pageNumber));
+                    }
+                });
+        return null;
+    }
+
+    private static List<WordConnection> getConnections(int baseLang, int learningLang, int pageSize, int pageNumber) {
         int firstRecord = (pageNumber - 1) * pageSize;
         String sql = "select * from word_connection "
                 + "where word_one_lang_id=@baseLang@ "
@@ -32,6 +72,16 @@ public class WordConnection extends SugarRecord<WordConnection> {
         String sql = "delete from word_connection where connection_id in " + sqlIds;
         WordConnection.executeQuery(sql);
         WordConnection.saveInTx(cs);
+    }
+
+    public static List<Integer> unpackConnectionIds(List<WordConnection> connections) {
+        List<Integer> l = new LinkedList<Integer>();
+        if (connections != null) {
+            for (WordConnection conn : connections) {
+                l.add(conn.connectionId);
+            }
+        }
+        return l;
     }
 
     public int connectionId, wordOneId, wordOneLangId, wordTwoId, wordTwoLangId, connectionType;
