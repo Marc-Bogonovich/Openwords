@@ -51,7 +51,7 @@ public class LanguagePage extends Activity {
                         MyQuickToast.showShort(LanguagePage.this, "user id is corrupt");
                         return;
                     }
-                    UserLearningLanguages.saveUserLearningLanguagesToLocal(LocalSettings.getBaseLanguageId(),
+                    UserLearningLanguages.saveOrUpdateAll(LocalSettings.getBaseLanguageId(),
                             UserLearningLanguages.packNewLearningLangs(ChosenLangIds));
 
                     MyDialogHelper.tryShowQuickProgressDialog(LanguagePage.this, "Saving your preference to server...");
