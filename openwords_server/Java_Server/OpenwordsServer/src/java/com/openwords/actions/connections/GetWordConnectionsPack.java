@@ -2,6 +2,8 @@ package com.openwords.actions.connections;
 
 import static com.opensymphony.xwork2.Action.SUCCESS;
 import com.openwords.database.DatabaseHandler;
+import com.openwords.database.UserPerformance;
+import com.openwords.database.UserPerformanceId;
 import com.openwords.database.Word;
 import com.openwords.database.WordConnection;
 import com.openwords.interfaces.MyAction;
@@ -25,6 +27,8 @@ public class GetWordConnectionsPack extends MyAction {
     private String orderBy;
     private List<WordConnection> connections;
     private List<Word> words;
+    private List<UserPerformance> performance;
+    private int userId;
 
     @Action(value = "/getWordConnectionsPack", results = {
         @Result(name = SUCCESS, type = "json"),
@@ -32,7 +36,7 @@ public class GetWordConnectionsPack extends MyAction {
     })
     @Override
     public String execute() throws Exception {
-        UtilLog.logInfo(this, "/getWordConnectionsPack: " + langOneId + " " + langTwoId + " " + pageNumber + " " + pageSize);
+        UtilLog.logInfo(this, "/getWordConnectionsPack: " + langOneId + " " + langTwoId + " " + pageNumber + " " + pageSize + ", user " + userId);
         Session s = DatabaseHandler.getSession();
         try {
             if (doOrder) {
@@ -49,6 +53,29 @@ public class GetWordConnectionsPack extends MyAction {
                 wordIds.add(connection.getWordTwoId());
             }
             words = Word.getWords(s, wordIds);
+
+            Integer[] connectionIds = new Integer[connections.size()];
+            for (int i = 0; i < connections.size(); i++) {
+                connectionIds[i] = connections.get(i).getConnectionId();
+            }
+            performance = UserPerformance.getPerformances(s, userId, connectionIds);
+
+            //create new performance records
+            if (connections.size() != performance.size()) {
+                UtilLog.logInfo(this, "Create new UserPerformance records: " + (connections.size() - performance.size()));
+                Set<Integer> newIds = new HashSet<>(connections.size());
+                for (WordConnection conn : connections) {
+                    newIds.add(conn.getConnectionId());
+                }
+                for (UserPerformance perf : performance) {
+                    newIds.remove(perf.getWordConnectionId());
+                }
+                for (Integer newId : newIds) {
+                    s.save(new UserPerformance(new UserPerformanceId(userId, newId, "all"), "new", 1));
+                }
+                s.beginTransaction().commit();
+                performance = UserPerformance.getPerformances(s, userId, connectionIds);
+            }
 
         } catch (Exception e) {
             errorMessage = e.toString();
@@ -104,5 +131,13 @@ public class GetWordConnectionsPack extends MyAction {
 
     public List<Word> getWords() {
         return words;
+    }
+
+    public List<UserPerformance> getPerformance() {
+        return performance;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 }
