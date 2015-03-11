@@ -15,6 +15,8 @@ import com.openwords.R;
 import com.openwords.model.DataPool;
 import com.openwords.model.LocalSettings;
 import com.openwords.model.UserLearningLanguages;
+import com.openwords.services.implementations.SetUserPerformance;
+import com.openwords.services.interfaces.HttpResultHandler;
 import com.openwords.util.localization.LocalizationManager;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.ui.MyQuickToast;
@@ -91,6 +93,22 @@ public class FragmentPCReview extends Fragment {
         }
         languageInfo.page += 1;
         languageInfo.save();
+
+        recordPerformance();
+    }
+
+    private void recordPerformance() {
+        new SetUserPerformance().doRequest(LocalSettings.getUserId(), DataPool.getAllPerformance(true), "all",
+                new HttpResultHandler() {
+
+                    public void hasResult(Object resultObject) {
+                        MyQuickToast.showShort(getActivity(), "Your performance is recorded.");
+                    }
+
+                    public void noResult(String errorMessage) {
+                        MyQuickToast.showShort(getActivity(), "Cannot record your performance.");
+                    }
+                });
     }
 
     private void refresh() {
