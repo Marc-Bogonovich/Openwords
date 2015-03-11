@@ -1,7 +1,5 @@
 package com.openwords.model;
 
-import com.openwords.services.implementations.GetUserPerformance;
-import com.openwords.services.interfaces.HttpResultHandler;
 import com.openwords.util.log.LogUtil;
 import com.orm.SugarRecord;
 import java.util.HashSet;
@@ -10,28 +8,14 @@ import java.util.Set;
 
 public class Performance extends SugarRecord<Performance> {
 
-    public static List<Performance> loadUserPerformance(boolean tryRemote, int userId, final List<Integer> connectionIds, final ResultUserPerformance resultHandler) {
-        if (!tryRemote) {
-            return loadUserPerformanceLocal(connectionIds, "all");
+    public synchronized static Performance getPerformance(int wordConnectionId, String learningType) {
+        List<Performance> r = Performance.find(Performance.class, "word_connection_id = ? and learning_type = ?",
+                String.valueOf(wordConnectionId), learningType);
+        if (r.isEmpty()) {
+            return null;
+        } else {
+            return r.get(0);
         }
-
-        new GetUserPerformance().doRequest(
-                userId,
-                connectionIds,
-                new HttpResultHandler() {
-
-                    public void hasResult(Object resultObject) {
-                        @SuppressWarnings("unchecked")
-                        List<Performance> perfs = (List<Performance>) resultObject;
-                        saveOrUpdateAll(perfs, "all");
-                        resultHandler.result(perfs);
-                    }
-
-                    public void noResult(String errorMessage) {
-                        resultHandler.result(loadUserPerformanceLocal(connectionIds, "all"));
-                    }
-                });
-        return null;
     }
 
     private static List<Performance> loadUserPerformanceLocal(List<Integer> connectionIds, String learningType) {
@@ -59,7 +43,7 @@ public class Performance extends SugarRecord<Performance> {
     }
     public int wordConnectionId;
     public String learningType, performance;
-    public long version;
+    public long version, tempVersion;
 
     public Performance() {
     }

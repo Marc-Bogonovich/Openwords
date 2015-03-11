@@ -10,7 +10,7 @@ import java.util.Set;
 
 public class WordConnection extends SugarRecord<WordConnection> {
 
-    public static List<WordConnection> loadWordConnectionsFullPack(boolean tryRemote,
+    public static List<WordConnection> loadWordConnectionsFullPack(boolean tryRemote, final int userId,
             final int langOneId, final int langTwoId, final int pageNumber, final int pageSize,
             boolean doOrder, String orderBy,
             final ResultWordConnections resultHandler) {
@@ -20,7 +20,7 @@ public class WordConnection extends SugarRecord<WordConnection> {
         }
 
         new GetWordConnectionsPack().doRequest(
-                langOneId, langTwoId, pageNumber, pageSize, doOrder, orderBy,
+                userId, langOneId, langTwoId, pageNumber, pageSize, doOrder, orderBy,
                 new HttpResultHandler() {
 
                     public void hasResult(Object resultObject) {
@@ -29,6 +29,8 @@ public class WordConnection extends SugarRecord<WordConnection> {
                         List<WordConnection> connections = (List<WordConnection>) r[0];
                         @SuppressWarnings("unchecked")
                         List<Word> words = (List<Word>) r[1];
+                        @SuppressWarnings("unchecked")
+                        List<Performance> performance = (List<Performance>) r[2];
 
                         if (connections == null || words == null) {
                             resultHandler.result(null);
@@ -37,6 +39,7 @@ public class WordConnection extends SugarRecord<WordConnection> {
 
                         saveOrUpdateAll(connections);
                         Word.saveOrUpdateAll(words);
+                        Performance.saveOrUpdateAll(performance, "all");
                         resultHandler.result(connections);
                     }
 
