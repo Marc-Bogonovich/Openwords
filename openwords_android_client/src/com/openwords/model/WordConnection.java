@@ -33,18 +33,19 @@ public class WordConnection extends SugarRecord<WordConnection> {
                         List<Performance> performance = (List<Performance>) r[2];
 
                         if (connections == null || words == null) {
-                            resultHandler.result(null);
+                            resultHandler.result(null, null, null);
                             return;
                         }
 
                         saveOrUpdateAll(connections);
                         Word.saveOrUpdateAll(words);
                         Performance.saveOrUpdateAll(performance, "all");
-                        resultHandler.result(connections);
+                        resultHandler.result(connections, words, performance);
                     }
 
                     public void noResult(String errorMessage) {
-                        resultHandler.result(getConnections(langOneId, langTwoId, pageSize, pageNumber));
+                        //todo!!!!!!!!!!!!!!!!
+                        resultHandler.result(getConnections(langOneId, langTwoId, pageSize, pageNumber), null, null);
                     }
                 });
         return null;

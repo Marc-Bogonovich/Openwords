@@ -8,7 +8,7 @@ import java.util.Set;
 
 public class Performance extends SugarRecord<Performance> {
 
-    public synchronized static Performance getPerformance(int wordConnectionId, String learningType) {
+    private synchronized static Performance getPerformance(int wordConnectionId, String learningType) {
         List<Performance> r = Performance.find(Performance.class, "word_connection_id = ? and learning_type = ?",
                 String.valueOf(wordConnectionId), learningType);
         if (r.isEmpty()) {

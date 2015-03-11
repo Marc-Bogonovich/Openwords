@@ -8,5 +8,5 @@ import java.util.List;
  */
 public interface ResultWordConnections {
 
-    public void result(List<WordConnection> result);
+    public void result(List<WordConnection> connections, List<Word> words, List<Performance> performance);
 }
