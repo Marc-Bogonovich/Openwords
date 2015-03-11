@@ -2,6 +2,7 @@ package com.openwords.services.implementations;
 
 import com.google.gson.Gson;
 import static com.openwords.model.DataPool.ServerAddress;
+import com.openwords.model.Performance;
 import com.openwords.model.Word;
 import com.openwords.model.WordConnection;
 import com.openwords.services.interfaces.HttpResultHandler;
@@ -15,9 +16,10 @@ public class GetWordConnectionsPack extends HttpServiceRequester implements Http
 
     private HttpResultHandler resultHandler;
 
-    public void doRequest(int langOneId, int langTwoId, int pageNumber, int pageSize, boolean doOrder, String orderBy, HttpResultHandler hrh) {
+    public void doRequest(int userId, int langOneId, int langTwoId, int pageNumber, int pageSize, boolean doOrder, String orderBy, HttpResultHandler hrh) {
         resultHandler = hrh;
         request(ServiceURL, new RequestParamsBuilder()
+                .addParam("userId", String.valueOf(userId))
                 .addParam("langOneId", String.valueOf(langOneId))
                 .addParam("langTwoId", String.valueOf(langTwoId))
                 .addParam("pageNumber", String.valueOf(pageNumber))
@@ -33,7 +35,7 @@ public class GetWordConnectionsPack extends HttpServiceRequester implements Http
         if (r.connections == null) {
             resultHandler.noResult("no result");
         } else {
-            resultHandler.hasResult(new Object[]{r.connections, r.words});
+            resultHandler.hasResult(new Object[]{r.connections, r.words, r.performance});
         }
     }
 
@@ -45,6 +47,7 @@ public class GetWordConnectionsPack extends HttpServiceRequester implements Http
 
         public List<Word> words;
         public List<WordConnection> connections;
+        public List<Performance> performance;
         public String errorMessage;
     }
 }
