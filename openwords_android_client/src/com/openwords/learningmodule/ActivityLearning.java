@@ -9,6 +9,7 @@ import com.openwords.R;
 import static com.openwords.learningmodule.InterfaceLearningModule.Learning_Type_Review;
 import com.openwords.model.DataPool;
 import com.openwords.model.LocalSettings;
+import com.openwords.model.Performance;
 import com.openwords.model.ResultWordConnections;
 import com.openwords.model.UserLearningLanguages;
 import com.openwords.model.WordConnection;
@@ -44,7 +45,7 @@ public class ActivityLearning extends FragmentActivity {
         }
 
         WordConnection.loadWordConnectionsFullPack(true,
-                languageInfo.baseLang, languageInfo.learningLang, languageInfo.page, 10, false, null,
+                LocalSettings.getUserId(), languageInfo.baseLang, languageInfo.learningLang, languageInfo.page, 10, false, null,
                 new ResultWordConnections() {
 
                     public void result(List<WordConnection> result) {
@@ -90,6 +91,8 @@ public class ActivityLearning extends FragmentActivity {
                         refreshPC();
                     }
                 }
+
+                updatePerformanceBasedOnNavigation();
             }
 
             public void onPageScrollStateChanged(int i) {
@@ -110,6 +113,29 @@ public class ActivityLearning extends FragmentActivity {
                 pager.setCurrentItem(DataPool.LmCurrentCard, true);
             } else {
                 DataPool.LmCurrentCard = 0;
+            }
+        }
+
+        if (DataPool.LmCurrentCard == 0) {
+            updatePerformanceBasedOnNavigation();
+        }
+    }
+
+    /**
+     * Update performance based on page navigation only.
+     */
+    private void updatePerformanceBasedOnNavigation() {
+        if (DataPool.LmType == Learning_Type_Review) {
+            if (DataPool.LmCurrentCard >= 0 && DataPool.LmCurrentCard < DataPool.LmPool.size()) {
+                WordConnection wc = DataPool.LmPool.get(DataPool.LmCurrentCard);
+                Performance perf = Performance.getPerformance(wc.connectionId, "all");
+                if (perf == null) {
+                    MyQuickToast.showShort(act, "No performance data: " + wc.connectionId);
+                    return;
+                }
+                perf.performance = "good";
+                perf.tempVersion = perf.version + 1;
+                perf.save();
             }
         }
     }
