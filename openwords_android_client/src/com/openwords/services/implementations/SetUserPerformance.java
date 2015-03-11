@@ -6,7 +6,7 @@ import com.openwords.services.interfaces.HttpResultHandler;
 import com.openwords.services.interfaces.HttpServiceRequester;
 import com.openwords.services.interfaces.RequestParamsBuilder;
 import com.openwords.util.gson.MyGson;
-import java.util.List;
+import java.util.Collection;
 
 public class SetUserPerformance extends HttpServiceRequester implements HttpResultHandler {
 
@@ -14,7 +14,7 @@ public class SetUserPerformance extends HttpServiceRequester implements HttpResu
 
     private HttpResultHandler resultHandler;
 
-    public void doRequest(int userId, List<Performance> performance, String learningType, HttpResultHandler hrh) {
+    public void doRequest(int userId, Collection<Performance> performance, String learningType, HttpResultHandler hrh) {
         resultHandler = hrh;
         Object[] perfs = new Object[performance.size() * 3];
         int index = 0;

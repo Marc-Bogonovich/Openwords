@@ -239,36 +239,11 @@ public class ActivityTest extends Activity {
         findViewById(R.id.act_test_test99).setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
-                WordConnection.loadWordConnectionsFullPack(true, 1, 98, 1, 10, false, null, new ResultWordConnections() {
-
-                    public void result(List<WordConnection> result) {
-//                        LogUtil.logDeubg(act, MyGson.toJson(result));
-//                        final List<Integer> ids = WordConnection.unpackConnectionIds(result);
-//
-//                        Performance.loadUserPerformance(true, 1, ids, new ResultUserPerformance() {
-//
-//                            public void result(List<Performance> result) {
-//                                LogUtil.logDeubg(act, MyGson.toJson(result));
-//                                if (result.size() < ids.size()) {
-//                                    LogUtil.logDeubg(act, "no complete performance, so make new");
-//                                    for (Performance perf : result) {
-//                                        ids.remove(Integer.valueOf(perf.wordConnectionId));
-//                                    }
-//
-//                                    List<Performance> newPerf = new LinkedList<Performance>();
-//                                    for (Integer newConnection : ids) {
-//                                        newPerf.add(new Performance(newConnection, "all", "new", 0));
-//                                    }
-//                                    Performance.saveOrUpdateAll(newPerf, "all");
-//
-//                                    LogUtil.logDeubg(act, MyGson.toJson(Performance.loadUserPerformance(false, 1, ids, null)));
-//                                }
-//                            }
-//                        });
+                
                     }
-                });
+              
 
-            }
+          
         });
     }
 }
