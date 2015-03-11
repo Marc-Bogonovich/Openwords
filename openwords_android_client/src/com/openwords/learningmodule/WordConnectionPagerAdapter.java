@@ -24,7 +24,7 @@ public class WordConnectionPagerAdapter extends FragmentPagerAdapter {
                 return makePageFragment(getReverseCardIndex(i));
             }
         } else {
-            if (i >= DataPool.LmPool.size()) {
+            if (i >= DataPool.getPoolSize()) {
                 return makePCFragment();
             } else {
                 return makePageFragment(i);
@@ -52,14 +52,14 @@ public class WordConnectionPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return DataPool.LmPool.size() + 1;
+        return DataPool.getPoolSize() + 1;
     }
 
     private int getReverseCardIndex(int pageIndex) {
         if (pageIndex == 0) {
             return -1;//additional page, so invalid card
         }
-        return DataPool.LmPool.size() - pageIndex;
+        return DataPool.getPoolSize() - pageIndex;
     }
 
 }

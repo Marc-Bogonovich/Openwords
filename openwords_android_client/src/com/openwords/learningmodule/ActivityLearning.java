@@ -12,6 +12,7 @@ import com.openwords.model.LocalSettings;
 import com.openwords.model.Performance;
 import com.openwords.model.ResultWordConnections;
 import com.openwords.model.UserLearningLanguages;
+import com.openwords.model.Word;
 import com.openwords.model.WordConnection;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.ui.MyDialogHelper;
@@ -48,13 +49,13 @@ public class ActivityLearning extends FragmentActivity {
                 LocalSettings.getUserId(), languageInfo.baseLang, languageInfo.learningLang, languageInfo.page, 10, false, null,
                 new ResultWordConnections() {
 
-                    public void result(List<WordConnection> result) {
-                        if (result == null) {
+                    public void result(List<WordConnection> connections, List<Word> words, List<Performance> performance) {
+                        if (connections == null) {
                             MyQuickToast.showShort(act, "Error when loading words data");
                             finish();
                             return;
                         }
-                        DataPool.LmPool = result;
+                        DataPool.addLmPool(connections, performance);
                         init();
                     }
                 });
@@ -87,7 +88,7 @@ public class ActivityLearning extends FragmentActivity {
                     }
                 } else {
                     DataPool.LmCurrentCard = i;
-                    if (i == DataPool.LmPool.size()) {
+                    if (i == DataPool.getPoolSize()) {
                         refreshPC();
                     }
                 }
@@ -104,12 +105,12 @@ public class ActivityLearning extends FragmentActivity {
         pager.setPageTransformer(true, new PageTransformerForLeafCard(DataPool.LmReverseNav));
 
         if (DataPool.LmReverseNav) {
-            if (!(DataPool.LmCurrentCard > -1 && DataPool.LmCurrentCard < DataPool.LmPool.size())) {
+            if (!(DataPool.LmCurrentCard > -1 && DataPool.LmCurrentCard < DataPool.getPoolSize())) {
                 DataPool.LmCurrentCard = 0;
             }
             pager.setCurrentItem(getReversePageIndex(DataPool.LmCurrentCard), true);
         } else {
-            if (DataPool.LmCurrentCard > -1 && DataPool.LmCurrentCard < DataPool.LmPool.size()) {
+            if (DataPool.LmCurrentCard > -1 && DataPool.LmCurrentCard < DataPool.getPoolSize()) {
                 pager.setCurrentItem(DataPool.LmCurrentCard, true);
             } else {
                 DataPool.LmCurrentCard = 0;
@@ -126,9 +127,9 @@ public class ActivityLearning extends FragmentActivity {
      */
     private void updatePerformanceBasedOnNavigation() {
         if (DataPool.LmType == Learning_Type_Review) {
-            if (DataPool.LmCurrentCard >= 0 && DataPool.LmCurrentCard < DataPool.LmPool.size()) {
-                WordConnection wc = DataPool.LmPool.get(DataPool.LmCurrentCard);
-                Performance perf = Performance.getPerformance(wc.connectionId, "all");
+            if (DataPool.LmCurrentCard >= 0 && DataPool.LmCurrentCard < DataPool.getPoolSize()) {
+                WordConnection wc = DataPool.getWordConnection(DataPool.LmCurrentCard);
+                Performance perf = DataPool.getPerformance(wc.connectionId);
                 if (perf == null) {
                     MyQuickToast.showShort(act, "No performance data: " + wc.connectionId);
                     return;
@@ -141,7 +142,7 @@ public class ActivityLearning extends FragmentActivity {
     }
 
     private int getReversePageIndex(int cardIndex) {
-        return DataPool.LmPool.size() - cardIndex;
+        return DataPool.getPoolSize() - cardIndex;
     }
 
     public void goToNextCard() {

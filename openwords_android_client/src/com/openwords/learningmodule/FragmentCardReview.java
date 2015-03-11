@@ -39,7 +39,7 @@ public class FragmentCardReview extends FragmentLearningModule {
         LogUtil.logDeubg(this, "onCreateView for card: " + cardIndex);
 
         myFragmentView = inflater.inflate(R.layout.fragment_review, container, false);
-        WordConnection wc = DataPool.LmPool.get(cardIndex);
+        WordConnection wc = DataPool.getWordConnection(cardIndex);
         Word w1 = Word.getWord(wc.wordOneId);
         Word w2 = Word.getWord(wc.wordTwoId);
 

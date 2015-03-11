@@ -10,14 +10,10 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.Toast;
 import com.openwords.R;
-import com.openwords.model.WordMeaning;
 import com.openwords.sound.SoundPlayer;
 import com.openwords.sound.WordAudioManager;
 import com.openwords.util.file.LocalFileSystem;
 import com.openwords.util.log.LogUtil;
-import com.orm.query.Condition;
-import com.orm.query.Select;
-import java.util.List;
 
 /**
  *
