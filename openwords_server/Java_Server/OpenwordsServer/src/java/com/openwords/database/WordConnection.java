@@ -4,6 +4,7 @@ import com.openwords.utils.UtilLog;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -21,6 +22,21 @@ import org.hibernate.criterion.Restrictions;
 public class WordConnection implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    public static List<Map<String, Object>> getWordConnectionPack(Session s, int langTwo) {
+        String sql = "SELECT l2_info.connection_id, l2_info.word1_language, w.word, ExtractValue(w.meta_info,\"/word/commonTranslation\") as common_translation,\n"
+                + "l2_info.word2_language, l2_info.word as word2, ExtractValue(l2_info.meta_info,\"/word/commonTranslation\") as common_translation2,\n"
+                + "l2_info.updated_time as connection_time\n"
+                + "FROM\n"
+                + "(SELECT c.connection_id, c.word1_id, c.word1_language, c.word2_id, w.word, w.meta_info, c.word2_language, c.updated_time\n"
+                + "FROM word_connections as c, words as w\n"
+                + "WHERE c.word1_language=1 and c.word2_language=@langTwo@ and c.word2_id=w.word_id) l2_info,\n"
+                + "words as w\n"
+                + "where w.word_id=l2_info.word1_id";
+        sql = sql.replace("@langTwo@", String.valueOf(langTwo));
+        List<Map<String, Object>> r = DatabaseHandler.Query(sql, s);
+        return r;
+    }
 
     @SuppressWarnings("unchecked")
     public static List<Integer> getLearnableLanguageIds(Session s, int langOne) {
