@@ -73,17 +73,28 @@ public class GetConnectionSheet extends MyAction {
         }
         fileName = "language_" + langTwoId + ".ods";
         File file = new File("temp.ods");
-        SpreadSheet doc = SpreadSheet.create(1, 8, r.size() + 1);
+        SpreadSheet doc = SpreadSheet.create(1, 10, r.size() + 1);
         Sheet sheet = doc.getSheet(0);
+        sheet.getCellAt(0, 0).setValue("Connection ID");
+        sheet.getCellAt(1, 0).setValue("Word 1 Language ID");
+        sheet.getCellAt(2, 0).setValue("Word 1 ID");
+        sheet.getCellAt(3, 0).setValue("Word 1");
+        sheet.getCellAt(4, 0).setValue("Common Translation");
+        sheet.getCellAt(5, 0).setValue("Word 2 Language ID");
+        sheet.getCellAt(6, 0).setValue("Word 2 ID");
+        sheet.getCellAt(7, 0).setValue("Word 2");
+        sheet.getCellAt(8, 0).setValue("Connection Time");
         int index = 1;
         for (Map<String, Object> row : r) {
             sheet.getCellAt(0, index).setValue(row.get("connection_id"));
             sheet.getCellAt(1, index).setValue(row.get("word1_language"));
-            sheet.getCellAt(2, index).setValue(row.get("word"));
-            sheet.getCellAt(3, index).setValue(row.get("common_translation"));
-            sheet.getCellAt(4, index).setValue(row.get("word2_language"));
-            sheet.getCellAt(5, index).setValue(row.get("word2"));
-            sheet.getCellAt(6, index).setValue(row.get("connection_time").toString());
+            sheet.getCellAt(2, index).setValue(row.get("word1_id"));
+            sheet.getCellAt(3, index).setValue(row.get("word"));
+            sheet.getCellAt(4, index).setValue(row.get("common_translation"));
+            sheet.getCellAt(5, index).setValue(row.get("word2_language"));
+            sheet.getCellAt(6, index).setValue(row.get("word2_id"));
+            sheet.getCellAt(7, index).setValue(row.get("word2"));
+            sheet.getCellAt(8, index).setValue(row.get("connection_time").toString());
             index += 1;
         }
         doc.saveAs(file);

@@ -24,8 +24,8 @@ public class WordConnection implements Serializable {
     private static final long serialVersionUID = 1L;
 
     public static List<Map<String, Object>> getWordConnectionPack(Session s, int langTwo) {
-        String sql = "SELECT l2_info.connection_id, l2_info.word1_language, w.word, ExtractValue(w.meta_info,\"/word/commonTranslation\") as common_translation,\n"
-                + "l2_info.word2_language, l2_info.word as word2, ExtractValue(l2_info.meta_info,\"/word/commonTranslation\") as common_translation2,\n"
+        String sql = "SELECT l2_info.connection_id, l2_info.word1_language, w.word_id as word1_id, w.word, ExtractValue(w.meta_info,\"/word/commonTranslation\") as common_translation,\n"
+                + "l2_info.word2_language, l2_info.word2_id, l2_info.word as word2, ExtractValue(l2_info.meta_info,\"/word/commonTranslation\") as common_translation2,\n"
                 + "l2_info.updated_time as connection_time\n"
                 + "FROM\n"
                 + "(SELECT c.connection_id, c.word1_id, c.word1_language, c.word2_id, w.word, w.meta_info, c.word2_language, c.updated_time\n"
