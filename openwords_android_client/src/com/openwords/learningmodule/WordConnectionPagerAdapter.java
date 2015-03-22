@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import static com.openwords.learningmodule.InterfaceLearningModule.Learning_Type_Review;
+import static com.openwords.learningmodule.InterfaceLearningModule.Learning_Type_Self;
 import com.openwords.model.DataPool;
 
 public class WordConnectionPagerAdapter extends FragmentPagerAdapter {
@@ -36,18 +37,15 @@ public class WordConnectionPagerAdapter extends FragmentPagerAdapter {
         switch (DataPool.LmType) {
             case Learning_Type_Review:
                 return new FragmentCardReview(index, activityInstance);
+            case Learning_Type_Self:
+                return new FragmentCardSelfEval(index, activityInstance);
             default:
                 return null;
         }
     }
 
     public Fragment makePCFragment() {
-        switch (DataPool.LmType) {
-            case Learning_Type_Review:
-                return new FragmentPCReview();
-            default:
-                return null;
-        }
+        return new FragmentPlateCompletion();
     }
 
     @Override
