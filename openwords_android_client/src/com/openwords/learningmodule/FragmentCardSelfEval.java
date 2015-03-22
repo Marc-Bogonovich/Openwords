@@ -6,14 +6,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.openwords.R;
-import com.openwords.model.LeafCard;
-import com.openwords.model.LeafCardSelfEval;
-import com.openwords.util.TimeConvertor;
+import com.openwords.model.DataPool;
+import com.openwords.model.Performance;
+import com.openwords.model.Word;
+import com.openwords.model.WordConnection;
 import com.openwords.util.log.LogUtil;
-import java.util.List;
+import com.openwords.util.ui.MyQuickToast;
 
 public class FragmentCardSelfEval extends FragmentLearningModule {
 
@@ -21,15 +21,11 @@ public class FragmentCardSelfEval extends FragmentLearningModule {
     private TextView problem, transcription, answer;
     private Button showAnswer;
     private ImageView correct, incorrect, audioPlay;
-    private LeafCardSelfEval card;
-    private LinearLayout breadcrumbs;
     private View myFragmentView;
-    private List<LeafCard> cardsPool;
-    private ActivityLM lmActivity;
+    private ActivityLearning lmActivity;
 
-    public FragmentCardSelfEval(int cardIndex, List<LeafCard> cardsPool, ActivityLM lmActivity) {
+    public FragmentCardSelfEval(int cardIndex, ActivityLearning lmActivity) {
         this.cardIndex = cardIndex;
-        this.cardsPool = cardsPool;
         this.lmActivity = lmActivity;
     }
 
@@ -39,7 +35,15 @@ public class FragmentCardSelfEval extends FragmentLearningModule {
         LogUtil.logDeubg(this, "onCreateView for card: " + cardIndex);
 
         myFragmentView = inflater.inflate(R.layout.fragment_self_eval, container, false);
-        card = (LeafCardSelfEval) cardsPool.get(cardIndex);
+        WordConnection wc = DataPool.getWordConnection(cardIndex);
+        Word w1 = Word.getWord(wc.wordOneId);
+        Word w2 = Word.getWord(wc.wordTwoId);
+        final Performance perf = DataPool.getPerformance(wc.connectionId);
+        if (perf == null) {
+            MyQuickToast.showShort(getActivity(), "No performance data: " + wc.connectionId);
+            return null;
+        }
+
         problem = (TextView) myFragmentView.findViewById(R.id.selfEvaluate_TextView_question);
         transcription = (TextView) myFragmentView.findViewById(R.id.selfEvaluate_TextView_transcription);
         answer = (TextView) myFragmentView.findViewById(R.id.selfEvaluate_TextView_answer);
@@ -47,27 +51,25 @@ public class FragmentCardSelfEval extends FragmentLearningModule {
         correct = (ImageView) myFragmentView.findViewById(R.id.selfEvaluate_ImageView_known);
         incorrect = (ImageView) myFragmentView.findViewById(R.id.selfEvaluate_ImageView_unknown);
         audioPlay = (ImageView) myFragmentView.findViewById(R.id.selfEvaluate_ImageView_audioPlay);
-        //makeBreadCrumbs();
-        problem.setText(card.getWordLang2());
-        answer.setText(card.getWordLang1());
-        transcription.setText(card.getTranscription());
-        card.setLastTime(TimeConvertor.getUnixTime());
 
-        updateAudioIcon(audioPlay, card.getWordTwoId());
-        //addClarificationTrigger(lmActivity, new View[]{answer, problem}, answer, card.getWordTwoId());
+        problem.setText(w2.wordMetaInfo.nativeForm);
+        answer.setText(w1.wordMetaInfo.nativeForm);
 
+        //updateAudioIcon(audioPlay, card.getWordTwoId());
+        addClarificationTrigger(lmActivity, new View[]{answer, problem}, answer, w1.getMeta().commonTranslation);
         showAnswer.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
                 answer.setVisibility(View.VISIBLE);
-                transcription.setVisibility(View.VISIBLE);
             }
         });
 
         correct.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
-                card.setUserChoice(Boolean.TRUE);
+                perf.performance = "good";
+                perf.tempVersion = perf.version + 1;
+                perf.save();
                 correct.setImageResource(R.drawable.button_self_evaluate_correct_selected);
                 incorrect.setImageResource(R.drawable.button_self_evaluate_incorrect_unselected);
                 lmActivity.goToNextCard();
@@ -77,39 +79,25 @@ public class FragmentCardSelfEval extends FragmentLearningModule {
         incorrect.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
-                card.setUserChoice(Boolean.FALSE);
+                perf.performance = "bad";
+                perf.tempVersion = perf.version + 1;
+                perf.save();
                 correct.setImageResource(R.drawable.button_self_evaluate_correct_unselected);
                 incorrect.setImageResource(R.drawable.button_self_evaluate_incorrect_selected);
                 lmActivity.goToNextCard();
             }
         });
 
-        if (card.getUserChoice() == null) {
+        if (perf.performance.contains("new")) {
             correct.setImageResource(R.drawable.button_self_evaluate_correct_unselected);
             incorrect.setImageResource(R.drawable.button_self_evaluate_incorrect_unselected);
         } else {
-            if (card.getUserChoice() == true) {
+            if (perf.performance.contains("good")) {
                 correct.setImageResource(R.drawable.button_self_evaluate_correct_selected);
-            } else if (card.getUserChoice() == false) {
+            } else if (perf.performance.contains("bad")) {
                 incorrect.setImageResource(R.drawable.button_self_evaluate_incorrect_selected);
             }
         }
         return myFragmentView;
     }
-
-//    private void makeBreadCrumbs() {
-//    	breadcrumbs = (LinearLayout) myFragmentView.findViewById(R.id.review_LinearLayout_breadcrumbs);
-//    	int size = OpenwordsSharedPreferences.getLeafCardSize();
-//    	for(int i=0;i<size;i++) {
-//    		ImageView crumb = new ImageView(this.getActivity().getApplicationContext());
-//    		
-//    		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-//    		            0,
-//    		            LinearLayout.LayoutParams.WRAP_CONTENT, 1);
-//    		
-//    		crumb.setImageResource(R.drawable.ic_learning_module_breadcrumb_normal);
-//    		if(i==cardIndex) crumb.setImageResource(R.drawable.ic_learning_module_breadcrumb_large);
-//    		breadcrumbs.addView(crumb, i , params);
-//    	}
-//    }
 }

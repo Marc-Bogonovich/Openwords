@@ -45,16 +45,16 @@ public class FragmentCardTypeEval extends FragmentLearningModule {
     private View myFragmentView;
     private ScrollView container2;
     private List<LeafCard> cardsPool;
-    private ActivityLM lmActivity;
+    //private ActivityLM lmActivity;
     private View advanceTimerBar;
     private Animation advanceTimerAnimation;
     private boolean answerChecked;
     private Timer advanceTimer;
 
-    public FragmentCardTypeEval(int cardIndex, List<LeafCard> cardsPool, ActivityLM lmActivity) {
+    public FragmentCardTypeEval(int cardIndex, List<LeafCard> cardsPool) {
         this.cardIndex = cardIndex;
         this.cardsPool = cardsPool;
-        this.lmActivity = lmActivity;
+        //this.lmActivity = lmActivity;
     }
 
     @Override
@@ -180,7 +180,7 @@ public class FragmentCardTypeEval extends FragmentLearningModule {
                 public boolean handleMessage(Message msg) {
                     if (msg.what == 0) {
                         dialog.cancel();
-                        lmActivity.goToNextCard();
+                        //lmActivity.goToNextCard();
                     }
                     return true;
                 }

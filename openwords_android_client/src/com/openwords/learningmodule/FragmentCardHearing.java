@@ -32,12 +32,12 @@ public class FragmentCardHearing extends FragmentLearningModule {
     private View myFragmentView;
     private ScrollView container2;
     private List<LeafCard> cardsPool;
-    private ActivityLM lmActivity;
+    //private ActivityLM lmActivity;
 
-    public FragmentCardHearing(int cardIndex, List<LeafCard> cardsPool, ActivityLM lmActivity) {
+    public FragmentCardHearing(int cardIndex, List<LeafCard> cardsPool) {
         this.cardIndex = cardIndex;
         this.cardsPool = cardsPool;
-        this.lmActivity = lmActivity;
+        //this.lmActivity = lmActivity;
     }
 
     @Override
@@ -89,7 +89,7 @@ public class FragmentCardHearing extends FragmentLearningModule {
                         Handler mHandler = new Handler();
                         mHandler.postDelayed(new Runnable() {
                             public void run() {
-                                lmActivity.goToNextCard();
+                                //lmActivity.goToNextCard();
                             }
                         }, 3000);
                     } else {
@@ -147,7 +147,7 @@ public class FragmentCardHearing extends FragmentLearningModule {
                 Handler mHandler = new Handler();
                 mHandler.postDelayed(new Runnable() {
                     public void run() {
-                        lmActivity.goToNextCard();
+                        //lmActivity.goToNextCard();
                     }
                 }, 3000);
 

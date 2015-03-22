@@ -21,7 +21,7 @@ import com.openwords.util.localization.LocalizationManager;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.ui.MyQuickToast;
 
-public class FragmentPCReview extends Fragment {
+public class FragmentPlateCompletion extends Fragment {
 
     private static Handler RefreshHandler;
 
