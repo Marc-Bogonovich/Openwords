@@ -166,13 +166,7 @@ public class ActivityLearning extends FragmentActivity {
     }
 
     public void refreshPC() {
-        switch (DataPool.LmType) {
-            case Learning_Type_Review:
-                FragmentPCReview.refreshDetails();
-                break;
-            default:
-                break;
-        }
+        FragmentPlateCompletion.refreshDetails();
 
         View focus = getCurrentFocus();
         if (focus != null) {
