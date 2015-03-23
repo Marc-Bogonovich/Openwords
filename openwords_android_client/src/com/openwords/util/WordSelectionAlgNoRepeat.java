@@ -12,7 +12,6 @@ import android.content.Context;
 import android.graphics.Region.Op;
 import android.util.Log;
 
-import com.openwords.model.InitDatabase;
 import com.openwords.model.UserPerformance;
 import com.openwords.model.UserWords;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
@@ -74,7 +73,6 @@ public class WordSelectionAlgNoRepeat extends SugarRecord<UserPerformance> imple
 			for(int i=0;i<size;i++) {
 				result.add(userWord.get(i).connectionId);
 				UserWords.setFreshToStale(userWord.get(i).connectionId);
-				InitDatabase.updateBackUserWords(user_id, userWord.get(i).connectionId, 0);
 			}
 			return result;
 		} else {
@@ -82,7 +80,6 @@ public class WordSelectionAlgNoRepeat extends SugarRecord<UserPerformance> imple
 			for(int i=0;i<userWord.size();i++) {
 				result.add(userWord.get(i).connectionId);
 				UserWords.setFreshToStale(userWord.get(i).connectionId);
-				InitDatabase.updateBackUserWords(user_id, userWord.get(i).connectionId, 0);
 			}
 		}
 		//if the fresh word is not enough

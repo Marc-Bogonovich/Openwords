@@ -10,7 +10,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.openwords.R;
-import com.openwords.model.JSONParser;
 import com.openwords.model.UserWords;
 import com.openwords.model.WordTranscription;
 import com.openwords.util.WordsPageTool;
@@ -138,8 +137,8 @@ public class NextWords extends Activity implements OnClickListener{
 	            params.add(new BasicNameValuePair("dtime", Long.toString(dTime)));
 	            params.add(new BasicNameValuePair("user",Integer.toString(user)));
 	            params.add(new BasicNameValuePair("lTwo",Integer.toString(langTwo)));
-	            JSONParser jsonParse = new JSONParser();
-                JSONObject jObj = jsonParse.makeHttpRequest(url_write_downloaded_words_to_server, "POST", params);
+	            
+                JSONObject jObj = null;//jsonParse.makeHttpRequest(url_write_downloaded_words_to_server, "POST", params);
                 
                 if(jObj.getInt("success")==1)
                 	Log.d("Message From Server", jObj.getString("message"));
@@ -169,8 +168,8 @@ public class NextWords extends Activity implements OnClickListener{
                         params.add(new BasicNameValuePair("langOne", "1"));
                         params.add(new BasicNameValuePair("langTwo", Integer.toString(OpenwordsSharedPreferences.getUserInfo().getLang_id())));
                         Log.d("User", "47");
-                        JSONParser jsonParse = new JSONParser();
-                        JSONObject jObj = jsonParse.makeHttpRequest(nextwords_url, "POST", params);
+                        
+                        JSONObject jObj = null;//jsonParse.makeHttpRequest(nextwords_url, "POST", params);
                         Log.d("Obj", jObj.toString());
                         if(jObj.getInt("success")==1)
                         {

@@ -8,7 +8,6 @@ import android.view.WindowManager;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import com.openwords.R;
-import com.openwords.model.JSONParser;
 import com.openwords.model.UserPerformance;
 import com.openwords.ui.common.BackButtonBehavior;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
@@ -102,8 +101,8 @@ public class StatsPage extends Activity {
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("language", Integer.toString(OpenwordsSharedPreferences.getUserInfo().getLang_id())));
 
-            JSONParser jsonParse = new JSONParser();
-            JSONObject jObj = jsonParse.makeHttpRequest(url_get_word_count, "POST", params);
+            
+            JSONObject jObj = null;//jsonParse.makeHttpRequest(url_get_word_count, "POST", params);
             if (jObj.getInt("success") == 1) {
                 return jObj.getInt("count");
             } else {

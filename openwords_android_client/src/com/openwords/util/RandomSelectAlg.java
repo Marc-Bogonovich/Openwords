@@ -6,7 +6,6 @@ import java.util.List;
 import android.graphics.Region.Op;
 import android.util.Log;
 
-import com.openwords.model.InitDatabase;
 import com.openwords.model.UserPerformance;
 import com.openwords.model.UserWords;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
@@ -38,14 +37,12 @@ public class RandomSelectAlg implements WSAinterface {
 				int random = (int) (Math.random() * userWord.size());
 				result.add(userWord.get(random).connectionId);
 				UserWords.setFreshToStale(userWord.get(random).connectionId);
-				InitDatabase.updateBackUserWords(user_id, userWord.get(i).connectionId, 0);
 			}
 			return result;
 		} else {
 			for(int i=0;i<userWord.size();i++) {
 				result.add(userWord.get(i).connectionId);
 				UserWords.setFreshToStale(userWord.get(i).connectionId);
-				InitDatabase.updateBackUserWords(user_id, userWord.get(i).connectionId, 0);
 			}
 		}
 		size = size - result.size();

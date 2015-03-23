@@ -9,7 +9,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.openwords.R;
-import com.openwords.model.JSONParser;
 import com.openwords.model.UserInfo;
 import com.openwords.util.HomePageTool;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
@@ -105,8 +104,8 @@ public class ProfilePage extends Activity implements OnClickListener {
 			List<NameValuePair> params1 = new ArrayList<NameValuePair>(2);
 			params1.add(new BasicNameValuePair("userid",Integer.toString(userinfo.getUserId())));
 			Log.d("User", "Passed Validation");
-			JSONParser jsonParse = new JSONParser();
-			JSONObject jObj = jsonParse.makeHttpRequest(url_dropdown, "POST", params1);
+			
+			JSONObject jObj = null;//jsonParse.makeHttpRequest(url_dropdown, "POST", params1);
 			Log.d("Obj", jObj.toString());
 			JSONArray jArr = jObj.getJSONArray("language");
 
