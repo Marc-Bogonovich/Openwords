@@ -104,11 +104,6 @@
                   android:configChanges="orientation|screenSize">
         </activity>
         
-        <activity android:name=".learningmodule.ActivityLM"
-                  android:theme="@style/NoTitleTheme"
-                  android:configChanges="orientation|screenSize">
-        </activity>
-        
         <activity android:name=".learningmodule.ActivityLearning"
                   android:theme="@style/NoTitleTheme"
                   android:configChanges="orientation|screenSize">
