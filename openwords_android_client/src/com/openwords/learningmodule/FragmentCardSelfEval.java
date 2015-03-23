@@ -52,8 +52,8 @@ public class FragmentCardSelfEval extends FragmentLearningModule {
         incorrect = (ImageView) myFragmentView.findViewById(R.id.selfEvaluate_ImageView_unknown);
         audioPlay = (ImageView) myFragmentView.findViewById(R.id.selfEvaluate_ImageView_audioPlay);
 
-        problem.setText(w2.wordMetaInfo.nativeForm);
-        answer.setText(w1.wordMetaInfo.nativeForm);
+        problem.setText(w2.getMeta().nativeForm);
+        answer.setText(w1.getMeta().nativeForm);
 
         //updateAudioIcon(audioPlay, card.getWordTwoId());
         addClarificationTrigger(lmActivity, new View[]{answer, problem}, answer, w1.getMeta().commonTranslation);

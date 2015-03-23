@@ -29,7 +29,7 @@ public class Word extends SugarRecord<Word> {
     public String word, contributor;
     public long updatedTimeLong;
     @Ignore
-    public WordMetaInfo wordMetaInfo;
+    private WordMetaInfo wordMetaInfo;
     public String meta;
 
     public Word() {
