@@ -2,24 +2,46 @@ package com.openwords.learningmodule;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.openwords.R;
+import com.openwords.model.Performance;
+import com.openwords.model.Word;
 import com.openwords.sound.SoundPlayer;
 import com.openwords.sound.WordAudioManager;
+import com.openwords.ui.graphics.AnimationTimerBar;
+import com.openwords.util.WordComparsion;
 import com.openwords.util.file.LocalFileSystem;
 import com.openwords.util.log.LogUtil;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  *
  * @author hanaldo
  */
 public abstract class FragmentLearningModule extends Fragment {
+
+    private final double CUTOFF = 0.75f;
+    private View advanceTimerBar;
+    private Animation advanceTimerAnimation;
+    private boolean answerChecked;
+    private Timer advanceTimer;
 
     public void updateAudioIcon(ImageView audioPlay, int wordId) {
         final String audio = WordAudioManager.hasAudio(wordId);
@@ -63,5 +85,147 @@ public abstract class FragmentLearningModule extends Fragment {
         layout.y = near.getMeasuredHeight();
 
         dialog.show();
+    }
+
+    public void formViewElementsForTypingUI(final ActivityLearning lmActivity, final ScrollView scrollContainer, View advanceTimerBar,
+            final EditText userInputView, ImageView checkButton,
+            TextView questionView, final TextView answerView, final ImageView answerStatusIcon,
+            final Performance perf, final Word w1, final Word w2) {
+
+        this.advanceTimerBar = advanceTimerBar;
+        advanceTimerAnimation = new AnimationTimerBar(0, 100, advanceTimerBar);
+        advanceTimerAnimation.setDuration(3000);
+
+        setChoiceView(questionView, answerView, answerStatusIcon, perf, w1, w2);
+
+        userInputView.addTextChangedListener(new TextWatcher() {
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                scrollContainer.fullScroll(View.FOCUS_DOWN);
+            }
+
+            public void afterTextChanged(Editable s) {
+                checkUserInputAnswer(lmActivity, false, userInputView.getText().toString().trim(), perf, w1, w2,
+                        answerView, answerStatusIcon);
+                LogUtil.logDeubg(this, "afterTextChanged");
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+        });
+
+        checkButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                checkUserInputAnswer(lmActivity, true, userInputView.getText().toString().trim(), perf, w1, w2,
+                        answerView, answerStatusIcon);
+            }
+        });
+    }
+
+    private void setChoiceView(TextView questionView, TextView answerView, ImageView answerStatus,
+            Performance perf, Word w1, Word w2) {
+
+        questionView.setText(w2.getMeta().nativeForm);
+        answerView.setText(w1.getMeta().nativeForm);
+
+        if (perf.performance.equals("new")) {
+            answerStatus.setImageResource(R.drawable.ic_learning_module_null);
+            answerView.setVisibility(View.INVISIBLE);
+        } else if (perf.performance.equals("good")) {
+            answerStatus.setImageResource(R.drawable.ic_learning_module_correct);
+            answerView.setVisibility(View.VISIBLE);
+        } else if (perf.performance.equals("nearly")) {
+            answerStatus.setImageResource(R.drawable.ic_learning_module_close);
+            answerView.setVisibility(View.VISIBLE);
+        } else {
+            answerStatus.setImageResource(R.drawable.ic_learning_module_incorrect);
+            answerView.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void checkUserInputAnswer(final ActivityLearning lmActivity, boolean checkButtonPressed, String userInputString, Performance perf, Word w1, Word w2,
+            TextView answerView, ImageView answerStatusIcon) {
+
+        boolean checkingDone = false;
+        answerStatusIcon.setImageResource(R.drawable.ic_learning_module_null);
+        answerView.setVisibility(View.INVISIBLE);
+
+        if (userInputString.isEmpty()) {
+            return;
+        }
+        String correctString = w1.word.trim();
+
+        double similarity = WordComparsion.similarity(userInputString, correctString);
+        if (checkButtonPressed) {
+            if (similarity >= CUTOFF) {
+                answerStatusIcon.setImageResource(R.drawable.ic_learning_module_close);
+                perf.performance = "nearly";
+                perf.tempVersion = perf.version + 1;
+                perf.save();
+                answerView.setVisibility(View.VISIBLE);
+            } else {
+                answerStatusIcon.setImageResource(R.drawable.ic_learning_module_incorrect);
+                perf.performance = "bad";
+                perf.tempVersion = perf.version + 1;
+                perf.save();
+                answerView.setVisibility(View.VISIBLE);
+            }
+        }
+
+        if (userInputString.length() == correctString.length()) {
+            if (userInputString.equalsIgnoreCase(correctString)) {
+                answerStatusIcon.setImageResource(R.drawable.ic_learning_module_correct);
+                perf.performance = "good";
+                perf.tempVersion = perf.version + 1;
+                perf.save();
+                answerView.setVisibility(View.VISIBLE);
+                checkingDone = true;
+            }
+        }
+
+        if (!checkingDone) {
+            return;
+        }
+
+        if (!answerChecked) {
+            final AlertDialog dialog = new AlertDialog.Builder(getActivity())
+                    .create();
+            dialog.setCancelable(true);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+            dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+
+                public void onCancel(DialogInterface di) {
+                    advanceTimer.cancel();
+                    answerChecked = true;
+                    advanceTimerBar.setVisibility(View.INVISIBLE);
+                    advanceTimerBar.clearAnimation();
+                }
+            });
+            dialog.show();
+
+            advanceTimerBar.clearAnimation();
+            advanceTimerBar.startAnimation(advanceTimerAnimation);
+            advanceTimer = new Timer();
+            final Handler next = new Handler(new Handler.Callback() {
+
+                public boolean handleMessage(Message msg) {
+                    if (msg.what == 0) {
+                        dialog.cancel();
+                        lmActivity.goToNextCard();
+                    }
+                    return true;
+                }
+            });
+            advanceTimer.schedule(new TimerTask() {
+
+                @Override
+                public void run() {
+                    next.sendEmptyMessage(0);
+                }
+            }, 3000);
+        }
     }
 }

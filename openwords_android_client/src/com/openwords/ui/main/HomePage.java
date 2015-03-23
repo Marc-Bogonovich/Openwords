@@ -65,7 +65,6 @@ public class HomePage extends Activity {
                         learningType = 0;
                         break;
                 }
-                MyQuickToast.showShort(HomePage.this, "Current LM type: " + learningType);
             }
 
             public void onNothingSelected(AdapterView<?> av) {
