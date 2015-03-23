@@ -23,7 +23,7 @@ public class FragmentCardTypeEval extends FragmentLearningModule {
     private TextView answer, question, transcription;
     private ImageView checkButton, audioPlay, status;
     private View myFragmentView;
-    private ScrollView container2;
+    private ScrollView scrollContainer;
     private ActivityLearning lmActivity;
 
     public FragmentCardTypeEval(int cardIndex, ActivityLearning lmActivity) {
@@ -53,11 +53,11 @@ public class FragmentCardTypeEval extends FragmentLearningModule {
         checkButton = (ImageView) myFragmentView.findViewById(R.id.typeEvaluate_ImageView_checkButton);
         status = (ImageView) myFragmentView.findViewById(R.id.typeEvaluate_ImageView_status);
         audioPlay = (ImageView) myFragmentView.findViewById(R.id.typeEvaluate_ImageView_audioPlay);
-        container2 = (ScrollView) myFragmentView.findViewById(R.id.typeEvaluate_ScrollView_Container);
+        scrollContainer = (ScrollView) myFragmentView.findViewById(R.id.typeEvaluate_ScrollView_Container);
 
         //updateAudioIcon(audioPlay, card.getWordTwoId());
         //addClarificationTrigger(lmActivity, new View[]{answer, question}, answer, card.getWordTwoId());
-        formViewElementsForTypingUI(lmActivity, container2, myFragmentView.findViewById(R.id.lm_frag_advance),
+        formViewElementsForTypingUI(lmActivity, scrollContainer, myFragmentView.findViewById(R.id.lm_frag_advance),
                 userInput, checkButton, question, answer, status, perf, w1, w2);
 
         return myFragmentView;

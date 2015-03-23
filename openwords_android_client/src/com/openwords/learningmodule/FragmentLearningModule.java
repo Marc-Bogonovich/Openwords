@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ScrollView;
@@ -31,10 +30,6 @@ import com.openwords.util.log.LogUtil;
 import java.util.Timer;
 import java.util.TimerTask;
 
-/**
- *
- * @author hanaldo
- */
 public abstract class FragmentLearningModule extends Fragment {
 
     private final double CUTOFF = 0.75f;
@@ -42,6 +37,13 @@ public abstract class FragmentLearningModule extends Fragment {
     private Animation advanceTimerAnimation;
     private boolean answerChecked;
     private Timer advanceTimer;
+
+    private TextView questionView, answerView;
+    private ImageView answerStatusIcon;
+    private Performance perf;
+    private Word w1;
+    private Word w2;
+    private ActivityLearning lmActivity;
 
     public void updateAudioIcon(ImageView audioPlay, int wordId) {
         final String audio = WordAudioManager.hasAudio(wordId);
@@ -87,16 +89,24 @@ public abstract class FragmentLearningModule extends Fragment {
         dialog.show();
     }
 
-    public void formViewElementsForTypingUI(final ActivityLearning lmActivity, final ScrollView scrollContainer, View advanceTimerBar,
+    public void formViewElementsForTypingUI(ActivityLearning lmActivity, final ScrollView scrollContainer,
+            View advanceTimerBar,
             final EditText userInputView, ImageView checkButton,
-            TextView questionView, final TextView answerView, final ImageView answerStatusIcon,
-            final Performance perf, final Word w1, final Word w2) {
+            TextView questionView, TextView answerView, ImageView answerStatusIcon,
+            Performance perf, Word w1, Word w2) {
 
+        this.lmActivity = lmActivity;
+        this.questionView = questionView;
+        this.answerView = answerView;
+        this.answerStatusIcon = answerStatusIcon;
+        this.perf = perf;
+        this.w1 = w1;
+        this.w2 = w2;
         this.advanceTimerBar = advanceTimerBar;
         advanceTimerAnimation = new AnimationTimerBar(0, 100, advanceTimerBar);
         advanceTimerAnimation.setDuration(3000);
 
-        setChoiceView(questionView, answerView, answerStatusIcon, perf, w1, w2);
+        updateChoiceView();
 
         userInputView.addTextChangedListener(new TextWatcher() {
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -104,9 +114,7 @@ public abstract class FragmentLearningModule extends Fragment {
             }
 
             public void afterTextChanged(Editable s) {
-                checkUserInputAnswer(lmActivity, false, userInputView.getText().toString().trim(), perf, w1, w2,
-                        answerView, answerStatusIcon);
-                LogUtil.logDeubg(this, "afterTextChanged");
+                checkUserInputAnswer(false, userInputView.getText().toString().trim());
             }
 
             @Override
@@ -118,35 +126,31 @@ public abstract class FragmentLearningModule extends Fragment {
 
             @Override
             public void onClick(View v) {
-                checkUserInputAnswer(lmActivity, true, userInputView.getText().toString().trim(), perf, w1, w2,
-                        answerView, answerStatusIcon);
+                checkUserInputAnswer(true, userInputView.getText().toString().trim());
             }
         });
     }
 
-    private void setChoiceView(TextView questionView, TextView answerView, ImageView answerStatus,
-            Performance perf, Word w1, Word w2) {
-
+    public void updateChoiceView() {
         questionView.setText(w2.getMeta().nativeForm);
         answerView.setText(w1.getMeta().nativeForm);
 
-        if (perf.performance.equals("new")) {
-            answerStatus.setImageResource(R.drawable.ic_learning_module_null);
+        if (perf.performance.contains("new")) {
+            answerStatusIcon.setImageResource(R.drawable.ic_learning_module_null);
             answerView.setVisibility(View.INVISIBLE);
-        } else if (perf.performance.equals("good")) {
-            answerStatus.setImageResource(R.drawable.ic_learning_module_correct);
+        } else if (perf.performance.contains("good")) {
+            answerStatusIcon.setImageResource(R.drawable.ic_learning_module_correct);
             answerView.setVisibility(View.VISIBLE);
-        } else if (perf.performance.equals("nearly")) {
-            answerStatus.setImageResource(R.drawable.ic_learning_module_close);
+        } else if (perf.performance.contains("nearly")) {
+            answerStatusIcon.setImageResource(R.drawable.ic_learning_module_close);
             answerView.setVisibility(View.VISIBLE);
         } else {
-            answerStatus.setImageResource(R.drawable.ic_learning_module_incorrect);
+            answerStatusIcon.setImageResource(R.drawable.ic_learning_module_incorrect);
             answerView.setVisibility(View.VISIBLE);
         }
     }
 
-    private void checkUserInputAnswer(final ActivityLearning lmActivity, boolean checkButtonPressed, String userInputString, Performance perf, Word w1, Word w2,
-            TextView answerView, ImageView answerStatusIcon) {
+    private void checkUserInputAnswer(boolean checkButtonPressed, String userInputString) {
 
         boolean checkingDone = false;
         answerStatusIcon.setImageResource(R.drawable.ic_learning_module_null);

@@ -106,7 +106,8 @@
         
         <activity android:name=".learningmodule.ActivityLearning"
                   android:theme="@style/NoTitleTheme"
-                  android:configChanges="orientation|screenSize">
+                  android:configChanges="orientation|screenSize"
+                  android:windowSoftInputMode="adjustResize">
         </activity>
         
         <activity android:name=".test.ActivityTest"

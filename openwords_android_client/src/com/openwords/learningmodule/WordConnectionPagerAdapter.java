@@ -8,14 +8,18 @@ import static com.openwords.learningmodule.InterfaceLearningModule.Learning_Type
 import static com.openwords.learningmodule.InterfaceLearningModule.Learning_Type_Self;
 import static com.openwords.learningmodule.InterfaceLearningModule.Learning_Type_Type;
 import com.openwords.model.DataPool;
+import com.openwords.util.log.LogUtil;
 
 public class WordConnectionPagerAdapter extends FragmentPagerAdapter {
 
     private ActivityLearning activityInstance;
+    private Fragment[] allFragments;
+    private final int fragmentSize = 15;
 
     public WordConnectionPagerAdapter(FragmentManager fm, ActivityLearning activityInstance) {
         super(fm);
         this.activityInstance = activityInstance;
+        allFragments = new Fragment[fragmentSize];//10 now
     }
 
     @Override
@@ -36,15 +40,24 @@ public class WordConnectionPagerAdapter extends FragmentPagerAdapter {
     }
 
     private Fragment makePageFragment(int index) {
+        Fragment f;
         switch (DataPool.LmType) {
             case Learning_Type_Review:
-                return new FragmentCardReview(index, activityInstance);
+                f = new FragmentCardReview(index, activityInstance);
+                allFragments[index] = f;
+                return f;
             case Learning_Type_Self:
-                return new FragmentCardSelfEval(index, activityInstance);
+                f = new FragmentCardSelfEval(index, activityInstance);
+                allFragments[index] = f;
+                return f;
             case Learning_Type_Type:
-                return new FragmentCardTypeEval(index, activityInstance);
+                f = new FragmentCardTypeEval(index, activityInstance);
+                allFragments[index] = f;
+                return f;
             case Learning_Type_Hearing:
-                return new FragmentCardHearing(index, activityInstance);
+                f = new FragmentCardHearing(index, activityInstance);
+                allFragments[index] = f;
+                return f;
             default:
                 return null;
         }
@@ -66,4 +79,11 @@ public class WordConnectionPagerAdapter extends FragmentPagerAdapter {
         return DataPool.getPoolSize() - pageIndex;
     }
 
+    public Fragment getRecentFragment(int index) {
+        if (index >= fragmentSize || index < 0) {
+            return null;
+        }
+        LogUtil.logDeubg(this, "getRecentFragment: " + index);
+        return allFragments[index];
+    }
 }

@@ -6,7 +6,6 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import com.openwords.R;
-import static com.openwords.learningmodule.InterfaceLearningModule.Learning_Type_Review;
 import com.openwords.model.DataPool;
 import com.openwords.model.LocalSettings;
 import com.openwords.model.Performance;
@@ -25,7 +24,7 @@ import java.util.List;
  *
  * @author hanaldo
  */
-public class ActivityLearning extends FragmentActivity {
+public class ActivityLearning extends FragmentActivity implements InterfaceLearningModule {
 
     private ActivityLearning act;//for referencing purpose only
     private ViewPager pager;
@@ -85,11 +84,21 @@ public class ActivityLearning extends FragmentActivity {
                     DataPool.LmCurrentCard = getReversePageIndex(i);
                     if (i == 0) {
                         refreshPC();
+                    } else {
+                        if (DataPool.LmType == Learning_Type_Type) {
+                            FragmentLearningModule f = (FragmentLearningModule) adapter.getRecentFragment(DataPool.LmCurrentCard);
+                            f.updateChoiceView();
+                        }
                     }
                 } else {
                     DataPool.LmCurrentCard = i;
                     if (i == DataPool.getPoolSize()) {
                         refreshPC();
+                    } else {
+                        if (DataPool.LmType == Learning_Type_Type) {
+                            FragmentLearningModule f = (FragmentLearningModule) adapter.getRecentFragment(DataPool.LmCurrentCard);
+                            f.updateChoiceView();
+                        }
                     }
                 }
 
