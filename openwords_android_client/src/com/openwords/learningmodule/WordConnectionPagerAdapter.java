@@ -41,6 +41,8 @@ public class WordConnectionPagerAdapter extends FragmentPagerAdapter {
 
     private Fragment makePageFragment(int index) {
         Fragment f;
+        //to-do
+        //research why make new fragment instance, can we save all of them in memory?
         switch (DataPool.LmType) {
             case Learning_Type_Review:
                 f = new FragmentCardReview(index, activityInstance);
