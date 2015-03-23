@@ -13,8 +13,6 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import com.openwords.R;
-import com.openwords.model.LeafCard;
-import com.openwords.model.LeafCardHearing;
 import com.openwords.util.TimeConvertor;
 import com.openwords.util.WordComparsion;
 import com.openwords.util.log.LogUtil;
@@ -27,16 +25,13 @@ public class FragmentCardHearing extends FragmentLearningModule {
     private ImageView checkButton, indicator, audioPlayButton;
     private EditText userInput;
     private final double CUTOFF = 0.75f;
-    private LeafCardHearing card;
     private LinearLayout breadcrumbs;
     private View myFragmentView;
     private ScrollView container2;
-    private List<LeafCard> cardsPool;
     //private ActivityLM lmActivity;
 
-    public FragmentCardHearing(int cardIndex, List<LeafCard> cardsPool) {
+    public FragmentCardHearing(int cardIndex, List cardsPool) {
         this.cardIndex = cardIndex;
-        this.cardsPool = cardsPool;
         //this.lmActivity = lmActivity;
     }
 
@@ -52,7 +47,7 @@ public class FragmentCardHearing extends FragmentLearningModule {
         LogUtil.logDeubg(this, "onCreateView for card: " + cardIndex);
 
         myFragmentView = inflater.inflate(R.layout.fragment_hearing, container, false);
-        card = (LeafCardHearing) cardsPool.get(cardIndex);
+        //card = (LeafCardHearing) cardsPool.get(cardIndex);
 
         answer = (TextView) myFragmentView.findViewById(R.id.hearing_TextView_answer);
         question = (TextView) myFragmentView.findViewById(R.id.hearing_TextView_question);
@@ -62,7 +57,7 @@ public class FragmentCardHearing extends FragmentLearningModule {
         indicator = (ImageView) myFragmentView.findViewById(R.id.hearing_ImageView_indicator);
         audioPlayButton = (ImageView) myFragmentView.findViewById(R.id.hearing_ImageView_audioPlay);
         container2 = (ScrollView) myFragmentView.findViewById(R.id.hearingEvaluate_ScrollView_Container);
-        updateAudioIcon(audioPlayButton, card.getWordTwoId());
+        //updateAudioIcon(audioPlayButton, card.getWordTwoId());
         //addClarificationTrigger(lmActivity, new View[]{indicator}, answer, card.getWordTwoId());
         setInterfaceView();
         //makeBreadCrumbs(); according to Marc's requirement
@@ -79,26 +74,26 @@ public class FragmentCardHearing extends FragmentLearningModule {
                     indicator.setImageResource(R.drawable.ic_learning_module_null);
                     //user choice 0--null 1--wrong 2--close 3--correct
                     String userInputString = userInput.getText().toString().trim();
-                    String correctString = card.getWordLang1().trim();
+                    //String correctString = card.getWordLang1().trim();
 
-                    double similarity = WordComparsion.similarity(userInputString, card.getWordLang1());
-                    if (userInputString.equalsIgnoreCase(correctString)) {
-                        indicator.setImageResource(R.drawable.ic_learning_module_correct);
-                        card.setUserInput(userInputString);
-                        userChoice = 3;
-                        Handler mHandler = new Handler();
-                        mHandler.postDelayed(new Runnable() {
-                            public void run() {
-                                //lmActivity.goToNextCard();
-                            }
-                        }, 3000);
-                    } else {
-                        answer.setVisibility(View.INVISIBLE);
-                        indicator.setImageResource(R.drawable.ic_learning_module_null);
-                        userChoice = 0;
-                        //answer.setVisibility(View.VISIBLE);
-                    }
-                    card.setUserChoice(userChoice);
+                    //double similarity = WordComparsion.similarity(userInputString, card.getWordLang1());
+//                    if (userInputString.equalsIgnoreCase(correctString)) {
+//                        indicator.setImageResource(R.drawable.ic_learning_module_correct);
+//                        card.setUserInput(userInputString);
+//                        userChoice = 3;
+//                        Handler mHandler = new Handler();
+//                        mHandler.postDelayed(new Runnable() {
+//                            public void run() {
+//                                //lmActivity.goToNextCard();
+//                            }
+//                        }, 3000);
+//                    } else {
+//                        answer.setVisibility(View.INVISIBLE);
+//                        indicator.setImageResource(R.drawable.ic_learning_module_null);
+//                        userChoice = 0;
+//                        //answer.setVisibility(View.VISIBLE);
+//                    }
+//                    card.setUserChoice(userChoice);
 
                 }
             }
@@ -117,23 +112,23 @@ public class FragmentCardHearing extends FragmentLearningModule {
                     //user choice 0--null 1--wrong 2--close 3--correct
                     String userInputString = userInput.getText().toString().trim();
 
-                    double similarity = Math.max(WordComparsion.similarity(userInputString, card.getWordLang1()),
-                            WordComparsion.similarity(userInputString, card.getWordLang2()));
-                    if (userInputString.equalsIgnoreCase(card.getWordLang1())
-                            || userInputString.equalsIgnoreCase(card.getWordLang2())) { // if user type lang1 or lang2
-                        indicator.setImageResource(R.drawable.ic_learning_module_correct);
-                        card.setUserInput(userInputString);
-                        userChoice = 3;
-                    } else if (similarity >= CUTOFF) { //user input is close enough
-                        indicator.setImageResource(R.drawable.ic_learning_module_close);
-                        userChoice = 2;
-                        card.setUserInput(userInputString);
-                        //if want the status icon becomes null when move forward/backward, change the value of userChoice
-                    } else { //user input is wrong completely
-                        indicator.setImageResource(R.drawable.ic_learning_module_incorrect);
-                        userChoice = 1;
-                        card.setUserInput(userInputString);
-                    }
+//                    double similarity = Math.max(WordComparsion.similarity(userInputString, card.getWordLang1()),
+//                            WordComparsion.similarity(userInputString, card.getWordLang2()));
+//                    if (userInputString.equalsIgnoreCase(card.getWordLang1())
+//                            || userInputString.equalsIgnoreCase(card.getWordLang2())) { // if user type lang1 or lang2
+//                        indicator.setImageResource(R.drawable.ic_learning_module_correct);
+//                        card.setUserInput(userInputString);
+//                        userChoice = 3;
+//                    } else if (similarity >= CUTOFF) { //user input is close enough
+//                        indicator.setImageResource(R.drawable.ic_learning_module_close);
+//                        userChoice = 2;
+//                        card.setUserInput(userInputString);
+//                        //if want the status icon becomes null when move forward/backward, change the value of userChoice
+//                    } else { //user input is wrong completely
+//                        indicator.setImageResource(R.drawable.ic_learning_module_incorrect);
+//                        userChoice = 1;
+//                        card.setUserInput(userInputString);
+//                    }
                 } else { //user input is null
                     indicator.setImageResource(R.drawable.ic_learning_module_incorrect);
                     userChoice = 0;
@@ -142,7 +137,7 @@ public class FragmentCardHearing extends FragmentLearningModule {
                 question.setVisibility(View.VISIBLE);
                 answer.setVisibility(View.VISIBLE);
                 transcription.setVisibility(View.VISIBLE);
-                card.setUserChoice(userChoice);
+                //card.setUserChoice(userChoice);
 
                 Handler mHandler = new Handler();
                 mHandler.postDelayed(new Runnable() {
@@ -158,37 +153,37 @@ public class FragmentCardHearing extends FragmentLearningModule {
     }
 
     private void setInterfaceView() {
-        Integer userChoice = card.getUserChoice();
-        transcription.setText(card.getTranscription());
-        question.setText(card.getWordLang2());
-        answer.setText(card.getWordLang1());
-        // 0 -- null 1-- wrong 2-- close 3--correct
-        card.setLastTime(TimeConvertor.getUnixTime());
-        if (userChoice.equals(0)) {
-            indicator.setImageResource(R.drawable.ic_learning_module_null);
-            userInput.setText("");
-            transcription.setVisibility(View.INVISIBLE);
-            answer.setVisibility(View.INVISIBLE);
-            question.setVisibility(View.INVISIBLE);
-        } else if (userChoice.equals(3)) {
-            indicator.setImageResource(R.drawable.ic_learning_module_correct);
-            userInput.setText(card.getUserInput());
-            answer.setVisibility(View.VISIBLE);
-            transcription.setVisibility(View.VISIBLE);
-            question.setVisibility(View.VISIBLE);
-        } else if (userChoice.equals(2)) {
-            indicator.setImageResource(R.drawable.ic_learning_module_close);
-            userInput.setText(card.getUserInput());
-            answer.setVisibility(View.VISIBLE);
-            transcription.setVisibility(View.VISIBLE);
-            question.setVisibility(View.VISIBLE);
-        } else {
-            indicator.setImageResource(R.drawable.ic_learning_module_incorrect);
-            userInput.setText(card.getUserInput());
-            answer.setVisibility(View.VISIBLE);
-            question.setVisibility(View.VISIBLE);
-            transcription.setVisibility(View.VISIBLE);
-        }
+//        Integer userChoice = card.getUserChoice();
+//        transcription.setText(card.getTranscription());
+//        question.setText(card.getWordLang2());
+//        answer.setText(card.getWordLang1());
+//        // 0 -- null 1-- wrong 2-- close 3--correct
+//        card.setLastTime(TimeConvertor.getUnixTime());
+//        if (userChoice.equals(0)) {
+//            indicator.setImageResource(R.drawable.ic_learning_module_null);
+//            userInput.setText("");
+//            transcription.setVisibility(View.INVISIBLE);
+//            answer.setVisibility(View.INVISIBLE);
+//            question.setVisibility(View.INVISIBLE);
+//        } else if (userChoice.equals(3)) {
+//            indicator.setImageResource(R.drawable.ic_learning_module_correct);
+//            userInput.setText(card.getUserInput());
+//            answer.setVisibility(View.VISIBLE);
+//            transcription.setVisibility(View.VISIBLE);
+//            question.setVisibility(View.VISIBLE);
+//        } else if (userChoice.equals(2)) {
+//            indicator.setImageResource(R.drawable.ic_learning_module_close);
+//            userInput.setText(card.getUserInput());
+//            answer.setVisibility(View.VISIBLE);
+//            transcription.setVisibility(View.VISIBLE);
+//            question.setVisibility(View.VISIBLE);
+//        } else {
+//            indicator.setImageResource(R.drawable.ic_learning_module_incorrect);
+//            userInput.setText(card.getUserInput());
+//            answer.setVisibility(View.VISIBLE);
+//            question.setVisibility(View.VISIBLE);
+//            transcription.setVisibility(View.VISIBLE);
+//        }
     }
 
 //    private void makeBreadCrumbs() {

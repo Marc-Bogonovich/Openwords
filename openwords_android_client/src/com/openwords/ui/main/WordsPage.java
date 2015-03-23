@@ -18,8 +18,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 import com.openwords.R;
-import com.openwords.model.UserWords;
-import com.openwords.model.WordTranscription;
 import com.openwords.ui.common.BackButtonBehavior;
 import com.openwords.ui.other.ActionBarBuilder;
 import com.openwords.ui.other.NextWords;
@@ -236,38 +234,38 @@ public class WordsPage extends Activity implements OnClickListener {
     }
 
     private void viewWordsButtonClick() {
-        final List<UserWords> userwords = UserWords.findByLanguage(OpenwordsSharedPreferences.getUserInfo().getLang_id());
-        CharSequence[] wordList = new String[userwords.size()];
-        mSelectedItems = new ArrayList<Integer>();
-        for (int i = 0; i < userwords.size(); i++) {
-            wordList[i] = userwords.get(i).wordLTwo + "  <-->  " + userwords.get(i).wordLOne;
-            if (userwords.get(i).fresh == 1) { //if this word is fresh
-                mSelectedItems.add(i);
-            }
-        }
+//        final List<UserWords> userwords = UserWords.findByLanguage(OpenwordsSharedPreferences.getUserInfo().getLang_id());
+//        CharSequence[] wordList = new String[userwords.size()];
+//        mSelectedItems = new ArrayList<Integer>();
+//        for (int i = 0; i < userwords.size(); i++) {
+//            wordList[i] = userwords.get(i).wordLTwo + "  <-->  " + userwords.get(i).wordLOne;
+//            if (userwords.get(i).fresh == 1) { //if this word is fresh
+//                mSelectedItems.add(i);
+//            }
+//        }
         dg = new AlertDialog.Builder(this);
         dg.setTitle("My words");
-        dg.setMultiChoiceItems(wordList, null,
-                new DialogInterface.OnMultiChoiceClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which,
-                            boolean isChecked) {
-                        if (isChecked) {
-                            // If the user checked the item, add it to the selected items
-                            mSelectedItems.add(which);
-                        } else if (mSelectedItems.contains(which)) {
-                            // Else, if the item is already in the array, remove it 
-                            mSelectedItems.remove(Integer.valueOf(which));
-                        }
-                    }
-                })
-                // Set the action buttons
-                .setPositiveButton("Close", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.dismiss();
-                    }
-                });
+//        dg.setMultiChoiceItems(wordList, null,
+//                new DialogInterface.OnMultiChoiceClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which,
+//                            boolean isChecked) {
+//                        if (isChecked) {
+//                            // If the user checked the item, add it to the selected items
+//                            mSelectedItems.add(which);
+//                        } else if (mSelectedItems.contains(which)) {
+//                            // Else, if the item is already in the array, remove it 
+//                            mSelectedItems.remove(Integer.valueOf(which));
+//                        }
+//                    }
+//                })
+//                // Set the action buttons
+//                .setPositiveButton("Close", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int id) {
+//                        dialog.dismiss();
+//                    }
+//                });
 
         dg.create().show();;
 
@@ -278,10 +276,10 @@ public class WordsPage extends Activity implements OnClickListener {
         ArrayList<String> words_list = new ArrayList<String>();
         try {
             List<NameValuePair> params = new ArrayList<NameValuePair>(3);
-            params.add(new BasicNameValuePair("user", Integer.toString(OpenwordsSharedPreferences.getUserInfo().getUserId())));
-            params.add(new BasicNameValuePair("langOne", "1"));
-            params.add(new BasicNameValuePair("langTwo", Integer.toString(OpenwordsSharedPreferences.getUserInfo().getLang_id())));
-            params.add(new BasicNameValuePair("searchText", searchText));
+//            params.add(new BasicNameValuePair("user", Integer.toString(OpenwordsSharedPreferences.getUserInfo().getUserId())));
+//            params.add(new BasicNameValuePair("langOne", "1"));
+//            params.add(new BasicNameValuePair("langTwo", Integer.toString(OpenwordsSharedPreferences.getUserInfo().getLang_id())));
+//            params.add(new BasicNameValuePair("searchText", searchText));
             //Log.d("User", "47");
             
             JSONObject jObj = null;//jsonParse.makeHttpRequest(search_words_url, "POST", params);
@@ -315,13 +313,13 @@ public class WordsPage extends Activity implements OnClickListener {
         for (int i = 0; i < mSelectedItems.size(); i++) {
             try {
                 JSONObject c = jArrMain.getJSONObject(mSelectedItems.get(i));
-                UserWords uwRec = new UserWords(c.getInt("connection_id"),
-                        c.getInt("wordl1"), c.getString("wordl1_text"), c.getInt("wordl2"),
-                        c.getString("wordl2_text"), c.getInt("l2id"), c.getString("l2name"), c.getString("audio"));
-                uwRec.save();
-
-                //writing word transcriptions.
-                WordTranscription.insertMerge(c.getInt("wordl2"), c.getString("trans"));
+//                UserWords uwRec = new UserWords(c.getInt("connection_id"),
+//                        c.getInt("wordl1"), c.getString("wordl1_text"), c.getInt("wordl2"),
+//                        c.getString("wordl2_text"), c.getInt("l2id"), c.getString("l2name"), c.getString("audio"));
+//                uwRec.save();
+//
+//                //writing word transcriptions.
+//                WordTranscription.insertMerge(c.getInt("wordl2"), c.getString("trans"));
 
                 //concatenating connection ids
                 if (conIds.length() == 0) {
@@ -341,13 +339,13 @@ public class WordsPage extends Activity implements OnClickListener {
 
     public void updateWordsOnServer(String conIds, long dTime) {
         try {
-            int user = OpenwordsSharedPreferences.getUserInfo().getUserId();
-            int langTwo = OpenwordsSharedPreferences.getUserInfo().getLang_id();
+//            int user = OpenwordsSharedPreferences.getUserInfo().getUserId();
+//            int langTwo = OpenwordsSharedPreferences.getUserInfo().getLang_id();
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("conid", conIds));
             params.add(new BasicNameValuePair("dtime", Long.toString(dTime)));
-            params.add(new BasicNameValuePair("user", Integer.toString(user)));
-            params.add(new BasicNameValuePair("lTwo", Integer.toString(langTwo)));
+//            params.add(new BasicNameValuePair("user", Integer.toString(user)));
+//            params.add(new BasicNameValuePair("lTwo", Integer.toString(langTwo)));
             
             JSONObject jObj = null;//jsonParse.makeHttpRequest(url_write_downloaded_words_to_server, "POST", params);
 

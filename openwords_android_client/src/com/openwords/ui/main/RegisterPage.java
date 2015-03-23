@@ -14,14 +14,12 @@ import com.openwords.R;
 import com.openwords.model.DataPool;
 import com.openwords.model.Language;
 import com.openwords.model.LocalSettings;
-import com.openwords.model.UserInfo;
 import com.openwords.model.UserLearningLanguages;
 import com.openwords.services.implementations.AddUser;
 import com.openwords.services.implementations.CheckEmail;
 import com.openwords.services.implementations.CheckUsername;
 import com.openwords.services.interfaces.HttpResultHandler;
 import com.openwords.util.localization.LocalizationManager;
-import com.openwords.util.preference.OpenwordsSharedPreferences;
 import com.openwords.util.ui.MyDialogHelper;
 import com.openwords.util.ui.MyQuickToast;
 
@@ -131,7 +129,6 @@ public class RegisterPage extends Activity {
                             UserLearningLanguages.deleteAll(UserLearningLanguages.class);
 
                             AddUser.Result r = (AddUser.Result) resultObject;
-                            OpenwordsSharedPreferences.setUserInfo(new UserInfo(r.userId, username, password, System.currentTimeMillis()));//delete soon
                             MyQuickToast.showShort(RegisterPage.this, "AddUser ok: " + r.userId);
                             finish();
                             LocalSettings.setUsername(username);

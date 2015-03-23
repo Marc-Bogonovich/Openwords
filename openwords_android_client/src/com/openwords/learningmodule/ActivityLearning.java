@@ -102,7 +102,7 @@ public class ActivityLearning extends FragmentActivity {
 
         adapter = new WordConnectionPagerAdapter(getSupportFragmentManager(), act);
         pager.setAdapter(adapter);
-        pager.setPageTransformer(true, new PageTransformerForLeafCard(DataPool.LmReverseNav));
+        pager.setPageTransformer(true, new WordConnectionPageTransformer(DataPool.LmReverseNav));
 
         if (DataPool.LmReverseNav) {
             if (!(DataPool.LmCurrentCard > -1 && DataPool.LmCurrentCard < DataPool.getPoolSize())) {

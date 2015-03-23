@@ -3,13 +3,6 @@ package com.openwords.util.preference;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.openwords.learningmodule.LeafCardInstanceCreator;
-import com.openwords.learningmodule.LearningModuleType;
-import com.openwords.learningmodule.ProgressLM;
-import com.openwords.model.LeafCard;
-import com.openwords.model.UserInfo;
 import com.openwords.util.WSAinterface;
 import com.openwords.util.log.LogUtil;
 import java.util.ArrayList;
@@ -20,11 +13,6 @@ public class OpenwordsSharedPreferences {
     private static final String SHARED_PREFERENCE_FILE = "openwords_preference";
     private static SharedPreferences pref;
     public static final String APP_STARTED = "app.started";
-    public static final String USER_INFO = "user.info";
-    public static final String SELF_EVALUATION_PROGRESS = "app.selfeval.progress";
-    public static final String REVIEW_PROGRESS = "app.review.progress";
-    public static final String HEARING_PROGRESS = "app.hearing.progress";
-    public static final String TYPE_EVALUATION_PROGRESS = "app.typeeval.progress";
     public static final String HIDE_PORTAL = "app.hide.portal";
     private static int ALG_INDEX = 0;
     private static int LEAF_CARD_SIZE = 10;
@@ -73,66 +61,6 @@ public class OpenwordsSharedPreferences {
         Editor editor = pref.edit();
         editor.putBoolean(APP_STARTED, f);
         return editor.commit();
-    }
-
-    public static boolean setUserInfo(UserInfo user) {
-        Editor editor = pref.edit();
-        editor.putString(USER_INFO, user.toString());
-        return editor.commit();
-    }
-
-    /**
-     *
-     * @return If UserInfo not exist will then return null
-     */
-    public static UserInfo getUserInfo() {
-        String json = pref.getString(USER_INFO, null);
-        if (json == null) {
-            return null;
-        }
-        return new Gson().fromJson(json, UserInfo.class);
-    }
-
-    public static boolean setLMProgress(String key, String json) {
-        Editor editor = pref.edit();
-        editor.putString(key, json);
-        return editor.commit();
-    }
-
-    public static ProgressLM getReviewProgress() {
-        String json = pref.getString(REVIEW_PROGRESS, null);
-        if (json == null) {
-            return null;
-        }
-        return new GsonBuilder().registerTypeAdapter(LeafCard.class,
-                new LeafCardInstanceCreator(LearningModuleType.LM_Review)).create().fromJson(json, ProgressLM.class);
-    }
-
-    public static ProgressLM getSelfEvaluationProgress() {
-        String json = pref.getString(SELF_EVALUATION_PROGRESS, null);
-        if (json == null) {
-            return null;
-        }
-        return new GsonBuilder().registerTypeAdapter(LeafCard.class,
-                new LeafCardInstanceCreator(LearningModuleType.LM_SelfEvaluation)).create().fromJson(json, ProgressLM.class);
-    }
-
-    public static ProgressLM getTypeEvaluationProgress() {
-        String json = pref.getString(TYPE_EVALUATION_PROGRESS, null);
-        if (json == null) {
-            return null;
-        }
-        return new GsonBuilder().registerTypeAdapter(LeafCard.class,
-                new LeafCardInstanceCreator(LearningModuleType.LM_TypeEvaluation)).create().fromJson(json, ProgressLM.class);
-    }
-
-    public static ProgressLM getHearingProgress() {
-        String json = pref.getString(HEARING_PROGRESS, null);
-        if (json == null) {
-            return null;
-        }
-        return new GsonBuilder().registerTypeAdapter(LeafCard.class,
-                new LeafCardInstanceCreator(LearningModuleType.LM_HearingEvaluation)).create().fromJson(json, ProgressLM.class);
     }
 
     public static boolean getHidePortal() {

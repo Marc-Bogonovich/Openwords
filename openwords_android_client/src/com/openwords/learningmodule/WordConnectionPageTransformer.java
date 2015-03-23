@@ -3,16 +3,16 @@ package com.openwords.learningmodule;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
-public class PageTransformerForLeafCard implements ViewPager.PageTransformer {
+public class WordConnectionPageTransformer implements ViewPager.PageTransformer {
 
     private static final float MIN_SCALE = 0.75f;
     private final boolean reverseNav;
 
-    public PageTransformerForLeafCard() {
+    public WordConnectionPageTransformer() {
         this.reverseNav = false;
     }
 
-    public PageTransformerForLeafCard(boolean reverseNav) {
+    public WordConnectionPageTransformer(boolean reverseNav) {
         this.reverseNav = reverseNav;
     }
 

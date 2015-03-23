@@ -1,6 +1,5 @@
 package com.openwords.ui.main;
 
-import com.openwords.ui.other.ActionBarBuilder;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
@@ -8,14 +7,8 @@ import android.view.WindowManager;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import com.openwords.R;
-import com.openwords.model.UserPerformance;
 import com.openwords.ui.common.BackButtonBehavior;
-import com.openwords.util.preference.OpenwordsSharedPreferences;
-import java.util.ArrayList;
-import java.util.List;
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONObject;
+import com.openwords.ui.other.ActionBarBuilder;
 
 public class StatsPage extends Activity {
 
@@ -42,15 +35,15 @@ public class StatsPage extends Activity {
 
         setContentView(R.layout.activity_stats_page);
 
-        userID = OpenwordsSharedPreferences.getUserInfo().getUserId();
-        languageID = OpenwordsSharedPreferences.getUserInfo().getLang_id();
-        wordNumTotal = getWordCountOfLanguagefromServer();
-        wordNumLearnt = UserPerformance.findNumberOfWordsLearnt(userID, languageID);
-        text_age = (TextView) findViewById(R.id.statsPage_TextView_age);
-
-        text_age.setText("0 " + "years , " + "1 " + "months ");
-
-        languageName = OpenwordsSharedPreferences.getUserInfo().getLang_Name();
+//        userID = OpenwordsSharedPreferences.getUserInfo().getUserId();
+//        languageID = OpenwordsSharedPreferences.getUserInfo().getLang_id();
+//        wordNumTotal = getWordCountOfLanguagefromServer();
+//        wordNumLearnt = UserPerformance.findNumberOfWordsLearnt(userID, languageID);
+//        text_age = (TextView) findViewById(R.id.statsPage_TextView_age);
+//
+//        text_age.setText("0 " + "years , " + "1 " + "months ");
+//
+//        languageName = OpenwordsSharedPreferences.getUserInfo().getLang_Name();
         text_lang = (TextView) findViewById(R.id.statsPage_TextView_languageName);
         text_lang.setText(languageName);
 
@@ -95,22 +88,5 @@ public class StatsPage extends Activity {
         });
     }
 
-    //****************** methods for getting language word count from server**********
-    public int getWordCountOfLanguagefromServer() {
-        try {
-            List<NameValuePair> params = new ArrayList<NameValuePair>();
-            params.add(new BasicNameValuePair("language", Integer.toString(OpenwordsSharedPreferences.getUserInfo().getLang_id())));
-
-            
-            JSONObject jObj = null;//jsonParse.makeHttpRequest(url_get_word_count, "POST", params);
-            if (jObj.getInt("success") == 1) {
-                return jObj.getInt("count");
-            } else {
-                return 0;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return 0;
-        }
-    }
+  
 }

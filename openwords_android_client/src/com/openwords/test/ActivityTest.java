@@ -10,21 +10,13 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.TextHttpResponseHandler;
 import com.openwords.R;
-import com.openwords.model.Performance;
-import com.openwords.model.ResultUserPerformance;
-import com.openwords.model.ResultWordConnections;
-import com.openwords.model.UserWords;
-import com.openwords.model.Word;
-import com.openwords.model.WordConnection;
 import com.openwords.services.implementations.AddUser;
 import com.openwords.services.implementations.CheckEmail;
 import com.openwords.services.implementations.CheckUsername;
 import com.openwords.services.implementations.LoginUser;
 import com.openwords.services.interfaces.HttpResultHandler;
 import com.openwords.ui.common.DialogForHTTP;
-import com.openwords.util.gson.MyGson;
 import com.openwords.util.log.LogUtil;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -74,8 +66,8 @@ public class ActivityTest extends Activity {
         findViewById(R.id.act_test_test2).setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
-                List<UserWords> existList = UserWords.findByLanguage(2);
-                Toast.makeText(ActivityTest.this, new Gson().toJson(existList), Toast.LENGTH_SHORT).show();
+//                List<UserWords> existList = UserWords.findByLanguage(2);
+//                Toast.makeText(ActivityTest.this, new Gson().toJson(existList), Toast.LENGTH_SHORT).show();
             }
         });
 

@@ -26,9 +26,6 @@ import com.openwords.test.ActivityTest;
 import com.openwords.tts.Speak;
 import com.openwords.ui.common.BackButtonBehavior;
 import com.openwords.util.InternetCheck;
-import com.openwords.util.RandomSelectAlg;
-import com.openwords.util.WordSelectionAlg;
-import com.openwords.util.WordSelectionAlgNoRepeat;
 import com.openwords.util.file.LocalFileSystem;
 import com.openwords.util.localization.LocalLanguage;
 import com.openwords.util.localization.LocalizationManager;
@@ -63,12 +60,11 @@ public class LoginPage extends Activity {
         OpenwordsSharedPreferences.setAppStarted(true);
 
         //add word algorithm
-        if (OpenwordsSharedPreferences.getWordSelectionAlgList().isEmpty()) {
-            OpenwordsSharedPreferences.addSelectionAlg(new WordSelectionAlg());
-            OpenwordsSharedPreferences.addSelectionAlg(new RandomSelectAlg());
-            OpenwordsSharedPreferences.addSelectionAlg(new WordSelectionAlgNoRepeat());
-        }
-
+//        if (OpenwordsSharedPreferences.getWordSelectionAlgList().isEmpty()) {
+//            OpenwordsSharedPreferences.addSelectionAlg(new WordSelectionAlg());
+//            OpenwordsSharedPreferences.addSelectionAlg(new RandomSelectAlg());
+//            OpenwordsSharedPreferences.addSelectionAlg(new WordSelectionAlgNoRepeat());
+//        }
         //test
         findViewById(R.id.loginPage_test).setOnClickListener(new OnClickListener() {
 

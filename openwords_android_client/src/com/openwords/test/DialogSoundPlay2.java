@@ -9,7 +9,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 import com.openwords.R;
-import com.openwords.model.UserWords;
 import com.openwords.services.GetWordAudio;
 import com.openwords.sound.SoundPlayer;
 import com.openwords.util.file.LocalFileSystem;
@@ -25,11 +24,11 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public class DialogSoundPlay2 extends ListActivity {
 
-    public static final UserWords[] words = new UserWords[]{
-        new UserWords(5, 0, null, 0, null, 0, null, "5_zidian_man1_48.ogg"),
-        new UserWords(17, 0, null, 0, null, 0, null, "17_ziyou_man1_48.ogg"),
-        new UserWords(48, 0, null, 0, null, 0, null, "48_mao_man1_48.ogg")
-    };
+//    public static final UserWords[] words = new UserWords[]{
+//        new UserWords(5, 0, null, 0, null, 0, null, "5_zidian_man1_48.ogg"),
+//        new UserWords(17, 0, null, 0, null, 0, null, "17_ziyou_man1_48.ogg"),
+//        new UserWords(48, 0, null, 0, null, 0, null, "48_mao_man1_48.ogg")
+//    };
 
     public static boolean downloaded = false;
 
@@ -59,14 +58,14 @@ public class DialogSoundPlay2 extends ListActivity {
         }
 
         int i = 1;
-        for (UserWords w : words) {
-            if (downloaded) {
-                options[i] = "Play local " + w.audiocall;
-            } else {
-                options[i] = "Play remote " + w.audiocall;
-            }
-            i++;
-        }
+//        for (UserWords w : words) {
+//            if (downloaded) {
+//                options[i] = "Play local " + w.audiocall;
+//            } else {
+//                options[i] = "Play remote " + w.audiocall;
+//            }
+//            i++;
+//        }
         adapter.notifyDataSetChanged();
     }
 
@@ -90,9 +89,9 @@ public class DialogSoundPlay2 extends ListActivity {
                         try {
                             List<String> files = LocalFileSystem.unzipAudioPackage(file);
                             Toast.makeText(DialogSoundPlay2.this, "Files are saved!\n" + files.toString(), Toast.LENGTH_SHORT).show();
-                            for (UserWords word : words) {
-                                word.audioIsLocal = true;
-                            }
+//                            for (UserWords word : words) {
+//                                word.audioIsLocal = true;
+//                            }
                             downloaded = true;
                         } catch (IOException ex) {
                             LogUtil.logWarning(this, ex);
@@ -108,18 +107,18 @@ public class DialogSoundPlay2 extends ListActivity {
                 }
             }, temp);
         } else if (position == 4) {
-            for (UserWords w : words) {
-                w.audioIsLocal = false;
-            }
+//            for (UserWords w : words) {
+//                w.audioIsLocal = false;
+//            }
             downloaded = false;
             makeOptions();
         } else {
-            UserWords w = words[position - 1];
-            if (w.audioIsLocal) {
-                SoundPlayer.playMusic(LocalFileSystem.getAudioFullPath(w.audiocall), true);
-            } else {
-                SoundPlayer.playMusic("http://openwords.org/api-v1/audio/" + w.audiocall, false);
-            }
+//            UserWords w = words[position - 1];
+//            if (w.audioIsLocal) {
+//                SoundPlayer.playMusic(LocalFileSystem.getAudioFullPath(w.audiocall), true);
+//            } else {
+//                SoundPlayer.playMusic("http://openwords.org/api-v1/audio/" + w.audiocall, false);
+//            }
         }
     }
 }
