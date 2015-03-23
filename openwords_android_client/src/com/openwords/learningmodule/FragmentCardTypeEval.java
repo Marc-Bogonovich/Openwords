@@ -20,8 +20,6 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import com.openwords.R;
 import com.openwords.ui.graphics.AnimationTimerBar;
-import com.openwords.util.TimeConvertor;
-import com.openwords.util.WordComparsion;
 import com.openwords.util.log.LogUtil;
 import java.util.List;
 import java.util.Timer;
@@ -41,15 +39,15 @@ public class FragmentCardTypeEval extends FragmentLearningModule {
     private LinearLayout breadcrumbs;
     private View myFragmentView;
     private ScrollView container2;
-    //private ActivityLM lmActivity;
+    private ActivityLearning lmActivity;
     private View advanceTimerBar;
     private Animation advanceTimerAnimation;
     private boolean answerChecked;
     private Timer advanceTimer;
 
-    public FragmentCardTypeEval(int cardIndex, List cardsPool) {
+    public FragmentCardTypeEval(int cardIndex, ActivityLearning lmActivity) {
         this.cardIndex = cardIndex;
-        //this.lmActivity = lmActivity;
+        this.lmActivity = lmActivity;
     }
 
     @Override
@@ -86,7 +84,6 @@ public class FragmentCardTypeEval extends FragmentLearningModule {
 
         //updateAudioIcon(audioPlay, card.getWordTwoId());
         //addClarificationTrigger(lmActivity, new View[]{answer, question}, answer, card.getWordTwoId());
-
         userInput.addTextChangedListener(new TextWatcher() {
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 container2.scrollTo(0, myFragmentView.findViewById(R.id.typeEvaluate_ViewFlipper_frame).getBottom());

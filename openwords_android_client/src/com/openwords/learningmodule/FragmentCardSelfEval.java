@@ -16,24 +16,24 @@ import com.openwords.util.log.LogUtil;
 import com.openwords.util.ui.MyQuickToast;
 
 public class FragmentCardSelfEval extends FragmentLearningModule {
-
+    
     private final int cardIndex;
     private TextView problem, transcription, answer;
     private Button showAnswer;
     private ImageView correct, incorrect, audioPlay;
     private View myFragmentView;
     private ActivityLearning lmActivity;
-
+    
     public FragmentCardSelfEval(int cardIndex, ActivityLearning lmActivity) {
         this.cardIndex = cardIndex;
         this.lmActivity = lmActivity;
     }
-
+    
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LogUtil.logDeubg(this, "onCreateView for card: " + cardIndex);
-
+        
         myFragmentView = inflater.inflate(R.layout.fragment_self_eval, container, false);
         WordConnection wc = DataPool.getWordConnection(cardIndex);
         Word w1 = Word.getWord(wc.wordOneId);
@@ -43,29 +43,30 @@ public class FragmentCardSelfEval extends FragmentLearningModule {
             MyQuickToast.showShort(getActivity(), "No performance data: " + wc.connectionId);
             return null;
         }
-
+        
         problem = (TextView) myFragmentView.findViewById(R.id.selfEvaluate_TextView_question);
         transcription = (TextView) myFragmentView.findViewById(R.id.selfEvaluate_TextView_transcription);
         answer = (TextView) myFragmentView.findViewById(R.id.selfEvaluate_TextView_answer);
         showAnswer = (Button) myFragmentView.findViewById(R.id.selfEvaluate_Button_showAnswer);
+        showAnswer.setText("Show Answer");
         correct = (ImageView) myFragmentView.findViewById(R.id.selfEvaluate_ImageView_known);
         incorrect = (ImageView) myFragmentView.findViewById(R.id.selfEvaluate_ImageView_unknown);
         audioPlay = (ImageView) myFragmentView.findViewById(R.id.selfEvaluate_ImageView_audioPlay);
-
+        
         problem.setText(w2.getMeta().nativeForm);
         answer.setText(w1.getMeta().nativeForm);
 
         //updateAudioIcon(audioPlay, card.getWordTwoId());
         addClarificationTrigger(lmActivity, new View[]{answer, problem}, answer, w1.getMeta().commonTranslation);
         showAnswer.setOnClickListener(new View.OnClickListener() {
-
+            
             public void onClick(View view) {
                 answer.setVisibility(View.VISIBLE);
             }
         });
-
+        
         correct.setOnClickListener(new View.OnClickListener() {
-
+            
             public void onClick(View view) {
                 perf.performance = "good";
                 perf.tempVersion = perf.version + 1;
@@ -75,9 +76,9 @@ public class FragmentCardSelfEval extends FragmentLearningModule {
                 lmActivity.goToNextCard();
             }
         });
-
+        
         incorrect.setOnClickListener(new View.OnClickListener() {
-
+            
             public void onClick(View view) {
                 perf.performance = "bad";
                 perf.tempVersion = perf.version + 1;
@@ -87,7 +88,7 @@ public class FragmentCardSelfEval extends FragmentLearningModule {
                 lmActivity.goToNextCard();
             }
         });
-
+        
         if (perf.performance.contains("new")) {
             correct.setImageResource(R.drawable.button_self_evaluate_correct_unselected);
             incorrect.setImageResource(R.drawable.button_self_evaluate_incorrect_unselected);

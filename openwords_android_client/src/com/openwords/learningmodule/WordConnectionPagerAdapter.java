@@ -3,8 +3,10 @@ package com.openwords.learningmodule;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import static com.openwords.learningmodule.InterfaceLearningModule.Learning_Type_Hearing;
 import static com.openwords.learningmodule.InterfaceLearningModule.Learning_Type_Review;
 import static com.openwords.learningmodule.InterfaceLearningModule.Learning_Type_Self;
+import static com.openwords.learningmodule.InterfaceLearningModule.Learning_Type_Type;
 import com.openwords.model.DataPool;
 
 public class WordConnectionPagerAdapter extends FragmentPagerAdapter {
@@ -39,6 +41,10 @@ public class WordConnectionPagerAdapter extends FragmentPagerAdapter {
                 return new FragmentCardReview(index, activityInstance);
             case Learning_Type_Self:
                 return new FragmentCardSelfEval(index, activityInstance);
+            case Learning_Type_Type:
+                return new FragmentCardTypeEval(index, activityInstance);
+            case Learning_Type_Hearing:
+                return new FragmentCardHearing(index, activityInstance);
             default:
                 return null;
         }
