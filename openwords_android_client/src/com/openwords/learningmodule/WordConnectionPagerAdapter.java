@@ -14,12 +14,13 @@ public class WordConnectionPagerAdapter extends FragmentPagerAdapter {
 
     private ActivityLearning activityInstance;
     private Fragment[] allFragments;
-    private final int fragmentSize = 15;
+    private int maxFragmentSize;
 
-    public WordConnectionPagerAdapter(FragmentManager fm, ActivityLearning activityInstance) {
+    public WordConnectionPagerAdapter(FragmentManager fm, ActivityLearning activityInstance, int maxFragmentSize) {
         super(fm);
         this.activityInstance = activityInstance;
-        allFragments = new Fragment[fragmentSize];//10 now
+        this.maxFragmentSize = maxFragmentSize;
+        allFragments = new Fragment[maxFragmentSize];
     }
 
     @Override
@@ -40,29 +41,32 @@ public class WordConnectionPagerAdapter extends FragmentPagerAdapter {
     }
 
     private Fragment makePageFragment(int index) {
-        Fragment f;
-        //to-do
-        //research why make new fragment instance, can we save all of them in memory?
+        //seems ok so far......
         switch (DataPool.LmType) {
             case Learning_Type_Review:
-                f = new FragmentCardReview(index, activityInstance);
-                allFragments[index] = f;
-                return f;
+                if (allFragments[index] == null) {
+                    allFragments[index] = new FragmentCardReview(index, activityInstance);
+                }
+                break;
             case Learning_Type_Self:
-                f = new FragmentCardSelfEval(index, activityInstance);
-                allFragments[index] = f;
-                return f;
+                if (allFragments[index] == null) {
+                    allFragments[index] = new FragmentCardSelfEval(index, activityInstance);
+                }
+                break;
             case Learning_Type_Type:
-                f = new FragmentCardTypeEval(index, activityInstance);
-                allFragments[index] = f;
-                return f;
+                if (allFragments[index] == null) {
+                    allFragments[index] = new FragmentCardTypeEval(index, activityInstance);
+                }
+                break;
             case Learning_Type_Hearing:
-                f = new FragmentCardHearing(index, activityInstance);
-                allFragments[index] = f;
-                return f;
+                if (allFragments[index] == null) {
+                    allFragments[index] = new FragmentCardHearing(index, activityInstance);
+                }
+                break;
             default:
-                return null;
+                break;
         }
+        return allFragments[index];
     }
 
     public Fragment makePCFragment() {
@@ -82,7 +86,7 @@ public class WordConnectionPagerAdapter extends FragmentPagerAdapter {
     }
 
     public Fragment getRecentFragment(int index) {
-        if (index >= fragmentSize || index < 0) {
+        if (index >= maxFragmentSize || index < 0) {
             return null;
         }
         LogUtil.logDeubg(this, "getRecentFragment: " + index);

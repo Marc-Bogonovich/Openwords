@@ -6,6 +6,7 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import com.openwords.R;
+import static com.openwords.learningmodule.InterfaceLearningModule.Learning_Type_Hearing;
 import com.openwords.model.DataPool;
 import com.openwords.model.LocalSettings;
 import com.openwords.model.Performance;
@@ -45,7 +46,7 @@ public class ActivityLearning extends FragmentActivity implements InterfaceLearn
         }
 
         WordConnection.loadWordConnectionsFullPack(true,
-                LocalSettings.getUserId(), languageInfo.baseLang, languageInfo.learningLang, languageInfo.page, 10, false, null,
+                LocalSettings.getUserId(), languageInfo.baseLang, languageInfo.learningLang, languageInfo.page, 20, false, null,
                 new ResultWordConnections() {
 
                     public void result(List<WordConnection> connections, List<Word> words, List<Performance> performance) {
@@ -85,7 +86,7 @@ public class ActivityLearning extends FragmentActivity implements InterfaceLearn
                     if (i == 0) {
                         refreshPC();
                     } else {
-                        if (DataPool.LmType == Learning_Type_Type) {
+                        if (DataPool.LmType == Learning_Type_Type || DataPool.LmType == Learning_Type_Hearing) {
                             FragmentLearningModule f = (FragmentLearningModule) adapter.getRecentFragment(DataPool.LmCurrentCard);
                             f.updateChoiceView();
                         }
@@ -95,7 +96,7 @@ public class ActivityLearning extends FragmentActivity implements InterfaceLearn
                     if (i == DataPool.getPoolSize()) {
                         refreshPC();
                     } else {
-                        if (DataPool.LmType == Learning_Type_Type) {
+                        if (DataPool.LmType == Learning_Type_Type || DataPool.LmType == Learning_Type_Hearing) {
                             FragmentLearningModule f = (FragmentLearningModule) adapter.getRecentFragment(DataPool.LmCurrentCard);
                             f.updateChoiceView();
                         }
@@ -109,7 +110,7 @@ public class ActivityLearning extends FragmentActivity implements InterfaceLearn
             }
         });
 
-        adapter = new WordConnectionPagerAdapter(getSupportFragmentManager(), act);
+        adapter = new WordConnectionPagerAdapter(getSupportFragmentManager(), act, 20);
         pager.setAdapter(adapter);
         pager.setPageTransformer(true, new WordConnectionPageTransformer(DataPool.LmReverseNav));
 

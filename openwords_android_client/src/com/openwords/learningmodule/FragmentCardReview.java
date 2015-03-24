@@ -34,6 +34,18 @@ public class FragmentCardReview extends FragmentLearningModule {
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        LogUtil.logDeubg(this, "onDestroy for card: " + cardIndex);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        LogUtil.logDeubg(this, "onDetach for card: " + cardIndex);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LogUtil.logDeubg(this, "onCreateView for card: " + cardIndex);
