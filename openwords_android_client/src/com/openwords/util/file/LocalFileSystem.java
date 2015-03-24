@@ -19,7 +19,8 @@ public class LocalFileSystem {
 
     public static final String[] Folders = new String[]{
         Environment.getExternalStorageDirectory().getAbsolutePath() + "/OpenwordsCache/",
-        Environment.getExternalStorageDirectory().getAbsolutePath() + "/OpenwordsCache/audio/"
+        Environment.getExternalStorageDirectory().getAbsolutePath() + "/OpenwordsCache/audio/",
+        Environment.getExternalStorageDirectory().getAbsolutePath() + "/OpenwordsCache/db/"
     };
 
     public static boolean isExternalStorageWritable() {

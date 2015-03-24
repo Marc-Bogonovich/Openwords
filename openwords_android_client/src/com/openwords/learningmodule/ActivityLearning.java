@@ -40,6 +40,7 @@ public class ActivityLearning extends FragmentActivity implements InterfaceLearn
         MyDialogHelper.tryShowQuickProgressDialog(act, "Assembling your words...");
         UserLearningLanguages languageInfo = UserLearningLanguages.getUserLanguageInfo(LocalSettings.getBaseLanguageId(), DataPool.LmLearningLang);
         if (languageInfo == null) {
+            MyDialogHelper.tryDismissQuickProgressDialog();
             MyQuickToast.showShort(act, "Error: no language information specified");
             finish();
             return;
@@ -51,6 +52,7 @@ public class ActivityLearning extends FragmentActivity implements InterfaceLearn
 
                     public void result(List<WordConnection> connections, List<Word> words, List<Performance> performance) {
                         if (connections == null) {
+                            MyDialogHelper.tryDismissQuickProgressDialog();
                             MyQuickToast.showShort(act, "Error when loading words data");
                             finish();
                             return;

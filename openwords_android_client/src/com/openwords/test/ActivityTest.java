@@ -5,11 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
-import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.TextHttpResponseHandler;
 import com.openwords.R;
+import com.openwords.model.Word;
 import com.openwords.services.implementations.AddUser;
 import com.openwords.services.implementations.CheckEmail;
 import com.openwords.services.implementations.CheckUsername;
@@ -17,7 +17,11 @@ import com.openwords.services.implementations.LoginUser;
 import com.openwords.services.interfaces.HttpResultHandler;
 import com.openwords.ui.common.DialogForHTTP;
 import com.openwords.util.log.LogUtil;
+import com.orm.query.Select;
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.http.Header;
@@ -231,11 +235,35 @@ public class ActivityTest extends Activity {
         findViewById(R.id.act_test_test99).setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
-                
-                    }
-              
+                Word.deleteAll(Word.class, "word_id in (1,2,3)");
+//                try {
+//                    LocalFileSystem.makeFolders();
+//                    String path = LocalFileSystem.Folders[2];
+//                    LogUtil.logDeubg(this, path);
+//
+//                    String url = "jdbc:h2:"
+//                            + path
+//                            + "/hello"
+//                            + ";FILE_LOCK=FS"
+//                            + ";PAGE_SIZE=1024"
+//                            + ";CACHE_SIZE=8192";
+//                    Class.forName("org.h2.Driver");
+//                    Connection conn = DriverManager.getConnection(url);
+//
+//                    Statement st = conn.createStatement();
+//                    String sql = "SELECT * FROM TEST";
+//                    ResultSet rs = st.executeQuery(sql);
+//                    rs.next();
+//                    LogUtil.logDeubg(this, rs.getString(1));
+//                    LogUtil.logDeubg(this, rs.getString(2));
+//
+//                } catch (ClassNotFoundException ex) {
+//                    Logger.getLogger(ActivityTest.class.getName()).log(Level.SEVERE, null, ex);
+//                } catch (SQLException ex) {
+//                    Logger.getLogger(ActivityTest.class.getName()).log(Level.SEVERE, null, ex);
+//                }
+            }
 
-          
         });
     }
 }
