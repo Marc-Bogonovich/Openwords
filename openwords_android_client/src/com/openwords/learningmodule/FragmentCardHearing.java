@@ -1,9 +1,6 @@
 package com.openwords.learningmodule;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,31 +13,29 @@ import com.openwords.model.DataPool;
 import com.openwords.model.Performance;
 import com.openwords.model.Word;
 import com.openwords.model.WordConnection;
-import com.openwords.util.WordComparsion;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.ui.MyQuickToast;
 
 public class FragmentCardHearing extends FragmentLearningModule {
-    
+
     private final int cardIndex;
     private TextView question, transcription, answer;
     private ImageView checkButton, indicator, audioPlayButton;
     private EditText userInput;
-    private final double CUTOFF = 0.75f;
     private View myFragmentView;
     private ScrollView container2;
     private ActivityLearning lmActivity;
-    
+
     public FragmentCardHearing(int cardIndex, ActivityLearning lmActivity) {
         this.cardIndex = cardIndex;
         this.lmActivity = lmActivity;
     }
-    
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LogUtil.logDeubg(this, "onCreateView for card: " + cardIndex);
-        
+
         myFragmentView = inflater.inflate(R.layout.fragment_hearing, container, false);
         WordConnection wc = DataPool.getWordConnection(cardIndex);
         final Word w1 = Word.getWord(wc.wordOneId);
@@ -50,7 +45,7 @@ public class FragmentCardHearing extends FragmentLearningModule {
             MyQuickToast.showShort(getActivity(), "No performance data: " + wc.connectionId);
             return null;
         }
-        
+
         answer = (TextView) myFragmentView.findViewById(R.id.hearing_TextView_answer);
         question = (TextView) myFragmentView.findViewById(R.id.hearing_TextView_question);
         transcription = (TextView) myFragmentView.findViewById(R.id.hearing_TextView_transcription);
@@ -59,123 +54,13 @@ public class FragmentCardHearing extends FragmentLearningModule {
         indicator = (ImageView) myFragmentView.findViewById(R.id.hearing_ImageView_indicator);
         audioPlayButton = (ImageView) myFragmentView.findViewById(R.id.hearing_ImageView_audioPlay);
         container2 = (ScrollView) myFragmentView.findViewById(R.id.hearingEvaluate_ScrollView_Container);
+
         //updateAudioIcon(audioPlayButton, card.getWordTwoId());
         //addClarificationTrigger(lmActivity, new View[]{indicator}, answer, card.getWordTwoId());
-        setChoiceView(transcription, question, answer, indicator, userInput, perf, w1, w2);
-        
-        userInput.addTextChangedListener(new TextWatcher() {
-            
-            public void beforeTextChanged(CharSequence cs, int i, int i1, int i2) {
-                container2.scrollTo(0, myFragmentView.findViewById(R.id.hearing_ViewFlipper_frame).getBottom());
-            }
-            
-            public void onTextChanged(CharSequence cs, int i, int i1, int i2) {
-                checkUserInputAnswer(false, perf, w1, w2);
-            }
-            
-            public void afterTextChanged(Editable edtbl) {
-            }
-        });
-        
-        checkButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                checkUserInputAnswer(true, perf, w1, w2);
-                question.setVisibility(View.VISIBLE);
-                answer.setVisibility(View.VISIBLE);
-                transcription.setVisibility(View.VISIBLE);
-                
-                Handler mHandler = new Handler();
-                mHandler.postDelayed(new Runnable() {
-                    public void run() {
-                        lmActivity.goToNextCard();
-                    }
-                }, 3000);
-                
-            }
-        });
-        
+        formViewElementsForTypingUI(lmActivity, container2, myFragmentView.findViewById(R.id.lm_frag_advance),
+                userInput, checkButton, question, answer, indicator, perf, w1, w2);
+
         return myFragmentView;
     }
-    
-    private void checkUserInputAnswer(boolean checkButtonPressed, Performance perf, Word w1, Word w2) {
-        if (checkButtonPressed) {
-            if (userInput != null) {
-                String userInputString = userInput.getText().toString().trim();
-                
-                double similarity = Math.max(WordComparsion.similarity(userInputString, w1.word),
-                        WordComparsion.similarity(userInputString, w2.word));
-                if (userInputString.equalsIgnoreCase(w1.word)
-                        || userInputString.equalsIgnoreCase(w2.word)) { // if user type lang1 or lang2
-                    indicator.setImageResource(R.drawable.ic_learning_module_correct);
-                    perf.performance = "good";
-                    perf.tempVersion = perf.version + 1;
-                    perf.save();
-                } else if (similarity >= CUTOFF) { //user input is close enough
-                    indicator.setImageResource(R.drawable.ic_learning_module_close);
-                    perf.performance = "nearly";
-                    perf.tempVersion = perf.version + 1;
-                    perf.save();
-                } else {
-                    indicator.setImageResource(R.drawable.ic_learning_module_incorrect);
-                    perf.performance = "bad";
-                    perf.tempVersion = perf.version + 1;
-                    perf.save();
-                }
-            } else {
-                indicator.setImageResource(R.drawable.ic_learning_module_incorrect);
-                perf.performance = "new";
-                perf.tempVersion = perf.version + 1;
-                perf.save();
-            }
-        } else {
-            if (userInput != null) {
-                indicator.setImageResource(R.drawable.ic_learning_module_null);
-                String userInputString = userInput.getText().toString().trim();
-                String correctString = w1.word.trim();
-                
-                if (userInputString.length() == correctString.length()) {
-                    if (userInputString.equalsIgnoreCase(correctString)) {
-                        indicator.setImageResource(R.drawable.ic_learning_module_correct);
-                        perf.performance = "good";
-                        perf.tempVersion = perf.version + 1;
-                        perf.save();
-                        
-                        Handler mHandler = new Handler();
-                        mHandler.postDelayed(new Runnable() {
-                            public void run() {
-                                lmActivity.goToNextCard();
-                            }
-                        }, 3000);
-                    } else {
-                        answer.setVisibility(View.INVISIBLE);
-                        indicator.setImageResource(R.drawable.ic_learning_module_null);
-                    }
-                }
-            }
-        }
-    }
-    
-    private void setChoiceView(TextView transriptionView, TextView questionView, TextView answerView,
-            ImageView answerStatus, EditText userInput,
-            Performance perf, Word w1, Word w2) {
-        transriptionView.setText("");
-        questionView.setText(w2.getMeta().nativeForm);
-        answerView.setText(w1.getMeta().nativeForm);
-        
-        if (perf.performance.equals("new")) {
-            answerStatus.setImageResource(R.drawable.ic_learning_module_null);
-            answerView.setVisibility(View.INVISIBLE);
-        } else if (perf.performance.equals("good")) {
-            answerStatus.setImageResource(R.drawable.ic_learning_module_correct);
-            answerView.setVisibility(View.VISIBLE);
-        } else if (perf.performance.equals("nearly")) {
-            answerStatus.setImageResource(R.drawable.ic_learning_module_close);
-            answerView.setVisibility(View.VISIBLE);
-        } else {
-            answerStatus.setImageResource(R.drawable.ic_learning_module_incorrect);
-            answerView.setVisibility(View.VISIBLE);
-        }
-        userInput.setText("");
-    }
+
 }

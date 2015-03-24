@@ -1,20 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="match_parent"
-	    android:layout_height="match_parent"
-android:id="@+id/hearingEvaluate_ScrollView_Container">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <ScrollView android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:id="@+id/hearingEvaluate_ScrollView_Container">
 
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal" >
-	<ViewFlipper android:id="@+id/hearing_ViewFlipper_frame"
-		android:layout_width="fill_parent" android:layout_height="fill_parent"
-		android:layout_gravity="center_vertical" android:padding="20dp">
-	<LinearLayout android:layout_width="match_parent"
-		android:layout_height="match_parent" android:orientation="vertical">
+    android:orientation="vertical"
+    android:layout_gravity="center_vertical" 
+    android:padding="20dp">
+	
 		<LinearLayout android:layout_width="match_parent"
-			android:layout_height="90dp" android:orientation="horizontal">
+			      android:layout_height="90dp" 
+                              android:orientation="horizontal">
 			<View android:layout_width="0dp" android:layout_height="match_parent"
 				android:layout_weight="2" />
 			<ImageView android:id="@+id/hearing_ImageView_audioPlay"
@@ -23,9 +27,9 @@ android:id="@+id/hearingEvaluate_ScrollView_Container">
 				android:src="@drawable/ic_self_evaluate_audio" />
 			<View android:layout_width="0dp" android:layout_height="match_parent"
 				android:layout_weight="2" />
-
 		</LinearLayout>
-				<TextView android:id="@+id/hearing_TextView_transcription"
+			
+                <TextView android:id="@+id/hearing_TextView_transcription"
 			android:layout_width="match_parent" android:layout_height="wrap_content"
 			android:gravity="center" android:layout_marginTop="10dp"
 			android:textColor="@color/selfEvaluate_font"
@@ -40,9 +44,11 @@ android:id="@+id/hearingEvaluate_ScrollView_Container">
 			android:layout_width="fill_parent" android:layout_height="wrap_content"
 			android:gravity="center"  android:textColor="@color/my_gray"
 			android:textSize="30sp" />
+                
 		<LinearLayout android:layout_width="match_parent"
 			android:layout_height="50dp" android:orientation="horizontal"
 			android:layout_marginTop="15dp">
+                    
 			<EditText android:id="@+id/hearing_EditText_input"
 				android:hint="@string/hearing_EditText_input" android:layout_weight="3"
 				android:layout_width="0dp" android:layout_height="match_parent">
@@ -69,8 +75,6 @@ android:id="@+id/hearingEvaluate_ScrollView_Container">
 				android:layout_weight="1" />
 		</LinearLayout>
 
-	</LinearLayout>
-</ViewFlipper>
 </LinearLayout>
 <!-- <LinearLayout
     android:layout_width="match_parent"
@@ -79,5 +83,9 @@ android:id="@+id/hearingEvaluate_ScrollView_Container">
     android:id="@+id/review_LinearLayout_breadcrumbs"
     android:layout_alignParentBottom="true">
 
-</LinearLayout> -->
-</ScrollView>
+        </LinearLayout> -->
+    </ScrollView>
+    
+    <include layout="@layout/timer_bar"/>
+
+</LinearLayout>
