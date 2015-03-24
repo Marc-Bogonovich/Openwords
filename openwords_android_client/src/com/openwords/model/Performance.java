@@ -2,6 +2,7 @@ package com.openwords.model;
 
 import com.openwords.util.log.LogUtil;
 import com.orm.SugarRecord;
+import com.orm.query.Select;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -18,15 +19,15 @@ public class Performance extends SugarRecord<Performance> {
         }
     }
 
-    private static List<Performance> loadUserPerformanceLocal(List<Integer> connectionIds, String learningType) {
-        LogUtil.logDeubg(UserLearningLanguages.class, "loadUserPerformanceLocal()");
+    public static List<Performance> loadUserPerformanceLocally(Set<Integer> connectionIds, String learningType) {
+        LogUtil.logDeubg(UserLearningLanguages.class, "loadUserPerformanceLocally()");
         String sqlIds = connectionIds.toString().replace("[", "(").replace("]", ")");
 
-        String sql = "select * from Performance where word_connection_id in @ids@ and learning_type='@learningType@'";
-        sql = sql.replace("@ids@", sqlIds)
+        String whereSql = "word_connection_id in @ids@ and learning_type='@learningType@'";
+        whereSql = whereSql.replace("@ids@", sqlIds)
                 .replace("@learningType@", learningType);
 
-        return Performance.findWithQuery(Performance.class, sql);
+        return Select.from(Performance.class).where(whereSql).list();
     }
 
     public static void saveOrUpdateAll(List<Performance> perfs, String learningType) {
