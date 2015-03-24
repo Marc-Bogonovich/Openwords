@@ -4,19 +4,39 @@ import com.openwords.services.implementations.GetWordConnectionsPack;
 import com.openwords.services.interfaces.HttpResultHandler;
 import com.orm.SugarRecord;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
 public class WordConnection extends SugarRecord<WordConnection> {
 
-    public static List<WordConnection> loadWordConnectionsFullPack(boolean tryRemote, final int userId,
+    private static void loadWordConnectionsFullPackLocally(int langOneId, int langTwoId, int pageNumber, int pageSize, ResultWordConnections resultHandler) {
+        List<WordConnection> connections = getConnections(langOneId, langTwoId, pageSize, pageNumber);
+        Set<Integer> ids = new HashSet<Integer>(connections.size());
+        for (WordConnection wc : connections) {
+            ids.add(wc.wordOneId);
+            ids.add(wc.wordTwoId);
+        }
+        List<Word> words = Word.getWords(ids);
+        if (ids.size() != words.size()) {
+            resultHandler.result(null, null, null);
+            return;
+        }
+        List<Performance> performance = Performance.loadUserPerformanceLocally(unpackConnectionIds(connections), "all");
+        if (performance.size() != connections.size()) {
+            resultHandler.result(null, null, null);
+            return;
+        }
+        resultHandler.result(connections, words, performance);
+    }
+
+    public static void loadWordConnectionsFullPack(boolean tryRemote, final int userId,
             final int langOneId, final int langTwoId, final int pageNumber, final int pageSize,
             boolean doOrder, String orderBy,
             final ResultWordConnections resultHandler) {
 
         if (!tryRemote) {
-            return getConnections(langOneId, langTwoId, pageSize, pageNumber);
+            loadWordConnectionsFullPackLocally(langOneId, langTwoId, pageNumber, pageSize, resultHandler);
+            return;
         }
 
         new GetWordConnectionsPack().doRequest(
@@ -44,11 +64,9 @@ public class WordConnection extends SugarRecord<WordConnection> {
                     }
 
                     public void noResult(String errorMessage) {
-                        //todo!!!!!!!!!!!!!!!!
-                        resultHandler.result(getConnections(langOneId, langTwoId, pageSize, pageNumber), null, null);
+                        loadWordConnectionsFullPackLocally(langOneId, langTwoId, pageNumber, pageSize, resultHandler);
                     }
                 });
-        return null;
     }
 
     private static List<WordConnection> getConnections(int baseLang, int learningLang, int pageSize, int pageNumber) {
@@ -78,12 +96,10 @@ public class WordConnection extends SugarRecord<WordConnection> {
         WordConnection.saveInTx(cs);
     }
 
-    public static List<Integer> unpackConnectionIds(List<WordConnection> connections) {
-        List<Integer> l = new LinkedList<Integer>();
-        if (connections != null) {
-            for (WordConnection conn : connections) {
-                l.add(conn.connectionId);
-            }
+    public static Set<Integer> unpackConnectionIds(List<WordConnection> connections) {
+        Set<Integer> l = new HashSet<Integer>(connections.size());
+        for (WordConnection conn : connections) {
+            l.add(conn.connectionId);
         }
         return l;
     }
