@@ -35,15 +35,15 @@
 			android:textColor="@color/selfEvaluate_font"
 			android:textSize="20sp" />
 
-		<TextView android:id="@+id/hearing_TextView_question"
+		<com.openwords.ui.common.AutofitTextView android:id="@+id/hearing_TextView_question"
 			android:layout_width="fill_parent" android:layout_height="wrap_content"
 			android:layout_margin="5dp" android:gravity="center" 
-			android:textColor="@color/my_gray" android:textSize="40sp" />
+			android:textColor="@color/my_gray" android:textSize="40sp" android:singleLine="true"/>
 
-		<TextView android:id="@+id/hearing_TextView_answer"
+		<com.openwords.ui.common.AutofitTextView android:id="@+id/hearing_TextView_answer"
 			android:layout_width="fill_parent" android:layout_height="wrap_content"
 			android:gravity="center"  android:textColor="@color/my_gray"
-			android:textSize="30sp" />
+			android:textSize="30sp" android:singleLine="true"/>
                 
 		<LinearLayout android:layout_width="match_parent"
 			android:layout_height="50dp" android:orientation="horizontal"

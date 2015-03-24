@@ -32,15 +32,18 @@
 				android:layout_marginTop="40dp" android:gravity="center"
 				android:textColor="@color/selfEvaluate_font" android:textSize="30sp" />
 
-			<TextView android:id="@+id/review_TextView_question"
-				android:layout_width="fill_parent" android:layout_height="wrap_content"
+			<com.openwords.ui.common.AutofitTextView android:id="@+id/review_TextView_question"
+				android:layout_width="match_parent" android:layout_height="wrap_content"
 				android:layout_margin="20dp" android:gravity="center"
-				android:textColor="@color/black" android:textSize="60sp" />
+				android:textColor="@color/black" android:textSize="60sp"
+                                android:singleLine="true"
+                            />
 
-			<TextView android:id="@+id/review_TextView_answer"
+			<com.openwords.ui.common.AutofitTextView android:id="@+id/review_TextView_answer"
 				android:layout_width="fill_parent" android:layout_height="wrap_content"
 				android:gravity="center" android:textColor="@color/black"
-				android:textSize="40sp" />
+				android:textSize="40sp"
+                                android:singleLine="true"/>
 				<View android:layout_width="fill_parent" android:layout_height="fill_parent" />
 		</LinearLayout>
 </LinearLayout>
@@ -52,5 +55,5 @@
     android:id="@+id/review_LinearLayout_breadcrumbs"
     android:layout_alignParentBottom="true">
 
-</LinearLayout> -->
+    </LinearLayout> -->
 </RelativeLayout>

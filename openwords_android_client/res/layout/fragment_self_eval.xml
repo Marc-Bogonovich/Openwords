@@ -40,15 +40,16 @@
                 android:visibility="invisible"
                 android:textColor="@color/selfEvaluate_font"
                 android:textSize="20sp" />
-            <TextView
+            <com.openwords.ui.common.AutofitTextView
                 android:id="@+id/selfEvaluate_TextView_question"
                 android:layout_width="fill_parent"
                 android:layout_height="60dp"
                 android:gravity="center"
                 android:textColor="@color/black"
-                android:textSize="40sp" />
+                android:textSize="40sp"
+                android:singleLine="true"/>
 
-            <TextView
+            <com.openwords.ui.common.AutofitTextView
                 android:id="@+id/selfEvaluate_TextView_answer"
                 android:layout_width="fill_parent"
                 android:layout_height="40dp"
@@ -57,10 +58,8 @@
                 android:visibility="invisible"
                 android:textColor="@color/selfEvaluate_font"
                 android:gravity="center"
-                android:textSize="30sp" >
-
-                <requestFocus />
-            </TextView>
+                android:textSize="30sp"
+                android:singleLine="true"/>
             <TextView
                 android:id="@+id/selfEvaluate_TextView_clarification"
                 android:layout_width="fill_parent"
