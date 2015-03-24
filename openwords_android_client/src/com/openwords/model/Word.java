@@ -3,6 +3,7 @@ package com.openwords.model;
 import com.openwords.util.gson.MyGson;
 import com.orm.SugarRecord;
 import com.orm.dsl.Ignore;
+import com.orm.query.Select;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -11,6 +12,12 @@ public class Word extends SugarRecord<Word> {
 
     public static Word getWord(int wordId) {
         return Word.find(Word.class, "word_id = ?", String.valueOf(wordId)).get(0);
+    }
+
+    public static List<Word> getWords(Set<Integer> ids) {
+        String sqlIds = ids.toString().replace("[", "(").replace("]", ")");
+        String whereSql = "word_id in " + sqlIds;
+        return Select.from(Word.class).where(whereSql).list();
     }
 
     public static void saveOrUpdateAll(List<Word> ws) {
