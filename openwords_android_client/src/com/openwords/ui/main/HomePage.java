@@ -95,7 +95,7 @@ public class HomePage extends Activity {
     private void refreshLanguageOptions() {
         LogUtil.logDeubg(this, "refreshLanguageOptions");
         nextLangToLearn = null;
-        final List<Language> languages = Language.getLearningLanguages(LocalSettings.getBaseLanguageId());
+        final List<Language> languages = Language.getLearningLanguagesInfo(LocalSettings.getBaseLanguageId());
         List<String> languageNames = new LinkedList<String>();
         if (!languages.isEmpty()) {
             languageOption.setOnTouchListener(null);

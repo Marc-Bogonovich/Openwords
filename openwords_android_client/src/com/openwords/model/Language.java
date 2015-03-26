@@ -17,7 +17,7 @@ import java.util.Set;
 
 public class Language extends SugarRecord<Language> {
 
-    public static List<Language> getLearningLanguages(int baseLang) {
+    public static List<Language> getLearningLanguagesInfo(int baseLang) {
         List<Integer> ids = UserLanguage.unpackLearningLangIds(
                 UserLanguage.loadUserLanguage(-1, baseLang, false, null));
         if (ids.isEmpty()) {
@@ -28,7 +28,7 @@ public class Language extends SugarRecord<Language> {
         return Select.from(Language.class).where(whereSql).list();
     }
 
-    public static void checkAndMergeNewLanguages(final Context context, final int baseLang, final ResultLanguage resultHandler) {
+    public static void syncLanguagesData(final Context context, final int baseLang, final ResultLanguage resultHandler) {
         new GetLearnableLanguages().doRequest(baseLang, new HttpResultHandler() {
 
             public void hasResult(Object resultObject) {
@@ -49,9 +49,9 @@ public class Language extends SugarRecord<Language> {
                 }
 
                 String sqlIds = learnableIds.toString().replace("[", "(").replace("]", ")");
+                String whereSql = "lang_id in " + sqlIds;
 
-                String sql = "select * from Language where lang_id in " + sqlIds;
-                List<Language> localSameLangs = Language.findWithQuery(Language.class, sql);
+                List<Language> localSameLangs = Select.from(Language.class).where(whereSql).list();
                 MyQuickToast.showShort(context, "total local same: " + localSameLangs.size());
 
                 Set<Integer> newLangIds = new HashSet<Integer>(learnableIds);
@@ -63,7 +63,7 @@ public class Language extends SugarRecord<Language> {
                 MyQuickToast.showShort(context, "total new: " + newLangIds.size());
 
                 if (!newLangIds.isEmpty()) {
-                    getAndSaveLanguageInformation(context, newLangIds, resultHandler);
+                    loadLanguagesInfo(context, newLangIds, resultHandler);
                 } else {
                     MyQuickToast.showShort(context, "no new learnable languages");
                     resultHandler.result(null);
@@ -77,7 +77,7 @@ public class Language extends SugarRecord<Language> {
         });
     }
 
-    private static void getAndSaveLanguageInformation(final Context context, Collection<Integer> langIds, final ResultLanguage resultHandler) {
+    private static void loadLanguagesInfo(final Context context, Collection<Integer> langIds, final ResultLanguage resultHandler) {
         new GetLanguages().doRequest(langIds,
                 new HttpResultHandler() {
 

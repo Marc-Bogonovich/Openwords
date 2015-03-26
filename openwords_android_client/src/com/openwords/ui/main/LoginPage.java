@@ -174,7 +174,7 @@ public class LoginPage extends Activity {
     }
 
     private void loadLanguageDataAndGoHome() {
-        Language.checkAndMergeNewLanguages(this, LocalSettings.getBaseLanguageId(), new ResultLanguage() {
+        Language.syncLanguagesData(this, LocalSettings.getBaseLanguageId(), new ResultLanguage() {
 
             public void result(String result) {
                 goToHomePage();
