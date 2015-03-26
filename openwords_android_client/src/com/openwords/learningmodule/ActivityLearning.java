@@ -11,7 +11,7 @@ import com.openwords.model.DataPool;
 import com.openwords.model.LocalSettings;
 import com.openwords.model.Performance;
 import com.openwords.model.ResultWordConnections;
-import com.openwords.model.UserLearningLanguages;
+import com.openwords.model.UserLanguage;
 import com.openwords.model.Word;
 import com.openwords.model.WordConnection;
 import com.openwords.util.log.LogUtil;
@@ -38,8 +38,8 @@ public class ActivityLearning extends FragmentActivity implements InterfaceLearn
         setContentView(R.layout.activity_lm);
 
         MyDialogHelper.tryShowQuickProgressDialog(act, "Assembling your words...");
-        UserLearningLanguages languageInfo = UserLearningLanguages.getUserLanguageInfo(LocalSettings.getBaseLanguageId(), DataPool.LmLearningLang);
-        if (languageInfo == null) {
+        UserLanguage userLanguageInfo = UserLanguage.getUserLanguageInfo(LocalSettings.getBaseLanguageId(), DataPool.LmLearningLang);
+        if (userLanguageInfo == null) {
             MyDialogHelper.tryDismissQuickProgressDialog();
             MyQuickToast.showShort(act, "Error: no language information specified");
             finish();
@@ -47,7 +47,7 @@ public class ActivityLearning extends FragmentActivity implements InterfaceLearn
         }
 
         WordConnection.loadWordConnectionsFullPack(true,
-                LocalSettings.getUserId(), languageInfo.baseLang, languageInfo.learningLang, languageInfo.page, 20, false, null,
+                LocalSettings.getUserId(), userLanguageInfo.baseLang, userLanguageInfo.learningLang, userLanguageInfo.page, 20, false, null,
                 new ResultWordConnections() {
 
                     public void result(List<WordConnection> connections, List<Word> words, List<Performance> performance) {

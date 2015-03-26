@@ -17,8 +17,8 @@ import com.openwords.model.DataPool;
 import com.openwords.model.Language;
 import com.openwords.model.LocalSettings;
 import com.openwords.model.ResultLanguage;
-import com.openwords.model.ResultUserLearningLanguages;
-import com.openwords.model.UserLearningLanguages;
+import com.openwords.model.ResultUserLanguage;
+import com.openwords.model.UserLanguage;
 import com.openwords.services.implementations.LoginUser;
 import com.openwords.services.interfaces.HttpResultHandler;
 import com.openwords.sound.SoundPlayer;
@@ -144,19 +144,19 @@ public class LoginPage extends Activity {
                         int newUserId = (Integer) resultObject;
                         if (LocalSettings.getUserId() != newUserId) {
                             MyQuickToast.showShort(LoginPage.this, "User changed");
-                            UserLearningLanguages.deleteAll(UserLearningLanguages.class);
+                            UserLanguage.deleteAll(UserLanguage.class);
                         } else {
                             //in case cannot connect to server
                             //???UserLearningLanguages.loadUserLearningLanguagesLocal(LocalSettings.getBaseLanguageId());
                         }
                         LocalSettings.setUserId(newUserId);
-                        UserLearningLanguages.loadFreshUserLearningLanguages(
+                        UserLanguage.loadUserLanguage(
                                 LocalSettings.getUserId(),
                                 LocalSettings.getBaseLanguageId(),
                                 true,
-                                new ResultUserLearningLanguages() {
+                                new ResultUserLanguage() {
 
-                                    public void result(List<UserLearningLanguages> result) {
+                                    public void result(List<UserLanguage> result) {
                                         loadLanguageDataAndGoHome();
                                     }
                                 });

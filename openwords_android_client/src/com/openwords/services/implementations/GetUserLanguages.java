@@ -2,7 +2,7 @@ package com.openwords.services.implementations;
 
 import com.google.gson.Gson;
 import static com.openwords.model.DataPool.ServerAddress;
-import com.openwords.model.UserLearningLanguages;
+import com.openwords.model.UserLanguage;
 import com.openwords.services.interfaces.HttpResultHandler;
 import com.openwords.services.interfaces.HttpServiceRequester;
 import com.openwords.services.interfaces.RequestParamsBuilder;
@@ -38,7 +38,7 @@ public class GetUserLanguages extends HttpServiceRequester implements HttpResult
 
     public class Result {
 
-        public List<UserLearningLanguages> result;
+        public List<UserLanguage> result;
         public String errorMessage;
     }
 }

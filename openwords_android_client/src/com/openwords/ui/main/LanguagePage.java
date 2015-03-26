@@ -11,8 +11,8 @@ import com.openwords.R;
 import com.openwords.model.Language;
 import com.openwords.model.LocalSettings;
 import com.openwords.model.ResultLanguage;
-import com.openwords.model.ResultUserLearningLanguages;
-import com.openwords.model.UserLearningLanguages;
+import com.openwords.model.ResultUserLanguage;
+import com.openwords.model.UserLanguage;
 import com.openwords.services.implementations.SetUserLanguages;
 import com.openwords.services.interfaces.HttpResultHandler;
 import com.openwords.util.ui.MyDialogHelper;
@@ -51,8 +51,8 @@ public class LanguagePage extends Activity {
                         MyQuickToast.showShort(LanguagePage.this, "user id is corrupt");
                         return;
                     }
-                    UserLearningLanguages.saveOrUpdateAll(LocalSettings.getBaseLanguageId(),
-                            UserLearningLanguages.packNewLearningLangs(ChosenLangIds));
+                    UserLanguage.saveOrUpdateAll(LocalSettings.getBaseLanguageId(),
+                            UserLanguage.packNewLearningLangs(ChosenLangIds));
 
                     MyDialogHelper.tryShowQuickProgressDialog(LanguagePage.this, "Saving your preference to server...");
 
@@ -110,14 +110,14 @@ public class LanguagePage extends Activity {
 
     private void refreshUserLearningLanguages() {
         ChosenLangIds.clear();
-        UserLearningLanguages.loadFreshUserLearningLanguages(
+        UserLanguage.loadUserLanguage(
                 LocalSettings.getUserId(),
                 LocalSettings.getBaseLanguageId(),
                 true,
-                new ResultUserLearningLanguages() {
+                new ResultUserLanguage() {
 
-                    public void result(List<UserLearningLanguages> result) {
-                        List<Integer> chosen = UserLearningLanguages.unpackLearningLangIds(result);
+                    public void result(List<UserLanguage> result) {
+                        List<Integer> chosen = UserLanguage.unpackLearningLangIds(result);
                         ChosenLangIds.addAll(chosen);
                         refreshListView();
                     }

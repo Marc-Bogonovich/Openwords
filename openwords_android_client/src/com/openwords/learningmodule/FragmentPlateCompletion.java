@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.openwords.R;
 import com.openwords.model.DataPool;
 import com.openwords.model.LocalSettings;
-import com.openwords.model.UserLearningLanguages;
+import com.openwords.model.UserLanguage;
 import com.openwords.services.implementations.SetUserPerformance;
 import com.openwords.services.interfaces.HttpResultHandler;
 import com.openwords.util.localization.LocalizationManager;
@@ -85,7 +85,7 @@ public class FragmentPlateCompletion extends Fragment {
     }
 
     private void advanceToNextPageData() {
-        UserLearningLanguages languageInfo = UserLearningLanguages.getUserLanguageInfo(LocalSettings.getBaseLanguageId(), DataPool.LmLearningLang);
+        UserLanguage languageInfo = UserLanguage.getUserLanguageInfo(LocalSettings.getBaseLanguageId(), DataPool.LmLearningLang);
         if (languageInfo == null) {
             MyQuickToast.showShort(getActivity(), "Error: no language information specified");
             getActivity().finish();

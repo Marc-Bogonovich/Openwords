@@ -14,8 +14,8 @@ import com.openwords.R;
 import com.openwords.model.Language;
 import com.openwords.model.LocalSettings;
 import com.openwords.model.ResultLanguage;
-import com.openwords.model.ResultUserLearningLanguages;
-import com.openwords.model.UserLearningLanguages;
+import com.openwords.model.ResultUserLanguage;
+import com.openwords.model.UserLanguage;
 import com.openwords.util.localization.LocalLanguage;
 import com.openwords.util.localization.LocalizationManager;
 import com.openwords.util.ui.MyDialogHelper;
@@ -71,13 +71,13 @@ public class LocalOptionPage extends Activity {
                                             return;
                                         }
                                         if (LocalSettings.getUserId() > 0) {
-                                            UserLearningLanguages.loadFreshUserLearningLanguages(
+                                            UserLanguage.loadUserLanguage(
                                                     LocalSettings.getUserId(),
                                                     LocalSettings.getBaseLanguageId(),
                                                     true,
-                                                    new ResultUserLearningLanguages() {
+                                                    new ResultUserLanguage() {
 
-                                                        public void result(List<UserLearningLanguages> result) {
+                                                        public void result(List<UserLanguage> result) {
                                                             act.finish();
                                                         }
                                                     });
