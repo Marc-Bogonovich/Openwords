@@ -20,7 +20,7 @@ public class Performance extends SugarRecord<Performance> {
     }
 
     public static List<Performance> loadUserPerformanceLocally(Set<Integer> connectionIds, String learningType) {
-        LogUtil.logDeubg(UserLearningLanguages.class, "loadUserPerformanceLocally()");
+        LogUtil.logDeubg(Performance.class, "loadUserPerformanceLocally()");
         String sqlIds = connectionIds.toString().replace("[", "(").replace("]", ")");
 
         String whereSql = "word_connection_id in @ids@ and learning_type='@learningType@'";

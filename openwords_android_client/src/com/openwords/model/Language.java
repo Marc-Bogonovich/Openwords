@@ -8,6 +8,7 @@ import com.openwords.util.ui.CallbackOkButton;
 import com.openwords.util.ui.MyDialogHelper;
 import com.openwords.util.ui.MyQuickToast;
 import com.orm.SugarRecord;
+import com.orm.query.Select;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -17,14 +18,14 @@ import java.util.Set;
 public class Language extends SugarRecord<Language> {
 
     public static List<Language> getLearningLanguages(int baseLang) {
-        List<Integer> ids = UserLearningLanguages.unpackLearningLangIds(
-                UserLearningLanguages.loadFreshUserLearningLanguages(-1, baseLang, false, null));
+        List<Integer> ids = UserLanguage.unpackLearningLangIds(
+                UserLanguage.loadUserLanguage(-1, baseLang, false, null));
         if (ids.isEmpty()) {
             return new LinkedList<Language>();
         }
         String sqlIds = ids.toString().replace("[", "(").replace("]", ")");
-        String sql = "select * from Language where lang_id in " + sqlIds;
-        return Language.findWithQuery(Language.class, sql);
+        String whereSql = "lang_id in " + sqlIds;
+        return Select.from(Language.class).where(whereSql).list();
     }
 
     public static void checkAndMergeNewLanguages(final Context context, final int baseLang, final ResultLanguage resultHandler) {
