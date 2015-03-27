@@ -54,7 +54,7 @@ public class UserLanguage implements Serializable {
                 }
             }
             if (!exist) {
-                s.save(new UserLanguage(userId, baseLang, uselang, 0, "", true));
+                s.save(new UserLanguage(userId, baseLang, uselang, 1, "", true));
             }
         }
         s.beginTransaction().commit();
