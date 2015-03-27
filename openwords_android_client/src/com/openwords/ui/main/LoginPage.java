@@ -151,9 +151,9 @@ public class LoginPage extends Activity {
                         }
                         LocalSettings.setUserId(newUserId);
                         UserLanguage.loadUserLanguage(
+                                true,
                                 LocalSettings.getUserId(),
                                 LocalSettings.getBaseLanguageId(),
-                                true,
                                 new ResultUserLanguage() {
 
                                     public void result(List<UserLanguage> result) {
@@ -165,9 +165,11 @@ public class LoginPage extends Activity {
                     public void noResult(String errorMessage) {
                         MyDialogHelper.tryDismissQuickProgressDialog();
                         MyQuickToast.showShort(LoginPage.this, "Login fail: " + errorMessage);
-                        if (LocalSettings.getUsername().equals(username) && LocalSettings.getPassword().equals(password)) {
-                            MyQuickToast.showShort(LoginPage.this, "Enter offline mode");
-                            goToHomePage();
+                        if (LocalSettings.getUsername() != null && LocalSettings.getPassword() != null) {
+                            if (LocalSettings.getUsername().equals(username) && LocalSettings.getPassword().equals(password)) {
+                                MyQuickToast.showShort(LoginPage.this, "Enter offline mode");
+                                goToHomePage();
+                            }
                         }
                     }
                 });

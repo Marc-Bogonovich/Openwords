@@ -30,7 +30,7 @@ public class UserLanguage extends SugarRecord<UserLanguage> {
      * @param resultHandler Simple callback.
      * @return
      */
-    public static List<UserLanguage> loadUserLanguage(int userId, final int baseLang, boolean tryRemote, final ResultUserLanguage resultHandler) {
+    public static List<UserLanguage> loadUserLanguage(boolean tryRemote, int userId, final int baseLang, final ResultUserLanguage resultHandler) {
         if (!tryRemote) {
             return loadUserLanguageLocally(baseLang);
         }
@@ -81,7 +81,7 @@ public class UserLanguage extends SugarRecord<UserLanguage> {
         return l;
     }
 
-    public static void saveOrUpdateAll(int baseLang, List<UserLanguage> learningLangs) {
+    private static void saveOrUpdateAll(int baseLang, List<UserLanguage> learningLangs) {
         UserLanguage.deleteAll(UserLanguage.class, "base_lang = ?", String.valueOf(baseLang));
         for (UserLanguage lang : learningLangs) {
             lang.baseLang = baseLang;

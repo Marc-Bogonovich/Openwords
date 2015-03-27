@@ -19,7 +19,7 @@ public class Language extends SugarRecord<Language> {
 
     public static List<Language> getLearningLanguagesInfo(int baseLang) {
         List<Integer> ids = UserLanguage.unpackLearningLangIds(
-                UserLanguage.loadUserLanguage(-1, baseLang, false, null));
+                UserLanguage.loadUserLanguage(false, -1, baseLang, null));
         if (ids.isEmpty()) {
             return new LinkedList<Language>();
         }

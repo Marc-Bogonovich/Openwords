@@ -72,9 +72,9 @@ public class LocalOptionPage extends Activity {
                                         }
                                         if (LocalSettings.getUserId() > 0) {
                                             UserLanguage.loadUserLanguage(
+                                                    true,
                                                     LocalSettings.getUserId(),
                                                     LocalSettings.getBaseLanguageId(),
-                                                    true,
                                                     new ResultUserLanguage() {
 
                                                         public void result(List<UserLanguage> result) {

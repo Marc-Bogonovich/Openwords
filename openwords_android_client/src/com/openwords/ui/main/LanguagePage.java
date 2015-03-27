@@ -51,8 +51,6 @@ public class LanguagePage extends Activity {
                         MyQuickToast.showShort(LanguagePage.this, "user id is corrupt");
                         return;
                     }
-                    UserLanguage.saveOrUpdateAll(LocalSettings.getBaseLanguageId(),
-                            UserLanguage.packNewLearningLangs(ChosenLangIds));
 
                     MyDialogHelper.tryShowQuickProgressDialog(LanguagePage.this, "Saving your preference to server...");
 
@@ -60,8 +58,18 @@ public class LanguagePage extends Activity {
                             new HttpResultHandler() {
 
                                 public void hasResult(Object resultObject) {
-                                    MyDialogHelper.tryDismissQuickProgressDialog();
-                                    finish();
+                                    UserLanguage.loadUserLanguage(
+                                            true,
+                                            LocalSettings.getUserId(),
+                                            LocalSettings.getBaseLanguageId(),
+                                            new ResultUserLanguage() {
+
+                                                public void result(List<UserLanguage> result) {
+                                                    MyDialogHelper.tryDismissQuickProgressDialog();
+                                                    finish();
+                                                }
+                                            });
+
                                 }
 
                                 public void noResult(String errorMessage) {
@@ -111,9 +119,9 @@ public class LanguagePage extends Activity {
     private void refreshUserLearningLanguages() {
         ChosenLangIds.clear();
         UserLanguage.loadUserLanguage(
+                true,
                 LocalSettings.getUserId(),
                 LocalSettings.getBaseLanguageId(),
-                true,
                 new ResultUserLanguage() {
 
                     public void result(List<UserLanguage> result) {
