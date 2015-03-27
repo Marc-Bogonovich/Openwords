@@ -102,11 +102,11 @@ public class FragmentPlateCompletion extends Fragment {
                 new HttpResultHandler() {
 
                     public void hasResult(Object resultObject) {
-                        MyQuickToast.showShort(getActivity(), "Your performance is recorded.");
+                        LogUtil.logDeubg(this, "Your performance is recorded.");
                     }
 
                     public void noResult(String errorMessage) {
-                        MyQuickToast.showShort(getActivity(), "Cannot record your performance.");
+                        LogUtil.logDeubg(this, "Cannot record your performance.");
                     }
                 });
     }
