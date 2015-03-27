@@ -18,6 +18,7 @@ import com.openwords.learningmodule.InterfaceLearningModule;
 import com.openwords.model.DataPool;
 import com.openwords.model.Language;
 import com.openwords.model.LocalSettings;
+import com.openwords.model.UserLanguage;
 import com.openwords.ui.common.BackButtonBehavior;
 import com.openwords.ui.other.ActionBarBuilder;
 import com.openwords.util.localization.LocalizationManager;
@@ -79,17 +80,22 @@ public class HomePage extends Activity {
                 testPageButtonClick();
             }
         });
+        testPageGo.setText(LocalizationManager.getTextGo());
     }
 
-    private void fillUI() {
+    private void fillLearningOptionUI() {
+        if (nextLangToLearn == null) {
+            return;
+        }
+        UserLanguage ul = UserLanguage.getUserLanguageInfo(LocalSettings.getBaseLanguageId(), nextLangToLearn.langId);
+        String stepInfo = " " + nextLangToLearn.displayName + " set " + ul.page;
         String[] options = new String[]{
-            LocalizationManager.getTextOptionReview(),
-            LocalizationManager.getTextOptionSelf(),
-            LocalizationManager.getTextOptionType(),
-            LocalizationManager.getTextOptionHearing()
+            LocalizationManager.getTextOptionReview() + stepInfo,
+            LocalizationManager.getTextOptionSelf() + stepInfo,
+            LocalizationManager.getTextOptionType() + stepInfo,
+            LocalizationManager.getTextOptionHearing() + stepInfo
         };
         learningModuleOption.setAdapter(new ArrayAdapter<CharSequence>(this, android.R.layout.simple_spinner_dropdown_item, options));
-        testPageGo.setText(LocalizationManager.getTextGo());
     }
 
     private void refreshLanguageOptions() {
@@ -131,6 +137,7 @@ public class HomePage extends Activity {
                 }
                 nextLangToLearn = languages.get(position);
                 MyQuickToast.showShort(HomePage.this, "got " + nextLangToLearn.name + " " + nextLangToLearn.langId);
+                fillLearningOptionUI();
             }
 
             @Override
@@ -156,7 +163,6 @@ public class HomePage extends Activity {
         LogUtil.logDeubg(this, "onResume");
         actionBar.checkSetting();
         refreshLanguageOptions();
-        fillUI();
     }
 
     @Override
