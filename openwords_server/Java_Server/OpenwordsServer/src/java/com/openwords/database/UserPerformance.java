@@ -19,6 +19,48 @@ public class UserPerformance implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    public static int[] getPerformanceSummary(Session s, int userId, int baseLang, int learningLang) {
+        String sql = "SELECT count(user_performances.word_connection_id) "
+                + "FROM user_performances, word_connections "
+                + "WHERE user_performances.word_connection_id=word_connections.connection_id "
+                + "and word_connections.word1_language=@baseLang@ "
+                + "and word_connections.word2_language=@learningLang@ "
+                + "and user_performances.user_id=@userId@ "
+                + "and user_performances.performance='good'";
+        sql = sql.replace("@baseLang@", String.valueOf(baseLang))
+                .replace("@learningLang@", String.valueOf(learningLang))
+                .replace("@userId@", String.valueOf(userId));
+
+        Number totalGood = (Number) s.createSQLQuery(sql).uniqueResult();
+
+        String sql2 = "SELECT count(user_performances.word_connection_id) "
+                + "FROM user_performances, word_connections "
+                + "WHERE user_performances.word_connection_id=word_connections.connection_id "
+                + "and word_connections.word1_language=@baseLang@ "
+                + "and word_connections.word2_language=@learningLang@ "
+                + "and user_performances.user_id=@userId@";
+        sql2 = sql2.replace("@baseLang@", String.valueOf(baseLang))
+                .replace("@learningLang@", String.valueOf(learningLang))
+                .replace("@userId@", String.valueOf(userId));
+
+        Number total = (Number) s.createSQLQuery(sql2).uniqueResult();
+
+        String sql3 = "SELECT sum(user_performances.version) "
+                + "FROM user_performances, word_connections "
+                + "WHERE user_performances.word_connection_id=word_connections.connection_id "
+                + "and word_connections.word1_language=@baseLang@ "
+                + "and word_connections.word2_language=@learningLang@ "
+                + "and user_performances.user_id=@userId@ "
+                + "and user_performances.performance='good'";
+        sql3 = sql3.replace("@baseLang@", String.valueOf(baseLang))
+                .replace("@learningLang@", String.valueOf(learningLang))
+                .replace("@userId@", String.valueOf(userId));
+
+        Number totalVersion = (Number) s.createSQLQuery(sql3).uniqueResult();
+
+        return new int[]{totalGood.intValue(), total.intValue(), totalVersion.intValue() - totalGood.intValue()};
+    }
+
     @SuppressWarnings("unchecked")
     public static List<UserPerformance> getPerformances(Session s, int userId, Integer[] connectionIds) {
         return s.createCriteria(UserPerformance.class)
