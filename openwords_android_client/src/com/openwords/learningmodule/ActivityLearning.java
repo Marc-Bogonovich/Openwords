@@ -47,7 +47,7 @@ public class ActivityLearning extends FragmentActivity implements InterfaceLearn
         }
 
         WordConnection.loadWordConnectionsFullPack(true,
-                LocalSettings.getUserId(), userLanguageInfo.baseLang, userLanguageInfo.learningLang, userLanguageInfo.page, 20, false, null,
+                LocalSettings.getUserId(), userLanguageInfo.baseLang, userLanguageInfo.learningLang, userLanguageInfo.page, DataPool.PageSize, false, null,
                 new ResultWordConnections() {
 
                     public void result(List<WordConnection> connections, List<Word> words, List<Performance> performance) {

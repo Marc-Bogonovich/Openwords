@@ -17,6 +17,7 @@ public class DataPool {
     public static int LmCurrentCard = -1;
     public static boolean LmReverseNav;
     public static int LmLearningLang = -1;
+    public final static int PageSize = 10;
 
     public static int getPoolSize() {
         return LmPool.size();
