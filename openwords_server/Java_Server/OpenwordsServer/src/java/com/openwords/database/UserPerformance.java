@@ -58,6 +58,15 @@ public class UserPerformance implements Serializable {
 
         Number totalVersion = (Number) s.createSQLQuery(sql3).uniqueResult();
 
+        if (total == null) {
+            return new int[3];
+        }
+        if (totalGood == null) {
+            totalGood = 0;
+        }
+        if (totalVersion == null) {
+            totalVersion = 0;
+        }
         return new int[]{totalGood.intValue(), total.intValue(), totalVersion.intValue() - totalGood.intValue()};
     }
 
