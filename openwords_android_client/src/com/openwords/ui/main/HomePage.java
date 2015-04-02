@@ -88,6 +88,7 @@ public class HomePage extends Activity {
             return;
         }
         UserLanguage ul = UserLanguage.getUserLanguageInfo(LocalSettings.getBaseLanguageId(), nextLangToLearn.langId);
+        DataPool.LmLearningLang = nextLangToLearn.langId;
         String stepInfo = " " + nextLangToLearn.displayName + " set " + ul.page;
         String[] options = new String[]{
             LocalizationManager.getTextOptionReview() + stepInfo,
