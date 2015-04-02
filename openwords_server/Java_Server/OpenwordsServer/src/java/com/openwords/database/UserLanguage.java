@@ -17,15 +17,18 @@ public class UserLanguage implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public static void advanceLanguagePage(Session s, UserLanguageId id, int nextPage) throws Exception {
+    public static void changeLanguagePage(Session s, UserLanguageId id, int nextPage) throws Exception {
         UserLanguage ul = (UserLanguage) s.get(UserLanguage.class, id);
 
         if (ul == null) {
             throw new Exception("no such user language");
         } else {
-            if (ul.getPage() >= nextPage) {
-                throw new Exception("next page is not larger than current page");
+            if (nextPage < 1) {
+                throw new Exception("next page is too small");
             }
+//            if (ul.getPage() >= nextPage) {
+//                throw new Exception("next page is not larger than current page");
+//            }
             if (!ul.isUse()) {
                 throw new Exception("cannot advance user language that is not in use");
             }
