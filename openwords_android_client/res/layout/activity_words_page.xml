@@ -32,8 +32,7 @@
             <Button android:id="@+id/wordsPage_Button_searchWordSets"
                     android:layout_marginTop="10dp"
                     android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:background="@drawable/button_custom"
-                    android:clickable="false"/>
+                    android:background="@drawable/button_custom"/>
                         
             <Button android:id="@+id/wordsPage_Button_viewMyWords"
                     android:layout_marginTop="10dp"

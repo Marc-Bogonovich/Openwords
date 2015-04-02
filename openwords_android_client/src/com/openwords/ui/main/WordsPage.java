@@ -17,6 +17,7 @@ import com.openwords.ui.other.ActionBarBuilder;
 import com.openwords.ui.other.NextWords;
 import com.openwords.util.TimeConvertor;
 import com.openwords.util.localization.LocalizationManager;
+import com.openwords.util.ui.MyQuickToast;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.http.NameValuePair;
@@ -45,8 +46,8 @@ public class WordsPage extends Activity implements OnClickListener {
 
         searchWords = (Button) findViewById(R.id.wordsPage_Button_searchWords);
         searchWords.setOnClickListener(this);
-//        searchWordSets = (Button) findViewById(R.id.wordsPage_Button_searchWordSets);
-//        searchWordSets.setOnClickListener(this);
+        searchWordSets = (Button) findViewById(R.id.wordsPage_Button_searchWordSets);
+        searchWordSets.setOnClickListener(this);
         viewMyWords = (Button) findViewById(R.id.wordsPage_Button_viewMyWords);
         viewMyWords.setOnClickListener(this);
 
@@ -69,6 +70,7 @@ public class WordsPage extends Activity implements OnClickListener {
                 searchWordsButtonClick(1, null);
                 break;
             case R.id.wordsPage_Button_searchWordSets:
+                MyQuickToast.showShort(this, "Not supported yet");
                 break;
             case R.id.wordsPage_Button_viewMyWords:
                 viewWordsButtonClick();
