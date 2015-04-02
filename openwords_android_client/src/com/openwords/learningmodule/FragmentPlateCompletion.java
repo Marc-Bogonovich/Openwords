@@ -24,7 +24,7 @@ import com.openwords.util.localization.LocalizationManager;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.ui.MyQuickToast;
 
-public class FragmentPlateCompletion extends Fragment {
+public class FragmentPlateCompletion extends Fragment implements InterfaceLearningModule {
 
     private static Handler RefreshHandler;
 
@@ -113,7 +113,9 @@ public class FragmentPlateCompletion extends Fragment {
             }
         }
         performance.setText(currentGood + "/" + DataPool.getAllPerformance(false).size());
-        skip.setText("skipped: " + currentNew);
+        if (DataPool.LmType != Learning_Type_Review) {
+            skip.setText("skipped: " + currentNew);
+        }
         birthday.setText("");
         birthdayDetail.setText("");
 

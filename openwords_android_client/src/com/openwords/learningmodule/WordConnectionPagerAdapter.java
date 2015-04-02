@@ -3,14 +3,10 @@ package com.openwords.learningmodule;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import static com.openwords.learningmodule.InterfaceLearningModule.Learning_Type_Hearing;
-import static com.openwords.learningmodule.InterfaceLearningModule.Learning_Type_Review;
-import static com.openwords.learningmodule.InterfaceLearningModule.Learning_Type_Self;
-import static com.openwords.learningmodule.InterfaceLearningModule.Learning_Type_Type;
 import com.openwords.model.DataPool;
 import com.openwords.util.log.LogUtil;
 
-public class WordConnectionPagerAdapter extends FragmentPagerAdapter {
+public class WordConnectionPagerAdapter extends FragmentPagerAdapter implements InterfaceLearningModule {
 
     private ActivityLearning activityInstance;
     private Fragment[] allFragments;
