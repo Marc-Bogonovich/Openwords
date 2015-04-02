@@ -1,4 +1,4 @@
-package com.openwords.services;
+package com.openwords.services.implementations;
 
 import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpClient;

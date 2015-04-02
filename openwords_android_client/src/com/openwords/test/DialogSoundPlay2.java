@@ -9,7 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 import com.openwords.R;
-import com.openwords.services.GetWordAudio;
+import com.openwords.services.implementations.GetWordAudio;
 import com.openwords.sound.SoundPlayer;
 import com.openwords.util.file.LocalFileSystem;
 import com.openwords.util.log.LogUtil;
