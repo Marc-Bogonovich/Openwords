@@ -19,12 +19,12 @@ public class SetLanguagePage extends MyAction {
     private boolean result;
     private int userId, langOneId, langTwoId, nextPage;
 
-    @Action(value = "/setLanguagesPage", results = {
+    @Action(value = "/setLanguagePage", results = {
         @Result(name = SUCCESS, type = "json")
     })
     @Override
     public String execute() throws Exception {
-        UtilLog.logInfo(this, "/setLanguagesPage: " + userId + " " + langOneId + " " + langTwoId + " " + nextPage);
+        UtilLog.logInfo(this, "/setLanguagePage: " + userId + " " + langOneId + " " + langTwoId + " " + nextPage);
         Session s = DatabaseHandler.getSession();
         try {
             UserLanguage.advanceLanguagePage(s, new UserLanguageId(userId, langOneId, langTwoId), nextPage);
