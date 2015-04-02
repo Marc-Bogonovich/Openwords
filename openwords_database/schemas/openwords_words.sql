@@ -565,6 +565,36 @@ CREATE TABLE `user_info` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `user_performances`
+--
+
+CREATE TABLE `user_performances` (
+  `user_id` bigint(20) NOT NULL,
+  `word_connection_id` bigint(20) NOT NULL,
+  `learning_type` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `performance` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `version` int(11) NOT NULL,
+  `updated_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_languages`
+--
+
+CREATE TABLE `user_languages` (
+  `user_id` bigint(20) NOT NULL,
+  `base_language` int(11) NOT NULL,
+  `learning_language` int(11) NOT NULL,
+  `page` int(11) NOT NULL,
+  `meta_info` mediumtext COLLATE utf8_unicode_ci NOT NULL,
+  `under_use` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `words`
 --
 
@@ -610,6 +640,18 @@ ALTER TABLE `languages`
 --
 ALTER TABLE `user_info`
 ADD PRIMARY KEY (`user_id`);
+
+--
+-- Indexes for table `user_languages`
+--
+ALTER TABLE `user_languages`
+ADD PRIMARY KEY (`user_id`,`base_language`,`learning_language`);
+
+--
+-- Indexes for table `user_performances`
+--
+ALTER TABLE `user_performances`
+ADD PRIMARY KEY (`user_id`,`word_connection_id`,`learning_type`);
 
 --
 -- Indexes for table `words`
