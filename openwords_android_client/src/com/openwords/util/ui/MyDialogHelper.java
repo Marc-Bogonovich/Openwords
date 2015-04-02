@@ -9,7 +9,7 @@ import android.content.DialogInterface;
 public class MyDialogHelper {
 
     private static ProgressDialog progressDialog;
-    private static Dialog messageDialog;
+    private static Dialog messageDialog, confirmDialog;
 
     public static void tryShowQuickProgressDialog(Context context, String message) {
         if (progressDialog == null) {
@@ -53,6 +53,46 @@ public class MyDialogHelper {
                 })
                 .create();
         messageDialog.show();
+    }
+
+    public static void showConfirmDialog(Context context, String title, String message, final CallbackOkButton callback, final CallbackCancelButton callback2) {
+        if (confirmDialog != null) {
+            confirmDialog.cancel();
+            confirmDialog = null;
+        }
+        confirmDialog = new AlertDialog.Builder(context)
+                .setTitle(title)
+                .setMessage(message)
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        confirmDialog.dismiss();
+                        confirmDialog = null;
+                        if (callback != null) {
+                            callback.okPressed();
+                        }
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        confirmDialog.dismiss();
+                        confirmDialog = null;
+                        if (callback2 != null) {
+                            callback2.cancelPressed();
+                        }
+                    }
+                })
+                .setOnCancelListener(new DialogInterface.OnCancelListener() {
+
+                    public void onCancel(DialogInterface di) {
+                        confirmDialog.dismiss();
+                        confirmDialog = null;
+                        if (callback2 != null) {
+                            callback2.cancelPressed();
+                        }
+                    }
+                })
+                .create();
+        confirmDialog.show();
     }
 
     private MyDialogHelper() {
