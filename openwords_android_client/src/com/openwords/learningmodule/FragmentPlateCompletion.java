@@ -14,7 +14,10 @@ import android.widget.TextView;
 import com.openwords.R;
 import com.openwords.model.DataPool;
 import com.openwords.model.LocalSettings;
+import com.openwords.model.Performance;
 import com.openwords.model.UserLanguage;
+import com.openwords.services.implementations.GetUserPerformanceSum;
+import com.openwords.services.implementations.GetUserPerformanceSum.Result;
 import com.openwords.services.implementations.SetUserPerformance;
 import com.openwords.services.interfaces.HttpResultHandler;
 import com.openwords.util.localization.LocalizationManager;
@@ -80,7 +83,6 @@ public class FragmentPlateCompletion extends Fragment {
             }
         });
 
-        refresh();
         return myFragmentView;
     }
 
@@ -93,34 +95,54 @@ public class FragmentPlateCompletion extends Fragment {
         }
         languageInfo.page += 1;
         languageInfo.save();
-
-        recordPerformance();
-    }
-
-    private void recordPerformance() {
-        new SetUserPerformance().doRequest(LocalSettings.getUserId(), DataPool.getAllPerformance(true), "all",
-                new HttpResultHandler() {
-
-                    public void hasResult(Object resultObject) {
-                        LogUtil.logDeubg(this, "Your performance is recorded.");
-                    }
-
-                    public void noResult(String errorMessage) {
-                        LogUtil.logDeubg(this, "Cannot record your performance.");
-                    }
-                });
     }
 
     private void refresh() {
         LogUtil.logDeubg(this, "refresh");
-        int totalCards = 0;
-        totalCards = 10;
 
-        vocabSize.setText("329");
-        performance.setText(totalCards + "/" + totalCards);
-        skip.setText("");
+        int currentGood = 0;
+        int currentBad = 0;
+        int currentNew = 0;
+        for (Performance perf : DataPool.getAllPerformance(true)) {
+            if (perf.performance.contains("good")) {
+                currentGood += 1;
+            } else if (perf.performance.contains("bad")) {
+                currentBad += 1;
+            } else if (perf.performance.contains("new")) {
+                currentNew += 1;
+            }
+        }
+        performance.setText(currentGood + "/" + DataPool.getAllPerformance(false).size());
+        skip.setText("skipped: " + currentNew);
         birthday.setText("");
         birthdayDetail.setText("");
-        evaluation.setText("");
+
+        new SetUserPerformance().doRequest(LocalSettings.getUserId(), DataPool.getAllPerformance(true), "all",
+                new HttpResultHandler() {
+
+                    public void hasResult(Object resultObject) {
+                        MyQuickToast.showShort(getActivity(), "Your performance is recorded.");
+
+                        new GetUserPerformanceSum().doRequest(LocalSettings.getUserId(), LocalSettings.getBaseLanguageId(), DataPool.LmLearningLang,
+                                new HttpResultHandler() {
+
+                                    public void hasResult(Object resultObject) {
+                                        Result r = (Result) resultObject;
+                                        vocabSize.setText("Total Vocab: " + r.totalGood + "/" + r.total);
+                                        double effort = (double) r.totalVersion / r.total;
+                                        evaluation.setText("Learning Effort: " + effort + " revisions per word");
+                                    }
+
+                                    public void noResult(String errorMessage) {
+                                        MyQuickToast.showShort(getActivity(), "Cannot get your performance summary");
+                                    }
+                                });
+                    }
+
+                    public void noResult(String errorMessage) {
+                        MyQuickToast.showShort(getActivity(), "Cannot record your performance.");
+                    }
+                });
+
     }
 }
