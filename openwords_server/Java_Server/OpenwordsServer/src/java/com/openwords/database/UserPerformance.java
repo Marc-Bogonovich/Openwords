@@ -19,6 +19,10 @@ public class UserPerformance implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    public static void scanUserMissedConnections() {
+
+    }
+
     public static int[] getPerformanceSummary(Session s, int userId, int baseLang, int learningLang) {
         String sql = "SELECT count(user_performances.word_connection_id) "
                 + "FROM user_performances, word_connections "
@@ -67,6 +71,44 @@ public class UserPerformance implements Serializable {
             totalVersion = 0;
         }
         return new int[]{totalGood.intValue(), total.intValue(), totalVersion.intValue() - total.intValue()};
+    }
+
+    public static int countPerformance(Session s, int userId, int langOneId, int langTwoId, String learningType) {
+        String sql = "select count(perf.word_connection_id) from user_performances perf,word_connections c "
+                + "where perf.word_connection_id=c.connection_id "
+                + "and c.word1_language=@langOneId@ "
+                + "and c.word2_language=@langTwoId@ "
+                + "and perf.user_id=@userId@ "
+                + "and perf.learning_type='@learningType@'";
+
+        sql = sql.replace("@langOneId@", String.valueOf(langOneId))
+                .replace("@langTwoId@", String.valueOf(langTwoId))
+                .replace("@userId@", String.valueOf(userId))
+                .replace("@learningType@", String.valueOf(learningType));
+
+        return ((Number) s.createSQLQuery(sql).uniqueResult()).intValue();
+    }
+
+    @SuppressWarnings("unchecked")
+    public static List<UserPerformance> getPerformancePage(Session s, int userId, int langOneId, int langTwoId, String learningType, int pageNumber, int pageSize) {
+        int firstRecord = (pageNumber - 1) * pageSize;
+        String sql = "select perf.* from user_performances perf,word_connections c "
+                + "where perf.word_connection_id=c.connection_id "
+                + "and c.word1_language=@langOneId@ "
+                + "and c.word2_language=@langTwoId@ "
+                + "and perf.user_id=@userId@ "
+                + "and perf.learning_type='@learningType@' "
+                + "order by perf.version desc, perf.word_connection_id asc "
+                + "limit @firstRecord@,@pageSize@";
+
+        sql = sql.replace("@langOneId@", String.valueOf(langOneId))
+                .replace("@langTwoId@", String.valueOf(langTwoId))
+                .replace("@userId@", String.valueOf(userId))
+                .replace("@learningType@", String.valueOf(learningType))
+                .replace("@firstRecord@", String.valueOf(firstRecord))
+                .replace("@pageSize@", String.valueOf(pageSize));
+
+        return s.createSQLQuery(sql).addEntity(UserPerformance.class).list();
     }
 
     @SuppressWarnings("unchecked")

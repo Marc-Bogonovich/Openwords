@@ -2,6 +2,7 @@ package com.openwords.actions.connections;
 
 import static com.opensymphony.xwork2.Action.SUCCESS;
 import com.openwords.database.DatabaseHandler;
+import com.openwords.database.UserInfo;
 import com.openwords.database.UserPerformance;
 import com.openwords.database.UserPerformanceId;
 import com.openwords.database.Word;
@@ -39,43 +40,32 @@ public class GetWordConnectionsPack extends MyAction {
         UtilLog.logInfo(this, "/getWordConnectionsPack: " + langOneId + " " + langTwoId + " " + pageNumber + " " + pageSize + ", user " + userId);
         Session s = DatabaseHandler.getSession();
         try {
-            if (doOrder) {
-                connections = WordConnection.getConnectionsPageWithOrder(s, langOneId, langTwoId, pageNumber, pageSize, orderBy.trim(), false);
+            if (UserInfo.checkUserId(s, userId)) {
+                throw new Exception("no user");
+            }
+
+            int totalPerformance = UserPerformance.countPerformance(s, userId, langOneId, langTwoId, "all");
+            int targetTotal = pageNumber * pageSize;
+
+            if (targetTotal > totalPerformance) {
+                //if user does not have enough words, just use/re-use the requested page
+                UtilLog.logInfo(this, "Use next page connections for user:" + userId);
+                if (doOrder) {
+                    connections = WordConnection.getConnectionsPageWithOrder(s, langOneId, langTwoId, pageNumber, pageSize, orderBy.trim(), false);
+                } else {
+                    connections = WordConnection.getConnectionsPage(s, langOneId, langTwoId, pageNumber, pageSize, false);
+                }
+
+                performance = getPerformances(s, connections);
+                loadPerformance(s, connections, performance);
             } else {
-                connections = WordConnection.getConnectionsPage(s, langOneId, langTwoId, pageNumber, pageSize, false);
+                //else just chose connections from user current performance
+                UtilLog.logInfo(this, "Pick current performance connections for user:" + userId);
+                performance = UserPerformance.getPerformancePage(s, userId, langOneId, langTwoId, "all", pageNumber, pageSize);
+                connections = getWordConnections(s, performance);
             }
-            if (connections.isEmpty()) {
-                return SUCCESS;
-            }
-            Set<Integer> wordIds = new HashSet<>(connections.size());
-            for (WordConnection connection : connections) {
-                wordIds.add(connection.getWordOneId());
-                wordIds.add(connection.getWordTwoId());
-            }
-            words = Word.getWords(s, wordIds);
 
-            Integer[] connectionIds = new Integer[connections.size()];
-            for (int i = 0; i < connections.size(); i++) {
-                connectionIds[i] = connections.get(i).getConnectionId();
-            }
-            performance = UserPerformance.getPerformances(s, userId, connectionIds);
-
-            //create new performance records
-            if (connections.size() != performance.size()) {
-                UtilLog.logInfo(this, "Create new UserPerformance records: " + (connections.size() - performance.size()));
-                Set<Integer> newIds = new HashSet<>(connections.size());
-                for (WordConnection conn : connections) {
-                    newIds.add(conn.getConnectionId());
-                }
-                for (UserPerformance perf : performance) {
-                    newIds.remove(perf.getWordConnectionId());
-                }
-                for (Integer newId : newIds) {
-                    s.save(new UserPerformance(new UserPerformanceId(userId, newId, "all"), "new", 1));
-                }
-                s.beginTransaction().commit();
-                performance = UserPerformance.getPerformances(s, userId, connectionIds);
-            }
+            words = fillWords(s, connections);
 
         } catch (Exception e) {
             errorMessage = e.toString();
@@ -84,6 +74,50 @@ public class GetWordConnectionsPack extends MyAction {
             DatabaseHandler.closeSession(s);
         }
         return SUCCESS;
+    }
+
+    private List<Word> fillWords(Session s, List<WordConnection> connections) {
+        Set<Integer> wordIds = new HashSet<>(connections.size());
+        for (WordConnection connection : connections) {
+            wordIds.add(connection.getWordOneId());
+            wordIds.add(connection.getWordTwoId());
+        }
+        return Word.getWords(s, wordIds);
+    }
+
+    private List<UserPerformance> getPerformances(Session s, List<WordConnection> connections) {
+        Integer[] connectionIds = new Integer[connections.size()];
+        for (int i = 0; i < connections.size(); i++) {
+            connectionIds[i] = connections.get(i).getConnectionId();
+        }
+        return UserPerformance.getPerformances(s, userId, connectionIds);
+    }
+
+    private List<WordConnection> getWordConnections(Session s, List<UserPerformance> perf) {
+        Integer[] connectionIds = new Integer[perf.size()];
+        for (int i = 0; i < perf.size(); i++) {
+            connectionIds[i] = perf.get(i).getWordConnectionId();
+        }
+        return WordConnection.getConnections(s, connectionIds);
+    }
+
+    private void loadPerformance(Session s, List<WordConnection> target, List<UserPerformance> existed) {
+        if (target.size() != existed.size()) {
+            UtilLog.logInfo(this, "Create new UserPerformance records: " + (target.size() - existed.size()));
+            Set<Integer> newIds = new HashSet<>(target.size());
+            for (WordConnection conn : target) {
+                newIds.add(conn.getConnectionId());
+            }
+            for (UserPerformance perf : existed) {
+                newIds.remove(perf.getWordConnectionId());
+            }
+            for (Integer newId : newIds) {
+                UserPerformance newPerf = new UserPerformance(new UserPerformanceId(userId, newId, "all"), "new", 1);
+                s.save(newPerf);
+                existed.add(newPerf);
+            }
+            s.beginTransaction().commit();
+        }
     }
 
     public void setLangOneId(int langOneId) {
