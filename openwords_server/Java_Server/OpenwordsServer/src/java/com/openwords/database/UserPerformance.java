@@ -50,8 +50,7 @@ public class UserPerformance implements Serializable {
                 + "WHERE user_performances.word_connection_id=word_connections.connection_id "
                 + "and word_connections.word1_language=@baseLang@ "
                 + "and word_connections.word2_language=@learningLang@ "
-                + "and user_performances.user_id=@userId@ "
-                + "and user_performances.performance='good'";
+                + "and user_performances.user_id=@userId@";
         sql3 = sql3.replace("@baseLang@", String.valueOf(baseLang))
                 .replace("@learningLang@", String.valueOf(learningLang))
                 .replace("@userId@", String.valueOf(userId));
@@ -67,7 +66,7 @@ public class UserPerformance implements Serializable {
         if (totalVersion == null) {
             totalVersion = 0;
         }
-        return new int[]{totalGood.intValue(), total.intValue(), totalVersion.intValue() - totalGood.intValue()};
+        return new int[]{totalGood.intValue(), total.intValue(), totalVersion.intValue() - total.intValue()};
     }
 
     @SuppressWarnings("unchecked")
