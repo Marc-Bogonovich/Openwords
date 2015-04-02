@@ -19,6 +19,15 @@ public class UserInfo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    public static boolean checkUserId(Session s, int id) {
+        int exist = ((Number) s.createCriteria(UserInfo.class)
+                .add(Restrictions.eq("userId", id))
+                .setProjection(Projections.rowCount()
+                ).uniqueResult()).intValue();
+
+        return exist <= 0;
+    }
+
     public static boolean checkUserName(Session s, String username) {
         int exist = ((Number) s.createCriteria(UserInfo.class)
                 .add(Restrictions.eq("username", username))
