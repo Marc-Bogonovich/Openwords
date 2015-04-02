@@ -23,6 +23,12 @@ public class WordConnection implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @SuppressWarnings("unchecked")
+    public static List<WordConnection> getConnections(Session s, Integer[] connectionIds) {
+        return s.createCriteria(WordConnection.class)
+                .add(Restrictions.in("connectionId", connectionIds)).list();
+    }
+
     public static List<Map<String, Object>> getWordConnectionPack(Session s, int langTwo) {
         String sql = "SELECT l2_info.connection_id, l2_info.word1_language, w.word_id as word1_id, w.word, ExtractValue(w.meta_info,\"/word/commonTranslation\") as common_translation,\n"
                 + "l2_info.word2_language, l2_info.word2_id, l2_info.word as word2, ExtractValue(l2_info.meta_info,\"/word/commonTranslation\") as common_translation2,\n"
@@ -126,7 +132,7 @@ public class WordConnection implements Serializable {
     }
 
     @SuppressWarnings("unchecked")
-    public static List<WordConnection> getConnectionByIds(Session s, int wordOneId, int wordTwoId) {
+    public static List<WordConnection> getConnectionsByLanguage(Session s, int wordOneId, int wordTwoId) {
         return s.createCriteria(WordConnection.class)
                 .add(Restrictions.eq("wordOneId", wordOneId))
                 .add(Restrictions.eq("wordTwoId", wordTwoId))

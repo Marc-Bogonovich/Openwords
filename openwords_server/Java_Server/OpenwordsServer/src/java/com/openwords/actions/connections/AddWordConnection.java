@@ -58,7 +58,7 @@ public class AddWordConnection extends MyAction {
                 wordTwoId = w.getWordId();
             }
 
-            List<WordConnection> checkConnection = WordConnection.getConnectionByIds(s, wordOneId, wordTwoId);
+            List<WordConnection> checkConnection = WordConnection.getConnectionsByLanguage(s, wordOneId, wordTwoId);
             if (checkConnection.isEmpty()) {
                 WordConnection connnection = new WordConnection(wordOneId, wordOneLang, wordTwoId, wordTwoLang, 1, contributor);
                 WordConnection.addConnection(s, connnection);
