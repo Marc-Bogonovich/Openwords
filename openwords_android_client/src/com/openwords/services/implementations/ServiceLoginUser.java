@@ -6,17 +6,18 @@ import com.openwords.services.interfaces.HttpResultHandler;
 import com.openwords.services.interfaces.HttpServiceRequester;
 import com.openwords.services.interfaces.RequestParamsBuilder;
 
-public class CheckUsername extends HttpServiceRequester implements HttpResultHandler {
+public class ServiceLoginUser extends HttpServiceRequester implements HttpResultHandler {
 
-    public final String ServiceURL = "http://" + ServerAddress + "/checkUsername";
+    public final String ServiceURL = "http://" + ServerAddress + "/loginUser";
 
     private HttpResultHandler resultHandler;
 
-    public void doRequest(String username, HttpResultHandler resultHandler) {
+    public void doRequest(String username, String password, HttpResultHandler resultHandler) {
         this.resultHandler = resultHandler;
         request(ServiceURL,
                 new RequestParamsBuilder()
                 .addParam("username", username)
+                .addParam("password", password)
                 .getParams(), 0, this);
     }
 
@@ -24,11 +25,8 @@ public class CheckUsername extends HttpServiceRequester implements HttpResultHan
         String jsonReply = (String) resultObject;
         Result r = new Gson().fromJson(jsonReply, Result.class);
         if (r.result) {
-            resultHandler.hasResult(r);
+            resultHandler.hasResult(r.userId);
         } else {
-            if (r.errorMessage == null) {
-                r.errorMessage = "username exists";
-            }
             resultHandler.noResult(r.errorMessage);
         }
     }
@@ -40,6 +38,7 @@ public class CheckUsername extends HttpServiceRequester implements HttpResultHan
     public class Result {
 
         public boolean result;
+        public int userId;
         public String errorMessage;
     }
 }

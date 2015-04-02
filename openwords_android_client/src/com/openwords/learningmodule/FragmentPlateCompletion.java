@@ -16,10 +16,10 @@ import com.openwords.model.DataPool;
 import com.openwords.model.LocalSettings;
 import com.openwords.model.Performance;
 import com.openwords.model.UserLanguage;
-import com.openwords.services.implementations.GetUserPerformanceSum;
-import com.openwords.services.implementations.GetUserPerformanceSum.Result;
-import com.openwords.services.implementations.SetLanguagePage;
-import com.openwords.services.implementations.SetUserPerformance;
+import com.openwords.services.implementations.ServiceGetUserPerformanceSum;
+import com.openwords.services.implementations.ServiceGetUserPerformanceSum.Result;
+import com.openwords.services.implementations.ServiceSetLanguagePage;
+import com.openwords.services.implementations.ServiceSetUserPerformance;
 import com.openwords.services.interfaces.HttpResultHandler;
 import com.openwords.util.localization.LocalizationManager;
 import com.openwords.util.log.LogUtil;
@@ -95,7 +95,7 @@ public class FragmentPlateCompletion extends Fragment implements InterfaceLearni
         }
         languageInfo.page += 1;
         
-        new SetLanguagePage().doRequest(LocalSettings.getUserId(), languageInfo.baseLang, languageInfo.learningLang, languageInfo.page,
+        new ServiceSetLanguagePage().doRequest(LocalSettings.getUserId(), languageInfo.baseLang, languageInfo.learningLang, languageInfo.page,
                 new HttpResultHandler() {
                     
                     public void hasResult(Object resultObject) {
@@ -133,13 +133,13 @@ public class FragmentPlateCompletion extends Fragment implements InterfaceLearni
         birthday.setText("");
         birthdayDetail.setText("");
         
-        new SetUserPerformance().doRequest(LocalSettings.getUserId(), DataPool.getAllPerformance(true), "all",
+        new ServiceSetUserPerformance().doRequest(LocalSettings.getUserId(), DataPool.getAllPerformance(true), "all",
                 new HttpResultHandler() {
                     
                     public void hasResult(Object resultObject) {
                         MyQuickToast.showShort(getActivity(), "Your performance is recorded.");
                         
-                        new GetUserPerformanceSum().doRequest(LocalSettings.getUserId(), LocalSettings.getBaseLanguageId(), DataPool.LmLearningLang,
+                        new ServiceGetUserPerformanceSum().doRequest(LocalSettings.getUserId(), LocalSettings.getBaseLanguageId(), DataPool.LmLearningLang,
                                 new HttpResultHandler() {
                                     
                                     public void hasResult(Object resultObject) {

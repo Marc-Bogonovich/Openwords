@@ -6,20 +6,17 @@ import com.openwords.services.interfaces.HttpResultHandler;
 import com.openwords.services.interfaces.HttpServiceRequester;
 import com.openwords.services.interfaces.RequestParamsBuilder;
 
-public class SetLanguagePage extends HttpServiceRequester implements HttpResultHandler {
+public class ServiceCheckUsername extends HttpServiceRequester implements HttpResultHandler {
 
-    public final String ServiceURL = "http://" + ServerAddress + "/setLanguagePage";
+    public final String ServiceURL = "http://" + ServerAddress + "/checkUsername";
 
     private HttpResultHandler resultHandler;
 
-    public void doRequest(int userId, int baseLang, int learningLang, int nextPage, HttpResultHandler resultHandler) {
+    public void doRequest(String username, HttpResultHandler resultHandler) {
         this.resultHandler = resultHandler;
         request(ServiceURL,
                 new RequestParamsBuilder()
-                .addParam("userId", String.valueOf(userId))
-                .addParam("langOneId", String.valueOf(baseLang))
-                .addParam("langTwoId", String.valueOf(learningLang))
-                .addParam("nextPage", String.valueOf(nextPage))
+                .addParam("username", username)
                 .getParams(), 0, this);
     }
 
@@ -27,9 +24,12 @@ public class SetLanguagePage extends HttpServiceRequester implements HttpResultH
         String jsonReply = (String) resultObject;
         Result r = new Gson().fromJson(jsonReply, Result.class);
         if (r.result) {
-            resultHandler.hasResult(null);
+            resultHandler.hasResult(r);
         } else {
-            resultHandler.noResult("setLanguagePage failed: " + r.errorMessage);
+            if (r.errorMessage == null) {
+                r.errorMessage = "username exists";
+            }
+            resultHandler.noResult(r.errorMessage);
         }
     }
 

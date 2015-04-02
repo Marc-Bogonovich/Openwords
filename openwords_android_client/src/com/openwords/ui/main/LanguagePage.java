@@ -13,7 +13,7 @@ import com.openwords.model.LocalSettings;
 import com.openwords.model.ResultLanguage;
 import com.openwords.model.ResultUserLanguage;
 import com.openwords.model.UserLanguage;
-import com.openwords.services.implementations.SetUserLanguages;
+import com.openwords.services.implementations.ServiceSetUserLanguages;
 import com.openwords.services.interfaces.HttpResultHandler;
 import com.openwords.util.ui.MyDialogHelper;
 import com.openwords.util.ui.MyQuickToast;
@@ -54,7 +54,7 @@ public class LanguagePage extends Activity {
 
                     MyDialogHelper.tryShowQuickProgressDialog(LanguagePage.this, "Saving your preference to server...");
 
-                    new SetUserLanguages().doRequest(LocalSettings.getUserId(), LocalSettings.getBaseLanguageId(), ChosenLangIds,
+                    new ServiceSetUserLanguages().doRequest(LocalSettings.getUserId(), LocalSettings.getBaseLanguageId(), ChosenLangIds,
                             new HttpResultHandler() {
 
                                 public void hasResult(Object resultObject) {

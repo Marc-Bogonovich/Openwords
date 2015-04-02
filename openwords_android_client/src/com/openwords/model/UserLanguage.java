@@ -1,6 +1,6 @@
 package com.openwords.model;
 
-import com.openwords.services.implementations.GetUserLanguages;
+import com.openwords.services.implementations.ServiceGetUserLanguages;
 import com.openwords.services.interfaces.HttpResultHandler;
 import com.openwords.util.gson.MyGson;
 import com.openwords.util.log.LogUtil;
@@ -35,7 +35,7 @@ public class UserLanguage extends SugarRecord<UserLanguage> {
             return loadUserLanguageLocally(baseLang);
         }
 
-        new GetUserLanguages().doRequest(
+        new ServiceGetUserLanguages().doRequest(
                 userId,
                 baseLang,
                 new HttpResultHandler() {

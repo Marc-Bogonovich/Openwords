@@ -5,31 +5,28 @@ import static com.openwords.model.DataPool.ServerAddress;
 import com.openwords.services.interfaces.HttpResultHandler;
 import com.openwords.services.interfaces.HttpServiceRequester;
 import com.openwords.services.interfaces.RequestParamsBuilder;
+import java.util.List;
 
-public class CheckEmail extends HttpServiceRequester implements HttpResultHandler {
+public class ServiceGetLearnableLanguages extends HttpServiceRequester implements HttpResultHandler {
 
-    public final String ServiceURL = "http://" + ServerAddress + "/checkEmail";
+    public final String ServiceURL = "http://" + ServerAddress + "/getLearnableLanguages";
 
     private HttpResultHandler resultHandler;
 
-    public void doRequest(String email, HttpResultHandler resultHandler) {
-        this.resultHandler = resultHandler;
-        request(ServiceURL,
-                new RequestParamsBuilder()
-                .addParam("email", email)
+    public void doRequest(int langOneId, HttpResultHandler hrh) {
+        resultHandler = hrh;
+        request(ServiceURL, new RequestParamsBuilder()
+                .addParam("langOneId", String.valueOf(langOneId))
                 .getParams(), 0, this);
     }
 
     public void hasResult(Object resultObject) {
         String jsonReply = (String) resultObject;
         Result r = new Gson().fromJson(jsonReply, Result.class);
-        if (r.result) {
-            resultHandler.hasResult(r);
+        if (r.result == null) {
+            resultHandler.noResult("no result");
         } else {
-            if (r.errorMessage == null) {
-                r.errorMessage = "this email is already registered";
-            }
-            resultHandler.noResult(r.errorMessage);
+            resultHandler.hasResult(r.result);
         }
     }
 
@@ -39,7 +36,7 @@ public class CheckEmail extends HttpServiceRequester implements HttpResultHandle
 
     public class Result {
 
-        public boolean result;
+        public List<Integer> result;
         public String errorMessage;
     }
 }

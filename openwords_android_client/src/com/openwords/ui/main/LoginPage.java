@@ -19,7 +19,7 @@ import com.openwords.model.LocalSettings;
 import com.openwords.model.ResultLanguage;
 import com.openwords.model.ResultUserLanguage;
 import com.openwords.model.UserLanguage;
-import com.openwords.services.implementations.LoginUser;
+import com.openwords.services.implementations.ServiceLoginUser;
 import com.openwords.services.interfaces.HttpResultHandler;
 import com.openwords.sound.SoundPlayer;
 import com.openwords.test.ActivityTest;
@@ -134,7 +134,7 @@ public class LoginPage extends Activity {
             }
         }
 
-        new LoginUser().doRequest(username, password,
+        new ServiceLoginUser().doRequest(username, password,
                 new HttpResultHandler() {
 
                     public void hasResult(Object resultObject) {

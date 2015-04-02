@@ -6,18 +6,20 @@ import com.openwords.services.interfaces.HttpResultHandler;
 import com.openwords.services.interfaces.HttpServiceRequester;
 import com.openwords.services.interfaces.RequestParamsBuilder;
 
-public class LoginUser extends HttpServiceRequester implements HttpResultHandler {
+public class ServiceSetLanguagePage extends HttpServiceRequester implements HttpResultHandler {
 
-    public final String ServiceURL = "http://" + ServerAddress + "/loginUser";
+    public final String ServiceURL = "http://" + ServerAddress + "/setLanguagePage";
 
     private HttpResultHandler resultHandler;
 
-    public void doRequest(String username, String password, HttpResultHandler resultHandler) {
+    public void doRequest(int userId, int baseLang, int learningLang, int nextPage, HttpResultHandler resultHandler) {
         this.resultHandler = resultHandler;
         request(ServiceURL,
                 new RequestParamsBuilder()
-                .addParam("username", username)
-                .addParam("password", password)
+                .addParam("userId", String.valueOf(userId))
+                .addParam("langOneId", String.valueOf(baseLang))
+                .addParam("langTwoId", String.valueOf(learningLang))
+                .addParam("nextPage", String.valueOf(nextPage))
                 .getParams(), 0, this);
     }
 
@@ -25,9 +27,9 @@ public class LoginUser extends HttpServiceRequester implements HttpResultHandler
         String jsonReply = (String) resultObject;
         Result r = new Gson().fromJson(jsonReply, Result.class);
         if (r.result) {
-            resultHandler.hasResult(r.userId);
+            resultHandler.hasResult(null);
         } else {
-            resultHandler.noResult(r.errorMessage);
+            resultHandler.noResult("setLanguagePage failed: " + r.errorMessage);
         }
     }
 
@@ -38,7 +40,6 @@ public class LoginUser extends HttpServiceRequester implements HttpResultHandler
     public class Result {
 
         public boolean result;
-        public int userId;
         public String errorMessage;
     }
 }

@@ -10,10 +10,10 @@ import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.TextHttpResponseHandler;
 import com.openwords.R;
 import com.openwords.model.Word;
-import com.openwords.services.implementations.AddUser;
-import com.openwords.services.implementations.CheckEmail;
-import com.openwords.services.implementations.CheckUsername;
-import com.openwords.services.implementations.LoginUser;
+import com.openwords.services.implementations.ServiceAddUser;
+import com.openwords.services.implementations.ServiceCheckEmail;
+import com.openwords.services.implementations.ServiceCheckUsername;
+import com.openwords.services.implementations.ServiceLoginUser;
 import com.openwords.services.interfaces.HttpResultHandler;
 import com.openwords.ui.common.DialogForHTTP;
 import com.openwords.util.log.LogUtil;
@@ -147,11 +147,11 @@ public class ActivityTest extends Activity {
         findViewById(R.id.act_test_test8).setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
-                new LoginUser().doRequest("han", "123456",
+                new ServiceLoginUser().doRequest("han", "123456",
                         new HttpResultHandler() {
 
                             public void hasResult(Object resultObject) {
-                                LoginUser.Result r = (LoginUser.Result) resultObject;
+                                ServiceLoginUser.Result r = (ServiceLoginUser.Result) resultObject;
                                 Toast.makeText(ActivityTest.this, "Login Success: " + r.userId, Toast.LENGTH_SHORT).show();
                             }
 
@@ -165,11 +165,11 @@ public class ActivityTest extends Activity {
         findViewById(R.id.act_test_test9).setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
-                new LoginUser().doRequest("han", "12345",
+                new ServiceLoginUser().doRequest("han", "12345",
                         new HttpResultHandler() {
 
                             public void hasResult(Object resultObject) {
-                                LoginUser.Result r = (LoginUser.Result) resultObject;
+                                ServiceLoginUser.Result r = (ServiceLoginUser.Result) resultObject;
                                 Toast.makeText(ActivityTest.this, "Login Success: " + r.userId, Toast.LENGTH_SHORT).show();
                             }
 
@@ -183,7 +183,7 @@ public class ActivityTest extends Activity {
         findViewById(R.id.act_test_test10).setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
-                new CheckUsername().doRequest("han",
+                new ServiceCheckUsername().doRequest("han",
                         new HttpResultHandler() {
 
                             public void hasResult(Object resultObject) {
@@ -200,7 +200,7 @@ public class ActivityTest extends Activity {
         findViewById(R.id.act_test_test11).setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
-                new CheckEmail().doRequest("han@han.com",
+                new ServiceCheckEmail().doRequest("han@han.com",
                         new HttpResultHandler() {
 
                             public void hasResult(Object resultObject) {
@@ -217,11 +217,11 @@ public class ActivityTest extends Activity {
         findViewById(R.id.act_test_test12).setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
-                new AddUser().doRequest("han@han.com", "han", "111111",
+                new ServiceAddUser().doRequest("han@han.com", "han", "111111",
                         new HttpResultHandler() {
 
                             public void hasResult(Object resultObject) {
-                                AddUser.Result r = (AddUser.Result) resultObject;
+                                ServiceAddUser.Result r = (ServiceAddUser.Result) resultObject;
                                 Toast.makeText(ActivityTest.this, "AddUser ok: " + r.userId, Toast.LENGTH_SHORT).show();
                             }
 

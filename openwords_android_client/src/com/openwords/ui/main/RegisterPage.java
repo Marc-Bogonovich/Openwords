@@ -15,9 +15,9 @@ import com.openwords.model.DataPool;
 import com.openwords.model.Language;
 import com.openwords.model.LocalSettings;
 import com.openwords.model.UserLanguage;
-import com.openwords.services.implementations.AddUser;
-import com.openwords.services.implementations.CheckEmail;
-import com.openwords.services.implementations.CheckUsername;
+import com.openwords.services.implementations.ServiceAddUser;
+import com.openwords.services.implementations.ServiceCheckEmail;
+import com.openwords.services.implementations.ServiceCheckUsername;
 import com.openwords.services.interfaces.HttpResultHandler;
 import com.openwords.util.localization.LocalizationManager;
 import com.openwords.util.ui.MyDialogHelper;
@@ -85,7 +85,7 @@ public class RegisterPage extends Activity {
     }
 
     private void validateEmail() {
-        new CheckEmail().doRequest(emailField.getText().toString(),
+        new ServiceCheckEmail().doRequest(emailField.getText().toString(),
                 new HttpResultHandler() {
 
                     public void hasResult(Object resultObject) {
@@ -100,7 +100,7 @@ public class RegisterPage extends Activity {
     }
 
     private void validateUsername() {
-        new CheckUsername().doRequest(usernameField.getText().toString(),
+        new ServiceCheckUsername().doRequest(usernameField.getText().toString(),
                 new HttpResultHandler() {
 
                     public void hasResult(Object resultObject) {
@@ -120,7 +120,7 @@ public class RegisterPage extends Activity {
             final String username = usernameField.getText().toString();
             final String password = passwdField.getText().toString();
 
-            new AddUser().doRequest(emailField.getText().toString(), username, password,
+            new ServiceAddUser().doRequest(emailField.getText().toString(), username, password,
                     new HttpResultHandler() {
 
                         public void hasResult(Object resultObject) {
@@ -128,7 +128,7 @@ public class RegisterPage extends Activity {
                             Language.deleteAll(Language.class);
                             UserLanguage.deleteAll(UserLanguage.class);
 
-                            AddUser.Result r = (AddUser.Result) resultObject;
+                            ServiceAddUser.Result r = (ServiceAddUser.Result) resultObject;
                             MyQuickToast.showShort(RegisterPage.this, "AddUser ok: " + r.userId);
                             finish();
                             LocalSettings.setUsername(username);

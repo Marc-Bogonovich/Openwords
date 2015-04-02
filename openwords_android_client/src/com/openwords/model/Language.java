@@ -1,8 +1,8 @@
 package com.openwords.model;
 
 import android.content.Context;
-import com.openwords.services.implementations.GetLanguages;
-import com.openwords.services.implementations.GetLearnableLanguages;
+import com.openwords.services.implementations.ServiceGetLanguages;
+import com.openwords.services.implementations.ServiceGetLearnableLanguages;
 import com.openwords.services.interfaces.HttpResultHandler;
 import com.openwords.util.ui.CallbackOkButton;
 import com.openwords.util.ui.MyDialogHelper;
@@ -29,7 +29,7 @@ public class Language extends SugarRecord<Language> {
     }
 
     public static void syncLanguagesData(final Context context, final int baseLang, final ResultLanguage resultHandler) {
-        new GetLearnableLanguages().doRequest(baseLang, new HttpResultHandler() {
+        new ServiceGetLearnableLanguages().doRequest(baseLang, new HttpResultHandler() {
 
             public void hasResult(Object resultObject) {
                 @SuppressWarnings("unchecked")
@@ -78,7 +78,7 @@ public class Language extends SugarRecord<Language> {
     }
 
     private static void loadLanguagesInfo(final Context context, Collection<Integer> langIds, final ResultLanguage resultHandler) {
-        new GetLanguages().doRequest(langIds,
+        new ServiceGetLanguages().doRequest(langIds,
                 new HttpResultHandler() {
 
                     public void hasResult(Object resultObject) {

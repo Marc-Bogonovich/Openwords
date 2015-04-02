@@ -5,28 +5,29 @@ import static com.openwords.model.DataPool.ServerAddress;
 import com.openwords.services.interfaces.HttpResultHandler;
 import com.openwords.services.interfaces.HttpServiceRequester;
 import com.openwords.services.interfaces.RequestParamsBuilder;
-import java.util.List;
 
-public class GetLearnableLanguages extends HttpServiceRequester implements HttpResultHandler {
+public class ServiceGetUserPerformanceSum extends HttpServiceRequester implements HttpResultHandler {
 
-    public final String ServiceURL = "http://" + ServerAddress + "/getLearnableLanguages";
+    public final String ServiceURL = "http://" + ServerAddress + "/getUserPerformanceSum";
 
     private HttpResultHandler resultHandler;
 
-    public void doRequest(int langOneId, HttpResultHandler hrh) {
+    public void doRequest(int userId, int baseLang, int learningLang, HttpResultHandler hrh) {
         resultHandler = hrh;
         request(ServiceURL, new RequestParamsBuilder()
-                .addParam("langOneId", String.valueOf(langOneId))
+                .addParam("userId", String.valueOf(userId))
+                .addParam("baseLang", String.valueOf(baseLang))
+                .addParam("learningLang", String.valueOf(learningLang))
                 .getParams(), 0, this);
     }
 
     public void hasResult(Object resultObject) {
         String jsonReply = (String) resultObject;
         Result r = new Gson().fromJson(jsonReply, Result.class);
-        if (r.result == null) {
-            resultHandler.noResult("no result");
+        if (r.errorMessage != null) {
+            resultHandler.noResult(r.errorMessage);
         } else {
-            resultHandler.hasResult(r.result);
+            resultHandler.hasResult(r);
         }
     }
 
@@ -36,7 +37,7 @@ public class GetLearnableLanguages extends HttpServiceRequester implements HttpR
 
     public class Result {
 
-        public List<Integer> result;
+        public int totalGood, total, totalVersion;
         public String errorMessage;
     }
 }

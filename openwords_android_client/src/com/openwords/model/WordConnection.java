@@ -1,6 +1,6 @@
 package com.openwords.model;
 
-import com.openwords.services.implementations.GetWordConnectionsPack;
+import com.openwords.services.implementations.ServiceGetWordConnectionsPack;
 import com.openwords.services.interfaces.HttpResultHandler;
 import com.orm.SugarRecord;
 import java.util.HashSet;
@@ -39,7 +39,7 @@ public class WordConnection extends SugarRecord<WordConnection> {
             return;
         }
 
-        new GetWordConnectionsPack().doRequest(
+        new ServiceGetWordConnectionsPack().doRequest(
                 userId, langOneId, langTwoId, pageNumber, pageSize, doOrder, orderBy,
                 new HttpResultHandler() {
 

@@ -8,7 +8,7 @@ import com.openwords.services.interfaces.RequestParamsBuilder;
 import com.openwords.util.gson.MyGson;
 import java.util.Collection;
 
-public class SetUserPerformance extends HttpServiceRequester implements HttpResultHandler {
+public class ServiceSetUserPerformance extends HttpServiceRequester implements HttpResultHandler {
 
     public final String ServiceURL = "http://" + ServerAddress + "/setUserPerformance";
 
