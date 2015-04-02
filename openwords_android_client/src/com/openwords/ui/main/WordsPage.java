@@ -2,28 +2,21 @@ package com.openwords.ui.main;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.Toast;
 import com.openwords.R;
 import com.openwords.ui.common.BackButtonBehavior;
 import com.openwords.ui.other.ActionBarBuilder;
 import com.openwords.ui.other.NextWords;
 import com.openwords.util.TimeConvertor;
 import com.openwords.util.localization.LocalizationManager;
-import com.openwords.util.preference.OpenwordsSharedPreferences;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.http.NameValuePair;
@@ -41,7 +34,7 @@ public class WordsPage extends Activity implements OnClickListener {
     public static ArrayList<Integer> mSelectedItems = new ArrayList<Integer>();
     private static JSONArray jArrMain;
     private ActionBarBuilder actionBar;
-    private Button getNextWords, searchWords, searchWordSets, viewMyWords;
+    private Button searchWords, searchWordSets, viewMyWords;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,66 +43,17 @@ public class WordsPage extends Activity implements OnClickListener {
 
         actionBar = new ActionBarBuilder(this, ActionBarBuilder.Words_Page);
 
-        getNextWords = (Button) findViewById(R.id.wordsPage_Button_getNextWords);
-        getNextWords.setOnClickListener(this);
         searchWords = (Button) findViewById(R.id.wordsPage_Button_searchWords);
         searchWords.setOnClickListener(this);
-        searchWordSets = (Button) findViewById(R.id.wordsPage_Button_searchWordSets);
-        searchWordSets.setOnClickListener(this);
+//        searchWordSets = (Button) findViewById(R.id.wordsPage_Button_searchWordSets);
+//        searchWordSets.setOnClickListener(this);
         viewMyWords = (Button) findViewById(R.id.wordsPage_Button_viewMyWords);
         viewMyWords.setOnClickListener(this);
-        final ImageView syncButton = (ImageView) findViewById(R.id.wordsPage_ImageView_syncButton);
-        syncButton.setOnTouchListener(new OnTouchListener() {
 
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                syncButton.setImageResource(R.drawable.icon_wordpage_syncbutton_pressed);
-                v.setEnabled(false);
-                AsyncTask<Void, Void, Boolean> task = new AsyncTask<Void, Void, Boolean>() {
-                    ProgressDialog progress;
-
-                    @Override
-                    protected void onPreExecute() {
-                        progress = new ProgressDialog(WordsPage.this);
-                        progress.setMessage("Synchronizing with server...");
-                        progress.setCancelable(false);
-                        progress.setIndeterminate(true);
-                        progress.show();
-                    }
-
-                    @Override
-                    protected Boolean doInBackground(Void... arg0) {
-                        //We could modify this function to return a boolean value
-                        //InitDatabase.checkAndRefreshPerf(WordsPage.this, 0, 1);
-                        return true;
-                    }
-
-                    @Override
-                    protected void onPostExecute(Boolean result) {
-                        if (progress != null) {
-                            progress.dismiss();
-                            if (result.equals(true)) {
-                                Toast.makeText(WordsPage.this, "Push code to the server successfully", Toast.LENGTH_SHORT).show();
-                            } else {
-                                Toast.makeText(WordsPage.this, "Cannot connect with the server", Toast.LENGTH_SHORT).show();
-                            }
-
-                            syncButton.setEnabled(true);
-                            syncButton.setImageResource(R.drawable.icon_wordpage_syncbutton_unpressed);
-                        }
-                    }
-                };
-                task.execute((Void[]) null);
-                return false;
-            }
-
-        });
-        syncButton.setOnClickListener(this);
         searchWordsArray = null;
     }
 
     private void fillUI() {
-        getNextWords.setText(LocalizationManager.getTextWordsNext());
         searchWords.setText(LocalizationManager.getTextWordsSearch());
         searchWordSets.setText(LocalizationManager.getTextWordsSets());
         viewMyWords.setText(LocalizationManager.getTextWordsView());
@@ -117,64 +61,23 @@ public class WordsPage extends Activity implements OnClickListener {
 
     @Override
     public void onClick(View v) {
-        // TODO Auto-generated method stub
         switch (v.getId()) {
             case R.id.wordsPage_Button_getNextWords:
-                Log.d("Click", "Next words");
                 WordsPage.this.startActivity(new Intent(WordsPage.this, NextWords.class));
                 break;
             case R.id.wordsPage_Button_searchWords:
-                Log.d("Click", "searchWords");
                 searchWordsButtonClick(1, null);
                 break;
             case R.id.wordsPage_Button_searchWordSets:
-                Log.d("Click", "searchWordSets");
                 break;
             case R.id.wordsPage_Button_viewMyWords:
-                Log.d("Click", "viewMyWords");
                 viewWordsButtonClick();
                 break;
             case R.id.wordsPage_ImageView_syncButton:
-                Log.d("Click", "syncButton");
                 break;
         }
     }
 
-    /*
-     private void getNextWordsButtonClick() {
-     final ArrayList<Integer> mSelectedItems = new ArrayList<Integer>();
-     new AlertDialog.Builder(this)
-     .setTitle("Next words")
-     .setMultiChoiceItems(nextWordsArray, null,
-     new DialogInterface.OnMultiChoiceClickListener() {
-     @Override
-     public void onClick(DialogInterface dialog, int which,
-     boolean isChecked) {
-     if (isChecked) {
-     // If the user checked the item, add it to the selected items
-     mSelectedItems.add(which);
-     } else if (mSelectedItems.contains(which)) {
-     // Else, if the item is already in the array, remove it 
-     mSelectedItems.remove(Integer.valueOf(which));
-     }
-     }
-     })
-     .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-     @Override
-     public void onClick(DialogInterface dialog, int id) {
-     // User clicked OK, so save the mSelectedItems results somewhere
-     // or return them to the component that opened the dialog
-                   
-     }
-     })
-     .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-     @Override
-     public void onClick(DialogInterface dialog, int id) {
-                   
-     }
-     }).create().show();
-     }
-     */
     private void searchWordsButtonClick(int entry, String searchTxt) {
         mSelectedItems = new ArrayList<Integer>();
         LayoutInflater inflater = LayoutInflater.from(this);
@@ -281,7 +184,7 @@ public class WordsPage extends Activity implements OnClickListener {
 //            params.add(new BasicNameValuePair("langTwo", Integer.toString(OpenwordsSharedPreferences.getUserInfo().getLang_id())));
 //            params.add(new BasicNameValuePair("searchText", searchText));
             //Log.d("User", "47");
-            
+
             JSONObject jObj = null;//jsonParse.makeHttpRequest(search_words_url, "POST", params);
             Log.d("Obj", jObj.toString());
             if (jObj.getInt("success") == 1) {
@@ -346,7 +249,7 @@ public class WordsPage extends Activity implements OnClickListener {
             params.add(new BasicNameValuePair("dtime", Long.toString(dTime)));
 //            params.add(new BasicNameValuePair("user", Integer.toString(user)));
 //            params.add(new BasicNameValuePair("lTwo", Integer.toString(langTwo)));
-            
+
             JSONObject jObj = null;//jsonParse.makeHttpRequest(url_write_downloaded_words_to_server, "POST", params);
 
             if (jObj.getInt("success") == 1) {
