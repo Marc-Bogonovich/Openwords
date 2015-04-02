@@ -18,16 +18,18 @@ import com.openwords.model.Performance;
 import com.openwords.model.UserLanguage;
 import com.openwords.services.implementations.GetUserPerformanceSum;
 import com.openwords.services.implementations.GetUserPerformanceSum.Result;
+import com.openwords.services.implementations.SetLanguagePage;
 import com.openwords.services.implementations.SetUserPerformance;
 import com.openwords.services.interfaces.HttpResultHandler;
 import com.openwords.util.localization.LocalizationManager;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.ui.MyQuickToast;
+import java.text.DecimalFormat;
 
 public class FragmentPlateCompletion extends Fragment implements InterfaceLearningModule {
-
+    
     private static Handler RefreshHandler;
-
+    
     public static void refreshDetails() {
         if (RefreshHandler != null) {
             RefreshHandler.sendEmptyMessage(0);
@@ -35,7 +37,8 @@ public class FragmentPlateCompletion extends Fragment implements InterfaceLearni
     }
     private TextView vocabSize, performance, skip, birthday, birthdayDetail, evaluation;
     private Button nextPlate, exit;
-
+    private DecimalFormat decimalFormat = new DecimalFormat("#.#");
+    
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,12 +53,12 @@ public class FragmentPlateCompletion extends Fragment implements InterfaceLearni
             }
         };
     }
-
+    
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LogUtil.logDeubg(this, "onCreateView");
-
+        
         View myFragmentView = inflater.inflate(R.layout.fragment_plate_completion, container, false);
         vocabSize = (TextView) myFragmentView.findViewById(R.id.plc_TextView_VocabSize);
         performance = (TextView) myFragmentView.findViewById(R.id.plc_TextView_Performance);
@@ -68,38 +71,49 @@ public class FragmentPlateCompletion extends Fragment implements InterfaceLearni
         nextPlate.setText(LocalizationManager.getTextPCNext());
         exit = (Button) myFragmentView.findViewById(R.id.plc_button_Exit);
         exit.setText(LocalizationManager.getTextPCEnd());
-
+        
         nextPlate.setOnClickListener(new OnClickListener() {
             public void onClick(View view) {
                 advanceToNextPageData();
-                getActivity().finish();
-                startActivity(new Intent(getActivity(), ActivityLearning.class));
             }
         });
         exit.setOnClickListener(new OnClickListener() {
             public void onClick(View view) {
-                advanceToNextPageData();
                 getActivity().finish();
             }
         });
-
+        
         return myFragmentView;
     }
-
+    
     private void advanceToNextPageData() {
-        UserLanguage languageInfo = UserLanguage.getUserLanguageInfo(LocalSettings.getBaseLanguageId(), DataPool.LmLearningLang);
+        final UserLanguage languageInfo = UserLanguage.getUserLanguageInfo(LocalSettings.getBaseLanguageId(), DataPool.LmLearningLang);
         if (languageInfo == null) {
             MyQuickToast.showShort(getActivity(), "Error: no language information specified");
             getActivity().finish();
             return;
         }
         languageInfo.page += 1;
-        languageInfo.save();
+        
+        new SetLanguagePage().doRequest(LocalSettings.getUserId(), languageInfo.baseLang, languageInfo.learningLang, languageInfo.page,
+                new HttpResultHandler() {
+                    
+                    public void hasResult(Object resultObject) {
+                        languageInfo.save();
+                        getActivity().finish();
+                        startActivity(new Intent(getActivity(), ActivityLearning.class));
+                    }
+                    
+                    public void noResult(String errorMessage) {
+                        MyQuickToast.showShort(getActivity(), "Error: " + errorMessage);
+                        getActivity().finish();
+                    }
+                });
     }
-
+    
     private void refresh() {
         LogUtil.logDeubg(this, "refresh");
-
+        
         int currentGood = 0;
         int currentBad = 0;
         int currentNew = 0;
@@ -118,33 +132,33 @@ public class FragmentPlateCompletion extends Fragment implements InterfaceLearni
         }
         birthday.setText("");
         birthdayDetail.setText("");
-
+        
         new SetUserPerformance().doRequest(LocalSettings.getUserId(), DataPool.getAllPerformance(true), "all",
                 new HttpResultHandler() {
-
+                    
                     public void hasResult(Object resultObject) {
                         MyQuickToast.showShort(getActivity(), "Your performance is recorded.");
-
+                        
                         new GetUserPerformanceSum().doRequest(LocalSettings.getUserId(), LocalSettings.getBaseLanguageId(), DataPool.LmLearningLang,
                                 new HttpResultHandler() {
-
+                                    
                                     public void hasResult(Object resultObject) {
                                         Result r = (Result) resultObject;
                                         vocabSize.setText("Total Vocab: " + r.totalGood + "/" + r.total);
                                         double effort = (double) r.totalVersion / r.total;
-                                        evaluation.setText("Learning Effort: " + effort + " revisions per word");
+                                        evaluation.setText("Learning Effort: " + decimalFormat.format(effort) + " revisions per word");
                                     }
-
+                                    
                                     public void noResult(String errorMessage) {
                                         MyQuickToast.showShort(getActivity(), "Cannot get your performance summary");
                                     }
                                 });
                     }
-
+                    
                     public void noResult(String errorMessage) {
                         MyQuickToast.showShort(getActivity(), "Cannot record your performance.");
                     }
                 });
-
+        
     }
 }
