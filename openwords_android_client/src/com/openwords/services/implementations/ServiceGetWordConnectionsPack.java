@@ -35,7 +35,7 @@ public class ServiceGetWordConnectionsPack extends HttpServiceRequester implemen
         if (r.connections == null) {
             resultHandler.noResult("no result");
         } else {
-            resultHandler.hasResult(new Object[]{r.connections, r.words, r.performance});
+            resultHandler.hasResult(r);
         }
     }
 
