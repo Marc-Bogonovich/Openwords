@@ -30,7 +30,7 @@ public class GetConnectionsByLangOne extends MyAction {
     })
     @Override
     public String execute() throws Exception {
-        UtilLog.logInfo(this, "/getConnectionsByLangOne");
+        UtilLog.logInfo(this, "/getConnectionsByLangOne: " + form + " " + langOneId + " " + langTwoId);
         Session s = DatabaseHandler.getSession();
         try {
             int[] t = new int[1];
