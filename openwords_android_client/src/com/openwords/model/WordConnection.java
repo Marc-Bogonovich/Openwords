@@ -1,13 +1,22 @@
 package com.openwords.model;
 
 import com.openwords.services.implementations.ServiceGetWordConnectionsPack;
+import com.openwords.services.implementations.ServiceGetWordConnectionsPack.Result;
 import com.openwords.services.interfaces.HttpResultHandler;
 import com.orm.SugarRecord;
+import com.orm.query.Condition;
+import com.orm.query.Select;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 public class WordConnection extends SugarRecord<WordConnection> {
+
+    public static boolean hasConnection(int connectionId) {
+        return !Select.from(WordConnection.class)
+                .where(Condition.prop("connection_id").eq(connectionId))
+                .list().isEmpty();
+    }
 
     private static void loadWordConnectionsFullPackLocally(int langOneId, int langTwoId, int pageNumber, int pageSize, ResultWordConnections resultHandler) {
         List<WordConnection> connections = getConnections(langOneId, langTwoId, pageSize, pageNumber);
@@ -44,13 +53,10 @@ public class WordConnection extends SugarRecord<WordConnection> {
                 new HttpResultHandler() {
 
                     public void hasResult(Object resultObject) {
-                        Object[] r = (Object[]) resultObject;
-                        @SuppressWarnings("unchecked")
-                        List<WordConnection> connections = (List<WordConnection>) r[0];
-                        @SuppressWarnings("unchecked")
-                        List<Word> words = (List<Word>) r[1];
-                        @SuppressWarnings("unchecked")
-                        List<Performance> performance = (List<Performance>) r[2];
+                        Result r = (Result) resultObject;
+                        List<WordConnection> connections = r.connections;
+                        List<Word> words = r.words;
+                        List<Performance> performance = r.performance;
 
                         if (connections == null || words == null) {
                             resultHandler.result(null, null, null);

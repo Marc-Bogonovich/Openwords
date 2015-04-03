@@ -10,6 +10,7 @@ import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.TextHttpResponseHandler;
 import com.openwords.R;
 import com.openwords.model.Word;
+import com.openwords.model.WordConnection;
 import com.openwords.services.implementations.ServiceAddUser;
 import com.openwords.services.implementations.ServiceCheckEmail;
 import com.openwords.services.implementations.ServiceCheckUsername;
@@ -17,6 +18,7 @@ import com.openwords.services.implementations.ServiceLoginUser;
 import com.openwords.services.interfaces.HttpResultHandler;
 import com.openwords.ui.common.DialogForHTTP;
 import com.openwords.util.log.LogUtil;
+import com.openwords.util.ui.MyQuickToast;
 import com.orm.query.Select;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -235,7 +237,10 @@ public class ActivityTest extends Activity {
         findViewById(R.id.act_test_test99).setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
-                Word.deleteAll(Word.class, "word_id in (1,2,3)");
+                boolean b = WordConnection.hasConnection(38);
+                MyQuickToast.showShort(ActivityTest.this, "38 " + String.valueOf(b));
+                b = WordConnection.hasConnection(1);
+                MyQuickToast.showShort(ActivityTest.this, "1 " + String.valueOf(b));
 //                try {
 //                    LocalFileSystem.makeFolders();
 //                    String path = LocalFileSystem.Folders[2];
