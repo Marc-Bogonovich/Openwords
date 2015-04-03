@@ -23,6 +23,42 @@ public class WordConnection implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    public static List<WordConnection> getSimilarWordsByLangOne(Session s, int langOne, int langTwo, String form, int pageNumber, int pageSize, int[] callbackTotal) {
+        int firstRecord = (pageNumber - 1) * pageSize;
+        String sql = "SELECT c.* "
+                + "FROM word_connections as c, words as w "
+                + "WHERE c.word1_language=@langOne@ "
+                + "and c.word2_language=@langTwo@ "
+                + "and c.word1_id=w.word_id "
+                + "and w.word like \"%@form@%\" "
+                + "limit @firstRecord@,@pageSize@";
+
+        sql = sql.replace("@langOne@", String.valueOf(langOne))
+                .replace("@langTwo@", String.valueOf(langTwo))
+                .replace("@form@", form)
+                .replace("@firstRecord@", String.valueOf(firstRecord))
+                .replace("@pageSize@", String.valueOf(pageSize));
+
+        @SuppressWarnings("unchecked")
+        List<WordConnection> connections = s.createSQLQuery(sql).addEntity(WordConnection.class).list();
+
+        sql = "SELECT count(c.connection_id) "
+                + "FROM word_connections as c, words as w "
+                + "WHERE c.word1_language=@langOne@ "
+                + "and c.word2_language=@langTwo@ "
+                + "and c.word1_id=w.word_id "
+                + "and w.word like \"%@form@%\"";
+
+        sql = sql.replace("@langOne@", String.valueOf(langOne))
+                .replace("@langTwo@", String.valueOf(langTwo))
+                .replace("@form@", form);
+
+        Number total = (Number) s.createSQLQuery(sql).uniqueResult();
+        callbackTotal[0] = total.intValue();
+
+        return connections;
+    }
+
     @SuppressWarnings("unchecked")
     public static List<WordConnection> getConnections(Session s, Integer[] connectionIds) {
         return s.createCriteria(WordConnection.class)
