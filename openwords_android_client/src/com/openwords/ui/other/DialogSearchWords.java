@@ -6,8 +6,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import com.openwords.R;
 import com.openwords.model.DataPool;
+import com.openwords.model.Language;
 import com.openwords.model.LocalSettings;
 import com.openwords.model.Word;
 import com.openwords.model.WordConnection;
@@ -17,65 +19,61 @@ import com.openwords.services.interfaces.HttpResultHandler;
 import com.openwords.util.ui.MyDialogHelper;
 import com.openwords.util.ui.MyQuickToast;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
 public class DialogSearchWords extends Dialog {
-
+    
     private ListView listView;
     private ListAdapterConnectionItem listAdapter;
-    private Button button1, button2, button3;
+    private Button buttonClear, buttonSearch, buttonAdd, buttonPrev, buttonNext;
+    private TextView pageNumber;
     private EditText input;
     private Context context;
-    private List<WordConnection> connections;
-    private List<Word> words;
     private Set<Integer> chosen;
     private int total;
-
+    
     public DialogSearchWords(Context c) {
         super(c);
         context = c;
         setContentView(R.layout.dialog_search_words);
-        setTitle("Search Words for " + DataPool.LmLearningLang);
+        Language lang = Language.getLanguageInfo(DataPool.LmLearningLang);
+        setTitle(lang.name);
+        //setTitle("Search " + lang.name + " by English");
 
         listView = (ListView) findViewById(R.id.dialog_search_word_list1);
-        button1 = (Button) findViewById(R.id.dialog_search_word_button1);
-        button2 = (Button) findViewById(R.id.dialog_search_word_button2);
-        button3 = (Button) findViewById(R.id.dialog_search_word_button3);
+        buttonClear = (Button) findViewById(R.id.dialog_search_word_button1);
+        buttonSearch = (Button) findViewById(R.id.dialog_search_word_button2);
+        buttonAdd = (Button) findViewById(R.id.dialog_search_word_button3);
         input = (EditText) findViewById(R.id.dialog_search_word_text1);
-
-        button1.setOnClickListener(new View.OnClickListener() {
-
+        
+        buttonClear.setOnClickListener(new View.OnClickListener() {
+            
             public void onClick(View view) {
                 clickButton1();
             }
         });
-        button2.setOnClickListener(new View.OnClickListener() {
-
+        buttonSearch.setOnClickListener(new View.OnClickListener() {
+            
             public void onClick(View view) {
                 clickButton2();
             }
         });
-        button3.setOnClickListener(new View.OnClickListener() {
-
+        buttonAdd.setOnClickListener(new View.OnClickListener() {
+            
             public void onClick(View view) {
                 clickButton3();
             }
         });
-
+        
         chosen = new HashSet<Integer>(10);
-        words = new LinkedList<Word>();
-        connections = new LinkedList<WordConnection>();
-
-        listAdapter = new ListAdapterConnectionItem(context, connections, words, chosen);
-        listView.setAdapter(listAdapter);
         listView.setItemsCanFocus(false);
     }
-
+    
     private void clickButton1() {
+        input.setText(null);
     }
-
+    
     private void clickButton2() {
         String text = input.getText().toString().trim();
         if (text.isEmpty()) {
@@ -85,45 +83,38 @@ public class DialogSearchWords extends Dialog {
             searchWords(text);
         }
     }
-
+    
     private void clickButton3() {
     }
-
+    
     private void searchWords(String form) {
         MyDialogHelper.tryShowQuickProgressDialog(context, "Search words data...");
         new ServiceGetWordConnectionsByLangOne().doRequest(form, LocalSettings.getBaseLanguageId(), DataPool.LmLearningLang, 1, 10,
                 new HttpResultHandler() {
-
+                    
                     public void hasResult(Object resultObject) {
                         Result r = (Result) resultObject;
-                        words.clear();
-                        words.addAll(r.words);
                         total = r.total;
-                        refreshListView(r.connections);
+                        refreshListView(r.connections, r.words);
                     }
-
+                    
                     public void noResult(String errorMessage) {
                         MyQuickToast.showShort(context, errorMessage);
                         total = 0;
-                        words.clear();
-                        refreshListView(null);
+                        refreshListView(null, null);
                     }
                 });
-
+        
     }
-
-    private void refreshListView(List<WordConnection> connections) {
-        MyQuickToast.showShort(context, "refreshListView");
-        listAdapter.clear();
-        if (connections != null) {
-            this.connections = connections;
-            listAdapter.addAll(this.connections);
+    
+    private void refreshListView(List<WordConnection> connections, List<Word> words) {
+        if (connections != null && words != null) {
+            listAdapter = new ListAdapterConnectionItem(context, connections, words, chosen);
+            listView.setAdapter(listAdapter);
         } else {
             MyQuickToast.showShort(context, "No result");
         }
-        listAdapter.notifyDataSetChanged();
-
         MyDialogHelper.tryDismissQuickProgressDialog();
     }
-
+    
 }

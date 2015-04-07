@@ -8,6 +8,7 @@ import com.openwords.util.ui.CallbackOkButton;
 import com.openwords.util.ui.MyDialogHelper;
 import com.openwords.util.ui.MyQuickToast;
 import com.orm.SugarRecord;
+import com.orm.query.Condition;
 import com.orm.query.Select;
 import java.util.Collection;
 import java.util.HashSet;
@@ -16,6 +17,17 @@ import java.util.List;
 import java.util.Set;
 
 public class Language extends SugarRecord<Language> {
+
+    public static Language getLanguageInfo(int langId) {
+        List<Language> r = Select.from(Language.class)
+                .where(Condition.prop("lang_id").eq(langId))
+                .list();
+        if (r.isEmpty()) {
+            return null;
+        } else {
+            return r.get(0);
+        }
+    }
 
     public static List<Language> getLearningLanguagesInfo(int baseLang) {
         List<Integer> ids = UserLanguage.unpackLearningLangIds(
