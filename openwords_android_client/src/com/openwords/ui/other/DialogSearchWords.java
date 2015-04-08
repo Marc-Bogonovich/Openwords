@@ -2,6 +2,8 @@ package com.openwords.ui.other;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,7 +18,6 @@ import com.openwords.model.WordConnection;
 import com.openwords.services.implementations.ServiceGetWordConnectionsByLangOne;
 import com.openwords.services.implementations.ServiceGetWordConnectionsByLangOne.Result;
 import com.openwords.services.interfaces.HttpResultHandler;
-import com.openwords.util.ui.MyDialogHelper;
 import com.openwords.util.ui.MyQuickToast;
 import java.util.HashSet;
 import java.util.List;
@@ -50,6 +51,20 @@ public class DialogSearchWords extends Dialog {
         buttonPrev = (Button) findViewById(R.id.dialog_search_word_button4);
         buttonNext = (Button) findViewById(R.id.dialog_search_word_button5);
 
+        input.addTextChangedListener(new TextWatcher() {
+
+            public void beforeTextChanged(CharSequence cs, int i, int i1, int i2) {
+                currentPage = 1;
+                buttonPrev.setEnabled(false);
+                buttonNext.setEnabled(false);
+            }
+
+            public void onTextChanged(CharSequence cs, int i, int i1, int i2) {
+            }
+
+            public void afterTextChanged(Editable edtbl) {
+            }
+        });
         buttonClear.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
@@ -118,7 +133,9 @@ public class DialogSearchWords extends Dialog {
     }
 
     private void searchWords(String form, int page) {
-        MyDialogHelper.tryShowQuickProgressDialog(context, "Search words data...");
+        buttonPrev.setEnabled(false);
+        buttonNext.setEnabled(false);
+        buttonSearch.setEnabled(false);
         new ServiceGetWordConnectionsByLangOne().doRequest(form, LocalSettings.getBaseLanguageId(), DataPool.LmLearningLang, page, 6,
                 new HttpResultHandler() {
 
@@ -127,7 +144,6 @@ public class DialogSearchWords extends Dialog {
                         currentPage = r.pageNumber;
                         int currentTotal = currentPage * r.pageSize;
                         pageNumber.setText("Page " + r.pageNumber);
-                        MyQuickToast.showShort(context, r.total + " " + r.pageNumber);
                         if (currentTotal < r.total) {
                             buttonNext.setEnabled(true);
                         } else {
@@ -152,12 +168,22 @@ public class DialogSearchWords extends Dialog {
 
     private void refreshListView(List<WordConnection> connections, List<Word> words) {
         if (connections != null && words != null) {
-            listAdapter = new ListAdapterConnectionItem(context, connections, words, chosen);
+            listAdapter = new ListAdapterConnectionItem(context, connections, words, chosen, new ListChoiceCallback() {
+
+                public void changed() {
+                    MyQuickToast.showShort(context, "Total selected words: " + chosen.size());
+                }
+            });
             listView.setAdapter(listAdapter);
         } else {
             MyQuickToast.showShort(context, "No result");
         }
-        MyDialogHelper.tryDismissQuickProgressDialog();
+        buttonSearch.setEnabled(true);
+    }
+
+    public interface ListChoiceCallback {
+
+        public void changed();
     }
 
 }

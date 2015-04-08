@@ -11,33 +11,36 @@ import android.widget.TextView;
 import com.openwords.R;
 import com.openwords.model.Word;
 import com.openwords.model.WordConnection;
+import com.openwords.ui.other.DialogSearchWords.ListChoiceCallback;
 import java.util.List;
 import java.util.Set;
 
 public class ListAdapterConnectionItem extends ArrayAdapter<WordConnection> {
-    
+
     private List<WordConnection> connections;
     private List<Word> words;
     private Context context;
     private Set<Integer> chosen;
-    
-    public ListAdapterConnectionItem(Context context, List<WordConnection> connections, List<Word> words, Set<Integer> chosen) {
+    private ListChoiceCallback callback;
+
+    public ListAdapterConnectionItem(Context context, List<WordConnection> connections, List<Word> words, Set<Integer> chosen, ListChoiceCallback callback) {
         super(context, R.layout.list_item_connection, connections);
         this.context = context;
         this.connections = connections;
         this.words = words;
         this.chosen = chosen;
+        this.callback = callback;
     }
-    
+
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         View view = convertView;
-        
+
         if (view == null) {
             LayoutInflater layoutInflater = LayoutInflater.from(context);
             view = layoutInflater.inflate(R.layout.list_item_connection, null);
         }
-        
+
         final WordConnection currentConnection = connections.get(position);
         final Word[] localWords = new Word[2];
         if (currentConnection != null) {
@@ -66,9 +69,9 @@ public class ListAdapterConnectionItem extends ArrayAdapter<WordConnection> {
                     text2.setTextColor(context.getResources().getColor(R.color.my_orange));
                 }
             }
-            
+
             OnClickListener listenerCheck = new OnClickListener() {
-                
+
                 public void onClick(View view) {
                     if (chosen.contains(currentConnection.connectionId)) {
                         chosen.remove(currentConnection.connectionId);
@@ -77,10 +80,11 @@ public class ListAdapterConnectionItem extends ArrayAdapter<WordConnection> {
                         chosen.add(currentConnection.connectionId);
                         check1.setChecked(true);
                     }
+                    callback.changed();
                 }
             };
             OnClickListener listenerShowMeaning = new OnClickListener() {
-                
+
                 public void onClick(View view) {
                     text3.setText(localWords[0].getMeta().commonTranslation);
                 }
