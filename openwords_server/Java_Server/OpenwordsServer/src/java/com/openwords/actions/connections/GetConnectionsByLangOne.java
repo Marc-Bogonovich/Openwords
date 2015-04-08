@@ -94,9 +94,17 @@ public class GetConnectionsByLangOne extends MyAction {
         return errorMessage;
     }
 
+    public int getPageNumber() {
+        return pageNumber;
+    }
+
+    public int getPageSize() {
+        return pageSize;
+    }
+
     @Override
     public void validate() {
-        MyFieldValidation.checkPageSize(this, pageSize, 100, 10);
+        MyFieldValidation.checkPageSize(this, pageSize, 10, 5);
         MyFieldValidation.checkBooleanAndString(this, "form", true, form);
     }
 
