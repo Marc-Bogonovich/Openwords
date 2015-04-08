@@ -47,12 +47,6 @@
                   android:configChanges="orientation|screenSize">
         </activity>
         
-        <activity android:name=".ui.other.NextWords"
-                  android:label="@string/title_activity_NextWords"
-                  android:theme="@android:style/Theme.Dialog"
-                  android:configChanges="orientation|screenSize">
-        </activity>
-        
         <activity android:name=".ui.other.ProfilePage"
                   android:label="@string/title_activity_profilePage"
                   android:theme="@style/NoTitleTheme"

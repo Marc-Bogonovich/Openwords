@@ -119,7 +119,7 @@ public class DialogSearchWords extends Dialog {
 
     private void searchWords(String form, int page) {
         MyDialogHelper.tryShowQuickProgressDialog(context, "Search words data...");
-        new ServiceGetWordConnectionsByLangOne().doRequest(form, LocalSettings.getBaseLanguageId(), DataPool.LmLearningLang, page, 8,
+        new ServiceGetWordConnectionsByLangOne().doRequest(form, LocalSettings.getBaseLanguageId(), DataPool.LmLearningLang, page, 6,
                 new HttpResultHandler() {
 
                     public void hasResult(Object resultObject) {
