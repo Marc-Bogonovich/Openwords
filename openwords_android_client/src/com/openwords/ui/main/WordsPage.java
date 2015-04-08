@@ -1,7 +1,6 @@
 package com.openwords.ui.main;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -10,7 +9,6 @@ import com.openwords.R;
 import com.openwords.ui.common.BackButtonBehavior;
 import com.openwords.ui.other.ActionBarBuilder;
 import com.openwords.ui.other.DialogSearchWords;
-import com.openwords.ui.other.NextWords;
 import com.openwords.util.localization.LocalizationManager;
 import com.openwords.util.ui.MyQuickToast;
 
@@ -45,7 +43,6 @@ public class WordsPage extends Activity implements OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.wordsPage_Button_getNextWords:
-                WordsPage.this.startActivity(new Intent(WordsPage.this, NextWords.class));
                 break;
             case R.id.wordsPage_Button_searchWords:
                 new DialogSearchWords(this).show();

@@ -44,7 +44,7 @@ public class ServiceGetWordConnectionsByLangOne extends HttpServiceRequester imp
 
         public List<Word> words;
         public List<WordConnection> connections;
-        public int total;
+        public int total, pageNumber, pageSize;
         public String errorMessage;
     }
 }
