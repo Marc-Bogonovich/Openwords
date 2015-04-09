@@ -37,7 +37,7 @@ public class ServiceGetUserPerformanceSum extends HttpServiceRequester implement
 
     public class Result {
 
-        public int totalGood, total, totalVersion;
+        public int totalGood, total, totalVersion, totalWordsInLanguage;
         public String errorMessage;
     }
 }
