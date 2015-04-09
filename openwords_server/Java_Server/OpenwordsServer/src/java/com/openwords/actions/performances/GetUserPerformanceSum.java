@@ -19,6 +19,7 @@ public class GetUserPerformanceSum extends MyAction {
     private int totalGood;
     private int total;
     private int totalVersion;
+    private int totalWordsInLanguage;
 
     @Action(value = "/getUserPerformanceSum", results = {
         @Result(name = SUCCESS, type = "json")
@@ -32,6 +33,7 @@ public class GetUserPerformanceSum extends MyAction {
             totalGood = r[0];
             total = r[1];
             totalVersion = r[2];
+            totalWordsInLanguage = r[3];
         } catch (Exception e) {
             errorMessage = e.toString();
             UtilLog.logWarn(this, errorMessage);
@@ -63,6 +65,10 @@ public class GetUserPerformanceSum extends MyAction {
 
     public int getTotalVersion() {
         return totalVersion;
+    }
+
+    public int getTotalWordsInLanguage() {
+        return totalWordsInLanguage;
     }
 
     public String getErrorMessage() {

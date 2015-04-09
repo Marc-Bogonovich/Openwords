@@ -49,6 +49,10 @@ public class UserPerformance implements Serializable {
 
         Number total = (Number) s.createSQLQuery(sql2).uniqueResult();
 
+        if (total == null) {
+            return new int[4];
+        }
+
         String sql3 = "SELECT sum(user_performances.version) "
                 + "FROM user_performances, word_connections "
                 + "WHERE user_performances.word_connection_id=word_connections.connection_id "
@@ -61,16 +65,16 @@ public class UserPerformance implements Serializable {
 
         Number totalVersion = (Number) s.createSQLQuery(sql3).uniqueResult();
 
-        if (total == null) {
-            return new int[3];
-        }
         if (totalGood == null) {
             totalGood = 0;
         }
         if (totalVersion == null) {
             totalVersion = 0;
         }
-        return new int[]{totalGood.intValue(), total.intValue(), totalVersion.intValue() - total.intValue()};
+
+        int totalWordsInLanguage = Word.countLanguageWord(s, learningLang);
+
+        return new int[]{totalGood.intValue(), total.intValue(), totalVersion.intValue() - total.intValue(), totalWordsInLanguage};
     }
 
     public static int countPerformance(Session s, int userId, int langOneId, int langTwoId, String learningType) {
