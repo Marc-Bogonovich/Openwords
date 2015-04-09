@@ -42,8 +42,11 @@ public class DialogSearchWords extends Dialog {
         context = c;
         setContentView(R.layout.dialog_search_words);
         Language lang = Language.getLanguageInfo(DataPool.LmLearningLang);
-        setTitle(lang.name);
-        //setTitle("Search " + lang.name + " by English");
+        //temp solution
+        String langName = lang.name.split("]")[0];
+        langName = langName.split("#")[0];
+        langName = langName.replace("[", "");
+        setTitle("Search " + langName + " by English");
 
         listView = (ListView) findViewById(R.id.dialog_search_word_list1);
         buttonClear = (Button) findViewById(R.id.dialog_search_word_button1);
