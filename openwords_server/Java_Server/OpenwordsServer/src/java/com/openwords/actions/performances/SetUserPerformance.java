@@ -21,7 +21,7 @@ public class SetUserPerformance extends MyAction {
     private String performance;
     private String errorMessage;
     private String learningType;
-    private boolean result;
+    private boolean result, skipOld;
     private int userId;
 
     @Action(value = "/setUserPerformance", results = {
@@ -29,7 +29,7 @@ public class SetUserPerformance extends MyAction {
     })
     @Override
     public String execute() throws Exception {
-        UtilLog.logInfo(this, "/setUserPerformance: " + userId + " " + learningType + " " + performance);
+        UtilLog.logInfo(this, "/setUserPerformance: " + userId + " " + skipOld + " " + learningType + " " + performance);
         Session s = DatabaseHandler.getSession();
         try {
             Object[] versions = (Object[]) MyGson.fromJson(performance, Object[].class);
@@ -40,7 +40,7 @@ public class SetUserPerformance extends MyAction {
                 int version = ((Number) versions[i + 2]).intValue();
                 perfs.add(new UserPerformance(new UserPerformanceId(userId, connectionId, "all"), perf, version));
             }
-            UserPerformance.updatePerformances(s, perfs);
+            UserPerformance.updatePerformances(s, perfs, skipOld);
             result = true;
         } catch (Exception e) {
             errorMessage = e.toString();
@@ -69,6 +69,10 @@ public class SetUserPerformance extends MyAction {
 
     public boolean isResult() {
         return result;
+    }
+
+    public void setSkipOld(boolean skipOld) {
+        this.skipOld = skipOld;
     }
 
     @Override

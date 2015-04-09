@@ -118,7 +118,7 @@ public class UserPerformance implements Serializable {
                 .add(Restrictions.in("id.wordConnectionId", connectionIds)).list();
     }
 
-    public static void updatePerformances(Session s, List<UserPerformance> perfs) throws Exception {
+    public static void updatePerformances(Session s, List<UserPerformance> perfs, boolean skipOld) throws Exception {
         for (UserPerformance perf : perfs) {
             UserPerformance p = (UserPerformance) s.get(UserPerformance.class, perf.getId());
             if (p == null) {
@@ -129,8 +129,11 @@ public class UserPerformance implements Serializable {
                     p.setVersion(perf.getVersion());
                     p.setUpdatedTime(new Date());
                 } else {
-                    throw new Exception("performance is old: " + perf.getId());
+                    if (!skipOld) {
+                        throw new Exception("performance is old: " + perf.getId());
+                    }
                 }
+
             }
         }
         s.beginTransaction().commit();
