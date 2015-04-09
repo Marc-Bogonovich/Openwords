@@ -13,13 +13,16 @@ import com.openwords.R;
 import com.openwords.model.DataPool;
 import com.openwords.model.Language;
 import com.openwords.model.LocalSettings;
+import com.openwords.model.Performance;
 import com.openwords.model.Word;
 import com.openwords.model.WordConnection;
 import com.openwords.services.implementations.ServiceGetWordConnectionsByLangOne;
 import com.openwords.services.implementations.ServiceGetWordConnectionsByLangOne.Result;
+import com.openwords.services.implementations.ServiceSetUserPerformance;
 import com.openwords.services.interfaces.HttpResultHandler;
 import com.openwords.util.ui.MyQuickToast;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -101,6 +104,7 @@ public class DialogSearchWords extends Dialog {
 
         buttonPrev.setEnabled(false);
         buttonNext.setEnabled(false);
+        buttonAdd.setEnabled(false);
     }
 
     private void clickButton1() {
@@ -112,6 +116,24 @@ public class DialogSearchWords extends Dialog {
     }
 
     private void clickButton3() {
+        buttonAdd.setEnabled(false);
+        List<Performance> perfs = new LinkedList<Performance>();
+        for (Integer connectionId : chosen) {
+            perfs.add(new Performance(connectionId, "all", "new", 1));
+        }
+        new ServiceSetUserPerformance().doRequest(LocalSettings.getUserId(), true, perfs, "all",
+                new HttpResultHandler() {
+
+                    public void hasResult(Object resultObject) {
+                        MyQuickToast.showShort(context, "Your words are added.");
+                        buttonAdd.setEnabled(true);
+                    }
+
+                    public void noResult(String errorMessage) {
+                        MyQuickToast.showShort(context, "Cannot add your chosen words.");
+                        buttonAdd.setEnabled(true);
+                    }
+                });
     }
 
     private void clickButton4() {
@@ -136,6 +158,7 @@ public class DialogSearchWords extends Dialog {
         buttonPrev.setEnabled(false);
         buttonNext.setEnabled(false);
         buttonSearch.setEnabled(false);
+        buttonAdd.setEnabled(false);
         new ServiceGetWordConnectionsByLangOne().doRequest(form, LocalSettings.getBaseLanguageId(), DataPool.LmLearningLang, page, 6,
                 new HttpResultHandler() {
 
@@ -171,7 +194,11 @@ public class DialogSearchWords extends Dialog {
             listAdapter = new ListAdapterConnectionItem(context, connections, words, chosen, new ListChoiceCallback() {
 
                 public void changed() {
-                    MyQuickToast.showShort(context, "Total selected words: " + chosen.size());
+                    if (chosen.isEmpty()) {
+                        buttonAdd.setEnabled(false);
+                    } else {
+                        buttonAdd.setEnabled(true);
+                    }
                 }
             });
             listView.setAdapter(listAdapter);
