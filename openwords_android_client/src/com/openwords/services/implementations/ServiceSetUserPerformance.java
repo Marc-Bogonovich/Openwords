@@ -14,7 +14,7 @@ public class ServiceSetUserPerformance extends HttpServiceRequester implements H
 
     private HttpResultHandler resultHandler;
 
-    public void doRequest(int userId, Collection<Performance> performance, String learningType, HttpResultHandler hrh) {
+    public void doRequest(int userId, boolean skipOld, Collection<Performance> performance, String learningType, HttpResultHandler hrh) {
         resultHandler = hrh;
         Object[] perfs = new Object[performance.size() * 3];
         int index = 0;
@@ -28,6 +28,7 @@ public class ServiceSetUserPerformance extends HttpServiceRequester implements H
         request(ServiceURL, new RequestParamsBuilder()
                 .addParam("userId", String.valueOf(userId))
                 .addParam("performance", MyGson.toJson(perfs))
+                .addParam("skipOld", String.valueOf(skipOld))
                 .getParams(), 0, this);
     }
 
