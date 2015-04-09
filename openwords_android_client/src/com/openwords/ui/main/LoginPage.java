@@ -16,9 +16,11 @@ import com.openwords.R;
 import com.openwords.model.DataPool;
 import com.openwords.model.Language;
 import com.openwords.model.LocalSettings;
+import com.openwords.model.Performance;
 import com.openwords.model.ResultLanguage;
 import com.openwords.model.ResultUserLanguage;
 import com.openwords.model.UserLanguage;
+import com.openwords.model.WordConnection;
 import com.openwords.services.implementations.ServiceLoginUser;
 import com.openwords.services.interfaces.HttpResultHandler;
 import com.openwords.sound.SoundPlayer;
@@ -145,6 +147,8 @@ public class LoginPage extends Activity {
                         if (LocalSettings.getUserId() != newUserId) {
                             MyQuickToast.showShort(LoginPage.this, "User changed");
                             UserLanguage.deleteAll(UserLanguage.class);
+                            Performance.deleteAll(Performance.class);
+                            WordConnection.deleteAll(WordConnection.class);
                         } else {
                             //in case cannot connect to server
                             //???UserLearningLanguages.loadUserLearningLanguagesLocal(LocalSettings.getBaseLanguageId());
