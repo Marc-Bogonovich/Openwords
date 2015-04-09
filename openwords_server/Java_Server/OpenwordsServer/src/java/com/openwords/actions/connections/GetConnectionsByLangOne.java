@@ -34,7 +34,7 @@ public class GetConnectionsByLangOne extends MyAction {
         Session s = DatabaseHandler.getSession();
         try {
             int[] t = new int[1];
-            connections = WordConnection.getSimilarWordsByLangOne(s, langOneId, langTwoId, form, pageNumber, pageSize, t);
+            connections = WordConnection.getSimilarWordsByLangOne(s, langOneId, langTwoId, form.toLowerCase(), pageNumber, pageSize, t);
             total = t[0];
             if (connections.isEmpty()) {
                 throw new Exception("no records");

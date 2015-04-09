@@ -8,6 +8,7 @@ import android.widget.Button;
 import com.openwords.R;
 import com.openwords.ui.common.BackButtonBehavior;
 import com.openwords.ui.other.ActionBarBuilder;
+import com.openwords.ui.other.DialogLocalWords;
 import com.openwords.ui.other.DialogSearchWords;
 import com.openwords.util.localization.LocalizationManager;
 import com.openwords.util.ui.MyQuickToast;
@@ -51,7 +52,7 @@ public class WordsPage extends Activity implements OnClickListener {
                 MyQuickToast.showShort(this, "Not supported yet");
                 break;
             case R.id.wordsPage_Button_viewMyWords:
-                MyQuickToast.showShort(this, "Not supported yet");
+                new DialogLocalWords(this).show();
                 break;
             case R.id.wordsPage_ImageView_syncButton:
                 break;
