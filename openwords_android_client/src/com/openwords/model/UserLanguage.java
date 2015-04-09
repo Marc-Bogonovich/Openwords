@@ -43,6 +43,11 @@ public class UserLanguage extends SugarRecord<UserLanguage> {
                     public void hasResult(Object resultObject) {
                         @SuppressWarnings("unchecked")
                         List<UserLanguage> langs = (List<UserLanguage>) resultObject;
+                        for (UserLanguage lang : langs) {
+                            if (!lang.use) {
+                                langs.remove(lang);
+                            }
+                        }
                         saveOrUpdateAll(baseLang, langs);
                         resultHandler.result(langs);
                     }
@@ -92,6 +97,7 @@ public class UserLanguage extends SugarRecord<UserLanguage> {
     }
 
     public int baseLang, learningLang, page;
+    public boolean use;
 
     public UserLanguage() {
     }

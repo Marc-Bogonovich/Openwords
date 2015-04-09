@@ -68,7 +68,6 @@ public class UserLanguage implements Serializable {
         List<UserLanguage> ids = s.createCriteria(UserLanguage.class)
                 .add(Restrictions.eq("id.userId", userId))
                 .add(Restrictions.eq("id.baseLang", baseLang))
-                .add(Restrictions.eq("use", true))
                 .list();
         return ids;
     }
