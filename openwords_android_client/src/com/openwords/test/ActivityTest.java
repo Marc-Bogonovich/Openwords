@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
+import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.TextHttpResponseHandler;
@@ -16,6 +17,8 @@ import com.openwords.model.WordConnection;
 import com.openwords.services.implementations.ServiceAddUser;
 import com.openwords.services.implementations.ServiceCheckEmail;
 import com.openwords.services.implementations.ServiceCheckUsername;
+import com.openwords.services.implementations.ServiceGetUserPerformanceSum;
+import com.openwords.services.implementations.ServiceGetUserPerformanceSum.Result;
 import com.openwords.services.implementations.ServiceGetWordConnectionsByLangOne;
 import com.openwords.services.implementations.ServiceLoginUser;
 import com.openwords.services.interfaces.HttpResultHandler;
@@ -24,9 +27,12 @@ import com.openwords.util.gson.MyGson;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.ui.MyQuickToast;
 import com.orm.query.Select;
+import java.lang.reflect.Type;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -241,20 +247,22 @@ public class ActivityTest extends Activity {
         findViewById(R.id.act_test_test99).setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
-                new ServiceGetWordConnectionsByLangOne().doRequest("dict", 1, 98, 1, 10,
-                        new HttpResultHandler() {
+                Map<Integer, ServiceGetUserPerformanceSum.Result> test = new HashMap<Integer, ServiceGetUserPerformanceSum.Result>();
+                ServiceGetUserPerformanceSum t = new ServiceGetUserPerformanceSum();
 
-                            public void hasResult(Object resultObject) {
-                                ServiceGetWordConnectionsByLangOne.Result r = (ServiceGetWordConnectionsByLangOne.Result) resultObject;
-                                LogUtil.logDeubg(this, MyGson.toPrettyJson(r.connections));
-                                LogUtil.logDeubg(this, MyGson.toPrettyJson(r.words));
-                                LogUtil.logDeubg(this, MyGson.toPrettyJson(r.total));
-                            }
 
-                            public void noResult(String errorMessage) {
-                                LogUtil.logDeubg(this, errorMessage);
-                            }
-                        });
+                String json = MyGson.toJson(test);
+
+                System.out.println(json);
+                MyQuickToast.showShort(ActivityTest.this, json);
+
+                Type collectionType = new TypeToken<Map<Integer, ServiceGetUserPerformanceSum.Result>>() {
+                }.getType();
+
+                Map<Integer, ServiceGetUserPerformanceSum.Result> test2 = (Map<Integer, ServiceGetUserPerformanceSum.Result>) MyGson.fromJson(json, collectionType);
+                System.out.println(test2);
+                MyQuickToast.showShort(ActivityTest.this, test2.toString());
+                MyQuickToast.showShort(ActivityTest.this, String.valueOf(test2.get(1).totalWordsInLanguage));
 //                try {
 //                    LocalFileSystem.makeFolders();
 //                    String path = LocalFileSystem.Folders[2];

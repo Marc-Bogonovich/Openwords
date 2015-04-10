@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent"
-    android:background="#fff"
-    android:orientation="vertical">
+              android:layout_width="match_parent" android:layout_height="match_parent"
+              android:background="#fff"
+              android:orientation="vertical">
     <include layout="@layout/actionbar_common"/>
 
     <RelativeLayout
@@ -12,13 +12,13 @@
         android:padding="10dp" >
 
         <TextView android:id="@+id/statsPage_TextView_language"
-            android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true" android:layout_centerVertical="true"
-            android:text="@string/statsPage_TextView_language" />
+                  android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:layout_alignParentLeft="true" android:layout_centerVertical="true"
+                  android:text="@string/statsPage_TextView_language" />
 
         <TextView android:id="@+id/statsPage_TextView_languageName"
-            android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true" android:layout_centerVertical="true" />
+                  android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:layout_centerHorizontal="true" android:layout_centerVertical="true" />
 
     </RelativeLayout>
 
@@ -29,13 +29,13 @@
         android:padding="10dp" >
 
         <TextView android:id="@+id/statsPage_TextView_wordLearnt"
-            android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true" android:layout_centerVertical="true"
-            android:text="@string/statsPage_TextView_wordLearnt" />
+                  android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:layout_alignParentLeft="true" android:layout_centerVertical="true"
+                  android:text="@string/statsPage_TextView_wordLearnt" />
 
         <TextView android:id="@+id/statsPage_TextView_wordProcess"
-            android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true" android:layout_centerVertical="true" />
+                  android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:layout_centerHorizontal="true" android:layout_centerVertical="true" />
 
     </RelativeLayout>
 
@@ -49,7 +49,7 @@
         android:layout_alignParentLeft = "true"
         android:padding="10dp"
         android:progressDrawable = "@drawable/progressbar"
-        />
+    />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -58,9 +58,9 @@
         android:padding="10dp" >
 
         <TextView android:id="@+id/statsPage_TextView_ageDescription"
-            android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true" android:layout_centerVertical="true"
-            android:text="@string/statsPage_TextView_ageDescription" />
+                  android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:layout_alignParentLeft="true" android:layout_centerVertical="true"
+                  android:text="@string/statsPage_TextView_ageDescription" />
         <TextView
             android:id="@+id/statsPage_TextView_age"
             android:layout_width="wrap_content" android:layout_height="wrap_content"
