@@ -143,19 +143,15 @@ public class LoginPage extends Activity {
                         LocalSettings.setRemember(remember.isChecked());
                         LocalSettings.setUsername(username);
                         LocalSettings.setPassword(password);
-                        int newUserId = (Integer) resultObject;
-                        if (LocalSettings.getUserId() != newUserId) {
-                            MyQuickToast.showShort(LoginPage.this, "User changed");
+                        ServiceLoginUser.Result r = (ServiceLoginUser.Result) resultObject;
+                        if (LocalSettings.getUserId() != r.userId) {
+                            LogUtil.logDeubg(this, "User changed");
                             UserLanguage.deleteAll(UserLanguage.class);
                             Performance.deleteAll(Performance.class);
                             WordConnection.deleteAll(WordConnection.class);
-                        } else {
-                            //in case cannot connect to server
-                            //???UserLearningLanguages.loadUserLearningLanguagesLocal(LocalSettings.getBaseLanguageId());
                         }
-                        LocalSettings.setUserId(newUserId);
-                        UserLanguage.loadUserLanguage(
-                                true,
+                        LocalSettings.setUserId(r.userId);
+                        UserLanguage.syncUserLanguage(
                                 LocalSettings.getUserId(),
                                 LocalSettings.getBaseLanguageId(),
                                 new ResultUserLanguage() {
@@ -169,12 +165,6 @@ public class LoginPage extends Activity {
                     public void noResult(String errorMessage) {
                         MyDialogHelper.tryDismissQuickProgressDialog();
                         MyQuickToast.showShort(LoginPage.this, "Login fail: " + errorMessage);
-                        if (LocalSettings.getUsername() != null && LocalSettings.getPassword() != null) {
-                            if (LocalSettings.getUsername().equals(username) && LocalSettings.getPassword().equals(password)) {
-                                MyQuickToast.showShort(LoginPage.this, "Enter offline mode");
-                                goToHomePage();
-                            }
-                        }
                     }
                 });
     }

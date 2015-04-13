@@ -26,15 +26,9 @@ public class UserLanguage extends SugarRecord<UserLanguage> {
      *
      * @param userId
      * @param baseLang
-     * @param tryRemote If false, not try to connect remote server at all.
      * @param resultHandler Simple callback.
-     * @return
      */
-    public static List<UserLanguage> loadUserLanguage(boolean tryRemote, int userId, final int baseLang, final ResultUserLanguage resultHandler) {
-        if (!tryRemote) {
-            return loadUserLanguageLocally(baseLang);
-        }
-
+    public static void syncUserLanguage(int userId, final int baseLang, final ResultUserLanguage resultHandler) {
         new ServiceGetUserLanguages().doRequest(
                 userId,
                 baseLang,
@@ -56,10 +50,9 @@ public class UserLanguage extends SugarRecord<UserLanguage> {
                         resultHandler.result(loadUserLanguageLocally(baseLang));
                     }
                 });
-        return null;
     }
 
-    private static List<UserLanguage> loadUserLanguageLocally(int baseLang) {
+    public static List<UserLanguage> loadUserLanguageLocally(int baseLang) {
         LogUtil.logDeubg(UserLanguage.class, "loadUserLanguageLocally()");
         return Select.from(UserLanguage.class)
                 .where(Condition.prop("base_lang").eq(String.valueOf(baseLang)))

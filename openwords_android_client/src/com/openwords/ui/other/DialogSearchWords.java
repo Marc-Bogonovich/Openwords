@@ -42,6 +42,11 @@ public class DialogSearchWords extends Dialog {
         context = c;
         setContentView(R.layout.dialog_search_words);
         Language lang = Language.getLanguageInfo(DataPool.LmLearningLang);
+        if (lang == null) {
+            MyQuickToast.showShort(c, "You have no languages");
+            cancel();
+            return;
+        }
         //temp solution
         String langName = lang.name.split("]")[0];
         langName = langName.split("#")[0];

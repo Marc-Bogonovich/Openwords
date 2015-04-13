@@ -4,6 +4,7 @@ import android.content.Context;
 import com.openwords.services.implementations.ServiceGetLanguages;
 import com.openwords.services.implementations.ServiceGetLearnableLanguages;
 import com.openwords.services.interfaces.HttpResultHandler;
+import com.openwords.util.log.LogUtil;
 import com.openwords.util.ui.CallbackOkButton;
 import com.openwords.util.ui.MyDialogHelper;
 import com.openwords.util.ui.MyQuickToast;
@@ -31,7 +32,7 @@ public class Language extends SugarRecord<Language> {
 
     public static List<Language> getLearningLanguagesInfo(int baseLang) {
         List<Integer> ids = UserLanguage.unpackLearningLangIds(
-                UserLanguage.loadUserLanguage(false, -1, baseLang, null));
+                UserLanguage.loadUserLanguageLocally(baseLang));
         if (ids.isEmpty()) {
             return new LinkedList<Language>();
         }
@@ -64,7 +65,7 @@ public class Language extends SugarRecord<Language> {
                 String whereSql = "lang_id in " + sqlIds;
 
                 List<Language> localSameLangs = Select.from(Language.class).where(whereSql).list();
-                MyQuickToast.showShort(context, "total local same: " + localSameLangs.size());
+                LogUtil.logDeubg(this, "total local same: " + localSameLangs.size());
 
                 Set<Integer> newLangIds = new HashSet<Integer>(learnableIds);
                 for (Language lang : localSameLangs) {
@@ -72,12 +73,12 @@ public class Language extends SugarRecord<Language> {
                         newLangIds.remove(lang.langId);
                     }
                 }
-                MyQuickToast.showShort(context, "total new: " + newLangIds.size());
+                LogUtil.logDeubg(this, "total new: " + newLangIds.size());
 
                 if (!newLangIds.isEmpty()) {
                     loadLanguagesInfo(context, newLangIds, resultHandler);
                 } else {
-                    MyQuickToast.showShort(context, "no new learnable languages");
+                    LogUtil.logDeubg(this, "no new learnable languages");
                     resultHandler.result(null);
                 }
             }
@@ -97,13 +98,13 @@ public class Language extends SugarRecord<Language> {
                         @SuppressWarnings("unchecked")
                         List<Language> langs = (List<Language>) resultObject;
                         Language.saveInTx(langs);
-                        MyQuickToast.showShort(context, "local total: " + Language.count(Language.class));
+                        LogUtil.logDeubg(this, "local total: " + Language.count(Language.class));
                         resultHandler.result(null);
 
                     }
 
                     public void noResult(String errorMessage) {
-                        MyQuickToast.showShort(context, "not ok: " + errorMessage);
+                        MyQuickToast.showShort(context, "Error: " + errorMessage);
                         resultHandler.result(ResultLanguage.Result_No_Server_Response);
                     }
                 });

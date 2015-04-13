@@ -20,6 +20,7 @@ import com.openwords.services.implementations.ServiceCheckEmail;
 import com.openwords.services.implementations.ServiceCheckUsername;
 import com.openwords.services.interfaces.HttpResultHandler;
 import com.openwords.util.localization.LocalizationManager;
+import com.openwords.util.log.LogUtil;
 import com.openwords.util.ui.MyDialogHelper;
 import com.openwords.util.ui.MyQuickToast;
 
@@ -129,7 +130,7 @@ public class RegisterPage extends Activity {
                             UserLanguage.deleteAll(UserLanguage.class);
 
                             ServiceAddUser.Result r = (ServiceAddUser.Result) resultObject;
-                            MyQuickToast.showShort(RegisterPage.this, "AddUser ok: " + r.userId);
+                            LogUtil.logDeubg(this, "AddUser ok: " + r.userId);
                             finish();
                             LocalSettings.setUsername(username);
                             LocalSettings.setPassword(password);
@@ -140,7 +141,7 @@ public class RegisterPage extends Activity {
 
                         public void noResult(String errorMessage) {
                             MyDialogHelper.tryDismissQuickProgressDialog();
-                            MyQuickToast.showShort(RegisterPage.this, "AddUser fail: " + errorMessage);
+                            MyQuickToast.showShort(RegisterPage.this, "Cannot sign up: " + errorMessage);
                         }
                     });
         }

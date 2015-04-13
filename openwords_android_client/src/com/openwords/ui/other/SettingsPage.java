@@ -60,6 +60,10 @@ public class SettingsPage extends Activity {
     }
 
     private void makeLanguagePageSpinner() {
+        if (DataPool.LmLearningLang < 0) {
+            MyQuickToast.showShort(this, "You have no languages");
+            return;
+        }
         TextView t = (TextView) findViewById(R.id.settingsPage_TextView1);
         t.setText("Change your current language set number:");
         languagePageSpinner = (Spinner) findViewById(R.id.settingsPage_Spinner1);

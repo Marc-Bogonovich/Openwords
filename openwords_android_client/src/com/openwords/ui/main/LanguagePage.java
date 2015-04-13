@@ -58,8 +58,7 @@ public class LanguagePage extends Activity {
                             new HttpResultHandler() {
 
                                 public void hasResult(Object resultObject) {
-                                    UserLanguage.loadUserLanguage(
-                                            true,
+                                    UserLanguage.syncUserLanguage(
                                             LocalSettings.getUserId(),
                                             LocalSettings.getBaseLanguageId(),
                                             new ResultUserLanguage() {
@@ -118,8 +117,7 @@ public class LanguagePage extends Activity {
 
     private void refreshUserLearningLanguages() {
         ChosenLangIds.clear();
-        UserLanguage.loadUserLanguage(
-                true,
+        UserLanguage.syncUserLanguage(
                 LocalSettings.getUserId(),
                 LocalSettings.getBaseLanguageId(),
                 new ResultUserLanguage() {
@@ -163,6 +161,5 @@ public class LanguagePage extends Activity {
     protected void onDestroy() {
         super.onDestroy();
         ChosenLangIds.clear();
-        MyQuickToast.showShort(this, "ChosenLangIds cleared");
     }
 }

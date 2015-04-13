@@ -31,7 +31,6 @@ public class BackIcons {
 
                     public void clicked() {
                         activity.finish();
-                        //Toast.makeText(activity, "Hi, the title is clicked", Toast.LENGTH_SHORT).show();
                     }
                 });
     }

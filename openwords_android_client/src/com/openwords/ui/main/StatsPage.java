@@ -70,6 +70,10 @@ public class StatsPage extends Activity {
                 lang[0] = Language.getLanguageInfo(ul.learningLang);
             }
         }
+        if (lang[0] == null) {
+            MyQuickToast.showShort(this, "You have no languages");
+            return;
+        }
         textLang.setText(lang[0].name);
 
         new ServiceGetUserPerformanceSum().doRequest(LocalSettings.getUserId(), LocalSettings.getBaseLanguageId(), lang[0].langId,

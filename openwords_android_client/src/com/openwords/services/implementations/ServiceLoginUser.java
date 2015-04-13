@@ -25,7 +25,7 @@ public class ServiceLoginUser extends HttpServiceRequester implements HttpResult
         String jsonReply = (String) resultObject;
         Result r = new Gson().fromJson(jsonReply, Result.class);
         if (r.result) {
-            resultHandler.hasResult(r.userId);
+            resultHandler.hasResult(r);
         } else {
             resultHandler.noResult(r.errorMessage);
         }

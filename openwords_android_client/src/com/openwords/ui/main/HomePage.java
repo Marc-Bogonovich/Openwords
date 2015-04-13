@@ -137,13 +137,13 @@ public class HomePage extends Activity {
                     return;
                 }
                 nextLangToLearn = languages.get(position);
-                MyQuickToast.showShort(HomePage.this, "got " + nextLangToLearn.name + " " + nextLangToLearn.langId);
+                LogUtil.logDeubg(this, "got " + nextLangToLearn.name + " " + nextLangToLearn.langId);
                 fillLearningOptionUI();
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
-                MyQuickToast.showShort(HomePage.this, "onNothingSelected");
+                LogUtil.logDeubg(this, "onNothingSelected");
             }
         });
     }
