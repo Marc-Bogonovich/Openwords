@@ -35,7 +35,7 @@ public abstract class FragmentLearningModule extends Fragment {
     private final double CUTOFF = 0.75f;
     private View advanceTimerBar;
     private Animation advanceTimerAnimation;
-    private boolean answerChecked;
+    private boolean timerIsFired;
     private Timer advanceTimer;
 
     private TextView questionView, answerView;
@@ -147,8 +147,7 @@ public abstract class FragmentLearningModule extends Fragment {
         }
     }
 
-    private void checkUserInputAnswer(boolean checkButtonPressed, String userInputString) {
-
+    private synchronized void checkUserInputAnswer(boolean checkButtonPressed, String userInputString) {
         boolean checkingDone = false;
         answerStatusIcon.setImageResource(R.drawable.ic_learning_module_null);
         answerView.setVisibility(View.INVISIBLE);
@@ -183,11 +182,14 @@ public abstract class FragmentLearningModule extends Fragment {
             }
         }
 
-        if (!checkingDone) {
-            return;
+        if (checkingDone) {
+            fireTimer();
         }
+    }
 
-        if (!answerChecked) {
+    private synchronized void fireTimer() {
+        if (!timerIsFired) {
+            timerIsFired = true;
             final AlertDialog dialog = new AlertDialog.Builder(getActivity())
                     .create();
             dialog.setCancelable(true);
@@ -197,7 +199,6 @@ public abstract class FragmentLearningModule extends Fragment {
 
                 public void onCancel(DialogInterface di) {
                     advanceTimer.cancel();
-                    answerChecked = true;
                     advanceTimerBar.setVisibility(View.INVISIBLE);
                     advanceTimerBar.clearAnimation();
                 }
