@@ -3,10 +3,7 @@ package com.openwords.util.preference;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import com.openwords.util.WSAinterface;
 import com.openwords.util.log.LogUtil;
-import java.util.ArrayList;
-import java.util.List;
 
 public class OpenwordsSharedPreferences {
 
@@ -14,35 +11,6 @@ public class OpenwordsSharedPreferences {
     private static SharedPreferences pref;
     public static final String APP_STARTED = "app.started";
     public static final String HIDE_PORTAL = "app.hide.portal";
-    private static int ALG_INDEX = 0;
-    private static int LEAF_CARD_SIZE = 10;
-    private static List<WSAinterface> wordSelectionAlgList = new ArrayList<WSAinterface>(5);
-
-    public static int getLeafCardSize() {
-        return LEAF_CARD_SIZE;
-    }
-
-    public static void setLeafCardSize(int lEAF_CARD_SIZE) {
-        LEAF_CARD_SIZE = lEAF_CARD_SIZE;
-    }
-
-    public static List<WSAinterface> getWordSelectionAlgList() {
-        return wordSelectionAlgList;
-    }
-
-    //add new algorithm
-    public static void addSelectionAlg(
-            WSAinterface wordSelectionAlg) {
-        OpenwordsSharedPreferences.wordSelectionAlgList.add(wordSelectionAlg);
-    }
-
-    public static int getAlgIndex() {
-        return ALG_INDEX;
-    }
-
-    public static void setAlgIndex(int index) {
-        ALG_INDEX = index;
-    }
 
     public static void init(Context context) {
         pref = context.getSharedPreferences(SHARED_PREFERENCE_FILE, Context.MODE_PRIVATE);
