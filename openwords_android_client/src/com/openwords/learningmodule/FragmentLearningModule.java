@@ -134,19 +134,16 @@ public abstract class FragmentLearningModule extends Fragment {
     public void updateChoiceView() {
         questionView.setText(w2.getMeta().nativeForm);
         answerView.setText(w1.getMeta().nativeForm);
+        answerView.setVisibility(View.INVISIBLE);
 
         if (perf.performance.contains("new")) {
             answerStatusIcon.setImageResource(R.drawable.ic_learning_module_null);
-            answerView.setVisibility(View.INVISIBLE);
         } else if (perf.performance.contains("good")) {
             answerStatusIcon.setImageResource(R.drawable.ic_learning_module_correct);
-            answerView.setVisibility(View.VISIBLE);
         } else if (perf.performance.contains("nearly")) {
             answerStatusIcon.setImageResource(R.drawable.ic_learning_module_close);
-            answerView.setVisibility(View.VISIBLE);
         } else {
             answerStatusIcon.setImageResource(R.drawable.ic_learning_module_incorrect);
-            answerView.setVisibility(View.VISIBLE);
         }
     }
 
@@ -166,13 +163,11 @@ public abstract class FragmentLearningModule extends Fragment {
             if (similarity >= CUTOFF) {
                 answerStatusIcon.setImageResource(R.drawable.ic_learning_module_close);
                 perf.performance = "nearly";
-                perf.tempVersion = perf.version + 1;
                 perf.save();
                 answerView.setVisibility(View.VISIBLE);
             } else {
                 answerStatusIcon.setImageResource(R.drawable.ic_learning_module_incorrect);
                 perf.performance = "bad";
-                perf.tempVersion = perf.version + 1;
                 perf.save();
                 answerView.setVisibility(View.VISIBLE);
             }
@@ -182,7 +177,6 @@ public abstract class FragmentLearningModule extends Fragment {
             if (userInputString.equalsIgnoreCase(correctString)) {
                 answerStatusIcon.setImageResource(R.drawable.ic_learning_module_correct);
                 perf.performance = "good";
-                perf.tempVersion = perf.version + 1;
                 perf.save();
                 answerView.setVisibility(View.VISIBLE);
                 checkingDone = true;

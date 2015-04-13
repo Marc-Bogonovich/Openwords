@@ -137,18 +137,18 @@ public class ActivityLearning extends FragmentActivity implements InterfaceLearn
      * Update performance based on page navigation only.
      */
     private void updatePerformanceBasedOnNavigation() {
-        if (DataPool.LmType == Learning_Type_Review) {
-            if (DataPool.LmCurrentCard >= 0 && DataPool.LmCurrentCard < DataPool.getPoolSize()) {
-                WordConnection wc = DataPool.getWordConnection(DataPool.LmCurrentCard);
-                Performance perf = DataPool.getPerformance(wc.connectionId);
-                if (perf == null) {
-                    MyQuickToast.showShort(act, "No performance data: " + wc.connectionId);
-                    return;
-                }
-                perf.performance = "good";
-                perf.tempVersion = perf.version + 1;
-                perf.save();
+        if (DataPool.LmCurrentCard >= 0 && DataPool.LmCurrentCard < DataPool.getPoolSize()) {
+            WordConnection wc = DataPool.getWordConnection(DataPool.LmCurrentCard);
+            Performance perf = DataPool.getPerformance(wc.connectionId);
+            if (perf == null) {
+                MyQuickToast.showShort(act, "No performance data: " + wc.connectionId);
+                return;
             }
+            if (DataPool.LmType == Learning_Type_Review) {
+                perf.performance = "good";
+            }
+            perf.tempVersion = perf.version + 1;
+            perf.save();
         }
     }
 

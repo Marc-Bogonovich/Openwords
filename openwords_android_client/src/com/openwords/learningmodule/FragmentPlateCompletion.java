@@ -156,7 +156,7 @@ public class FragmentPlateCompletion extends Fragment implements InterfaceLearni
                     }
 
                     public void noResult(String errorMessage) {
-                        MyQuickToast.showShort(getActivity(), "Cannot record your performance.");
+                        MyQuickToast.showShort(getActivity(), "Cannot record your performance, please start over");
                     }
                 });
 
