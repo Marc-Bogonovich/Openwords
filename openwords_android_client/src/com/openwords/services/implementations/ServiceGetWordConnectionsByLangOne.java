@@ -23,7 +23,7 @@ public class ServiceGetWordConnectionsByLangOne extends HttpServiceRequester imp
                 .addParam("langTwoId", String.valueOf(langTwoId))
                 .addParam("pageNumber", String.valueOf(pageNumber))
                 .addParam("pageSize", String.valueOf(pageSize))
-                .getParams(), 0, this);
+                .getParams(), 30000, this);
     }
 
     public void hasResult(Object resultObject) {
