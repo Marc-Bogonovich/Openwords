@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class DataPool {
 
-    public final static String ServerAddress = "192.168.1.101:8080/OpenwordsServer";
+    public final static String ServerAddress = "156.56.91.234";
     public static boolean DoRegistration = false;
     public static boolean OffLine = false;
     public static int LmType;

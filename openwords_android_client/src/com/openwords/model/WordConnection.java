@@ -98,7 +98,7 @@ public class WordConnection extends SugarRecord<WordConnection> {
         }
         String sqlIds = ids.toString().replace("[", "(").replace("]", ")");
         String sql = "delete from word_connection where connection_id in " + sqlIds;
-        WordConnection.executeQuery(sql);
+        WordConnection.executeQuery(sql);//care empty cs
         WordConnection.saveInTx(cs);
     }
 
