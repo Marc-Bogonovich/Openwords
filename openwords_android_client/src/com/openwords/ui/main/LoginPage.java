@@ -134,6 +134,8 @@ public class LoginPage extends Activity {
                 goToHomePage();
                 return;
             }
+        } else {
+            DataPool.OffLine = false;
         }
 
         new ServiceLoginUser().doRequest(username, password,

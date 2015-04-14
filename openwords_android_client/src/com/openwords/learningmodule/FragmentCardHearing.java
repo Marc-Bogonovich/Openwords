@@ -12,7 +12,10 @@ import com.openwords.R;
 import com.openwords.model.DataPool;
 import com.openwords.model.Performance;
 import com.openwords.model.Word;
+import com.openwords.model.WordAudio;
 import com.openwords.model.WordConnection;
+import com.openwords.sound.SoundPlayer;
+import com.openwords.util.file.LocalFileSystem;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.ui.MyQuickToast;
 
@@ -25,6 +28,7 @@ public class FragmentCardHearing extends FragmentLearningModule {
     private View myFragmentView;
     private ScrollView container2;
     private ActivityLearning lmActivity;
+    private int wordTwoIdForAudio = -1;
 
     public FragmentCardHearing(int cardIndex, ActivityLearning lmActivity) {
         this.cardIndex = cardIndex;
@@ -56,11 +60,19 @@ public class FragmentCardHearing extends FragmentLearningModule {
         container2 = (ScrollView) myFragmentView.findViewById(R.id.hearingEvaluate_ScrollView_Container);
 
         updateAudioIcon(audioPlayButton, w2.wordId);
+        wordTwoIdForAudio = w2.wordId;
         addClarificationTrigger(lmActivity, new View[]{answer, question}, answer, w1.getMeta().commonTranslation);
         formViewElementsForTypingUI(lmActivity, container2, myFragmentView.findViewById(R.id.lm_frag_advance),
                 userInput, checkButton, question, answer, indicator, perf, w1, w2);
 
         return myFragmentView;
+    }
+
+    public void playAudio() {
+        if (wordTwoIdForAudio > 0) {
+            WordAudio audio = WordAudio.getAudio(wordTwoIdForAudio);
+            SoundPlayer.playMusic(LocalFileSystem.getAudioFullPath(audio.fileName), true);
+        }
     }
 
 }
