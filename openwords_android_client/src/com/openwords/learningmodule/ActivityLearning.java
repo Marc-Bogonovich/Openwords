@@ -9,14 +9,18 @@ import com.openwords.R;
 import com.openwords.model.DataPool;
 import com.openwords.model.LocalSettings;
 import com.openwords.model.Performance;
+import com.openwords.model.ResultWordAudio;
 import com.openwords.model.ResultWordConnections;
 import com.openwords.model.UserLanguage;
 import com.openwords.model.Word;
+import com.openwords.model.WordAudio;
 import com.openwords.model.WordConnection;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.ui.MyDialogHelper;
 import com.openwords.util.ui.MyQuickToast;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * The Activity class for all LMs, so it applies the same Reverse Navigation,
@@ -37,7 +41,7 @@ public class ActivityLearning extends FragmentActivity implements InterfaceLearn
         setContentView(R.layout.activity_lm);
 
         MyDialogHelper.tryShowQuickProgressDialog(act, "Assembling your words...");
-        UserLanguage userLanguageInfo = UserLanguage.getUserLanguageInfo(LocalSettings.getBaseLanguageId(), DataPool.LmLearningLang);
+        final UserLanguage userLanguageInfo = UserLanguage.getUserLanguageInfo(LocalSettings.getBaseLanguageId(), DataPool.LmLearningLang);
         if (userLanguageInfo == null) {
             MyDialogHelper.tryDismissQuickProgressDialog();
             MyQuickToast.showShort(act, "Error: no language information specified");
@@ -49,15 +53,52 @@ public class ActivityLearning extends FragmentActivity implements InterfaceLearn
                 LocalSettings.getUserId(), userLanguageInfo.baseLang, userLanguageInfo.learningLang, userLanguageInfo.page, DataPool.PageSize, false, null,
                 new ResultWordConnections() {
 
-                    public void result(List<WordConnection> connections, List<Word> words, List<Performance> performance) {
+                    public void result(final List<WordConnection> connections, List<Word> words, final List<Performance> performance) {
                         if (connections == null) {
                             MyDialogHelper.tryDismissQuickProgressDialog();
                             MyQuickToast.showShort(act, "Error when loading words data");
                             finish();
                             return;
                         }
-                        DataPool.addLmPool(connections, performance);
-                        init();
+
+                        //try loading audios
+                        final Set<Integer> wordIds = new HashSet<Integer>(words.size());
+                        for (Word word : words) {
+                            if (word.languageId == userLanguageInfo.learningLang) {
+                                wordIds.add(word.wordId);
+                            }
+                        }
+                        List<WordAudio> localAudios = WordAudio.getAudios(wordIds);
+                        if (localAudios.size() != wordIds.size()) {
+                            WordAudio.downloadNewAudios(wordIds, new ResultWordAudio() {
+
+                                public void ok() {
+                                    if (DataPool.LmType == Learning_Type_Hearing) {
+                                        List<WordAudio> newAudios = WordAudio.getAudios(wordIds);
+                                        if (newAudios.size() != wordIds.size()) {
+                                            MyQuickToast.showShort(act, "Sorry some words don't have audio yet");
+                                            finish();
+                                            return;
+                                        }
+                                    }
+                                    DataPool.addLmPool(connections, performance);
+                                    init();
+                                }
+
+                                public void error(String errorMessage) {
+                                    if (DataPool.LmType == Learning_Type_Hearing) {
+                                        MyQuickToast.showShort(act, "Sorry we cannot get the audios: " + errorMessage);
+                                        finish();
+                                    } else {
+                                        DataPool.addLmPool(connections, performance);
+                                        init();
+                                    }
+                                }
+                            });
+                        } else {
+                            DataPool.addLmPool(connections, performance);
+                            init();
+                        }
                     }
                 });
     }
@@ -67,7 +108,7 @@ public class ActivityLearning extends FragmentActivity implements InterfaceLearn
         DataPool.LmReverseNav = false;
         MyDialogHelper.tryDismissQuickProgressDialog();
 
-        LogUtil.logDeubg(act, "reverseNav set to: " + DataPool.LmReverseNav);
+        LogUtil.logDeubg(this, "reverseNav set to: " + DataPool.LmReverseNav);
         if (DataPool.LmReverseNav) {
             MyQuickToast.showShort(act, "Read from Right to Left");
         } else {
@@ -167,13 +208,13 @@ public class ActivityLearning extends FragmentActivity implements InterfaceLearn
     @Override
     protected void onResume() {
         super.onResume();
-        LogUtil.logDeubg(act, "onResume");
+        LogUtil.logDeubg(this, "onResume");
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        LogUtil.logDeubg(act, "onDestroy");
+        LogUtil.logDeubg(this, "onDestroy");
     }
 
     public void refreshPC() {

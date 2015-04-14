@@ -65,7 +65,7 @@ public class FragmentCardReview extends FragmentLearningModule {
         answer.setText(w2.word);
         //transcription.setText("test transcription");
 
-        //updateAudioIcon(audioPlay, card.getWordTwoId());
+        updateAudioIcon(audioPlay, w2.wordId);
         addClarificationTrigger(lmActivity, new View[]{answer, problem}, answer, w1.getMeta().commonTranslation);
         myFragmentView.findViewById(R.id.review_View_actionBarBlank).setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {

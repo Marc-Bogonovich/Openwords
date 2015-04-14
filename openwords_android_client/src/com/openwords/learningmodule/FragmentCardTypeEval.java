@@ -55,7 +55,7 @@ public class FragmentCardTypeEval extends FragmentLearningModule {
         audioPlay = (ImageView) myFragmentView.findViewById(R.id.typeEvaluate_ImageView_audioPlay);
         scrollContainer = (ScrollView) myFragmentView.findViewById(R.id.typeEvaluate_ScrollView_Container);
 
-        //updateAudioIcon(audioPlay, card.getWordTwoId());
+        updateAudioIcon(audioPlay, w2.wordId);
         addClarificationTrigger(lmActivity, new View[]{answer, question}, answer, w1.getMeta().commonTranslation);
         formViewElementsForTypingUI(lmActivity, scrollContainer, myFragmentView.findViewById(R.id.lm_frag_advance),
                 userInput, checkButton, question, answer, status, perf, w1, w2);

@@ -21,8 +21,8 @@ import android.widget.Toast;
 import com.openwords.R;
 import com.openwords.model.Performance;
 import com.openwords.model.Word;
+import com.openwords.model.WordAudio;
 import com.openwords.sound.SoundPlayer;
-import com.openwords.sound.WordAudioManager;
 import com.openwords.ui.graphics.AnimationTimerBar;
 import com.openwords.util.WordComparsion;
 import com.openwords.util.file.LocalFileSystem;
@@ -46,14 +46,14 @@ public abstract class FragmentLearningModule extends Fragment {
     private ActivityLearning lmActivity;
 
     public void updateAudioIcon(ImageView audioPlay, int wordId) {
-        final String audio = WordAudioManager.hasAudio(wordId);
+        final WordAudio audio = WordAudio.getAudio(wordId);
         if (audio == null) {
             audioPlay.setImageResource(R.drawable.ic_self_evaluate_audio_null);
         } else {
             audioPlay.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View view) {
-                    LogUtil.logDeubg(this, "Play: " + audio);
-                    SoundPlayer.playMusic(LocalFileSystem.getAudioFullPath(audio), true);
+                    LogUtil.logDeubg(this, "Play: " + audio.fileName);
+                    SoundPlayer.playMusic(LocalFileSystem.getAudioFullPath(audio.fileName), true);
                 }
             });
             audioPlay.setSoundEffectsEnabled(false);

@@ -56,7 +56,7 @@ public class FragmentCardSelfEval extends FragmentLearningModule {
         problem.setText(w2.getMeta().nativeForm);
         answer.setText(w1.getMeta().nativeForm);
 
-        //updateAudioIcon(audioPlay, card.getWordTwoId());
+        updateAudioIcon(audioPlay, w2.wordId);
         addClarificationTrigger(lmActivity, new View[]{answer, problem}, answer, w1.getMeta().commonTranslation);
         showAnswer.setOnClickListener(new View.OnClickListener() {
 
