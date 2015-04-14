@@ -32,6 +32,9 @@ public class OpenwordsSharedPreferences {
     }
 
     public static boolean getHidePortal() {
+        if (pref == null) {
+            return false;
+        }
         boolean hide = pref.getBoolean(HIDE_PORTAL, false);
         return hide;
     }

@@ -14,6 +14,7 @@ import com.openwords.model.DataPool;
 import com.openwords.model.LocalSettings;
 import com.openwords.model.Word;
 import com.openwords.model.WordConnection;
+import com.openwords.services.implementations.GetWordAudioNames;
 import com.openwords.services.implementations.ServiceAddUser;
 import com.openwords.services.implementations.ServiceCheckEmail;
 import com.openwords.services.implementations.ServiceCheckUsername;
@@ -43,18 +44,18 @@ import org.apache.http.Header;
  * @author hanaldo
  */
 public class ActivityTest extends Activity {
-
+    
     private ActivityTest act = ActivityTest.this;
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
-
+        
         findViewById(R.id.act_test_test1).setOnClickListener(new View.OnClickListener() {
-
+            
             public void onClick(View view) {
-
+                
                 DialogForHTTP d = new DialogForHTTP(ActivityTest.this,
                         "Downloading Language Pack",
                         "Retriving something, can be shown in percentage",
@@ -62,14 +63,14 @@ public class ActivityTest extends Activity {
                         5000,
                         new RequestParams("languageId", "1"),
                         new DialogForHTTP.OnSuccess() {
-
+                            
                             public void onSuccess(int i, Header[] headers, String string) {
                                 Toast.makeText(ActivityTest.this, "onSuccess: " + string, Toast.LENGTH_SHORT).show();
                                 LogUtil.logDeubg(this, "onSuccess: " + string);
                             }
                         },
                         new DialogForHTTP.OnFailure() {
-
+                            
                             public void onFailure(int i, Header[] headers, String string, Throwable thrwbl) {
                                 Toast.makeText(ActivityTest.this, "onFailure: " + thrwbl.toString(), Toast.LENGTH_SHORT).show();
                                 LogUtil.logDeubg(this, "onFailure: " + thrwbl.toString());
@@ -78,17 +79,17 @@ public class ActivityTest extends Activity {
                 d.start();
             }
         });
-
+        
         findViewById(R.id.act_test_test2).setOnClickListener(new View.OnClickListener() {
-
+            
             public void onClick(View view) {
 //                List<UserWords> existList = UserWords.findByLanguage(2);
 //                Toast.makeText(ActivityTest.this, new Gson().toJson(existList), Toast.LENGTH_SHORT).show();
             }
         });
-
+        
         findViewById(R.id.act_test_test3).setOnClickListener(new View.OnClickListener() {
-
+            
             public void onClick(View view) {
                 AsyncHttpClient http = new AsyncHttpClient();
                 http.get("http://www.google.com", new TextHttpResponseHandler() {
@@ -109,160 +110,158 @@ public class ActivityTest extends Activity {
                                 LogUtil.logDeubg(ActivityTest.this, "------------- new --------");
                                 Toast.makeText(ActivityTest.this, "again", Toast.LENGTH_SHORT).show();
                             }
-
+                            
                             @Override
                             public void onFailure(int i, Header[] headers, String string, Throwable thrwbl) {
-
+                                
                             }
-
+                            
                         });
                     }
-
+                    
                     @Override
                     public void onFailure(int i, Header[] headers, String string, Throwable thrwbl) {
-
+                        
                     }
-
+                    
                 });
             }
         });
-
+        
         findViewById(R.id.act_test_test4).setOnClickListener(new View.OnClickListener() {
-
+            
             public void onClick(View view) {
                 startActivity(new Intent(ActivityTest.this, DialogSoundPlay.class));
-
+                
             }
         });
-
+        
         findViewById(R.id.act_test_test5).setOnClickListener(new View.OnClickListener() {
-
+            
             public void onClick(View view) {
                 startActivity(new Intent(ActivityTest.this, DialogSoundPlay2.class));
             }
         });
-
+        
         findViewById(R.id.act_test_test6).setOnClickListener(new View.OnClickListener() {
-
+            
             public void onClick(View view) {
                 startActivity(new Intent(ActivityTest.this, ActivityTestAutofix.class));
             }
         });
-
+        
         findViewById(R.id.act_test_test7).setOnClickListener(new View.OnClickListener() {
-
+            
             public void onClick(View view) {
                 //WordAudioManager.addAudioFiles(new int[]{1, 5938, 1, 139228, 139228, 5938, 36293, 1, 176, 53}, ActivityTest.this);
             }
         });
-
+        
         findViewById(R.id.act_test_test8).setOnClickListener(new View.OnClickListener() {
-
+            
             public void onClick(View view) {
                 new ServiceLoginUser().doRequest("han", "123456",
                         new HttpResultHandler() {
-
+                            
                             public void hasResult(Object resultObject) {
                                 ServiceLoginUser.Result r = (ServiceLoginUser.Result) resultObject;
                                 Toast.makeText(ActivityTest.this, "Login Success: " + r.userId, Toast.LENGTH_SHORT).show();
                             }
-
+                            
                             public void noResult(String errorMessage) {
                                 Toast.makeText(ActivityTest.this, "Login Fail: " + errorMessage, Toast.LENGTH_SHORT).show();
                             }
                         });
             }
         });
-
+        
         findViewById(R.id.act_test_test9).setOnClickListener(new View.OnClickListener() {
-
+            
             public void onClick(View view) {
                 new ServiceLoginUser().doRequest("han", "12345",
                         new HttpResultHandler() {
-
+                            
                             public void hasResult(Object resultObject) {
                                 ServiceLoginUser.Result r = (ServiceLoginUser.Result) resultObject;
                                 Toast.makeText(ActivityTest.this, "Login Success: " + r.userId, Toast.LENGTH_SHORT).show();
                             }
-
+                            
                             public void noResult(String errorMessage) {
                                 Toast.makeText(ActivityTest.this, "Login Fail: " + errorMessage, Toast.LENGTH_SHORT).show();
                             }
                         });
             }
         });
-
+        
         findViewById(R.id.act_test_test10).setOnClickListener(new View.OnClickListener() {
-
+            
             public void onClick(View view) {
                 new ServiceCheckUsername().doRequest("han",
                         new HttpResultHandler() {
-
+                            
                             public void hasResult(Object resultObject) {
                                 Toast.makeText(ActivityTest.this, "Username ok", Toast.LENGTH_SHORT).show();
                             }
-
+                            
                             public void noResult(String errorMessage) {
                                 Toast.makeText(ActivityTest.this, "Username not ok: " + errorMessage, Toast.LENGTH_SHORT).show();
                             }
                         });
             }
         });
-
+        
         findViewById(R.id.act_test_test11).setOnClickListener(new View.OnClickListener() {
-
+            
             public void onClick(View view) {
                 new ServiceCheckEmail().doRequest("han@han.com",
                         new HttpResultHandler() {
-
+                            
                             public void hasResult(Object resultObject) {
                                 Toast.makeText(ActivityTest.this, "Email ok", Toast.LENGTH_SHORT).show();
                             }
-
+                            
                             public void noResult(String errorMessage) {
                                 Toast.makeText(ActivityTest.this, "Email not ok: " + errorMessage, Toast.LENGTH_SHORT).show();
                             }
                         });
             }
         });
-
+        
         findViewById(R.id.act_test_test12).setOnClickListener(new View.OnClickListener() {
-
+            
             public void onClick(View view) {
                 new ServiceAddUser().doRequest("han@han.com", "han", "111111",
                         new HttpResultHandler() {
-
+                            
                             public void hasResult(Object resultObject) {
                                 ServiceAddUser.Result r = (ServiceAddUser.Result) resultObject;
                                 Toast.makeText(ActivityTest.this, "AddUser ok: " + r.userId, Toast.LENGTH_SHORT).show();
                             }
-
+                            
                             public void noResult(String errorMessage) {
                                 Toast.makeText(ActivityTest.this, "AddUser fail: " + errorMessage, Toast.LENGTH_SHORT).show();
                             }
                         });
             }
         });
-
+        
         findViewById(R.id.act_test_test99).setOnClickListener(new View.OnClickListener() {
-
+            
             public void onClick(View view) {
-                Map<Integer, ServiceGetUserPerformanceSum.Result> test = new HashMap<Integer, ServiceGetUserPerformanceSum.Result>();
-                ServiceGetUserPerformanceSum t = new ServiceGetUserPerformanceSum();
-
-
-                String json = MyGson.toJson(test);
-
-                System.out.println(json);
-                MyQuickToast.showShort(ActivityTest.this, json);
-
-                Type collectionType = new TypeToken<Map<Integer, ServiceGetUserPerformanceSum.Result>>() {
-                }.getType();
-
-                Map<Integer, ServiceGetUserPerformanceSum.Result> test2 = (Map<Integer, ServiceGetUserPerformanceSum.Result>) MyGson.fromJson(json, collectionType);
-                System.out.println(test2);
-                MyQuickToast.showShort(ActivityTest.this, test2.toString());
-                MyQuickToast.showShort(ActivityTest.this, String.valueOf(test2.get(1).totalWordsInLanguage));
+                Set<Integer> ids = new HashSet<Integer>(10);
+                ids.add(39);
+                ids.add(40);
+                new GetWordAudioNames().doRequest(ids, new HttpResultHandler() {
+                    
+                    public void hasResult(Object resultObject) {
+                        GetWordAudioNames.Result r = (GetWordAudioNames.Result) resultObject;
+                        LogUtil.logDeubg(this, MyGson.toJson(r));
+                    }
+                    
+                    public void noResult(String errorMessage) {
+                        LogUtil.logDeubg(this, errorMessage);
+                    }
+                });
 //                try {
 //                    LocalFileSystem.makeFolders();
 //                    String path = LocalFileSystem.Folders[2];
@@ -290,7 +289,7 @@ public class ActivityTest extends Activity {
 //                    Logger.getLogger(ActivityTest.class.getName()).log(Level.SEVERE, null, ex);
 //                }
             }
-
+            
         });
     }
 }

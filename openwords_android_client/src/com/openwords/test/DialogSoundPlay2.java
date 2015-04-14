@@ -29,7 +29,6 @@ public class DialogSoundPlay2 extends ListActivity {
 //        new UserWords(17, 0, null, 0, null, 0, null, "17_ziyou_man1_48.ogg"),
 //        new UserWords(48, 0, null, 0, null, 0, null, "48_mao_man1_48.ogg")
 //    };
-
     public static boolean downloaded = false;
 
     public static String[] options = new String[5];
@@ -82,30 +81,30 @@ public class DialogSoundPlay2 extends ListActivity {
             File temp = new File(LocalFileSystem.Folders[0] + "temp");
             options[0] = "<Downloading...>";
             adapter.notifyDataSetChanged();
-            GetWordAudio.request(new int[]{5, 17, 48}, RESULT_OK, new GetWordAudio.AsyncCallback() {
-
-                public void callback(File file, Throwable error) {
-                    if (file != null) {
-                        try {
-                            List<String> files = LocalFileSystem.unzipAudioPackage(file);
-                            Toast.makeText(DialogSoundPlay2.this, "Files are saved!\n" + files.toString(), Toast.LENGTH_SHORT).show();
-//                            for (UserWords word : words) {
-//                                word.audioIsLocal = true;
-//                            }
-                            downloaded = true;
-                        } catch (IOException ex) {
-                            LogUtil.logWarning(this, ex);
-                            Toast.makeText(DialogSoundPlay2.this, ex.toString(), Toast.LENGTH_SHORT).show();
-                            downloaded = false;
-                        }
-                    } else {
-                        Toast.makeText(DialogSoundPlay2.this, error.toString(), Toast.LENGTH_SHORT).show();
-                        downloaded = false;
-                    }
-                    downloading.set(false);
-                    makeOptions();
-                }
-            }, temp);
+//            GetWordAudio.request(new int[]{5, 17, 48}, RESULT_OK, new GetWordAudio.AsyncCallback() {
+//
+//                public void callback(File file, Throwable error) {
+//                    if (file != null) {
+//                        try {
+//                            List<String> files = LocalFileSystem.unzipAudioPackage(file);
+//                            Toast.makeText(DialogSoundPlay2.this, "Files are saved!\n" + files.toString(), Toast.LENGTH_SHORT).show();
+////                            for (UserWords word : words) {
+////                                word.audioIsLocal = true;
+////                            }
+//                            downloaded = true;
+//                        } catch (IOException ex) {
+//                            LogUtil.logWarning(this, ex);
+//                            Toast.makeText(DialogSoundPlay2.this, ex.toString(), Toast.LENGTH_SHORT).show();
+//                            downloaded = false;
+//                        }
+//                    } else {
+//                        Toast.makeText(DialogSoundPlay2.this, error.toString(), Toast.LENGTH_SHORT).show();
+//                        downloaded = false;
+//                    }
+//                    downloading.set(false);
+//                    makeOptions();
+//                }
+//            }, temp);
         } else if (position == 4) {
 //            for (UserWords w : words) {
 //                w.audioIsLocal = false;
