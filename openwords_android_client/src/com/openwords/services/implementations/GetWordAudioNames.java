@@ -1,45 +1,45 @@
 package com.openwords.services.implementations;
 
 import com.google.gson.Gson;
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.RequestParams;
-import com.loopj.android.http.TextHttpResponseHandler;
+import static com.openwords.model.DataPool.ServerAddress;
 import com.openwords.model.WordAudio;
-import org.apache.http.Header;
+import com.openwords.services.interfaces.HttpResultHandler;
+import com.openwords.services.interfaces.HttpServiceRequester;
+import com.openwords.services.interfaces.RequestParamsBuilder;
+import com.openwords.util.gson.MyGson;
+import java.util.Collection;
 
-public class GetWordAudioNames {
+public class GetWordAudioNames extends HttpServiceRequester implements HttpResultHandler {
 
-    public static final String ServiceURL = "http://openwords.org/api-v1/getWordAudioNames.php";
+    public static final String ServiceURL = "http://" + ServerAddress + ":8888/api-v1/getWordAudioNames.php";
 
-    public static void request(int[] wordIds, int timeout, final AsyncCallback callback) {
+    private HttpResultHandler resultHandler;
 
-        AsyncHttpClient http = new AsyncHttpClient();
-        if (timeout > 0) {
-            http.setTimeout(timeout);
+    public void doRequest(Collection<Integer> wordIds, HttpResultHandler resultHandler) {
+        this.resultHandler = resultHandler;
+        request(ServiceURL,
+                new RequestParamsBuilder()
+                .addParam("words", MyGson.toJson(wordIds))
+                .getParams(), 0, this);
+    }
+
+    public void hasResult(Object resultObject) {
+        String jsonReply = (String) resultObject;
+        Result r = new Gson().fromJson(jsonReply, Result.class);
+        if (r.result != null) {
+            resultHandler.hasResult(r);
+        } else {
+            resultHandler.noResult("no result");
         }
-        RequestParams params = new RequestParams();
-        params.put("words", new Gson().toJson(wordIds));
-        http.post(ServiceURL, params, new TextHttpResponseHandler() {
-
-            @Override
-            public void onFailure(int i, Header[] headers, String string, Throwable thrwbl) {
-                callback.callback(null, thrwbl);
-            }
-
-            @Override
-            public void onSuccess(int i, Header[] headers, String string) {
-                WordAudio[] names = new Gson().fromJson(string, WordAudio[].class);
-                callback.callback(names, null);
-            }
-        });
     }
 
-    private GetWordAudioNames() {
+    public void noResult(String errorMessage) {
+        resultHandler.noResult(errorMessage);
     }
 
-    public interface AsyncCallback {
+    public class Result {
 
-        public void callback(WordAudio[] names, Throwable error);
+        public WordAudio[] result;
     }
 
 }
