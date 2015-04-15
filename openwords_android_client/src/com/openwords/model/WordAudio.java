@@ -55,6 +55,10 @@ public class WordAudio extends SugarRecord<WordAudio> {
 
                     public void hasResult(Object resultObject) {
                         GetWordAudioNames.Result r = (GetWordAudioNames.Result) resultObject;
+                        if (r.result.length == 0) {
+                            resultHandler.error("no audio at all");
+                            return;
+                        }
                         WordAudio.saveOrUpdateAll(r.result);
 
                         //get and save files bundle

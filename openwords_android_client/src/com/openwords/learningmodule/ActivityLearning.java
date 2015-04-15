@@ -80,6 +80,7 @@ public class ActivityLearning extends FragmentActivity implements InterfaceLearn
                                         if (newAudios.size() != wordIds.size()) {
                                             MyQuickToast.showShort(act, "Sorry some words don't have audio yet");
                                             finish();
+                                            MyDialogHelper.tryDismissQuickProgressDialog();
                                             return;
                                         }
                                     }
@@ -91,6 +92,7 @@ public class ActivityLearning extends FragmentActivity implements InterfaceLearn
                                     if (DataPool.LmType == Learning_Type_Hearing) {
                                         MyQuickToast.showShort(act, "Sorry we cannot get the audios: " + errorMessage);
                                         finish();
+                                        MyDialogHelper.tryDismissQuickProgressDialog();
                                     } else {
                                         DataPool.addLmPool(connections, performance);
                                         init();

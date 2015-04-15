@@ -29,7 +29,6 @@ import java.util.List;
 
 public class HomePage extends Activity {
 
-    public static HomePage instance;
     private Spinner learningModuleOption, languageOption;
     private ActionBarBuilder actionBar;
     private int learningType;
