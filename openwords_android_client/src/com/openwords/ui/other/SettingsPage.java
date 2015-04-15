@@ -70,6 +70,7 @@ public class SettingsPage extends Activity {
         final UserLanguage languageInfo = UserLanguage.getUserLanguageInfo(LocalSettings.getBaseLanguageId(), DataPool.LmLearningLang);
         if (languageInfo == null) {
             MyQuickToast.showShort(this, "No language is selected");
+            return;
         }
         final int currentPage = languageInfo.page;
         int minPage = currentPage - 5;

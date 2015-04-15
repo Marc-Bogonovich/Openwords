@@ -79,7 +79,6 @@ public class HomePage extends Activity {
                 testPageButtonClick();
             }
         });
-        testPageGo.setText(LocalizationManager.getTextGo());
     }
 
     private void fillLearningOptionUI() {
@@ -89,6 +88,7 @@ public class HomePage extends Activity {
         UserLanguage ul = UserLanguage.getUserLanguageInfo(LocalSettings.getBaseLanguageId(), nextLangToLearn.langId);
         if (ul == null) {
             MyQuickToast.showShort(this, "No language is selected");
+            return;
         }
         DataPool.LmLearningLang = nextLangToLearn.langId;
         String stepInfo = " " + nextLangToLearn.displayName + " set " + ul.page;
@@ -166,6 +166,7 @@ public class HomePage extends Activity {
         LogUtil.logDeubg(this, "onResume");
         actionBar.checkSetting();
         refreshLanguageOptions();
+        testPageGo.setText(LocalizationManager.getTextGo());
     }
 
     @Override
