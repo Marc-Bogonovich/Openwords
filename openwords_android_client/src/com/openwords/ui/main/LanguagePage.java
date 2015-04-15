@@ -15,6 +15,7 @@ import com.openwords.model.ResultUserLanguage;
 import com.openwords.model.UserLanguage;
 import com.openwords.services.implementations.ServiceSetUserLanguages;
 import com.openwords.services.interfaces.HttpResultHandler;
+import com.openwords.util.log.LogUtil;
 import com.openwords.util.ui.MyDialogHelper;
 import com.openwords.util.ui.MyQuickToast;
 import java.util.LinkedList;
@@ -72,7 +73,7 @@ public class LanguagePage extends Activity {
                                 }
 
                                 public void noResult(String errorMessage) {
-                                    MyQuickToast.showShort(LanguagePage.this, errorMessage);
+                                    LogUtil.logDeubg(this, errorMessage);
                                     MyDialogHelper.tryDismissQuickProgressDialog();
                                     finish();
                                 }
@@ -92,13 +93,13 @@ public class LanguagePage extends Activity {
             public void result(String resultObject) {
                 if (resultObject != null && resultObject.equals(Result_No_Language_Data)) {
                     MyDialogHelper.tryDismissQuickProgressDialog();
-                    MyQuickToast.showShort(LanguagePage.this, "No language data");
+                    LogUtil.logDeubg(this, "No language data");
                     finish();
                     return;
                 }
                 if (resultObject != null && resultObject.equals(Result_No_Server_Response)) {
                     MyDialogHelper.tryDismissQuickProgressDialog();
-                    MyQuickToast.showShort(LanguagePage.this, "No server response");
+                    LogUtil.logDeubg(this, "No server response");
                     finish();
                     return;
                 }

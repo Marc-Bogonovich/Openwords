@@ -120,7 +120,9 @@ public class HomePage extends Activity {
                         return true;
                     }
                     touched[0] = true;
-                    startActivity(new Intent(HomePage.this, LanguagePage.class));
+                    if (!DataPool.OffLine) {
+                        startActivity(new Intent(HomePage.this, LanguagePage.class));
+                    }
                     return true;
                 }
             });

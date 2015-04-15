@@ -64,6 +64,10 @@ public class StatsPage extends Activity {
     }
 
     private void refreshStatsView(List<UserLanguage> langs) {
+        if (langs == null) {
+            MyQuickToast.showShort(this, "No data");
+            return;
+        }
         final Language[] lang = new Language[1];
         for (UserLanguage ul : langs) {
             if (ul.learningLang == DataPool.LmLearningLang) {
