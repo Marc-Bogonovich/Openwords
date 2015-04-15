@@ -20,6 +20,7 @@ import com.openwords.services.implementations.ServiceGetWordConnectionsByLangOne
 import com.openwords.services.implementations.ServiceGetWordConnectionsByLangOne.Result;
 import com.openwords.services.implementations.ServiceSetUserPerformance;
 import com.openwords.services.interfaces.HttpResultHandler;
+import com.openwords.util.ui.MyDialogHelper;
 import com.openwords.util.ui.MyQuickToast;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -167,6 +168,7 @@ public class DialogSearchWords extends Dialog {
         buttonNext.setEnabled(false);
         buttonSearch.setEnabled(false);
         buttonAdd.setEnabled(false);
+        MyDialogHelper.tryShowQuickProgressDialog(context, "Please wait...");
         new ServiceGetWordConnectionsByLangOne().doRequest(form, LocalSettings.getBaseLanguageId(), DataPool.LmLearningLang, page, 6,
                 new HttpResultHandler() {
 
@@ -214,6 +216,7 @@ public class DialogSearchWords extends Dialog {
             MyQuickToast.showShort(context, "No result");
         }
         buttonSearch.setEnabled(true);
+        MyDialogHelper.tryDismissQuickProgressDialog();
     }
 
     public interface ListChoiceCallback {
