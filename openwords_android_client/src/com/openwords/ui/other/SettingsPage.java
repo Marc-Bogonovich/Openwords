@@ -36,8 +36,7 @@ public class SettingsPage extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings_page);
-        //BackIcons.builder(this);
-        BackIcons.builder(this);
+        BackIcons.enable(this);
         portalPageRadioGroup = (RadioGroup) findViewById(R.id.settingsPage_RadioGroup_portalPage);
         if (OpenwordsSharedPreferences.getHidePortal()) {
             portalPageRadioGroup.check(R.id.settingsPage_RadioButton_hidePortalPage);
@@ -69,6 +68,9 @@ public class SettingsPage extends Activity {
         languagePageSpinner = (Spinner) findViewById(R.id.settingsPage_Spinner1);
 
         final UserLanguage languageInfo = UserLanguage.getUserLanguageInfo(LocalSettings.getBaseLanguageId(), DataPool.LmLearningLang);
+        if (languageInfo == null) {
+            MyQuickToast.showShort(this, "No language is selected");
+        }
         final int currentPage = languageInfo.page;
         int minPage = currentPage - 5;
         if (minPage <= 0) {

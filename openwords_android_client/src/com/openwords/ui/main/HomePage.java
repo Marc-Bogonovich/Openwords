@@ -87,6 +87,9 @@ public class HomePage extends Activity {
             return;
         }
         UserLanguage ul = UserLanguage.getUserLanguageInfo(LocalSettings.getBaseLanguageId(), nextLangToLearn.langId);
+        if (ul == null) {
+            MyQuickToast.showShort(this, "No language is selected");
+        }
         DataPool.LmLearningLang = nextLangToLearn.langId;
         String stepInfo = " " + nextLangToLearn.displayName + " set " + ul.page;
         String[] options = new String[]{

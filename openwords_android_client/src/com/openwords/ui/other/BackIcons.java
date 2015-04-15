@@ -8,18 +8,15 @@ public class BackIcons {
 
     private static Activity activity;
 
-    public static void builder(Activity act) {
+    public static void enable(Activity act) {
         activity = act;
         ActionBarBuilderForActivity actionBuilder = new ActionBarBuilderForActivity(activity);
-        Integer targetTitle = R.string.title_activity_homePage;
-        if (activity.getClass().getSimpleName().equals("ProfilePage")) {
-            actionBuilder.highlightButtonItem(1);
+        int targetTitle = R.string.app_name;
+        if (activity.getClass().getSimpleName().contains("ProfilePage")) {
             targetTitle = R.string.title_activity_profilePage;
-        } else if (activity.getClass().getSimpleName().equals("SettingsPage")) {
-            actionBuilder.highlightButtonItem(2);
+        } else if (activity.getClass().getSimpleName().contains("SettingsPage")) {
             targetTitle = R.string.title_activity_settingsPage;
-        } else if (activity.getClass().getSimpleName().equals("TutorialPage")) {
-            actionBuilder.highlightButtonItem(3);
+        } else if (activity.getClass().getSimpleName().contains("TutorialPage")) {
             targetTitle = R.string.title_activity_tutorial_page;
         }
         actionBuilder.showBackButton(new ActionBarBuilderForActivity.ActionBarItemClickAction() {
@@ -27,12 +24,7 @@ public class BackIcons {
                 activity.finish();
             }
         })
-                .showTitle(R.id.actionbar_title, targetTitle, new ActionBarBuilderForActivity.ActionBarItemClickAction() {
-
-                    public void clicked() {
-                        activity.finish();
-                    }
-                });
+                .showTitle(R.id.actionbar_title, targetTitle, null);
     }
 
     private BackIcons() {

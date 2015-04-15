@@ -13,10 +13,15 @@ import java.util.List;
 public class UserLanguage extends SugarRecord<UserLanguage> {
 
     public static UserLanguage getUserLanguageInfo(int baseLang, int learningLang) {
-        return Select.from(UserLanguage.class)
+        List<UserLanguage> r = Select.from(UserLanguage.class)
                 .where("base_lang = ? and learning_lang = ?",
                         new String[]{String.valueOf(baseLang), String.valueOf(learningLang)})
-                .list().get(0);
+                .list();
+        if (r.isEmpty()) {
+            return null;
+        } else {
+            return r.get(0);
+        }
     }
 
     /**

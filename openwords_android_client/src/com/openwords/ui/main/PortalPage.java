@@ -1,12 +1,10 @@
 package com.openwords.ui.main;
 
-import com.openwords.ui.other.ActionBarBuilder;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import com.openwords.R;
 import com.openwords.ui.common.BackButtonBehavior;
-import com.openwords.ui.main.HomePage;
 import com.openwords.ui.other.ActionBarBuilder;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
 

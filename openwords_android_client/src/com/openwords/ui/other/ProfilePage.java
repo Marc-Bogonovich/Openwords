@@ -31,7 +31,7 @@ public class ProfilePage extends Activity implements OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_page);
 
-        BackIcons.builder(this);
+        BackIcons.enable(this);
 
         parentLayout = (LinearLayout) findViewById(R.id.profilePage_LinearLayout_parent);
         //Spinner l2_dropdown = (Spinner) findViewById(R.id.homePage_Spinner_chooseLanguage);
