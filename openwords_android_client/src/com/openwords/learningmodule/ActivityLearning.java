@@ -62,6 +62,12 @@ public class ActivityLearning extends FragmentActivity implements InterfaceLearn
                             finish();
                             return;
                         }
+                        if (connections.isEmpty()) {
+                            MyDialogHelper.tryDismissQuickProgressDialog();
+                            MyQuickToast.showShort(act, "No data");
+                            finish();
+                            return;
+                        }
 
                         //try loading audios
                         final Set<Integer> wordIds = new HashSet<Integer>(words.size());

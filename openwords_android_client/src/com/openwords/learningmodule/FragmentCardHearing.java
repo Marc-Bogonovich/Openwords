@@ -71,6 +71,9 @@ public class FragmentCardHearing extends FragmentLearningModule {
     public void playAudio() {
         if (wordTwoIdForAudio > 0) {
             WordAudio audio = WordAudio.getAudio(wordTwoIdForAudio);
+            if (audio == null) {
+                return;
+            }
             SoundPlayer.playMusic(LocalFileSystem.getAudioFullPath(audio.fileName), true);
         }
     }
