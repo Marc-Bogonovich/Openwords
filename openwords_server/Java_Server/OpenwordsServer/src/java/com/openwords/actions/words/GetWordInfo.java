@@ -4,6 +4,7 @@ import static com.opensymphony.xwork2.Action.SUCCESS;
 import com.openwords.database.DatabaseHandler;
 import com.openwords.database.Word;
 import com.openwords.interfaces.MyAction;
+import com.openwords.utils.MyFieldValidation;
 import com.openwords.utils.UtilLog;
 import java.util.List;
 import org.apache.struts2.convention.annotation.Action;
@@ -20,7 +21,8 @@ public class GetWordInfo extends MyAction {
     private int pageNumber, pageSize;
 
     @Action(value = "/getWordInfo", results = {
-        @Result(name = SUCCESS, type = "json")
+        @Result(name = SUCCESS, type = "json"),
+        @Result(name = INPUT, type = "json")
     })
     @Override
     public String execute() throws Exception {
@@ -52,7 +54,12 @@ public class GetWordInfo extends MyAction {
     }
 
     @Override
+    public void validate() {
+        MyFieldValidation.checkBlackList(this, getHttpRequest());
+    }
+
+    @Override
     public void setErrorMessage(String errorMessage) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.errorMessage = errorMessage;
     }
 }

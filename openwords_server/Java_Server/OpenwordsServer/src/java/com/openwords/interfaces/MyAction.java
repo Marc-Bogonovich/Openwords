@@ -5,15 +5,18 @@ import com.openwords.utils.UtilLog;
 import java.io.IOException;
 import java.util.Map;
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.ServletResponseAware;
 import org.apache.struts2.interceptor.SessionAware;
 import org.apache.struts2.util.ServletContextAware;
 
-public abstract class MyAction extends ActionSupport implements SessionAware, ServletResponseAware, ServletContextAware {
+public abstract class MyAction extends ActionSupport implements SessionAware, ServletResponseAware, ServletContextAware, ServletRequestAware {
 
     private static final long serialVersionUID = 1L;
     private HttpServletResponse httpResponse;
+    private HttpServletRequest httpRequest;
     private Map<String, Object> httpSession;
     private ServletContext servletContext;
 
@@ -24,6 +27,10 @@ public abstract class MyAction extends ActionSupport implements SessionAware, Se
 
     public HttpServletResponse getHttpResponse() {
         return httpResponse;
+    }
+
+    public HttpServletRequest getHttpRequest() {
+        return httpRequest;
     }
 
     public Map<String, Object> getHttpSession() {
@@ -71,5 +78,10 @@ public abstract class MyAction extends ActionSupport implements SessionAware, Se
         } catch (IOException ex) {
             UtilLog.logWarn(this, ex);
         }
+    }
+
+    @Override
+    public void setServletRequest(HttpServletRequest hsr) {
+        httpRequest = hsr;
     }
 }

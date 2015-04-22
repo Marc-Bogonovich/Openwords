@@ -1,8 +1,23 @@
 package com.openwords.utils;
 
+import com.openwords.actions.accounts.BlackList;
 import com.openwords.interfaces.MyAction;
+import javax.servlet.http.HttpServletRequest;
 
 public class MyFieldValidation {
+
+    public static void checkBlackList(MyAction action, HttpServletRequest request) {
+        String clientId = request.getRemoteAddr();
+        try {
+            if (!BlackList.requestLegal(clientId)) {
+                throw new Exception("Sorry, our current server cannot take such high volume requests (less than 5 seconds frequency) from your IP, please try another time.");
+            }
+        } catch (Exception e) {
+            action.setErrorMessage(e.getMessage());
+            validateFail(action);
+            UtilLog.logWarn(MyFieldValidation.class, e.toString());
+        }
+    }
 
     public static void checkUsernameField(MyAction action, String username) {
         try {
