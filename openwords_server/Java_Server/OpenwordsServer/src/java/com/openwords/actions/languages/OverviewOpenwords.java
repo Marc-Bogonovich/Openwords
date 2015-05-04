@@ -42,7 +42,7 @@ public class OverviewOpenwords extends MyAction {
             for (Language lang : langs) {
                 result.add(new String[]{lang.getName(), String.valueOf(Word.countLanguageWord(s, lang.getLangId())), lang.getCode(), String.valueOf(lang.getLangId())});
             }
-
+            lastRequest = now;
         } catch (Exception e) {
             errorMessage = e.toString();
             UtilLog.logWarn(this, errorMessage);
