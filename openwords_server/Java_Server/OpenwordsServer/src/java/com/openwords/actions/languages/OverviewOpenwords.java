@@ -17,8 +17,8 @@ import org.hibernate.Session;
 public class OverviewOpenwords extends MyAction {
 
     private static final long serialVersionUID = 1L;
-
-    private List<String[]> result;
+    private static long lastRequest;
+    private static List<String[]> result;
     private String errorMessage;
 
     @Action(value = "/overviewOpenwords", results = {
@@ -27,6 +27,13 @@ public class OverviewOpenwords extends MyAction {
     @Override
     public String execute() throws Exception {
         UtilLog.logInfo(this, "/overviewOpenwords");
+        long now = System.currentTimeMillis();
+        long diff = (now - lastRequest) / 1000;
+        if (diff < (60 * 60 * 24) && result != null) {//one day
+            UtilLog.logInfo(this, "reuse because " + diff + " seconds");
+            return SUCCESS;
+        }
+
         Session s = DatabaseHandler.getSession();
         try {
             List<Language> langs = Language.getAllLanguages(s);
