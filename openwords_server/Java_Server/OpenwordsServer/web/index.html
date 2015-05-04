@@ -4,13 +4,17 @@
         <title>Openwords</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="js/jquery-2.1.1.min.js"></script>
+        <script src="ng-file-upload/angular-file-upload-shim.min.js"></script> 
         <script src="ng/angular.min.js"></script>
-        <script src="ng/control_root.js"></script>
         <script>
-            angular.module("RootPage", []);
+            angular.module("RootPage", ["angularFileUpload"]);
         </script>
+        <script src="ng/control_root.js"></script>
+        <script src="ng/control_uploads.js"></script>
         <script src="bootstrap-3.1.1/js/bootstrap.min.js"></script>
         <link rel="stylesheet" href="bootstrap-3.1.1/css/bootstrap.min.css" type="text/css">
+        <script src="ng-file-upload/angular-file-upload.min.js"></script>
         <style>
             .simple-bold{
                 font-weight: bold;
@@ -176,6 +180,54 @@
                             <br/>
                             <br/>
                             <a href="javascript:void(0);" ng-show="showDownload" ng-click="doDownload()">Click here to download</a>
+
+                            <p class="api-title"><span class="label label-success">/translateDocument</span></p>
+                            <p>Translate a document of words from one language to another. This service will return an url for the translated document upon success.</p>
+                            <table class="table table-hover table-bordered">
+                                <thead>
+                                    <tr><th>Parameter</th><th>Constraints</th><th>Purpose</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>file</td><td>Binary, compulsory</td><td>The file object of the document</td></tr>
+                                    <tr><td>langIn</td><td>String, compulsory</td><td>ID of language one</td></tr>
+                                    <tr><td>langOut</td><td>String, compulsory</td><td>ID of language two</td></tr>
+                                    <tr><td>place</td><td>String, optional</td><td>Placeholder for the words which cannot be translated, if this parameter is not specified then original language one words will be kept in the same place</td></tr>
+                                </tbody>
+                            </table>
+                            <div class="panel panel-success" ng-controller="FileUploadControl">
+                                <div class="panel-body">
+                                    <div>
+                                        <label>Language In</label>
+                                        <div>
+                                            <input type="text" ng-model="langIn" />
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label>Language Out</label>
+                                        <div>
+                                            <input type="text" ng-model="langOut"/>
+                                        </div>
+                                    </div>
+                                    <div style="margin-bottom: 30px;">
+                                        <label>Placeholder</label>
+                                        <div>
+                                            <input type="text" ng-model="place"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="alert alert-danger drop-area" ng-file-drop="onFileSelect($files)" ng-file-drag-over-class="alert-success"
+                                         ng-show="dropSupported">You can drop your .txt file here (Please use UTF-8 encoding, max file size: 2MB)</div>
+
+                                    <div ng-file-drop-available="dropSupported=true" 
+                                         ng-show="!dropSupported">HTML5 Drop File is not supported!</div>
+
+                                    <progressbar ng-show="started" class="progress-striped active" value="percentage" type="{{progressType}}"><b>{{progressText}}</b></progressbar>
+                                    <br/>
+                                    <button class="btn btn-danger" ng-show="started" ng-click="upload.abort()">Abort Uploading</button>
+                                    <br/>
+                                    <button class="btn btn-success" ng-show="showDownloadFile" ng-click="downloadFile()">Download translated file</button>
+                                </div>
+                            </div>
 
                             <p style="margin-top: 80px; font-size: 20px;">And more later on...</p>
                         </div>
