@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <TextView android:text="Decks"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:gravity="center"
+              android:textSize="32sp"
+              android:textColor="@color/my_orange"/>
+    
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="horizontal">
+        
+        <View android:layout_width="0dp"
+              android:layout_weight="1"
+              android:layout_height="0dp"/>
+        
+        <EditText android:id="@+id/act_main_decks_edit1"
+                  android:layout_width="0dp"
+                  android:layout_weight="3"
+                  android:layout_height="wrap_content"
+                  android:textSize="20sp"
+                  android:maxLines="1"
+                  android:hint="Search decks"
+                  android:gravity="center"/>
+        
+        <View android:layout_width="0dp"
+              android:layout_weight="1"
+              android:layout_height="0dp"/>
+        
+    </LinearLayout>
+    
+    <GridView android:id="@+id/act_main_decks_gridview1"
+              android:layout_width="match_parent"
+              android:layout_height="0dp"
+              android:layout_weight="1"
+              android:columnWidth="120dp"
+              android:numColumns="3"
+              android:verticalSpacing="10dp"
+              android:horizontalSpacing="15dp"
+              android:stretchMode="columnWidth"
+              android:gravity="center"/>
+    
+    <GridView android:id="@+id/act_main_decks_gridview2"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:columnWidth="120dp"
+              android:numColumns="3"
+              android:verticalSpacing="10dp"
+              android:horizontalSpacing="15dp"
+              android:stretchMode="columnWidth"
+              android:gravity="center"/>
+
+</LinearLayout>

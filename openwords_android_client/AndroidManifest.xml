@@ -127,6 +127,11 @@
                   android:theme="@style/NoTitleTheme"
                   android:configChanges="orientation|screenSize">
         </activity>
+        
+        <activity android:name=".ui.lily.PageMainDecks"
+                  android:theme="@style/NoTitleTheme"
+                  android:configChanges="orientation|screenSize">
+        </activity>
     </application>
 
 </manifest>

@@ -73,12 +73,12 @@
         
     </LinearLayout>
     
-    <TextView android:id="@+id/loginPage_test"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:gravity="right"
-              android:text="testing functions"
-              android:layout_below="@+id/loginPage_button_group"/>
+    <Button android:id="@+id/loginPage_test"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Testing UI"
+            android:textSize="18sp"/>
 
 </RelativeLayout>
 
