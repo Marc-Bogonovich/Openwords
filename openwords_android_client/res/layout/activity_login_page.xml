@@ -77,8 +77,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Testing UI"
+            android:text="Testing Decks UI"
             android:textSize="18sp"/>
+    
+    <Button android:id="@+id/loginPage_test2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Testing Multiword UI"
+            android:textSize="18sp"
+            android:layout_below="@+id/loginPage_test"/>
 
 </RelativeLayout>
 

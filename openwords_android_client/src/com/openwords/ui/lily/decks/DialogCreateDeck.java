@@ -1,4 +1,4 @@
-package com.openwords.ui.lily;
+package com.openwords.ui.lily.decks;
 
 import android.app.Dialog;
 import android.content.Context;

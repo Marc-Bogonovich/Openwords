@@ -1,4 +1,4 @@
-package com.openwords.ui.lily;
+package com.openwords.ui.lily.decks;
 
 import android.app.Activity;
 import static android.content.Context.INPUT_METHOD_SERVICE;

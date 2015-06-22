@@ -1,4 +1,4 @@
-package com.openwords.ui.lily;
+package com.openwords.ui.lily.decks;
 
 import android.content.Context;
 import android.graphics.Color;

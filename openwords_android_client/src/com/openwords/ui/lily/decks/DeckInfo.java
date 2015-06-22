@@ -1,4 +1,4 @@
-package com.openwords.ui.lily;
+package com.openwords.ui.lily.decks;
 
 import java.util.LinkedList;
 import java.util.List;

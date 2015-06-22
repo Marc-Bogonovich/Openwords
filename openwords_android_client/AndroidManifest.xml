@@ -128,7 +128,12 @@
                   android:configChanges="orientation|screenSize">
         </activity>
         
-        <activity android:name=".ui.lily.PageMainDecks"
+        <activity android:name=".ui.lily.decks.PageMainDecks"
+                  android:theme="@style/NoTitleTheme"
+                  android:configChanges="orientation|screenSize">
+        </activity>
+        
+        <activity android:name=".ui.lily.multiword.PageMultiwordDemo"
                   android:theme="@style/NoTitleTheme"
                   android:configChanges="orientation|screenSize">
         </activity>
