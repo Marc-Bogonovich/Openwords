@@ -22,17 +22,17 @@ public class MyContextListener implements ServletContextListener {
         if (!contextPath.endsWith("/")) {
             contextPath += "/";
         }
-        UtilLog.logEnvironment(this, "Servlet Context Path: " + contextPath);
+        UtilLog.logInfo(this, "Servlet Context Path: " + contextPath);
 
         MyXStream.init();
         DatabaseHandler.getInstance();
-        UtilLog.logEnvironment(this, "contextInitialized");
+        UtilLog.logInfo(this, "contextInitialized");
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
         MyXStream.clean();
         DatabaseHandler.getInstance().clean();
-        UtilLog.logEnvironment(this, "contextDestroyed");
+        UtilLog.logInfo(this, "contextDestroyed");
     }
 }

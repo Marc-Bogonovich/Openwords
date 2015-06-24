@@ -78,13 +78,13 @@ public class DatabaseHandler {
         sessionFactory = configuration.buildSessionFactory(new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build());
         sessionFactory.getStatistics().setStatisticsEnabled(true);
 
-        UtilLog.logDatabase(DatabaseHandler.class, "SessionFactory created");
+        UtilLog.logInfo(DatabaseHandler.class, "SessionFactory created");
     }
 
     public synchronized void clean() {
         sessionFactory.close();
         instance = null;
-        UtilLog.logDatabase(this, "clean DatabaseHandler " + sessionFactory.isClosed());
+        UtilLog.logInfo(this, "clean DatabaseHandler " + sessionFactory.isClosed());
     }
 
     private synchronized Session getHibernateSession() {
