@@ -20,7 +20,7 @@ public class ServiceGetLanguages extends HttpServiceRequester implements HttpRes
         request(ServiceURL,
                 new RequestParamsBuilder()
                 .addParam("include", new Gson().toJson(langIds))
-                .getParams(), 0, this);
+                .getParams(), 30 * 1000, this);
     }
 
     public void hasResult(Object resultObject) {

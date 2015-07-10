@@ -17,7 +17,7 @@ public class ServiceGetLearnableLanguages extends HttpServiceRequester implement
         resultHandler = hrh;
         request(ServiceURL, new RequestParamsBuilder()
                 .addParam("langOneId", String.valueOf(langOneId))
-                .getParams(), 0, this);
+                .getParams(), 30 * 1000, this);
     }
 
     public void hasResult(Object resultObject) {
