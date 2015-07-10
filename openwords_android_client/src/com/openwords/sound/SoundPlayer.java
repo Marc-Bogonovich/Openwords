@@ -3,6 +3,7 @@ package com.openwords.sound;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import com.openwords.util.log.LogUtil;
+import java.io.FileDescriptor;
 import java.io.IOException;
 
 public class SoundPlayer {
@@ -13,6 +14,25 @@ public class SoundPlayer {
         if (mediaPlayer != null) {
             mediaPlayer.release();
             //LogUtil.logDeubg(SoundPlayer.class, "Clean SoundPlayer");
+        }
+    }
+
+    public static void playSound(FileDescriptor file) {
+        try {
+            clean();
+            mediaPlayer = new MediaPlayer();
+            mediaPlayer.setDataSource(file);
+            mediaPlayer.prepare();
+            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                public void onCompletion(MediaPlayer arg0) {
+                    mediaPlayer.stop();
+                    clean();
+                }
+            });
+            mediaPlayer.start();
+
+        } catch (IOException e) {
+            LogUtil.logWarning(SoundPlayer.class, e);
         }
     }
 
