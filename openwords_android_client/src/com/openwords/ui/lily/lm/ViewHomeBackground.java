@@ -13,12 +13,12 @@ import com.openwords.util.log.LogUtil;
 
 public class ViewHomeBackground extends View {
 
-    private Paint colorPaint;
+    private Paint colorPaint, iconPaint;
     private float viewWidth, viewHeight, left, top, right, bottom, iconX, iconY;
     private int color, alpha;
     private MyTweenComputer tween;
     private OnPressEnough onPress;
-    private static Bitmap icon;
+    private static Bitmap icon, drawIcon;
     private static final float iconScale = 0.9f;
 
     public ViewHomeBackground(Context context) {
@@ -50,13 +50,8 @@ public class ViewHomeBackground extends View {
     }
 
     private void loadImages() {
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inScaled = true;
-        options.inDither = true;
-        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-
         if (icon == null) {
-            icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_home, options);
+            icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_home);
         }
     }
 
@@ -108,8 +103,8 @@ public class ViewHomeBackground extends View {
         if (colorPaint != null) {
             canvas.drawRect(left, top, right, bottom, colorPaint);
         }
-        if (icon != null) {
-            canvas.drawBitmap(icon, iconX, iconY, null);
+        if (drawIcon != null) {
+            canvas.drawBitmap(drawIcon, iconX, iconY, iconPaint);
         }
     }
 
@@ -118,10 +113,10 @@ public class ViewHomeBackground extends View {
     }
 
     private void resizeIcon(int side) {
-        icon = Bitmap.createScaledBitmap(icon, side, side, true);
+        drawIcon = Bitmap.createScaledBitmap(icon, side, side, true);
         iconX = right - side + side / 10;
         iconY = bottom - side + side / 6;
-        LogUtil.logDeubg(this, "resizeIcon(): " + side);
+        LogUtil.logDeubg(this, "resizeIcon(): viewHeight " + side);
     }
 
     @Override

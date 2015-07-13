@@ -3,7 +3,6 @@ package com.openwords.ui.lily.lm;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.BitmapFactory.Options;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.AttributeSet;
@@ -13,11 +12,11 @@ import com.openwords.util.log.LogUtil;
 
 public class ViewSoundBackground extends View {
 
-    private Paint colorPaint;
+    private Paint colorPaint, iconPaint;
     private float centerX, centerY, radius, initRadius, iconX, iconY;
     private int color, alpha;
     private MyTweenComputer tween;
-    private static Bitmap icon;
+    private static Bitmap icon, drawIcon;
     private static final float iconScale = 0.5f;
 
     public ViewSoundBackground(Context context) {
@@ -48,13 +47,8 @@ public class ViewSoundBackground extends View {
     }
 
     private void loadImages() {
-        Options options = new BitmapFactory.Options();
-        options.inScaled = true;
-        options.inDither = true;
-        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-
         if (icon == null) {
-            icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_sound, options);
+            icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_sound);
         }
     }
 
@@ -87,6 +81,11 @@ public class ViewSoundBackground extends View {
         colorPaint.setStyle(Paint.Style.FILL);
         colorPaint.setColor(color);
         colorPaint.setAlpha(alpha);
+
+        iconPaint = new Paint();
+        iconPaint.setAntiAlias(true);
+        iconPaint.setFilterBitmap(true);
+        iconPaint.setDither(true);
     }
 
     @Override
@@ -94,8 +93,8 @@ public class ViewSoundBackground extends View {
         if (colorPaint != null) {
             canvas.drawCircle(centerX, centerY, radius, colorPaint);
         }
-        if (icon != null) {
-            canvas.drawBitmap(icon, iconX, iconY, null);
+        if (drawIcon != null) {
+            canvas.drawBitmap(drawIcon, iconX, iconY, iconPaint);
         }
     }
 
@@ -113,10 +112,10 @@ public class ViewSoundBackground extends View {
     }
 
     private void resizeIcon(int side) {
-        icon = Bitmap.createScaledBitmap(icon, side, side, true);
+        drawIcon = Bitmap.createScaledBitmap(icon, side, side, true);
         iconX = centerX - side / 2;
         iconY = centerY - side / 2;
-        LogUtil.logDeubg(this, "resizeIcon()");
+        LogUtil.logDeubg(this, "resizeIcon(): side " + side);
     }
 
     public void config(int color, int alpha, boolean soundEffects, View.OnClickListener onclick) {
