@@ -114,9 +114,18 @@ public class ViewMaxText extends View {
     }
 
     public void setTextPosition(int xOff) {
-        float start = mainText.viewWidth / 5;
-        float more = mainText.textWidth * xOff / 1000;
-        mainText.textX = start - more;
+        if (mainText.textOut) {
+            animateTextPosition(xOff, mainText);
+        }
+        if (otherText != null) {
+            animateTextPosition(xOff, otherText);
+        }
+    }
+
+    private void animateTextPosition(int xOff, MyCanvasTextModel t) {
+        float start = t.viewWidth / 5;
+        float more = t.textWidth * xOff / 1000;
+        t.textX = start - more;
         invalidate();
     }
 
@@ -127,12 +136,17 @@ public class ViewMaxText extends View {
                 case MotionEvent.ACTION_DOWN:
                     LogUtil.logDeubg(this, "down");
                     alphaAnimator.start();
+                    if (otherText.textOut) {
+                        outTextAnimator.start();
+                    }
                     break;
 
                 case MotionEvent.ACTION_UP:
                     LogUtil.logDeubg(this, "up");
                     alphaAnimator.cancel();
                     setTextAlpha(mainText.getAlpha());
+                    outTextAnimator.cancel();
+                    otherText.textX = otherText.initialTextX;
                     break;
             }
         } else if (mainText.textOut) {

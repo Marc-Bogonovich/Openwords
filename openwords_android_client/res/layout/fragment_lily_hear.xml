@@ -48,7 +48,8 @@
                   android:paddingLeft="20dp"
                   android:hint="Type your answer here"
                   android:background="@drawable/lily_input_bg"
-                  android:textSize="24sp"/>
+                  android:textSize="24sp"
+                  android:singleLine="true"/>
         
         <View android:layout_width="0dp"
               android:layout_height="match_parent"
