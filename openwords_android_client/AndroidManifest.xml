@@ -137,6 +137,16 @@
                   android:theme="@style/NoTitleTheme"
                   android:configChanges="orientation|screenSize">
         </activity>
+        
+        <activity android:name=".ui.lily.lm.TestReviewFrags"
+                  android:theme="@style/NoTitleTheme"
+                  android:configChanges="orientation|screenSize">
+        </activity>
+        
+        <activity android:name=".ui.lily.lm.TestHearFrags"
+                  android:theme="@style/NoTitleTheme"
+                  android:configChanges="orientation|screenSize">
+        </activity>
     </application>
 
 </manifest>

@@ -12,14 +12,14 @@ import com.openwords.sound.SoundPlayer;
 import com.openwords.util.log.LogUtil;
 import java.io.IOException;
 
-public class FragmentReview extends FragmentLearningModule {
+public class FragmentHear extends FragmentLearningModule {
 
     private final int cardIndex;
     private View myFragmentView;
     private ViewSoundBackground soundButton;
     private ViewHomeBackground homeButton;
 
-    public FragmentReview(int cardIndex) {
+    public FragmentHear(int cardIndex) {
         this.cardIndex = cardIndex;
     }
 
@@ -69,7 +69,7 @@ public class FragmentReview extends FragmentLearningModule {
                 break;
         }
 
-        myFragmentView = inflater.inflate(R.layout.fragment_lily_review, container, false);
+        myFragmentView = inflater.inflate(R.layout.fragment_lily_hear, container, false);
 
         soundButton = (ViewSoundBackground) myFragmentView.findViewById(R.id.lily_button_sound_bg);
         soundButton.config(myFragmentView, Color.parseColor("#ff00ff"), 255, false, new View.OnClickListener() {
@@ -95,15 +95,10 @@ public class FragmentReview extends FragmentLearningModule {
             }
         });
 
-        ViewMaxText pinyin = (ViewMaxText) myFragmentView.findViewById(R.id.frag_review_text1);
-        pinyin.config(Color.parseColor("#ff00ff"), 255, transcription, 48, null);
+        ViewMaxText hint = (ViewMaxText) myFragmentView.findViewById(R.id.frag_hear_text1);
+        hint.config(Color.parseColor("#ff00ff"), 255, "?", 128, w2);
 
-        ViewMaxText word = (ViewMaxText) myFragmentView.findViewById(R.id.frag_review_text2);
-        word.config(Color.parseColor("#ff00ff"), 255, w1, 128, null);//我的老板真的是特别的胖，啊哈哈哈哈哈哈哈哈哈哈哈哈。
-
-        ViewMaxText translation = (ViewMaxText) myFragmentView.findViewById(R.id.frag_review_text3);
-        translation.config(Color.parseColor("#ff00ff"), 255, w2, 96, null);
-
+        //getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         return myFragmentView;
     }
 }

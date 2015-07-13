@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+    
+    <View android:layout_width="match_parent"
+          android:layout_height="0dp"
+          android:layout_weight="2"/>
+        
+    <RelativeLayout  android:layout_width="50dp"
+                     android:layout_height="50dp"
+                     android:layout_gravity="left"
+                     android:layout_marginLeft="20dp">
+        
+        <include layout="@layout/lily_button_home"/>
+             
+    </RelativeLayout>
+    
+    <View android:layout_width="match_parent"
+          android:layout_height="0dp"
+          android:layout_weight="1"/>
+    
+    <RelativeLayout  android:layout_width="160dp"
+                     android:layout_height="160dp"
+                     android:layout_gravity="center_horizontal">
+        
+        <include layout="@layout/lily_button_sound"/>
+            
+    </RelativeLayout>
+        
+    <com.openwords.ui.lily.lm.ViewMaxText android:id="@+id/frag_hear_text1"
+                                          android:layout_width="match_parent"
+                                          android:layout_height="0dp"
+                                          android:layout_weight="4"/>
+
+    <LinearLayout  android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:orientation="horizontal">
+        
+        <View android:layout_width="0dp"
+              android:layout_height="match_parent"
+              android:layout_weight="1"/>
+        
+        <EditText android:id="@+id/frag_hear_input1"
+                  android:layout_width="0dp"
+                  android:layout_weight="3"
+                  android:layout_height="wrap_content"
+                  android:paddingTop="7dp"
+                  android:paddingBottom="7dp"
+                  android:paddingLeft="20dp"
+                  android:hint="Type your answer here"
+                  android:background="@drawable/lily_input_bg"
+                  android:textSize="24sp"/>
+        
+        <View android:layout_width="0dp"
+              android:layout_height="match_parent"
+              android:layout_weight="1"/>
+        
+    </LinearLayout>
+    
+    
+    
+    <View android:layout_width="match_parent"
+          android:layout_height="0dp"
+          android:layout_weight="2"/>
+    
+</LinearLayout>

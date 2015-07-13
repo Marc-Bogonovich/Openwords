@@ -13,7 +13,7 @@ import com.openwords.R;
  *
  * @author hanaldo
  */
-public class TestReviewFrags extends FragmentActivity {
+public class TestHearFrags extends FragmentActivity {
 
     private ViewPager pager;
 
@@ -21,9 +21,9 @@ public class TestReviewFrags extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);//for testing purpose
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.test_review_frags);
+        setContentView(R.layout.test_hear_frags);
 
-        pager = (ViewPager) findViewById(R.id.test_review_frags_pager);
+        pager = (ViewPager) findViewById(R.id.test_hear_frags_pager);
         pager.setOffscreenPageLimit(3);
         pager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
         pager.setPageTransformer(true, new TestPageTransformer());
@@ -37,7 +37,7 @@ public class TestReviewFrags extends FragmentActivity {
 
         @Override
         public Fragment getItem(int i) {
-            return new FragmentReview(i);
+            return new FragmentHear(i);
         }
 
         @Override

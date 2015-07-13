@@ -27,7 +27,6 @@ import com.openwords.sound.SoundPlayer;
 import com.openwords.tts.Speak;
 import com.openwords.ui.common.BackButtonBehavior;
 import com.openwords.ui.lily.decks.PageMainDecks;
-import com.openwords.ui.lily.multiword.PageMultiwordDemo;
 import com.openwords.util.InternetCheck;
 import com.openwords.util.file.LocalFileSystem;
 import com.openwords.util.localization.LocalLanguage;
@@ -78,7 +77,13 @@ public class LoginPage extends Activity {
         findViewById(R.id.loginPage_test2).setOnClickListener(new OnClickListener() {
 
             public void onClick(View view) {
-                startActivity(new Intent(LoginPage.this, PageMultiwordDemo.class));
+                startActivity(new Intent(LoginPage.this, com.openwords.ui.lily.lm.TestReviewFrags.class));
+            }
+        });
+        findViewById(R.id.loginPage_test3).setOnClickListener(new OnClickListener() {
+
+            public void onClick(View view) {
+                startActivity(new Intent(LoginPage.this, com.openwords.ui.lily.lm.TestHearFrags.class));
             }
         });
         //findViewById(R.id.loginPage_test).setVisibility(View.INVISIBLE);
