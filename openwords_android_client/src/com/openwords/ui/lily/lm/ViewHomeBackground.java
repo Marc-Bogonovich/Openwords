@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
@@ -17,6 +18,7 @@ public class ViewHomeBackground extends View {
     private int color, alpha;
     private MyTweenComputer tween;
     private View root;
+    private OnPressEnough onPress;
 
     public ViewHomeBackground(Context context) {
         super(context);
@@ -41,7 +43,7 @@ public class ViewHomeBackground extends View {
                 updateDimension(v.getWidth(), v.getHeight());
             }
         });
-        tween = new MyTweenComputer(0, 1, 500, this, "aniProgress");
+        tween = new MyTweenComputer(0, 1, 800, this, "aniProgress");
         LogUtil.logDeubg(this, "ViewHomeBackground initialized");
     }
 
@@ -80,10 +82,13 @@ public class ViewHomeBackground extends View {
             top = (viewHeight - viewHeight * f);
             bottom = viewHeight * f;
         }
+        invalidate();
         if (f == 1) {
             LogUtil.logDeubg(this, "setAniProgress finished");
+            if (onPress != null) {
+                onPress.onPressFinished();
+            }
         }
-        this.invalidate();
     }
 
     @Override
@@ -109,9 +114,33 @@ public class ViewHomeBackground extends View {
         }
     }
 
-    public void config(View root, int color, int alpha, boolean soundEffects, View.OnClickListener onclick) {
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                LogUtil.logDeubg(this, "down");
+                tween.startAnimator();
+                break;
+
+            case MotionEvent.ACTION_UP:
+                LogUtil.logDeubg(this, "up");
+                tween.cancelAnimator();
+                top = 0;
+                bottom = viewHeight;
+                invalidate();
+                break;
+        }
+        return true;
+    }
+
+    public void config(View root, int color, int alpha, boolean soundEffects, OnPressEnough onPress) {
         makeColor(color, alpha, root);
         setSoundEffectsEnabled(soundEffects);
-        setOnClickListener(onclick);
+        this.onPress = onPress;
+    }
+
+    public interface OnPressEnough {
+
+        public void onPressFinished();
     }
 }

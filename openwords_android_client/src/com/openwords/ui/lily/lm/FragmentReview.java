@@ -87,13 +87,14 @@ public class FragmentReview extends FragmentLearningModule {
         });
 
         homeButton = (ViewHomeBackground) myFragmentView.findViewById(R.id.lily_button_home_bg);
-        homeButton.config(myFragmentView, Color.parseColor("#ff00ff"), 255, true, new View.OnClickListener() {
+        homeButton.config(myFragmentView, Color.parseColor("#ff00ff"), 255, true,
+                new ViewHomeBackground.OnPressEnough() {
 
-            public void onClick(View view) {
-                homeButton.touchAnimation();
-                getActivity().onBackPressed();
-            }
-        });
+                    public void onPressFinished() {
+
+                        getActivity().onBackPressed();
+                    }
+                });
 
         ViewMaxText pinyin = (ViewMaxText) myFragmentView.findViewById(R.id.frag_review_text1);
         pinyin.config(Color.parseColor("#ff00ff"), 255, transcription, 48, null);

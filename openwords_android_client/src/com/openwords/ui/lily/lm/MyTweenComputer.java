@@ -26,6 +26,10 @@ public class MyTweenComputer {
         animator.start();
     }
 
+    public void cancelAnimator() {
+        animator.cancel();
+    }
+
     public float timeProceed(int time) {
         float value = easeOutExpo(time, beginning, change, duration);
         return value;
