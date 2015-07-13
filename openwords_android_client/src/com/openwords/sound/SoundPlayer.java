@@ -1,9 +1,9 @@
 package com.openwords.sound;
 
+import android.content.res.AssetFileDescriptor;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import com.openwords.util.log.LogUtil;
-import java.io.FileDescriptor;
 import java.io.IOException;
 
 public class SoundPlayer {
@@ -17,11 +17,11 @@ public class SoundPlayer {
         }
     }
 
-    public static void playSound(FileDescriptor file) {
+    public static void playSound(AssetFileDescriptor file) {
         try {
             clean();
             mediaPlayer = new MediaPlayer();
-            mediaPlayer.setDataSource(file);
+            mediaPlayer.setDataSource(file.getFileDescriptor(), file.getStartOffset(), file.getLength());
             mediaPlayer.prepare();
             mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                 public void onCompletion(MediaPlayer arg0) {
