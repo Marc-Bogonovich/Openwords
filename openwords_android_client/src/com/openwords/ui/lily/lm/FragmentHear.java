@@ -72,7 +72,7 @@ public class FragmentHear extends FragmentLearningModule {
         myFragmentView = inflater.inflate(R.layout.fragment_lily_hear, container, false);
 
         soundButton = (ViewSoundBackground) myFragmentView.findViewById(R.id.lily_button_sound_bg);
-        soundButton.config(myFragmentView, Color.parseColor("#ff00ff"), 255, false, new View.OnClickListener() {
+        soundButton.config(Color.parseColor("#ff00ff"), 255, false, new View.OnClickListener() {
 
             public void onClick(View view) {
                 soundButton.touchAnimation();
@@ -87,7 +87,7 @@ public class FragmentHear extends FragmentLearningModule {
         });
 
         homeButton = (ViewHomeBackground) myFragmentView.findViewById(R.id.lily_button_home_bg);
-        homeButton.config(myFragmentView, Color.parseColor("#ff00ff"), 255, true,
+        homeButton.config(Color.parseColor("#ff00ff"), 255, true,
                 new ViewHomeBackground.OnPressEnough() {
 
                     public void onPressFinished() {

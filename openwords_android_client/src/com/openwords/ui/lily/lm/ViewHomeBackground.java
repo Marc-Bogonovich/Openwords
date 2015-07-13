@@ -1,24 +1,25 @@
 package com.openwords.ui.lily.lm;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup.LayoutParams;
-import android.widget.ImageView;
 import com.openwords.R;
 import com.openwords.util.log.LogUtil;
 
 public class ViewHomeBackground extends View {
 
     private Paint colorPaint;
-    private float viewWidth, viewHeight, left, top, right, bottom;
+    private float viewWidth, viewHeight, left, top, right, bottom, iconX, iconY;
     private int color, alpha;
     private MyTweenComputer tween;
-    private View root;
     private OnPressEnough onPress;
+    private static Bitmap icon;
+    private static final float iconScale = 0.9f;
 
     public ViewHomeBackground(Context context) {
         super(context);
@@ -37,6 +38,7 @@ public class ViewHomeBackground extends View {
     }
 
     private void init() {
+        loadImages();
         addOnLayoutChangeListener(new OnLayoutChangeListener() {
 
             public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
@@ -47,8 +49,18 @@ public class ViewHomeBackground extends View {
         LogUtil.logDeubg(this, "ViewHomeBackground initialized");
     }
 
-    private void makeColor(int color, int alpha, View root) {
-        this.root = root;
+    private void loadImages() {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inScaled = true;
+        options.inDither = true;
+        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+
+        if (icon == null) {
+            icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_home, options);
+        }
+    }
+
+    private void makeColor(int color, int alpha) {
         this.color = color;
         this.alpha = alpha;
         makePaints();
@@ -62,7 +74,7 @@ public class ViewHomeBackground extends View {
         right = viewWidth;
         bottom = viewHeight;
         //LogUtil.logDeubg(this, "updateDimension: " + viewWidth + " " + viewHeight);
-        resizeIcon();
+        resizeIcon((int) (viewHeight * iconScale));
     }
 
     private void makePaints() {
@@ -96,22 +108,20 @@ public class ViewHomeBackground extends View {
         if (colorPaint != null) {
             canvas.drawRect(left, top, right, bottom, colorPaint);
         }
+        if (icon != null) {
+            canvas.drawBitmap(icon, iconX, iconY, null);
+        }
     }
 
     public void touchAnimation() {
         tween.startAnimator();
     }
 
-    private void resizeIcon() {
-        if (root != null) {
-            ImageView icon = (ImageView) root.findViewById(R.id.lily_button_home_icon);
-            LayoutParams params = icon.getLayoutParams();
-            int side = (int) (viewWidth / 5 * 3);
-            params.width = side;
-            params.height = side;
-            icon.setLayoutParams(params);
-            LogUtil.logDeubg(this, "resizeIcon()");
-        }
+    private void resizeIcon(int side) {
+        icon = Bitmap.createScaledBitmap(icon, side, side, true);
+        iconX = right - side + side / 10;
+        iconY = bottom - side + side / 6;
+        LogUtil.logDeubg(this, "resizeIcon(): " + side);
     }
 
     @Override
@@ -133,8 +143,8 @@ public class ViewHomeBackground extends View {
         return true;
     }
 
-    public void config(View root, int color, int alpha, boolean soundEffects, OnPressEnough onPress) {
-        makeColor(color, alpha, root);
+    public void config(int color, int alpha, boolean soundEffects, OnPressEnough onPress) {
+        makeColor(color, alpha);
         setSoundEffectsEnabled(soundEffects);
         this.onPress = onPress;
     }

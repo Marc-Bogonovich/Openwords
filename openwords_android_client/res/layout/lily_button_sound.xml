@@ -6,13 +6,6 @@
     <com.openwords.ui.lily.lm.ViewSoundBackground android:id="@+id/lily_button_sound_bg"
                                                   android:layout_width="match_parent"
                                                   android:layout_height="match_parent"
-                                                  android:layout_centerInParent="true"/> 
-            
-    <ImageView   android:id="@+id/lily_button_sound_icon"
-                 android:layout_width="match_parent"
-                 android:layout_height="match_parent"
-                 android:src="@drawable/ic_sound"
-                 android:layout_centerInParent="true"
-                 android:contentDescription=""/>
+                                                  android:layout_centerInParent="true"/>
              
 </RelativeLayout>
