@@ -89,7 +89,9 @@ public class ViewHomeBackground extends View {
 
     @Override
     public void onDraw(Canvas canvas) {
-        canvas.drawRect(left, top, right, bottom, colorPaint);
+        if (colorPaint != null) {
+            canvas.drawRect(left, top, right, bottom, colorPaint);
+        }
     }
 
     public void touchAnimation() {

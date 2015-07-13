@@ -1,8 +1,6 @@
 package com.openwords.ui.lily.lm;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.res.AssetFileDescriptor;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.AttributeSet;
@@ -10,9 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import com.openwords.R;
-import com.openwords.sound.SoundPlayer;
 import com.openwords.util.log.LogUtil;
-import java.io.IOException;
 
 public class ViewSoundBackground extends View {
 
@@ -20,8 +16,7 @@ public class ViewSoundBackground extends View {
     private float centerX, centerY, radius, initRadius;
     private int color, alpha;
     private MyTweenComputer tween;
-    private AssetFileDescriptor test;
-    private Activity activity;
+    private View root;
 
     public ViewSoundBackground(Context context) {
         super(context);
@@ -49,8 +44,8 @@ public class ViewSoundBackground extends View {
         LogUtil.logDeubg(this, "ViewSoundBackground initialized");
     }
 
-    private void makeColor(int color, int alpha, Activity activity) {
-        this.activity = activity;
+    private void makeColor(int color, int alpha, View root) {
+        this.root = root;
         this.color = color;
         this.alpha = alpha;
         makePaints();
@@ -82,7 +77,9 @@ public class ViewSoundBackground extends View {
 
     @Override
     public void onDraw(Canvas canvas) {
-        canvas.drawCircle(centerX, centerY, radius, colorPaint);
+        if (colorPaint != null) {
+            canvas.drawCircle(centerX, centerY, radius, colorPaint);
+        }
     }
 
     public void setAniRadius(int time) {
@@ -96,17 +93,11 @@ public class ViewSoundBackground extends View {
 
     public void touchAnimation() {
         tween.startAnimator();
-        try {
-            test = getContext().getAssets().openFd("pang.mp3");
-            SoundPlayer.playSound(test.getFileDescriptor());
-        } catch (IOException ex) {
-            LogUtil.logWarning(this, ex);
-        }
     }
 
     private void resizeIcon() {
-        if (activity != null) {
-            ImageView icon = (ImageView) activity.findViewById(R.id.lily_button_sound_icon);
+        if (root != null) {
+            ImageView icon = (ImageView) root.findViewById(R.id.lily_button_sound_icon);
             ViewGroup.LayoutParams params = icon.getLayoutParams();
             int side = (int) initRadius;
             params.width = side;
@@ -116,8 +107,8 @@ public class ViewSoundBackground extends View {
         }
     }
 
-    public void config(Activity activity, int color, int alpha, boolean soundEffects, View.OnClickListener onclick) {
-        makeColor(color, alpha, activity);
+    public void config(View root, int color, int alpha, boolean soundEffects, View.OnClickListener onclick) {
+        makeColor(color, alpha, root);
         setSoundEffectsEnabled(soundEffects);
         setOnClickListener(onclick);
     }
