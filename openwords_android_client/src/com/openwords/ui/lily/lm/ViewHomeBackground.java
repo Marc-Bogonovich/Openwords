@@ -1,6 +1,5 @@
 package com.openwords.ui.lily.lm;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -17,7 +16,7 @@ public class ViewHomeBackground extends View {
     private float viewWidth, viewHeight, left, top, right, bottom;
     private int color, alpha;
     private MyTweenComputer tween;
-    private Activity activity;
+    private View root;
 
     public ViewHomeBackground(Context context) {
         super(context);
@@ -46,8 +45,8 @@ public class ViewHomeBackground extends View {
         LogUtil.logDeubg(this, "ViewHomeBackground initialized");
     }
 
-    private void makeColor(int color, int alpha, Activity activity) {
-        this.activity = activity;
+    private void makeColor(int color, int alpha, View root) {
+        this.root = root;
         this.color = color;
         this.alpha = alpha;
         makePaints();
@@ -99,8 +98,8 @@ public class ViewHomeBackground extends View {
     }
 
     private void resizeIcon() {
-        if (activity != null) {
-            ImageView icon = (ImageView) activity.findViewById(R.id.lily_button_home_icon);
+        if (root != null) {
+            ImageView icon = (ImageView) root.findViewById(R.id.lily_button_home_icon);
             LayoutParams params = icon.getLayoutParams();
             int side = (int) (viewWidth / 5 * 3);
             params.width = side;
@@ -110,8 +109,8 @@ public class ViewHomeBackground extends View {
         }
     }
 
-    public void config(Activity activity, int color, int alpha, boolean soundEffects, View.OnClickListener onclick) {
-        makeColor(color, alpha, activity);
+    public void config(View root, int color, int alpha, boolean soundEffects, View.OnClickListener onclick) {
+        makeColor(color, alpha, root);
         setSoundEffectsEnabled(soundEffects);
         setOnClickListener(onclick);
     }
