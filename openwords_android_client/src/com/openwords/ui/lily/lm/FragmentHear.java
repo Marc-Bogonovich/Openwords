@@ -98,7 +98,6 @@ public class FragmentHear extends FragmentLearningModule {
         ViewMaxText hint = (ViewMaxText) myFragmentView.findViewById(R.id.frag_hear_text1);
         hint.config(Color.parseColor("#ff00ff"), 255, "?", 128, w2);
 
-        //getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         return myFragmentView;
     }
 }

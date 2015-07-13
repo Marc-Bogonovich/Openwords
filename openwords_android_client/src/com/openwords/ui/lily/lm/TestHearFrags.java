@@ -27,6 +27,8 @@ public class TestHearFrags extends FragmentActivity {
         pager.setOffscreenPageLimit(3);
         pager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
         pager.setPageTransformer(true, new TestPageTransformer());
+
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
 
     public class MyPagerAdapter extends FragmentPagerAdapter {
