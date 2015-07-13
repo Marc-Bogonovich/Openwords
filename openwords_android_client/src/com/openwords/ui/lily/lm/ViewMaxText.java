@@ -13,7 +13,7 @@ public class ViewMaxText extends View {
     private MyCanvasTextModel mainText, otherText;
     private float minTextSize;
     private static final float sizeOffset = 96;
-    private ObjectAnimator alphaAnimator;
+    private ObjectAnimator alphaAnimator, outTextAnimator;
 
     public ViewMaxText(Context context) {
         super(context);
@@ -41,9 +41,14 @@ public class ViewMaxText extends View {
                 }
             }
         });
+
         alphaAnimator = ObjectAnimator.ofInt(this, "textAlpha", 255, 0);
         alphaAnimator.setDuration(500);
         alphaAnimator.setAutoCancel(true);
+
+        outTextAnimator = ObjectAnimator.ofInt(this, "textPosition", 1, 1000);
+        outTextAnimator.setDuration(3000);
+        outTextAnimator.setAutoCancel(true);
     }
 
     public void config(int color, int alpha, String text, float minTextSize, String swapText) {
@@ -83,8 +88,10 @@ public class ViewMaxText extends View {
         } while (myText.viewWidth < myText.textWidth + sizeOffset);
 
         myText.textX = myText.centerX - myText.textWidth / 2;
+        myText.initialTextX = myText.textX;
         myText.textY = myText.centerY + myText.textHeight / 2;
         myText.textOut = myText.textWidth > myText.viewWidth;
+        //LogUtil.logDeubg(this, "textOut: " + myText.textOut + ", " + myText.text);
         invalidate();
     }
 
@@ -106,22 +113,40 @@ public class ViewMaxText extends View {
         invalidate();
     }
 
+    public void setTextPosition(int xOff) {
+        float start = mainText.viewWidth / 5;
+        float more = mainText.textWidth * xOff / 1000;
+        mainText.textX = start - more;
+        invalidate();
+    }
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (otherText == null) {
-            return true;
-        }
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                LogUtil.logDeubg(this, "down");
-                alphaAnimator.start();
-                break;
+        if (otherText != null) {
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    LogUtil.logDeubg(this, "down");
+                    alphaAnimator.start();
+                    break;
 
-            case MotionEvent.ACTION_UP:
-                LogUtil.logDeubg(this, "up");
-                alphaAnimator.cancel();
-                setTextAlpha(mainText.getAlpha());
-                break;
+                case MotionEvent.ACTION_UP:
+                    LogUtil.logDeubg(this, "up");
+                    alphaAnimator.cancel();
+                    setTextAlpha(mainText.getAlpha());
+                    break;
+            }
+        } else if (mainText.textOut) {
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    outTextAnimator.start();
+                    break;
+
+                case MotionEvent.ACTION_UP:
+                    outTextAnimator.cancel();
+                    mainText.textX = mainText.initialTextX;
+                    invalidate();
+                    break;
+            }
         }
         return true;
     }
