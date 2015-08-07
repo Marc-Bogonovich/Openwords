@@ -73,7 +73,8 @@ public class DatabaseHandler {
                 .addAnnotatedClass(Language.class)
                 .addAnnotatedClass(UserInfo.class)
                 .addAnnotatedClass(UserLanguage.class)
-                .addAnnotatedClass(UserPerformance.class);
+                .addAnnotatedClass(UserPerformance.class)
+                .addAnnotatedClass(WordAudio.class);
 
         sessionFactory = configuration.buildSessionFactory(new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build());
         sessionFactory.getStatistics().setStatisticsEnabled(true);
