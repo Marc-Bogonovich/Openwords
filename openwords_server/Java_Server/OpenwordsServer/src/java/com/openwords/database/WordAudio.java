@@ -1,13 +1,18 @@
 package com.openwords.database;
 
+import com.openwords.utils.MyContextListener;
+import com.openwords.utils.UtilLog;
+import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import org.apache.commons.io.FileUtils;
 import org.hibernate.Session;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
 @Entity
@@ -15,6 +20,28 @@ import org.hibernate.criterion.Restrictions;
 public class WordAudio implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    public static void saveAudioFile(Session s, WordAudio record, File tempFile, String fileName) throws IOException {
+        record.setUrl(record.getId().getWordId() + fileName);
+        s.save(record);
+
+        String newFileName = "audio/" + record.getUrl();
+        String path = MyContextListener.getContextPath() + newFileName;
+        File newFile = new File(path);
+        FileUtils.copyFile(tempFile, newFile);
+        UtilLog.logInfo(WordAudio.class, "Audio saved: " + path);
+
+        s.beginTransaction().commit();
+    }
+
+    public static int getAudioCount(Session s, int type, int language) {
+        return ((Number) s.createCriteria(WordAudio.class)
+                .add(Restrictions.eq("id.type", type))
+                .add(Restrictions.eq("languageId", language))
+                .setProjection(Projections.rowCount()).uniqueResult())
+                .intValue();
+
+    }
 
     @SuppressWarnings("unchecked")
     public static List<WordAudio> getAudioByIds(Session s, Integer[] ids, int type, int language) {
@@ -29,6 +56,12 @@ public class WordAudio implements Serializable {
     private String url;
 
     public WordAudio() {
+    }
+
+    public WordAudio(WordAudioId id, int languageId, String url) {
+        this.id = id;
+        this.languageId = languageId;
+        this.url = url;
     }
 
     @Id
