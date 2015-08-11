@@ -5,7 +5,6 @@ import com.openwords.database.DatabaseHandler;
 import com.openwords.database.Word;
 import com.openwords.database.WordForTTS;
 import com.openwords.interfaces.MyAction;
-import com.openwords.utils.MyGson;
 import com.openwords.utils.UtilLog;
 import java.util.List;
 import org.apache.struts2.convention.annotation.Action;
@@ -29,7 +28,6 @@ public class GetWordForms extends MyAction {
         Session s = DatabaseHandler.getSession();
         try {
             result = Word.getOnlyWordForms(s, languageId, pageNumber, pageSize);
-            System.out.println(MyGson.toPrettyJson(result));
         } catch (Exception e) {
             UtilLog.logWarn(this, e);
         } finally {
