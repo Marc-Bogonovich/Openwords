@@ -18,8 +18,11 @@ import javax.persistence.Transient;
 import org.apache.struts2.json.annotations.JSON;
 import org.hibernate.Session;
 import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.transform.AliasToBeanResultTransformer;
+import org.hibernate.transform.Transformers;
 
 @Entity
 @Table(name = "words")
@@ -164,6 +167,22 @@ public class Word implements Serializable {
                 .add(Restrictions.eq("word", word))
                 .add(Restrictions.eq("languageId", languageId))
                 .add(Restrictions.eq("md5", MyMessageDigest.digest(translation.getBytes())))
+                .list();
+    }
+
+    @SuppressWarnings("unchecked")
+    public static List<WordForTTS> getOnlyWordForms(Session s, int languageId, int pageNumber, int pageSize) {
+        int firstRecord = (pageNumber - 1) * pageSize;
+        return s.createCriteria(Word.class)
+                .add(Restrictions.eq("languageId", languageId))
+                .addOrder(Order.asc("wordId"))
+                .setProjection(Projections.projectionList()
+                        .add(Projections.property("wordId"), "wordId")
+                        .add(Projections.property("word"), "word")
+                )
+                .setFirstResult(firstRecord)
+                .setMaxResults(pageSize)
+                .setResultTransformer(new AliasToBeanResultTransformer(WordForTTS.class))
                 .list();
     }
 
