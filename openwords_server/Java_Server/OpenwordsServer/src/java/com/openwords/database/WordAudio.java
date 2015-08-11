@@ -21,8 +21,8 @@ public class WordAudio implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public static void saveAudioFile(Session s, WordAudio record, File tempFile, String fileName) throws IOException {
-        record.setUrl(record.getId().getWordId() + fileName);
+    public static void saveAudioFile(Session s, WordAudio record, File tempFile, String filePostfix) throws IOException {
+        record.setUrl(record.getId().getWordId() + filePostfix);
         s.save(record);
 
         String newFileName = "audio/" + record.getUrl();
