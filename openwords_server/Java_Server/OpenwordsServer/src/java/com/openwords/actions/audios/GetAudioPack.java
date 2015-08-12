@@ -26,7 +26,7 @@ public class GetAudioPack extends MyAction {
     @Action(value = "/getWordAudioPack")
     @Override
     public String execute() throws Exception {
-        UtilLog.logInfo(this, "/getWordAudioPack");
+        UtilLog.logInfo(this, "/getWordAudioPack: " + wordIds);
         Session s = DatabaseHandler.getSession();
         try {
             Integer[] ids = (Integer[]) MyGson.fromJson(wordIds, Integer[].class);

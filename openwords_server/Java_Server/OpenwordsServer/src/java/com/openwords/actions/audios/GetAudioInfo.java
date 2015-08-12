@@ -27,7 +27,7 @@ public class GetAudioInfo extends MyAction {
     })
     @Override
     public String execute() throws Exception {
-        UtilLog.logInfo(this, "/getWordAudioInfo");
+        UtilLog.logInfo(this, "/getWordAudioInfo: " + wordIds);
         Session s = DatabaseHandler.getSession();
         try {
             Integer[] ids = (Integer[]) MyGson.fromJson(wordIds, Integer[].class);
