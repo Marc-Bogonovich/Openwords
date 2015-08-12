@@ -2,6 +2,7 @@ package com.openwords.services.implementations;
 
 import com.google.gson.Gson;
 import static com.openwords.model.DataPool.ServerAddress;
+import static com.openwords.model.DataPool.ServiceProtocol;
 import com.openwords.model.Word;
 import com.openwords.model.WordConnection;
 import com.openwords.services.interfaces.HttpResultHandler;
@@ -11,7 +12,7 @@ import java.util.List;
 
 public class ServiceGetWordConnectionsByLangOne extends HttpServiceRequester implements HttpResultHandler {
 
-    public final String ServiceURL = "http://" + ServerAddress + "/getConnectionsByLangOne";
+    public final String ServiceURL = ServiceProtocol + ServerAddress + "/getConnectionsByLangOne";
 
     private HttpResultHandler resultHandler;
 

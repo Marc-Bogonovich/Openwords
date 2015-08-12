@@ -8,7 +8,8 @@ import java.util.Map;
 
 public class DataPool {
 
-    public final static String ServerAddress = "156.56.91.234";
+    public final static String ServerAddress = "rose-openwords.rhcloud.com";
+    public final static String ServiceProtocol = "https://";
     public static boolean DoRegistration = false;
     public static boolean OffLine = false;
     public static int LmType;

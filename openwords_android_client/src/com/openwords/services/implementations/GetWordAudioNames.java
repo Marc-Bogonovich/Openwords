@@ -2,6 +2,7 @@ package com.openwords.services.implementations;
 
 import com.google.gson.Gson;
 import static com.openwords.model.DataPool.ServerAddress;
+import static com.openwords.model.DataPool.ServiceProtocol;
 import com.openwords.model.WordAudio;
 import com.openwords.services.interfaces.HttpResultHandler;
 import com.openwords.services.interfaces.HttpServiceRequester;
@@ -11,7 +12,7 @@ import java.util.Collection;
 
 public class GetWordAudioNames extends HttpServiceRequester implements HttpResultHandler {
 
-    public static final String ServiceURL = "http://" + ServerAddress + ":8888/api-v1/getWordAudioNames.php";
+    public static final String ServiceURL = ServiceProtocol + ServerAddress + "/getWordAudioInfo";
 
     private HttpResultHandler resultHandler;
 
@@ -19,7 +20,9 @@ public class GetWordAudioNames extends HttpServiceRequester implements HttpResul
         this.resultHandler = resultHandler;
         request(ServiceURL,
                 new RequestParamsBuilder()
-                .addParam("words", MyGson.toJson(wordIds))
+                .addParam("wordIds", MyGson.toJson(wordIds))
+                .addParam("type", String.valueOf(1))
+                .addParam("language", String.valueOf(0))
                 .getParams(), 0, this);
     }
 

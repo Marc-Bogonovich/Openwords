@@ -2,6 +2,7 @@ package com.openwords.services.implementations;
 
 import com.google.gson.Gson;
 import static com.openwords.model.DataPool.ServerAddress;
+import static com.openwords.model.DataPool.ServiceProtocol;
 import com.openwords.model.Performance;
 import com.openwords.model.Word;
 import com.openwords.model.WordConnection;
@@ -12,7 +13,7 @@ import java.util.List;
 
 public class ServiceGetWordConnectionsPack extends HttpServiceRequester implements HttpResultHandler {
 
-    public final String ServiceURL = "http://" + ServerAddress + "/getWordConnectionsPack";
+    public final String ServiceURL = ServiceProtocol + ServerAddress + "/getWordConnectionsPack";
 
     private HttpResultHandler resultHandler;
 

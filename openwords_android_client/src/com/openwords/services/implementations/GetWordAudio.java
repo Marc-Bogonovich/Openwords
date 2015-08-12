@@ -5,13 +5,15 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.FileAsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import static com.openwords.model.DataPool.ServerAddress;
+import static com.openwords.model.DataPool.ServiceProtocol;
+import com.openwords.model.LocalSettings;
 import java.io.File;
 import java.util.Collection;
 import org.apache.http.Header;
 
 public class GetWordAudio {
 
-    public static final String ServiceURL = "http://" + ServerAddress + ":8888/api-v1/getWordAudio.php";
+    public static final String ServiceURL = ServiceProtocol + ServerAddress + "/getWordAudioPack";
 
     public static void request(Collection<Integer> wordIds, int timeout, final AsyncCallback callback, File file) {
 
@@ -20,7 +22,10 @@ public class GetWordAudio {
             http.setTimeout(timeout);
         }
         RequestParams params = new RequestParams();
-        params.put("words", new Gson().toJson(wordIds));
+        params.put("wordIds", new Gson().toJson(wordIds));
+        params.put("userId", String.valueOf(LocalSettings.getUserId()));
+        params.put("type", String.valueOf(1));
+        params.put("language", String.valueOf(0));
         http.post(ServiceURL, params, new FileAsyncHttpResponseHandler(file) {
 
             @Override
