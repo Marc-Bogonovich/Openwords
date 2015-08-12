@@ -13,7 +13,7 @@ import org.apache.struts2.convention.annotation.Result;
 import org.hibernate.Session;
 
 @ParentPackage("json-default")
-public class GetAudioURLs extends MyAction {
+public class GetAudioInfo extends MyAction {
 
     private static final long serialVersionUID = 1L;
     private List<WordAudio> result;
@@ -21,13 +21,13 @@ public class GetAudioURLs extends MyAction {
     private String wordIds;
     private int type, language;
 
-    @Action(value = "/getWordAudioURLs", results = {
+    @Action(value = "/getWordAudioInfo", results = {
         @Result(name = SUCCESS, type = "json"),
         @Result(name = INPUT, type = "json")
     })
     @Override
     public String execute() throws Exception {
-        UtilLog.logInfo(this, "/getWordAudioURLs");
+        UtilLog.logInfo(this, "/getWordAudioInfo");
         Session s = DatabaseHandler.getSession();
         try {
             Integer[] ids = (Integer[]) MyGson.fromJson(wordIds, Integer[].class);
