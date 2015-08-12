@@ -22,10 +22,10 @@ public class WordAudio implements Serializable {
     private static final long serialVersionUID = 1L;
 
     public static void saveAudioFile(Session s, WordAudio record, File tempFile, String filePostfix) throws IOException {
-        record.setUrl(record.getId().getWordId() + filePostfix);
+        record.setFileName(record.getId().getWordId() + filePostfix);
         s.save(record);
 
-        String newFileName = "audio/" + record.getUrl();
+        String newFileName = "audio/" + record.getFileName();
         String path = MyContextListener.getContextPath() + newFileName;
         File newFile = new File(path);
         FileUtils.copyFile(tempFile, newFile);
@@ -53,15 +53,15 @@ public class WordAudio implements Serializable {
 
     private WordAudioId id;
     private int languageId;
-    private String url;
+    private String fileName;
 
     public WordAudio() {
     }
 
-    public WordAudio(WordAudioId id, int languageId, String url) {
+    public WordAudio(WordAudioId id, int languageId, String fileName) {
         this.id = id;
         this.languageId = languageId;
-        this.url = url;
+        this.fileName = fileName;
     }
 
     @Id
@@ -82,13 +82,13 @@ public class WordAudio implements Serializable {
         this.languageId = languageId;
     }
 
-    @Column(name = "url")
-    public String getUrl() {
-        return url;
+    @Column(name = "file_name")
+    public String getFileName() {
+        return fileName;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 
 }
