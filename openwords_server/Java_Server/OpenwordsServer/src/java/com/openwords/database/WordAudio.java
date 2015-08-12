@@ -10,7 +10,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import org.apache.commons.io.FileUtils;
+import org.apache.struts2.json.annotations.JSON;
 import org.hibernate.Session;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
@@ -65,6 +67,7 @@ public class WordAudio implements Serializable {
     }
 
     @Id
+    @JSON(serialize = false, deserialize = false)
     public WordAudioId getId() {
         return id;
     }
@@ -74,6 +77,7 @@ public class WordAudio implements Serializable {
     }
 
     @Column(name = "language_id")
+    @JSON(serialize = false, deserialize = false)
     public int getLanguageId() {
         return languageId;
     }
@@ -89,6 +93,11 @@ public class WordAudio implements Serializable {
 
     public void setFileName(String fileName) {
         this.fileName = fileName;
+    }
+
+    @Transient
+    public int getWordId() {
+        return id.getWordId();
     }
 
 }
