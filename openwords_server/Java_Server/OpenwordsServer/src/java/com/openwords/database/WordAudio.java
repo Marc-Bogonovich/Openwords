@@ -28,7 +28,7 @@ public class WordAudio implements Serializable {
         s.save(record);
 
         String newFileName = "audio/" + record.getFileName();
-        String path = MyContextListener.getContextPath() + newFileName;
+        String path = MyContextListener.getContextPath(true) + newFileName;
         File newFile = new File(path);
         FileUtils.copyFile(tempFile, newFile);
         UtilLog.logInfo(WordAudio.class, "Audio saved: " + path);
@@ -51,6 +51,13 @@ public class WordAudio implements Serializable {
                 .add(Restrictions.eq("id.type", type))
                 .add(Restrictions.eq("languageId", language))
                 .add(Restrictions.in("id.wordId", ids)).list();
+    }
+
+    public static int countAll(Session s) {
+        int total = ((Number) s.createCriteria(WordAudio.class)
+                .setProjection(Projections.rowCount()
+                ).uniqueResult()).intValue();
+        return total;
     }
 
     private WordAudioId id;

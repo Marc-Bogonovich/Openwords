@@ -33,9 +33,9 @@ public class GetAudioPack extends MyAction {
             List<WordAudio> audios = WordAudio.getAudioByIds(s, ids, type, language);
             List<String> names = new LinkedList<>();
             for (WordAudio audio : audios) {
-                names.add(MyContextListener.getContextPath() + "audio/" + audio.getFileName());
+                names.add(MyContextListener.getContextPath(true) + "audio/" + audio.getFileName());
             }
-            String zipFilePath = MyContextListener.getContextPath() + "audio_temp/" + "u" + userId + "_audio.zip";
+            String zipFilePath = MyContextListener.getContextPath(false) + "audio_temp/" + "u" + userId + "_audio.zip";
             MyZipUtil.doZip(names, zipFilePath);
             File file = new File(zipFilePath);
             getHttpResponse().setHeader("Content-Type", "application/zip");

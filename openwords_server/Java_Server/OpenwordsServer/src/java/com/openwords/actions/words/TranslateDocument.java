@@ -41,7 +41,7 @@ public class TranslateDocument extends MyAction {
 
     private void parseFile(Session s) {
         try {
-            String contextPath = MyContextListener.getContextPath();
+            String contextPath = MyContextListener.getContextPath(false);
             String newFileName = "file_out/" + System.currentTimeMillis() + "_" + langIn + "_" + langOut + ".txt";
             String fileOutPath = contextPath + newFileName;
             File fileOut = new File(fileOutPath);
