@@ -4,7 +4,8 @@ function RootControl($scope, $http) {
         $http({method: "post", url: "overviewOpenwords"}).success(function(data) {
             $scope.langList = data.result;
             $scope.totalWords = $scope.langList[0][1];
-            $scope.langList = $scope.langList.slice(1, $scope.langList.length);
+            $scope.totalSounds = $scope.langList[1][1];
+            $scope.langList = $scope.langList.slice(2, $scope.langList.length);
         });
     };
 

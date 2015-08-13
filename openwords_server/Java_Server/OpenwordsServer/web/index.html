@@ -77,7 +77,7 @@
                     <div class="panel panel-info">
                         <div class="panel-body">
                             <a name="anchor_over"></a>
-                            <span>Openwords currently hold <span class="bigger-bold">{{langList.length}}</span> languages and total <span class="bigger-bold">{{totalWords| number}}</span> words:</span>
+                            <span>Openwords currently hold <span class="bigger-bold">{{langList.length}}</span> languages, <span class="bigger-bold">{{totalWords| number}}</span> words, and <span class="bigger-bold">{{totalSounds| number}}</span> sounds:</span>
                             <div style="margin-top: 10px; margin-left: 20px;">
                                 <p ng-repeat="lang in langList"><span class="simple-bold">{{lang[0]}} ({{lang[2]}}, langId={{lang[3]}})</span> with <span class="simple-bold">{{lang[1]| number}}</span> words</p>
                             </div>
