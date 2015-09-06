@@ -43,7 +43,11 @@ public class OverviewOpenwords extends MyAction {
             totalWords = Word.countLanguageWord(s, -1);
             totalSounds = WordAudio.countAll(s);
             for (Language lang : langs) {
-                result.add(new String[]{lang.getName(), String.valueOf(Word.countLanguageWord(s, lang.getLangId())), lang.getCode(), String.valueOf(lang.getLangId())});
+                result.add(new String[]{lang.getName(),
+                    String.valueOf(Word.countLanguageWord(s, lang.getLangId())),
+                    lang.getCode(),
+                    String.valueOf(lang.getLangId()),
+                    String.valueOf(WordAudio.getAudioCount(s, 1, lang.getLangId()))});
             }
             lastRequest = now;
         } catch (Exception e) {

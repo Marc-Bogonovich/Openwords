@@ -16,7 +16,7 @@ import org.hibernate.criterion.Order;
 public class UpdateAudioLang extends MyAction {
 
     private static final long serialVersionUID = 1L;
-    public static AtomicBoolean inUse = new AtomicBoolean(false);
+    public static AtomicBoolean inUse = new AtomicBoolean(true);
     private int start, end;
 
     @Action("/fixAudioLang")
