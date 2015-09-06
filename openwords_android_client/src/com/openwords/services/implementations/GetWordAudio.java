@@ -15,7 +15,7 @@ public class GetWordAudio {
 
     public static final String ServiceURL = ServiceProtocol + ServerAddress + "/getWordAudioPack";
 
-    public static void request(Collection<Integer> wordIds, int timeout, final AsyncCallback callback, File file) {
+    public static void request(Collection<Integer> wordIds, int language, int timeout, final AsyncCallback callback, File file) {
 
         AsyncHttpClient http = new AsyncHttpClient();
         if (timeout > 0) {
@@ -25,7 +25,7 @@ public class GetWordAudio {
         params.put("wordIds", new Gson().toJson(wordIds));
         params.put("userId", String.valueOf(LocalSettings.getUserId()));
         params.put("type", String.valueOf(1));
-        params.put("language", String.valueOf(0));
+        params.put("language", String.valueOf(language));
         http.post(ServiceURL, params, new FileAsyncHttpResponseHandler(file) {
 
             @Override

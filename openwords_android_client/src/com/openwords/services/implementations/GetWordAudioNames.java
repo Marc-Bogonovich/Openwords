@@ -16,13 +16,13 @@ public class GetWordAudioNames extends HttpServiceRequester implements HttpResul
 
     private HttpResultHandler resultHandler;
 
-    public void doRequest(Collection<Integer> wordIds, HttpResultHandler resultHandler) {
+    public void doRequest(Collection<Integer> wordIds, int language, HttpResultHandler resultHandler) {
         this.resultHandler = resultHandler;
         request(ServiceURL,
                 new RequestParamsBuilder()
                 .addParam("wordIds", MyGson.toJson(wordIds))
                 .addParam("type", String.valueOf(1))
-                .addParam("language", String.valueOf(0))
+                .addParam("language", String.valueOf(language))
                 .getParams(), 0, this);
     }
 

@@ -49,8 +49,8 @@ public class WordAudio extends SugarRecord<WordAudio> {
         WordAudio.saveInTx(audios);
     }
 
-    public static void downloadNewAudios(final Collection<Integer> wordIds, final ResultWordAudio resultHandler) {
-        new GetWordAudioNames().doRequest(wordIds,
+    public static void downloadNewAudios(final Collection<Integer> wordIds, final int languge, final ResultWordAudio resultHandler) {
+        new GetWordAudioNames().doRequest(wordIds, languge,
                 new HttpResultHandler() {
 
                     public void hasResult(Object resultObject) {
@@ -63,7 +63,7 @@ public class WordAudio extends SugarRecord<WordAudio> {
 
                         //get and save files bundle
                         File temp = new File(LocalFileSystem.Folders[0] + "temp");
-                        GetWordAudio.request(wordIds, 0, new GetWordAudio.AsyncCallback() {
+                        GetWordAudio.request(wordIds, languge, 0, new GetWordAudio.AsyncCallback() {
 
                             public void callback(File file, Throwable error) {
                                 if (file != null) {

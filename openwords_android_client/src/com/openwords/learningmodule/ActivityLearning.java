@@ -78,7 +78,7 @@ public class ActivityLearning extends FragmentActivity implements InterfaceLearn
                         }
                         List<WordAudio> localAudios = WordAudio.getAudios(wordIds);
                         if (localAudios.size() != wordIds.size()) {
-                            WordAudio.downloadNewAudios(wordIds, new ResultWordAudio() {
+                            WordAudio.downloadNewAudios(wordIds, userLanguageInfo.learningLang, new ResultWordAudio() {
 
                                 public void ok() {
                                     if (DataPool.LmType == Learning_Type_Hearing) {
