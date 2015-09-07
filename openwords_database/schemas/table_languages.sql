@@ -556,4 +556,4 @@ ALTER TABLE `languages`
 -- AUTO_INCREMENT for table `languages`
 --
 ALTER TABLE `languages`
-MODIFY `language_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=517;
+MODIFY `language_id` int(11) NOT NULL AUTO_INCREMENT;
