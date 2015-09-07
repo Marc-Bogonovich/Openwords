@@ -102,7 +102,7 @@ public class Word implements Serializable {
         s.beginTransaction().commit();
     }
 
-    public static void increaseRank(Session s, List<Integer> wordIds, String rankName) {
+    public static void increaseRank(Session s, List<Long> wordIds, String rankName) {
         @SuppressWarnings("unchecked")
         List<Word> words = s.createCriteria(Word.class)
                 .add(Restrictions.in("wordId", wordIds))
@@ -121,18 +121,18 @@ public class Word implements Serializable {
     }
 
     @SuppressWarnings("unchecked")
-    public static List<Integer> getWordIds(Session s, String word) {
+    public static List<Long> getWordIds(Session s, String word) {
         return s.createCriteria(Word.class)
                 .add(Restrictions.eq("word", word))
                 .setProjection(Projections.property("wordId")).list();
     }
 
-    public static Word getWord(Session s, int wordId) {
+    public static Word getWord(Session s, long wordId) {
         return (Word) s.get(Word.class, wordId);
     }
 
     @SuppressWarnings("unchecked")
-    public static List<Word> getWords(Session s, Collection<Integer> ids) {
+    public static List<Word> getWords(Session s, Collection<Long> ids) {
         return s.createCriteria(Word.class).add(Restrictions.in("wordId", ids)).list();
     }
 
@@ -185,7 +185,8 @@ public class Word implements Serializable {
                 .list();
     }
 
-    private int wordId, languageId;
+    private long wordId;
+    private int languageId;
     private String word, meta, contributor;
     private Date updatedTime;
     private byte[] md5;
@@ -205,11 +206,11 @@ public class Word implements Serializable {
     @Id
     @GeneratedValue
     @Column(name = "word_id")
-    public int getWordId() {
+    public long getWordId() {
         return wordId;
     }
 
-    public void setWordId(int wordId) {
+    public void setWordId(long wordId) {
         this.wordId = wordId;
     }
 

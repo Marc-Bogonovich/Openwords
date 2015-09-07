@@ -23,7 +23,7 @@ public class UserPerformance implements Serializable {
 
     }
 
-    public static int[] getPerformanceSummary(Session s, int userId, int baseLang, int learningLang) {
+    public static int[] getPerformanceSummary(Session s, long userId, int baseLang, int learningLang) {
         String sql = "SELECT count(user_performances.word_connection_id) "
                 + "FROM user_performances, word_connections "
                 + "WHERE user_performances.word_connection_id=word_connections.connection_id "
@@ -77,7 +77,7 @@ public class UserPerformance implements Serializable {
         return new int[]{totalGood.intValue(), total.intValue(), totalVersion.intValue() - total.intValue(), totalWordsInLanguage};
     }
 
-    public static int countPerformance(Session s, int userId, int langOneId, int langTwoId, String learningType) {
+    public static int countPerformance(Session s, long userId, int langOneId, int langTwoId, String learningType) {
         String sql = "select count(perf.word_connection_id) from user_performances perf,word_connections c "
                 + "where perf.word_connection_id=c.connection_id "
                 + "and c.word1_language=@langOneId@ "
@@ -94,7 +94,7 @@ public class UserPerformance implements Serializable {
     }
 
     @SuppressWarnings("unchecked")
-    public static List<UserPerformance> getPerformancePage(Session s, int userId, int langOneId, int langTwoId, String learningType, int pageNumber, int pageSize) {
+    public static List<UserPerformance> getPerformancePage(Session s, long userId, int langOneId, int langTwoId, String learningType, int pageNumber, int pageSize) {
         int firstRecord = (pageNumber - 1) * pageSize;
         String sql = "select perf.* from user_performances perf,word_connections c "
                 + "where perf.word_connection_id=c.connection_id "
@@ -116,7 +116,7 @@ public class UserPerformance implements Serializable {
     }
 
     @SuppressWarnings("unchecked")
-    public static List<UserPerformance> getPerformances(Session s, int userId, Integer[] connectionIds) {
+    public static List<UserPerformance> getPerformances(Session s, long userId, Long[] connectionIds) {
         return s.createCriteria(UserPerformance.class)
                 .add(Restrictions.eq("id.userId", userId))
                 .add(Restrictions.in("id.wordConnectionId", connectionIds)).list();
@@ -198,7 +198,7 @@ public class UserPerformance implements Serializable {
     }
 
     @Transient
-    public int getWordConnectionId() {
+    public long getWordConnectionId() {
         return id.getWordConnectionId();
     }
 

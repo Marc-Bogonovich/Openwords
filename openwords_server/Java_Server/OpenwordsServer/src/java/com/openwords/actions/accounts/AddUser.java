@@ -19,7 +19,7 @@ public class AddUser extends MyAction {
 
     private static final long serialVersionUID = 1L;
     private boolean result;
-    private int userId = -1;
+    private long userId = -1;
     private String username, password, email, errorMessage;
 
     @Action(value = "/addUser", results = {
@@ -64,7 +64,7 @@ public class AddUser extends MyAction {
         return result;
     }
 
-    public int getUserId() {
+    public long getUserId() {
         return userId;
     }
 

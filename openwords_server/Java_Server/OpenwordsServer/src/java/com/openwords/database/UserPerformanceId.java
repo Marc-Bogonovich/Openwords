@@ -8,34 +8,34 @@ import javax.persistence.Embeddable;
 public class UserPerformanceId implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private int userId;
-    private int wordConnectionId;
+    private long userId;
+    private long wordConnectionId;
     private String learningType;
 
     public UserPerformanceId() {
     }
 
-    public UserPerformanceId(int userId, int wordConnectionId, String learningType) {
+    public UserPerformanceId(long userId, long wordConnectionId, String learningType) {
         this.userId = userId;
         this.wordConnectionId = wordConnectionId;
         this.learningType = learningType;
     }
 
     @Column(name = "user_id")
-    public int getUserId() {
+    public long getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(long userId) {
         this.userId = userId;
     }
 
     @Column(name = "word_connection_id")
-    public int getWordConnectionId() {
+    public long getWordConnectionId() {
         return wordConnectionId;
     }
 
-    public void setWordConnectionId(int wordConnectionId) {
+    public void setWordConnectionId(long wordConnectionId) {
         this.wordConnectionId = wordConnectionId;
     }
 

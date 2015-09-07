@@ -77,7 +77,7 @@ public class GetWordConnectionsPack extends MyAction {
     }
 
     private List<Word> fillWords(Session s, List<WordConnection> connections) {
-        Set<Integer> wordIds = new HashSet<>(connections.size());
+        Set<Long> wordIds = new HashSet<>(connections.size());
         for (WordConnection connection : connections) {
             wordIds.add(connection.getWordOneId());
             wordIds.add(connection.getWordTwoId());
@@ -86,7 +86,7 @@ public class GetWordConnectionsPack extends MyAction {
     }
 
     private List<UserPerformance> getPerformances(Session s, List<WordConnection> connections) {
-        Integer[] connectionIds = new Integer[connections.size()];
+        Long[] connectionIds = new Long[connections.size()];
         for (int i = 0; i < connections.size(); i++) {
             connectionIds[i] = connections.get(i).getConnectionId();
         }
@@ -94,7 +94,7 @@ public class GetWordConnectionsPack extends MyAction {
     }
 
     private List<WordConnection> getWordConnections(Session s, List<UserPerformance> perf) {
-        Integer[] connectionIds = new Integer[perf.size()];
+        Long[] connectionIds = new Long[perf.size()];
         for (int i = 0; i < perf.size(); i++) {
             connectionIds[i] = perf.get(i).getWordConnectionId();
         }
@@ -104,14 +104,14 @@ public class GetWordConnectionsPack extends MyAction {
     private void loadPerformance(Session s, List<WordConnection> target, List<UserPerformance> existed) {
         if (target.size() != existed.size()) {
             UtilLog.logInfo(this, "Create new UserPerformance records: " + (target.size() - existed.size()));
-            Set<Integer> newIds = new HashSet<>(target.size());
+            Set<Long> newIds = new HashSet<>(target.size());
             for (WordConnection conn : target) {
                 newIds.add(conn.getConnectionId());
             }
             for (UserPerformance perf : existed) {
                 newIds.remove(perf.getWordConnectionId());
             }
-            for (Integer newId : newIds) {
+            for (Long newId : newIds) {
                 UserPerformance newPerf = new UserPerformance(new UserPerformanceId(userId, newId, "all"), "new", 1);
                 s.save(newPerf);
                 existed.add(newPerf);

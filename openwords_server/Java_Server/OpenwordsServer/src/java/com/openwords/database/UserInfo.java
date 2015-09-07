@@ -19,7 +19,7 @@ public class UserInfo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public static boolean checkUserId(Session s, int id) {
+    public static boolean checkUserId(Session s, long id) {
         int exist = ((Number) s.createCriteria(UserInfo.class)
                 .add(Restrictions.eq("userId", id))
                 .setProjection(Projections.rowCount()
@@ -66,7 +66,7 @@ public class UserInfo implements Serializable {
         s.beginTransaction().commit();
     }
 
-    private int userId;
+    private long userId;
     private String username, email, password, lastLocation;
     private Date lastLogin;
 
@@ -84,11 +84,11 @@ public class UserInfo implements Serializable {
     @Id
     @GeneratedValue
     @Column(name = "user_id")
-    public int getUserId() {
+    public long getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(long userId) {
         this.userId = userId;
     }
 

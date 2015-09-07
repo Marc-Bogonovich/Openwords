@@ -46,7 +46,7 @@ public class WordAudio implements Serializable {
     }
 
     @SuppressWarnings("unchecked")
-    public static List<WordAudio> getAudioByIds(Session s, Integer[] ids, int type, int language) {
+    public static List<WordAudio> getAudioByIds(Session s, Long[] ids, int type, int language) {
         return s.createCriteria(WordAudio.class)
                 .add(Restrictions.eq("id.type", type))
                 .add(Restrictions.eq("languageId", language))
@@ -103,7 +103,7 @@ public class WordAudio implements Serializable {
     }
 
     @Transient
-    public int getWordId() {
+    public long getWordId() {
         return id.getWordId();
     }
 

@@ -39,7 +39,7 @@ public class AddWordConnection extends MyAction {
             List<Word> checkWord1 = Word.checkSameWord(s, translation, wordOneLang, wordOne);
             List<Word> checkWord2 = Word.checkSameWord(s, translation, wordTwoLang, wordTwo);
 
-            int wordOneId = -1, wordTwoId = -1;
+            long wordOneId = -1, wordTwoId = -1;
             if (!checkWord1.isEmpty()) {
                 wordOneId = checkWord1.get(0).getWordId();
             }

@@ -29,7 +29,7 @@ public class GetUserPerformance extends MyAction {
         UtilLog.logInfo(this, "/getUserPerformance: " + userId + " " + connections);
         Session s = DatabaseHandler.getSession();
         try {
-            result = UserPerformance.getPerformances(s, userId, (Integer[]) MyGson.fromJson(connections, Integer[].class));
+            result = UserPerformance.getPerformances(s, userId, (Long[]) MyGson.fromJson(connections, Long[].class));
         } catch (Exception e) {
             errorMessage = e.toString();
             UtilLog.logWarn(this, errorMessage);

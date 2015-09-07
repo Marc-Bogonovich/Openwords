@@ -60,7 +60,7 @@ public class WordConnection implements Serializable {
     }
 
     @SuppressWarnings("unchecked")
-    public static List<WordConnection> getConnections(Session s, Integer[] connectionIds) {
+    public static List<WordConnection> getConnections(Session s, Long[] connectionIds) {
         return s.createCriteria(WordConnection.class)
                 .add(Restrictions.in("connectionId", connectionIds)).list();
     }
@@ -117,7 +117,7 @@ public class WordConnection implements Serializable {
     }
 
     public static List<WordConnection> getWordAllConnections(Session s, String wordOne, boolean increaseRank) {
-        List<Integer> wordOneIds = Word.getWordIds(s, wordOne);
+        List<Long> wordOneIds = Word.getWordIds(s, wordOne);
         if (wordOneIds.isEmpty()) {
             return null;
         }
@@ -168,14 +168,15 @@ public class WordConnection implements Serializable {
     }
 
     @SuppressWarnings("unchecked")
-    public static List<WordConnection> getConnectionsByLanguage(Session s, int wordOneId, int wordTwoId) {
+    public static List<WordConnection> getConnectionsByLanguage(Session s, long wordOneId, long wordTwoId) {
         return s.createCriteria(WordConnection.class)
                 .add(Restrictions.eq("wordOneId", wordOneId))
                 .add(Restrictions.eq("wordTwoId", wordTwoId))
                 .list();
     }
 
-    private int connectionId, wordOneId, wordOneLangId, wordTwoId, wordTwoLangId, connectionType;
+    private long connectionId, wordOneId, wordTwoId;
+    private int wordOneLangId, wordTwoLangId, connectionType;
     private Date updatedTime;
     private String contributor;
     private Word wordTwo, wordOne;
@@ -183,7 +184,7 @@ public class WordConnection implements Serializable {
     public WordConnection() {
     }
 
-    public WordConnection(int wordOneId, int wordOneLangId, int wordTwoId, int wordTwoLangId, int connectionType, String contributor) {
+    public WordConnection(long wordOneId, int wordOneLangId, long wordTwoId, int wordTwoLangId, int connectionType, String contributor) {
         this.wordOneId = wordOneId;
         this.wordOneLangId = wordOneLangId;
         this.wordTwoId = wordTwoId;
@@ -195,29 +196,29 @@ public class WordConnection implements Serializable {
     @Id
     @GeneratedValue
     @Column(name = "connection_id")
-    public int getConnectionId() {
+    public long getConnectionId() {
         return connectionId;
     }
 
-    public void setConnectionId(int connectionId) {
+    public void setConnectionId(long connectionId) {
         this.connectionId = connectionId;
     }
 
     @Column(name = "word1_id")
-    public int getWordOneId() {
+    public long getWordOneId() {
         return wordOneId;
     }
 
-    public void setWordOneId(int wordOneId) {
+    public void setWordOneId(long wordOneId) {
         this.wordOneId = wordOneId;
     }
 
     @Column(name = "word2_id")
-    public int getWordTwoId() {
+    public long getWordTwoId() {
         return wordTwoId;
     }
 
-    public void setWordTwoId(int wordTwoId) {
+    public void setWordTwoId(long wordTwoId) {
         this.wordTwoId = wordTwoId;
     }
 

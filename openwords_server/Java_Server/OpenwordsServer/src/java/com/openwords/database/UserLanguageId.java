@@ -8,23 +8,24 @@ import javax.persistence.Embeddable;
 public class UserLanguageId implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private int userId, baseLang, learningLang;
+    private long userId;
+    private int baseLang, learningLang;
 
     public UserLanguageId() {
     }
 
-    public UserLanguageId(int userId, int baseLang, int learningLang) {
+    public UserLanguageId(long userId, int baseLang, int learningLang) {
         this.userId = userId;
         this.baseLang = baseLang;
         this.learningLang = learningLang;
     }
 
     @Column(name = "user_id")
-    public int getUserId() {
+    public long getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(long userId) {
         this.userId = userId;
     }
 

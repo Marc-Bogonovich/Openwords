@@ -8,22 +8,23 @@ import javax.persistence.Embeddable;
 public class WordAudioId implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private int wordId, type;
+    private long wordId;
+    private int type;
 
     public WordAudioId() {
     }
 
-    public WordAudioId(int wordId, int type) {
+    public WordAudioId(long wordId, int type) {
         this.wordId = wordId;
         this.type = type;
     }
 
     @Column(name = "word_id")
-    public int getWordId() {
+    public long getWordId() {
         return wordId;
     }
 
-    public void setWordId(int wordId) {
+    public void setWordId(long wordId) {
         this.wordId = wordId;
     }
 

@@ -50,7 +50,7 @@ public class GetConnectionsByLangOne extends MyAction {
     }
 
     private List<Word> fillWords(Session s, List<WordConnection> connections) {
-        Set<Integer> wordIds = new HashSet<>(connections.size());
+        Set<Long> wordIds = new HashSet<>(connections.size());
         for (WordConnection connection : connections) {
             wordIds.add(connection.getWordOneId());
             wordIds.add(connection.getWordTwoId());

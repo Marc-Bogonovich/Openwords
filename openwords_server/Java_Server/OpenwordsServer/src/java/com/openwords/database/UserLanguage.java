@@ -37,7 +37,7 @@ public class UserLanguage implements Serializable {
         }
     }
 
-    public static void setUserLearningLanguages(Session s, int userId, int baseLang, int[] learningLangs) {
+    public static void setUserLearningLanguages(Session s, long userId, int baseLang, int[] learningLangs) {
         @SuppressWarnings("unchecked")
         List<UserLanguage> all = s.createCriteria(UserLanguage.class)
                 .add(Restrictions.eq("id.userId", userId))
@@ -64,7 +64,7 @@ public class UserLanguage implements Serializable {
     }
 
     @SuppressWarnings("unchecked")
-    public static List<UserLanguage> getUserLearningLanguages(Session s, int userId, int baseLang) {
+    public static List<UserLanguage> getUserLearningLanguages(Session s, long userId, int baseLang) {
         List<UserLanguage> ids = s.createCriteria(UserLanguage.class)
                 .add(Restrictions.eq("id.userId", userId))
                 .add(Restrictions.eq("id.baseLang", baseLang))
@@ -81,11 +81,11 @@ public class UserLanguage implements Serializable {
     public UserLanguage() {
     }
 
-    public UserLanguage(int userId, int baseLang, int learningLang) {
+    public UserLanguage(long userId, int baseLang, int learningLang) {
         this.id = new UserLanguageId(userId, baseLang, learningLang);
     }
 
-    public UserLanguage(int userId, int baseLang, int learningLang, int page, String meta, boolean use) {
+    public UserLanguage(long userId, int baseLang, int learningLang, int page, String meta, boolean use) {
         this.id = new UserLanguageId(userId, baseLang, learningLang);
         this.page = page;
         this.meta = meta;
