@@ -1,0 +1,145 @@
+package com.openwords.database;
+
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
+
+@Entity
+@Table(name = "set_info")
+public class SetInfo implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    public static void createNewSet(Session s, SetInfo set) {
+        s.save(set);
+        s.beginTransaction().commit();
+    }
+
+    public static void updateSetInfo(Session s, SetInfo set) {
+        SetInfo old = (SetInfo) s.get(SetInfo.class, set.getSetId());
+        old.setLangOne(set.getLangOne());
+        old.setLangTwo(set.getLangTwo());
+        old.setVisibility(set.getVisibility());
+        old.setName(set.getName());
+        old.setUpdatedTime(new Date());
+        s.beginTransaction().commit();
+    }
+
+    public static SetInfo getSetInfoByName(Session s, String name, long userId) {
+        @SuppressWarnings("unchecked")
+        List<SetInfo> r = s.createCriteria(SetInfo.class)
+                .add(Restrictions.eq("name", name))
+                .add(Restrictions.eq("userId", userId))
+                .list();
+        if (r.isEmpty()) {
+            return null;
+        }
+        return r.get(0);
+    }
+
+    public static SetInfo getSetInfo(Session s, long setId) {
+        return (SetInfo) s.get(SetInfo.class, setId);
+    }
+
+    private long setId, userId;
+    private int langOne, langTwo, visibility;
+    private String name;
+    private boolean valid;
+    private Date updatedTime;
+
+    public SetInfo() {
+    }
+
+    public SetInfo(long userId, int langOne, int langTwo, int visibility, String name, boolean valid) {
+        this.userId = userId;
+        this.langOne = langOne;
+        this.langTwo = langTwo;
+        this.visibility = visibility;
+        this.name = name;
+        this.valid = valid;
+    }
+
+    @Id
+    @GeneratedValue
+    @Column(name = "set_id")
+    public long getSetId() {
+        return setId;
+    }
+
+    public void setSetId(long setId) {
+        this.setId = setId;
+    }
+
+    @Column(name = "user_id")
+    public long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(long userId) {
+        this.userId = userId;
+    }
+
+    @Column(name = "lang_one")
+    public int getLangOne() {
+        return langOne;
+    }
+
+    public void setLangOne(int langOne) {
+        this.langOne = langOne;
+    }
+
+    @Column(name = "lang_two")
+    public int getLangTwo() {
+        return langTwo;
+    }
+
+    public void setLangTwo(int langTwo) {
+        this.langTwo = langTwo;
+    }
+
+    @Column(name = "visibility")
+    public int getVisibility() {
+        return visibility;
+    }
+
+    public void setVisibility(int visibility) {
+        this.visibility = visibility;
+    }
+
+    @Column(name = "set_name")
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Column(name = "valid")
+    public boolean isValid() {
+        return valid;
+    }
+
+    public void setValid(boolean valid) {
+        this.valid = valid;
+    }
+
+    @Column(name = "updated_time")
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    public Date getUpdatedTime() {
+        return updatedTime;
+    }
+
+    public void setUpdatedTime(Date updatedTime) {
+        this.updatedTime = updatedTime;
+    }
+
+}
