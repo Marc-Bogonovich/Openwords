@@ -8,7 +8,7 @@
 -- Table structure for table `set_content`
 --
 
-CREATE TABLE `set_content` (
+CREATE TABLE `set_items` (
   `set_id` bigint(20) NOT NULL,
   `word_connection_id` bigint(20) NOT NULL,
   `direction` int(11) NOT NULL,

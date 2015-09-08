@@ -5,20 +5,20 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 @Embeddable
-public class SetContentId implements Serializable {
+public class SetItemId implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     private long setId, wordConnectionId;
 
-    public SetContentId() {
+    public SetItemId() {
     }
 
-    public SetContentId(long wordConnectionId) {
+    public SetItemId(long wordConnectionId) {
         this.wordConnectionId = wordConnectionId;
     }
 
-    public SetContentId(long setId, long wordConnectionId) {
+    public SetItemId(long setId, long wordConnectionId) {
         this.setId = setId;
         this.wordConnectionId = wordConnectionId;
     }
