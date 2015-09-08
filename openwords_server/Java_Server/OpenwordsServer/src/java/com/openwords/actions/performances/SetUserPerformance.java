@@ -32,7 +32,7 @@ public class SetUserPerformance extends MyAction {
         UtilLog.logInfo(this, "/setUserPerformance: " + userId + " " + skipOld + " " + learningType + " " + performance);
         Session s = DatabaseHandler.getSession();
         try {
-            Object[] versions = (Object[]) MyGson.fromJson(performance, Object[].class);
+            Object[] versions = MyGson.fromJson(performance, Object[].class);
             List<UserPerformance> perfs = new ArrayList<>(versions.length / 3);
             for (int i = 0; i < versions.length; i += 3) {
                 int connectionId = ((Number) versions[i]).intValue();

@@ -82,7 +82,7 @@ public class LocalSettings extends SugarRecord<LocalSettings> {
 
     public static LocalLanguage getLocalLanguage() {
         loadLocalSettings();
-        return (LocalLanguage) MyGson.fromJson(instance.localLanguage, LocalLanguage.class);
+        return MyGson.fromJson(instance.localLanguage, LocalLanguage.class);
     }
 
     public static void setLocalLanguage(LocalLanguage lang) {

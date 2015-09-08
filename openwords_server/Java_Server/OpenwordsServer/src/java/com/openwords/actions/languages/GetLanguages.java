@@ -32,14 +32,14 @@ public class GetLanguages extends MyAction {
         Session s = DatabaseHandler.getSession();
         try {
             if (include == null) {
-                Integer[] old = (Integer[]) MyGson.fromJson(exclude, Integer[].class);
+                Integer[] old = MyGson.fromJson(exclude, Integer[].class);
                 List<Integer> langIds = Language.getNewLanguageIds(s, old);
                 if (langIds.isEmpty()) {
                     return SUCCESS;
                 }
                 result = Language.getLanguages(s, langIds);
             } else {
-                Integer[] needed = (Integer[]) MyGson.fromJson(include, Integer[].class);
+                Integer[] needed = MyGson.fromJson(include, Integer[].class);
                 if (needed.length == 0) {
                     return SUCCESS;
                 }

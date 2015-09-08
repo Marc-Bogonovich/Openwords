@@ -29,7 +29,7 @@ public class GetAudioPack extends MyAction {
         UtilLog.logInfo(this, "/getWordAudioPack: " + wordIds);
         Session s = DatabaseHandler.getSession();
         try {
-            Long[] ids = (Long[]) MyGson.fromJson(wordIds, Long[].class);
+            Long[] ids = MyGson.fromJson(wordIds, Long[].class);
             List<WordAudio> audios = WordAudio.getAudioByIds(s, ids, type, language);
             List<String> names = new LinkedList<>();
             for (WordAudio audio : audios) {

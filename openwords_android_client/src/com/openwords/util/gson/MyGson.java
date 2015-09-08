@@ -25,7 +25,7 @@ public class MyGson {
         return gson.toJson(o);
     }
 
-    public static Object fromJson(String json, Type type) {
+    public static <T extends Object> T fromJson(String json, Type type) {
         if (gson == null) {
             gson = new Gson();
         }

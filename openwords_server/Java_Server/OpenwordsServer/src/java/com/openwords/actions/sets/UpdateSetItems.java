@@ -37,7 +37,7 @@ public class UpdateSetItems extends MyAction {
                 throw new Exception("set information is not correct");
             }
 
-            Long[] connections = (Long[]) MyGson.fromJson(connectionIds, Long[].class);
+            long[] connections = MyGson.fromJson(connectionIds, long[].class);
             itemsResult = new ArrayList<>(connections.length);
             for (int i = 0; i < connections.length; i++) {
                 itemsResult.add(i, new SetItem(new SetItemId(connections[i]), 0, i + 1));

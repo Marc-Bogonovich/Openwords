@@ -30,7 +30,7 @@ public class GetAudioInfo extends MyAction {
         UtilLog.logInfo(this, "/getWordAudioInfo: " + wordIds);
         Session s = DatabaseHandler.getSession();
         try {
-            Long[] ids = (Long[]) MyGson.fromJson(wordIds, Long[].class);
+            Long[] ids = MyGson.fromJson(wordIds, Long[].class);
             result = WordAudio.getAudioByIds(s, ids, type, language);
         } catch (Exception e) {
             errorMessage = e.toString();
