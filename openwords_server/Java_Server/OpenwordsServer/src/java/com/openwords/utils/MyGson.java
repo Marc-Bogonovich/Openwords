@@ -4,10 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import java.lang.reflect.Type;
 
-/**
- *
- * @author hanaldo
- */
 public class MyGson {
 
     private static Gson gson;
@@ -25,7 +21,7 @@ public class MyGson {
         return gson.toJson(o);
     }
 
-    public static Object fromJson(String json, Type type) {
+    public static <T extends Object> T fromJson(String json, Type type) {
         if (gson == null) {
             gson = new Gson();
         }

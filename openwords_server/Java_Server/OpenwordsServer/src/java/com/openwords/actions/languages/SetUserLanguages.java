@@ -5,6 +5,7 @@ import static com.opensymphony.xwork2.Action.SUCCESS;
 import com.openwords.database.DatabaseHandler;
 import com.openwords.database.UserLanguage;
 import com.openwords.interfaces.MyAction;
+import com.openwords.utils.MyGson;
 import com.openwords.utils.UtilLog;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.ParentPackage;
@@ -28,7 +29,7 @@ public class SetUserLanguages extends MyAction {
         UtilLog.logInfo(this, "/setUserLanguages: " + userId + " " + langOneId + " " + langTwoIds);
         Session s = DatabaseHandler.getSession();
         try {
-            int[] langTwos = new Gson().fromJson(langTwoIds, int[].class);
+            int[] langTwos = MyGson.fromJson(langTwoIds, int[].class);
             if (langTwos.length == 0) {
                 errorMessage = "langTwoIds is empty";
                 return SUCCESS;
