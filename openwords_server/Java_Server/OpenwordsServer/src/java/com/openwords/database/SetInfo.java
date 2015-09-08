@@ -9,6 +9,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.persistence.Transient;
+import org.apache.struts2.json.annotations.JSON;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
@@ -134,12 +136,18 @@ public class SetInfo implements Serializable {
 
     @Column(name = "updated_time")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    @JSON(serialize = false, deserialize = false)
     public Date getUpdatedTime() {
         return updatedTime;
     }
 
     public void setUpdatedTime(Date updatedTime) {
         this.updatedTime = updatedTime;
+    }
+
+    @Transient
+    public long getUpdatedTimeLong() {
+        return updatedTime.getTime();
     }
 
 }
