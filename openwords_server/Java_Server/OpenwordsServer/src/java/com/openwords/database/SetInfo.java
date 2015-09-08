@@ -56,6 +56,7 @@ public class SetInfo implements Serializable {
     private String name;
     private boolean valid;
     private Date updatedTime;
+    //private int maxSize;//need to think about items number, if too many then need to rework UpdateSetItems. 
 
     public SetInfo() {
     }
