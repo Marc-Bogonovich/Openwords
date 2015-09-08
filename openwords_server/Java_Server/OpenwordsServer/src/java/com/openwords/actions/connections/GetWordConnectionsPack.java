@@ -94,9 +94,9 @@ public class GetWordConnectionsPack extends MyAction {
     }
 
     private List<WordConnection> getWordConnections(Session s, List<UserPerformance> perf) {
-        Long[] connectionIds = new Long[perf.size()];
-        for (int i = 0; i < perf.size(); i++) {
-            connectionIds[i] = perf.get(i).getWordConnectionId();
+        Set<Long> connectionIds = new HashSet<>(perf.size());
+        for (UserPerformance p : perf) {
+            connectionIds.add(p.getWordConnectionId());
         }
         return WordConnection.getConnections(s, connectionIds);
     }

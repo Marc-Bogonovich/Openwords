@@ -2,6 +2,7 @@ package com.openwords.database;
 
 import com.openwords.utils.UtilLog;
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -60,7 +61,7 @@ public class WordConnection implements Serializable {
     }
 
     @SuppressWarnings("unchecked")
-    public static List<WordConnection> getConnections(Session s, Long[] connectionIds) {
+    public static List<WordConnection> getConnections(Session s, Collection<Long> connectionIds) {
         return s.createCriteria(WordConnection.class)
                 .add(Restrictions.in("connectionId", connectionIds)).list();
     }
