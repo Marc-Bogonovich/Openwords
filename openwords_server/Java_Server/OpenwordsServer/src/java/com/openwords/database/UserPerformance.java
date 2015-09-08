@@ -1,6 +1,7 @@
 package com.openwords.database;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Column;
@@ -116,7 +117,7 @@ public class UserPerformance implements Serializable {
     }
 
     @SuppressWarnings("unchecked")
-    public static List<UserPerformance> getPerformances(Session s, long userId, Long[] connectionIds) {
+    public static List<UserPerformance> getPerformances(Session s, long userId, Collection<Long> connectionIds) {
         return s.createCriteria(UserPerformance.class)
                 .add(Restrictions.eq("id.userId", userId))
                 .add(Restrictions.in("id.wordConnectionId", connectionIds)).list();
