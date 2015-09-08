@@ -7,6 +7,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+import org.apache.struts2.json.annotations.JSON;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
@@ -51,6 +53,7 @@ public class SetItem implements Serializable {
     }
 
     @Id
+    @JSON(serialize = false, deserialize = false)
     public SetItemId getId() {
         return id;
     }
@@ -75,6 +78,16 @@ public class SetItem implements Serializable {
 
     public void setItemOrder(int itemOrder) {
         this.itemOrder = itemOrder;
+    }
+
+    @Transient
+    public long getSetId() {
+        return id.getSetId();
+    }
+
+    @Transient
+    public long getWordConnectionId() {
+        return id.getWordConnectionId();
     }
 
 }

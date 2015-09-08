@@ -22,5 +22,5 @@ CREATE TABLE `set_items` (
 --
 -- Indexes for table `set_content`
 --
-ALTER TABLE `set_content`
+ALTER TABLE `set_items`
  ADD PRIMARY KEY (`set_id`,`word_connection_id`);
