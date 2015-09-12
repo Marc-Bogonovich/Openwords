@@ -48,6 +48,15 @@ public class SetInfo implements Serializable {
         return r.get(0);
     }
 
+    @SuppressWarnings("unchecked")
+    public static List<SetInfo> getAllSets(Session s, int pageNumber, int pageSize) {
+        int firstRecord = (pageNumber - 1) * pageSize;
+        return s.createCriteria(SetInfo.class)
+                .setFirstResult(firstRecord)
+                .setMaxResults(pageSize)
+                .list();
+    }
+
     public static SetInfo getSetInfo(Session s, long setId) {
         return (SetInfo) s.get(SetInfo.class, setId);
     }
