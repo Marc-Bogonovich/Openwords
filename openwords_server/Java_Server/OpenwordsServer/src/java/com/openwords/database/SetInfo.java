@@ -1,5 +1,6 @@
 package com.openwords.database;
 
+import com.openwords.utils.MyXStream;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -53,21 +54,23 @@ public class SetInfo implements Serializable {
 
     private long setId, userId;
     private int langOne, langTwo, visibility;
-    private String name;
+    private String name, meta;
     private boolean valid;
     private Date updatedTime;
+    private SetMetaInfo metaInfo;
     //private int maxSize;//need to think about items number, if too many then need to rework UpdateSetItems. 
 
     public SetInfo() {
     }
 
-    public SetInfo(long userId, int langOne, int langTwo, int visibility, String name, boolean valid) {
+    public SetInfo(long userId, int langOne, int langTwo, int visibility, String name, boolean valid, String meta) {
         this.userId = userId;
         this.langOne = langOne;
         this.langTwo = langTwo;
         this.visibility = visibility;
         this.name = name;
         this.valid = valid;
+        this.meta = meta;
     }
 
     @Id
@@ -151,4 +154,21 @@ public class SetInfo implements Serializable {
         return updatedTime.getTime();
     }
 
+    @Column(name = "meta_info")
+    @JSON(serialize = false, deserialize = false)
+    public String getMeta() {
+        return meta;
+    }
+
+    public void setMeta(String meta) {
+        this.meta = meta;
+    }
+
+    @Transient
+    public SetMetaInfo getWordMetaInfo() {
+        if (metaInfo == null) {
+            metaInfo = (SetMetaInfo) MyXStream.fromXml(meta);
+        }
+        return metaInfo;
+    }
 }

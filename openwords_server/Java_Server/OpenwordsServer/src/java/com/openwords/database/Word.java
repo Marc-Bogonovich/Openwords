@@ -151,15 +151,6 @@ public class Word implements Serializable {
         return total;
     }
 
-    public static void addWord(Session s, Word w) throws Exception {
-        try {
-            s.save(w);
-            s.beginTransaction().commit();
-        } catch (Exception e) {
-            throw e;
-        }
-    }
-
     @SuppressWarnings("unchecked")
     public static List<Word> checkSameWord(Session s, String translation, int languageId, String word) throws NoSuchAlgorithmException {
         return s.createCriteria(Word.class)
@@ -274,7 +265,7 @@ public class Word implements Serializable {
     @Transient
     public WordMetaInfo getWordMetaInfo() {
         if (wordMetaInfo == null) {
-            wordMetaInfo = (WordMetaInfo) MyXStream.fromXml("word", meta);
+            wordMetaInfo = (WordMetaInfo) MyXStream.fromXml(meta);
         }
         return wordMetaInfo;
     }

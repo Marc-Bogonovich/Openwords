@@ -22,8 +22,7 @@ public class GetAudioInfo extends MyAction {
     private int type, language;
 
     @Action(value = "/getWordAudioInfo", results = {
-        @Result(name = SUCCESS, type = "json"),
-        @Result(name = INPUT, type = "json")
+        @Result(name = SUCCESS, type = "json")
     })
     @Override
     public String execute() throws Exception {
@@ -63,6 +62,5 @@ public class GetAudioInfo extends MyAction {
 
     @Override
     public void setErrorMessage(String errorMessage) {
-        this.errorMessage = errorMessage;
     }
 }

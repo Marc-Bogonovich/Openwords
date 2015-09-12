@@ -58,6 +58,6 @@ public class WordMetaInfo {
 
     @JSON(serialize = false, deserialize = false)
     public String getXmlString() {
-        return MyXStream.toXml("word", this);
+        return MyXStream.toXml(this);
     }
 }
