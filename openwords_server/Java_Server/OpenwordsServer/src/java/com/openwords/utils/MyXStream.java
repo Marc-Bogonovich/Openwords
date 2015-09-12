@@ -1,35 +1,29 @@
 package com.openwords.utils;
 
+import com.openwords.database.SetMetaInfo;
 import com.openwords.database.WordMetaInfo;
 import com.thoughtworks.xstream.XStream;
-import java.util.HashMap;
-import java.util.Map;
 
-/**
- *
- * @author hanaldo
- */
 public class MyXStream {
 
-    private static Map<String, XStream> roots = new HashMap<>(5);
+    private static XStream instance;
 
-    public static void init() {
-        XStream wordRoot = new XStream();
-        wordRoot.alias("word", WordMetaInfo.class);
-        roots.put("word", wordRoot);
+    private static void init() {
+        if (instance == null) {
+            instance = new XStream();
+            instance.alias("word", WordMetaInfo.class);
+            instance.alias("set", SetMetaInfo.class);
+        }
     }
 
-    public static void clean() {
-        roots.clear();
-        roots = null;
+    public static String toXml(Object o) {
+        init();
+        return instance.toXML(o);
     }
 
-    public static String toXml(String root, Object o) {
-        return roots.get(root).toXML(o);
-    }
-
-    public static Object fromXml(String root, String xml) {
-        return roots.get(root).fromXML(xml);
+    public static Object fromXml(String xml) {
+        init();
+        return instance.fromXML(xml);
     }
 
     private MyXStream() {

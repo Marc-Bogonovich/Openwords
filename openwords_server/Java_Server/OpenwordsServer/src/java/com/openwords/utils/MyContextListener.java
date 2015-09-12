@@ -11,7 +11,7 @@ import javax.servlet.ServletContextListener;
 public class MyContextListener implements ServletContextListener {
 
     private static String contextPath;
-    private static String cloudContextPath = "/var/lib/openshift/55cb78702d52716caf000105/app-root/data/";
+    private static final String cloudContextPath = "/var/lib/openshift/55cb78702d52716caf000105/app-root/data/";
 
     public static String getContextPath(boolean useExternal) {
         if (useExternal) {
@@ -29,14 +29,12 @@ public class MyContextListener implements ServletContextListener {
         }
         UtilLog.logInfo(this, "Servlet Context Path: " + contextPath);
 
-        MyXStream.init();
         DatabaseHandler.getInstance();
         UtilLog.logInfo(this, "contextInitialized");
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
-        MyXStream.clean();
         DatabaseHandler.getInstance().clean();
         UtilLog.logInfo(this, "contextDestroyed");
     }
