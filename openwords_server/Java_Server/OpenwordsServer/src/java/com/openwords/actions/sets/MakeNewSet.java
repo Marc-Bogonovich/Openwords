@@ -18,7 +18,7 @@ public class MakeNewSet extends MyAction {
     private String errorMessage;
     private SetInfo setResult;
     private long userId;
-    private int langOne, langTwo;
+    private int lang;
     private String name;
 
     @Action(value = "/makeNewSet", results = {
@@ -32,7 +32,7 @@ public class MakeNewSet extends MyAction {
             if (name.isEmpty()) {
                 throw new Exception("set name cannot be empty");
             }
-            SetInfo set = new SetInfo(userId, langOne, langTwo, 1, name, true, new SetMetaInfo("test").getXmlString());
+            SetInfo set = new SetInfo(userId, lang, 1, name, true, new SetMetaInfo("test").getXmlString());
             SetInfo.createNewSet(s, set);
             s.refresh(set);
             setResult = set;
@@ -49,12 +49,8 @@ public class MakeNewSet extends MyAction {
         this.userId = userId;
     }
 
-    public void setLangOne(int langOne) {
-        this.langOne = langOne;
-    }
-
-    public void setLangTwo(int langTwo) {
-        this.langTwo = langTwo;
+    public void setLang(int lang) {
+        this.lang = lang;
     }
 
     public void setName(String name) {

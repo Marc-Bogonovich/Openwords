@@ -28,8 +28,6 @@ public class SetInfo implements Serializable {
 
     public static void updateSetInfo(Session s, SetInfo set) {
         SetInfo old = (SetInfo) s.get(SetInfo.class, set.getSetId());
-        old.setLangOne(set.getLangOne());
-        old.setLangTwo(set.getLangTwo());
         old.setVisibility(set.getVisibility());
         old.setName(set.getName());
         old.setUpdatedTime(new Date());
@@ -62,7 +60,7 @@ public class SetInfo implements Serializable {
     }
 
     private long setId, userId;
-    private int langOne, langTwo, visibility;
+    private int learningLang, visibility;
     private String name, meta;
     private boolean valid;
     private Date updatedTime;
@@ -72,10 +70,9 @@ public class SetInfo implements Serializable {
     public SetInfo() {
     }
 
-    public SetInfo(long userId, int langOne, int langTwo, int visibility, String name, boolean valid, String meta) {
+    public SetInfo(long userId, int learningLang, int visibility, String name, boolean valid, String meta) {
         this.userId = userId;
-        this.langOne = langOne;
-        this.langTwo = langTwo;
+        this.learningLang = learningLang;
         this.visibility = visibility;
         this.name = name;
         this.valid = valid;
@@ -102,22 +99,13 @@ public class SetInfo implements Serializable {
         this.userId = userId;
     }
 
-    @Column(name = "lang_one")
-    public int getLangOne() {
-        return langOne;
+    @Column(name = "learning_lang")
+    public int getLearningLang() {
+        return learningLang;
     }
 
-    public void setLangOne(int langOne) {
-        this.langOne = langOne;
-    }
-
-    @Column(name = "lang_two")
-    public int getLangTwo() {
-        return langTwo;
-    }
-
-    public void setLangTwo(int langTwo) {
-        this.langTwo = langTwo;
+    public void setLearningLang(int learningLang) {
+        this.learningLang = learningLang;
     }
 
     @Column(name = "visibility")
