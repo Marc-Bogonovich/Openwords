@@ -4,7 +4,6 @@ import static com.opensymphony.xwork2.Action.SUCCESS;
 import com.openwords.database.DatabaseHandler;
 import com.openwords.database.SetInfo;
 import com.openwords.database.SetItem;
-import com.openwords.database.SetItemId;
 import com.openwords.interfaces.MyAction;
 import com.openwords.utils.MyGson;
 import com.openwords.utils.UtilLog;
@@ -20,7 +19,7 @@ public class UpdateSetItems extends MyAction {
 
     private static final long serialVersionUID = 1L;
     private String errorMessage;
-    private String connectionIds;
+    private String wordIds;
     private long setId, userId;
     private List<SetItem> itemsResult;
 
@@ -29,7 +28,7 @@ public class UpdateSetItems extends MyAction {
     })
     @Override
     public String execute() throws Exception {
-        UtilLog.logInfo(this, "/updateSetItems: " + connectionIds + " " + setId);
+        UtilLog.logInfo(this, "/updateSetItems: " + wordIds + " " + setId);
         Session s = DatabaseHandler.getSession();
         try {
             SetInfo info = SetInfo.getSetInfo(s, setId);
@@ -37,10 +36,10 @@ public class UpdateSetItems extends MyAction {
                 throw new Exception("set information is not correct");
             }
 
-            long[] connections = MyGson.fromJson(connectionIds, long[].class);
-            itemsResult = new ArrayList<>(connections.length);
-            for (int i = 0; i < connections.length; i++) {
-                itemsResult.add(i, new SetItem(new SetItemId(connections[i]), 0, i + 1));
+            long[] words = MyGson.fromJson(wordIds, long[].class);
+            itemsResult = new ArrayList<>(words.length);
+            for (int i = 0; i < words.length; i++) {
+                itemsResult.add(i, new SetItem(words[i], i + 1));
             }
             SetItem.updateSetItems(s, setId, itemsResult);
 
@@ -57,8 +56,8 @@ public class UpdateSetItems extends MyAction {
         this.userId = userId;
     }
 
-    public void setConnectionIds(String connectionIds) {
-        this.connectionIds = connectionIds;
+    public void setWordIds(String wordIds) {
+        this.wordIds = wordIds;
     }
 
     public void setSetId(long setId) {

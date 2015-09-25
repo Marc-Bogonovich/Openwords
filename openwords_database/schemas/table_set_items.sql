@@ -10,8 +10,7 @@
 
 CREATE TABLE `set_items` (
   `set_id` bigint(20) NOT NULL,
-  `word_connection_id` bigint(20) NOT NULL,
-  `direction` int(11) NOT NULL,
+  `word_id` bigint(20) NOT NULL,
   `item_order` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -23,4 +22,4 @@ CREATE TABLE `set_items` (
 -- Indexes for table `set_content`
 --
 ALTER TABLE `set_items`
- ADD PRIMARY KEY (`set_id`,`word_connection_id`);
+ ADD PRIMARY KEY (`set_id`,`word_id`);

@@ -6,7 +6,6 @@ import com.openwords.database.SetInfo;
 import com.openwords.database.SetItem;
 import com.openwords.database.UserPerformance;
 import com.openwords.database.Word;
-import com.openwords.database.WordConnection;
 import com.openwords.interfaces.MyAction;
 import com.openwords.utils.UtilLog;
 import java.util.HashSet;
@@ -25,7 +24,6 @@ public class GetSetItems extends MyAction {
     private long setId, userId, learnerId;
     private List<SetItem> itemsResult;
     private boolean getPack;
-    private List<WordConnection> connections;
     private List<Word> words;
     private List<UserPerformance> performance;
 
@@ -57,20 +55,13 @@ public class GetSetItems extends MyAction {
     }
 
     private void loadPack(Session s) {
-        Set<Long> connectionIds = new HashSet<>(itemsResult.size());
+        Set<Long> wordIds = new HashSet<>(itemsResult.size());
         for (SetItem item : itemsResult) {
-            connectionIds.add(item.getWordConnectionId());
-        }
-        connections = WordConnection.getConnections(s, connectionIds);
-
-        Set<Long> wordIds = new HashSet<>(connections.size());
-        for (WordConnection connection : connections) {
-            wordIds.add(connection.getWordOneId());
-            wordIds.add(connection.getWordTwoId());
+            wordIds.add(item.getWordId());
         }
         words = Word.getWords(s, wordIds);
 
-        performance = UserPerformance.getPerformances(s, learnerId, connectionIds);
+        //performance = UserPerformance.getPerformances(s, learnerId, connectionIds);
     }
 
     public void setUserId(long userId) {
@@ -87,10 +78,6 @@ public class GetSetItems extends MyAction {
 
     public List<SetItem> getItemsResult() {
         return itemsResult;
-    }
-
-    public List<WordConnection> getConnections() {
-        return connections;
     }
 
     public List<Word> getWords() {

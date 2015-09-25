@@ -7,8 +7,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Transient;
-import org.apache.struts2.json.annotations.JSON;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
@@ -25,7 +23,7 @@ public class SetItem implements Serializable {
         s.createSQLQuery(sql).executeUpdate();
 
         for (SetItem item : items) {
-            item.getId().setSetId(setId);
+            item.setSetId(setId);
             s.save(item);
         }
         s.beginTransaction().commit();
@@ -34,41 +32,40 @@ public class SetItem implements Serializable {
     @SuppressWarnings("unchecked")
     public static List<SetItem> getSetItems(Session s, long setId) {
         return s.createCriteria(SetItem.class)
-                .add(Restrictions.eq("id.setId", setId))
+                .add(Restrictions.eq("setId", setId))
                 .addOrder(Order.asc("itemOrder"))
                 .list();
     }
 
-    private SetItemId id;
-
-    private int direction, itemOrder;
+    private long setId, wordId;
+    private int itemOrder;
 
     public SetItem() {
     }
 
-    public SetItem(SetItemId id, int direction, int itemOrder) {
-        this.id = id;
-        this.direction = direction;
+    public SetItem(long wordId, int itemOrder) {
+        this.wordId = wordId;
         this.itemOrder = itemOrder;
     }
 
     @Id
-    @JSON(serialize = false, deserialize = false)
-    public SetItemId getId() {
-        return id;
+    @Column(name = "set_id")
+    public long getSetId() {
+        return setId;
     }
 
-    public void setId(SetItemId id) {
-        this.id = id;
+    public void setSetId(long setId) {
+        this.setId = setId;
     }
 
-    @Column(name = "direction")
-    public int getDirection() {
-        return direction;
+    @Id
+    @Column(name = "word_id")
+    public long getWordId() {
+        return wordId;
     }
 
-    public void setDirection(int direction) {
-        this.direction = direction;
+    public void setWordId(long wordId) {
+        this.wordId = wordId;
     }
 
     @Column(name = "item_order")
@@ -78,16 +75,6 @@ public class SetItem implements Serializable {
 
     public void setItemOrder(int itemOrder) {
         this.itemOrder = itemOrder;
-    }
-
-    @Transient
-    public long getSetId() {
-        return id.getSetId();
-    }
-
-    @Transient
-    public long getWordConnectionId() {
-        return id.getWordConnectionId();
     }
 
 }
