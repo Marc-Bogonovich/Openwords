@@ -35,13 +35,14 @@ public class PageModifyWordSet extends Activity {
                     n.add(new SetItem(2, "free", "自由", false));
                     n.add(new SetItem(3, "dictionary", "字典", false));
                     n.add(new SetItem(4, "new", "新的", false));
-                    n.add(new SetItem(0, "(Native Lang)", "(Learning Lang)", true));
                     refreshListView(n);
                 } else {
                     LinkedList<SetItem> n = new LinkedList<SetItem>();
                     n.add(new SetItem(1, "hello", "你好", false, true));
                     n.add(new SetItem(2, "free", "自由", false, true));
                     n.add(new SetItem(3, "dictionary", "字典", false, true));
+                    n.add(new SetItem(4, "new", "新的", false, true));
+                    n.add(new SetItem(0, "(Native Lang)", "(Learning Lang)", true, true));
                     refreshListView(n);
                 }
                 isModifying = !isModifying;
@@ -66,7 +67,6 @@ public class PageModifyWordSet extends Activity {
         n.add(new SetItem(2, "free", "自由", false));
         n.add(new SetItem(3, "dictionary", "字典", false));
         n.add(new SetItem(4, "new", "新的", false));
-        n.add(new SetItem(0, "(Native Lang)", "(Learning Lang)", true));
         refreshListView(n);
     }
 }

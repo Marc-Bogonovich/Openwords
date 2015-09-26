@@ -41,19 +41,6 @@ public class ListAdapterWordSetItem extends ArrayAdapter<SetItem> {
             viewHolder.a2 = (ImageView) view.findViewById(R.id.list_item_ws_image2);
             viewHolder.remove = (ImageView) view.findViewById(R.id.list_item_ws_image3);
 
-            viewHolder.w1.setOnClickListener(new View.OnClickListener() {
-
-                public void onClick(View view) {
-                    MyQuickToast.showShort(context, "hi");
-                }
-            });
-            viewHolder.remove.setOnClickListener(new View.OnClickListener() {
-
-                public void onClick(View view) {
-                    removeClicked(item, viewHolder);
-                }
-            });
-
             view.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) view.getTag();
@@ -63,18 +50,29 @@ public class ListAdapterWordSetItem extends ArrayAdapter<SetItem> {
             viewHolder.w1.setText(item.wordOne);
             viewHolder.w2.setText(item.wordTwo);
             viewHolder.root.setBackgroundColor(Color.parseColor("#ffffff"));
+            viewHolder.remove.setVisibility(View.GONE);
+            viewHolder.a1.setVisibility(View.GONE);
+            viewHolder.a2.setVisibility(View.GONE);
+            viewHolder.w1.setTextColor(Color.parseColor("#000000"));
+            viewHolder.w2.setTextColor(Color.parseColor("#000000"));
 
             if (item.isModifying) {
-                viewHolder.remove.setVisibility(View.VISIBLE);
-            } else {
-                viewHolder.remove.setVisibility(View.GONE);
-            }
-            viewHolder.remove.setSelected(false);
-            if (item.isHead) {
-                viewHolder.a1.setVisibility(View.VISIBLE);
-                viewHolder.a2.setVisibility(View.VISIBLE);
-                viewHolder.w1.setTextColor(Color.parseColor("#d2d2d2"));
-                viewHolder.w2.setTextColor(Color.parseColor("#d2d2d2"));
+                if (item.isHead) {
+                    viewHolder.a1.setVisibility(View.VISIBLE);
+                    viewHolder.a2.setVisibility(View.VISIBLE);
+                    viewHolder.w1.setTextColor(Color.parseColor("#d2d2d2"));
+                    viewHolder.w2.setTextColor(Color.parseColor("#d2d2d2"));
+                    viewHolder.remove.setVisibility(View.INVISIBLE);
+                } else {
+                    viewHolder.remove.setImageResource(R.drawable.ic_set_remove);
+                    viewHolder.remove.setVisibility(View.VISIBLE);
+                    viewHolder.remove.setOnClickListener(new View.OnClickListener() {
+
+                        public void onClick(View view) {
+                            removeClicked(item, viewHolder);
+                        }
+                    });
+                }
             }
         }
         return view;
@@ -88,10 +86,10 @@ public class ListAdapterWordSetItem extends ArrayAdapter<SetItem> {
     private void removeClicked(SetItem item, ViewHolder v) {
         if (item.isRemoving) {
             v.root.setBackgroundColor(Color.parseColor("#ffffff"));
-            v.remove.setSelected(false);
+            v.remove.setImageResource(R.drawable.ic_set_remove);
         } else {
             v.root.setBackgroundColor(Color.parseColor("#d2d2d2"));
-            v.remove.setSelected(true);
+            v.remove.setImageResource(R.drawable.ic_set_restore);
         }
         item.isRemoving = !item.isRemoving;
 

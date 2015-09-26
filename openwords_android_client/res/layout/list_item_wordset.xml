@@ -13,8 +13,7 @@
                 android:layout_height="18dp"
                 android:src="@drawable/ic_set_add_item"
                 android:layout_marginLeft="10dp"
-                android:contentDescription=""
-                android:visibility="gone"/>
+                android:contentDescription=""/>
 
     <TextView android:id="@+id/list_item_ws_text1"
               android:layout_width="0dp"
@@ -29,8 +28,7 @@
                 android:layout_height="18dp"
                 android:src="@drawable/ic_set_add_item"
                 android:layout_marginLeft="10dp"
-                android:contentDescription=""
-                android:visibility="gone"/>
+                android:contentDescription=""/>
     
     <TextView android:id="@+id/list_item_ws_text2"
               android:layout_width="0dp"
@@ -42,9 +40,8 @@
     <ImageView  android:id="@+id/list_item_ws_image3"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/ic_set_remove_restore"
+                android:src="@drawable/ic_set_remove"
                 android:layout_marginRight="10dp"
-                android:contentDescription=""
-                android:visibility="gone"/>
+                android:contentDescription=""/>
 
 </LinearLayout>
