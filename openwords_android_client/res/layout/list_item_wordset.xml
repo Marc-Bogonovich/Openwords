@@ -8,6 +8,21 @@
               android:layout_marginBottom="10dp"
               android:gravity="center_vertical">
     
+    <EditText android:id="@+id/list_item_ws_edit1"
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:layout_weight="1"
+              android:layout_margin="10dp"
+              android:singleLine="true"
+              android:hint=""/>
+    
+    <ImageView  android:id="@+id/list_item_ws_image4"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@drawable/ic_set_search"
+                android:layout_marginRight="10dp"
+                android:contentDescription=""/>
+    
     <ImageView  android:id="@+id/list_item_ws_image1"
                 android:layout_width="18dp"
                 android:layout_height="18dp"
