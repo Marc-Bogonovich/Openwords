@@ -1,5 +1,6 @@
 package com.openwords.ui.lily.main;
 
+import com.orm.dsl.Ignore;
 import java.io.Serializable;
 
 public class SetInfo implements Serializable {
@@ -10,6 +11,8 @@ public class SetInfo implements Serializable {
     public int learningLang;
     public String name, meta;
     public long updatedTimeLong;
+    @Ignore
+    public boolean isPlusButton;
 
     public SetInfo() {
     }

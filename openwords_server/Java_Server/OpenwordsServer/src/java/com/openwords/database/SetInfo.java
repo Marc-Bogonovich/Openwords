@@ -60,7 +60,7 @@ public class SetInfo implements Serializable {
     }
 
     private long setId, userId;
-    private int learningLang, visibility;
+    private int learningLang, visibility, setSize;
     private String name, meta;
     private boolean valid;
     private Date updatedTime;
@@ -167,5 +167,14 @@ public class SetInfo implements Serializable {
             metaInfo = (SetMetaInfo) MyXStream.fromXml(meta);
         }
         return metaInfo;
+    }
+
+    @Column(name = "set_size")
+    public int getSetSize() {
+        return setSize;
+    }
+
+    public void setSetSize(int setSize) {
+        this.setSize = setSize;
     }
 }

@@ -15,6 +15,7 @@ CREATE TABLE `set_info` (
   `learning_lang` int(11) NOT NULL,
   `visibility` int(11) NOT NULL,
   `valid` tinyint(1) NOT NULL,
+  `set_size` int(11) NOT NULL,
   `meta_info` mediumtext COLLATE utf8_unicode_ci NOT NULL,
   `updated_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
