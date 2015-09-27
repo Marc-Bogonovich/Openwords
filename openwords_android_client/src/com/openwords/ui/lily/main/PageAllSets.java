@@ -2,6 +2,7 @@ package com.openwords.ui.lily.main;
 
 import android.app.Activity;
 import static android.content.Context.INPUT_METHOD_SERVICE;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Handler.Callback;
@@ -67,7 +68,7 @@ public class PageAllSets extends Activity {
         gridView2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                
+                PageAllSets.this.startActivity(new Intent(PageAllSets.this, PageModifyWordSet.class));
             }
         });
 

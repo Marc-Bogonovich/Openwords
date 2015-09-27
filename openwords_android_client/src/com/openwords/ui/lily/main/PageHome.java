@@ -32,6 +32,12 @@ public class PageHome extends Activity {
         buttonSet.setTextColor(Color.parseColor("#70B5A4"));
         buttonResume.setTextColor(Color.parseColor("#70B5A4"));
 
+        buttonLM.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View view) {
+                startActivity(new Intent(PageHome.this, PageAllSets.class));
+            }
+        });
         buttonSet.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {

@@ -128,7 +128,7 @@
                   android:configChanges="orientation|screenSize">
         </activity>
         
-        <activity android:name=".ui.lily.decks.PageAllSets"
+        <activity android:name=".ui.lily.main.PageAllSets"
                   android:theme="@style/NoTitleTheme"
                   android:configChanges="orientation|screenSize">
         </activity>
