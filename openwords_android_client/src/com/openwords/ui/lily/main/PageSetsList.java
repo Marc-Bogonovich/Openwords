@@ -58,7 +58,7 @@ public class PageSetsList extends Activity {
         gridView2 = (GridView) findViewById(R.id.act_main_decks_gridview2);
         LinkedList<DeckInfo> addDeck = new LinkedList<DeckInfo>();
         addDeck.add(null);
-        addDeck.add(new DeckInfo("Make Word Set", true));
+        addDeck.add(new DeckInfo("Make Set", true));
         addDeck.add(null);
         gridView2.setAdapter(new ListAdapterDeckGrid(this, addDeck));
         gridView2.setOnItemClickListener(new AdapterView.OnItemClickListener() {

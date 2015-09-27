@@ -25,7 +25,7 @@
                   android:layout_height="wrap_content"
                   android:textSize="20sp"
                   android:maxLines="1"
-                  android:hint="Search decks"
+                  android:hint="Search sets"
                   android:textColorHint="@color/main_app_color"
                   android:singleLine="true"
                   android:gravity="center"/>
