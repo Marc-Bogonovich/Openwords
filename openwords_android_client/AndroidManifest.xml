@@ -155,6 +155,7 @@
         
         <activity android:name=".ui.lily.main.PageModifyWordSet"
                   android:theme="@style/NoTitleTheme"
+                  android:windowSoftInputMode="adjustPan"
                   android:configChanges="orientation|screenSize">
         </activity>
     </application>

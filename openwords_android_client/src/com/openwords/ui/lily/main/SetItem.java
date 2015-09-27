@@ -13,6 +13,8 @@ public class SetItem {
     public boolean isModifying;
     @Ignore
     public boolean isRemoving;
+    @Ignore
+    public boolean isNew;
 
     public SetItem() {
     }
@@ -36,6 +38,15 @@ public class SetItem {
         this.wordTwo = wordTwo;
         this.isHead = isHead;
         this.isModifying = isModifying;
+    }
+
+    public SetItem(int itemOrder, String wordOne, String wordTwo, boolean isHead, boolean isModifying, boolean isNew) {
+        this.itemOrder = itemOrder;
+        this.wordOne = wordOne;
+        this.wordTwo = wordTwo;
+        this.isHead = isHead;
+        this.isModifying = isModifying;
+        this.isNew = isNew;
     }
 
 }

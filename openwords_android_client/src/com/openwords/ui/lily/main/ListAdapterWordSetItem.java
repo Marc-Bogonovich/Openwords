@@ -5,6 +5,8 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -14,22 +16,22 @@ import com.openwords.R;
 import java.util.List;
 
 public class ListAdapterWordSetItem extends ArrayAdapter<SetItem> {
-    
+
     private final List<SetItem> itemContent;
-    private final Context context;
-    
-    public ListAdapterWordSetItem(Context context, List<SetItem> objects) {
+    private final PageModifyWordSet context;
+
+    public ListAdapterWordSetItem(PageModifyWordSet context, List<SetItem> objects) {
         super(context, R.layout.list_item_wordset, objects);
         this.context = context;
         itemContent = objects;
     }
-    
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
         final ViewHolder viewHolder;
         final SetItem item = itemContent.get(position);
-        
+
         if (view == null) {
             LayoutInflater layoutInflater = LayoutInflater.from(context);
             view = layoutInflater.inflate(R.layout.list_item_wordset, null);
@@ -42,12 +44,12 @@ public class ListAdapterWordSetItem extends ArrayAdapter<SetItem> {
             viewHolder.remove = (ImageView) view.findViewById(R.id.list_item_ws_image3);
             viewHolder.searchNative = (EditText) view.findViewById(R.id.list_item_ws_edit1);
             viewHolder.search = (ImageView) view.findViewById(R.id.list_item_ws_image4);
-            
+
             view.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) view.getTag();
         }
-        
+
         if (item != null) {
             viewHolder.w1.setText(item.wordOne);
             viewHolder.w2.setText(item.wordTwo);
@@ -62,7 +64,7 @@ public class ListAdapterWordSetItem extends ArrayAdapter<SetItem> {
             viewHolder.search.setVisibility(View.GONE);
             viewHolder.w1.setTextColor(Color.parseColor("#000000"));
             viewHolder.w2.setTextColor(Color.parseColor("#000000"));
-            
+
             if (item.isModifying) {
                 if (item.isHead) {
                     viewHolder.a1.setVisibility(View.VISIBLE);
@@ -71,7 +73,7 @@ public class ListAdapterWordSetItem extends ArrayAdapter<SetItem> {
                     viewHolder.w2.setTextColor(Color.parseColor("#d2d2d2"));
                     viewHolder.remove.setVisibility(View.INVISIBLE);
                     View.OnClickListener clickNative = new View.OnClickListener() {
-                        
+
                         public void onClick(View view) {
                             enterSearch(viewHolder, "Search Word");
                         }
@@ -79,18 +81,27 @@ public class ListAdapterWordSetItem extends ArrayAdapter<SetItem> {
                     viewHolder.a1.setOnClickListener(clickNative);
                     viewHolder.w1.setOnClickListener(clickNative);
                     View.OnClickListener clickLearning = new View.OnClickListener() {
-                        
+
                         public void onClick(View view) {
                             enterSearch(viewHolder, "搜索词");
                         }
                     };
                     viewHolder.a2.setOnClickListener(clickLearning);
                     viewHolder.w2.setOnClickListener(clickLearning);
+                } else if (item.isNew) {
+                    viewHolder.remove.setImageResource(R.drawable.ic_set_add);
+                    viewHolder.remove.setVisibility(View.VISIBLE);
+                    viewHolder.remove.setOnClickListener(new View.OnClickListener() {
+
+                        public void onClick(View view) {
+                            context.addSetItemFromSearch(item);
+                        }
+                    });
                 } else {
                     viewHolder.remove.setImageResource(R.drawable.ic_set_remove);
                     viewHolder.remove.setVisibility(View.VISIBLE);
                     viewHolder.remove.setOnClickListener(new View.OnClickListener() {
-                        
+
                         public void onClick(View view) {
                             removeClicked(item, viewHolder);
                         }
@@ -100,12 +111,11 @@ public class ListAdapterWordSetItem extends ArrayAdapter<SetItem> {
         }
         return view;
     }
-    
-    @Override
-    public boolean isEnabled(int position) {
-        return false;
-    }
-    
+
+//    @Override
+//    public boolean isEnabled(int position) {
+//        return false;
+//    }
     private void removeClicked(SetItem item, ViewHolder v) {
         if (item.isRemoving) {
             v.root.setBackgroundColor(Color.parseColor("#ffffff"));
@@ -115,9 +125,9 @@ public class ListAdapterWordSetItem extends ArrayAdapter<SetItem> {
             v.remove.setImageResource(R.drawable.ic_set_restore);
         }
         item.isRemoving = !item.isRemoving;
-        
+
     }
-    
+
     private void enterSearch(final ViewHolder v, String hint) {
         v.a1.setVisibility(View.GONE);
         v.w1.setVisibility(View.GONE);
@@ -126,18 +136,28 @@ public class ListAdapterWordSetItem extends ArrayAdapter<SetItem> {
         v.searchNative.setVisibility(View.VISIBLE);
         v.searchNative.setText(null);
         v.searchNative.setHint(hint);
-        v.searchNative.requestFocus();
         v.remove.setImageResource(R.drawable.ic_set_remove);
         v.remove.setVisibility(View.VISIBLE);
         v.remove.setOnClickListener(new View.OnClickListener() {
-            
+
             public void onClick(View view) {
                 bringBackAddButtons(v);
             }
         });
         v.search.setVisibility(View.VISIBLE);
+        v.search.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View view) {
+                context.search();
+            }
+        });
+        v.searchNative.requestFocus();
+        InputMethodManager m = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (m != null) {
+            m.showSoftInput(v.searchNative, InputMethodManager.SHOW_FORCED);
+        }
     }
-    
+
     private void bringBackAddButtons(ViewHolder v) {
         v.a1.setVisibility(View.VISIBLE);
         v.w1.setVisibility(View.VISIBLE);
@@ -147,9 +167,9 @@ public class ListAdapterWordSetItem extends ArrayAdapter<SetItem> {
         v.remove.setVisibility(View.INVISIBLE);
         v.search.setVisibility(View.GONE);
     }
-    
+
     private class ViewHolder {
-        
+
         public TextView w1, w2;
         public ImageView a1, a2, remove, search;
         public LinearLayout root;

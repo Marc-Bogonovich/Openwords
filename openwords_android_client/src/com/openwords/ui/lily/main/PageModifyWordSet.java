@@ -1,9 +1,11 @@
 package com.openwords.ui.lily.main;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.ListView;
 import com.openwords.R;
@@ -49,7 +51,8 @@ public class PageModifyWordSet extends Activity {
             }
         });
 
-        listAdapter = new ListAdapterWordSetItem(this, new LinkedList<SetItem>());
+        mySet = new LinkedList<SetItem>();
+        listAdapter = new ListAdapterWordSetItem(this, mySet);
         itemList.setAdapter(listAdapter);
     }
 
@@ -57,6 +60,32 @@ public class PageModifyWordSet extends Activity {
         listAdapter.clear();
         listAdapter.addAll(items);
         listAdapter.notifyDataSetChanged();
+    }
+
+    public void search() {
+        for (SetItem item : mySet) {
+            if (item.isNew) {
+                mySet.remove(item);
+            }
+        }
+        mySet.add(new SetItem(4, "test", "测试", false, true, true));
+        listAdapter.notifyDataSetChanged();
+        InputMethodManager m = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (m != null) {
+            m.hideSoftInputFromWindow(itemList.getWindowToken(), 0);
+        }
+    }
+
+    public void addSetItemFromSearch(SetItem item) {
+        mySet.remove(item);
+        for (int i = 0; i < mySet.size(); i++) {
+            if (mySet.get(i).isHead) {
+                item.isNew = false;
+                mySet.add(i, item);
+                listAdapter.notifyDataSetChanged();
+                return;
+            }
+        }
     }
 
     @Override

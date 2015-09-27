@@ -95,6 +95,14 @@
             android:text="Testing Hear LM UI"
             android:textSize="18sp"
             android:layout_below="@+id/loginPage_test2"/>
+    
+    <Button android:id="@+id/loginPage_test4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Test Home"
+            android:textSize="18sp"
+            android:layout_below="@+id/loginPage_test3"/>
 
 </RelativeLayout>
 
