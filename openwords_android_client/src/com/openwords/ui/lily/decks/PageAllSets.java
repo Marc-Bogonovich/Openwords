@@ -67,7 +67,7 @@ public class PageAllSets extends Activity {
         gridView2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                new DialogCreateDeck(PageAllSets.this, "Create Deck").show();
+                
             }
         });
 
