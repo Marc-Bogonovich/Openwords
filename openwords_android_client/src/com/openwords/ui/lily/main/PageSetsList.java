@@ -18,6 +18,10 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import com.openwords.R;
+import com.openwords.model.ResultWordSets;
+import com.openwords.model.SetInfo;
+import com.openwords.util.gson.MyGson;
+import com.openwords.util.log.LogUtil;
 import com.openwords.util.ui.MyQuickToast;
 import java.util.LinkedList;
 import java.util.List;
@@ -25,7 +29,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class PageSetsList extends Activity {
-    
+
     private GridView gridView, gridView2;
     private EditText searchInput;
     private Timer searchInputTimer;
@@ -33,16 +37,16 @@ public class PageSetsList extends Activity {
     private ListAdapterDeckGrid deckListAdapter;
     private List<DeckInfo> deckListDataModel;
     private ImageView buttonBack;
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.activity_lily_sets_list_page);
-        
+
         buttonBack = (ImageView) findViewById(R.id.act_sl_image_1);
         buttonBack.setColorFilter(getResources().getColor(R.color.main_app_color), PorterDuff.Mode.MULTIPLY);
-        
+
         gridView = (GridView) findViewById(R.id.act_main_decks_gridview1);
         deckListDataModel = DeckInfo.getNewTestingDecks();
         int i = 1;
@@ -54,13 +58,13 @@ public class PageSetsList extends Activity {
         gridView.setAdapter(deckListAdapter);
         gridView.requestFocus();
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            
+
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 DeckInfo deck = deckListDataModel.get(position);
                 MyQuickToast.showShort(PageSetsList.this, "Set: " + deck.name);
             }
         });
-        
+
         gridView2 = (GridView) findViewById(R.id.act_main_decks_gridview2);
         LinkedList<DeckInfo> addDeck = new LinkedList<DeckInfo>();
         addDeck.add(null);
@@ -68,14 +72,14 @@ public class PageSetsList extends Activity {
         addDeck.add(null);
         gridView2.setAdapter(new ListAdapterDeckGrid(this, addDeck));
         gridView2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            
+
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 PageSetsList.this.startActivity(new Intent(PageSetsList.this, PageSetContent.class));
             }
         });
-        
+
         finishInput = new Handler(new Callback() {
-            
+
             public boolean handleMessage(Message msg) {
                 if (msg.what == 0) {
                     View focus = getCurrentFocus();
@@ -95,18 +99,18 @@ public class PageSetsList extends Activity {
         });
         searchInput = (EditText) findViewById(R.id.act_sl_edit1);
         searchInput.addTextChangedListener(new TextWatcher() {
-            
+
             public void beforeTextChanged(CharSequence cs, int i, int i1, int i2) {
                 if (searchInputTimer != null) {
                     searchInputTimer.cancel();
                     searchInputTimer = null;
                 }
             }
-            
+
             public void onTextChanged(CharSequence cs, int i, int i1, int i2) {
                 //do nothing
             }
-            
+
             public void afterTextChanged(Editable edtbl) {
                 if (searchInputTimer != null) {
                     searchInputTimer.cancel();
@@ -117,7 +121,7 @@ public class PageSetsList extends Activity {
                 }
                 searchInputTimer = new Timer();
                 searchInputTimer.schedule(new TimerTask() {
-                    
+
                     @Override
                     public void run() {
                         finishInput.sendEmptyMessage(0);
@@ -125,8 +129,22 @@ public class PageSetsList extends Activity {
                 }, 1000);
             }
         });
+
+        buttonBack.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View view) {
+                SetInfo.getAllSets(1, 50, new ResultWordSets() {
+
+                    public void result(List<SetInfo> result) {
+                        if (result != null) {
+                            LogUtil.logDeubg(this, MyGson.toJson(result));
+                        }
+                    }
+                });
+            }
+        });
     }
-    
+
     @Override
     protected void onResume() {
         super.onResume();

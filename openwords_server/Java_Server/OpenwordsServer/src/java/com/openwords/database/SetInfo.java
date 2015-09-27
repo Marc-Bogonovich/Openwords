@@ -152,7 +152,6 @@ public class SetInfo implements Serializable {
     }
 
     @Column(name = "meta_info")
-    @JSON(serialize = false, deserialize = false)
     public String getMeta() {
         return meta;
     }
@@ -162,8 +161,9 @@ public class SetInfo implements Serializable {
     }
 
     @Transient
+    @JSON(serialize = false, deserialize = false)
     public SetMetaInfo getWordMetaInfo() {
-        if (metaInfo == null) {
+        if (metaInfo == null && meta != null) {
             metaInfo = (SetMetaInfo) MyXStream.fromXml(meta);
         }
         return metaInfo;

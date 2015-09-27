@@ -61,4 +61,8 @@ public class GetSets extends MyAction {
         return result;
     }
 
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+
 }

@@ -1,5 +1,6 @@
 package com.openwords.ui.lily.main;
 
+import com.openwords.model.SetInfo;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
