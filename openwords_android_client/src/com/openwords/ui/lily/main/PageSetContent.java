@@ -13,8 +13,9 @@ import android.widget.TextView;
 import com.openwords.R;
 import com.openwords.model.DataPool;
 import com.openwords.model.SetItem;
-import java.util.LinkedList;
+import com.openwords.util.ui.MyQuickToast;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class PageSetContent extends Activity {
 
@@ -23,8 +24,8 @@ public class PageSetContent extends Activity {
     private ImageView buttonMode, buttonBack;
     private EditText setTitleInput;
     private TextView setTitle;
-    private boolean isModifying;
-    private List<SetItem> setItems;
+    private boolean isModifying, contentHasJustChanged;
+    private CopyOnWriteArrayList<SetItem> setItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +51,7 @@ public class PageSetContent extends Activity {
                 if (isModifying) {
                     for (SetItem item : setItems) {
                         item.isModifying = false;
-                        if (item.isHead) {
+                        if (item.isHead || item.isNew) {
                             setItems.remove(item);
                         }
                     }
@@ -59,6 +60,9 @@ public class PageSetContent extends Activity {
                     setTitle.setText(name);
                     setTitle.setVisibility(View.VISIBLE);
                     setTitleInput.setVisibility(View.GONE);
+                    if (contentHasJustChanged) {
+                        MyQuickToast.showShort(PageSetContent.this, "Saving...");
+                    }
                 } else {
                     for (SetItem item : setItems) {
                         item.isModifying = true;
@@ -68,6 +72,7 @@ public class PageSetContent extends Activity {
                     setTitleInput.setText(DataPool.currentSet.name);
                     setTitle.setVisibility(View.GONE);
                     setTitleInput.setVisibility(View.VISIBLE);
+                    contentHasJustChanged = false;
                 }
                 isModifying = !isModifying;
             }
@@ -79,7 +84,7 @@ public class PageSetContent extends Activity {
             }
         });
 
-        setItems = new LinkedList<SetItem>();
+        setItems = new CopyOnWriteArrayList<SetItem>();
         listAdapter = new ListAdapterWordSetItem(this, setItems);
         itemList.setAdapter(listAdapter);
         setTitleInput.setHint("Input Set Name");
@@ -107,6 +112,7 @@ public class PageSetContent extends Activity {
     }
 
     public void addSetItemFromSearch(SetItem item) {
+        contentHasJustChanged = true;
         setItems.remove(item);
         for (int i = 0; i < setItems.size(); i++) {
             if (setItems.get(i).isHead) {
