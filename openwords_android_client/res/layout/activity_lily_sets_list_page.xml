@@ -3,13 +3,25 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical">
+    
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+        
+        <ImageView  android:id="@+id/act_sl_image_1"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_set_page_back"
+                    android:layout_margin="20dp"
+                    android:contentDescription=""/>
 
-    <TextView android:text="Word Sets"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:gravity="center"
-              android:textSize="32sp"
-              android:textColor="@color/main_app_color"/>
+        <TextView android:text="Word Sets"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:gravity="center"
+                  android:textSize="32sp"
+                  android:textColor="@color/main_app_color"/>
+    
+    </RelativeLayout>
     
     <LinearLayout android:layout_width="match_parent"
                   android:layout_height="wrap_content"
@@ -19,7 +31,7 @@
               android:layout_weight="1"
               android:layout_height="0dp"/>
         
-        <EditText android:id="@+id/act_main_decks_edit1"
+        <EditText android:id="@+id/act_sl_edit1"
                   android:layout_width="0dp"
                   android:layout_weight="3"
                   android:layout_height="wrap_content"
