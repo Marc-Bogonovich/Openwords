@@ -11,11 +11,12 @@ import android.widget.TextView;
 import com.openwords.R;
 import com.openwords.ui.common.BackButtonBehavior;
 import com.openwords.util.log.LogUtil;
+import com.openwords.util.ui.MyQuickToast;
 
 public class PageHome extends Activity {
 
     private LinearLayout root;
-    private TextView textButton1, textButton2, textButton3;
+    private TextView buttonLM, buttonSet, buttonResume;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,16 +25,23 @@ public class PageHome extends Activity {
         setContentView(R.layout.activity_lily_home_page);
         root = (LinearLayout) findViewById(R.id.act_home_root);
         root.setBackgroundColor(Color.parseColor("#70B5A4"));
-        textButton1 = (TextView) findViewById(R.id.act_home_button_1);
-        textButton2 = (TextView) findViewById(R.id.act_home_button_2);
-        textButton3 = (TextView) findViewById(R.id.act_home_button_3);
-        textButton1.setTextColor(Color.parseColor("#70B5A4"));
-        textButton2.setTextColor(Color.parseColor("#70B5A4"));
-        textButton3.setTextColor(Color.parseColor("#70B5A4"));
-        textButton2.setOnClickListener(new View.OnClickListener() {
+        buttonLM = (TextView) findViewById(R.id.act_home_button_1);
+        buttonSet = (TextView) findViewById(R.id.act_home_button_2);
+        buttonResume = (TextView) findViewById(R.id.act_home_button_3);
+        buttonLM.setTextColor(Color.parseColor("#70B5A4"));
+        buttonSet.setTextColor(Color.parseColor("#70B5A4"));
+        buttonResume.setTextColor(Color.parseColor("#70B5A4"));
+
+        buttonSet.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
                 startActivity(new Intent(PageHome.this, PageModifyWordSet.class));
+            }
+        });
+        buttonResume.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View view) {
+                MyQuickToast.showShort(PageHome.this, "Not supported yet");
             }
         });
     }

@@ -7,15 +7,19 @@
     <LinearLayout android:orientation="vertical"
                   android:layout_width="match_parent"
                   android:layout_height="0dp"
-                  android:layout_weight="1"
-                  android:gravity="center">
+                  android:layout_weight="1">
         
         <ImageView  android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/ic_actionbar_others"
                     android:layout_gravity="right"
                     android:layout_marginRight="20dp"
+                    android:layout_marginTop="20dp"
                     android:contentDescription=""/>
+        
+        <View  android:layout_width="match_parent"
+               android:layout_height="0dp"
+               android:layout_weight="1"/>
         
     </LinearLayout>
         
@@ -39,7 +43,7 @@
                   android:layout_width="match_parent"
                   android:layout_height="wrap_content"
                   android:layout_marginBottom="20dp"
-                  android:text="Create a Deck"
+                  android:text="Create a Word Set"
                   android:background="#fff"
                   android:gravity="center"
                   android:textSize="36sp"

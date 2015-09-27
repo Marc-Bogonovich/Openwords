@@ -25,7 +25,7 @@ import java.util.TimerTask;
  *
  * @author hanaldo
  */
-public class PageMainDecks extends Activity {
+public class PageAllSets extends Activity {
 
     private GridView gridView, gridView2;
     private EditText searchInput;
@@ -54,7 +54,7 @@ public class PageMainDecks extends Activity {
 
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 DeckInfo deck = deckListDataModel.get(position);
-                MyQuickToast.showShort(PageMainDecks.this, "Deck: " + deck.name);
+                MyQuickToast.showShort(PageAllSets.this, "Deck: " + deck.name);
             }
         });
 
@@ -67,7 +67,7 @@ public class PageMainDecks extends Activity {
         gridView2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                new DialogCreateDeck(PageMainDecks.this, "Create Deck").show();
+                new DialogCreateDeck(PageAllSets.this, "Create Deck").show();
             }
         });
 
@@ -85,7 +85,7 @@ public class PageMainDecks extends Activity {
                     deckListDataModel = DeckInfo.searchDecks(term);
                     deckListAdapter.addAll(deckListDataModel);
                     deckListAdapter.notifyDataSetChanged();
-                    MyQuickToast.showShort(PageMainDecks.this, String.format("You got %s decks", deckListDataModel.size()));
+                    MyQuickToast.showShort(PageAllSets.this, String.format("You got %s decks", deckListDataModel.size()));
                 }
                 return true;
             }
