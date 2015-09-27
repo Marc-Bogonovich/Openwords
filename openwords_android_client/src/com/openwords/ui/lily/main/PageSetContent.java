@@ -123,6 +123,12 @@ public class PageSetContent extends Activity {
         n.add(new SetItem(2, "free", "自由", false));
         n.add(new SetItem(3, "dictionary", "字典", false));
         n.add(new SetItem(4, "new", "新的", false));
+        int i = 1;
+        while (i < 500) {
+            String name = String.valueOf(4 + i);
+            n.add(new SetItem(4 + i, "new " + name, "新的" + name, false));
+            i += 1;
+        }
         refreshListView(n);
     }
 }

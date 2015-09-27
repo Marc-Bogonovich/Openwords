@@ -32,8 +32,7 @@ public class ListAdapterWordSetItem extends ArrayAdapter<SetItem> {
         final SetItem item = itemContent.get(position);
 
         if (view == null) {
-            LayoutInflater layoutInflater = LayoutInflater.from(context);
-            view = layoutInflater.inflate(R.layout.list_item_wordset, null);
+            view = LayoutInflater.from(context).inflate(R.layout.list_item_wordset, null);
             viewHolder = new ViewHolder();
             viewHolder.root = (LinearLayout) view.findViewById(R.id.list_item_ws_root);
             viewHolder.w1 = (TextView) view.findViewById(R.id.list_item_ws_text1);
@@ -43,7 +42,6 @@ public class ListAdapterWordSetItem extends ArrayAdapter<SetItem> {
             viewHolder.remove = (ImageView) view.findViewById(R.id.list_item_ws_image3);
             viewHolder.searchNative = (EditText) view.findViewById(R.id.list_item_ws_edit1);
             viewHolder.search = (ImageView) view.findViewById(R.id.list_item_ws_image4);
-
             view.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) view.getTag();
