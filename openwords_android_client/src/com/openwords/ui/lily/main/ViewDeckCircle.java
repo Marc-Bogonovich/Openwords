@@ -9,8 +9,8 @@ public class ViewDeckCircle extends View {
 
     private Paint shadePaint, markerPaint;
     private float centerX, centerY, radius;
-    private int color, alpha, markerColor, markerAlpha;
-    private boolean drawMarker;
+    private final int color, alpha, markerColor, markerAlpha;
+    private final boolean drawMarker;
     private String text;
 
     public ViewDeckCircle(Context context, int color, int alpha, boolean drawMarker, int markerColor, int markerAlpha) {
