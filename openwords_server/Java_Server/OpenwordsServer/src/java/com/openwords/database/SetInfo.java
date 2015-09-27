@@ -26,14 +26,6 @@ public class SetInfo implements Serializable {
         s.beginTransaction().commit();
     }
 
-    public static void updateSetInfo(Session s, SetInfo set) {
-        SetInfo old = (SetInfo) s.get(SetInfo.class, set.getSetId());
-        old.setVisibility(set.getVisibility());
-        old.setName(set.getName());
-        old.setUpdatedTime(new Date());
-        s.beginTransaction().commit();
-    }
-
     public static SetInfo getSetInfoByName(Session s, String name, long userId) {
         @SuppressWarnings("unchecked")
         List<SetInfo> r = s.createCriteria(SetInfo.class)

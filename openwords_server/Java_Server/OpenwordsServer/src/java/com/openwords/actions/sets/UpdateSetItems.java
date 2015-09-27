@@ -60,6 +60,8 @@ public class UpdateSetItems extends MyAction {
                 itemsResult.add(i, new SetItem(ids1[i], ids2[i], i + 1, words.get(ids1[i]).getWord(), words.get(ids2[i]).getWord()));
             }
             SetItem.updateSetItems(s, setId, itemsResult);
+            info.setSetSize(itemsResult.size());
+            s.beginTransaction().commit();
 
         } catch (Exception e) {
             errorMessage = e.toString();
