@@ -26,7 +26,7 @@ import com.openwords.services.interfaces.HttpResultHandler;
 import com.openwords.sound.SoundPlayer;
 import com.openwords.tts.Speak;
 import com.openwords.ui.common.BackButtonBehavior;
-import com.openwords.ui.lily.decks.PageAllSets;
+import com.openwords.ui.lily.main.PageAllSets;
 import com.openwords.util.InternetCheck;
 import com.openwords.util.file.LocalFileSystem;
 import com.openwords.util.localization.LocalLanguage;
