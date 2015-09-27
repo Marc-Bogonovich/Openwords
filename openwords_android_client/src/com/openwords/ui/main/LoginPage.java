@@ -86,6 +86,12 @@ public class LoginPage extends Activity {
                 startActivity(new Intent(LoginPage.this, com.openwords.ui.lily.lm.TestHearFrags.class));
             }
         });
+        findViewById(R.id.loginPage_test4).setOnClickListener(new OnClickListener() {
+
+            public void onClick(View view) {
+                startActivity(new Intent(LoginPage.this, com.openwords.ui.lily.main.PageHome.class));
+            }
+        });
         //findViewById(R.id.loginPage_test).setVisibility(View.INVISIBLE);
     }
 
