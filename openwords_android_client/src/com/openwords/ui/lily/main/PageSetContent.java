@@ -84,7 +84,7 @@ public class PageSetContent extends Activity {
         setTitleInput.setVisibility(View.GONE);
     }
 
-    private void refreshListView(LinkedList<SetItem> items) {
+    private void refreshListView(List<SetItem> items) {
         listAdapter.clear();
         listAdapter.addAll(items);
         listAdapter.notifyDataSetChanged();

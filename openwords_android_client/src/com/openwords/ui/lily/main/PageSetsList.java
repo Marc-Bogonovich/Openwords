@@ -20,8 +20,6 @@ import android.widget.ImageView;
 import com.openwords.R;
 import com.openwords.model.ResultWordSets;
 import com.openwords.model.SetInfo;
-import com.openwords.util.gson.MyGson;
-import com.openwords.util.log.LogUtil;
 import com.openwords.util.ui.MyQuickToast;
 import java.util.LinkedList;
 import java.util.List;
@@ -30,13 +28,13 @@ import java.util.TimerTask;
 
 public class PageSetsList extends Activity {
 
-    private GridView gridView, gridView2;
+    private GridView listAllSets, buttonMake;
     private EditText searchInput;
     private Timer searchInputTimer;
     private Handler finishInput;
-    private ListAdapterDeckGrid deckListAdapter;
-    private List<DeckInfo> deckListDataModel;
+    private ListAdapterWordSets listAdapter;
     private ImageView buttonBack;
+    private List<SetInfo> allSets;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,32 +44,27 @@ public class PageSetsList extends Activity {
 
         buttonBack = (ImageView) findViewById(R.id.act_sl_image_1);
         buttonBack.setColorFilter(getResources().getColor(R.color.main_app_color), PorterDuff.Mode.MULTIPLY);
+        listAllSets = (GridView) findViewById(R.id.act_main_decks_gridview1);
 
-        gridView = (GridView) findViewById(R.id.act_main_decks_gridview1);
-        deckListDataModel = DeckInfo.getNewTestingDecks();
-        int i = 1;
-        while (i < 500) {
-            deckListDataModel.add(new DeckInfo(String.valueOf(i)));
-            i += 1;
-        }
-        deckListAdapter = new ListAdapterDeckGrid(this, deckListDataModel);
-        gridView.setAdapter(deckListAdapter);
-        gridView.requestFocus();
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        allSets = new LinkedList<SetInfo>();
+        listAdapter = new ListAdapterWordSets(this, allSets);
+        listAllSets.setAdapter(listAdapter);
+        listAllSets.requestFocus();
+        listAllSets.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                DeckInfo deck = deckListDataModel.get(position);
-                MyQuickToast.showShort(PageSetsList.this, "Set: " + deck.name);
+                SetInfo set = allSets.get(position);
+                MyQuickToast.showShort(PageSetsList.this, "Set: " + set.name);
             }
         });
 
-        gridView2 = (GridView) findViewById(R.id.act_main_decks_gridview2);
-        LinkedList<DeckInfo> addDeck = new LinkedList<DeckInfo>();
-        addDeck.add(null);
-        addDeck.add(new DeckInfo("Make Set", true));
-        addDeck.add(null);
-        gridView2.setAdapter(new ListAdapterDeckGrid(this, addDeck));
-        gridView2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        buttonMake = (GridView) findViewById(R.id.act_main_decks_gridview2);
+        LinkedList<SetInfo> buttonContent = new LinkedList<SetInfo>();
+        buttonContent.add(null);
+        buttonContent.add(new SetInfo("Make Set", true));
+        buttonContent.add(null);
+        buttonMake.setAdapter(new ListAdapterWordSets(this, buttonContent));
+        buttonMake.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 PageSetsList.this.startActivity(new Intent(PageSetsList.this, PageSetContent.class));
@@ -87,12 +80,12 @@ public class PageSetsList extends Activity {
                         InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
                         inputMethodManager.hideSoftInputFromWindow(focus.getWindowToken(), 0);
                     }
-                    deckListAdapter.clear();
+                    listAdapter.clear();
                     String term = searchInput.getText().toString().trim();
-                    deckListDataModel = DeckInfo.searchDecks(term);
-                    deckListAdapter.addAll(deckListDataModel);
-                    deckListAdapter.notifyDataSetChanged();
-                    MyQuickToast.showShort(PageSetsList.this, String.format("You got %s decks", deckListDataModel.size()));
+                    //deckListDataModel = DeckInfo.searchDecks(term);
+                    //listAdapter.addAll(deckListDataModel);
+                    listAdapter.notifyDataSetChanged();
+                    //MyQuickToast.showShort(PageSetsList.this, String.format("You got %s decks", deckListDataModel.size()));
                 }
                 return true;
             }
@@ -133,20 +126,27 @@ public class PageSetsList extends Activity {
         buttonBack.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
-                SetInfo.getAllSets(1, 50, new ResultWordSets() {
-
-                    public void result(List<SetInfo> result) {
-                        if (result != null) {
-                            LogUtil.logDeubg(this, MyGson.toJson(result));
-                        }
-                    }
-                });
+                PageSetsList.super.onBackPressed();
             }
         });
+    }
+
+    private void refreshListView(List<SetInfo> sets) {
+        listAdapter.clear();
+        listAdapter.addAll(sets);
+        listAdapter.notifyDataSetChanged();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        SetInfo.getAllSets(1, 50, new ResultWordSets() {
+
+            public void result(List<SetInfo> result) {
+                if (result != null) {
+                    refreshListView(result);
+                }
+            }
+        });
     }
 }

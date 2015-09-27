@@ -32,4 +32,9 @@ public class SetInfo extends SugarRecord<SetInfo> {
     public SetInfo() {
     }
 
+    public SetInfo(String name, boolean isPlusButton) {
+        this.name = name;
+        this.isPlusButton = isPlusButton;
+    }
+
 }

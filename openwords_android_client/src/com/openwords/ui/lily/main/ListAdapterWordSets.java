@@ -8,14 +8,15 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.openwords.R;
+import com.openwords.model.SetInfo;
 import java.util.List;
 
-public class ListAdapterDeckGrid extends ArrayAdapter<DeckInfo> {
+public class ListAdapterWordSets extends ArrayAdapter<SetInfo> {
 
     private final Context context;
-    private final List<DeckInfo> items;
+    private final List<SetInfo> items;
 
-    public ListAdapterDeckGrid(Context context, List<DeckInfo> objects) {
+    public ListAdapterWordSets(Context context, List<SetInfo> objects) {
         super(context, R.layout.list_item_deck_info, objects);
         this.context = context;
         items = objects;
@@ -25,27 +26,27 @@ public class ListAdapterDeckGrid extends ArrayAdapter<DeckInfo> {
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
         ViewHolder viewHolder;
-        DeckInfo deckInfo = items.get(position);
+        SetInfo info = items.get(position);
 
         if (view == null) {
             view = LayoutInflater.from(context).inflate(R.layout.list_item_deck_info, null);
             viewHolder = new ViewHolder();
-            inflateLayout(view, viewHolder, deckInfo);
+            inflateLayout(view, viewHolder, info);
         } else {
             viewHolder = (ViewHolder) view.getTag();
         }
 
-        if (deckInfo != null) {
-            fillLayoutContent(viewHolder, deckInfo);
+        if (info != null) {
+            fillLayoutContent(viewHolder, info);
         }
         return view;
     }
 
-    private void inflateLayout(final View view, final ViewHolder viewHolder, final DeckInfo deckInfo) {
+    private void inflateLayout(final View view, final ViewHolder viewHolder, final SetInfo info) {
         viewHolder.deckName = (TextView) view.findViewById(R.id.list_item_deck_info_1);
         viewHolder.deckHolder = (LinearLayout) view.findViewById(R.id.list_item_deck_info_deck);
-        if (deckInfo != null) {
-            if (deckInfo.isPlusButton) {
+        if (info != null) {
+            if (info.isPlusButton) {
                 viewHolder.deckCircle = new ViewDeckCircle(context, context.getResources().getColor(R.color.blue), 255,
                         true, context.getResources().getColor(R.color.white), 255);
                 viewHolder.deckName.setTextColor(context.getResources().getColor(R.color.main_app_color));
@@ -64,8 +65,8 @@ public class ListAdapterDeckGrid extends ArrayAdapter<DeckInfo> {
         view.setTag(viewHolder);
     }
 
-    private void fillLayoutContent(final ViewHolder viewHolder, final DeckInfo deckInfo) {
-        viewHolder.deckName.setText(deckInfo.name);
+    private void fillLayoutContent(final ViewHolder viewHolder, final SetInfo info) {
+        viewHolder.deckName.setText(info.name);
 //            if (!deckInfo.isPlusButton) {
 //                viewHolder.deckCircle.setText(deckInfo.name);
 //            }
@@ -74,8 +75,8 @@ public class ListAdapterDeckGrid extends ArrayAdapter<DeckInfo> {
 
     @Override
     public boolean isEnabled(int position) {
-        DeckInfo deckInfo = items.get(position);
-        return deckInfo != null;
+        SetInfo info = items.get(position);
+        return info != null;
     }
 
     private class ViewHolder {
