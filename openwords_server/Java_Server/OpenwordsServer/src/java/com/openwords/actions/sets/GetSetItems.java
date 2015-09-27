@@ -44,7 +44,7 @@ public class GetSetItems extends MyAction {
 
         } catch (Exception e) {
             errorMessage = e.toString();
-            UtilLog.logWarn(this, errorMessage);
+            UtilLog.logWarn(this, e);
         } finally {
             DatabaseHandler.closeSession(s);
         }

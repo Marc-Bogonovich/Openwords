@@ -1,8 +1,8 @@
-package com.openwords.actions.sets;
+package com.openwords.actions.words;
 
 import static com.opensymphony.xwork2.Action.SUCCESS;
 import com.openwords.database.DatabaseHandler;
-import com.openwords.database.SetInfo;
+import com.openwords.database.Word;
 import com.openwords.interfaces.MyAction;
 import com.openwords.utils.MyFieldValidation;
 import com.openwords.utils.UtilLog;
@@ -13,23 +13,28 @@ import org.apache.struts2.convention.annotation.Result;
 import org.hibernate.Session;
 
 @ParentPackage("json-default")
-public class GetSets extends MyAction {
+public class GetWordsInLanguageByForm extends MyAction {
 
     private static final long serialVersionUID = 1L;
-    private String errorMessage;
-    private int pageNumber, pageSize;
-    private List<SetInfo> result;
+    private List<Word> result;
+    private final int pageNumber = 1;
+    private int pageSize = 20, lang;
+    private String errorMessage, form;
 
-    @Action(value = "/getSets", results = {
+    @Action(value = "/getWords", results = {
         @Result(name = SUCCESS, type = "json"),
         @Result(name = INPUT, type = "json")
     })
     @Override
     public String execute() throws Exception {
-        UtilLog.logInfo(this, "/getSets: " + pageNumber + " " + pageSize);
+        UtilLog.logInfo(this, "/getWords: " + lang + " " + pageNumber + " " + pageSize);
         Session s = DatabaseHandler.getSession();
         try {
-            result = SetInfo.getAllSets(s, pageNumber, pageSize);
+            result = Word.getWordsInLanguageByForm(s, lang, form, pageNumber, pageSize + 1);
+            if (result.size() > pageSize) {
+                errorMessage = "too many results";
+                result = null;
+            }
         } catch (Exception e) {
             errorMessage = e.toString();
             UtilLog.logWarn(this, e);
@@ -41,23 +46,22 @@ public class GetSets extends MyAction {
 
     @Override
     public void validate() {
-        MyFieldValidation.checkPageSize(this, pageSize, 100, 20);
-    }
-
-    @Override
-    public void setErrorMessage(String errorMessage) {
-        this.errorMessage = errorMessage;
-    }
-
-    public void setPageNumber(int pageNumber) {
-        this.pageNumber = pageNumber;
+        MyFieldValidation.checkPageSize(this, pageSize, 10, 50);
     }
 
     public void setPageSize(int pageSize) {
         this.pageSize = pageSize;
     }
 
-    public List<SetInfo> getResult() {
+    public void setLang(int lang) {
+        this.lang = lang;
+    }
+
+    public void setForm(String form) {
+        this.form = form;
+    }
+
+    public List<Word> getResult() {
         return result;
     }
 
@@ -65,4 +69,8 @@ public class GetSets extends MyAction {
         return errorMessage;
     }
 
+    @Override
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
+    }
 }

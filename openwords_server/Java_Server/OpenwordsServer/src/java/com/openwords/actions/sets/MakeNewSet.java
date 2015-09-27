@@ -38,7 +38,7 @@ public class MakeNewSet extends MyAction {
             setResult = set;
         } catch (Exception e) {
             errorMessage = e.toString();
-            UtilLog.logWarn(this, errorMessage);
+            UtilLog.logWarn(this, e);
         } finally {
             DatabaseHandler.closeSession(s);
         }

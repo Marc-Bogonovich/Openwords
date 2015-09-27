@@ -26,13 +26,13 @@ import org.hibernate.transform.AliasToBeanResultTransformer;
 @Entity
 @Table(name = "words")
 public class Word implements Serializable {
-
+    
     private static final long serialVersionUID = 1L;
-
+    
     public static List<Word> getConnectionsByEnglish(Session s, String word, String langInCode, String langOutCode) throws Exception {
         Language langIn = (Language) s.createCriteria(Language.class).add(Restrictions.eq("code", langInCode)).list().get(0);
         Language langOut = (Language) s.createCriteria(Language.class).add(Restrictions.eq("code", langOutCode)).list().get(0);
-
+        
         List<Integer> inputWordIds = s.createCriteria(Word.class)
                 .add(Restrictions.eq("word", word))
                 .add(Restrictions.eq("languageId", langIn.getLangId()))
@@ -42,7 +42,7 @@ public class Word implements Serializable {
             return null;
         }
         UtilLog.logInfo(Word.class, "get word ids: " + word + " " + inputWordIds.toString());
-
+        
         List<Integer> resultIds;
         if (langIn.getLangId() == 1) {//from English
             resultIds = s.createCriteria(WordConnection.class)
@@ -74,13 +74,13 @@ public class Word implements Serializable {
                     .setProjection(Projections.property("wordTwoId"))
                     .list();
         }
-
+        
         List<Word> wordsOut = s.createCriteria(Word.class)
                 .add(Restrictions.in("wordId", resultIds))
                 .list();
         return wordsOut;
     }
-
+    
     public static List<Word> getSimilarWords(Session s, String form, int pageNumber, int pageSize) {
         int firstRecord = (pageNumber - 1) * pageSize;
         return s.createCriteria(Word.class)
@@ -89,7 +89,7 @@ public class Word implements Serializable {
                 .setMaxResults(pageSize)
                 .list();
     }
-
+    
     public static void increaseRank(Session s, Word word, String rankName) {
         WordMetaInfo meta = word.getWordMetaInfo();
         if (meta.getPopRank() == null) {
@@ -101,7 +101,7 @@ public class Word implements Serializable {
         word.setUpdatedTime(new Date());
         s.beginTransaction().commit();
     }
-
+    
     public static void increaseRank(Session s, List<Long> wordIds, String rankName) {
         @SuppressWarnings("unchecked")
         List<Word> words = s.createCriteria(Word.class)
@@ -119,18 +119,18 @@ public class Word implements Serializable {
         }
         s.beginTransaction().commit();
     }
-
+    
     @SuppressWarnings("unchecked")
     public static List<Long> getWordIds(Session s, String word) {
         return s.createCriteria(Word.class)
                 .add(Restrictions.eq("word", word))
                 .setProjection(Projections.property("wordId")).list();
     }
-
+    
     public static Word getWord(Session s, long wordId) {
         return (Word) s.get(Word.class, wordId);
     }
-
+    
     @SuppressWarnings("unchecked")
     public static List<Word> getWords(Session s, Collection<Long> ids) {
         return s.createCriteria(Word.class)
@@ -138,7 +138,7 @@ public class Word implements Serializable {
                 .addOrder(Order.asc("wordId"))
                 .list();
     }
-
+    
     @SuppressWarnings("unchecked")
     public static List<Word> getWords(Session s, Long[] ids) {
         return s.createCriteria(Word.class)
@@ -146,7 +146,18 @@ public class Word implements Serializable {
                 .addOrder(Order.asc("wordId"))
                 .list();
     }
-
+    
+    @SuppressWarnings("unchecked")
+    public static List<Word> getWordsInLanguageByForm(Session s, int lang, String form, int pageNumber, int pageSize) {
+        int firstRecord = (pageNumber - 1) * pageSize;
+        return s.createCriteria(Word.class)
+                .add(Restrictions.like("word", form, MatchMode.ANYWHERE))
+                .add(Restrictions.eq("languageId", lang))
+                .setFirstResult(firstRecord)
+                .setMaxResults(pageSize)
+                .list();
+    }
+    
     public static int countLanguageWord(Session s, int languageId) {
         int total;
         if (languageId <= 0) {
@@ -161,7 +172,7 @@ public class Word implements Serializable {
         }
         return total;
     }
-
+    
     @SuppressWarnings("unchecked")
     public static List<Word> checkSameWord(Session s, String translation, int languageId, String word) throws NoSuchAlgorithmException {
         return s.createCriteria(Word.class)
@@ -170,7 +181,7 @@ public class Word implements Serializable {
                 .add(Restrictions.eq("md5", MyMessageDigest.digest(translation.getBytes())))
                 .list();
     }
-
+    
     @SuppressWarnings("unchecked")
     public static List<WordForTTS> getOnlyWordForms(Session s, int languageId, int pageNumber, int pageSize) {
         int firstRecord = (pageNumber - 1) * pageSize;
@@ -186,17 +197,17 @@ public class Word implements Serializable {
                 .setResultTransformer(new AliasToBeanResultTransformer(WordForTTS.class))
                 .list();
     }
-
+    
     private long wordId;
     private int languageId;
     private String word, meta, contributor;
     private Date updatedTime;
     private byte[] md5;
     private WordMetaInfo wordMetaInfo;
-
+    
     public Word() {
     }
-
+    
     public Word(int languageId, String word, String meta, String contributor, byte[] md5) {
         this.languageId = languageId;
         this.word = word;
@@ -204,75 +215,75 @@ public class Word implements Serializable {
         this.contributor = contributor;
         this.md5 = md5;
     }
-
+    
     @Id
     @GeneratedValue
     @Column(name = "word_id")
     public long getWordId() {
         return wordId;
     }
-
+    
     public void setWordId(long wordId) {
         this.wordId = wordId;
     }
-
+    
     @Column(name = "language_id")
     public int getLanguageId() {
         return languageId;
     }
-
+    
     public void setLanguageId(int languageId) {
         this.languageId = languageId;
     }
-
+    
     @Column(name = "word")
     public String getWord() {
         return word;
     }
-
+    
     public void setWord(String word) {
         this.word = word;
     }
-
+    
     @Column(name = "meta_info")
     @JSON(serialize = false, deserialize = false)
     public String getMeta() {
         return meta;
     }
-
+    
     public void setMeta(String meta) {
         this.meta = meta;
     }
-
+    
     @Column(name = "contributor_id")
     public String getContributor() {
         return contributor;
     }
-
+    
     public void setContributor(String contributor) {
         this.contributor = contributor;
     }
-
+    
     @Column(name = "updated_time")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     public Date getUpdatedTime() {
         return updatedTime;
     }
-
+    
     public void setUpdatedTime(Date updatedTime) {
         this.updatedTime = updatedTime;
     }
-
+    
     @Column(name = "translation_md5")
     @JSON(serialize = false, deserialize = false)
     public byte[] getMd5() {
         return md5;
     }
-
+    
     public void setMd5(byte[] md5) {
         this.md5 = md5;
     }
-
+    
     @Transient
     public WordMetaInfo getWordMetaInfo() {
         if (wordMetaInfo == null) {
@@ -280,7 +291,7 @@ public class Word implements Serializable {
         }
         return wordMetaInfo;
     }
-
+    
     @Transient
     public long getUpdatedTimeLong() {
         return updatedTime.getTime();
