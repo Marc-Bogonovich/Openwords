@@ -23,7 +23,7 @@ public class SetInfo extends SugarRecord<SetInfo> {
     }
 
     public long setId, userId;
-    public int learningLang, setSize;
+    public int nativeLang, learningLang, setSize;
     public String name;
     public long updatedTimeLong;
     @Ignore

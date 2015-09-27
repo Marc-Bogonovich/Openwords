@@ -23,7 +23,6 @@ public class GetSetItems extends MyAction {
     private String errorMessage;
     private long setId, userId, learnerId;
     private List<SetItem> itemsResult;
-    private boolean getPack;
     private List<Word> words;
     private List<UserPerformance> performance;
 
@@ -41,9 +40,7 @@ public class GetSetItems extends MyAction {
             }
 
             itemsResult = SetItem.getSetItems(s, setId);
-            if (getPack) {
-                loadPack(s);
-            }
+            //loadPack(s);
 
         } catch (Exception e) {
             errorMessage = e.toString();
@@ -57,7 +54,8 @@ public class GetSetItems extends MyAction {
     private void loadPack(Session s) {
         Set<Long> wordIds = new HashSet<>(itemsResult.size());
         for (SetItem item : itemsResult) {
-            wordIds.add(item.getWordId());
+            wordIds.add(item.getWordOneId());
+            wordIds.add(item.getWordTwoId());
         }
         words = Word.getWords(s, wordIds);
 
@@ -86,10 +84,6 @@ public class GetSetItems extends MyAction {
 
     public List<UserPerformance> getPerformance() {
         return performance;
-    }
-
-    public void setGetPack(boolean getPack) {
-        this.getPack = getPack;
     }
 
     public void setLearnerId(long learnerId) {

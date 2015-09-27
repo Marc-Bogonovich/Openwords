@@ -60,7 +60,7 @@ public class SetInfo implements Serializable {
     }
 
     private long setId, userId;
-    private int learningLang, visibility, setSize;
+    private int nativeLang, learningLang, visibility, setSize;
     private String name, meta;
     private boolean valid;
     private Date updatedTime;
@@ -97,6 +97,15 @@ public class SetInfo implements Serializable {
 
     public void setUserId(long userId) {
         this.userId = userId;
+    }
+
+    @Column(name = "native_lang")
+    public int getNativeLang() {
+        return nativeLang;
+    }
+
+    public void setNativeLang(int nativeLang) {
+        this.nativeLang = nativeLang;
     }
 
     @Column(name = "learning_lang")

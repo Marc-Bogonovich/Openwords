@@ -133,7 +133,18 @@ public class Word implements Serializable {
 
     @SuppressWarnings("unchecked")
     public static List<Word> getWords(Session s, Collection<Long> ids) {
-        return s.createCriteria(Word.class).add(Restrictions.in("wordId", ids)).list();
+        return s.createCriteria(Word.class)
+                .add(Restrictions.in("wordId", ids))
+                .addOrder(Order.asc("wordId"))
+                .list();
+    }
+
+    @SuppressWarnings("unchecked")
+    public static List<Word> getWords(Session s, Long[] ids) {
+        return s.createCriteria(Word.class)
+                .add(Restrictions.in("wordId", ids))
+                .addOrder(Order.asc("wordId"))
+                .list();
     }
 
     public static int countLanguageWord(Session s, int languageId) {

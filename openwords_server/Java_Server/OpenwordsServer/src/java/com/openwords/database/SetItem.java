@@ -37,15 +37,19 @@ public class SetItem implements Serializable {
                 .list();
     }
 
-    private long setId, wordId;
+    private long setId, wordOneId, wordTwoId;
     private int itemOrder;
+    private String wordOne, wordTwo;
 
     public SetItem() {
     }
 
-    public SetItem(long wordId, int itemOrder) {
-        this.wordId = wordId;
+    public SetItem(long wordOneId, long wordTwoId, int itemOrder, String wordOne, String wordTwo) {
+        this.wordOneId = wordOneId;
+        this.wordTwoId = wordTwoId;
         this.itemOrder = itemOrder;
+        this.wordOne = wordOne;
+        this.wordTwo = wordTwo;
     }
 
     @Id
@@ -59,13 +63,23 @@ public class SetItem implements Serializable {
     }
 
     @Id
-    @Column(name = "word_id")
-    public long getWordId() {
-        return wordId;
+    @Column(name = "word_one_id")
+    public long getWordOneId() {
+        return wordOneId;
     }
 
-    public void setWordId(long wordId) {
-        this.wordId = wordId;
+    public void setWordOneId(long wordOneId) {
+        this.wordOneId = wordOneId;
+    }
+
+    @Id
+    @Column(name = "word_two_id")
+    public long getWordTwoId() {
+        return wordTwoId;
+    }
+
+    public void setWordTwoId(long wordTwoId) {
+        this.wordTwoId = wordTwoId;
     }
 
     @Column(name = "item_order")
@@ -77,4 +91,21 @@ public class SetItem implements Serializable {
         this.itemOrder = itemOrder;
     }
 
+    @Column(name = "word_one")
+    public String getWordOne() {
+        return wordOne;
+    }
+
+    public void setWordOne(String wordOne) {
+        this.wordOne = wordOne;
+    }
+
+    @Column(name = "word_two")
+    public String getWordTwo() {
+        return wordTwo;
+    }
+
+    public void setWordTwo(String wordTwo) {
+        this.wordTwo = wordTwo;
+    }
 }
