@@ -1,6 +1,5 @@
 package com.openwords.ui.lily.main;
 
-import com.openwords.model.SetInfo;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
@@ -12,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import com.openwords.R;
+import com.openwords.model.DataPool;
+import com.openwords.model.SetItem;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -24,7 +25,6 @@ public class PageSetContent extends Activity {
     private TextView setTitle;
     private boolean isModifying;
     private List<SetItem> setItems;
-    private SetInfo setInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,33 +37,35 @@ public class PageSetContent extends Activity {
         buttonMode = (ImageView) findViewById(R.id.act_ws_image_1);
         buttonBack = (ImageView) findViewById(R.id.act_ws_image_2);
 
-        setInfo = new SetInfo();
-        setInfo.name = "Test";
-        setTitle.setText(setInfo.name);
+        if (DataPool.currentSet == null) {
+            isModifying = true;
+        } else {
+            isModifying = false;
+            setTitle.setText(DataPool.currentSet.name);
+        }
 
         buttonMode.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
                 if (isModifying) {
-                    LinkedList<SetItem> n = new LinkedList<SetItem>();
-                    n.add(new SetItem(1, "hello", "你好", false));
-                    n.add(new SetItem(2, "free", "自由", false));
-                    n.add(new SetItem(3, "dictionary", "字典", false));
-                    n.add(new SetItem(4, "new", "新的", false));
-                    refreshListView(n);
-                    setInfo.name = setTitleInput.getText().toString();
-                    setTitle.setText(setInfo.name);
+                    for (SetItem item : setItems) {
+                        item.isModifying = false;
+                        if (item.isHead) {
+                            setItems.remove(item);
+                        }
+                    }
+                    listAdapter.notifyDataSetChanged();
+                    String name = setTitleInput.getText().toString();
+                    setTitle.setText(name);
                     setTitle.setVisibility(View.VISIBLE);
                     setTitleInput.setVisibility(View.GONE);
                 } else {
-                    LinkedList<SetItem> n = new LinkedList<SetItem>();
-                    n.add(new SetItem(1, "hello", "你好", false, true));
-                    n.add(new SetItem(2, "free", "自由", false, true));
-                    n.add(new SetItem(3, "dictionary", "字典", false, true));
-                    n.add(new SetItem(4, "new", "新的", false, true));
-                    n.add(new SetItem(0, "(Native Lang)", "(Learning Lang)", true, true));
-                    refreshListView(n);
-                    setTitleInput.setText(setInfo.name);
+                    for (SetItem item : setItems) {
+                        item.isModifying = true;
+                    }
+                    setItems.add(new SetItem(0, "(Native Lang)", "(Learning Lang)", true, true));
+                    listAdapter.notifyDataSetChanged();
+                    setTitleInput.setText(DataPool.currentSet.name);
                     setTitle.setVisibility(View.GONE);
                     setTitleInput.setVisibility(View.VISIBLE);
                 }
@@ -119,17 +121,6 @@ public class PageSetContent extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-        LinkedList<SetItem> n = new LinkedList<SetItem>();
-        n.add(new SetItem(1, "hello", "你好", false));
-        n.add(new SetItem(2, "free", "自由", false));
-        n.add(new SetItem(3, "dictionary", "字典", false));
-        n.add(new SetItem(4, "new", "新的", false));
-        int i = 1;
-        while (i < 500) {
-            String name = String.valueOf(4 + i);
-            n.add(new SetItem(4 + i, "new " + name, "新的" + name, false));
-            i += 1;
-        }
-        refreshListView(n);
+        refreshListView(DataPool.currentSetItems);
     }
 }

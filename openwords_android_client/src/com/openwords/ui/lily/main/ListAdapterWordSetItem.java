@@ -1,5 +1,6 @@
 package com.openwords.ui.lily.main;
 
+import com.openwords.model.SetItem;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;

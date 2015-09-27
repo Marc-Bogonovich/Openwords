@@ -3,31 +3,31 @@ package com.openwords.services.implementations;
 import com.google.gson.Gson;
 import static com.openwords.model.DataPool.ServerAddress;
 import static com.openwords.model.DataPool.ServiceProtocol;
-import com.openwords.model.SetInfo;
+import com.openwords.model.SetItem;
 import com.openwords.services.interfaces.HttpResultHandler;
 import com.openwords.services.interfaces.HttpServiceRequester;
 import com.openwords.services.interfaces.RequestParamsBuilder;
 import java.util.List;
 
-public class ServiceGetSets extends HttpServiceRequester implements HttpResultHandler {
+public class ServiceGetSetItems extends HttpServiceRequester implements HttpResultHandler {
 
-    public final String ServiceURL = ServiceProtocol + ServerAddress + "/getSets";
+    public final String ServiceURL = ServiceProtocol + ServerAddress + "/getSetItems";
 
     private HttpResultHandler resultHandler;
 
-    public void doRequest(int pageNumber, int pageSize, HttpResultHandler resultHandler) {
+    public void doRequest(long setId, long userId, HttpResultHandler resultHandler) {
         this.resultHandler = resultHandler;
         request(ServiceURL,
                 new RequestParamsBuilder()
-                .addParam("pageNumber", String.valueOf(pageNumber))
-                .addParam("pageSize", String.valueOf(pageSize))
+                .addParam("setId", String.valueOf(setId))
+                .addParam("userId", String.valueOf(userId))
                 .getParams(), 30 * 1000, this);
     }
 
     public void hasResult(Object resultObject) {
         String jsonReply = (String) resultObject;
         Result r = new Gson().fromJson(jsonReply, Result.class);
-        if (r.result == null) {
+        if (r.itemsResult == null) {
             resultHandler.noResult("no result");
         } else {
             resultHandler.hasResult(r);
@@ -40,7 +40,7 @@ public class ServiceGetSets extends HttpServiceRequester implements HttpResultHa
 
     public class Result {
 
-        public List<SetInfo> result;
+        public List<SetItem> itemsResult;
         public String errorMessage;
     }
 }

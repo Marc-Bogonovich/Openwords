@@ -1,8 +1,26 @@
-package com.openwords.ui.lily.main;
+package com.openwords.model;
 
+import com.openwords.services.implementations.ServiceGetSetItems;
+import com.openwords.services.implementations.ServiceGetSetItems.Result;
+import com.openwords.services.interfaces.HttpResultHandler;
+import com.orm.SugarRecord;
 import com.orm.dsl.Ignore;
 
-public class SetItem {
+public class SetItem extends SugarRecord<SetItem> {
+
+    public static void getItems(long setId, long userId, final ResultSetItems resultHanlder) {
+        new ServiceGetSetItems().doRequest(setId, userId, new HttpResultHandler() {
+
+            public void hasResult(Object resultObject) {
+                Result r = (Result) resultObject;
+                resultHanlder.result(r.itemsResult);
+            }
+
+            public void noResult(String errorMessage) {
+                resultHanlder.result(null);
+            }
+        });
+    }
 
     public long setId, wordId;
     public int itemOrder;

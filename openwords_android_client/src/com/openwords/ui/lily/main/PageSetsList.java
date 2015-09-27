@@ -18,8 +18,11 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import com.openwords.R;
+import com.openwords.model.DataPool;
+import com.openwords.model.ResultSetItems;
 import com.openwords.model.ResultWordSets;
 import com.openwords.model.SetInfo;
+import com.openwords.model.SetItem;
 import com.openwords.util.ui.MyQuickToast;
 import java.util.LinkedList;
 import java.util.List;
@@ -54,7 +57,7 @@ public class PageSetsList extends Activity {
 
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 SetInfo set = allSets.get(position);
-                MyQuickToast.showShort(PageSetsList.this, "Set: " + set.name);
+                loadSet(set);
             }
         });
 
@@ -67,6 +70,8 @@ public class PageSetsList extends Activity {
         buttonMake.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                DataPool.currentSet = null;
+                DataPool.currentSetItems = new LinkedList<SetItem>();
                 PageSetsList.this.startActivity(new Intent(PageSetsList.this, PageSetContent.class));
             }
         });
@@ -135,6 +140,21 @@ public class PageSetsList extends Activity {
         listAdapter.clear();
         listAdapter.addAll(sets);
         listAdapter.notifyDataSetChanged();
+    }
+
+    private void loadSet(final SetInfo set) {
+        SetItem.getItems(set.setId, set.userId, new ResultSetItems() {
+
+            public void result(List<SetItem> result) {
+                if (result == null) {
+                    MyQuickToast.showShort(PageSetsList.this, "Cannot load content");
+                } else {
+                    DataPool.currentSet = set;
+                    DataPool.currentSetItems = result;
+                    PageSetsList.this.startActivity(new Intent(PageSetsList.this, PageSetContent.class));
+                }
+            }
+        });
     }
 
     @Override

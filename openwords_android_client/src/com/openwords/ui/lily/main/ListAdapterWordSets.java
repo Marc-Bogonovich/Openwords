@@ -49,7 +49,7 @@ public class ListAdapterWordSets extends ArrayAdapter<SetInfo> {
             if (info.isPlusButton) {
                 viewHolder.deckCircle = new ViewDeckCircle(context, context.getResources().getColor(R.color.blue), 255,
                         true, context.getResources().getColor(R.color.white), 255);
-                viewHolder.deckName.setTextColor(context.getResources().getColor(R.color.main_app_color));
+                viewHolder.deckName.setTextColor(context.getResources().getColor(R.color.blue));
             } else {
                 viewHolder.deckCircle = new ViewDeckCircle(context, context.getResources().getColor(R.color.main_app_color), 200,
                         false, -1, -1);
