@@ -22,10 +22,6 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-/**
- *
- * @author hanaldo
- */
 public class PageSetsList extends Activity {
 
     private GridView gridView, gridView2;
@@ -55,14 +51,14 @@ public class PageSetsList extends Activity {
 
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 DeckInfo deck = deckListDataModel.get(position);
-                MyQuickToast.showShort(PageSetsList.this, "Deck: " + deck.name);
+                MyQuickToast.showShort(PageSetsList.this, "Set: " + deck.name);
             }
         });
 
         gridView2 = (GridView) findViewById(R.id.act_main_decks_gridview2);
         LinkedList<DeckInfo> addDeck = new LinkedList<DeckInfo>();
         addDeck.add(null);
-        addDeck.add(new DeckInfo("Create Deck", true));
+        addDeck.add(new DeckInfo("Make Word Set", true));
         addDeck.add(null);
         gridView2.setAdapter(new ListAdapterDeckGrid(this, addDeck));
         gridView2.setOnItemClickListener(new AdapterView.OnItemClickListener() {

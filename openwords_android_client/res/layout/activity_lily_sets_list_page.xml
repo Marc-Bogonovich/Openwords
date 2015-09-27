@@ -4,7 +4,7 @@
               android:layout_height="match_parent"
               android:orientation="vertical">
 
-    <TextView android:text="Decks"
+    <TextView android:text="Word Sets"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:gravity="center"
@@ -26,6 +26,8 @@
                   android:textSize="20sp"
                   android:maxLines="1"
                   android:hint="Search decks"
+                  android:textColorHint="@color/main_app_color"
+                  android:singleLine="true"
                   android:gravity="center"/>
         
         <View android:layout_width="0dp"
