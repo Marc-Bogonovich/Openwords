@@ -26,7 +26,7 @@ import com.openwords.services.interfaces.HttpResultHandler;
 import com.openwords.sound.SoundPlayer;
 import com.openwords.tts.Speak;
 import com.openwords.ui.common.BackButtonBehavior;
-import com.openwords.ui.lily.main.PageAllSets;
+import com.openwords.ui.lily.main.PageSetsList;
 import com.openwords.util.InternetCheck;
 import com.openwords.util.file.LocalFileSystem;
 import com.openwords.util.localization.LocalLanguage;
@@ -71,7 +71,7 @@ public class LoginPage extends Activity {
         findViewById(R.id.loginPage_test).setOnClickListener(new OnClickListener() {
 
             public void onClick(View view) {
-                startActivity(new Intent(LoginPage.this, PageAllSets.class));
+                startActivity(new Intent(LoginPage.this, PageSetsList.class));
             }
         });
         findViewById(R.id.loginPage_test2).setOnClickListener(new OnClickListener() {

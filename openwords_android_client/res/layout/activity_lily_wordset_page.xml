@@ -7,7 +7,7 @@
     <LinearLayout android:orientation="horizontal"
                   android:layout_width="match_parent"
                   android:layout_height="wrap_content"
-                  android:background="#70B5A4"
+                  android:background="@color/main_app_color"
                   android:gravity="center_vertical">
         
         <ImageView  android:id="@+id/act_ws_image_2"

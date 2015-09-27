@@ -17,9 +17,9 @@ import java.util.List;
 public class ListAdapterWordSetItem extends ArrayAdapter<SetItem> {
 
     private final List<SetItem> itemContent;
-    private final PageModifyWordSet context;
+    private final PageSetContent context;
 
-    public ListAdapterWordSetItem(PageModifyWordSet context, List<SetItem> objects) {
+    public ListAdapterWordSetItem(PageSetContent context, List<SetItem> objects) {
         super(context, R.layout.list_item_wordset, objects);
         this.context = context;
         itemContent = objects;

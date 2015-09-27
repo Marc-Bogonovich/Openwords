@@ -1,7 +1,6 @@
 package com.openwords.ui.lily.main;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +12,8 @@ import java.util.List;
 
 public class ListAdapterDeckGrid extends ArrayAdapter<DeckInfo> {
 
-    private Context context;
-    private List<DeckInfo> items;
+    private final Context context;
+    private final List<DeckInfo> items;
 
     public ListAdapterDeckGrid(Context context, List<DeckInfo> objects) {
         super(context, R.layout.list_item_deck_info, objects);
@@ -37,11 +36,11 @@ public class ListAdapterDeckGrid extends ArrayAdapter<DeckInfo> {
 
             if (deckInfo != null) {
                 if (deckInfo.isPlusButton) {
-                    viewHolder.deckCircle = new ViewDeckCircle(context, Color.parseColor("#6A92C7"), 255,
-                            true, Color.parseColor("#ffffff"), 255);
-                    viewHolder.deckName.setTextColor(Color.parseColor("#6A92C7"));
+                    viewHolder.deckCircle = new ViewDeckCircle(context, context.getResources().getColor(R.color.main_app_color), 255,
+                            true, context.getResources().getColor(R.color.blue), 255);
+                    viewHolder.deckName.setTextColor(context.getResources().getColor(R.color.main_app_color));
                 } else {
-                    viewHolder.deckCircle = new ViewDeckCircle(context, context.getResources().getColor(R.color.my_orange), 200,
+                    viewHolder.deckCircle = new ViewDeckCircle(context, context.getResources().getColor(R.color.main_app_color), 200,
                             false, -1, -1);
                 }
                 viewHolder.deckHolder.addView(viewHolder.deckCircle);

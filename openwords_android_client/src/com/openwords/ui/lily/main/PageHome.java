@@ -2,7 +2,6 @@ package com.openwords.ui.lily.main;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
@@ -24,24 +23,24 @@ public class PageHome extends Activity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);//for testing purpose
         setContentView(R.layout.activity_lily_home_page);
         root = (LinearLayout) findViewById(R.id.act_home_root);
-        root.setBackgroundColor(Color.parseColor("#70B5A4"));
+        root.setBackgroundColor(getResources().getColor(R.color.main_app_color));
         buttonLM = (TextView) findViewById(R.id.act_home_button_1);
         buttonSet = (TextView) findViewById(R.id.act_home_button_2);
         buttonResume = (TextView) findViewById(R.id.act_home_button_3);
-        buttonLM.setTextColor(Color.parseColor("#70B5A4"));
-        buttonSet.setTextColor(Color.parseColor("#70B5A4"));
-        buttonResume.setTextColor(Color.parseColor("#70B5A4"));
+        buttonLM.setTextColor(getResources().getColor(R.color.main_app_color));
+        buttonSet.setTextColor(getResources().getColor(R.color.main_app_color));
+        buttonResume.setTextColor(getResources().getColor(R.color.main_app_color));
 
         buttonLM.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
-                startActivity(new Intent(PageHome.this, PageAllSets.class));
+                startActivity(new Intent(PageHome.this, PageSetsList.class));
             }
         });
         buttonSet.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
-                startActivity(new Intent(PageHome.this, PageModifyWordSet.class));
+                startActivity(new Intent(PageHome.this, PageSetContent.class));
             }
         });
         buttonResume.setOnClickListener(new View.OnClickListener() {

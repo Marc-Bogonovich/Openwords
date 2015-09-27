@@ -26,7 +26,7 @@ import java.util.TimerTask;
  *
  * @author hanaldo
  */
-public class PageAllSets extends Activity {
+public class PageSetsList extends Activity {
 
     private GridView gridView, gridView2;
     private EditText searchInput;
@@ -39,7 +39,7 @@ public class PageAllSets extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        setContentView(R.layout.activity_main_decks);
+        setContentView(R.layout.activity_lily_sets_list_page);
 
         gridView = (GridView) findViewById(R.id.act_main_decks_gridview1);
         deckListDataModel = DeckInfo.getNewTestingDecks();
@@ -55,7 +55,7 @@ public class PageAllSets extends Activity {
 
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 DeckInfo deck = deckListDataModel.get(position);
-                MyQuickToast.showShort(PageAllSets.this, "Deck: " + deck.name);
+                MyQuickToast.showShort(PageSetsList.this, "Deck: " + deck.name);
             }
         });
 
@@ -68,7 +68,7 @@ public class PageAllSets extends Activity {
         gridView2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                PageAllSets.this.startActivity(new Intent(PageAllSets.this, PageModifyWordSet.class));
+                PageSetsList.this.startActivity(new Intent(PageSetsList.this, PageSetContent.class));
             }
         });
 
@@ -86,7 +86,7 @@ public class PageAllSets extends Activity {
                     deckListDataModel = DeckInfo.searchDecks(term);
                     deckListAdapter.addAll(deckListDataModel);
                     deckListAdapter.notifyDataSetChanged();
-                    MyQuickToast.showShort(PageAllSets.this, String.format("You got %s decks", deckListDataModel.size()));
+                    MyQuickToast.showShort(PageSetsList.this, String.format("You got %s decks", deckListDataModel.size()));
                 }
                 return true;
             }

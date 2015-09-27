@@ -14,7 +14,7 @@ import com.openwords.R;
 import java.util.LinkedList;
 import java.util.List;
 
-public class PageModifyWordSet extends Activity {
+public class PageSetContent extends Activity {
 
     private ListView itemList;
     private ListAdapterWordSetItem listAdapter;
@@ -72,7 +72,7 @@ public class PageModifyWordSet extends Activity {
         buttonBack.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
-                PageModifyWordSet.super.onBackPressed();
+                PageSetContent.super.onBackPressed();
             }
         });
 

@@ -126,12 +126,7 @@
         <activity android:name=".ui.main.LocalOptionPage"
                   android:theme="@style/NoTitleTheme"
                   android:configChanges="orientation|screenSize">
-        </activity>
-        
-        <activity android:name=".ui.lily.main.PageAllSets"
-                  android:theme="@style/NoTitleTheme"
-                  android:configChanges="orientation|screenSize">
-        </activity>
+        </activity>       
         
         <activity android:name=".ui.lily.multiword.PageMultiwordDemo"
                   android:theme="@style/NoTitleTheme"
@@ -153,10 +148,15 @@
                   android:configChanges="orientation|screenSize">
         </activity>
         
-        <activity android:name=".ui.lily.main.PageModifyWordSet"
+        <activity android:name=".ui.lily.main.PageSetContent"
                   android:theme="@style/NoTitleTheme"
                   android:windowSoftInputMode="adjustPan"
                   android:configChanges="orientation|screenSize">
+        </activity>
+        
+        <activity android:name=".ui.lily.main.PageSetsList"
+                          android:theme="@style/NoTitleTheme"
+                          android:configChanges="orientation|screenSize">
         </activity>
     </application>
 
