@@ -23,6 +23,7 @@ import com.openwords.model.ResultSetItems;
 import com.openwords.model.ResultWordSets;
 import com.openwords.model.SetInfo;
 import com.openwords.model.SetItem;
+import com.openwords.util.ui.MyDialogHelper;
 import com.openwords.util.ui.MyQuickToast;
 import java.util.LinkedList;
 import java.util.List;
@@ -143,6 +144,7 @@ public class PageSetsList extends Activity {
     }
 
     private void loadSet(final SetInfo set) {
+        MyDialogHelper.tryShowQuickProgressDialog(this, "Loading set content...");
         SetItem.getItems(set.setId, set.userId, new ResultSetItems() {
 
             public void result(List<SetItem> result) {
@@ -153,6 +155,7 @@ public class PageSetsList extends Activity {
                     DataPool.currentSetItems = result;
                     PageSetsList.this.startActivity(new Intent(PageSetsList.this, PageSetContent.class));
                 }
+                MyDialogHelper.tryDismissQuickProgressDialog();
             }
         });
     }
@@ -160,13 +163,18 @@ public class PageSetsList extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
+        MyDialogHelper.tryShowQuickProgressDialog(this, "Loading all word sets...");
         SetInfo.getAllSets(1, 50, new ResultWordSets() {
 
             public void result(List<SetInfo> result) {
                 if (result != null) {
                     refreshListView(result);
+                } else {
+                    MyQuickToast.showShort(PageSetsList.this, "Cannot load sets");
                 }
+                MyDialogHelper.tryDismissQuickProgressDialog();
             }
         });
+
     }
 }
