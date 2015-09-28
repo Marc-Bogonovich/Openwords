@@ -40,10 +40,12 @@ public class SearchWordsInLanguageByForm extends MyAction {
             }
             if (matchingForms.isEmpty()) {
                 errorMessage = "no exact results";
-                matchingForms = Word.getWordIdsInLanguageByForm(s, searchLang, form, pageNumber, pageSize);
-            }
-            if (matchingForms.isEmpty()) {
-                throw new Exception("no results");
+                matchingForms = Word.getWordIdsInLanguageByForm(s, searchLang, form, pageNumber, pageSize + 1);
+                if (matchingForms.size() > pageSize) {
+                    errorMessage += " and " + "too many results";
+                } else if (matchingForms.isEmpty()) {
+                    throw new Exception("no results");
+                }
             }
             searchResult = Word.getWords(s, matchingForms);
 
@@ -85,6 +87,10 @@ public class SearchWordsInLanguageByForm extends MyAction {
 
     public List<Word> getSearchResult() {
         return searchResult;
+    }
+
+    public Map<Long, Set<Long>> getLinkedWordsResult() {
+        return linkedWordsResult;
     }
 
     public String getErrorMessage() {
