@@ -13,8 +13,16 @@ import android.widget.TextView;
 import com.openwords.R;
 import com.openwords.model.DataPool;
 import com.openwords.model.SetItem;
+import com.openwords.model.Word;
+import com.openwords.services.implementations.ServiceSearchWords;
+import com.openwords.services.implementations.ServiceSearchWords.Result;
+import com.openwords.services.interfaces.HttpResultHandler;
 import com.openwords.util.ui.MyQuickToast;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class PageSetContent extends Activity {
@@ -103,12 +111,54 @@ public class PageSetContent extends Activity {
                 setItems.remove(item);
             }
         }
-        setItems.add(new SetItem(4, "test", "测试", false, true, true));
-        listAdapter.notifyDataSetChanged();
         InputMethodManager m = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         if (m != null) {
             m.hideSoftInputFromWindow(itemList.getWindowToken(), 0);
         }
+        new ServiceSearchWords().doRequest(10, 206, 98, "典", new HttpResultHandler() {
+
+            public void hasResult(Object resultObject) {
+                Result r = (Result) resultObject;
+                Map<Long, String> wordForms = new HashMap<Long, String>(r.searchResult.size() + r.targetResult.size());
+                for (Word w : r.targetResult) {
+                    wordForms.put(w.wordId, w.word);
+                }
+                for (Word w : r.searchResult) {
+                    wordForms.put(w.wordId, w.word);
+                }
+                for (Entry<Long, Set<Long>> e : r.linkedSearchWords.entrySet()) {
+                    if (r.linkedTargetWords.containsKey(e.getKey())) {
+                        String searchWord = "";
+                        int i = 1;
+                        for (Long searchWordId : e.getValue()) {
+                            if (i == 2) {
+                                searchWord = searchWord.replace(",", "");
+                                searchWord += " (";
+                            }
+                            searchWord += wordForms.get(searchWordId) + ",";
+                            i++;
+                        }
+                        if (i > 2) {
+                            searchWord += ")";
+                        }
+
+                        for (Long targetWordId : r.linkedTargetWords.get(e.getKey())) {
+                            setItems.add(new SetItem(0, searchWord,
+                                    wordForms.get(targetWordId),
+                                    false, true, true));
+                        }
+                    }
+                }
+                listAdapter.notifyDataSetChanged();
+                if (r.errorMessage != null) {
+                    MyQuickToast.showShort(PageSetContent.this, r.errorMessage);
+                }
+            }
+
+            public void noResult(String errorMessage) {
+                MyQuickToast.showShort(PageSetContent.this, errorMessage);
+            }
+        });
     }
 
     public void addSetItemFromSearch(SetItem item) {

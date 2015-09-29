@@ -32,7 +32,7 @@ public class ServiceSearchWords extends HttpServiceRequester implements HttpResu
         String jsonReply = (String) resultObject;
         Result r = new Gson().fromJson(jsonReply, Result.class);
         if (r.searchResult == null) {
-            resultHandler.noResult("no result");
+            resultHandler.noResult(r.errorMessage);
         } else {
             resultHandler.hasResult(r);
         }
@@ -46,7 +46,8 @@ public class ServiceSearchWords extends HttpServiceRequester implements HttpResu
 
         public List<Word> targetResult;
         public List<Word> searchResult;
-        public Map<Long, Set<Long>> linkedWordsResult;
+        public Map<Long, Set<Long>> linkedTargetWords;
+        public Map<Long, Set<Long>> linkedSearchWords;
         public String errorMessage;
     }
 }
