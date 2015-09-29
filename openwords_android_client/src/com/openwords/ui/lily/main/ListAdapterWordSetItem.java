@@ -1,6 +1,5 @@
 package com.openwords.ui.lily.main;
 
-import com.openwords.model.SetItem;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -13,25 +12,28 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.openwords.R;
+import com.openwords.model.SetItem;
+import com.openwords.util.ui.MyDialogHelper;
+import com.openwords.util.ui.MyQuickToast;
 import java.util.List;
 
 public class ListAdapterWordSetItem extends ArrayAdapter<SetItem> {
-    
+
     private final List<SetItem> itemContent;
     private final PageSetContent context;
-    
+
     public ListAdapterWordSetItem(PageSetContent context, List<SetItem> objects) {
         super(context, R.layout.list_item_wordset, objects);
         this.context = context;
         itemContent = objects;
     }
-    
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
         final ViewHolder viewHolder;
         final SetItem item = itemContent.get(position);
-        
+
         if (view == null) {
             view = LayoutInflater.from(context).inflate(R.layout.list_item_wordset, null);
             viewHolder = new ViewHolder();
@@ -39,13 +41,13 @@ public class ListAdapterWordSetItem extends ArrayAdapter<SetItem> {
         } else {
             viewHolder = (ViewHolder) view.getTag();
         }
-        
+
         if (item != null) {
             fillLayoutContent(viewHolder, item);
         }
         return view;
     }
-    
+
     private void inflateLayout(final View view, final ViewHolder viewHolder) {
         viewHolder.root = (LinearLayout) view.findViewById(R.id.list_item_ws_root);
         viewHolder.w1 = (TextView) view.findViewById(R.id.list_item_ws_text1);
@@ -57,7 +59,7 @@ public class ListAdapterWordSetItem extends ArrayAdapter<SetItem> {
         viewHolder.search = (ImageView) view.findViewById(R.id.list_item_ws_image4);
         view.setTag(viewHolder);
     }
-    
+
     private void fillLayoutContent(final ViewHolder viewHolder, final SetItem item) {
         viewHolder.w1.setText(item.wordOne);
         viewHolder.w2.setText(item.wordTwo);
@@ -72,44 +74,63 @@ public class ListAdapterWordSetItem extends ArrayAdapter<SetItem> {
         viewHolder.search.setVisibility(View.GONE);
         viewHolder.w1.setTextColor(Color.parseColor("#000000"));
         viewHolder.w2.setTextColor(Color.parseColor("#000000"));
-        
+
+        View.OnClickListener clickRoot = new View.OnClickListener() {
+
+            public void onClick(View view) {
+                String trans = item.wordOneCommon + "\n" + item.wordTwoCommon;
+                MyDialogHelper.showMessageDialog(context, null, trans, null);
+                MyQuickToast.showShort(context, trans);
+            }
+        };
+        viewHolder.root.setOnClickListener(clickRoot);
+
         if (item.isModifying) {
             if (item.isHead) {
+                viewHolder.root.setOnClickListener(null);
                 viewHolder.a1.setVisibility(View.VISIBLE);
                 viewHolder.a2.setVisibility(View.VISIBLE);
                 viewHolder.w1.setTextColor(Color.parseColor("#d2d2d2"));
                 viewHolder.w2.setTextColor(Color.parseColor("#d2d2d2"));
                 viewHolder.remove.setVisibility(View.INVISIBLE);
                 View.OnClickListener clickNative = new View.OnClickListener() {
-                    
+
                     public void onClick(View view) {
-                        enterSearch(viewHolder, "Search Word");
+                        enterSearch(viewHolder, "Search Word", true);
                     }
                 };
                 viewHolder.a1.setOnClickListener(clickNative);
                 viewHolder.w1.setOnClickListener(clickNative);
                 View.OnClickListener clickLearning = new View.OnClickListener() {
-                    
+
                     public void onClick(View view) {
-                        enterSearch(viewHolder, "搜索词");
+                        enterSearch(viewHolder, "搜索词", false);
                     }
                 };
                 viewHolder.a2.setOnClickListener(clickLearning);
                 viewHolder.w2.setOnClickListener(clickLearning);
             } else if (item.isNew) {
+                viewHolder.a1.setOnClickListener(clickRoot);
+                viewHolder.a2.setOnClickListener(clickRoot);
+                viewHolder.w1.setOnClickListener(clickRoot);
+                viewHolder.w2.setOnClickListener(clickRoot);
                 viewHolder.remove.setImageResource(R.drawable.ic_set_add);
                 viewHolder.remove.setVisibility(View.VISIBLE);
                 viewHolder.remove.setOnClickListener(new View.OnClickListener() {
-                    
+
                     public void onClick(View view) {
                         context.addSetItemFromSearch(item);
                     }
                 });
             } else {
+                viewHolder.a1.setOnClickListener(clickRoot);
+                viewHolder.a2.setOnClickListener(clickRoot);
+                viewHolder.w1.setOnClickListener(clickRoot);
+                viewHolder.w2.setOnClickListener(clickRoot);
                 viewHolder.remove.setImageResource(R.drawable.ic_set_remove);
                 viewHolder.remove.setVisibility(View.VISIBLE);
                 viewHolder.remove.setOnClickListener(new View.OnClickListener() {
-                    
+
                     public void onClick(View view) {
                         removeClicked(item, viewHolder);
                     }
@@ -117,7 +138,7 @@ public class ListAdapterWordSetItem extends ArrayAdapter<SetItem> {
             }
         }
     }
-    
+
     private void removeClicked(SetItem item, ViewHolder v) {
         if (item.isRemoving) {
             v.root.setBackgroundColor(Color.parseColor("#ffffff"));
@@ -127,10 +148,10 @@ public class ListAdapterWordSetItem extends ArrayAdapter<SetItem> {
             v.remove.setImageResource(R.drawable.ic_set_restore);
         }
         item.isRemoving = !item.isRemoving;
-        
+
     }
-    
-    private void enterSearch(final ViewHolder v, String hint) {
+
+    private void enterSearch(final ViewHolder v, String hint, final boolean searchNative) {
         v.a1.setVisibility(View.GONE);
         v.w1.setVisibility(View.GONE);
         v.a2.setVisibility(View.GONE);
@@ -141,16 +162,16 @@ public class ListAdapterWordSetItem extends ArrayAdapter<SetItem> {
         v.remove.setImageResource(R.drawable.ic_set_remove);
         v.remove.setVisibility(View.VISIBLE);
         v.remove.setOnClickListener(new View.OnClickListener() {
-            
+
             public void onClick(View view) {
                 bringBackAddButtons(v);
             }
         });
         v.search.setVisibility(View.VISIBLE);
         v.search.setOnClickListener(new View.OnClickListener() {
-            
+
             public void onClick(View view) {
-                context.search();
+                context.search(searchNative, v.searchNative.getText().toString().trim());
             }
         });
         v.searchNative.requestFocus();
@@ -159,7 +180,7 @@ public class ListAdapterWordSetItem extends ArrayAdapter<SetItem> {
             m.showSoftInput(v.searchNative, InputMethodManager.SHOW_FORCED);
         }
     }
-    
+
     private void bringBackAddButtons(ViewHolder v) {
         v.a1.setVisibility(View.VISIBLE);
         v.w1.setVisibility(View.VISIBLE);
@@ -169,9 +190,9 @@ public class ListAdapterWordSetItem extends ArrayAdapter<SetItem> {
         v.remove.setVisibility(View.INVISIBLE);
         v.search.setVisibility(View.GONE);
     }
-    
+
     private class ViewHolder {
-        
+
         public TextView w1, w2;
         public ImageView a1, a2, remove, search;
         public LinearLayout root;

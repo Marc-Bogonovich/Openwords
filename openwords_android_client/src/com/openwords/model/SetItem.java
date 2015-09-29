@@ -22,9 +22,9 @@ public class SetItem extends SugarRecord<SetItem> {
         });
     }
 
-    public long setId, wordId;
+    public long setId, wordOneId, wordTwoId;
     public int itemOrder;
-    public String wordOne, wordTwo;
+    public String wordOne, wordTwo, wordOneCommon, wordTwoCommon;
     @Ignore
     public boolean isHead;
     @Ignore
@@ -35,12 +35,6 @@ public class SetItem extends SugarRecord<SetItem> {
     public boolean isNew;
 
     public SetItem() {
-    }
-
-    public SetItem(long setId, long wordId, int itemOrder) {
-        this.setId = setId;
-        this.wordId = wordId;
-        this.itemOrder = itemOrder;
     }
 
     public SetItem(int itemOrder, String wordOne, String wordTwo, boolean isHead) {
@@ -62,6 +56,17 @@ public class SetItem extends SugarRecord<SetItem> {
         this.itemOrder = itemOrder;
         this.wordOne = wordOne;
         this.wordTwo = wordTwo;
+        this.isHead = isHead;
+        this.isModifying = isModifying;
+        this.isNew = isNew;
+    }
+
+    public SetItem(int itemOrder, String wordOne, String wordTwo, String wordOneCommon, String wordTwoCommon, boolean isHead, boolean isModifying, boolean isNew) {
+        this.itemOrder = itemOrder;
+        this.wordOne = wordOne;
+        this.wordTwo = wordTwo;
+        this.wordOneCommon = wordOneCommon;
+        this.wordTwoCommon = wordTwoCommon;
         this.isHead = isHead;
         this.isModifying = isModifying;
         this.isNew = isNew;

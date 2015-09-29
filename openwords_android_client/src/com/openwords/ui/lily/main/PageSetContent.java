@@ -105,7 +105,7 @@ public class PageSetContent extends Activity {
         listAdapter.notifyDataSetChanged();
     }
 
-    public void search() {
+    public void search(boolean searchNative, String form) {
         for (SetItem item : setItems) {
             if (item.isNew) {
                 setItems.remove(item);
@@ -115,28 +115,41 @@ public class PageSetContent extends Activity {
         if (m != null) {
             m.hideSoftInputFromWindow(itemList.getWindowToken(), 0);
         }
-        new ServiceSearchWords().doRequest(10, 206, 98, "典", new HttpResultHandler() {
+        int searchLang, targetLang;
+        if (searchNative) {
+            searchLang = 98;
+            targetLang = 1;
+        } else {
+            searchLang = 1;
+            targetLang = 98;
+        }
+        new ServiceSearchWords().doRequest(20, targetLang, searchLang, form, new HttpResultHandler() {
 
             public void hasResult(Object resultObject) {
                 Result r = (Result) resultObject;
-                Map<Long, String> wordForms = new HashMap<Long, String>(r.searchResult.size() + r.targetResult.size());
+                Map<Long, Word> allWords = new HashMap<Long, Word>(r.searchResult.size() + r.targetResult.size());
                 for (Word w : r.targetResult) {
-                    wordForms.put(w.wordId, w.word);
+                    allWords.put(w.wordId, w);
                 }
                 for (Word w : r.searchResult) {
-                    wordForms.put(w.wordId, w.word);
+                    allWords.put(w.wordId, w);
                 }
+
                 for (Entry<Long, Set<Long>> e : r.linkedSearchWords.entrySet()) {
                     if (r.linkedTargetWords.containsKey(e.getKey())) {
+                        long firstSearchWord = 0;
                         String searchWord = "";
                         int i = 1;
                         for (Long searchWordId : e.getValue()) {
                             if (i == 2) {
-                                searchWord = searchWord.replace(",", "");
                                 searchWord += " (";
                             }
-                            searchWord += wordForms.get(searchWordId) + ",";
-                            i++;
+                            searchWord += allWords.get(searchWordId).word + ",";
+                            if (i == 1) {
+                                searchWord = searchWord.replace(",", "");
+                                firstSearchWord = searchWordId;
+                            }
+                            i += 1;
                         }
                         if (i > 2) {
                             searchWord += ")";
@@ -144,7 +157,9 @@ public class PageSetContent extends Activity {
 
                         for (Long targetWordId : r.linkedTargetWords.get(e.getKey())) {
                             setItems.add(new SetItem(0, searchWord,
-                                    wordForms.get(targetWordId),
+                                    allWords.get(targetWordId).word,
+                                    allWords.get(firstSearchWord).getMeta().commonTranslation,
+                                    allWords.get(targetWordId).getMeta().commonTranslation,
                                     false, true, true));
                         }
                     }
