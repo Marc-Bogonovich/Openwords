@@ -12,7 +12,7 @@ import java.util.Set;
 
 public class WordConnection extends SugarRecord<WordConnection> {
 
-    public static boolean hasConnection(int connectionId) {
+    public static boolean hasConnection(long connectionId) {
         return !Select.from(WordConnection.class)
                 .where(Condition.prop("connection_id").eq(connectionId))
                 .list().isEmpty();
@@ -20,7 +20,7 @@ public class WordConnection extends SugarRecord<WordConnection> {
 
     private static void loadWordConnectionsFullPackLocally(int langOneId, int langTwoId, int pageNumber, int pageSize, ResultWordConnections resultHandler) {
         List<WordConnection> connections = getConnections(langOneId, langTwoId, pageSize, pageNumber);
-        Set<Integer> ids = new HashSet<Integer>(connections.size());
+        Set<Long> ids = new HashSet<Long>(connections.size());
         for (WordConnection wc : connections) {
             ids.add(wc.wordOneId);
             ids.add(wc.wordTwoId);
@@ -92,7 +92,7 @@ public class WordConnection extends SugarRecord<WordConnection> {
     }
 
     public static void saveOrUpdateAll(List<WordConnection> cs) {
-        Set<Integer> ids = new HashSet<Integer>(cs.size());
+        Set<Long> ids = new HashSet<Long>(cs.size());
         for (WordConnection c : cs) {
             ids.add(c.connectionId);
         }
@@ -102,15 +102,16 @@ public class WordConnection extends SugarRecord<WordConnection> {
         WordConnection.saveInTx(cs);
     }
 
-    public static Set<Integer> unpackConnectionIds(List<WordConnection> connections) {
-        Set<Integer> l = new HashSet<Integer>(connections.size());
+    public static Set<Long> unpackConnectionIds(List<WordConnection> connections) {
+        Set<Long> l = new HashSet<Long>(connections.size());
         for (WordConnection conn : connections) {
             l.add(conn.connectionId);
         }
         return l;
     }
 
-    public int connectionId, wordOneId, wordOneLangId, wordTwoId, wordTwoLangId, connectionType;
+    public long connectionId, wordOneId, wordTwoId;
+    public int wordOneLangId, wordTwoLangId, connectionType;
     public long updatedTimeLong;
     public String contributor;
 

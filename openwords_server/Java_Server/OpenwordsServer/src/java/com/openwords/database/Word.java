@@ -240,7 +240,6 @@ public class Word implements Serializable {
                 .setResultTransformer(new AliasToBeanResultTransformer(TransformerConnection.class))
                 .list();
 
-        Set<Long> targetWords = new HashSet<>(connections.size());
         for (TransformerConnection c : connections) {
             long uniWord = c.getUniWord();
             if (!targetLinks.containsKey(uniWord)) {

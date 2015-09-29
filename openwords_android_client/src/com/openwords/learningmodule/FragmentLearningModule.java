@@ -45,7 +45,7 @@ public abstract class FragmentLearningModule extends Fragment {
     private Word w2;
     private ActivityLearning lmActivity;
 
-    public void updateAudioIcon(ImageView audioPlay, int wordId) {
+    public void updateAudioIcon(ImageView audioPlay, long wordId) {
         final WordAudio audio = WordAudio.getAudio(wordId);
         if (audio == null) {
             audioPlay.setImageResource(R.drawable.ic_self_evaluate_audio_null);

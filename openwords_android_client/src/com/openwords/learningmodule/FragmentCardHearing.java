@@ -27,8 +27,8 @@ public class FragmentCardHearing extends FragmentLearningModule {
     private EditText userInput;
     private View myFragmentView;
     private ScrollView container2;
-    private ActivityLearning lmActivity;
-    private int wordTwoIdForAudio = -1;
+    private final ActivityLearning lmActivity;
+    private long wordTwoIdForAudio = -1;
 
     public FragmentCardHearing(int cardIndex, ActivityLearning lmActivity) {
         this.cardIndex = cardIndex;

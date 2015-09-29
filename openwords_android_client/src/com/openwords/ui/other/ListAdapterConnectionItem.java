@@ -20,10 +20,10 @@ public class ListAdapterConnectionItem extends ArrayAdapter<WordConnection> {
     private List<WordConnection> connections;
     private List<Word> words;
     private Context context;
-    private Set<Integer> chosen;
+    private Set<Long> chosen;
     private ListChoiceCallback callback;
 
-    public ListAdapterConnectionItem(Context context, List<WordConnection> connections, List<Word> words, Set<Integer> chosen, ListChoiceCallback callback) {
+    public ListAdapterConnectionItem(Context context, List<WordConnection> connections, List<Word> words, Set<Long> chosen, ListChoiceCallback callback) {
         super(context, R.layout.list_item_connection, connections);
         this.context = context;
         this.connections = connections;

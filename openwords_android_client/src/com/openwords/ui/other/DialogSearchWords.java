@@ -35,7 +35,7 @@ public class DialogSearchWords extends Dialog {
     private TextView pageNumber;
     private EditText input;
     private Context context;
-    private Set<Integer> chosen;
+    private Set<Long> chosen;
     private int currentPage = 1;
 
     public DialogSearchWords(Context c) {
@@ -108,7 +108,7 @@ public class DialogSearchWords extends Dialog {
             }
         });
 
-        chosen = new HashSet<Integer>(10);
+        chosen = new HashSet<Long>(10);
         listView.setItemsCanFocus(false);
 
         buttonPrev.setEnabled(false);
@@ -127,7 +127,7 @@ public class DialogSearchWords extends Dialog {
     private void clickButton3() {
         buttonAdd.setEnabled(false);
         List<Performance> perfs = new LinkedList<Performance>();
-        for (Integer connectionId : chosen) {
+        for (Long connectionId : chosen) {
             perfs.add(new Performance(connectionId, "all", "new", 1));
         }
         new ServiceSetUserPerformance().doRequest(LocalSettings.getUserId(), true, perfs, "all",

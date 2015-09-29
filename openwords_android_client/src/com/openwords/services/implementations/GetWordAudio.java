@@ -15,7 +15,7 @@ public class GetWordAudio {
 
     public static final String ServiceURL = ServiceProtocol + ServerAddress + "/getWordAudioPack";
 
-    public static void request(Collection<Integer> wordIds, int language, int timeout, final AsyncCallback callback, File file) {
+    public static void request(Collection<Long> wordIds, int language, int timeout, final AsyncCallback callback, File file) {
 
         AsyncHttpClient http = new AsyncHttpClient();
         if (timeout > 0) {

@@ -2,7 +2,6 @@ package com.openwords.ui.other;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.util.SparseArray;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import com.openwords.R;
@@ -14,8 +13,10 @@ import com.openwords.model.ResultWordConnections;
 import com.openwords.model.Word;
 import com.openwords.model.WordConnection;
 import com.openwords.util.ui.MyQuickToast;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 public class DialogLocalWords extends Dialog {
 
@@ -50,7 +51,7 @@ public class DialogLocalWords extends Dialog {
                             MyQuickToast.showShort(c, "You have no local words");
                             DialogLocalWords.this.cancel();
                         } else {
-                            SparseArray<String> wordForms = new SparseArray<String>(words.size());
+                            Map<Long, String> wordForms = new HashMap<Long, String>(words.size());
                             for (Word word : words) {
                                 wordForms.put(word.wordId, word.word);
                             }

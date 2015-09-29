@@ -10,18 +10,18 @@ import java.util.Set;
 
 public class Word extends SugarRecord<Word> {
 
-    public static Word getWord(int wordId) {
+    public static Word getWord(long wordId) {
         return Word.find(Word.class, "word_id = ?", String.valueOf(wordId)).get(0);
     }
 
-    public static List<Word> getWords(Set<Integer> ids) {
+    public static List<Word> getWords(Set<Long> ids) {
         String sqlIds = ids.toString().replace("[", "(").replace("]", ")");
         String whereSql = "word_id in " + sqlIds;
         return Select.from(Word.class).where(whereSql).list();
     }
 
     public static void saveOrUpdateAll(List<Word> ws) {
-        Set<Integer> ids = new HashSet<Integer>(ws.size());
+        Set<Long> ids = new HashSet<Long>(ws.size());
         for (Word c : ws) {
             ids.add(c.wordId);
             c.saveMetaToJson();
@@ -32,7 +32,8 @@ public class Word extends SugarRecord<Word> {
         Word.saveInTx(ws);
     }
 
-    public int wordId, languageId;
+    public long wordId;
+    public int languageId;
     public String word, contributor;
     public long updatedTimeLong;
     @Ignore

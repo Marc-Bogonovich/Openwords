@@ -17,13 +17,13 @@ import java.util.Set;
 
 public class WordAudio extends SugarRecord<WordAudio> {
 
-    public static List<WordAudio> getAudios(Set<Integer> ids) {
+    public static List<WordAudio> getAudios(Set<Long> ids) {
         String sqlIds = ids.toString().replace("[", "(").replace("]", ")");
         String whereSql = "word_id in " + sqlIds;
         return Select.from(WordAudio.class).where(whereSql).list();
     }
 
-    public static WordAudio getAudio(int wordId) {
+    public static WordAudio getAudio(long wordId) {
         List<WordAudio> r = Select.from(WordAudio.class).where(Condition.prop("word_id").eq(wordId)).list();
         if (r.isEmpty()) {
             return null;
@@ -31,7 +31,7 @@ public class WordAudio extends SugarRecord<WordAudio> {
         return r.get(0);
     }
 
-    private static void deleteAudios(Collection<Integer> wordIds) {
+    private static void deleteAudios(Collection<Long> wordIds) {
         if (wordIds.isEmpty()) {
             return;
         }
@@ -41,7 +41,7 @@ public class WordAudio extends SugarRecord<WordAudio> {
     }
 
     private static void saveOrUpdateAll(WordAudio[] audios) {
-        Set<Integer> ids = new HashSet<Integer>(audios.length);
+        Set<Long> ids = new HashSet<Long>(audios.length);
         for (WordAudio a : audios) {
             ids.add(a.wordId);
         }
@@ -49,7 +49,7 @@ public class WordAudio extends SugarRecord<WordAudio> {
         WordAudio.saveInTx(audios);
     }
 
-    public static void downloadNewAudios(final Collection<Integer> wordIds, final int languge, final ResultWordAudio resultHandler) {
+    public static void downloadNewAudios(final Collection<Long> wordIds, final int languge, final ResultWordAudio resultHandler) {
         new GetWordAudioNames().doRequest(wordIds, languge,
                 new HttpResultHandler() {
 
@@ -89,7 +89,7 @@ public class WordAudio extends SugarRecord<WordAudio> {
                 });
 
     }
-    public int wordId;
+    public long wordId;
     public String fileName;
 
     public WordAudio() {

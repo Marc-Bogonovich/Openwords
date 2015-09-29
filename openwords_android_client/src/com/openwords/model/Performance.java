@@ -9,7 +9,7 @@ import java.util.Set;
 
 public class Performance extends SugarRecord<Performance> {
 
-    private synchronized static Performance getPerformance(int wordConnectionId, String learningType) {
+    private synchronized static Performance getPerformance(long wordConnectionId, String learningType) {
         List<Performance> r = Performance.find(Performance.class, "word_connection_id = ? and learning_type = ?",
                 String.valueOf(wordConnectionId), learningType);
         if (r.isEmpty()) {
@@ -19,7 +19,7 @@ public class Performance extends SugarRecord<Performance> {
         }
     }
 
-    public static List<Performance> loadUserPerformanceLocally(Set<Integer> connectionIds, String learningType) {
+    public static List<Performance> loadUserPerformanceLocally(Set<Long> connectionIds, String learningType) {
         LogUtil.logDeubg(Performance.class, "loadUserPerformanceLocally()");
         String sqlIds = connectionIds.toString().replace("[", "(").replace("]", ")");
 
@@ -31,7 +31,7 @@ public class Performance extends SugarRecord<Performance> {
     }
 
     public static void saveOrUpdateAll(List<Performance> perfs, String learningType) {
-        Set<Integer> ids = new HashSet<Integer>(perfs.size());
+        Set<Long> ids = new HashSet<Long>(perfs.size());
         for (Performance perf : perfs) {
             ids.add(perf.wordConnectionId);
         }
@@ -42,14 +42,14 @@ public class Performance extends SugarRecord<Performance> {
         Performance.executeQuery(sql);
         Performance.saveInTx(perfs);
     }
-    public int wordConnectionId;
+    public long wordConnectionId;
     public String learningType, performance;
     public long version, tempVersion;
 
     public Performance() {
     }
 
-    public Performance(int wordConnectionId, String learningType, String performance, long version) {
+    public Performance(long wordConnectionId, String learningType, String performance, long version) {
         this.wordConnectionId = wordConnectionId;
         this.learningType = learningType;
         this.performance = performance;

@@ -16,7 +16,7 @@ public class GetWordAudioNames extends HttpServiceRequester implements HttpResul
 
     private HttpResultHandler resultHandler;
 
-    public void doRequest(Collection<Integer> wordIds, int language, HttpResultHandler resultHandler) {
+    public void doRequest(Collection<Long> wordIds, int language, HttpResultHandler resultHandler) {
         this.resultHandler = resultHandler;
         request(ServiceURL,
                 new RequestParamsBuilder()

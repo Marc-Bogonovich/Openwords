@@ -70,7 +70,7 @@ public class ActivityLearning extends FragmentActivity implements InterfaceLearn
                         }
 
                         //try loading audios
-                        final Set<Integer> wordIds = new HashSet<Integer>(words.size());
+                        final Set<Long> wordIds = new HashSet<Long>(words.size());
                         for (Word word : words) {
                             if (word.languageId == userLanguageInfo.learningLang) {
                                 wordIds.add(word.wordId);
