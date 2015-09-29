@@ -6,6 +6,8 @@ import com.openwords.database.Word;
 import com.openwords.interfaces.MyAction;
 import com.openwords.utils.MyFieldValidation;
 import com.openwords.utils.UtilLog;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -23,7 +25,8 @@ public class SearchWordsInLanguageByForm extends MyAction {
     private final int pageNumber = 1;
     private int pageSize, targetLang, searchLang;
     private String errorMessage, form;
-    private Map<Long, Set<Long>> linkedWordsResult;
+    private Map<Long, Set<Long>> linkedTargetWords;
+    private Map<Long, Set<Long>> linkedSearchWords;
 
     @Action(value = "/searchWords", results = {
         @Result(name = SUCCESS, type = "json"),
@@ -49,8 +52,17 @@ public class SearchWordsInLanguageByForm extends MyAction {
             }
             searchResult = Word.getWords(s, matchingForms);
 
-            linkedWordsResult = Word.linkWordsByUniWord(s, targetLang, searchLang, matchingForms);
-            targetResult = Word.getWords(s, linkedWordsResult.get(Word.Target_Words_Linker));
+            linkedTargetWords = new HashMap<>(matchingForms.size());
+            linkedSearchWords = new HashMap<>(matchingForms.size());
+            Word.linkWordsByUniWord(s, targetLang, searchLang, matchingForms, linkedTargetWords, linkedSearchWords);
+
+            Set<Long> targetIds = new HashSet<>(linkedTargetWords.size());
+            for (Set<Long> ids : linkedTargetWords.values()) {
+                for (Long id : ids) {
+                    targetIds.add(id);
+                }
+            }
+            targetResult = Word.getWords(s, targetIds);
         } catch (Exception e) {
             errorMessage = e.toString();
             UtilLog.logWarn(this, e);
@@ -89,8 +101,12 @@ public class SearchWordsInLanguageByForm extends MyAction {
         return searchResult;
     }
 
-    public Map<Long, Set<Long>> getLinkedWordsResult() {
-        return linkedWordsResult;
+    public Map<Long, Set<Long>> getLinkedTargetWords() {
+        return linkedTargetWords;
+    }
+
+    public Map<Long, Set<Long>> getLinkedSearchWords() {
+        return linkedSearchWords;
     }
 
     public String getErrorMessage() {

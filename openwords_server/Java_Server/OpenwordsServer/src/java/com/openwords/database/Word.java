@@ -33,7 +33,6 @@ import org.hibernate.type.StandardBasicTypes;
 public class Word implements Serializable {
 
     public static final int Universal_Language = 1;
-    public static final long Target_Words_Linker = -10;
     private static final long serialVersionUID = 1L;
 
     public static List<Word> getConnectionsByEnglish(Session s, String word, String langInCode, String langOutCode) throws Exception {
@@ -180,26 +179,28 @@ public class Word implements Serializable {
                 .list();
     }
 
-    private static void fill(Map<Long, Set<Long>> links, List<WordConnection> connections, boolean searchIsUni) {
-        Set<Long> targetWords = new HashSet<>(connections.size());
+    private static void fill(List<WordConnection> connections, boolean searchIsUni,
+            Map<Long, Set<Long>> targetLinks, Map<Long, Set<Long>> searchLinks) {
         for (WordConnection c : connections) {
             long uniWord = c.getWordOneId();
-            if (!links.containsKey(uniWord)) {
-                links.put(uniWord, new HashSet<Long>(connections.size()));
+            if (!targetLinks.containsKey(uniWord)) {
+                targetLinks.put(uniWord, new HashSet<Long>(connections.size()));
             }
-            links.get(uniWord).add(c.getWordOneId());
-            links.get(uniWord).add(c.getWordTwoId());
+            if (!searchLinks.containsKey(uniWord)) {
+                searchLinks.put(uniWord, new HashSet<Long>(connections.size()));
+            }
             if (searchIsUni) {
-                targetWords.add(c.getWordTwoId());
+                targetLinks.get(uniWord).add(c.getWordTwoId());
+                searchLinks.get(uniWord).add(c.getWordOneId());
             } else {
-                targetWords.add(c.getWordOneId());
+                targetLinks.get(uniWord).add(c.getWordOneId());
+                searchLinks.get(uniWord).add(c.getWordTwoId());
             }
         }
-        links.put(Target_Words_Linker, targetWords);
     }
 
-    public static Map<Long, Set<Long>> linkWordsByUniWord(Session s, int targetLang, int searchLang, List<Long> searchWordIds) {
-        Map<Long, Set<Long>> links = new HashMap<>(searchWordIds.size());
+    public static void linkWordsByUniWord(Session s, int targetLang, int searchLang, List<Long> searchWordIds,
+            Map<Long, Set<Long>> targetLinks, Map<Long, Set<Long>> searchLinks) {
         if (targetLang == Universal_Language) {
             @SuppressWarnings("unchecked")
             List<WordConnection> connections = s.createCriteria(WordConnection.class)
@@ -207,8 +208,8 @@ public class Word implements Serializable {
                     .add(Restrictions.eq("wordTwoLangId", searchLang))
                     .add(Restrictions.in("wordTwoId", searchWordIds))
                     .list();
-            fill(links, connections, false);
-            return links;
+            fill(connections, false, targetLinks, searchLinks);
+            return;
         }
         if (searchLang == Universal_Language) {
             @SuppressWarnings("unchecked")
@@ -217,8 +218,8 @@ public class Word implements Serializable {
                     .add(Restrictions.eq("wordTwoLangId", targetLang))
                     .add(Restrictions.in("wordOneId", searchWordIds))
                     .list();
-            fill(links, connections, true);
-            return links;
+            fill(connections, true, targetLinks, searchLinks);
+            return;
         }
 
         String sql = "select wc1.word1_id as uniWord, wc1.word2_id as targetWord, wc2.word2_id as searchWord from word_connections wc1\n"
@@ -242,15 +243,15 @@ public class Word implements Serializable {
         Set<Long> targetWords = new HashSet<>(connections.size());
         for (TransformerConnection c : connections) {
             long uniWord = c.getUniWord();
-            if (!links.containsKey(uniWord)) {
-                links.put(uniWord, new HashSet<Long>(connections.size()));
+            if (!targetLinks.containsKey(uniWord)) {
+                targetLinks.put(uniWord, new HashSet<Long>(connections.size()));
             }
-            links.get(uniWord).add(c.getTargetWord());
-            targetWords.add(c.getTargetWord());
-            links.get(uniWord).add(c.getSearchWord());
+            if (!searchLinks.containsKey(uniWord)) {
+                searchLinks.put(uniWord, new HashSet<Long>(connections.size()));
+            }
+            targetLinks.get(uniWord).add(c.getTargetWord());
+            searchLinks.get(uniWord).add(c.getSearchWord());
         }
-        links.put(Target_Words_Linker, targetWords);
-        return links;
     }
 
     public static int countLanguageWord(Session s, int languageId) {
