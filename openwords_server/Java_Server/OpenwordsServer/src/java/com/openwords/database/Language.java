@@ -19,6 +19,13 @@ public class Language implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @SuppressWarnings("unchecked")
+    public static List<Language> getLearnableLanguages(Session s) {
+        return s.createCriteria(Language.class)
+                .add(Restrictions.gt("totalConnections", 0))
+                .list();
+    }
+
+    @SuppressWarnings("unchecked")
     public static List<Integer> getNewLanguageIds(Session s, Integer[] old) {
         Criteria c = s.createCriteria(Language.class);
         c.setProjection(Projections.property("langId"));
@@ -47,7 +54,7 @@ public class Language implements Serializable {
                 .list();
     }
 
-    private int langId;
+    private int langId, totalWords, totalConnections;
     private String name, code, meta, displayName;
 
     public Language() {
@@ -105,6 +112,24 @@ public class Language implements Serializable {
 
     public void setDisplayName(String displayName) {
         this.displayName = displayName;
+    }
+
+    @Column(name = "total_words")
+    public int getTotalWords() {
+        return totalWords;
+    }
+
+    public void setTotalWords(int totalWords) {
+        this.totalWords = totalWords;
+    }
+
+    @Column(name = "total_connections")
+    public int getTotalConnections() {
+        return totalConnections;
+    }
+
+    public void setTotalConnections(int totalConnections) {
+        this.totalConnections = totalConnections;
     }
 
 }
