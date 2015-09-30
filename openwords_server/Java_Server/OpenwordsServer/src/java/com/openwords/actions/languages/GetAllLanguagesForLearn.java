@@ -17,6 +17,7 @@ public class GetAllLanguagesForLearn extends MyAction {
     private static final long serialVersionUID = 1L;
     private List<Language> result;
     private String errorMessage;
+    private int minWord;
 
     @Action(value = "/getAllLanguagesForLearn", results = {
         @Result(name = SUCCESS, type = "json")
@@ -26,7 +27,7 @@ public class GetAllLanguagesForLearn extends MyAction {
         UtilLog.logInfo(this, "/getAllLanguagesForLearn");
         Session s = DatabaseHandler.getSession();
         try {
-            result = Language.getLearnableLanguages(s);
+            result = Language.getLearnableLanguages(s, minWord);
         } catch (Exception e) {
             errorMessage = e.toString();
             UtilLog.logWarn(this, errorMessage);
@@ -42,6 +43,10 @@ public class GetAllLanguagesForLearn extends MyAction {
 
     public List<Language> getResult() {
         return result;
+    }
+
+    public void setMinWord(int minWord) {
+        this.minWord = minWord;
     }
 
     @Override
