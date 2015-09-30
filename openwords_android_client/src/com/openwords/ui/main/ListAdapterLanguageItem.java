@@ -9,13 +9,14 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 import com.openwords.R;
 import com.openwords.model.Language;
+import com.openwords.model.LocalSettings;
 import com.openwords.util.ui.MyQuickToast;
 import java.util.List;
 
 public class ListAdapterLanguageItem extends ArrayAdapter<Language> {
 
-    private List<Language> itemContent;
-    private Context context;
+    private final List<Language> itemContent;
+    private final Context context;
 
     public ListAdapterLanguageItem(Context context, List<Language> objects) {
         super(context, R.layout.list_item_language, objects);
@@ -47,6 +48,19 @@ public class ListAdapterLanguageItem extends ArrayAdapter<Language> {
                     } else {
                         LanguagePage.ChosenLangIds.add(lang.langId);
                         itemObj.setChecked(true);
+                    }
+
+                    if (lang.langId == LocalSettings.getBaseLanguageId()) {
+                        MyQuickToast.showShort(context, "You cannot learn your native language with your native language.");
+                        itemObj.setChecked(false);
+                        LanguagePage.ChosenLangIds.remove(Integer.valueOf(lang.langId));
+                        return;
+                    }
+                    if (LanguagePage.ChosenLangIds.size() > 1) {
+                        MyQuickToast.showShort(context, "Sorry, we only support learning ONE language currently.");
+                        itemObj.setChecked(false);
+                        LanguagePage.ChosenLangIds.remove(Integer.valueOf(lang.langId));
+                        return;
                     }
                     MyQuickToast.showShort(context, itemObj.isChecked() + " " + lang.langId + " " + lang.name);
                 }
