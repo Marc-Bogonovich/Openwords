@@ -88,7 +88,7 @@ public class LanguagePage extends Activity {
 
     private void refreshList() {
         MyDialogHelper.tryShowQuickProgressDialog(this, "Refresh languages data...");
-        Language.syncLanguagesData(this, LocalSettings.getBaseLanguageId(), new ResultLanguage() {
+        Language.syncLanguagesData(this, new ResultLanguage() {
 
             public void result(String resultObject) {
                 if (resultObject != null && resultObject.equals(Result_No_Language_Data)) {

@@ -55,7 +55,7 @@ public class LocalOptionPage extends Activity {
                                 d[1].cancel();
 
                                 MyQuickToast.showShort(act, "Base Language changed to " + LocalSettings.getBaseLanguageId());
-                                Language.syncLanguagesData(act, LocalSettings.getBaseLanguageId(), new ResultLanguage() {
+                                Language.syncLanguagesData(act, new ResultLanguage() {
 
                                     public void result(String resultObject) {
                                         if (resultObject != null && resultObject.equals(Result_No_Language_Data)) {
