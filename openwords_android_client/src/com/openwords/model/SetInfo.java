@@ -1,7 +1,6 @@
 package com.openwords.model;
 
 import com.openwords.services.implementations.ServiceGetSets;
-import com.openwords.services.implementations.ServiceGetSets.Result;
 import com.openwords.services.interfaces.HttpResultHandler;
 import com.orm.SugarRecord;
 import com.orm.dsl.Ignore;
@@ -12,7 +11,7 @@ public class SetInfo extends SugarRecord<SetInfo> {
         new ServiceGetSets().doRequest(pageNumber, pageSize, new HttpResultHandler() {
 
             public void hasResult(Object resultObject) {
-                Result r = (Result) resultObject;
+                ServiceGetSets.Result r = (ServiceGetSets.Result) resultObject;
                 resultHandler.result(r.result);
             }
 

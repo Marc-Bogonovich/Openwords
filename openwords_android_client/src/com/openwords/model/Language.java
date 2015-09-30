@@ -2,6 +2,7 @@ package com.openwords.model;
 
 import android.content.Context;
 import com.openwords.services.implementations.ServiceGetLanguages;
+import com.openwords.services.implementations.ServiceGetLanguagesForLearn;
 import com.openwords.services.implementations.ServiceGetLearnableLanguages;
 import com.openwords.services.interfaces.HttpResultHandler;
 import com.openwords.util.log.LogUtil;
@@ -41,7 +42,25 @@ public class Language extends SugarRecord<Language> {
         return Select.from(Language.class).where(whereSql).list();
     }
 
-    public static void syncLanguagesData(final Context context, final int baseLang, final ResultLanguage resultHandler) {
+    public static void syncLanguagesData(final Context context, final ResultLanguage resultHandler) {
+        Language.deleteAll(Language.class);
+        new ServiceGetLanguagesForLearn().doRequest(new HttpResultHandler() {
+
+            public void hasResult(Object resultObject) {
+                ServiceGetLanguagesForLearn.Result r = (ServiceGetLanguagesForLearn.Result) resultObject;
+                Language.saveInTx(r.result);
+                LogUtil.logDeubg(this, "local total Language: " + Language.count(Language.class));
+                resultHandler.result(null);
+            }
+
+            public void noResult(String errorMessage) {
+                resultHandler.result(errorMessage);
+            }
+        });
+    }
+
+    @Deprecated
+    public static void syncLanguagesData_old(final Context context, final int baseLang, final ResultLanguage resultHandler) {
         new ServiceGetLearnableLanguages().doRequest(baseLang, new HttpResultHandler() {
 
             public void hasResult(Object resultObject) {
@@ -110,7 +129,7 @@ public class Language extends SugarRecord<Language> {
                 });
     }
 
-    public int langId;
+    public int langId, totalWords, totalConnections, totalSounds;
     public String name, code, meta, displayName;
 
     public Language() {
