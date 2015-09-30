@@ -65,6 +65,9 @@ public class OverviewOpenwords extends MyAction {
                     lang.setTotalSounds(ts);
                     int tc = WordConnection.countWords(s, lang.getLangId());
                     lang.setTotalConnections(tc);
+                    if (lang.getLangId() == Word.Universal_Language) {
+                        lang.setTotalConnections(tw + tc);
+                    }
                     addTotal(lang);
                 }
                 s.beginTransaction().commit();

@@ -19,9 +19,9 @@ public class Language implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @SuppressWarnings("unchecked")
-    public static List<Language> getLearnableLanguages(Session s) {
+    public static List<Language> getLearnableLanguages(Session s, int minWords) {
         return s.createCriteria(Language.class)
-                .add(Restrictions.gt("totalConnections", 0))
+                .add(Restrictions.ge("totalConnections", minWords))
                 .list();
     }
 
