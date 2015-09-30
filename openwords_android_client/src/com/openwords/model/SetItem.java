@@ -61,7 +61,9 @@ public class SetItem extends SugarRecord<SetItem> {
         this.isNew = isNew;
     }
 
-    public SetItem(int itemOrder, String wordOne, String wordTwo, String wordOneCommon, String wordTwoCommon, boolean isHead, boolean isModifying, boolean isNew) {
+    public SetItem(long wordOneId, long wordTwoId, int itemOrder, String wordOne, String wordTwo, String wordOneCommon, String wordTwoCommon, boolean isHead, boolean isModifying, boolean isNew) {
+        this.wordOneId = wordOneId;
+        this.wordTwoId = wordTwoId;
         this.itemOrder = itemOrder;
         this.wordOne = wordOne;
         this.wordTwo = wordTwo;

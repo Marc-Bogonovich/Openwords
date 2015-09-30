@@ -156,7 +156,11 @@ public class PageSetContent extends Activity {
                         }
 
                         for (Long targetWordId : r.linkedTargetWords.get(e.getKey())) {
-                            setItems.add(new SetItem(0, searchWord,
+                            setItems.add(new SetItem(
+                                    firstSearchWord,
+                                    targetWordId,
+                                    0,
+                                    searchWord,
                                     allWords.get(targetWordId).word,
                                     allWords.get(firstSearchWord).getMeta().commonTranslation,
                                     allWords.get(targetWordId).getMeta().commonTranslation,
@@ -177,16 +181,27 @@ public class PageSetContent extends Activity {
     }
 
     public void addSetItemFromSearch(SetItem item) {
+        int i = 0;
+        int insertIndex = -1;
+        for (SetItem old : setItems) {
+            if (old.isHead) {
+                insertIndex = i;
+                break;
+            }
+            if (!old.isNew && !old.isHead) {
+                if (old.wordOneId == item.wordOneId && old.wordTwoId == item.wordTwoId) {
+                    MyQuickToast.showShort(this, "Word already exists in set");
+                    return;
+                }
+            }
+            i += 1;
+        }
+
         contentHasJustChanged = true;
         setItems.remove(item);
-        for (int i = 0; i < setItems.size(); i++) {
-            if (setItems.get(i).isHead) {
-                item.isNew = false;
-                setItems.add(i, item);
-                listAdapter.notifyDataSetChanged();
-                return;
-            }
-        }
+        item.isNew = false;
+        setItems.add(insertIndex, item);
+        listAdapter.notifyDataSetChanged();
     }
 
     @Override
