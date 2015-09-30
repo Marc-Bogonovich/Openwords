@@ -8,9 +8,13 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.openwords.R;
+import com.openwords.model.Language;
+import com.openwords.model.LocalSettings;
 import com.openwords.ui.common.BackButtonBehavior;
+import com.openwords.ui.main.LanguagePage;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.ui.MyQuickToast;
+import java.util.List;
 
 public class PageHome extends Activity {
 
@@ -55,6 +59,13 @@ public class PageHome extends Activity {
     protected void onResume() {
         super.onResume();
         LogUtil.logDeubg(this, "onResume");
+        final List<Language> languages = Language.getLearningLanguagesInfo(LocalSettings.getBaseLanguageId());
+        if (languages.size() > 0) {
+            Language currentLearn = languages.get(0);
+            MyQuickToast.showLong(this, "Current learning language is " + currentLearn.name);
+        } else {
+            startActivity(new Intent(PageHome.this, LanguagePage.class));
+        }
     }
 
     @Override
