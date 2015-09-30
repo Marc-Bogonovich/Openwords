@@ -26,6 +26,7 @@ import com.openwords.services.interfaces.HttpResultHandler;
 import com.openwords.sound.SoundPlayer;
 import com.openwords.tts.Speak;
 import com.openwords.ui.common.BackButtonBehavior;
+import com.openwords.ui.lily.main.PageHome;
 import com.openwords.ui.lily.main.PageSetsList;
 import com.openwords.util.InternetCheck;
 import com.openwords.util.file.LocalFileSystem;
@@ -191,17 +192,21 @@ public class LoginPage extends Activity {
     }
 
     private void loadLanguageDataAndGoHome() {
-        Language.syncLanguagesData(this, LocalSettings.getBaseLanguageId(), new ResultLanguage() {
+        if (Language.count(Language.class) > 0) {
+            goToHomePage();
+        } else {
+            Language.syncLanguagesData(this, new ResultLanguage() {
 
-            public void result(String result) {
-                goToHomePage();
-            }
-        });
+                public void result(String result) {
+                    goToHomePage();
+                }
+            });
+        }
     }
 
     private void goToHomePage() {
         MyDialogHelper.tryDismissQuickProgressDialog();
-        startActivity(new Intent(LoginPage.this, HomePage.class));
+        startActivity(new Intent(LoginPage.this, PageHome.class));
     }
 
     @Override
