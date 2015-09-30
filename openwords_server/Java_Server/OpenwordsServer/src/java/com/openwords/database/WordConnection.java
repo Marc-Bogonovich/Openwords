@@ -24,6 +24,15 @@ public class WordConnection implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    public static int countWords(Session s, int languageId) {
+        int total = ((Number) s.createCriteria(WordConnection.class)
+                .add(Restrictions.eq("wordOneLangId", Word.Universal_Language))
+                .add(Restrictions.eq("wordTwoLangId", languageId))
+                .setProjection(Projections.rowCount()
+                ).uniqueResult()).intValue();
+        return total;
+    }
+
     public static List<WordConnection> getSimilarWordsByLangOne(Session s, int langOne, int langTwo, String form, int pageNumber, int pageSize, int[] callbackTotal) {
         int firstRecord = (pageNumber - 1) * pageSize;
         String sql = "SELECT c.* "

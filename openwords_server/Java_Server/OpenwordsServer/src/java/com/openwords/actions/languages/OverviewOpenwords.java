@@ -5,6 +5,7 @@ import com.openwords.database.DatabaseHandler;
 import com.openwords.database.Language;
 import com.openwords.database.Word;
 import com.openwords.database.WordAudio;
+import com.openwords.database.WordConnection;
 import com.openwords.interfaces.MyAction;
 import com.openwords.utils.UtilLog;
 import java.util.LinkedList;
@@ -20,8 +21,9 @@ public class OverviewOpenwords extends MyAction {
     private static final long serialVersionUID = 1L;
     private static long lastRequest;
     private static List<String[]> result;
-    private String errorMessage;
     private static int totalWords, totalSounds;
+    private String errorMessage;
+    private boolean reset;
 
     @Action(value = "/overviewOpenwords", results = {
         @Result(name = SUCCESS, type = "json")
@@ -29,27 +31,46 @@ public class OverviewOpenwords extends MyAction {
     @Override
     public String execute() throws Exception {
         UtilLog.logInfo(this, "/overviewOpenwords");
-        long now = System.currentTimeMillis();
-        long diff = (now - lastRequest) / 1000;
-        if (diff < (60 * 60 * 24) && result != null) {//one day
-            UtilLog.logInfo(this, "reuse because " + diff + " seconds");
-            return SUCCESS;
+        if (!reset) {
+            long now = System.currentTimeMillis();
+            long diff = (now - lastRequest) / 1000;
+            if (diff < (60 * 60 * 24) && result != null) {//one day
+                UtilLog.logInfo(this, "reuse because " + diff + " seconds");
+                return SUCCESS;
+            }
         }
-
         Session s = DatabaseHandler.getSession();
         try {
-            List<Language> langs = Language.getAllLanguages(s);
+            totalWords = 0;
+            totalSounds = 0;
             result = new LinkedList<>();
-            totalWords = Word.countLanguageWord(s, -1);
-            totalSounds = WordAudio.countAll(s);
-            for (Language lang : langs) {
-                result.add(new String[]{lang.getName(),
-                    String.valueOf(Word.countLanguageWord(s, lang.getLangId())),
-                    lang.getCode(),
-                    String.valueOf(lang.getLangId()),
-                    String.valueOf(WordAudio.getAudioCount(s, 1, lang.getLangId()))});
+            Language uniLang = (Language) s.get(Language.class, Word.Universal_Language);
+
+            if (uniLang.getTotalConnections() > 0) {
+                UtilLog.logInfo(this, "reuse last overall");
+                //has last overall info
+                List<Language> langs = Language.getAllLanguages(s);
+                for (Language lang : langs) {
+                    addTotal(lang);
+                }
+                lastRequest = System.currentTimeMillis();
+            } else {
+                UtilLog.logInfo(this, "re-compute");
+                //need to re-compute
+                List<Language> langs = Language.getAllLanguages(s);
+                for (Language lang : langs) {
+                    int tw = Word.countLanguageWord(s, lang.getLangId());
+                    lang.setTotalWords(tw);
+                    int ts = WordAudio.getAudioCount(s, 1, lang.getLangId());
+                    lang.setTotalSounds(ts);
+                    int tc = WordConnection.countWords(s, lang.getLangId());
+                    lang.setTotalConnections(tc);
+                    addTotal(lang);
+                }
+                s.beginTransaction().commit();
+                lastRequest = 0;
             }
-            lastRequest = now;
+
         } catch (Exception e) {
             errorMessage = e.toString();
             UtilLog.logWarn(this, errorMessage);
@@ -57,6 +78,16 @@ public class OverviewOpenwords extends MyAction {
             DatabaseHandler.closeSession(s);
         }
         return SUCCESS;
+    }
+
+    private void addTotal(Language lang) {
+        totalWords += lang.getTotalWords();
+        totalSounds += lang.getTotalSounds();
+        result.add(new String[]{lang.getName(),
+            String.valueOf(lang.getTotalWords()),
+            lang.getCode(),
+            String.valueOf(lang.getLangId()),
+            String.valueOf(lang.getTotalSounds())});
     }
 
     public List<String[]> getResult() {
@@ -73,6 +104,10 @@ public class OverviewOpenwords extends MyAction {
 
     public int getTotalSounds() {
         return totalSounds;
+    }
+
+    public void setReset(boolean reset) {
+        this.reset = reset;
     }
 
     @Override

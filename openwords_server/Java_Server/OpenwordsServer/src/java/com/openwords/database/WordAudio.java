@@ -53,13 +53,6 @@ public class WordAudio implements Serializable {
                 .add(Restrictions.in("id.wordId", ids)).list();
     }
 
-    public static int countAll(Session s) {
-        int total = ((Number) s.createCriteria(WordAudio.class)
-                .setProjection(Projections.rowCount()
-                ).uniqueResult()).intValue();
-        return total;
-    }
-
     private WordAudioId id;
     private int languageId;
     private String fileName;

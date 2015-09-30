@@ -253,17 +253,10 @@ public class Word implements Serializable {
     }
 
     public static int countLanguageWord(Session s, int languageId) {
-        int total;
-        if (languageId <= 0) {
-            total = ((Number) s.createCriteria(Word.class)
-                    .setProjection(Projections.rowCount()
-                    ).uniqueResult()).intValue();
-        } else {
-            total = ((Number) s.createCriteria(Word.class)
-                    .add(Restrictions.eq("languageId", languageId))
-                    .setProjection(Projections.rowCount()
-                    ).uniqueResult()).intValue();
-        }
+        int total = ((Number) s.createCriteria(Word.class)
+                .add(Restrictions.eq("languageId", languageId))
+                .setProjection(Projections.rowCount()
+                ).uniqueResult()).intValue();
         return total;
     }
 

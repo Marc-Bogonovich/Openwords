@@ -54,7 +54,7 @@ public class Language implements Serializable {
                 .list();
     }
 
-    private int langId, totalWords, totalConnections;
+    private int langId, totalWords, totalConnections, totalSounds;
     private String name, code, meta, displayName;
 
     public Language() {
@@ -132,4 +132,12 @@ public class Language implements Serializable {
         this.totalConnections = totalConnections;
     }
 
+    @Column(name = "total_sounds")
+    public int getTotalSounds() {
+        return totalSounds;
+    }
+
+    public void setTotalSounds(int totalSounds) {
+        this.totalSounds = totalSounds;
+    }
 }
