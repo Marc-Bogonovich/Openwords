@@ -154,7 +154,7 @@ public class PageSetContent extends Activity {
         if (m != null) {
             m.hideSoftInputFromWindow(itemList.getWindowToken(), 0);
         }
-        int searchLang, targetLang;
+        final int searchLang, targetLang;
         if (searchNative) {
             searchLang = LocalSettings.getBaseLanguageId();
             targetLang = LocalSettings.getCurrentLearningLanguage();
@@ -196,16 +196,31 @@ public class PageSetContent extends Activity {
                             searchWord += ")";
                         }
 
-                        for (Long targetWordId : r.linkedTargetWords.get(e.getKey())) {
-                            setItems.add(new SetItem(
-                                    firstSearchWord,
-                                    targetWordId,
-                                    0,
-                                    searchWord,
-                                    allWords.get(targetWordId).word,
-                                    allWords.get(firstSearchWord).getMeta().commonTranslation,
-                                    allWords.get(targetWordId).getMeta().commonTranslation,
-                                    false, true, true));
+                        if (searchLang == LocalSettings.getBaseLanguageId()) {
+                            for (Long targetWordId : r.linkedTargetWords.get(e.getKey())) {
+                                setItems.add(new SetItem(
+                                        firstSearchWord,
+                                        targetWordId,
+                                        0,
+                                        searchWord,
+                                        allWords.get(targetWordId).word,
+                                        allWords.get(firstSearchWord).getMeta().commonTranslation,
+                                        allWords.get(targetWordId).getMeta().commonTranslation,
+                                        false, true, true));
+                            }
+                        }
+                        if (searchLang == LocalSettings.getCurrentLearningLanguage()) {
+                            for (Long targetWordId : r.linkedTargetWords.get(e.getKey())) {
+                                setItems.add(new SetItem(
+                                        targetWordId,
+                                        firstSearchWord,
+                                        0,
+                                        allWords.get(targetWordId).word,
+                                        searchWord,
+                                        allWords.get(targetWordId).getMeta().commonTranslation,
+                                        allWords.get(firstSearchWord).getMeta().commonTranslation,
+                                        false, true, true));
+                            }
                         }
                     }
                 }
@@ -220,6 +235,10 @@ public class PageSetContent extends Activity {
                 MyQuickToast.showShort(PageSetContent.this, errorMessage);
             }
         });
+    }
+
+    private void fillSearchResult() {
+
     }
 
     public void addSetItemFromSearch(SetItem item) {

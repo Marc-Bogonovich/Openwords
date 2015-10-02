@@ -47,7 +47,7 @@ public class SearchWordsInLanguageByForm extends MyAction {
                 if (matchingForms.size() > pageSize) {
                     errorMessage += " and " + "too many results";
                 } else if (matchingForms.isEmpty()) {
-                    throw new Exception("no results");
+                    throw new Exception("no results: matchingForms isEmpty");
                 }
             }
             searchResult = Word.getWords(s, matchingForms);
