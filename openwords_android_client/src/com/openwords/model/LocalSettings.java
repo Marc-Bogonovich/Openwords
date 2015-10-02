@@ -69,6 +69,17 @@ public class LocalSettings extends SugarRecord<LocalSettings> {
         instance.save();
     }
 
+    public static int getCurrentLearningLanguage() {
+        loadLocalSettings();
+        return instance.currentLearningLanguage;
+    }
+
+    public static void setCurrentLearningLanguage(int lang) {
+        loadLocalSettings();
+        instance.currentLearningLanguage = lang;
+        instance.save();
+    }
+
     public static boolean isRemember() {
         loadLocalSettings();
         return instance.remember;
@@ -104,7 +115,7 @@ public class LocalSettings extends SugarRecord<LocalSettings> {
         instance.save();
     }
 
-    private int userId, baseLanguageId;
+    private int userId, baseLanguageId, currentLearningLanguage;
     private String username, password, localLanguage, previousStatsData;
     private boolean remember;
 

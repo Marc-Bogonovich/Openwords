@@ -12,6 +12,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import com.openwords.R;
 import com.openwords.model.DataPool;
+import com.openwords.model.LocalSettings;
 import com.openwords.model.SetItem;
 import com.openwords.model.Word;
 import com.openwords.services.implementations.ServiceSearchWords;
@@ -155,11 +156,11 @@ public class PageSetContent extends Activity {
         }
         int searchLang, targetLang;
         if (searchNative) {
-            searchLang = 98;
-            targetLang = 1;
+            searchLang = LocalSettings.getBaseLanguageId();
+            targetLang = LocalSettings.getCurrentLearningLanguage();
         } else {
-            searchLang = 1;
-            targetLang = 98;
+            searchLang = LocalSettings.getCurrentLearningLanguage();
+            targetLang = LocalSettings.getBaseLanguageId();
         }
         MyDialogHelper.tryShowQuickProgressDialog(this, "Searching...");
         new ServiceSearchWords().doRequest(20, targetLang, searchLang, form, new HttpResultHandler() {
