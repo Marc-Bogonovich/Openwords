@@ -8,8 +8,10 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.openwords.R;
+import com.openwords.model.DataPool;
 import com.openwords.model.Language;
 import com.openwords.model.LocalSettings;
+import com.openwords.model.SetItem;
 import com.openwords.ui.common.BackButtonBehavior;
 import com.openwords.ui.main.LanguagePage;
 import com.openwords.util.log.LogUtil;
@@ -19,7 +21,7 @@ import java.util.List;
 public class PageHome extends Activity {
 
     private LinearLayout root;
-    private TextView buttonLM, buttonSet, buttonResume;
+    private TextView buttonSetList, buttonNewSet, buttonResume;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,22 +30,25 @@ public class PageHome extends Activity {
         setContentView(R.layout.activity_lily_home_page);
         root = (LinearLayout) findViewById(R.id.act_home_root);
         root.setBackgroundColor(getResources().getColor(R.color.main_app_color));
-        buttonLM = (TextView) findViewById(R.id.act_home_button_1);
-        buttonSet = (TextView) findViewById(R.id.act_home_button_2);
+        buttonSetList = (TextView) findViewById(R.id.act_home_button_1);
+        buttonNewSet = (TextView) findViewById(R.id.act_home_button_2);
         buttonResume = (TextView) findViewById(R.id.act_home_button_3);
-        buttonLM.setTextColor(getResources().getColor(R.color.main_app_color));
-        buttonSet.setTextColor(getResources().getColor(R.color.main_app_color));
+        buttonSetList.setTextColor(getResources().getColor(R.color.main_app_color));
+        buttonNewSet.setTextColor(getResources().getColor(R.color.main_app_color));
         buttonResume.setTextColor(getResources().getColor(R.color.main_app_color));
 
-        buttonLM.setOnClickListener(new View.OnClickListener() {
+        buttonSetList.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
                 startActivity(new Intent(PageHome.this, PageSetsList.class));
             }
         });
-        buttonSet.setOnClickListener(new View.OnClickListener() {
+        buttonNewSet.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
+                DataPool.currentSet.name = null;
+                DataPool.currentSetItems.clear();
+                DataPool.currentSetItems.add(new SetItem(0, "(Native Lang)", "(Learning Lang)", true, true));
                 startActivity(new Intent(PageHome.this, PageSetContent.class));
             }
         });
