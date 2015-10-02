@@ -122,11 +122,26 @@ public class ListAdapterWordSetItem extends ArrayAdapter<SetItem> {
                         context.addSetItemFromSearch(item);
                     }
                 });
+            } else if (item.isRemoving) {
+                viewHolder.a1.setOnClickListener(clickRoot);
+                viewHolder.a2.setOnClickListener(clickRoot);
+                viewHolder.w1.setOnClickListener(clickRoot);
+                viewHolder.w2.setOnClickListener(clickRoot);
+                viewHolder.root.setBackgroundColor(Color.parseColor("#d2d2d2"));
+                viewHolder.remove.setImageResource(R.drawable.ic_set_restore);
+                viewHolder.remove.setVisibility(View.VISIBLE);
+                viewHolder.remove.setOnClickListener(new View.OnClickListener() {
+
+                    public void onClick(View view) {
+                        removeClicked(item, viewHolder);
+                    }
+                });
             } else {
                 viewHolder.a1.setOnClickListener(clickRoot);
                 viewHolder.a2.setOnClickListener(clickRoot);
                 viewHolder.w1.setOnClickListener(clickRoot);
                 viewHolder.w2.setOnClickListener(clickRoot);
+                viewHolder.root.setBackgroundColor(Color.parseColor("#ffffff"));
                 viewHolder.remove.setImageResource(R.drawable.ic_set_remove);
                 viewHolder.remove.setVisibility(View.VISIBLE);
                 viewHolder.remove.setOnClickListener(new View.OnClickListener() {
