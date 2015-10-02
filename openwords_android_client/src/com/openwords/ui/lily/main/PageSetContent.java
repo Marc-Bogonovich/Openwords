@@ -17,6 +17,7 @@ import com.openwords.model.Word;
 import com.openwords.services.implementations.ServiceSearchWords;
 import com.openwords.services.implementations.ServiceSearchWords.Result;
 import com.openwords.services.interfaces.HttpResultHandler;
+import com.openwords.util.ui.MyDialogHelper;
 import com.openwords.util.ui.MyQuickToast;
 import java.util.HashMap;
 import java.util.List;
@@ -123,9 +124,11 @@ public class PageSetContent extends Activity {
             searchLang = 1;
             targetLang = 98;
         }
+        MyDialogHelper.tryShowQuickProgressDialog(this, "Searching...");
         new ServiceSearchWords().doRequest(20, targetLang, searchLang, form, new HttpResultHandler() {
 
             public void hasResult(Object resultObject) {
+                MyDialogHelper.tryDismissQuickProgressDialog();
                 Result r = (Result) resultObject;
                 Map<Long, Word> allWords = new HashMap<Long, Word>(r.searchResult.size() + r.targetResult.size());
                 for (Word w : r.targetResult) {
@@ -175,6 +178,7 @@ public class PageSetContent extends Activity {
             }
 
             public void noResult(String errorMessage) {
+                MyDialogHelper.tryDismissQuickProgressDialog();
                 MyQuickToast.showShort(PageSetContent.this, errorMessage);
             }
         });
