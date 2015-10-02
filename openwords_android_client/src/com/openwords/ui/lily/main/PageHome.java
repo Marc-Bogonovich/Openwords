@@ -19,10 +19,10 @@ import com.openwords.util.ui.MyQuickToast;
 import java.util.List;
 
 public class PageHome extends Activity {
-    
+
     private LinearLayout root;
     private TextView buttonSetList, buttonNewSet, buttonResume;
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,15 +36,15 @@ public class PageHome extends Activity {
         buttonSetList.setTextColor(getResources().getColor(R.color.main_app_color));
         buttonNewSet.setTextColor(getResources().getColor(R.color.main_app_color));
         buttonResume.setTextColor(getResources().getColor(R.color.main_app_color));
-        
+
         buttonSetList.setOnClickListener(new View.OnClickListener() {
-            
+
             public void onClick(View view) {
                 startActivity(new Intent(PageHome.this, PageSetsList.class));
             }
         });
         buttonNewSet.setOnClickListener(new View.OnClickListener() {
-            
+
             public void onClick(View view) {
                 DataPool.currentSet.name = null;
                 DataPool.currentSetItems.clear();
@@ -53,13 +53,13 @@ public class PageHome extends Activity {
             }
         });
         buttonResume.setOnClickListener(new View.OnClickListener() {
-            
+
             public void onClick(View view) {
                 MyQuickToast.showShort(PageHome.this, "Not supported yet");
             }
         });
     }
-    
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -73,16 +73,16 @@ public class PageHome extends Activity {
                 MyQuickToast.showLong(this, "Current learning language is " + currentLearn.displayName);
             }
             LocalSettings.setCurrentLearningLanguage(currentLearn.langId);
-            
+
         } else {
             startActivity(new Intent(PageHome.this, LanguagePage.class));
         }
     }
-    
+
     @Override
     public void onBackPressed() {
         BackButtonBehavior.whenAtMainPages(this, new BackButtonBehavior.BackActionConfirmed() {
-            
+
             public void callback() {
                 PageHome.super.onBackPressed();
             }

@@ -83,11 +83,9 @@ public class ListAdapterWordSetItem extends ArrayAdapter<SetItem> {
                 MyQuickToast.showShort(context, trans);
             }
         };
-        viewHolder.root.setOnClickListener(clickRoot);
 
         if (item.isModifying) {
             if (item.isHead) {
-                viewHolder.root.setOnClickListener(null);
                 viewHolder.a1.setVisibility(View.VISIBLE);
                 viewHolder.a2.setVisibility(View.VISIBLE);
                 viewHolder.w1.setTextColor(Color.parseColor("#d2d2d2"));
