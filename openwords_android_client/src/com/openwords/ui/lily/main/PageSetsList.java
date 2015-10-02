@@ -71,8 +71,9 @@ public class PageSetsList extends Activity {
         buttonMake.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                DataPool.currentSet = null;
-                DataPool.currentSetItems = new LinkedList<SetItem>();
+                DataPool.currentSet.name = null;
+                DataPool.currentSetItems.clear();
+                DataPool.currentSetItems.add(new SetItem(0, "(Native Lang)", "(Learning Lang)", true, true));
                 PageSetsList.this.startActivity(new Intent(PageSetsList.this, PageSetContent.class));
             }
         });
@@ -151,8 +152,8 @@ public class PageSetsList extends Activity {
                 if (result == null) {
                     MyQuickToast.showShort(PageSetsList.this, "Cannot load content");
                 } else {
-                    DataPool.currentSet = set;
-                    DataPool.currentSetItems = result;
+                    DataPool.currentSet.copyAllValues(set);
+                    DataPool.currentSetItems.addAll(result);
                     PageSetsList.this.startActivity(new Intent(PageSetsList.this, PageSetContent.class));
                 }
                 MyDialogHelper.tryDismissQuickProgressDialog();
