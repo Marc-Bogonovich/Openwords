@@ -31,8 +31,8 @@ public class ServiceSearchWords extends HttpServiceRequester implements HttpResu
     public void hasResult(Object resultObject) {
         String jsonReply = (String) resultObject;
         Result r = new Gson().fromJson(jsonReply, Result.class);
-        if (r.searchResult == null) {
-            resultHandler.noResult(r.errorMessage);
+        if (r.searchResult == null || r.targetResult == null) {
+            resultHandler.noResult("No result: " + r.errorMessage);
         } else {
             resultHandler.hasResult(r);
         }

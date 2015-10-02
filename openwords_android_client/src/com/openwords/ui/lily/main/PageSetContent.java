@@ -86,7 +86,13 @@ public class PageSetContent extends Activity {
                 MyQuickToast.showShort(this, "Set name cannot be empty!");
                 return;
             }
-            if (setItems.size() <= 5) {
+            int totalItems = 0;
+            for (SetItem item : setItems) {
+                if (!item.isHead && !item.isNew && !item.isRemoving) {
+                    totalItems += 1;
+                }
+            }
+            if (totalItems < 5) {
                 MyQuickToast.showShort(this, "Set should have 5 items at least!");
                 return;
             }
@@ -99,18 +105,23 @@ public class PageSetContent extends Activity {
         if (!isModifying) {
             for (SetItem item : setItems) {
                 item.isModifying = false;
-                if (item.isHead || item.isNew) {
+                if (item.isHead || item.isNew || item.isRemoving) {
                     setItems.remove(item);
                 }
             }
             listAdapter.notifyDataSetChanged();
             String name = setTitleInput.getText().toString();
+            checkTitleChange(name);
             setTitle.setText(name);
             setTitle.setVisibility(View.VISIBLE);
             setTitleInput.setVisibility(View.GONE);
             if (contentHasJustChanged) {
                 MyQuickToast.showShort(PageSetContent.this, "Saving...");
+                DataPool.currentSet.name = name;
+                DataPool.currentSetItems.clear();
+                DataPool.currentSetItems.addAll(setItems);
             }
+            buttonMode.setImageResource(R.drawable.ic_set_mode);
         } else {
             for (SetItem item : setItems) {
                 item.isModifying = true;
@@ -121,6 +132,14 @@ public class PageSetContent extends Activity {
             setTitle.setVisibility(View.GONE);
             setTitleInput.setVisibility(View.VISIBLE);
             contentHasJustChanged = false;
+            buttonMode.setImageResource(R.drawable.ic_set_mode_save);
+        }
+    }
+
+    private void checkTitleChange(String newTitle) {
+        if (!newTitle.equals(DataPool.currentSet.name)) {
+            contentHasJustChanged = true;
+            MyQuickToast.showShort(this, "Title changed");
         }
     }
 
@@ -234,5 +253,15 @@ public class PageSetContent extends Activity {
     protected void onResume() {
         super.onResume();
         refreshListView(DataPool.currentSetItems);
+    }
+
+    @Override
+    public void onBackPressed() {
+        String name = setTitleInput.getText().toString();
+        checkTitleChange(name);
+        if (contentHasJustChanged) {
+            MyQuickToast.showShort(PageSetContent.this, "Saving...");
+        }
+        super.onBackPressed();
     }
 }
