@@ -47,7 +47,7 @@ public class PageSetContent extends Activity {
         buttonMode = (ImageView) findViewById(R.id.act_ws_image_1);
         buttonBack = (ImageView) findViewById(R.id.act_ws_image_2);
 
-        if (DataPool.currentSet == null) {
+        if (DataPool.currentSet.name == null) {
             isModifying = true;
         } else {
             isModifying = false;
@@ -57,33 +57,7 @@ public class PageSetContent extends Activity {
         buttonMode.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
-                if (isModifying) {
-                    for (SetItem item : setItems) {
-                        item.isModifying = false;
-                        if (item.isHead || item.isNew) {
-                            setItems.remove(item);
-                        }
-                    }
-                    listAdapter.notifyDataSetChanged();
-                    String name = setTitleInput.getText().toString();
-                    setTitle.setText(name);
-                    setTitle.setVisibility(View.VISIBLE);
-                    setTitleInput.setVisibility(View.GONE);
-                    if (contentHasJustChanged) {
-                        MyQuickToast.showShort(PageSetContent.this, "Saving...");
-                    }
-                } else {
-                    for (SetItem item : setItems) {
-                        item.isModifying = true;
-                    }
-                    setItems.add(new SetItem(0, "(Native Lang)", "(Learning Lang)", true, true));
-                    listAdapter.notifyDataSetChanged();
-                    setTitleInput.setText(DataPool.currentSet.name);
-                    setTitle.setVisibility(View.GONE);
-                    setTitleInput.setVisibility(View.VISIBLE);
-                    contentHasJustChanged = false;
-                }
-                isModifying = !isModifying;
+                buttonModeOnClick();
             }
         });
         buttonBack.setOnClickListener(new View.OnClickListener() {
@@ -97,13 +71,57 @@ public class PageSetContent extends Activity {
         listAdapter = new ListAdapterWordSetItem(this, setItems);
         itemList.setAdapter(listAdapter);
         setTitleInput.setHint("Input Set Name");
-        setTitleInput.setVisibility(View.GONE);
+        applyUIMode(isModifying);
     }
 
     private void refreshListView(List<SetItem> items) {
         listAdapter.clear();
         listAdapter.addAll(items);
         listAdapter.notifyDataSetChanged();
+    }
+
+    private void buttonModeOnClick() {
+        if (isModifying) {
+            if (setTitleInput.getText().toString().isEmpty()) {
+                MyQuickToast.showShort(this, "Set name cannot be empty!");
+                return;
+            }
+            if (setItems.size() <= 5) {
+                MyQuickToast.showShort(this, "Set should have 5 items at least!");
+                return;
+            }
+        }
+        isModifying = !isModifying;
+        applyUIMode(isModifying);
+    }
+
+    private void applyUIMode(boolean isModifying) {
+        if (!isModifying) {
+            for (SetItem item : setItems) {
+                item.isModifying = false;
+                if (item.isHead || item.isNew) {
+                    setItems.remove(item);
+                }
+            }
+            listAdapter.notifyDataSetChanged();
+            String name = setTitleInput.getText().toString();
+            setTitle.setText(name);
+            setTitle.setVisibility(View.VISIBLE);
+            setTitleInput.setVisibility(View.GONE);
+            if (contentHasJustChanged) {
+                MyQuickToast.showShort(PageSetContent.this, "Saving...");
+            }
+        } else {
+            for (SetItem item : setItems) {
+                item.isModifying = true;
+            }
+            setItems.add(new SetItem(0, "(Native Lang)", "(Learning Lang)", true, true));
+            listAdapter.notifyDataSetChanged();
+            setTitleInput.setText(DataPool.currentSet.name);
+            setTitle.setVisibility(View.GONE);
+            setTitleInput.setVisibility(View.VISIBLE);
+            contentHasJustChanged = false;
+        }
     }
 
     public void search(boolean searchNative, String form) {
@@ -206,6 +224,10 @@ public class PageSetContent extends Activity {
         item.isNew = false;
         setItems.add(insertIndex, item);
         listAdapter.notifyDataSetChanged();
+    }
+
+    public void study() {
+        //ServiceSetUserLanguages
     }
 
     @Override
