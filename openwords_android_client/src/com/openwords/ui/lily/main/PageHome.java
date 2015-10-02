@@ -62,7 +62,12 @@ public class PageHome extends Activity {
         final List<Language> languages = Language.getLearningLanguagesInfo(LocalSettings.getBaseLanguageId());
         if (languages.size() > 0) {
             Language currentLearn = languages.get(0);
-            MyQuickToast.showLong(this, "Current learning language is " + currentLearn.name);
+            if (currentLearn.displayName.isEmpty()) {
+                MyQuickToast.showLong(this, "Current learning language is " + currentLearn.name);
+            } else {
+                MyQuickToast.showLong(this, "Current learning language is " + currentLearn.displayName);
+            }
+
         } else {
             startActivity(new Intent(PageHome.this, LanguagePage.class));
         }
