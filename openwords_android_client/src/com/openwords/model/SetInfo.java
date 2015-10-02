@@ -36,4 +36,13 @@ public class SetInfo extends SugarRecord<SetInfo> {
         this.isPlusButton = isPlusButton;
     }
 
+    public void copyAllValues(SetInfo set) {
+        setId = set.setId;
+        userId = set.userId;
+        nativeLang = set.nativeLang;
+        learningLang = set.learningLang;
+        setSize = set.setSize;
+        name = set.name;
+        updatedTimeLong = set.updatedTimeLong;
+    }
 }
