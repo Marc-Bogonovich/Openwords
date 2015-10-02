@@ -1,6 +1,7 @@
 package com.openwords.utils;
 
 import com.openwords.database.SetMetaInfo;
+import com.openwords.database.UserLanguageMetaInfo;
 import com.openwords.database.WordMetaInfo;
 import com.thoughtworks.xstream.XStream;
 
@@ -13,6 +14,7 @@ public class MyXStream {
             instance = new XStream();
             instance.alias("word", WordMetaInfo.class);
             instance.alias("set", SetMetaInfo.class);
+            instance.alias("ulang", UserLanguageMetaInfo.class);
         }
     }
 

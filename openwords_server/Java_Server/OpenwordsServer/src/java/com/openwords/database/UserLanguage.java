@@ -1,5 +1,6 @@
 package com.openwords.database;
 
+import com.openwords.utils.MyXStream;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Column;
@@ -77,6 +78,7 @@ public class UserLanguage implements Serializable {
     private int page;
     private String meta;
     private boolean use;
+    private UserLanguageMetaInfo metaInfo;
 
     public UserLanguage() {
     }
@@ -137,5 +139,13 @@ public class UserLanguage implements Serializable {
     @Transient
     public int getLearningLang() {
         return id.getLearningLang();
+    }
+
+    @Transient
+    public UserLanguageMetaInfo getMetaInfo() {
+        if (metaInfo == null) {
+            metaInfo = (UserLanguageMetaInfo) MyXStream.fromXml(meta);
+        }
+        return metaInfo;
     }
 }

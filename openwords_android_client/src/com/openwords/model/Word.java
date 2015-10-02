@@ -43,7 +43,7 @@ public class Word extends SugarRecord<Word> {
     public Word() {
     }
 
-    public Word saveMetaToJson() {
+    private Word saveMetaToJson() {
         meta = MyGson.toJson(wordMetaInfo);
         return this;
     }

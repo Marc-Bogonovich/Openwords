@@ -47,7 +47,7 @@ public class UserLanguage extends SugarRecord<UserLanguage> {
                                 langs.remove(lang);
                             }
                         }
-                        saveOrUpdateAll(baseLang, langs);
+                        refreshAll(baseLang, langs);
                         resultHandler.result(langs);
                     }
 
@@ -84,7 +84,7 @@ public class UserLanguage extends SugarRecord<UserLanguage> {
         return l;
     }
 
-    private static void saveOrUpdateAll(int baseLang, List<UserLanguage> learningLangs) {
+    private static void refreshAll(int baseLang, List<UserLanguage> learningLangs) {
         UserLanguage.deleteAll(UserLanguage.class, "base_lang = ?", String.valueOf(baseLang));
         for (UserLanguage lang : learningLangs) {
             lang.baseLang = baseLang;
