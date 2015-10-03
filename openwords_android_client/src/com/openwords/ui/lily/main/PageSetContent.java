@@ -13,14 +13,19 @@ import android.widget.TextView;
 import com.openwords.R;
 import com.openwords.model.DataPool;
 import com.openwords.model.LocalSettings;
+import com.openwords.model.ResultSetSaveAll;
+import com.openwords.model.SetInfo;
 import com.openwords.model.SetItem;
 import com.openwords.model.Word;
 import com.openwords.services.implementations.ServiceSearchWords;
 import com.openwords.services.implementations.ServiceSearchWords.Result;
 import com.openwords.services.interfaces.HttpResultHandler;
+import com.openwords.util.ui.CallbackCancelButton;
+import com.openwords.util.ui.CallbackOkButton;
 import com.openwords.util.ui.MyDialogHelper;
 import com.openwords.util.ui.MyQuickToast;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -34,7 +39,7 @@ public class PageSetContent extends Activity {
     private ImageView buttonMode, buttonBack;
     private EditText setTitleInput;
     private TextView setTitle;
-    private boolean isModifying, contentHasJustChanged;
+    private boolean isEditingMode, contentHasJustChanged;
     private CopyOnWriteArrayList<SetItem> setItems;
 
     @Override
@@ -49,9 +54,9 @@ public class PageSetContent extends Activity {
         buttonBack = (ImageView) findViewById(R.id.act_ws_image_2);
 
         if (DataPool.currentSet.name == null) {
-            isModifying = true;
+            isEditingMode = true;
         } else {
-            isModifying = false;
+            isEditingMode = false;
             setTitle.setText(DataPool.currentSet.name);
             setTitleInput.setText(DataPool.currentSet.name);
         }
@@ -73,7 +78,12 @@ public class PageSetContent extends Activity {
         listAdapter = new ListAdapterWordSetItem(this, setItems);
         itemList.setAdapter(listAdapter);
         setTitleInput.setHint("Input Set Name");
-        applyUIMode(isModifying);
+
+        if (isEditingMode) {
+            applyEditUI();
+        } else {
+            applyNonEditUI();
+        }
     }
 
     private void refreshListView(List<SetItem> items) {
@@ -83,7 +93,7 @@ public class PageSetContent extends Activity {
     }
 
     private void buttonModeOnClick() {
-        if (isModifying) {
+        if (isEditingMode) {
             if (setTitleInput.getText().toString().isEmpty()) {
                 MyQuickToast.showShort(this, "Set name cannot be empty!");
                 return;
@@ -98,44 +108,88 @@ public class PageSetContent extends Activity {
                 MyQuickToast.showShort(this, "Set should have 5 items at least!");
                 return;
             }
-        }
-        isModifying = !isModifying;
-        applyUIMode(isModifying);
-    }
 
-    private void applyUIMode(boolean isModifying) {
-        if (!isModifying) {
-            for (SetItem item : setItems) {
-                item.isModifying = false;
-                if (item.isHead || item.isNew || item.isRemoving) {
-                    setItems.remove(item);
-                }
-            }
-            listAdapter.notifyDataSetChanged();
             String name = setTitleInput.getText().toString();
             checkTitleChange(name);
-            setTitle.setText(name);
-            setTitle.setVisibility(View.VISIBLE);
-            setTitleInput.setVisibility(View.GONE);
             if (contentHasJustChanged) {
-                MyQuickToast.showShort(PageSetContent.this, "Saving...");
-                DataPool.currentSet.name = name;
-                DataPool.currentSetItems.clear();
-                DataPool.currentSetItems.addAll(setItems);
+                MyDialogHelper.showConfirmDialog(this, "Saving Word Set '" + name + "'", "Do you want to save the change?",
+                        new CallbackOkButton() {
+
+                            public void okPressed() {
+                                saveAll();
+                            }
+                        },
+                        new CallbackCancelButton() {
+
+                            public void cancelPressed() {
+                                isEditingMode = true;
+                            }
+                        });
+            } else {
+                MyQuickToast.showShort(PageSetContent.this, "Nothing changed.");
+                applyNonEditUI();
             }
-            buttonMode.setImageResource(R.drawable.ic_set_mode);
         } else {
-            for (SetItem item : setItems) {
-                item.isModifying = true;
-            }
-            setItems.add(new SetItem(0, "(Native Lang)", "(Learning Lang)", true, true));
-            listAdapter.notifyDataSetChanged();
-            setTitleInput.setText(DataPool.currentSet.name);
-            setTitle.setVisibility(View.GONE);
-            setTitleInput.setVisibility(View.VISIBLE);
-            contentHasJustChanged = false;
-            buttonMode.setImageResource(R.drawable.ic_set_mode_save);
+            applyEditUI();
         }
+    }
+
+    private void saveAll() {
+        String name = setTitleInput.getText().toString();
+        List<SetItem> items = new LinkedList<SetItem>();
+        for (SetItem item : setItems) {
+            if (!item.isHead && !item.isNew && !item.isRemoving) {
+                items.add(item);
+            }
+        }
+        MyQuickToast.showShort(this, "old title: " + DataPool.currentSet.name);
+        MyQuickToast.showShort(this, "new title: " + name);
+        MyDialogHelper.tryShowQuickProgressDialog(this, "Saving...");
+        SetInfo.saveAll(DataPool.currentSet.setId, DataPool.currentSet.name, name, items, new ResultSetSaveAll() {
+
+            public void ok() {
+                MyDialogHelper.tryDismissQuickProgressDialog();
+                MyQuickToast.showShort(PageSetContent.this, "Saved.");
+                applyNonEditUI();
+                isEditingMode = false;
+            }
+
+            public void error(String errorMessage) {
+                MyDialogHelper.tryDismissQuickProgressDialog();
+                MyDialogHelper.showMessageDialog(PageSetContent.this, "Error", errorMessage, null);
+                isEditingMode = true;
+            }
+        });
+    }
+
+    private void applyNonEditUI() {
+        for (SetItem item : setItems) {
+            item.isModifying = false;
+            if (item.isHead || item.isNew || item.isRemoving) {
+                setItems.remove(item);
+            }
+        }
+        listAdapter.notifyDataSetChanged();
+        String name = setTitleInput.getText().toString();
+        setTitle.setText(name);
+        setTitle.setVisibility(View.VISIBLE);
+        setTitleInput.setVisibility(View.GONE);
+        buttonMode.setImageResource(R.drawable.ic_set_mode);
+        isEditingMode = false;
+    }
+
+    private void applyEditUI() {
+        for (SetItem item : setItems) {
+            item.isModifying = true;
+        }
+        setItems.add(new SetItem(0, "(Native Lang)", "(Learning Lang)", true, true));
+        listAdapter.notifyDataSetChanged();
+        setTitleInput.setText(DataPool.currentSet.name);
+        setTitle.setVisibility(View.GONE);
+        setTitleInput.setVisibility(View.VISIBLE);
+        contentHasJustChanged = false;
+        buttonMode.setImageResource(R.drawable.ic_set_mode_save);
+        isEditingMode = true;
     }
 
     private void checkTitleChange(String newTitle) {
@@ -262,6 +316,10 @@ public class PageSetContent extends Activity {
         listAdapter.notifyDataSetChanged();
     }
 
+    public void reportContentHasJustChanged() {
+        contentHasJustChanged = true;
+    }
+
     public void study() {
         //ServiceSetUserLanguages
     }
@@ -274,11 +332,11 @@ public class PageSetContent extends Activity {
 
     @Override
     public void onBackPressed() {
-        String name = setTitleInput.getText().toString();
-        checkTitleChange(name);
-        if (contentHasJustChanged) {
-            MyQuickToast.showShort(PageSetContent.this, "Saving...");
-        }
+//        String name = setTitleInput.getText().toString();
+//        checkTitleChange(name);
+//        if (contentHasJustChanged) {
+//            MyQuickToast.showShort(PageSetContent.this, "Auto Saving...");
+//        }
         super.onBackPressed();
     }
 }

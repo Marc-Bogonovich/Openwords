@@ -30,7 +30,7 @@ public class ServiceSetWordSet extends HttpServiceRequester implements HttpResul
         String jsonReply = (String) resultObject;
         Result r = new Gson().fromJson(jsonReply, Result.class);
         if (r.setResult == null) {
-            resultHandler.noResult("cannot update set");
+            resultHandler.noResult("Cannot update set! You may has entered an identical set name.");
         } else {
             resultHandler.hasResult(r);
         }

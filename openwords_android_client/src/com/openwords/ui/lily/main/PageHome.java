@@ -46,6 +46,7 @@ public class PageHome extends Activity {
         buttonNewSet.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
+                DataPool.currentSet.setId = -1;
                 DataPool.currentSet.name = null;
                 DataPool.currentSetItems.clear();
                 DataPool.currentSetItems.add(new SetItem(0, "(Native Lang)", "(Learning Lang)", true, true));

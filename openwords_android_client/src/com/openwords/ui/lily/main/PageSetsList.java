@@ -71,6 +71,7 @@ public class PageSetsList extends Activity {
         buttonMake.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                DataPool.currentSet.setId = -1;
                 DataPool.currentSet.name = null;
                 DataPool.currentSetItems.clear();
                 DataPool.currentSetItems.add(new SetItem(0, "(Native Lang)", "(Learning Lang)", true, true));
