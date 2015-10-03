@@ -14,7 +14,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.openwords.R;
 import com.openwords.model.SetItem;
-import com.openwords.util.log.LogUtil;
 import com.openwords.util.ui.MyDialogHelper;
 import com.openwords.util.ui.MyQuickToast;
 import java.util.List;
@@ -163,7 +162,6 @@ public class ListAdapterWordSetItem extends ArrayAdapter<SetItem> {
         } else {
             v.root.setBackgroundColor(Color.parseColor("#d2d2d2"));
             v.remove.setImageResource(R.drawable.ic_set_restore);
-            LogUtil.logDeubg(this, "default flag: " + v.w1.getPaintFlags());
             v.w1.setPaintFlags(v.w1.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
             v.w2.setPaintFlags(v.w2.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         }
