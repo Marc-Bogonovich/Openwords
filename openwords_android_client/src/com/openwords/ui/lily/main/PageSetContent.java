@@ -53,6 +53,7 @@ public class PageSetContent extends Activity {
         } else {
             isModifying = false;
             setTitle.setText(DataPool.currentSet.name);
+            setTitleInput.setText(DataPool.currentSet.name);
         }
 
         buttonMode.setOnClickListener(new View.OnClickListener() {
@@ -140,7 +141,7 @@ public class PageSetContent extends Activity {
     private void checkTitleChange(String newTitle) {
         if (!newTitle.equals(DataPool.currentSet.name)) {
             contentHasJustChanged = true;
-            MyQuickToast.showShort(this, "Title changed");
+            MyQuickToast.showShort(this, "Title changed: " + newTitle + " " + DataPool.currentSet.name);
         }
     }
 
@@ -235,10 +236,6 @@ public class PageSetContent extends Activity {
                 MyQuickToast.showShort(PageSetContent.this, errorMessage);
             }
         });
-    }
-
-    private void fillSearchResult() {
-
     }
 
     public void addSetItemFromSearch(SetItem item) {

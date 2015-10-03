@@ -153,6 +153,7 @@ public class PageSetsList extends Activity {
                     MyQuickToast.showShort(PageSetsList.this, "Cannot load content");
                 } else {
                     DataPool.currentSet.copyAllValues(set);
+                    DataPool.currentSetItems.clear();
                     DataPool.currentSetItems.addAll(result);
                     PageSetsList.this.startActivity(new Intent(PageSetsList.this, PageSetContent.class));
                 }
