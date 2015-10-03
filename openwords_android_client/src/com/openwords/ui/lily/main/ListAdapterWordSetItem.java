@@ -64,6 +64,8 @@ public class ListAdapterWordSetItem extends ArrayAdapter<SetItem> {
     private void fillLayoutContent(final ViewHolder viewHolder, final SetItem item) {
         viewHolder.w1.setText(item.wordOne);
         viewHolder.w2.setText(item.wordTwo);
+        viewHolder.w1.setPaintFlags(viewHolder.w1.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+        viewHolder.w2.setPaintFlags(viewHolder.w2.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
         viewHolder.w1.setVisibility(View.VISIBLE);
         viewHolder.w2.setVisibility(View.VISIBLE);
         viewHolder.root.setBackgroundColor(Color.parseColor("#ffffff"));
@@ -164,6 +166,7 @@ public class ListAdapterWordSetItem extends ArrayAdapter<SetItem> {
             v.remove.setImageResource(R.drawable.ic_set_restore);
             v.w1.setPaintFlags(v.w1.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
             v.w2.setPaintFlags(v.w2.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            context.reportContentHasJustChanged();
         }
         item.isRemoving = !item.isRemoving;
     }
