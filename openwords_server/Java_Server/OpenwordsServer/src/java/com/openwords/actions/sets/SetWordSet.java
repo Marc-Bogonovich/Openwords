@@ -12,30 +12,28 @@ import org.apache.struts2.convention.annotation.Result;
 import org.hibernate.Session;
 
 @ParentPackage("json-default")
-public class MakeNewSet extends MyAction {
+public class SetWordSet extends MyAction {
 
     private static final long serialVersionUID = 1L;
     private String errorMessage;
     private SetInfo setResult;
-    private long userId;
-    private int lang;
+    private long userId, setId;
+    private int nlang, llang;
     private String name;
 
-    @Action(value = "/makeNewSet", results = {
+    @Action(value = "/setWordSet", results = {
         @Result(name = SUCCESS, type = "json")
     })
     @Override
     public String execute() throws Exception {
-        UtilLog.logInfo(this, "/makeNewSet: " + name);
+        UtilLog.logInfo(this, "/setWordSet: " + name);
         Session s = DatabaseHandler.getSession();
         try {
             if (name.isEmpty()) {
                 throw new Exception("set name cannot be empty");
             }
-            SetInfo set = new SetInfo(userId, lang, 1, name, true, new SetMetaInfo("test").getXmlString());
-            SetInfo.createNewSet(s, set);
-            s.refresh(set);
-            setResult = set;
+            SetInfo set = new SetInfo(setId, userId, nlang, llang, 1, name, true, new SetMetaInfo("test").getXmlString());
+            setResult = SetInfo.updateSet(s, set);
         } catch (Exception e) {
             errorMessage = e.toString();
             UtilLog.logWarn(this, e);
@@ -49,8 +47,12 @@ public class MakeNewSet extends MyAction {
         this.userId = userId;
     }
 
-    public void setLang(int lang) {
-        this.lang = lang;
+    public void setNlang(int nlang) {
+        this.nlang = nlang;
+    }
+
+    public void setLlang(int llang) {
+        this.llang = llang;
     }
 
     public void setName(String name) {
@@ -63,6 +65,10 @@ public class MakeNewSet extends MyAction {
 
     public SetInfo getSetResult() {
         return setResult;
+    }
+
+    public void setSetId(long setId) {
+        this.setId = setId;
     }
 
     @Override
