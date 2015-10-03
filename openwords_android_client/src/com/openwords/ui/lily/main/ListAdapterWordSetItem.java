@@ -2,6 +2,7 @@ package com.openwords.ui.lily.main;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.openwords.R;
 import com.openwords.model.SetItem;
+import com.openwords.util.log.LogUtil;
 import com.openwords.util.ui.MyDialogHelper;
 import com.openwords.util.ui.MyQuickToast;
 import java.util.List;
@@ -156,12 +158,16 @@ public class ListAdapterWordSetItem extends ArrayAdapter<SetItem> {
         if (item.isRemoving) {
             v.root.setBackgroundColor(Color.parseColor("#ffffff"));
             v.remove.setImageResource(R.drawable.ic_set_remove);
+            v.w1.setPaintFlags(v.w1.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+            v.w2.setPaintFlags(v.w2.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
         } else {
             v.root.setBackgroundColor(Color.parseColor("#d2d2d2"));
             v.remove.setImageResource(R.drawable.ic_set_restore);
+            LogUtil.logDeubg(this, "default flag: " + v.w1.getPaintFlags());
+            v.w1.setPaintFlags(v.w1.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            v.w2.setPaintFlags(v.w2.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         }
         item.isRemoving = !item.isRemoving;
-
     }
 
     private void enterSearch(final ViewHolder v, String hint, final boolean searchNative) {
