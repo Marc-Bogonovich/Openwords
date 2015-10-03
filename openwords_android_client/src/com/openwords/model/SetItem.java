@@ -1,7 +1,6 @@
 package com.openwords.model;
 
 import com.openwords.services.implementations.ServiceGetSetItems;
-import com.openwords.services.implementations.ServiceGetSetItems.Result;
 import com.openwords.services.interfaces.HttpResultHandler;
 import com.orm.SugarRecord;
 import com.orm.dsl.Ignore;
@@ -12,7 +11,7 @@ public class SetItem extends SugarRecord<SetItem> {
         new ServiceGetSetItems().doRequest(setId, userId, new HttpResultHandler() {
 
             public void hasResult(Object resultObject) {
-                Result r = (Result) resultObject;
+                ServiceGetSetItems.Result r = (ServiceGetSetItems.Result) resultObject;
                 resultHanlder.result(r.itemsResult);
             }
 
