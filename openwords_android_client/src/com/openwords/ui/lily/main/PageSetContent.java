@@ -2,6 +2,7 @@ package com.openwords.ui.lily.main;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
@@ -11,6 +12,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import com.openwords.R;
+import com.openwords.learningmodule.ActivityLearning;
+import com.openwords.learningmodule.InterfaceLearningModule;
 import com.openwords.model.DataPool;
 import com.openwords.model.LocalSettings;
 import com.openwords.model.ResultSetSaveAll;
@@ -36,7 +39,7 @@ public class PageSetContent extends Activity {
 
     private ListView itemList;
     private ListAdapterWordSetItem listAdapter;
-    private ImageView buttonMode, buttonBack;
+    private ImageView buttonMode, buttonBack, buttonStudy;
     private EditText setTitleInput;
     private TextView setTitle;
     private boolean isEditingMode, contentHasJustChanged;
@@ -52,6 +55,7 @@ public class PageSetContent extends Activity {
         setTitleInput = (EditText) findViewById(R.id.act_ws_edit1);
         buttonMode = (ImageView) findViewById(R.id.act_ws_image_1);
         buttonBack = (ImageView) findViewById(R.id.act_ws_image_2);
+        buttonStudy = (ImageView) findViewById(R.id.act_ws_image_3);
 
         if (DataPool.currentSet.name == null) {
             isEditingMode = true;
@@ -71,6 +75,12 @@ public class PageSetContent extends Activity {
 
             public void onClick(View view) {
                 PageSetContent.super.onBackPressed();
+            }
+        });
+        buttonStudy.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View view) {
+                study();
             }
         });
 
@@ -324,7 +334,8 @@ public class PageSetContent extends Activity {
     }
 
     public void study() {
-        //ServiceSetUserLanguages
+        DataPool.LmType = InterfaceLearningModule.Learning_Type_Self;
+        startActivity(new Intent(this, ActivityLearning.class));
     }
 
     @Override
