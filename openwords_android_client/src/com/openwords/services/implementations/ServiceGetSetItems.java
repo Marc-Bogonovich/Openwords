@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import static com.openwords.model.DataPool.ServerAddress;
 import static com.openwords.model.DataPool.ServiceProtocol;
 import com.openwords.model.SetItem;
+import com.openwords.model.Word;
 import com.openwords.services.interfaces.HttpResultHandler;
 import com.openwords.services.interfaces.HttpServiceRequester;
 import com.openwords.services.interfaces.RequestParamsBuilder;
@@ -41,6 +42,7 @@ public class ServiceGetSetItems extends HttpServiceRequester implements HttpResu
     public class Result {
 
         public List<SetItem> itemsResult;
+        public List<Word> words;
         public String errorMessage;
     }
 }

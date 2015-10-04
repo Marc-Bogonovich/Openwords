@@ -1,6 +1,5 @@
 package com.openwords.actions.languages;
 
-import com.google.gson.Gson;
 import static com.opensymphony.xwork2.Action.SUCCESS;
 import com.openwords.database.DatabaseHandler;
 import com.openwords.database.UserLanguage;

@@ -40,7 +40,7 @@ public class GetSetItems extends MyAction {
             }
 
             itemsResult = SetItem.getSetItems(s, setId);
-            //loadPack(s);
+            loadPack(s);
 
         } catch (Exception e) {
             errorMessage = e.toString();

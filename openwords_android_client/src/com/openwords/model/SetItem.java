@@ -4,6 +4,8 @@ import com.openwords.services.implementations.ServiceGetSetItems;
 import com.openwords.services.interfaces.HttpResultHandler;
 import com.orm.SugarRecord;
 import com.orm.dsl.Ignore;
+import java.util.HashMap;
+import java.util.Map;
 
 public class SetItem extends SugarRecord<SetItem> {
 
@@ -12,6 +14,15 @@ public class SetItem extends SugarRecord<SetItem> {
 
             public void hasResult(Object resultObject) {
                 ServiceGetSetItems.Result r = (ServiceGetSetItems.Result) resultObject;
+                Word.saveOrUpdateAll(r.words);
+                Map<Long, String> commons = new HashMap<Long, String>(r.words.size());
+                for (Word w : r.words) {
+                    commons.put(w.wordId, w.getMeta().commonTranslation);
+                }
+                for (SetItem item : r.itemsResult) {
+                    item.wordOneCommon = commons.get(item.wordOneId);
+                    item.wordTwoCommon = commons.get(item.wordTwoId);
+                }
                 resultHanlder.result(r.itemsResult);
             }
 
