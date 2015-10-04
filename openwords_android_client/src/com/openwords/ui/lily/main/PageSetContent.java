@@ -112,7 +112,7 @@ public class PageSetContent extends Activity {
             String name = setTitleInput.getText().toString();
             checkTitleChange(name);
             if (contentHasJustChanged) {
-                MyDialogHelper.showConfirmDialog(this, "Saving Word Set '" + name + "'", "Do you want to save the change?",
+                MyDialogHelper.showConfirmDialog(this, "Saving word set '" + name + "'", "Do you want to save the change?",
                         new CallbackOkButton() {
 
                             public void okPressed() {
@@ -142,8 +142,6 @@ public class PageSetContent extends Activity {
                 items.add(item);
             }
         }
-        MyQuickToast.showShort(this, "old title: " + DataPool.currentSet.name);
-        MyQuickToast.showShort(this, "new title: " + name);
         MyDialogHelper.tryShowQuickProgressDialog(this, "Saving...");
         SetInfo.saveAll(DataPool.currentSet.setId, DataPool.currentSet.name, name, items, new ResultSetSaveAll() {
 
@@ -176,6 +174,10 @@ public class PageSetContent extends Activity {
         setTitleInput.setVisibility(View.GONE);
         buttonMode.setImageResource(R.drawable.ic_set_mode);
         isEditingMode = false;
+        InputMethodManager m = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (m != null) {
+            m.hideSoftInputFromWindow(itemList.getWindowToken(), 0);
+        }
     }
 
     private void applyEditUI() {
@@ -195,7 +197,6 @@ public class PageSetContent extends Activity {
     private void checkTitleChange(String newTitle) {
         if (!newTitle.equals(DataPool.currentSet.name)) {
             contentHasJustChanged = true;
-            MyQuickToast.showShort(this, "Title changed: " + newTitle + " " + DataPool.currentSet.name);
         }
     }
 

@@ -15,7 +15,6 @@ import android.widget.TextView;
 import com.openwords.R;
 import com.openwords.model.SetItem;
 import com.openwords.util.ui.MyDialogHelper;
-import com.openwords.util.ui.MyQuickToast;
 import java.util.List;
 
 public class ListAdapterWordSetItem extends ArrayAdapter<SetItem> {
@@ -83,7 +82,6 @@ public class ListAdapterWordSetItem extends ArrayAdapter<SetItem> {
             public void onClick(View view) {
                 String trans = item.wordOneCommon + "\n" + item.wordTwoCommon;
                 MyDialogHelper.showMessageDialog(context, null, trans, null);
-                MyQuickToast.showShort(context, trans);
             }
         };
 
@@ -152,6 +150,11 @@ public class ListAdapterWordSetItem extends ArrayAdapter<SetItem> {
                     }
                 });
             }
+        } else {
+            viewHolder.a1.setOnClickListener(clickRoot);
+            viewHolder.a2.setOnClickListener(clickRoot);
+            viewHolder.w1.setOnClickListener(clickRoot);
+            viewHolder.w2.setOnClickListener(clickRoot);
         }
     }
 
