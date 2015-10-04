@@ -77,10 +77,17 @@ public class ListAdapterWordSetItem extends ArrayAdapter<SetItem> {
         viewHolder.w1.setTextColor(Color.parseColor("#000000"));
         viewHolder.w2.setTextColor(Color.parseColor("#000000"));
 
-        View.OnClickListener clickRoot = new View.OnClickListener() {
+        View.OnClickListener clickItemOne = new View.OnClickListener() {
 
             public void onClick(View view) {
-                String trans = item.wordOneCommon + "\n" + item.wordTwoCommon;
+                String trans = item.wordOneCommon;
+                MyDialogHelper.showMessageDialog(context, null, trans, null);
+            }
+        };
+        View.OnClickListener clickItemTwo = new View.OnClickListener() {
+
+            public void onClick(View view) {
+                String trans = item.wordTwoCommon;
                 MyDialogHelper.showMessageDialog(context, null, trans, null);
             }
         };
@@ -109,10 +116,10 @@ public class ListAdapterWordSetItem extends ArrayAdapter<SetItem> {
                 viewHolder.a2.setOnClickListener(clickLearning);
                 viewHolder.w2.setOnClickListener(clickLearning);
             } else if (item.isNew) {
-                viewHolder.a1.setOnClickListener(clickRoot);
-                viewHolder.a2.setOnClickListener(clickRoot);
-                viewHolder.w1.setOnClickListener(clickRoot);
-                viewHolder.w2.setOnClickListener(clickRoot);
+                //viewHolder.a1.setOnClickListener(clickItemOne);
+                //viewHolder.a2.setOnClickListener(clickItemTwo);
+                viewHolder.w1.setOnClickListener(clickItemOne);
+                viewHolder.w2.setOnClickListener(clickItemTwo);
                 viewHolder.remove.setImageResource(R.drawable.ic_set_add);
                 viewHolder.remove.setVisibility(View.VISIBLE);
                 viewHolder.remove.setOnClickListener(new View.OnClickListener() {
@@ -122,10 +129,10 @@ public class ListAdapterWordSetItem extends ArrayAdapter<SetItem> {
                     }
                 });
             } else if (item.isRemoving) {
-                viewHolder.a1.setOnClickListener(clickRoot);
-                viewHolder.a2.setOnClickListener(clickRoot);
-                viewHolder.w1.setOnClickListener(clickRoot);
-                viewHolder.w2.setOnClickListener(clickRoot);
+                //viewHolder.a1.setOnClickListener(clickItemOne);
+                //viewHolder.a2.setOnClickListener(clickItemTwo);
+                viewHolder.w1.setOnClickListener(clickItemOne);
+                viewHolder.w2.setOnClickListener(clickItemTwo);
                 viewHolder.root.setBackgroundColor(Color.parseColor("#d2d2d2"));
                 viewHolder.remove.setImageResource(R.drawable.ic_set_restore);
                 viewHolder.remove.setVisibility(View.VISIBLE);
@@ -136,10 +143,10 @@ public class ListAdapterWordSetItem extends ArrayAdapter<SetItem> {
                     }
                 });
             } else {
-                viewHolder.a1.setOnClickListener(clickRoot);
-                viewHolder.a2.setOnClickListener(clickRoot);
-                viewHolder.w1.setOnClickListener(clickRoot);
-                viewHolder.w2.setOnClickListener(clickRoot);
+                //viewHolder.a1.setOnClickListener(clickItemOne);
+                //viewHolder.a2.setOnClickListener(clickItemTwo);
+                viewHolder.w1.setOnClickListener(clickItemOne);
+                viewHolder.w2.setOnClickListener(clickItemTwo);
                 viewHolder.root.setBackgroundColor(Color.parseColor("#ffffff"));
                 viewHolder.remove.setImageResource(R.drawable.ic_set_remove);
                 viewHolder.remove.setVisibility(View.VISIBLE);
@@ -151,10 +158,10 @@ public class ListAdapterWordSetItem extends ArrayAdapter<SetItem> {
                 });
             }
         } else {
-            viewHolder.a1.setOnClickListener(clickRoot);
-            viewHolder.a2.setOnClickListener(clickRoot);
-            viewHolder.w1.setOnClickListener(clickRoot);
-            viewHolder.w2.setOnClickListener(clickRoot);
+            //viewHolder.a1.setOnClickListener(clickItemOne);
+            //viewHolder.a2.setOnClickListener(clickItemTwo);
+            viewHolder.w1.setOnClickListener(clickItemOne);
+            viewHolder.w2.setOnClickListener(clickItemTwo);
         }
     }
 

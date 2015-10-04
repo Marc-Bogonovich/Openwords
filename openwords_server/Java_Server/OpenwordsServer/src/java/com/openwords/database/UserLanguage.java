@@ -141,11 +141,11 @@ public class UserLanguage implements Serializable {
         return id.getLearningLang();
     }
 
-    @Transient
-    public UserLanguageMetaInfo getMetaInfo() {
-        if (metaInfo == null) {
-            metaInfo = (UserLanguageMetaInfo) MyXStream.fromXml(meta);
-        }
-        return metaInfo;
-    }
+//    @Transient
+//    public UserLanguageMetaInfo getMetaInfo() {
+//        if (metaInfo == null) {
+//            metaInfo = (UserLanguageMetaInfo) MyXStream.fromXml(meta);
+//        }
+//        return metaInfo;
+//    }
 }
