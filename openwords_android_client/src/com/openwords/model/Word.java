@@ -27,8 +27,7 @@ public class Word extends SugarRecord<Word> {
             c.saveMetaToJson();
         }
         String sqlIds = ids.toString().replace("[", "(").replace("]", ")");
-        String sql = "delete from word where word_id in " + sqlIds;
-        Word.executeQuery(sql);
+        Word.deleteAll(Word.class, "word_id in " + sqlIds);
         Word.saveInTx(ws);
     }
 
