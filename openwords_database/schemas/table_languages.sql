@@ -12,7 +12,7 @@ CREATE TABLE `languages` (
 `language_id` int(11) NOT NULL,
   `language` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `code` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `meta_info` mediumtext COLLATE utf8_unicode_ci NOT NULL,
+  `meta_info` text COLLATE utf8_unicode_ci NOT NULL,
   `display_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `total_words` int(11) NOT NULL,
   `total_connections` int(11) NOT NULL,

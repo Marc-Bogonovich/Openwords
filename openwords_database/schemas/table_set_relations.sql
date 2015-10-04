@@ -11,7 +11,7 @@
 CREATE TABLE `set_relations` (
   `set_id` bigint(20) NOT NULL,
   `user_id` bigint(20) NOT NULL,
-  `relation_type` int(11) NOT NULL,
+  `relation_type` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
   `relation_meta` text COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
