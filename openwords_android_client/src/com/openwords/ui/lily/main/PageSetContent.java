@@ -192,6 +192,7 @@ public class PageSetContent extends Activity {
         contentHasJustChanged = false;
         buttonMode.setImageResource(R.drawable.ic_set_mode_save);
         isEditingMode = true;
+        itemList.smoothScrollToPosition(setItems.size() - 1);
     }
 
     private void checkTitleChange(String newTitle) {
@@ -281,6 +282,7 @@ public class PageSetContent extends Activity {
                     }
                 }
                 listAdapter.notifyDataSetChanged();
+                itemList.smoothScrollToPosition(setItems.size() - 1);
                 if (r.errorMessage != null) {
                     MyQuickToast.showShort(PageSetContent.this, r.errorMessage);
                 }
