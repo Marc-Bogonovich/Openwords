@@ -211,12 +211,13 @@ public class LoginPage extends Activity {
 
     @Override
     public void onBackPressed() {
-        BackButtonBehavior.whenAtFirstPage(this, new BackButtonBehavior.BackActionConfirmed() {
-
-            public void callback() {
-                LoginPage.super.onBackPressed();
-            }
-        });
+//        BackButtonBehavior.whenAtFirstPage(this, new BackButtonBehavior.BackActionConfirmed() {
+//
+//            public void callback() {
+//                LoginPage.super.onBackPressed();
+//            }
+//        });
+        LoginPage.super.onBackPressed();
     }
 
     private void initServices() {
