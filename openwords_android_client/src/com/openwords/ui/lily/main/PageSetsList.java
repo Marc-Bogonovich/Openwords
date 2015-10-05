@@ -1,7 +1,6 @@
 package com.openwords.ui.lily.main;
 
 import android.app.Activity;
-import static android.content.Context.INPUT_METHOD_SERVICE;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
@@ -12,13 +11,13 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import com.openwords.R;
 import com.openwords.model.DataPool;
+import com.openwords.model.LocalSettings;
 import com.openwords.model.ResultSetItems;
 import com.openwords.model.ResultWordSets;
 import com.openwords.model.SetInfo;
@@ -83,17 +82,18 @@ public class PageSetsList extends Activity {
 
             public boolean handleMessage(Message msg) {
                 if (msg.what == 0) {
-                    View focus = getCurrentFocus();
-                    if (focus != null) {
-                        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-                        inputMethodManager.hideSoftInputFromWindow(focus.getWindowToken(), 0);
-                    }
-                    listAdapter.clear();
-                    String term = searchInput.getText().toString().trim();
-                    //deckListDataModel = DeckInfo.searchDecks(term);
-                    //listAdapter.addAll(deckListDataModel);
-                    listAdapter.notifyDataSetChanged();
-                    //MyQuickToast.showShort(PageSetsList.this, String.format("You got %s decks", deckListDataModel.size()));
+                    MyQuickToast.showShort(PageSetsList.this, "Searching is not supported yet.");
+//                    View focus = getCurrentFocus();
+//                    if (focus != null) {
+//                        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+//                        inputMethodManager.hideSoftInputFromWindow(focus.getWindowToken(), 0);
+//                    }
+//                    listAdapter.clear();
+//                    String term = searchInput.getText().toString().trim();
+//                    //deckListDataModel = DeckInfo.searchDecks(term);
+//                    //listAdapter.addAll(deckListDataModel);
+//                    listAdapter.notifyDataSetChanged();
+//                    //MyQuickToast.showShort(PageSetsList.this, String.format("You got %s decks", deckListDataModel.size()));
                 }
                 return true;
             }
@@ -146,6 +146,11 @@ public class PageSetsList extends Activity {
     }
 
     private void loadSet(final SetInfo set) {
+        if (set.nativeLang != LocalSettings.getBaseLanguageId()
+                || set.learningLang != LocalSettings.getCurrentLearningLanguage()) {
+            MyQuickToast.showShort(PageSetsList.this, "The set is not for your chosen languages.");
+            return;
+        }
         MyDialogHelper.tryShowQuickProgressDialog(this, "Loading set content...");
         SetItem.getItems(set.setId, set.userId, new ResultSetItems() {
 
