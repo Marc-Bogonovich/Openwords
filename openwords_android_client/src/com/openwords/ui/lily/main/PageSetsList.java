@@ -50,7 +50,7 @@ public class PageSetsList extends Activity {
         listAllSets = (GridView) findViewById(R.id.act_main_decks_gridview1);
 
         allSets = new LinkedList<SetInfo>();
-        listAdapter = new ListAdapterWordSets(this, allSets);
+        listAdapter = new ListAdapterWordSets(this, allSets, LocalSettings.getUserId());
         listAllSets.setAdapter(listAdapter);
         listAllSets.requestFocus();
         listAllSets.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -66,7 +66,7 @@ public class PageSetsList extends Activity {
         buttonContent.add(null);
         buttonContent.add(new SetInfo("Make Set", true));
         buttonContent.add(null);
-        buttonMake.setAdapter(new ListAdapterWordSets(this, buttonContent));
+        buttonMake.setAdapter(new ListAdapterWordSets(this, buttonContent, LocalSettings.getUserId()));
         buttonMake.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
