@@ -171,6 +171,12 @@ public class PageSetContent extends Activity {
     }
 
     private void applyNonEditUI() {
+        buttonStudy.setVisibility(View.VISIBLE);
+        if (DataPool.currentSet.userId == LocalSettings.getUserId()) {
+            buttonMode.setVisibility(View.VISIBLE);
+        } else {
+            buttonMode.setVisibility(View.GONE);
+        }
         for (SetItem item : setItems) {
             item.isModifying = false;
             if (item.isHead || item.isNew || item.isRemoving) {
@@ -191,6 +197,7 @@ public class PageSetContent extends Activity {
     }
 
     private void applyEditUI() {
+        buttonStudy.setVisibility(View.GONE);
         for (SetItem item : setItems) {
             item.isModifying = true;
         }
