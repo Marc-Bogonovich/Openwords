@@ -12,8 +12,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import com.openwords.R;
-import com.openwords.learningmodule.ActivityLearning;
-import com.openwords.learningmodule.InterfaceLearningModule;
 import com.openwords.model.DataPool;
 import com.openwords.model.LocalSettings;
 import com.openwords.model.ResultSetSaveAll;
@@ -341,8 +339,7 @@ public class PageSetContent extends Activity {
     }
 
     public void study() {
-        DataPool.LmType = InterfaceLearningModule.Learning_Type_Self;
-        startActivity(new Intent(this, ActivityLearning.class));
+        startActivity(new Intent(this, PageLMOption.class));
     }
 
     @Override

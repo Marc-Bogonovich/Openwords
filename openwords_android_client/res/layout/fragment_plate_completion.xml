@@ -54,6 +54,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:background="@drawable/button_custom"
+                android:visibility="gone"
                 android:textSize="20sp"/>
         
         <Button android:id="@+id/plc_button_Exit"
