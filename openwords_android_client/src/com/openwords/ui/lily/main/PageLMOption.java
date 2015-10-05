@@ -45,6 +45,7 @@ public class PageLMOption extends Activity {
                 if (position == 1) {
                     DataPool.LmType = InterfaceLearningModule.Learning_Type_Self;
                     startActivity(new Intent(PageLMOption.this, ActivityLearning.class));
+                    PageLMOption.this.finish();
                 } else {
                     MyQuickToast.showShort(PageLMOption.this, "Sorry, this learning module is not supported yet.");
                 }
