@@ -41,14 +41,6 @@ public class ViewDeckCircle extends View {
         //LogUtil.logDeubg(this, "updateDimension: " + viewWidth + " " + viewHeight);
     }
 
-    public synchronized void updateColor(int color) {
-        shadePaint = new Paint();
-        shadePaint.setAntiAlias(true);
-        shadePaint.setStyle(Paint.Style.FILL);
-        shadePaint.setColor(color);
-        shadePaint.setAlpha(alpha);
-    }
-
     private void makePaints() {
         shadePaint = new Paint();
         shadePaint.setAntiAlias(true);
@@ -65,7 +57,7 @@ public class ViewDeckCircle extends View {
     }
 
     @Override
-    public synchronized void onDraw(Canvas canvas) {
+    public void onDraw(Canvas canvas) {
         canvas.drawCircle(centerX, centerY, radius, shadePaint);
         if (drawMarker) {
             canvas.drawLine(centerX, centerY - radius / 3, centerX, centerY + radius / 3, markerPaint);
