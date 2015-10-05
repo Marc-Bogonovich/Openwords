@@ -62,7 +62,7 @@ public class ListAdapterLanguageItem extends ArrayAdapter<Language> {
                         LanguagePage.ChosenLangIds.remove(Integer.valueOf(lang.langId));
                         return;
                     }
-                    MyQuickToast.showShort(context, itemObj.isChecked() + " " + lang.langId + " " + lang.name);
+                    //MyQuickToast.showShort(context, itemObj.isChecked() + " " + lang.langId + " " + lang.name);
                 }
             });
         }

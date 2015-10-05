@@ -37,18 +37,19 @@
                   android:singleLine="true"/>
 
         <ImageView  android:id="@+id/act_ws_image_1"
-                    android:layout_width="54dp"
+                    android:layout_width="44dp"
                     android:layout_height="match_parent"
                     android:src="@drawable/ic_set_mode"
                     android:paddingLeft="10dp"
-                    android:paddingRight="20dp"
+                    android:paddingRight="10dp"
                     android:contentDescription=""/>
         
         <ImageView  android:id="@+id/act_ws_image_3"
                     android:layout_width="44dp"
                     android:layout_height="match_parent"
                     android:src="@drawable/ic_study"
-                    android:paddingRight="20dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
                     android:contentDescription=""/>
 
     </LinearLayout>

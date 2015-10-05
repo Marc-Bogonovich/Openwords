@@ -148,7 +148,7 @@ public class PageSetsList extends Activity {
     private void loadSet(final SetInfo set) {
         if (set.nativeLang != LocalSettings.getBaseLanguageId()
                 || set.learningLang != LocalSettings.getCurrentLearningLanguage()) {
-            MyQuickToast.showShort(PageSetsList.this, "The set is not for your chosen languages.");
+            MyQuickToast.showShort(PageSetsList.this, "This set is not for your chosen languages.");
             return;
         }
         MyDialogHelper.tryShowQuickProgressDialog(this, "Loading set content...");
