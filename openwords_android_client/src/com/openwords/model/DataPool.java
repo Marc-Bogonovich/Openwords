@@ -22,9 +22,11 @@ public class DataPool {
     public final static int PageSize = 10;
     public final static SetInfo currentSet = new SetInfo();
     public final static List<SetItem> currentSetItems = new ArrayList<SetItem>(0);
+    public final static List<Performance> currentPerformance = new LinkedList<Performance>();
 
     public static int getPoolSize() {
-        return LmPool.size();
+        //return LmPool.size();
+        return currentSetItems.size();
     }
 
     public static WordConnection getWordConnection(int index) {
