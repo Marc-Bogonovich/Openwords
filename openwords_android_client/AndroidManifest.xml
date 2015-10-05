@@ -159,6 +159,11 @@
                   android:windowSoftInputMode="stateHidden"
                   android:configChanges="orientation|screenSize">
         </activity>
+        
+        <activity android:name=".ui.lily.main.PageLMOption"
+                  android:theme="@style/NoTitleTheme"
+                  android:configChanges="orientation|screenSize">
+        </activity>
     </application>
 
 </manifest>
