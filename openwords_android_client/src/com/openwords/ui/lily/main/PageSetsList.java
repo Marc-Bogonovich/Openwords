@@ -47,7 +47,7 @@ public class PageSetsList extends Activity {
 
         buttonBack = (ImageView) findViewById(R.id.act_sl_image_1);
         buttonBack.setColorFilter(getResources().getColor(R.color.main_app_color), PorterDuff.Mode.MULTIPLY);
-        listAllSets = (GridView) findViewById(R.id.act_main_decks_gridview1);
+        listAllSets = (GridView) findViewById(R.id.act_sl_grid1);
 
         allSets = new LinkedList<SetInfo>();
         listAdapter = new ListAdapterWordSets(this, allSets, LocalSettings.getUserId());
@@ -61,7 +61,7 @@ public class PageSetsList extends Activity {
             }
         });
 
-        buttonMake = (GridView) findViewById(R.id.act_main_decks_gridview2);
+        buttonMake = (GridView) findViewById(R.id.act_sl_grid2);
         LinkedList<SetInfo> buttonContent = new LinkedList<SetInfo>();
         buttonContent.add(null);
         buttonContent.add(new SetInfo("Make Set", true));

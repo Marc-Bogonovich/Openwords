@@ -120,6 +120,10 @@ public class SetInfo extends SugarRecord<SetInfo> {
         this.isPlusButton = isPlusButton;
     }
 
+    public SetInfo(String name) {
+        this.name = name;
+    }
+
     public void copyAllValues(SetInfo set) {
         setId = set.setId;
         userId = set.userId;
