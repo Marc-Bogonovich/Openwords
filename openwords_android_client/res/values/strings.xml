@@ -11,6 +11,55 @@
     <string name="flashword_string_homePageLift06">מלה</string>
     <string name="flashword_string_homePageLift07">słowo</string>
     <string name="flashword_string_homePageLift08">ಪದ</string>
+    <string-array name="button_practice">
+        <item>Practice</item>
+        <item>开始练习</item>
+    </string-array>
+    <string-array name="button_create_set">
+        <item>Create a Word Set</item>
+        <item>建造你的词集</item>
+    </string-array>
+    <string-array name="button_resume">
+        <item>Resume</item>
+        <item>继续上次的练习</item>
+    </string-array>
+    <string-array name="title_word_sets">
+        <item>Word Sets</item>
+        <item>大家的词集</item>
+    </string-array>
+    <string-array name="hint_search_wordsets">
+        <item>Search sets</item>
+        <item>搜索词集</item>
+    </string-array>
+    <string-array name="title_practice">
+        <item>Practice</item>
+        <item>练习</item>
+    </string-array>
+    <string-array name="info_practice">
+        <item>Select how you want to study</item>
+        <item>选择您的练习方法</item>
+    </string-array>
+    <string-array name="name_review">
+        <item>Review</item>
+        <item>简单回顾练习</item>
+    </string-array>
+    <string-array name="name_self">
+        <item>Self-Evaluation</item>
+        <item>自我评估练习</item>
+    </string-array>
+    <string-array name="name_hearing">
+        <item>Hearing</item>
+        <item>听辨练习</item>
+    </string-array>
+    <string-array name="name_type">
+        <item>Type-Evaluation</item>
+        <item>拼写练习</item>
+    </string-array>
+    <string-array name="name_sentence">
+        <item>Sentence</item>
+        <item>语句练习</item>
+    </string-array>
+    
     <string-array name="pushMe_start_activity_button_loginPageGo">
         <item>Log in</item>
         <item>登入</item>

@@ -16,7 +16,7 @@ public class LocalizationManager {
     };
 
     private static Context c;
-    private static Map<LocalLanguage, Integer> textIndexMapping = new HashMap<LocalLanguage, Integer>(100);
+    private static final Map<LocalLanguage, Integer> textIndexMapping = new HashMap<LocalLanguage, Integer>(100);
     private static LocalLanguage lang;
     private static Resources res;
     private static String textLogin, textRegister, textRememberMe, textValidatingUser, textLoginError, textInternetError,
@@ -25,6 +25,11 @@ public class LocalizationManager {
             textHintUser, textHintPass, textBye, textMoreLang, textSettingProfile, textSettingSetting, textSettingTutor, textSettingLogout,
             textPCNext, textPCEnd, textWordsNext, textWordsSearch, textWordsSets, textWordsView, textHintPassRe, textReg,
             TextHintEmail;
+    private static String buttonPractice, buttonCreate, buttonResume;
+    private static String titleWordSets, titlePractice;
+    private static String hintSearchSets;
+    private static String infoPractice;
+    private static String nameReview, nameSelf, nameType, nameHearing, nameSentence;
 
     public static void init(Context context) {
         c = context;
@@ -90,6 +95,18 @@ public class LocalizationManager {
         textWordsView = getText(R.array.words_view);
         textReg = getText(R.array.reg_submit);
         TextHintEmail = getText(R.array.email);
+        buttonPractice = getText(R.array.button_practice);
+        buttonCreate = getText(R.array.button_create_set);
+        buttonResume = getText(R.array.button_resume);
+        titleWordSets = getText(R.array.title_word_sets);
+        titlePractice = getText(R.array.title_practice);
+        hintSearchSets = getText(R.array.hint_search_wordsets);
+        infoPractice = getText(R.array.info_practice);
+        nameReview = getText(R.array.name_review);
+        nameSelf = getText(R.array.name_self);
+        nameHearing = getText(R.array.name_hearing);
+        nameType = getText(R.array.name_type);
+        nameSentence = getText(R.array.name_sentence);
     }
 
     private static String getText(int id) {
@@ -238,6 +255,54 @@ public class LocalizationManager {
 
     public static String getTextHintEmail() {
         return TextHintEmail;
+    }
+
+    public static String getButtonPractice() {
+        return buttonPractice;
+    }
+
+    public static String getButtonCreate() {
+        return buttonCreate;
+    }
+
+    public static String getButtonResume() {
+        return buttonResume;
+    }
+
+    public static String getTitleWordSets() {
+        return titleWordSets;
+    }
+
+    public static String getTitlePractice() {
+        return titlePractice;
+    }
+
+    public static String getHintSearchSets() {
+        return hintSearchSets;
+    }
+
+    public static String getInfoPractice() {
+        return infoPractice;
+    }
+
+    public static String getNameReview() {
+        return nameReview;
+    }
+
+    public static String getNameSelf() {
+        return nameSelf;
+    }
+
+    public static String getNameType() {
+        return nameType;
+    }
+
+    public static String getNameHearing() {
+        return nameHearing;
+    }
+
+    public static String getNameSentence() {
+        return nameSentence;
     }
 
     private LocalizationManager() {

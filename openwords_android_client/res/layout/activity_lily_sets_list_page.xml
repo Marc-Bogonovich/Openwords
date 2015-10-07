@@ -17,7 +17,7 @@
                     android:paddingRight="20dp"
                     android:contentDescription=""/>
 
-        <TextView android:text="Word Sets"
+        <TextView android:id="@+id/act_sl_text1"
                   android:layout_width="0dp"
                   android:layout_height="wrap_content"
                   android:layout_weight="1"
@@ -45,7 +45,7 @@
                   android:layout_height="wrap_content"
                   android:textSize="20sp"
                   android:maxLines="1"
-                  android:hint="Search sets"
+                  android:hint=""
                   android:textColorHint="@color/main_app_color"
                   android:singleLine="true"
                   android:background="@drawable/bg_lily_input_fill"

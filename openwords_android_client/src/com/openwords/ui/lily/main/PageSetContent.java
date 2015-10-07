@@ -203,7 +203,8 @@ public class PageSetContent extends Activity {
         for (SetItem item : setItems) {
             item.isModifying = true;
         }
-        setItems.add(new SetItem(0, "(Native Lang)", "(Learning Lang)", true, true));
+        setItems.add(new SetItem(0, LocalSettings.getBaseLanguage().displayName,
+                LocalSettings.getLearningLanguage().displayName, true, true));
         listAdapter.notifyDataSetChanged();
         setTitleInput.setText(DataPool.currentSet.name);
         setTitle.setVisibility(View.GONE);

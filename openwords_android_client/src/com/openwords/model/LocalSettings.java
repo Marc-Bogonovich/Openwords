@@ -9,6 +9,7 @@ import java.util.List;
 public class LocalSettings extends SugarRecord<LocalSettings> {
 
     private static LocalSettings instance;
+    private static Language baseLanguage, learningLanguage;
 
     private static void loadLocalSettings() {
         if (instance == null) {
@@ -23,6 +24,14 @@ public class LocalSettings extends SugarRecord<LocalSettings> {
 
     public static void clearLocalSettings() {
         LocalSettings.deleteAll(LocalSettings.class);
+    }
+
+    public static Language getBaseLanguage() {
+        return baseLanguage;
+    }
+
+    public static Language getLearningLanguage() {
+        return learningLanguage;
     }
 
     public static int getUserId() {
@@ -67,6 +76,7 @@ public class LocalSettings extends SugarRecord<LocalSettings> {
         loadLocalSettings();
         instance.baseLanguageId = baseLanguageId;
         instance.save();
+        baseLanguage = Language.getLanguageInfo(baseLanguageId);
     }
 
     public static int getCurrentLearningLanguage() {
@@ -78,6 +88,7 @@ public class LocalSettings extends SugarRecord<LocalSettings> {
         loadLocalSettings();
         instance.currentLearningLanguage = lang;
         instance.save();
+        learningLanguage = Language.getLanguageInfo(lang);
     }
 
     public static boolean isRemember() {

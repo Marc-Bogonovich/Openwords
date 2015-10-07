@@ -7,12 +7,14 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.TextView;
 import com.openwords.R;
 import com.openwords.learningmodule.ActivityLearning;
 import com.openwords.learningmodule.InterfaceLearningModule;
 import com.openwords.model.DataPool;
 import com.openwords.model.LocalSettings;
 import com.openwords.model.SetInfo;
+import com.openwords.util.localization.LocalizationManager;
 import com.openwords.util.ui.MyQuickToast;
 import java.util.LinkedList;
 import java.util.List;
@@ -21,6 +23,7 @@ public class PageLMOption extends Activity {
 
     private GridView buttons;
     private ListAdapterWordSets listAdapter;
+    private TextView title, info;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,14 +31,18 @@ public class PageLMOption extends Activity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.activity_lily_lm_option_page);
 
+        title = (TextView) findViewById(R.id.act_lmoption_text1);
+        title.setText(LocalizationManager.getTitlePractice());
+        info = (TextView) findViewById(R.id.act_lmoption_text2);
+        info.setText(LocalizationManager.getInfoPractice());
         buttons = (GridView) findViewById(R.id.act_lmoption_grid1);
 
         List<SetInfo> setsAsButtons = new LinkedList<SetInfo>();
-        setsAsButtons.add(new SetInfo("Review"));
-        setsAsButtons.add(new SetInfo("Self-Evaluate"));
-        setsAsButtons.add(new SetInfo("Hearing"));
-        setsAsButtons.add(new SetInfo("Type-Evaluate"));
-        setsAsButtons.add(new SetInfo("Sentence"));
+        setsAsButtons.add(new SetInfo(LocalizationManager.getNameReview()));
+        setsAsButtons.add(new SetInfo(LocalizationManager.getNameSelf()));
+        setsAsButtons.add(new SetInfo(LocalizationManager.getNameHearing()));
+        setsAsButtons.add(new SetInfo(LocalizationManager.getNameType()));
+        setsAsButtons.add(new SetInfo(LocalizationManager.getNameSentence()));
 
         listAdapter = new ListAdapterWordSets(this, setsAsButtons, LocalSettings.getUserId());
         buttons.setAdapter(listAdapter);

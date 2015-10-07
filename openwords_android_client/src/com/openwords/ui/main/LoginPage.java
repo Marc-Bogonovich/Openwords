@@ -178,7 +178,15 @@ public class LoginPage extends Activity {
                                 new ResultUserLanguage() {
 
                                     public void result(List<UserLanguage> result) {
-                                        loadLanguageDataAndGoHome();
+                                        for (UserLanguage ul : result) {
+                                            if (ul.baseLang == LocalSettings.getBaseLanguageId()) {
+                                                loadLanguageDataAndGoHome(ul.baseLang, ul.learningLang);
+                                                return;
+                                            }
+                                        }
+                                        MyQuickToast.showShort(LoginPage.this, "No language setting found.");
+                                        MyDialogHelper.tryDismissQuickProgressDialog();
+                                        startActivity(new Intent(LoginPage.this, LanguagePage.class));
                                     }
                                 });
                     }
@@ -190,14 +198,22 @@ public class LoginPage extends Activity {
                 });
     }
 
-    private void loadLanguageDataAndGoHome() {
+    private void loadLanguageDataAndGoHome(final int baseLang, final int learningLang) {
         if (Language.count(Language.class) > 0) {
+            LocalSettings.setBaseLanguageId(baseLang);
+            LocalSettings.setCurrentLearningLanguage(learningLang);
             goToHomePage();
         } else {
             Language.syncLanguagesData(this, new ResultLanguage() {
 
                 public void result(String result) {
-                    goToHomePage();
+                    if (result == null) {
+                        LocalSettings.setBaseLanguageId(baseLang);
+                        LocalSettings.setCurrentLearningLanguage(learningLang);
+                        goToHomePage();
+                    } else {
+                        MyQuickToast.showShort(LoginPage.this, result);
+                    }
                 }
             });
         }

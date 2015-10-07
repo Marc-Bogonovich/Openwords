@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.TextView;
 import com.openwords.R;
 import com.openwords.model.DataPool;
 import com.openwords.model.LocalSettings;
@@ -22,6 +23,7 @@ import com.openwords.model.ResultSetItems;
 import com.openwords.model.ResultWordSets;
 import com.openwords.model.SetInfo;
 import com.openwords.model.SetItem;
+import com.openwords.util.localization.LocalizationManager;
 import com.openwords.util.ui.MyDialogHelper;
 import com.openwords.util.ui.MyQuickToast;
 import java.util.LinkedList;
@@ -38,12 +40,16 @@ public class PageSetsList extends Activity {
     private ListAdapterWordSets listAdapter;
     private ImageView buttonBack;
     private List<SetInfo> allSets;
+    private TextView title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.activity_lily_sets_list_page);
+
+        title = (TextView) findViewById(R.id.act_sl_text1);
+        title.setText(LocalizationManager.getTitleWordSets());
 
         buttonBack = (ImageView) findViewById(R.id.act_sl_image_1);
         buttonBack.setColorFilter(getResources().getColor(R.color.main_app_color), PorterDuff.Mode.MULTIPLY);
@@ -64,7 +70,7 @@ public class PageSetsList extends Activity {
         buttonMake = (GridView) findViewById(R.id.act_sl_grid2);
         LinkedList<SetInfo> buttonContent = new LinkedList<SetInfo>();
         buttonContent.add(null);
-        buttonContent.add(new SetInfo("Make Set", true));
+        buttonContent.add(new SetInfo(LocalizationManager.getButtonCreate(), true));
         buttonContent.add(null);
         buttonMake.setAdapter(new ListAdapterWordSets(this, buttonContent, LocalSettings.getUserId()));
         buttonMake.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -77,7 +83,8 @@ public class PageSetsList extends Activity {
                 DataPool.currentSet.setId = -1;
                 DataPool.currentSet.name = null;
                 DataPool.currentSetItems.clear();
-                DataPool.currentSetItems.add(new SetItem(0, "(Native Lang)", "(Learning Lang)", true, true));
+                DataPool.currentSetItems.add(new SetItem(0, LocalSettings.getBaseLanguage().displayName,
+                        LocalSettings.getLearningLanguage().displayName, true, true));
                 PageSetsList.this.startActivity(new Intent(PageSetsList.this, PageSetContent.class));
             }
         });
@@ -103,6 +110,7 @@ public class PageSetsList extends Activity {
             }
         });
         searchInput = (EditText) findViewById(R.id.act_sl_edit1);
+        searchInput.setHint(LocalizationManager.getHintSearchSets());
         searchInput.addTextChangedListener(new TextWatcher() {
 
             public void beforeTextChanged(CharSequence cs, int i, int i1, int i2) {

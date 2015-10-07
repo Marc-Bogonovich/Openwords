@@ -4,7 +4,7 @@
               android:layout_height="match_parent"
               android:orientation="vertical">
     
-    <TextView android:text="Practice"
+    <TextView android:id="@+id/act_lmoption_text1"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:gravity="center"
@@ -12,7 +12,7 @@
               android:textSize="32sp"
               android:textColor="@color/main_app_color"/>
     
-    <TextView android:text="Select how you want to study"
+    <TextView android:id="@+id/act_lmoption_text2"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:gravity="center"

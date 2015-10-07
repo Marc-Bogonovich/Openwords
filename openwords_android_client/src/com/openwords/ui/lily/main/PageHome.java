@@ -13,10 +13,9 @@ import com.openwords.model.Language;
 import com.openwords.model.LocalSettings;
 import com.openwords.model.SetItem;
 import com.openwords.ui.common.BackButtonBehavior;
-import com.openwords.ui.main.LanguagePage;
+import com.openwords.util.localization.LocalizationManager;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.ui.MyQuickToast;
-import java.util.List;
 
 public class PageHome extends Activity {
 
@@ -36,6 +35,9 @@ public class PageHome extends Activity {
         buttonSetList.setTextColor(getResources().getColor(R.color.main_app_color));
         buttonNewSet.setTextColor(getResources().getColor(R.color.main_app_color));
         buttonResume.setTextColor(getResources().getColor(R.color.main_app_color));
+        buttonSetList.setText(LocalizationManager.getButtonPractice());
+        buttonNewSet.setText(LocalizationManager.getButtonCreate());
+        buttonResume.setText(LocalizationManager.getButtonResume());
 
         buttonSetList.setOnClickListener(new View.OnClickListener() {
 
@@ -53,7 +55,8 @@ public class PageHome extends Activity {
                 DataPool.currentSet.setId = -1;
                 DataPool.currentSet.name = null;
                 DataPool.currentSetItems.clear();
-                DataPool.currentSetItems.add(new SetItem(0, "(Native Lang)", "(Learning Lang)", true, true));
+                DataPool.currentSetItems.add(new SetItem(0, LocalSettings.getBaseLanguage().displayName,
+                        LocalSettings.getLearningLanguage().displayName, true, true));
                 startActivity(new Intent(PageHome.this, PageSetContent.class));
             }
         });
@@ -69,18 +72,11 @@ public class PageHome extends Activity {
     protected void onResume() {
         super.onResume();
         LogUtil.logDeubg(this, "onResume");
-        final List<Language> languages = Language.getLearningLanguagesInfo(LocalSettings.getBaseLanguageId());
-        if (languages.size() > 0) {
-            Language currentLearn = languages.get(0);
-            if (currentLearn.displayName.isEmpty()) {
-                MyQuickToast.showLong(this, "Current learning language is " + currentLearn.name);
-            } else {
-                MyQuickToast.showLong(this, "Current learning language is " + currentLearn.displayName);
-            }
-            LocalSettings.setCurrentLearningLanguage(currentLearn.langId);
-
+        Language currentLearn = LocalSettings.getLearningLanguage();
+        if (currentLearn.displayName.isEmpty()) {
+            MyQuickToast.showLong(this, "Current learning language is " + currentLearn.name);
         } else {
-            startActivity(new Intent(PageHome.this, LanguagePage.class));
+            MyQuickToast.showLong(this, "Current learning language is " + currentLearn.displayName);
         }
     }
 
