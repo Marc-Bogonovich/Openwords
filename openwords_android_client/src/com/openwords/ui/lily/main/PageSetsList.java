@@ -70,6 +70,10 @@ public class PageSetsList extends Activity {
         buttonMake.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (DataPool.OffLine) {
+                    MyQuickToast.showShort(PageSetsList.this, "Cannot create set in offline mode.");
+                    return;
+                }
                 DataPool.currentSet.setId = -1;
                 DataPool.currentSet.name = null;
                 DataPool.currentSetItems.clear();
@@ -152,37 +156,60 @@ public class PageSetsList extends Activity {
             return;
         }
         MyDialogHelper.tryShowQuickProgressDialog(this, "Loading set content...");
-        SetItem.getItems(set.setId, set.userId, new ResultSetItems() {
-
-            public void result(List<SetItem> result) {
-                if (result == null) {
-                    MyQuickToast.showShort(PageSetsList.this, "Cannot load content");
-                } else {
-                    DataPool.currentSet.copyAllValues(set);
-                    DataPool.currentSetItems.clear();
-                    DataPool.currentSetItems.addAll(result);
-                    PageSetsList.this.startActivity(new Intent(PageSetsList.this, PageSetContent.class));
-                }
-                MyDialogHelper.tryDismissQuickProgressDialog();
+        if (DataPool.OffLine) {
+            List<SetItem> items = SetItem.loadAllItems(set.setId);
+            if (items.isEmpty()) {
+                MyQuickToast.showShort(PageSetsList.this, "This set is not available.");
+            } else {
+                applySetAndGo(set, items);
             }
-        });
+            MyDialogHelper.tryDismissQuickProgressDialog();
+        } else {
+            SetItem.getItems(set.setId, set.userId, new ResultSetItems() {
+
+                public void result(List<SetItem> result) {
+                    if (result == null) {
+                        MyQuickToast.showShort(PageSetsList.this, "Cannot load content");
+                    } else {
+                        applySetAndGo(set, result);
+                    }
+                    MyDialogHelper.tryDismissQuickProgressDialog();
+                }
+            });
+        }
+    }
+
+    private void applySetAndGo(SetInfo set, List<SetItem> items) {
+        DataPool.currentSet.copyAllValues(set);
+        DataPool.currentSetItems.clear();
+        DataPool.currentSetItems.addAll(items);
+        PageSetsList.this.startActivity(new Intent(PageSetsList.this, PageSetContent.class));
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         MyDialogHelper.tryShowQuickProgressDialog(this, "Loading all word sets...");
-        SetInfo.getAllSets(1, 50, new ResultWordSets() {
-
-            public void result(List<SetInfo> result) {
-                if (result != null) {
-                    refreshListView(result);
-                } else {
-                    MyQuickToast.showShort(PageSetsList.this, "Cannot load sets");
-                }
-                MyDialogHelper.tryDismissQuickProgressDialog();
+        if (DataPool.OffLine) {
+            List<SetInfo> sets = SetInfo.loadAllSets();
+            if (sets.isEmpty()) {
+                MyQuickToast.showShort(PageSetsList.this, "No sets available.");
+            } else {
+                refreshListView(sets);
             }
-        });
+            MyDialogHelper.tryDismissQuickProgressDialog();
+        } else {
+            SetInfo.getAllSets(1, 50, new ResultWordSets() {
 
+                public void result(List<SetInfo> result) {
+                    if (result != null) {
+                        refreshListView(result);
+                    } else {
+                        MyQuickToast.showShort(PageSetsList.this, "Cannot load sets.");
+                    }
+                    MyDialogHelper.tryDismissQuickProgressDialog();
+                }
+            });
+        }
     }
 }

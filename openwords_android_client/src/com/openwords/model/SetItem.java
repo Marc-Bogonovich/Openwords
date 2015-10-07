@@ -4,12 +4,26 @@ import com.openwords.services.implementations.ServiceGetSetItems;
 import com.openwords.services.interfaces.HttpResultHandler;
 import com.orm.SugarRecord;
 import com.orm.dsl.Ignore;
+import com.orm.query.Condition;
+import com.orm.query.Select;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class SetItem extends SugarRecord<SetItem> {
 
-    public static void getItems(long setId, long userId, final ResultSetItems resultHanlder) {
+    public static List<SetItem> loadAllItems(long setId) {
+        return Select.from(SetItem.class)
+                .where(Condition.prop("set_id").eq(setId))
+                .list();
+    }
+
+    private static void refreshAll(long setId, List<SetItem> items) {
+        SetItem.deleteAll(SetItem.class, "set_id = ?", String.valueOf(setId));
+        SetItem.saveInTx(items);
+    }
+
+    public static void getItems(final long setId, long userId, final ResultSetItems resultHanlder) {
         new ServiceGetSetItems().doRequest(setId, userId, new HttpResultHandler() {
 
             public void hasResult(Object resultObject) {
@@ -23,6 +37,7 @@ public class SetItem extends SugarRecord<SetItem> {
                     item.wordOneCommon = commons.get(item.wordOneId);
                     item.wordTwoCommon = commons.get(item.wordTwoId);
                 }
+                refreshAll(setId, r.itemsResult);
                 resultHanlder.result(r.itemsResult);
             }
 

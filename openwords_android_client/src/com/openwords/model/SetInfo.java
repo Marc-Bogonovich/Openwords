@@ -6,6 +6,7 @@ import com.openwords.services.implementations.ServiceUpdateSetItems;
 import com.openwords.services.interfaces.HttpResultHandler;
 import com.orm.SugarRecord;
 import com.orm.dsl.Ignore;
+import com.orm.query.Select;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -87,12 +88,26 @@ public class SetInfo extends SugarRecord<SetInfo> {
                 });
     }
 
+    private static void refreshAll(List<SetInfo> sets) {
+        SetInfo.deleteAll(SetInfo.class);
+        SetInfo.saveInTx(sets);
+    }
+
+    public static List<SetInfo> loadAllSets() {
+        return Select.from(SetInfo.class).list();
+    }
+
     public static void getAllSets(int pageNumber, int pageSize, final ResultWordSets resultHandler) {
         new ServiceGetSets().doRequest(pageNumber, pageSize, new HttpResultHandler() {
 
             public void hasResult(Object resultObject) {
                 ServiceGetSets.Result r = (ServiceGetSets.Result) resultObject;
-                resultHandler.result(r.result);
+                if (r.result.isEmpty()) {
+                    resultHandler.result(null);
+                } else {
+                    refreshAll(r.result);
+                    resultHandler.result(r.result);
+                }
             }
 
             public void noResult(String errorMessage) {

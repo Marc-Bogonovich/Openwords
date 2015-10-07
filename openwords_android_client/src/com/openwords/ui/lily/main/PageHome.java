@@ -46,6 +46,10 @@ public class PageHome extends Activity {
         buttonNewSet.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
+                if (DataPool.OffLine) {
+                    MyQuickToast.showShort(PageHome.this, "Cannot create set in offline mode.");
+                    return;
+                }
                 DataPool.currentSet.setId = -1;
                 DataPool.currentSet.name = null;
                 DataPool.currentSetItems.clear();

@@ -101,6 +101,10 @@ public class PageSetContent extends Activity {
     }
 
     private void buttonModeOnClick() {
+        if (DataPool.OffLine) {
+            MyQuickToast.showShort(this, "Editing set is not available in offline mode.");
+            return;
+        }
         if (isEditingMode) {
             if (setTitleInput.getText().toString().isEmpty()) {
                 MyQuickToast.showShort(this, "Set name cannot be empty!");
