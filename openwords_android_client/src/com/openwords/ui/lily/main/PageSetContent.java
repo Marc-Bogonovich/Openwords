@@ -355,11 +355,18 @@ public class PageSetContent extends Activity {
 
     @Override
     public void onBackPressed() {
-//        String name = setTitleInput.getText().toString();
-//        checkTitleChange(name);
-//        if (contentHasJustChanged) {
-//            MyQuickToast.showShort(PageSetContent.this, "Auto Saving...");
-//        }
-        super.onBackPressed();
+        if (contentHasJustChanged) {
+            MyDialogHelper.showConfirmDialog(this, "Changes are not saved",
+                    "Are you sure to discard the changes?",
+                    new CallbackOkButton() {
+
+                        public void okPressed() {
+                            PageSetContent.super.onBackPressed();
+                        }
+                    },
+                    null);
+        } else {
+            super.onBackPressed();
+        }
     }
 }
