@@ -54,11 +54,7 @@ public class ListAdapterWordSets extends ArrayAdapter<SetInfo> {
                         true, context.getResources().getColor(R.color.white), 255);
                 viewHolder.deckName.setTextColor(context.getResources().getColor(R.color.blue));
             } else {
-                int color = context.getResources().getColor(R.color.main_app_color);
-                if (info.userId == localUserId && info.setId != 0) {
-                    color = Color.parseColor("#477368");
-                }
-                viewHolder.deckCircle = new ViewDeckCircle(context, color, 200,
+                viewHolder.deckCircle = new ViewDeckCircle(context, context.getResources().getColor(R.color.main_app_color), 200,
                         false, -1, -1);
             }
             viewHolder.deckHolder.addView(viewHolder.deckCircle);
@@ -74,6 +70,9 @@ public class ListAdapterWordSets extends ArrayAdapter<SetInfo> {
 
     private void fillLayoutContent(final ViewHolder viewHolder, final SetInfo info) {
         viewHolder.deckName.setText(info.name);
+        if (info.userId == localUserId && info.setId != 0) {
+            viewHolder.deckCircle.updateColor(Color.parseColor("#477368"));
+        }
 //            if (!deckInfo.isPlusButton) {
 //                viewHolder.deckCircle.setText(deckInfo.name);
 //            }
