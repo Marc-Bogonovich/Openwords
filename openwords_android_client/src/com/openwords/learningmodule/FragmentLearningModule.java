@@ -97,6 +97,34 @@ public abstract class FragmentLearningModule extends Fragment {
         }
     }
 
+    public void addClarificationTrigger(final Activity activity, View[] actions, final int y, final String message) {
+        for (View v : actions) {
+            v.setOnClickListener(new View.OnClickListener() {
+
+                public void onClick(View view) {
+                    try {
+                        showInfo(activity, y, message);
+                    } catch (Exception e) {
+                        Toast.makeText(activity, e.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        }
+    }
+
+    private void showInfo(Activity activity, int y, String message) {
+        AlertDialog dialog = new AlertDialog.Builder(activity)
+                .setMessage(message)
+                .create();
+        dialog.setCancelable(true);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        WindowManager.LayoutParams layout = dialog.getWindow().getAttributes();
+        layout.gravity = Gravity.CENTER;
+        layout.y = y;
+        dialog.show();
+    }
+
     private void showInfo(Activity activity, View near, String message) {
         AlertDialog dialog = new AlertDialog.Builder(activity)
                 .setMessage(message)

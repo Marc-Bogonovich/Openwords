@@ -99,6 +99,7 @@ public class PageSelf extends FragmentLearningModule {
 
         problem = (MyMaxTextView) myFragmentView.findViewById(R.id.page_self_text_problem);
         problem.config(DataPool.Color_Main, 255, item.wordTwo, 48);
+        addClarificationTrigger(lmActivity, new View[]{problem}, 50, item.wordOneCommon);
 
         answer = (MyMaxTextView) myFragmentView.findViewById(R.id.page_self_text_answer);
         answer.config(DataPool.Color_Main, 255, item.wordOne, 48);
