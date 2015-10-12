@@ -13,12 +13,15 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 import com.openwords.R;
+import com.openwords.learningmodule.ActivityLearning;
+import com.openwords.learningmodule.InterfaceLearningModule;
 import com.openwords.model.DataPool;
 import com.openwords.model.Language;
 import com.openwords.model.LocalSettings;
 import com.openwords.model.Performance;
 import com.openwords.model.ResultLanguage;
 import com.openwords.model.ResultUserLanguage;
+import com.openwords.model.SetItem;
 import com.openwords.model.UserLanguage;
 import com.openwords.model.WordConnection;
 import com.openwords.services.implementations.ServiceLoginUser;
@@ -26,6 +29,7 @@ import com.openwords.services.interfaces.HttpResultHandler;
 import com.openwords.sound.SoundPlayer;
 import com.openwords.tts.Speak;
 import com.openwords.ui.lily.main.PageHome;
+import com.openwords.ui.lily.main.PageLMOption;
 import com.openwords.ui.lily.main.PageSetsList;
 import com.openwords.util.InternetCheck;
 import com.openwords.util.file.LocalFileSystem;
@@ -35,6 +39,7 @@ import com.openwords.util.log.LogUtil;
 import com.openwords.util.preference.OpenwordsSharedPreferences;
 import com.openwords.util.ui.MyDialogHelper;
 import com.openwords.util.ui.MyQuickToast;
+import java.util.LinkedList;
 import java.util.List;
 
 public class LoginPage extends Activity {
@@ -89,7 +94,13 @@ public class LoginPage extends Activity {
         findViewById(R.id.loginPage_test4).setOnClickListener(new OnClickListener() {
 
             public void onClick(View view) {
-                startActivity(new Intent(LoginPage.this, com.openwords.ui.lily.main.PageHome.class));
+                DataPool.currentSetItems.clear();
+                List<SetItem> items = new LinkedList<SetItem>();
+                items.add(new SetItem());
+                items.add(new SetItem());
+                DataPool.currentSetItems.addAll(items);
+                DataPool.LmType = InterfaceLearningModule.Learning_Type_Self;
+                startActivity(new Intent(LoginPage.this, ActivityLearning.class));
             }
         });
         //findViewById(R.id.loginPage_test).setVisibility(View.INVISIBLE);
@@ -236,6 +247,7 @@ public class LoginPage extends Activity {
     }
 
     private void initServices() {
+        DataPool.Color_Main = getResources().getColor(R.color.main_app_color);
         OpenwordsSharedPreferences.init(this);
         Speak.getInstance(this);
         LocalFileSystem.makeFolders();

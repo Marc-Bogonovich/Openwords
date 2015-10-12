@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.openwords.R;
+import com.openwords.model.DataPool;
 import com.openwords.model.SetInfo;
 import java.util.List;
 
@@ -54,7 +55,7 @@ public class ListAdapterWordSets extends ArrayAdapter<SetInfo> {
                         true, context.getResources().getColor(R.color.white), 255);
                 viewHolder.deckName.setTextColor(context.getResources().getColor(R.color.blue));
             } else {
-                viewHolder.deckCircle = new ViewDeckCircle(context, context.getResources().getColor(R.color.main_app_color), 200,
+                viewHolder.deckCircle = new ViewDeckCircle(context, DataPool.Color_Main, 200,
                         false, -1, -1);
             }
             viewHolder.deckHolder.addView(viewHolder.deckCircle);

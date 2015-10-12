@@ -4,13 +4,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import com.openwords.model.DataPool;
+import com.openwords.ui.lily.lm.PageSelf;
 import com.openwords.util.log.LogUtil;
 
 public class WordConnectionPagerAdapter extends FragmentPagerAdapter implements InterfaceLearningModule {
 
-    private ActivityLearning activityInstance;
-    private Fragment[] allFragments;
-    private int maxFragmentSize;
+    private final ActivityLearning activityInstance;
+    private final Fragment[] allFragments;
+    private final int maxFragmentSize;
 
     public WordConnectionPagerAdapter(FragmentManager fm, ActivityLearning activityInstance, int maxFragmentSize) {
         super(fm);
@@ -46,7 +47,7 @@ public class WordConnectionPagerAdapter extends FragmentPagerAdapter implements 
                 break;
             case Learning_Type_Self:
                 if (allFragments[index] == null) {
-                    allFragments[index] = new FragmentCardSelfEval(index, activityInstance);
+                    allFragments[index] = new PageSelf(index, activityInstance);
                 }
                 break;
             case Learning_Type_Type:
