@@ -71,14 +71,19 @@
               android:stretchMode="columnWidth"
               android:gravity="center"/>
     
-    <GridView android:id="@+id/act_sl_grid2"
-              android:layout_width="match_parent"
+    <com.openwords.ui.lily.main.ViewDeckCircle android:id="@+id/page_sl_button_make"
+                                               android:orientation="vertical"
+                                               android:layout_width="60dp"
+                                               android:layout_height="60dp"
+                                               android:layout_gravity="center_horizontal"/>
+
+    <TextView android:id="@+id/page_sl_buttontext_make"
+              android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:columnWidth="120dp"
-              android:numColumns="1"
-              android:verticalSpacing="10dp"
-              android:horizontalSpacing="15dp"
-              android:stretchMode="columnWidth"
-              android:gravity="center"/>
+              android:gravity="center"
+              android:textSize="16sp"
+              android:textColor="@color/blue"
+              android:layout_gravity="center_horizontal"
+              android:singleLine="true"/>
 
 </LinearLayout>

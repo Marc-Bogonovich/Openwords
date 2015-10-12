@@ -33,14 +33,15 @@ import java.util.TimerTask;
 
 public class PageSetsList extends Activity {
 
-    private GridView listAllSets, buttonMake;
+    private GridView listAllSets;
+    private ViewDeckCircle buttonMake;
     private EditText searchInput;
     private Timer searchInputTimer;
     private Handler finishInput;
     private ListAdapterWordSets listAdapter;
     private ImageView buttonBack;
     private List<SetInfo> allSets;
-    private TextView title;
+    private TextView title, buttonTextMake;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,13 +68,8 @@ public class PageSetsList extends Activity {
             }
         });
 
-        buttonMake = (GridView) findViewById(R.id.act_sl_grid2);
-        LinkedList<SetInfo> buttonContent = new LinkedList<SetInfo>();
-        buttonContent.add(new SetInfo(LocalizationManager.getButtonCreate(), true));
-        buttonMake.setAdapter(new ListAdapterWordSets(this, buttonContent, LocalSettings.getUserId()));
-        buttonMake.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        View.OnClickListener clickCreate = new View.OnClickListener() {
+            public void onClick(View v) {
                 if (DataPool.OffLine) {
                     MyQuickToast.showShort(PageSetsList.this, "Cannot create set in offline mode.");
                     return;
@@ -85,7 +81,21 @@ public class PageSetsList extends Activity {
                         LocalSettings.getLearningLanguage().displayName, true, true));
                 PageSetsList.this.startActivity(new Intent(PageSetsList.this, PageSetContent.class));
             }
+        };
+        buttonMake = (ViewDeckCircle) findViewById(R.id.page_sl_button_make);
+        buttonMake.config(getResources().getColor(R.color.blue), 255,
+                true, getResources().getColor(R.color.white), 255);
+        buttonMake.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+
+            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                buttonMake.updateDimension(v.getWidth(), v.getHeight());
+            }
         });
+        buttonMake.setOnClickListener(clickCreate);
+
+        buttonTextMake = (TextView) findViewById(R.id.page_sl_buttontext_make);
+        buttonTextMake.setText(LocalizationManager.getButtonCreate());
+        buttonTextMake.setOnClickListener(clickCreate);
 
         finishInput = new Handler(new Callback() {
 
