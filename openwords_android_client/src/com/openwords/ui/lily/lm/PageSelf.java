@@ -29,6 +29,7 @@ public class PageSelf extends FragmentLearningModule {
     private Performance perf;
     private SetItem item;
     private MyTweenComputer tween;
+    private float optionDistance;
 
     public PageSelf(int cardIndex, ActivityLearning lmActivity) {
         this.cardIndex = cardIndex;
@@ -79,9 +80,9 @@ public class PageSelf extends FragmentLearningModule {
         happyBig = (ImageView) myFragmentView.findViewById(R.id.page_self_image6);
         touch.setColorFilter(DataPool.Color_Main, PorterDuff.Mode.MULTIPLY);
 
-        sad.setVisibility(View.GONE);
+        sad.setVisibility(View.INVISIBLE);
         sadBig.setVisibility(View.GONE);
-        happy.setVisibility(View.GONE);
+        happy.setVisibility(View.INVISIBLE);
         happyBig.setVisibility(View.GONE);
         answer.setVisibility(View.INVISIBLE);
 
@@ -222,6 +223,7 @@ public class PageSelf extends FragmentLearningModule {
         right.setVisibility(View.VISIBLE);
         rightBig.setVisibility(View.GONE);
         answer.setVisibility(View.VISIBLE);
+        optionDistance = mid.getLeft() - left.getLeft();
         tween.startAnimator();
     }
 
@@ -238,11 +240,11 @@ public class PageSelf extends FragmentLearningModule {
     public void setPhaseOut(int time) {
         float f = tween.timeProceed(time);
         sad.setAlpha(f);
-        float x1 = (1f - f) * 300;
+        float x1 = (1f - f) * optionDistance;
         sad.setTranslationX(x1);
 
         happy.setAlpha(f);
-        float x2 = (1f - f) * -300;
+        float x2 = (1f - f) * -optionDistance;
         happy.setTranslationX(x2);
 
         answer.setAlpha(f);
