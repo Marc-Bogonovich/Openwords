@@ -12,6 +12,7 @@
         </script>
         <script src="ng/control_root.js"></script>
         <script src="ng/control_uploads.js"></script>
+        <script src="ng/control_uploads_pinyin.js"></script>
         <script src="bootstrap-3.1.1/js/bootstrap.min.js"></script>
         <link rel="stylesheet" href="bootstrap-3.1.1/css/bootstrap.min.css" type="text/css">
         <script src="ng-file-upload/angular-file-upload.min.js"></script>
@@ -227,6 +228,17 @@
                                     <br/>
                                     <button class="btn btn-success" ng-show="showDownloadFile" ng-click="downloadFile()">Download translated file</button>
                                 </div>
+                            </div>
+
+                            <hr/>
+                            <div ng-controller="TranscriptionUploadControl">
+                                <div class="alert alert-danger drop-area" ng-file-drop="onFileSelect($files)" ng-file-drag-over-class="alert-success"
+                                     ng-show="dropSupported">You can drop your transcription.txt file here (Please use UTF-8 encoding, max file size: 800KB)</div>
+
+                                <div ng-file-drop-available="dropSupported=true" 
+                                     ng-show="!dropSupported">HTML5 Drop File is not supported!</div>
+
+                                <progressbar ng-show="started" class="progress-striped active" value="percentage" type="{{progressType}}"><b>{{progressText}}</b></progressbar>
                             </div>
 
                             <p style="margin-top: 80px; font-size: 20px;">And more later on...</p>
