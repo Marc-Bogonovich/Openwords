@@ -47,7 +47,7 @@ public class PageSetContent extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);//for testing purpose
-        setContentView(R.layout.activity_lily_wordset_page);
+        setContentView(R.layout.lily_page_setcontent);
         itemList = (ListView) findViewById(R.id.act_ws_list1);
         setTitle = (TextView) findViewById(R.id.act_ws_text1);
         setTitleInput = (EditText) findViewById(R.id.act_ws_edit1);

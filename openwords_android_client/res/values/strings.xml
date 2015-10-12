@@ -189,7 +189,7 @@
         <item>继续学习</item>
     </string-array>
     <string-array name="pc_end">
-        <item>Home</item>
+        <item>Done</item>
         <item>结束本次学习</item>
     </string-array>
     <string-array name="words_next">

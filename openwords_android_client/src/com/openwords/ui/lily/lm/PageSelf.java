@@ -85,6 +85,12 @@ public class PageSelf extends FragmentLearningModule {
         happyBig.setVisibility(View.GONE);
         answer.setVisibility(View.INVISIBLE);
 
+        if (perf.performance.equals("good")) {
+            touch.setImageResource(R.drawable.ic_lm_happy);
+        } else if (perf.performance.equals("bad")) {
+            touch.setImageResource(R.drawable.ic_lm_sad);
+        }
+
         touch.setOnTouchListener(new View.OnTouchListener() {
 
             public boolean onTouch(View view, MotionEvent me) {
