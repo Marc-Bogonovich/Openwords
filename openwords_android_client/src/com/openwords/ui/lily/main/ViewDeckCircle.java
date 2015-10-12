@@ -3,16 +3,29 @@ package com.openwords.ui.lily.main;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.util.AttributeSet;
 import android.view.View;
 
 public class ViewDeckCircle extends View {
-    
+
     private Paint shadePaint, markerPaint;
     private float centerX, centerY, radius;
-    private final int color, alpha, markerColor, markerAlpha;
-    private final boolean drawMarker;
+    private int color, alpha, markerColor, markerAlpha;
+    private boolean drawMarker;
     private String text;
-    
+
+    public ViewDeckCircle(Context context) {
+        super(context);
+    }
+
+    public ViewDeckCircle(Context context, AttributeSet attrs) {
+        super(context, attrs);
+    }
+
+    public ViewDeckCircle(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+    }
+
     public ViewDeckCircle(Context context, int color, int alpha, boolean drawMarker, int markerColor, int markerAlpha) {
         super(context);
         this.color = color;
@@ -22,12 +35,21 @@ public class ViewDeckCircle extends View {
         this.drawMarker = drawMarker;
         makePaints();
     }
-    
+
+    public void config(int color, int alpha, boolean drawMarker, int markerColor, int markerAlpha) {
+        this.color = color;
+        this.alpha = alpha;
+        this.markerColor = markerColor;
+        this.markerAlpha = markerAlpha;
+        this.drawMarker = drawMarker;
+        makePaints();
+    }
+
     public void setText(String text) {
         this.text = text;
         invalidate();
     }
-    
+
     public void updateDimension(int viewWidth, int viewHeight) {
         if (viewWidth > viewHeight) {
             radius = viewHeight / 2;
@@ -40,18 +62,18 @@ public class ViewDeckCircle extends View {
         }
         //LogUtil.logDeubg(this, "updateDimension: " + viewWidth + " " + viewHeight);
     }
-    
+
     public void updateColor(int color) {
         shadePaint.setColor(color);
     }
-    
+
     private void makePaints() {
         shadePaint = new Paint();
         shadePaint.setAntiAlias(true);
         shadePaint.setStyle(Paint.Style.FILL);
         shadePaint.setColor(color);
         shadePaint.setAlpha(alpha);
-        
+
         markerPaint = new Paint();
         markerPaint.setAntiAlias(true);
         markerPaint.setStyle(Paint.Style.FILL);
@@ -59,7 +81,7 @@ public class ViewDeckCircle extends View {
         markerPaint.setAlpha(markerAlpha);
         markerPaint.setStrokeWidth(5);
     }
-    
+
     @Override
     public void onDraw(Canvas canvas) {
         canvas.drawCircle(centerX, centerY, radius, shadePaint);
