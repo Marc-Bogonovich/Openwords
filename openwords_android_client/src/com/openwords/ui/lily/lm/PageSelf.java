@@ -40,7 +40,7 @@ public class PageSelf extends FragmentLearningModule {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LogUtil.logDeubg(this, "onCreate for card: " + cardIndex);
-        tween = new MyTweenComputer(0.0f, 1f, 1000, this, "phaseOut");
+        tween = new MyTweenComputer(0.0f, 1f, 800, this, "phaseOut");
     }
 
     @Override
@@ -78,7 +78,6 @@ public class PageSelf extends FragmentLearningModule {
         happy = (ImageView) myFragmentView.findViewById(R.id.page_self_image4);
         sadBig = (ImageView) myFragmentView.findViewById(R.id.page_self_image5);
         happyBig = (ImageView) myFragmentView.findViewById(R.id.page_self_image6);
-        touch.setColorFilter(DataPool.Color_Main, PorterDuff.Mode.MULTIPLY);
 
         sad.setVisibility(View.INVISIBLE);
         sadBig.setVisibility(View.GONE);
@@ -88,8 +87,12 @@ public class PageSelf extends FragmentLearningModule {
 
         if (perf.performance.equals("good")) {
             touch.setImageResource(R.drawable.ic_lm_happy);
+            touch.setColorFilter(null);
         } else if (perf.performance.equals("bad")) {
             touch.setImageResource(R.drawable.ic_lm_sad);
+            touch.setColorFilter(null);
+        } else {
+            touch.setColorFilter(DataPool.Color_Main, PorterDuff.Mode.MULTIPLY);
         }
 
         touch.setOnTouchListener(new View.OnTouchListener() {

@@ -74,11 +74,11 @@
                     android:contentDescription=""/>
         
         <ImageView  android:id="@+id/page_self_image5"
-                    android:layout_width="82dp"
-                    android:layout_height="82dp"
+                    android:layout_width="106dp"
+                    android:layout_height="106dp"
                     android:src="@drawable/ic_lm_sad"
                     android:padding="5dp"
-                    android:layout_marginRight="22dp"
+                    android:layout_marginRight="25dp"
                     android:contentDescription=""/>
         
         <ImageView  android:id="@+id/page_self_image3"
@@ -97,11 +97,11 @@
                     android:contentDescription=""/>
         
         <ImageView  android:id="@+id/page_self_image6"
-                    android:layout_width="82dp"
-                    android:layout_height="82dp"
+                    android:layout_width="106dp"
+                    android:layout_height="106dp"
                     android:src="@drawable/ic_lm_happy"
                     android:padding="5dp"
-                    android:layout_marginLeft="22dp"
+                    android:layout_marginLeft="25dp"
                     android:contentDescription=""/>
              
     </LinearLayout>    
