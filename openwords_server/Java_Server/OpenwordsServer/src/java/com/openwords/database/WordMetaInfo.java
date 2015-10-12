@@ -6,7 +6,7 @@ import org.apache.struts2.json.annotations.JSON;
 public class WordMetaInfo {
 
     private Integer commRank, popRank;
-    private String commonTranslation, nativeTranslation, nativeForm;
+    private String commonTranslation, nativeTranslation, nativeForm, nativeTranscription;
 
     public WordMetaInfo() {
     }
@@ -54,6 +54,14 @@ public class WordMetaInfo {
 
     public void setNativeForm(String nativeForm) {
         this.nativeForm = nativeForm;
+    }
+
+    public String getNativeTranscription() {
+        return nativeTranscription;
+    }
+
+    public void setNativeTranscription(String nativeTranscription) {
+        this.nativeTranscription = nativeTranscription;
     }
 
     @JSON(serialize = false, deserialize = false)
