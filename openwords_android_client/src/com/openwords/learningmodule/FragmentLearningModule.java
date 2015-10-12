@@ -19,11 +19,13 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.openwords.R;
+import com.openwords.model.DataPool;
 import com.openwords.model.Performance;
 import com.openwords.model.Word;
 import com.openwords.model.WordAudio;
 import com.openwords.sound.SoundPlayer;
 import com.openwords.ui.graphics.AnimationTimerBar;
+import com.openwords.ui.lily.lm.ViewSoundBackground;
 import com.openwords.util.WordComparsion;
 import com.openwords.util.file.LocalFileSystem;
 import com.openwords.util.log.LogUtil;
@@ -57,6 +59,26 @@ public abstract class FragmentLearningModule extends Fragment {
                 }
             });
             audioPlay.setSoundEffectsEnabled(false);
+        }
+    }
+
+    public void updateAudioIcon(final ViewSoundBackground soundView, long wordId) {
+        final WordAudio audio = WordAudio.getAudio(wordId);
+        if (audio == null) {
+            soundView.config(DataPool.Color_Main, 150, false, new View.OnClickListener() {
+
+                public void onClick(View view) {
+                }
+            });
+        } else {
+            soundView.config(DataPool.Color_Main, 255, false, new View.OnClickListener() {
+
+                public void onClick(View view) {
+                    soundView.touchAnimation();
+                    LogUtil.logDeubg(this, "Play: " + audio.fileName);
+                    SoundPlayer.playMusic(LocalFileSystem.getAudioFullPath(audio.fileName), true);
+                }
+            });
         }
     }
 

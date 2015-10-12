@@ -1,6 +1,5 @@
 package com.openwords.ui.lily.lm;
 
-import android.content.res.AssetFileDescriptor;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,9 +12,10 @@ import com.openwords.R;
 import com.openwords.learningmodule.ActivityLearning;
 import com.openwords.learningmodule.FragmentLearningModule;
 import com.openwords.model.DataPool;
-import com.openwords.sound.SoundPlayer;
+import com.openwords.model.Performance;
+import com.openwords.model.SetItem;
 import com.openwords.util.log.LogUtil;
-import java.io.IOException;
+import com.openwords.util.ui.MyQuickToast;
 
 public class PageSelf extends FragmentLearningModule {
 
@@ -26,6 +26,8 @@ public class PageSelf extends FragmentLearningModule {
     private MyMaxTextView tran, problem, answer;
     private ImageView buttonOption, touch, sad, happy, happyBig, sadBig;
     private boolean canTouch;
+    private Performance perf;
+    private SetItem item;
 
     public PageSelf(int cardIndex, ActivityLearning lmActivity) {
         this.cardIndex = cardIndex;
@@ -57,31 +59,27 @@ public class PageSelf extends FragmentLearningModule {
         canTouch = true;
         myFragmentView = inflater.inflate(R.layout.lily_page_lm_self, container, false);
 
+        item = DataPool.currentSetItems.get(cardIndex);
+        perf = DataPool.currentPerformance.get(cardIndex);
+        if (perf == null) {
+            MyQuickToast.showShort(lmActivity, "No performance data");
+            return null;
+        }
+
         buttonOption = (ImageView) myFragmentView.findViewById(R.id.page_self_image1);
         buttonOption.setColorFilter(DataPool.Color_Main, PorterDuff.Mode.MULTIPLY);
 
         soundButton = (ViewSoundBackground) myFragmentView.findViewById(R.id.lily_button_sound_bg);
-        soundButton.config(DataPool.Color_Main, 255, false, new View.OnClickListener() {
-
-            public void onClick(View view) {
-                soundButton.touchAnimation();
-                try {
-                    AssetFileDescriptor test = getActivity().getAssets().openFd("pang.mp3");
-                    SoundPlayer.playSound(test);
-                } catch (IOException ex) {
-                    LogUtil.logWarning(this, ex);
-                }
-            }
-        });
+        updateAudioIcon(soundButton, item.wordTwoId);
 
         tran = (MyMaxTextView) myFragmentView.findViewById(R.id.page_self_text_tran);
         tran.config(DataPool.Color_Main, 255, "Transcription", 48);
 
         problem = (MyMaxTextView) myFragmentView.findViewById(R.id.page_self_text_problem);
-        problem.config(DataPool.Color_Main, 255, "Problem", 48);
+        problem.config(DataPool.Color_Main, 255, item.wordTwo, 48);
 
         answer = (MyMaxTextView) myFragmentView.findViewById(R.id.page_self_text_answer);
-        answer.config(DataPool.Color_Main, 255, "Answer", 48);
+        answer.config(DataPool.Color_Main, 255, item.wordOne, 48);
 
         sad = (ImageView) myFragmentView.findViewById(R.id.page_self_image2);
         touch = (ImageView) myFragmentView.findViewById(R.id.page_self_image3);
@@ -184,6 +182,7 @@ public class PageSelf extends FragmentLearningModule {
     private void leftConfirm(ImageView mid) {
         mid.setImageResource(R.drawable.ic_lm_sad);
         mid.setColorFilter(null);
+        perf.performance = "bad";
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             public void run() {
@@ -196,6 +195,7 @@ public class PageSelf extends FragmentLearningModule {
     private void rightConfirm(ImageView mid) {
         mid.setImageResource(R.drawable.ic_lm_happy);
         mid.setColorFilter(null);
+        perf.performance = "good";
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             public void run() {
