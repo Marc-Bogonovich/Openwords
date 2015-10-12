@@ -46,7 +46,7 @@ public class PageSetsList extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        setContentView(R.layout.activity_lily_sets_list_page);
+        setContentView(R.layout.lily_page_setlist);
 
         title = (TextView) findViewById(R.id.act_sl_text1);
         title.setText(LocalizationManager.getTitleWordSets());
@@ -69,9 +69,7 @@ public class PageSetsList extends Activity {
 
         buttonMake = (GridView) findViewById(R.id.act_sl_grid2);
         LinkedList<SetInfo> buttonContent = new LinkedList<SetInfo>();
-        buttonContent.add(null);
         buttonContent.add(new SetInfo(LocalizationManager.getButtonCreate(), true));
-        buttonContent.add(null);
         buttonMake.setAdapter(new ListAdapterWordSets(this, buttonContent, LocalSettings.getUserId()));
         buttonMake.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
