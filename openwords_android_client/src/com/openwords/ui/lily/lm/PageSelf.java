@@ -25,9 +25,10 @@ public class PageSelf extends FragmentLearningModule {
     private ViewSoundBackground soundButton;
     private MyMaxTextView tran, problem, answer;
     private ImageView buttonOption, touch, sad, happy, happyBig, sadBig;
-    private boolean canTouch;
+    private boolean canTouch, optionReady;
     private Performance perf;
     private SetItem item;
+    private MyTweenComputer tween;
 
     public PageSelf(int cardIndex, ActivityLearning lmActivity) {
         this.cardIndex = cardIndex;
@@ -38,6 +39,7 @@ public class PageSelf extends FragmentLearningModule {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LogUtil.logDeubg(this, "onCreate for card: " + cardIndex);
+        tween = new MyTweenComputer(0.0f, 1f, 1000, this, "phaseOut");
     }
 
     @Override
@@ -45,6 +47,7 @@ public class PageSelf extends FragmentLearningModule {
         super.onCreate(savedInstanceState);
         LogUtil.logDeubg(this, "onCreateView for card: " + cardIndex);
         canTouch = true;
+        optionReady = false;
         myFragmentView = inflater.inflate(R.layout.lily_page_lm_self, container, false);
 
         item = DataPool.currentSetItems.get(cardIndex);
@@ -61,7 +64,7 @@ public class PageSelf extends FragmentLearningModule {
         updateAudioIcon(soundButton, item.wordTwoId);
 
         tran = (MyMaxTextView) myFragmentView.findViewById(R.id.page_self_text_tran);
-        tran.config(DataPool.Color_Main, 255, "Transcription", 48);
+        tran.config(DataPool.Color_Main, 255, "", 48);
 
         problem = (MyMaxTextView) myFragmentView.findViewById(R.id.page_self_text_problem);
         problem.config(DataPool.Color_Main, 255, item.wordTwo, 48);
@@ -92,12 +95,19 @@ public class PageSelf extends FragmentLearningModule {
                 float fingerX, fingerY;
                 switch (me.getAction()) {
                     case MotionEvent.ACTION_DOWN:
+                        LogUtil.logDeubg(this, "down");
+                        optionReady = false;
                         showOption(touch, sad, sadBig, happy, happyBig, answer);
                         break;
                     case MotionEvent.ACTION_CANCEL:
+                        LogUtil.logDeubg(this, "cancel");
+                        optionReady = false;
                         hideOption(touch, sad, sadBig, happy, happyBig, answer);
                         break;
                     case MotionEvent.ACTION_MOVE:
+                        if (!optionReady) {
+                            break;
+                        }
                         fingerX = me.getRawX();
                         fingerY = me.getRawY();
                         if (isFingerInElement(location, happy, fingerX, fingerY)) {
@@ -114,9 +124,14 @@ public class PageSelf extends FragmentLearningModule {
                         }
                         break;
                     case MotionEvent.ACTION_UP:
+                        tween.cancelAnimator();
+                        LogUtil.logDeubg(this, "up");
                         fingerX = me.getRawX();
                         fingerY = me.getRawY();
                         hideOption(touch, sad, sadBig, happy, happyBig, answer);
+                        if (!optionReady) {
+                            break;
+                        }
                         if (isFingerInElement(location, happy, fingerX, fingerY)) {
                             canTouch = false;
                             answer.setVisibility(View.VISIBLE);
@@ -194,21 +209,40 @@ public class PageSelf extends FragmentLearningModule {
     }
 
     private void showOption(View mid, View left, View leftBig, View right, View rightBig, View answer) {
+        tween.cancelAnimator();
         mid.setVisibility(View.INVISIBLE);
         left.setVisibility(View.VISIBLE);
         leftBig.setVisibility(View.GONE);
         right.setVisibility(View.VISIBLE);
         rightBig.setVisibility(View.GONE);
         answer.setVisibility(View.VISIBLE);
+        tween.startAnimator();
     }
 
     private void hideOption(View mid, View left, View leftBig, View right, View rightBig, View answer) {
+        tween.cancelAnimator();
         mid.setVisibility(View.VISIBLE);
         left.setVisibility(View.INVISIBLE);
         leftBig.setVisibility(View.GONE);
         right.setVisibility(View.INVISIBLE);
         rightBig.setVisibility(View.GONE);
         answer.setVisibility(View.INVISIBLE);
+    }
+
+    public void setPhaseOut(int time) {
+        float f = tween.timeProceed(time);
+        sad.setAlpha(f);
+        float x1 = (1f - f) * 300;
+        sad.setTranslationX(x1);
+
+        happy.setAlpha(f);
+        float x2 = (1f - f) * -300;
+        happy.setTranslationX(x2);
+
+        answer.setAlpha(f);
+        if (f == 1) {
+            optionReady = true;
+        }
     }
 
     @Override

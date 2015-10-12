@@ -12,12 +12,14 @@ import com.openwords.util.log.LogUtil;
 
 public class ViewSoundBackground extends View {
 
+    private static Bitmap icon;
+    private static Bitmap drawIcon;
+    private static final float iconScale = 0.5f;
+
     private Paint colorPaint, iconPaint;
     private float centerX, centerY, radius, initRadius, iconX, iconY;
     private int color, alpha;
     private MyTweenComputer tween;
-    private static Bitmap icon, drawIcon;
-    private static final float iconScale = 0.5f;
 
     public ViewSoundBackground(Context context) {
         super(context);
