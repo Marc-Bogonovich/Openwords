@@ -8,33 +8,6 @@ import android.animation.ObjectAnimator;
  */
 public class MyTweenComputer {
 
-    private float beginning;
-    private float change;
-    private int duration;
-    private ObjectAnimator animator;
-
-    public MyTweenComputer(float beginning, float change, int duration, Object target, String propertyName) {
-        this.beginning = beginning;
-        this.change = change;
-        this.duration = duration;
-        animator = ObjectAnimator.ofInt(target, propertyName, 0, duration);
-        animator.setDuration(duration);
-        animator.setAutoCancel(true);
-    }
-
-    public void startAnimator() {
-        animator.start();
-    }
-
-    public void cancelAnimator() {
-        animator.cancel();
-    }
-
-    public float timeProceed(int time) {
-        float value = easeOutExpo(time, beginning, change, duration);
-        return value;
-    }
-
     public static float linear(float time, float beginning, float change, float duration) {
         return time / duration * change + beginning;
     }
@@ -53,6 +26,33 @@ public class MyTweenComputer {
         } else {
             return change * (7.5625f * (time -= (2.625f / 2.75f)) * time + .984375f) + beginning;
         }
+    }
+
+    private final float beginning;
+    private final float change;
+    private final int duration;
+    private final ObjectAnimator animator;
+
+    public MyTweenComputer(float beginning, float change, int duration, Object target, String propertyName) {
+        this.beginning = beginning;
+        this.change = change;
+        this.duration = duration;
+        animator = ObjectAnimator.ofInt(target, propertyName, 0, duration);
+        animator.setDuration(duration);
+        //animator.setAutoCancel(true);//API level 18
+    }
+
+    public void startAnimator() {
+        animator.start();
+    }
+
+    public void cancelAnimator() {
+        animator.cancel();
+    }
+
+    public float timeProceed(int time) {
+        float value = easeOutExpo(time, beginning, change, duration);
+        return value;
     }
 
 }

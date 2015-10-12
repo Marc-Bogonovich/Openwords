@@ -44,11 +44,11 @@ public class ViewMaxText extends View {
 
         alphaAnimator = ObjectAnimator.ofInt(this, "textAlpha", 255, 0);
         alphaAnimator.setDuration(500);
-        alphaAnimator.setAutoCancel(true);
+        //alphaAnimator.setAutoCancel(true);
 
         outTextAnimator = ObjectAnimator.ofInt(this, "textPosition", 1, 1000);
         outTextAnimator.setDuration(3000);
-        outTextAnimator.setAutoCancel(true);
+        //outTextAnimator.setAutoCancel(true);
     }
 
     public void config(int color, int alpha, String text, float minTextSize, String swapText) {
