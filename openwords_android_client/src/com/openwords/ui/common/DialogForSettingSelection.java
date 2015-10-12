@@ -32,7 +32,7 @@ public class DialogForSettingSelection extends Dialog {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         WindowManager.LayoutParams layout = getWindow().getAttributes();
-        layout.gravity = Gravity.TOP | Gravity.RIGHT;
+        layout.gravity = Gravity.TOP | Gravity.LEFT;
         layout.x = positionX;
         layout.y = positionY;
 
