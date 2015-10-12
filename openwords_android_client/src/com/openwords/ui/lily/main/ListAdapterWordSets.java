@@ -50,14 +50,8 @@ public class ListAdapterWordSets extends ArrayAdapter<SetInfo> {
         viewHolder.deckName = (TextView) view.findViewById(R.id.list_item_deck_info_1);
         viewHolder.deckHolder = (LinearLayout) view.findViewById(R.id.list_item_deck_info_deck);
         if (info != null) {
-            if (info.isPlusButton) {
-                viewHolder.deckCircle = new ViewDeckCircle(context, context.getResources().getColor(R.color.blue), 255,
-                        true, context.getResources().getColor(R.color.white), 255);
-                viewHolder.deckName.setTextColor(context.getResources().getColor(R.color.blue));
-            } else {
-                viewHolder.deckCircle = new ViewDeckCircle(context, DataPool.Color_Main, 200,
-                        false, -1, -1);
-            }
+            viewHolder.deckCircle = new ViewDeckCircle(context, DataPool.Color_Main, 200,
+                    false, -1, -1);
             viewHolder.deckHolder.addView(viewHolder.deckCircle);
             viewHolder.deckHolder.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
 
@@ -73,12 +67,9 @@ public class ListAdapterWordSets extends ArrayAdapter<SetInfo> {
         viewHolder.deckName.setText(info.name);
         if (info.userId == localUserId && info.setId != 0) {
             viewHolder.deckCircle.updateColor(Color.parseColor("#477368"));
-        } else if (!info.isPlusButton) {
+        } else {
             viewHolder.deckCircle.updateColor(DataPool.Color_Main);
         }
-//            if (!deckInfo.isPlusButton) {
-//                viewHolder.deckCircle.setText(deckInfo.name);
-//            }
 
     }
 

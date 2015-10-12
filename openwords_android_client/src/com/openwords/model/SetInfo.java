@@ -5,7 +5,6 @@ import com.openwords.services.implementations.ServiceSetWordSet;
 import com.openwords.services.implementations.ServiceUpdateSetItems;
 import com.openwords.services.interfaces.HttpResultHandler;
 import com.orm.SugarRecord;
-import com.orm.dsl.Ignore;
 import com.orm.query.Select;
 import java.util.ArrayList;
 import java.util.List;
@@ -120,19 +119,12 @@ public class SetInfo extends SugarRecord<SetInfo> {
     public int nativeLang, learningLang, setSize;
     public String name;
     public long updatedTimeLong;
-    @Ignore
-    public boolean isPlusButton;
 
     public SetInfo() {
     }
 
     public SetInfo(long setId) {
         this.setId = setId;
-    }
-
-    public SetInfo(String name, boolean isPlusButton) {
-        this.name = name;
-        this.isPlusButton = isPlusButton;
     }
 
     public SetInfo(String name) {
