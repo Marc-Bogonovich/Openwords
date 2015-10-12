@@ -73,6 +73,8 @@ public class ListAdapterWordSets extends ArrayAdapter<SetInfo> {
         viewHolder.deckName.setText(info.name);
         if (info.userId == localUserId && info.setId != 0) {
             viewHolder.deckCircle.updateColor(Color.parseColor("#477368"));
+        } else if (!info.isPlusButton) {
+            viewHolder.deckCircle.updateColor(DataPool.Color_Main);
         }
 //            if (!deckInfo.isPlusButton) {
 //                viewHolder.deckCircle.setText(deckInfo.name);

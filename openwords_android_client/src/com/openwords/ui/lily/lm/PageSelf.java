@@ -41,18 +41,6 @@ public class PageSelf extends FragmentLearningModule {
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        LogUtil.logDeubg(this, "onDestroy for card: " + cardIndex);
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        LogUtil.logDeubg(this, "onDetach for card: " + cardIndex);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LogUtil.logDeubg(this, "onCreateView for card: " + cardIndex);
@@ -221,5 +209,17 @@ public class PageSelf extends FragmentLearningModule {
         right.setVisibility(View.INVISIBLE);
         rightBig.setVisibility(View.GONE);
         answer.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        LogUtil.logDeubg(this, "onDestroy for card: " + cardIndex);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        LogUtil.logDeubg(this, "onDetach for card: " + cardIndex);
     }
 }

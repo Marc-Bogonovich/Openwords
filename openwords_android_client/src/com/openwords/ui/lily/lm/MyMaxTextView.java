@@ -7,7 +7,7 @@ import android.view.View;
 
 public class MyMaxTextView extends View {
 
-    private static final float sizeOffset = 48;
+    private static final float sizeOffset = 64;
 
     private MyCanvasTextModel mainText;
     private float minTextSize;

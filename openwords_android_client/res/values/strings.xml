@@ -16,7 +16,7 @@
         <item>开始练习</item>
     </string-array>
     <string-array name="button_create_set">
-        <item>Create a Word Set</item>
+        <item>Create Word Set</item>
         <item>建造你的词集</item>
     </string-array>
     <string-array name="button_resume">
