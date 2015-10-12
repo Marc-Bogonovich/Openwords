@@ -12,7 +12,7 @@ public class MyCanvasTextModel {
     public Paint paint;
     public String text = "";
     public float viewWidth, viewHeight, centerX, centerY, textWidth, textHeight, textX, textY, initialTextX;
-    private int color, alpha;
+    private final int color, alpha;
     public Rect textBounds;
     public boolean textOut;
 
