@@ -5,7 +5,6 @@ import com.openwords.database.Word;
 import com.openwords.database.WordForTTS;
 import com.openwords.interfaces.MyAction;
 import com.openwords.utils.UtilLog;
-import java.io.PrintWriter;
 import java.util.List;
 import javax.servlet.ServletOutputStream;
 import org.apache.struts2.convention.annotation.Action;

@@ -61,6 +61,7 @@ public class DatabaseHandler {
         configuration.setProperty("hibernate.connection.url", "jdbc:mysql://127.0.0.1:8889/openwords_words?autoReconnect=true");
         configuration.setProperty("hibernate.connection.username", "root");
         configuration.setProperty("hibernate.connection.password", "root");
+
         configuration.setProperty("hibernate.connection.characterEncoding", "utf-8");
         //configuration.setProperty("hibernate.format_sql", "true");
         //configuration.setProperty("hibernate.show_sql", "true");
@@ -80,7 +81,8 @@ public class DatabaseHandler {
                 .addAnnotatedClass(SetRelation.class)
                 .addAnnotatedClass(Sentence.class)
                 .addAnnotatedClass(SentenceItem.class)
-                .addAnnotatedClass(SentenceConnection.class);
+                .addAnnotatedClass(SentenceConnection.class)
+                .addAnnotatedClass(SystemSetting.class);
 
         sessionFactory = configuration.buildSessionFactory(new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build());
         sessionFactory.getStatistics().setStatisticsEnabled(true);

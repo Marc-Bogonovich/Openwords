@@ -16,11 +16,11 @@ import org.apache.struts2.convention.annotation.Action;
 import org.hibernate.Session;
 
 public class UpdateTranscription extends MyAction {
-    
+
     private static final long serialVersionUID = 1L;
     public static AtomicBoolean inUse = new AtomicBoolean(false);
     private File file;
-    
+
     @Action(value = "/updateTranscription")
     @Override
     public String execute() throws Exception {
@@ -40,7 +40,7 @@ public class UpdateTranscription extends MyAction {
         }
         return null;
     }
-    
+
     private boolean isPermitted(Session s) {
         List<SystemSetting> settings = SystemSetting.loadAll(s);
         for (SystemSetting setting : settings) {
@@ -51,7 +51,7 @@ public class UpdateTranscription extends MyAction {
         }
         return false;
     }
-    
+
     private void parseFile(Session s) {
         try {
             Scanner scan = new Scanner(file);
@@ -66,7 +66,7 @@ public class UpdateTranscription extends MyAction {
                 long wordId = Long.parseLong(words[0]);
                 String word = words[1];
                 String tran = line1.trim();
-                
+
                 Word w = (Word) s.get(Word.class, wordId);
                 if (w != null) {
                     WordMetaInfo meta = w.getWordMetaInfo();
@@ -85,16 +85,16 @@ public class UpdateTranscription extends MyAction {
             inUse.set(false);
         }
     }
-    
+
     public void setFile(File file) {
         this.file = file;
     }
-    
+
     @Override
     public void validate() {
         MyFieldValidation.checkBlackList(this, getHttpRequest());
     }
-    
+
     @Override
     public void setErrorMessage(String errorMessage) {
     }
