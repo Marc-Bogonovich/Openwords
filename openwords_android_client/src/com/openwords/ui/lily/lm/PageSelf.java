@@ -95,7 +95,10 @@ public class PageSelf extends FragmentLearningModule {
         updateAudioIcon(soundButton, item.wordTwoId);
 
         tran = (MyMaxTextView) myFragmentView.findViewById(R.id.page_self_text_tran);
-        tran.config(DataPool.Color_Main, 255, "", 48);
+        if (item.twoTranscription == null) {
+            item.twoTranscription = "";
+        }
+        tran.config(DataPool.Color_Main, 255, item.twoTranscription, 48);
 
         problem = (MyMaxTextView) myFragmentView.findViewById(R.id.page_self_text_problem);
         problem.config(DataPool.Color_Main, 255, item.wordTwo, 48);

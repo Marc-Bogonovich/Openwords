@@ -29,13 +29,14 @@ public class SetItem extends SugarRecord<SetItem> {
             public void hasResult(Object resultObject) {
                 ServiceGetSetItems.Result r = (ServiceGetSetItems.Result) resultObject;
                 Word.saveOrUpdateAll(r.words);
-                Map<Long, String> commons = new HashMap<Long, String>(r.words.size());
+                Map<Long, Word> commons = new HashMap<Long, Word>(r.words.size());
                 for (Word w : r.words) {
-                    commons.put(w.wordId, w.getMeta().commonTranslation);
+                    commons.put(w.wordId, w);
                 }
                 for (SetItem item : r.itemsResult) {
-                    item.wordOneCommon = commons.get(item.wordOneId);
-                    item.wordTwoCommon = commons.get(item.wordTwoId);
+                    item.wordOneCommon = commons.get(item.wordOneId).getMeta().commonTranslation;
+                    item.wordTwoCommon = commons.get(item.wordTwoId).getMeta().commonTranslation;
+                    item.twoTranscription = commons.get(item.wordTwoId).getMeta().nativeTranscription;
                 }
                 refreshAll(setId, r.itemsResult);
                 resultHanlder.result(r.itemsResult);
@@ -49,7 +50,7 @@ public class SetItem extends SugarRecord<SetItem> {
 
     public long setId, wordOneId, wordTwoId;
     public int itemOrder;
-    public String wordOne, wordTwo, wordOneCommon, wordTwoCommon;
+    public String wordOne, wordTwo, wordOneCommon, wordTwoCommon, twoTranscription;
     @Ignore
     public boolean isHead;
     @Ignore

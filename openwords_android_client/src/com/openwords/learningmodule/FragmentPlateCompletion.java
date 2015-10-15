@@ -16,10 +16,7 @@ import com.openwords.model.DataPool;
 import com.openwords.model.LocalSettings;
 import com.openwords.model.Performance;
 import com.openwords.model.UserLanguage;
-import com.openwords.services.implementations.ServiceGetUserPerformanceSum;
-import com.openwords.services.implementations.ServiceGetUserPerformanceSum.Result;
 import com.openwords.services.implementations.ServiceSetLanguagePage;
-import com.openwords.services.implementations.ServiceSetUserPerformance;
 import com.openwords.services.interfaces.HttpResultHandler;
 import com.openwords.util.localization.LocalizationManager;
 import com.openwords.util.log.LogUtil;
@@ -74,7 +71,7 @@ public class FragmentPlateCompletion extends Fragment implements InterfaceLearni
 
         nextPlate.setOnClickListener(new OnClickListener() {
             public void onClick(View view) {
-                advanceToNextPageData();
+                //advanceToNextPageData();
             }
         });
         exit.setOnClickListener(new OnClickListener() {
@@ -117,7 +114,8 @@ public class FragmentPlateCompletion extends Fragment implements InterfaceLearni
         int currentGood = 0;
         int currentBad = 0;
         int currentNew = 0;
-        for (Performance perf : DataPool.getAllPerformance(true)) {
+        //for (Performance perf : DataPool.getAllPerformance(true)) {
+        for (Performance perf : DataPool.currentPerformance) {
             if (perf.performance.contains("good")) {
                 currentGood += 1;
             } else if (perf.performance.contains("bad")) {
@@ -126,39 +124,38 @@ public class FragmentPlateCompletion extends Fragment implements InterfaceLearni
                 currentNew += 1;
             }
         }
-        performance.setText(currentGood + "/" + DataPool.getAllPerformance(false).size());
+        performance.setText("Ok: " + currentGood + "\nNot ok: " + currentBad);
         if (DataPool.LmType != Learning_Type_Review) {
             skip.setText("skipped: " + currentNew);
         }
-        birthday.setText("");
+        //birthday.setText("You are " + Language.getLanguageInfo(LocalSettings.getCurrentLearningLanguage()).name + " baby now.");
         birthdayDetail.setText("");
 
-        new ServiceSetUserPerformance().doRequest(LocalSettings.getUserId(), false, DataPool.getAllPerformance(true), "all",
-                new HttpResultHandler() {
-
-                    public void hasResult(Object resultObject) {
-                        MyQuickToast.showShort(getActivity(), "Your performance is recorded.");
-
-                        new ServiceGetUserPerformanceSum().doRequest(LocalSettings.getUserId(), LocalSettings.getBaseLanguageId(), DataPool.LmLearningLang,
-                                new HttpResultHandler() {
-
-                                    public void hasResult(Object resultObject) {
-                                        Result r = (Result) resultObject;
-                                        vocabSize.setText("Total Vocab: " + r.totalGood + "/" + r.total);
-                                        double effort = (double) r.totalVersion / r.total;
-                                        evaluation.setText("Learning Effort: " + decimalFormat.format(effort) + " revisions per word");
-                                    }
-
-                                    public void noResult(String errorMessage) {
-                                        MyQuickToast.showShort(getActivity(), "Cannot get your performance summary");
-                                    }
-                                });
-                    }
-
-                    public void noResult(String errorMessage) {
-                        MyQuickToast.showShort(getActivity(), "Cannot record your performance, please start over");
-                    }
-                });
-
+//        new ServiceSetUserPerformance().doRequest(LocalSettings.getUserId(), false, DataPool.getAllPerformance(true), "all",
+//                new HttpResultHandler() {
+//
+//                    public void hasResult(Object resultObject) {
+//                        MyQuickToast.showShort(getActivity(), "Your performance is recorded.");
+//
+//                        new ServiceGetUserPerformanceSum().doRequest(LocalSettings.getUserId(), LocalSettings.getBaseLanguageId(), DataPool.LmLearningLang,
+//                                new HttpResultHandler() {
+//
+//                                    public void hasResult(Object resultObject) {
+//                                        Result r = (Result) resultObject;
+//                                        vocabSize.setText("Total Vocab: " + r.totalGood + "/" + r.total);
+//                                        double effort = (double) r.totalVersion / r.total;
+//                                        evaluation.setText("Learning Effort: " + decimalFormat.format(effort) + " revisions per word");
+//                                    }
+//
+//                                    public void noResult(String errorMessage) {
+//                                        MyQuickToast.showShort(getActivity(), "Cannot get your performance summary");
+//                                    }
+//                                });
+//                    }
+//
+//                    public void noResult(String errorMessage) {
+//                        MyQuickToast.showShort(getActivity(), "Cannot record your performance, please start over");
+//                    }
+//                });
     }
 }
