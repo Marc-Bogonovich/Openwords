@@ -49,7 +49,11 @@ public class PageLMOption extends Activity {
         buttons.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 1) {
+                if (position == 0) {
+                    DataPool.LmType = InterfaceLearningModule.Learning_Type_Review;
+                    startActivity(new Intent(PageLMOption.this, ActivityLearning.class));
+                    PageLMOption.this.finish();
+                } else if (position == 1) {
                     DataPool.LmType = InterfaceLearningModule.Learning_Type_Self;
                     startActivity(new Intent(PageLMOption.this, ActivityLearning.class));
                     PageLMOption.this.finish();

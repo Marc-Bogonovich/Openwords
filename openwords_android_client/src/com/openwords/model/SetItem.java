@@ -100,4 +100,11 @@ public class SetItem extends SugarRecord<SetItem> {
         this.isNew = isNew;
     }
 
+    public SetItem(String wordOne, String wordTwo, String wordOneCommon, String wordTwoCommon, String twoTranscription) {
+        this.wordOne = wordOne;
+        this.wordTwo = wordTwo;
+        this.wordOneCommon = wordOneCommon;
+        this.wordTwoCommon = wordTwoCommon;
+        this.twoTranscription = twoTranscription;
+    }
 }

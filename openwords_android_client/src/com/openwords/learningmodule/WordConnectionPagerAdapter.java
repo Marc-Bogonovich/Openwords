@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import com.openwords.model.DataPool;
+import com.openwords.ui.lily.lm.PageReview;
 import com.openwords.ui.lily.lm.PageSelf;
 import com.openwords.util.log.LogUtil;
 
@@ -42,7 +43,7 @@ public class WordConnectionPagerAdapter extends FragmentPagerAdapter implements 
         switch (DataPool.LmType) {
             case Learning_Type_Review:
                 if (allFragments[index] == null) {
-                    allFragments[index] = new FragmentCardReview(index, activityInstance);
+                    allFragments[index] = new PageReview(index, activityInstance);
                 }
                 break;
             case Learning_Type_Self:
