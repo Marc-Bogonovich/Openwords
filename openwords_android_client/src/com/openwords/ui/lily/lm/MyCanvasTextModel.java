@@ -17,8 +17,7 @@ public class MyCanvasTextModel {
     public boolean textOut;
 
     public MyCanvasTextModel(int color, int alpha, String text) {
-        paint = new Paint();
-        paint.setAntiAlias(true);
+        paint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.LINEAR_TEXT_FLAG);
         paint.setStyle(Paint.Style.FILL);
         paint.setColor(color);
         paint.setAlpha(alpha);

@@ -51,15 +51,15 @@ public class MyMaxTextView extends View {
         //LogUtil.logDeubg(this, "updateDimension: " + viewWidth + " " + viewHeight);
 
         int numberOffset = 0;
+        float newSize;
         do {
             numberOffset += 1;
-            float newSize = height - sizeOffsetUnit * numberOffset;
+            newSize = height - sizeOffsetUnit * numberOffset;
             boolean doBreak = false;
             if (newSize < minTextSize) {
                 newSize = minTextSize;
                 doBreak = true;
                 //LogUtil.logDeubg(this, "reached minTextSize");
-
             }
             myText.paint.setTextSize(newSize);
             myText.paint.getTextBounds(myText.text, 0, myText.text.length(), myText.textBounds);
@@ -69,7 +69,7 @@ public class MyMaxTextView extends View {
             if (doBreak) {
                 break;
             }
-        } while (myText.viewWidth < myText.textWidth + sizeOffsetUnit * 2 || myText.viewHeight < myText.textHeight + sizeOffsetUnit * 2);
+        } while (myText.viewWidth < myText.textWidth + newSize || myText.viewHeight < myText.textHeight + newSize);
 
         myText.textX = myText.centerX - myText.textWidth / 2;
         myText.initialTextX = myText.textX;
