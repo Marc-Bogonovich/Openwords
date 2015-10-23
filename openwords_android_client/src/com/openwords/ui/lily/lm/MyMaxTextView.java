@@ -7,10 +7,10 @@ import android.view.View;
 
 public class MyMaxTextView extends View {
 
-    private static final float sizeOffset = 64;
-
-    private MyCanvasTextModel mainText;
-    private float minTextSize;
+    public final float sizeOffsetUnit = 9;
+    public final float minTextSize = 16;
+    private MyCanvasTextModel textModel;
+    private TextIsOutCallback out;
 
     public MyMaxTextView(Context context) {
         super(context);
@@ -32,14 +32,14 @@ public class MyMaxTextView extends View {
         addOnLayoutChangeListener(new OnLayoutChangeListener() {
 
             public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-                updateDimension(v.getWidth(), v.getHeight(), mainText);
+                updateDimension(v.getWidth(), v.getHeight(), textModel);
             }
         });
     }
 
-    public void config(int color, int alpha, String text, float minTextSize) {
-        mainText = new MyCanvasTextModel(color, alpha, text);
-        this.minTextSize = minTextSize;
+    public void config(int color, int alpha, String text, TextIsOutCallback out) {
+        textModel = new MyCanvasTextModel(color, alpha, text);
+        this.out = out;
         invalidate();
     }
 
@@ -53,33 +53,49 @@ public class MyMaxTextView extends View {
         int numberOffset = 0;
         do {
             numberOffset += 1;
-            float newSize = height - sizeOffset * numberOffset;
+            float newSize = height - sizeOffsetUnit * numberOffset;
             boolean doBreak = false;
             if (newSize < minTextSize) {
                 newSize = minTextSize;
                 doBreak = true;
                 //LogUtil.logDeubg(this, "reached minTextSize");
+
             }
             myText.paint.setTextSize(newSize);
             myText.paint.getTextBounds(myText.text, 0, myText.text.length(), myText.textBounds);
             myText.textWidth = myText.textBounds.width();
             myText.textHeight = myText.textBounds.height();
-            //LogUtil.logDeubg(this, "textBounds: " + textWidth + " " + textHeight);
+            //LogUtil.logDeubg(this, "textBounds: " + myText.textWidth + " " + myText.textHeight);
             if (doBreak) {
                 break;
             }
-        } while (myText.viewWidth < myText.textWidth + sizeOffset);
+        } while (myText.viewWidth < myText.textWidth + sizeOffsetUnit * 2 || myText.viewHeight < myText.textHeight + sizeOffsetUnit * 2);
 
         myText.textX = myText.centerX - myText.textWidth / 2;
         myText.initialTextX = myText.textX;
-        myText.textY = myText.centerY + myText.textHeight / 2;
-        myText.textOut = myText.textWidth > myText.viewWidth;
-        //LogUtil.logDeubg(this, "textOut: " + myText.textOut + ", " + myText.text);
+        myText.textY = myText.textHeight;//myText.centerY + myText.textHeight / 2;
+        myText.textOut = myText.textWidth > myText.viewWidth || myText.textHeight > myText.viewHeight;
+
+        if (myText.textOut) {
+            myText.textX = 0;
+            if (out != null) {
+                out.tell();
+            }
+        }
         invalidate();
+    }
+
+    public MyCanvasTextModel getTextModel() {
+        return textModel;
     }
 
     @Override
     public void onDraw(Canvas canvas) {
-        canvas.drawText(mainText.text, mainText.textX, mainText.textY, mainText.paint);
+        canvas.drawText(textModel.text, textModel.textX, textModel.textY, textModel.paint);
+    }
+
+    public interface TextIsOutCallback {
+
+        public void tell();
     }
 }
