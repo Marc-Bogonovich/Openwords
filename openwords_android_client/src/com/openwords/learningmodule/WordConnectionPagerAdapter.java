@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import com.openwords.model.DataPool;
+import com.openwords.ui.lily.lm.PageHear;
 import com.openwords.ui.lily.lm.PageReview;
 import com.openwords.ui.lily.lm.PageSelf;
 import com.openwords.util.log.LogUtil;
@@ -58,7 +59,7 @@ public class WordConnectionPagerAdapter extends FragmentPagerAdapter implements 
                 break;
             case Learning_Type_Hearing:
                 if (allFragments[index] == null) {
-                    allFragments[index] = new FragmentCardHearing(index, activityInstance);
+                    allFragments[index] = new PageHear(index, activityInstance);
                 }
                 break;
             default:

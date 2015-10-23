@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import com.openwords.R;
 import static com.openwords.learningmodule.InterfaceLearningModule.Learning_Type_Hearing;
@@ -12,11 +13,10 @@ import com.openwords.model.DataPool;
 import com.openwords.model.LocalSettings;
 import com.openwords.model.Performance;
 import com.openwords.model.ResultWordAudio;
-import com.openwords.model.ResultWordConnections;
-import com.openwords.model.UserLanguage;
-import com.openwords.model.Word;
+import com.openwords.model.SetItem;
 import com.openwords.model.WordAudio;
 import com.openwords.model.WordConnection;
+import com.openwords.ui.lily.lm.PageHear;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.ui.MyDialogHelper;
 import com.openwords.util.ui.MyQuickToast;
@@ -25,98 +25,67 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * The Activity class for all LMs, so it applies the same Reverse Navigation,
- * Page Transformer and more.
+ * The Activity class for all framgment-based LMs, so it applies the same
+ * Reverse Navigation, Page Transformer and more.
  *
  * @author hanaldo
  */
 public class ActivityLearning extends FragmentActivity implements InterfaceLearningModule {
 
     private ActivityLearning act;//for referencing purpose only
-    private ViewPager pager;
+    private MyPager pager;
     private WordConnectionPagerAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         act = this;
         super.onCreate(savedInstanceState);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);//for testing purpose
         setContentView(R.layout.activity_lm);
 
-        MyDialogHelper.tryShowQuickProgressDialog(act, "Assembling your words...");
-        final UserLanguage userLanguageInfo = UserLanguage.getUserLanguageInfo(LocalSettings.getBaseLanguageId(), DataPool.LmLearningLang);
-        if (userLanguageInfo == null) {
-            MyDialogHelper.tryDismissQuickProgressDialog();
-            MyQuickToast.showShort(act, "Error: no language information specified");
-            finish();
-            return;
+        final Set<Long> wordIds = new HashSet<Long>(DataPool.currentSetItems.size());
+        DataPool.currentPerformance.clear();
+        for (SetItem item : DataPool.currentSetItems) {
+            DataPool.currentPerformance.add(new Performance(item.wordTwoId, "test", "new", 1));
+            wordIds.add(item.wordTwoId);
         }
 
-        WordConnection.loadWordConnectionsFullPack(true,
-                LocalSettings.getUserId(), userLanguageInfo.baseLang, userLanguageInfo.learningLang, userLanguageInfo.page, DataPool.PageSize, false, null,
-                new ResultWordConnections() {
+        List<WordAudio> localAudios = WordAudio.getAudios(wordIds);
+        if (localAudios.size() != wordIds.size()) {
+            MyDialogHelper.tryShowQuickProgressDialog(this, "Downloading audios...");
+            WordAudio.downloadNewAudios(wordIds, LocalSettings.getCurrentLearningLanguage(), new ResultWordAudio() {
 
-                    public void result(final List<WordConnection> connections, List<Word> words, final List<Performance> performance) {
-                        if (connections == null) {
-                            MyDialogHelper.tryDismissQuickProgressDialog();
-                            MyQuickToast.showShort(act, "Error when loading words data");
+                public void ok() {
+                    MyDialogHelper.tryDismissQuickProgressDialog();
+                    if (DataPool.LmType == Learning_Type_Hearing) {
+                        List<WordAudio> updatedLocalAudios = WordAudio.getAudios(wordIds);
+                        if (updatedLocalAudios.size() != wordIds.size()) {
+                            MyQuickToast.showShort(act, "Sorry, the audios for this set is not complete.");
                             finish();
                             return;
-                        }
-                        if (connections.isEmpty()) {
-                            MyDialogHelper.tryDismissQuickProgressDialog();
-                            MyQuickToast.showShort(act, "No data");
-                            finish();
-                            return;
-                        }
-
-                        //try loading audios
-                        final Set<Long> wordIds = new HashSet<Long>(words.size());
-                        for (Word word : words) {
-                            if (word.languageId == userLanguageInfo.learningLang) {
-                                wordIds.add(word.wordId);
-                            }
-                        }
-                        List<WordAudio> localAudios = WordAudio.getAudios(wordIds);
-                        if (localAudios.size() != wordIds.size()) {
-                            WordAudio.downloadNewAudios(wordIds, userLanguageInfo.learningLang, new ResultWordAudio() {
-
-                                public void ok() {
-                                    if (DataPool.LmType == Learning_Type_Hearing) {
-                                        List<WordAudio> newAudios = WordAudio.getAudios(wordIds);
-                                        if (newAudios.size() != wordIds.size()) {
-                                            MyQuickToast.showShort(act, "Sorry some words don't have audio yet");
-                                            finish();
-                                            MyDialogHelper.tryDismissQuickProgressDialog();
-                                            return;
-                                        }
-                                    }
-                                    DataPool.addLmPool(connections, performance);
-                                    init();
-                                }
-
-                                public void error(String errorMessage) {
-                                    if (DataPool.LmType == Learning_Type_Hearing) {
-                                        MyQuickToast.showShort(act, "Sorry we cannot get the audios: " + errorMessage);
-                                        finish();
-                                        MyDialogHelper.tryDismissQuickProgressDialog();
-                                    } else {
-                                        DataPool.addLmPool(connections, performance);
-                                        init();
-                                    }
-                                }
-                            });
-                        } else {
-                            DataPool.addLmPool(connections, performance);
-                            init();
                         }
                     }
-                });
+                    init();
+                }
+
+                public void error(String errorMessage) {
+                    MyDialogHelper.tryDismissQuickProgressDialog();
+                    MyQuickToast.showShort(act, "Error: " + errorMessage);
+                    if (DataPool.LmType == Learning_Type_Hearing) {
+                        finish();
+                        return;
+                    }
+                    init();
+                }
+            });
+        } else {
+            init();
+        }
     }
 
     private void init() {
         DataPool.LmCurrentCard = 0;
         DataPool.LmReverseNav = false;
-        MyDialogHelper.tryDismissQuickProgressDialog();
 
         LogUtil.logDeubg(this, "reverseNav set to: " + DataPool.LmReverseNav);
         if (DataPool.LmReverseNav) {
@@ -125,7 +94,7 @@ public class ActivityLearning extends FragmentActivity implements InterfaceLearn
             MyQuickToast.showShort(act, "Read from Left to Right");
         }
 
-        pager = (ViewPager) findViewById(R.id.act_lm_pager);
+        pager = (MyPager) findViewById(R.id.act_lm_pager);
         pager.setOffscreenPageLimit(1);
         pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
@@ -139,8 +108,8 @@ public class ActivityLearning extends FragmentActivity implements InterfaceLearn
                         refreshPC();
                     } else {
                         if (DataPool.LmType == Learning_Type_Type || DataPool.LmType == Learning_Type_Hearing) {
-                            FragmentLearningModule f = (FragmentLearningModule) adapter.getRecentFragment(DataPool.LmCurrentCard);
-                            f.updateChoiceView();
+                            //FragmentLearningModule f = (FragmentLearningModule) adapter.getRecentFragment(DataPool.LmCurrentCard);
+                            //f.updateChoiceView();
                             autoPlayAudio();
                         }
                     }
@@ -150,14 +119,14 @@ public class ActivityLearning extends FragmentActivity implements InterfaceLearn
                         refreshPC();
                     } else {
                         if (DataPool.LmType == Learning_Type_Type || DataPool.LmType == Learning_Type_Hearing) {
-                            FragmentLearningModule f = (FragmentLearningModule) adapter.getRecentFragment(DataPool.LmCurrentCard);
-                            f.updateChoiceView();
+                            //FragmentLearningModule f = (FragmentLearningModule) adapter.getRecentFragment(DataPool.LmCurrentCard);
+                            //f.updateChoiceView();
                             autoPlayAudio();
                         }
                     }
                 }
 
-                updatePerformanceBasedOnNavigation();
+                //updatePerformanceBasedOnNavigation();
             }
 
             public void onPageScrollStateChanged(int i) {
@@ -182,14 +151,18 @@ public class ActivityLearning extends FragmentActivity implements InterfaceLearn
         }
 
         if (DataPool.LmCurrentCard == 0) {
-            updatePerformanceBasedOnNavigation();
-            autoPlayAudio();
+            //updatePerformanceBasedOnNavigation();
+            //autoPlayAudio();
+        }
+
+        if (DataPool.LmType == Learning_Type_Hearing) {
+            PageHear.FirstSoundDone = false;
         }
     }
 
     private void autoPlayAudio() {
         if (DataPool.LmType == Learning_Type_Hearing) {
-            FragmentCardHearing fh = (FragmentCardHearing) adapter.getRecentFragment(DataPool.LmCurrentCard);
+            PageHear fh = (PageHear) adapter.getRecentFragment(DataPool.LmCurrentCard);
             fh.playAudio();
         }
     }
