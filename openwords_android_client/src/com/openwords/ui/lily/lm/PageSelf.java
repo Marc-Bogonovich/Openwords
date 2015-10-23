@@ -3,6 +3,7 @@ package com.openwords.ui.lily.lm;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -94,18 +95,25 @@ public class PageSelf extends FragmentLearningModule {
         soundButton = (ViewSoundBackground) myFragmentView.findViewById(R.id.lily_button_sound_bg);
         updateAudioIcon(soundButton, item.wordTwoId);
 
+        MyMaxTextView.TextIsOutCallback outCall = new MyMaxTextView.TextIsOutCallback() {
+
+            public void tell() {
+                someTextOut();
+            }
+        };
+
         tran = (MyMaxTextView) myFragmentView.findViewById(R.id.page_self_text_tran);
         if (item.twoTranscription == null) {
             item.twoTranscription = "";
         }
-        tran.config(DataPool.Color_Main, 255, item.twoTranscription, 48);
+        tran.config(DataPool.Color_Main, 255, item.twoTranscription, outCall);
 
         problem = (MyMaxTextView) myFragmentView.findViewById(R.id.page_self_text_problem);
-        problem.config(DataPool.Color_Main, 255, item.wordTwo, 48);
+        problem.config(DataPool.Color_Main, 255, item.wordTwo, outCall);
         addClarificationTrigger(lmActivity, new View[]{problem}, 50, item.wordOneCommon);
 
         answer = (MyMaxTextView) myFragmentView.findViewById(R.id.page_self_text_answer);
-        answer.config(DataPool.Color_Main, 255, item.wordOne, 48);
+        answer.config(DataPool.Color_Main, 255, item.wordOne, outCall);
 
         sad = (ImageView) myFragmentView.findViewById(R.id.page_self_image2);
         touch = (ImageView) myFragmentView.findViewById(R.id.page_self_image3);
@@ -288,6 +296,21 @@ public class PageSelf extends FragmentLearningModule {
         if (f == 1) {
             optionReady = true;
         }
+    }
+
+    private synchronized void someTextOut() {
+        String clarification = "";
+        if (tran.getTextModel().textOut) {
+            clarification = item.twoTranscription;
+        }
+        if (problem.getTextModel().textOut) {
+            clarification += "\n\n" + item.wordTwo;
+        }
+        if (answer.getTextModel().textOut) {
+            clarification += "\n\n" + item.wordOne;
+        }
+        clarification += "\n\n" + item.wordOneCommon;
+        addClarificationTrigger(lmActivity, new View[]{problem}, 50, clarification);
     }
 
     @Override
