@@ -106,9 +106,9 @@ public class ViewMaxText extends View {
     public void setTextAlpha(int newAlpha) {
         mainText.paint.setAlpha(newAlpha);
         int otherAlpha = 255 - newAlpha;
-        if (newAlpha == mainText.getAlpha()) {
-            otherAlpha = 0;
-        }
+//        if (newAlpha == mainText.getAlpha()) {
+//            otherAlpha = 0;
+//        }
         otherText.paint.setAlpha(otherAlpha);
         invalidate();
     }
@@ -144,7 +144,7 @@ public class ViewMaxText extends View {
                 case MotionEvent.ACTION_UP:
                     LogUtil.logDeubg(this, "up");
                     alphaAnimator.cancel();
-                    setTextAlpha(mainText.getAlpha());
+                    //setTextAlpha(mainText.getAlpha());
                     outTextAnimator.cancel();
                     otherText.textX = otherText.initialTextX;
                     break;

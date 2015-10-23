@@ -43,6 +43,12 @@ public class MyMaxTextView extends View {
         invalidate();
     }
 
+    public void updateColor(int color, int alpha) {
+        textModel.paint.setColor(color);
+        textModel.paint.setAlpha(alpha);
+        invalidate();
+    }
+
     private void updateDimension(int width, int height, MyCanvasTextModel myText) {
         myText.viewWidth = width;
         myText.viewHeight = height;
@@ -74,7 +80,7 @@ public class MyMaxTextView extends View {
         myText.textX = myText.centerX - myText.textWidth / 2;
         myText.initialTextX = myText.textX;
         myText.textY = myText.textHeight;//myText.centerY + myText.textHeight / 2;
-        myText.textOut = myText.textWidth > myText.viewWidth || myText.textHeight > myText.viewHeight;
+        myText.textOut = myText.textWidth + sizeOffsetUnit > myText.viewWidth || myText.textHeight + sizeOffsetUnit > myText.viewHeight;
 
         if (myText.textOut) {
             myText.textX = 0;

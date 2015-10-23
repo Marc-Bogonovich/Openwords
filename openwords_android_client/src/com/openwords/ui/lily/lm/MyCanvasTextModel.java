@@ -12,7 +12,6 @@ public class MyCanvasTextModel {
     public Paint paint;
     public String text = "";
     public float viewWidth, viewHeight, centerX, centerY, textWidth, textHeight, textX, textY, initialTextX;
-    private final int color, alpha;
     public Rect textBounds;
     public boolean textOut;
 
@@ -22,18 +21,7 @@ public class MyCanvasTextModel {
         paint.setColor(color);
         paint.setAlpha(alpha);
 
-        this.color = color;
-        this.alpha = alpha;
         this.text = text;
         textBounds = new Rect();
     }
-
-    public int getColor() {
-        return color;
-    }
-
-    public int getAlpha() {
-        return alpha;
-    }
-
 }
