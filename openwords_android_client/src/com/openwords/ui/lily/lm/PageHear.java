@@ -177,7 +177,6 @@ public class PageHear extends FragmentLearningModule {
         max = DataPool.currentSetItems.size() - 1;
         int index = rand.nextInt(max - min + 1) + min;
         if (index == cardIndex) {
-            MyQuickToast.showShort(lmActivity, "clashed");
             if (index < max) {
                 index += 1;
             } else {

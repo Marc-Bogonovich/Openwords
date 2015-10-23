@@ -127,6 +127,9 @@ public class FragmentPlateCompletion extends Fragment implements InterfaceLearni
         performance.setText("Ok: " + currentGood + "\nNot ok: " + currentBad);
         if (DataPool.LmType != Learning_Type_Review) {
             skip.setText("skipped: " + currentNew);
+        } else {
+            performance.setVisibility(View.INVISIBLE);
+            skip.setVisibility(View.INVISIBLE);
         }
         //birthday.setText("You are " + Language.getLanguageInfo(LocalSettings.getCurrentLearningLanguage()).name + " baby now.");
         birthdayDetail.setText("");
