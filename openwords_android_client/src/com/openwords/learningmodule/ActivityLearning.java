@@ -51,6 +51,7 @@ public class ActivityLearning extends FragmentActivity implements InterfaceLearn
         }
 
         List<WordAudio> localAudios = WordAudio.getAudios(wordIds);
+        PageHear.FirstSoundDone = false;
         if (localAudios.size() != wordIds.size()) {
             MyDialogHelper.tryShowQuickProgressDialog(this, "Downloading audios...");
             WordAudio.downloadNewAudios(wordIds, LocalSettings.getCurrentLearningLanguage(), new ResultWordAudio() {

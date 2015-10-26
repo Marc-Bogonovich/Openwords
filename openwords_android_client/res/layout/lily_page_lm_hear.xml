@@ -24,10 +24,6 @@
         
     </LinearLayout>
     
-    <View android:layout_width="match_parent"
-          android:layout_height="0dp"
-          android:layout_weight="1"/>
-    
     <RelativeLayout  android:layout_width="80dp"
                      android:layout_height="80dp"
                      android:layout_gravity="center_horizontal"
@@ -37,46 +33,64 @@
             
     </RelativeLayout>
     
-    <com.openwords.ui.lily.lm.MyMaxTextView android:id="@+id/page_hear_text_tran"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="0dp"
-                                            android:layout_marginLeft="50dp"
-                                            android:layout_marginRight="50dp"
-                                            android:layout_weight="1"/>
+    <com.openwords.ui.lily.lm.AutoResizeTextView android:id="@+id/page_hear_text_tran"
+                                                 android:layout_width="match_parent"
+                                                 android:layout_height="0dp"
+                                                 android:layout_marginLeft="50dp"
+                                                 android:layout_marginRight="50dp"
+                                                 android:textColor="@color/main_app_color"
+                                                 android:textSize="36sp"
+                                                 android:gravity="center"
+                                                 android:maxLines="3"
+                                                 android:layout_weight="1"/>
     
-    <com.openwords.ui.lily.lm.MyMaxTextView android:id="@+id/page_hear_text_problem"
-                                            android:layout_marginLeft="50dp"
-                                            android:layout_marginRight="50dp"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="0dp"
-                                            android:layout_weight="2"/>
+    <com.openwords.ui.lily.lm.AutoResizeTextView android:id="@+id/page_hear_text_problem"
+                                                 android:layout_marginLeft="50dp"
+                                                 android:layout_marginRight="50dp"
+                                                 android:layout_width="match_parent"
+                                                 android:layout_height="0dp"
+                                                 android:textColor="@color/main_app_color"
+                                                 android:textSize="52sp"
+                                                 android:gravity="center"
+                                                 android:maxLines="3"
+                                                 android:layout_weight="2"/>   
     
     <View android:layout_width="match_parent"
           android:layout_height="0dp"
           android:layout_weight="1"/>
     
     <LinearLayout android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
+                  android:layout_height="50dp"
                   android:orientation="horizontal">
         
-        <com.openwords.ui.lily.lm.MyMaxTextView android:id="@+id/page_hear_text_answer"
-                                                android:layout_width="100dp"
-                                                android:layout_height="40dp"
-                                                android:layout_weight="1"/>
+        <com.openwords.ui.lily.lm.AutoResizeTextView android:id="@+id/page_hear_text_answer1"
+                                                     android:layout_width="0dp"
+                                                     android:layout_height="match_parent"
+                                                     android:layout_marginLeft="20dp"
+                                                     android:textColor="#cccccc"
+                                                     android:textSize="24sp"
+                                                     android:gravity="center"
+                                                     android:maxLines="3"
+                                                     android:layout_weight="2"/>
         
         <View android:layout_width="0dp"
               android:layout_height="match_parent"
               android:layout_weight="1"/>
         
-        <com.openwords.ui.lily.lm.MyMaxTextView android:id="@+id/page_hear_text_answer2"
-                                                android:layout_width="100dp"
-                                                android:layout_height="40dp"
-                                                android:layout_weight="1"/>
+        <com.openwords.ui.lily.lm.AutoResizeTextView android:id="@+id/page_hear_text_answer2"
+                                                     android:layout_width="0dp"
+                                                     android:layout_height="match_parent"
+                                                     android:layout_marginRight="20dp"
+                                                     android:textColor="#cccccc"
+                                                     android:textSize="18sp"
+                                                     android:gravity="center"
+                                                     android:maxLines="3"
+                                                     android:layout_weight="2"/>
         
     </LinearLayout>
     
     <View android:layout_width="match_parent"
           android:layout_height="0dp"
-          android:layout_weight="2"/>          
+          android:layout_weight="1"/>          
     
 </LinearLayout>

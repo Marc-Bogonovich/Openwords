@@ -25,20 +25,20 @@ import java.util.Random;
 
 public class PageHear extends FragmentLearningModule {
 
-    public static boolean FirstSoundDone = false;
+    public static boolean FirstSoundDone;
     public final static Random rand = new Random();
 
     private final int cardIndex;
     private final ActivityLearning lmActivity;
     private View myFragmentView;
     private ViewSoundBackground soundButton;
-    private MyMaxTextView tran, problem, answer, answer2;
+    private AutoResizeTextView tran, problem, answer1, answer2;
     private ImageView buttonOption;
     private SetItem item;
     private Performance perf;
     private DialogForSettingSelection settingDialog;
     private boolean answerIsLeft;
-    private MyMaxTextView.TextIsOutCallback outCall;
+    private boolean answerIsSelected;
 
     public PageHear(int cardIndex, ActivityLearning lmActivity) {
         this.cardIndex = cardIndex;
@@ -97,33 +97,31 @@ public class PageHear extends FragmentLearningModule {
         soundButton = (ViewSoundBackground) myFragmentView.findViewById(R.id.lily_button_sound_bg);
         updateAudioIcon(soundButton, item.wordTwoId);
 
-        outCall = new MyMaxTextView.TextIsOutCallback() {
-
-            public void tell() {
-                someTextOut();
-            }
-        };
-
-        tran = (MyMaxTextView) myFragmentView.findViewById(R.id.page_hear_text_tran);
+        tran = (AutoResizeTextView) myFragmentView.findViewById(R.id.page_hear_text_tran);
         if (item.twoTranscription == null) {
             item.twoTranscription = "";
         }
-        tran.config(DataPool.Color_Main, 255, item.twoTranscription, outCall);
+        tran.setText(item.twoTranscription);
 
-        problem = (MyMaxTextView) myFragmentView.findViewById(R.id.page_hear_text_problem);
-        problem.config(DataPool.Color_Main, 255, item.wordOne, outCall);
+        problem = (AutoResizeTextView) myFragmentView.findViewById(R.id.page_hear_text_problem);
+        problem.setText(item.wordTwo);
         problem.setVisibility(View.INVISIBLE);
 
-        answer = (MyMaxTextView) myFragmentView.findViewById(R.id.page_hear_text_answer);
-        answer2 = (MyMaxTextView) myFragmentView.findViewById(R.id.page_hear_text_answer2);
+        answerIsSelected = false;
+        answer1 = (AutoResizeTextView) myFragmentView.findViewById(R.id.page_hear_text_answer1);
+        answer2 = (AutoResizeTextView) myFragmentView.findViewById(R.id.page_hear_text_answer2);
 
         addClarificationTrigger(lmActivity, new View[]{problem}, 50, item.wordOneCommon);
 
-        answer.setOnClickListener(new View.OnClickListener() {
+        answer1.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
-                answer.updateColor(DataPool.Color_Main, 255);
-                answer2.updateColor(Color.parseColor("#cccccc"), 100);
+                if (answerIsSelected) {
+                    return;
+                }
+                answerIsSelected = true;
+                answer1.setTextColor(DataPool.Color_Main);
+                answer2.setTextColor(Color.parseColor("#cccccc"));
                 if (answerIsLeft) {
                     perf.performance = "good";
                 } else {
@@ -142,8 +140,12 @@ public class PageHear extends FragmentLearningModule {
         answer2.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
-                answer2.updateColor(DataPool.Color_Main, 255);
-                answer.updateColor(Color.parseColor("#cccccc"), 100);
+                if (answerIsSelected) {
+                    return;
+                }
+                answerIsSelected = true;
+                answer2.setTextColor(DataPool.Color_Main);
+                answer1.setTextColor(Color.parseColor("#cccccc"));
                 if (answerIsLeft) {
                     perf.performance = "bad";
                 } else {
@@ -185,28 +187,14 @@ public class PageHear extends FragmentLearningModule {
         }
 
         if (answerIsLeft) {
-            answer.config(DataPool.Color_Main, 255, item.wordTwo, outCall);
-            answer2.config(DataPool.Color_Main, 255, DataPool.currentSetItems.get(index).wordTwo, outCall);
+            answer1.setText(item.wordTwo + "\n" + item.wordOne);
+            answer2.setText(DataPool.currentSetItems.get(index).wordTwo
+                    + "\n" + DataPool.currentSetItems.get(index).wordOne);
         } else {
-            answer.config(DataPool.Color_Main, 255, DataPool.currentSetItems.get(index).wordTwo, outCall);
-            answer2.config(DataPool.Color_Main, 255, item.wordTwo, outCall);
+            answer1.setText(DataPool.currentSetItems.get(index).wordTwo
+                    + "\n" + DataPool.currentSetItems.get(index).wordOne);
+            answer2.setText(item.wordTwo + "\n" + item.wordOne);
         }
-    }
-
-    private synchronized void someTextOut() {
-        LogUtil.logDeubg(this, "someTextOut()");
-        String clarification = "";
-        if (tran.getTextModel().textOut) {
-            clarification = item.twoTranscription;
-        }
-        if (problem.getTextModel().textOut) {
-            clarification += "\n\n" + item.wordTwo;
-        }
-        if (answer.getTextModel().textOut) {
-            clarification += "\n\n" + item.wordOne;
-        }
-        clarification += "\n\n" + item.wordOneCommon;
-        addClarificationTrigger(lmActivity, new View[]{problem}, 50, clarification);
     }
 
     public synchronized void playAudio() {
