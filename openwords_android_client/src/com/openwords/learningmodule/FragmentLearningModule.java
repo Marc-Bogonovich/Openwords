@@ -47,6 +47,8 @@ public abstract class FragmentLearningModule extends Fragment {
     private Word w2;
     private ActivityLearning lmActivity;
 
+    private int duration;
+
     public void updateAudioIcon(ImageView audioPlay, long wordId) {
         final WordAudio audio = WordAudio.getAudio(wordId);
         if (audio == null) {
@@ -137,6 +139,14 @@ public abstract class FragmentLearningModule extends Fragment {
         layout.y = near.getMeasuredHeight();
 
         dialog.show();
+    }
+
+    public void setTimer(ActivityLearning lmActivity, View advanceTimerBar, int duration) {
+        this.lmActivity = lmActivity;
+        this.advanceTimerBar = advanceTimerBar;
+        this.duration = duration;
+        advanceTimerAnimation = new AnimationTimerBar(0, 100, advanceTimerBar);
+        advanceTimerAnimation.setDuration(duration);
     }
 
     public void formViewElementsForTypingUI(ActivityLearning lmActivity, final ScrollView scrollContainer,
@@ -237,7 +247,7 @@ public abstract class FragmentLearningModule extends Fragment {
         }
     }
 
-    private synchronized void fireTimer() {
+    public synchronized void fireTimer() {
         if (!timerIsFired) {
             timerIsFired = true;
             final AlertDialog dialog = new AlertDialog.Builder(getActivity())
@@ -274,7 +284,7 @@ public abstract class FragmentLearningModule extends Fragment {
                 public void run() {
                     next.sendEmptyMessage(0);
                 }
-            }, 3000);
+            }, duration);
         }
     }
 }

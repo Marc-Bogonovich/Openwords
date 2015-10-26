@@ -3,7 +3,6 @@ package com.openwords.ui.lily.lm;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -112,6 +111,7 @@ public class PageHear extends FragmentLearningModule {
         answer2 = (AutoResizeTextView) myFragmentView.findViewById(R.id.page_hear_text_answer2);
 
         addClarificationTrigger(lmActivity, new View[]{problem}, 50, item.wordOneCommon);
+        setTimer(lmActivity, myFragmentView.findViewById(R.id.lm_frag_advance), 2000);
 
         answer1.setOnClickListener(new View.OnClickListener() {
 
@@ -128,12 +128,7 @@ public class PageHear extends FragmentLearningModule {
                     perf.performance = "bad";
                 }
                 problem.setVisibility(View.VISIBLE);
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    public void run() {
-                        lmActivity.goToNextCard();
-                    }
-                }, 1000);
+                fireTimer();
             }
         });
 
@@ -152,12 +147,7 @@ public class PageHear extends FragmentLearningModule {
                     perf.performance = "good";
                 }
                 problem.setVisibility(View.VISIBLE);
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    public void run() {
-                        lmActivity.goToNextCard();
-                    }
-                }, 1000);
+                fireTimer();
             }
         });
         shuffleAnswers();
