@@ -81,13 +81,11 @@ public class LoginPage extends Activity {
         findViewById(R.id.loginPage_test2).setOnClickListener(new OnClickListener() {
 
             public void onClick(View view) {
-                startActivity(new Intent(LoginPage.this, com.openwords.ui.lily.lm.TestReviewFrags.class));
             }
         });
         findViewById(R.id.loginPage_test3).setOnClickListener(new OnClickListener() {
 
             public void onClick(View view) {
-                startActivity(new Intent(LoginPage.this, com.openwords.ui.lily.lm.TestHearFrags.class));
             }
         });
         findViewById(R.id.loginPage_test4).setOnClickListener(new OnClickListener() {
