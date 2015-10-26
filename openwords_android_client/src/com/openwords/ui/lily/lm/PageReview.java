@@ -22,7 +22,7 @@ public class PageReview extends FragmentLearningModule {
     private final ActivityLearning lmActivity;
     private View myFragmentView;
     private ViewSoundBackground soundButton;
-    private MyMaxTextView tran, problem, answer;
+    private AutoResizeTextView problem, tran, answer;
     private ImageView buttonOption;
     private SetItem item;
     private DialogForSettingSelection settingDialog;
@@ -79,42 +79,20 @@ public class PageReview extends FragmentLearningModule {
         soundButton = (ViewSoundBackground) myFragmentView.findViewById(R.id.lily_button_sound_bg);
         updateAudioIcon(soundButton, item.wordTwoId);
 
-        MyMaxTextView.TextIsOutCallback outCall = new MyMaxTextView.TextIsOutCallback() {
-
-            public void tell() {
-                someTextOut();
-            }
-        };
-
-        tran = (MyMaxTextView) myFragmentView.findViewById(R.id.page_review_text_tran);
+        tran = (AutoResizeTextView) myFragmentView.findViewById(R.id.page_review_text_tran);
         if (item.twoTranscription == null) {
             item.twoTranscription = "";
         }
-        tran.config(DataPool.Color_Main, 255, item.twoTranscription, outCall);
+        tran.setText(item.twoTranscription);
 
-        problem = (MyMaxTextView) myFragmentView.findViewById(R.id.page_review_text_problem);
-        problem.config(DataPool.Color_Main, 255, item.wordTwo, outCall);
+        problem = (AutoResizeTextView) myFragmentView.findViewById(R.id.page_review_text_problem);
+        problem.setText(item.wordTwo);
         addClarificationTrigger(lmActivity, new View[]{problem}, 50, item.wordOneCommon);
 
-        answer = (MyMaxTextView) myFragmentView.findViewById(R.id.page_review_text_answer);
-        answer.config(DataPool.Color_Main, 255, item.wordOne, outCall);
+        answer = (AutoResizeTextView) myFragmentView.findViewById(R.id.page_review_text_answer);
+        answer.setText(item.wordOne);
 
         return myFragmentView;
-    }
-
-    private synchronized void someTextOut() {
-        String clarification = "";
-        if (tran.getTextModel().textOut) {
-            clarification = item.twoTranscription;
-        }
-        if (problem.getTextModel().textOut) {
-            clarification += "\n\n" + item.wordTwo;
-        }
-        if (answer.getTextModel().textOut) {
-            clarification += "\n\n" + item.wordOne;
-        }
-        clarification += "\n\n" + item.wordOneCommon;
-        addClarificationTrigger(lmActivity, new View[]{problem}, 50, clarification);
     }
 
     @Override
