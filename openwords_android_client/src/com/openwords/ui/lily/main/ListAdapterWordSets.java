@@ -35,7 +35,7 @@ public class ListAdapterWordSets extends ArrayAdapter<SetInfo> {
         if (view == null) {
             view = LayoutInflater.from(context).inflate(R.layout.list_item_deck_info, null);
             viewHolder = new ViewHolder();
-            inflateLayout(view, viewHolder, info);
+            inflateLayout(view, viewHolder);
         } else {
             viewHolder = (ViewHolder) view.getTag();
         }
@@ -46,20 +46,18 @@ public class ListAdapterWordSets extends ArrayAdapter<SetInfo> {
         return view;
     }
 
-    private void inflateLayout(final View view, final ViewHolder viewHolder, final SetInfo info) {
+    private void inflateLayout(final View view, final ViewHolder viewHolder) {
         viewHolder.deckName = (TextView) view.findViewById(R.id.list_item_deck_info_1);
         viewHolder.deckHolder = (LinearLayout) view.findViewById(R.id.list_item_deck_info_deck);
-        if (info != null) {
-            viewHolder.deckCircle = new ViewDeckCircle(context, DataPool.Color_Main, 200,
-                    false, -1, -1);
-            viewHolder.deckHolder.addView(viewHolder.deckCircle);
-            viewHolder.deckHolder.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+        viewHolder.deckCircle = new ViewDeckCircle(context, DataPool.Color_Main, 200,
+                false, -1, -1);
+        viewHolder.deckHolder.addView(viewHolder.deckCircle);
+        viewHolder.deckHolder.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
 
-                public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-                    viewHolder.deckCircle.updateDimension(v.getWidth(), v.getHeight());
-                }
-            });
-        }
+            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                viewHolder.deckCircle.updateDimension(v.getWidth(), v.getHeight());
+            }
+        });
         view.setTag(viewHolder);
     }
 

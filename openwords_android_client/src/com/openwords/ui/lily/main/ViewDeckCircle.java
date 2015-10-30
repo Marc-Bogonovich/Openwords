@@ -65,6 +65,7 @@ public class ViewDeckCircle extends View {
 
     public void updateColor(int color) {
         shadePaint.setColor(color);
+        invalidate();
     }
 
     private void makePaints() {
