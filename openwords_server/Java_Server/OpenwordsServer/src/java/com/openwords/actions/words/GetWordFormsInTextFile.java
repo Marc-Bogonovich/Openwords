@@ -15,17 +15,27 @@ public class GetWordFormsInTextFile extends MyAction {
     private static final long serialVersionUID = 1L;
     private List<WordForTTS> result;
     private int pageNumber = 1, pageSize = 10, languageId;
+    private String delimiter;
+    private String postfix;
+    private boolean getSoundName;
 
     @Action(value = "/getWordFormsText")
     @Override
     public String execute() throws Exception {
         UtilLog.logInfo(this, "/getWordFormsText: " + languageId + " " + pageNumber + " " + pageSize);
+        if (delimiter == null) {
+            delimiter = " ";
+        }
         Session s = DatabaseHandler.getSession();
         try {
             ServletOutputStream stream = getHttpResponse().getOutputStream();
             result = Word.getOnlyWordForms(s, languageId, pageNumber, pageSize);
             for (WordForTTS word : result) {
-                String line = word.getWordId() + " " + word.getWord() + "\n";
+                String line = word.getWordId() + delimiter + word.getWord();
+                if (getSoundName) {
+                    line = line + delimiter + word.getWordId() + postfix;
+                }
+                line += "\n";
                 stream.write(line.getBytes());
             }
         } catch (Exception e) {
@@ -46,6 +56,18 @@ public class GetWordFormsInTextFile extends MyAction {
 
     public void setLanguageId(int languageId) {
         this.languageId = languageId;
+    }
+
+    public void setDelimiter(String delimiter) {
+        this.delimiter = delimiter;
+    }
+
+    public void setPostfix(String postfix) {
+        this.postfix = postfix;
+    }
+
+    public void setGetSoundName(boolean getSoundName) {
+        this.getSoundName = getSoundName;
     }
 
     @Override
