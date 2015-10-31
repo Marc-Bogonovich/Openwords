@@ -26,3 +26,13 @@ CREATE TABLE `sentences` (
 --
 ALTER TABLE `sentences`
  ADD PRIMARY KEY (`sentence_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `sentences`
+--
+ALTER TABLE `sentences`
+MODIFY `sentence_id` bigint(20) NOT NULL AUTO_INCREMENT;
