@@ -1,9 +1,9 @@
-package com.openwords.actions.audios;
+package com.openwords.actions.sentence;
 
 import com.openwords.database.DatabaseHandler;
+import com.openwords.database.Sentence;
+import com.openwords.database.SentenceItem;
 import com.openwords.database.SystemSetting;
-import com.openwords.database.WordAudio;
-import com.openwords.database.WordAudioId;
 import com.openwords.interfaces.MyAction;
 import com.openwords.utils.MyGson;
 import com.openwords.utils.UtilLog;
@@ -15,24 +15,22 @@ import org.apache.struts2.convention.annotation.ParentPackage;
 import org.hibernate.Session;
 
 @ParentPackage("json-default")
-public class UploadAudioFile extends MyAction {
+public class UploadSentenceFile extends MyAction {
 
     private static final long serialVersionUID = 1L;
     private File file;
-    private int type, language;
-    private String delimiter;
+    private int language;
+    private boolean doParseBySpace;
 
-    @Action(value = "/uploadAudio")
+    @Action(value = "/uploadSentence")
     @Override
     public String execute() throws Exception {
-        UtilLog.logInfo(this, "/uploadAudio");
+        UtilLog.logInfo(this, "/uploadSentence");
         if (file == null) {
             sendBadRequest("Need actual file");
             return null;
         }
-        if (delimiter == null) {
-            delimiter = " ";
-        }
+
         Session s = DatabaseHandler.getSession();
         if (!isPermitted(s)) {
             sendError("Not permitted!");
@@ -49,7 +47,7 @@ public class UploadAudioFile extends MyAction {
     private boolean isPermitted(Session s) {
         List<SystemSetting> settings = SystemSetting.loadAll(s);
         for (SystemSetting setting : settings) {
-            if (setting.getId() == 6 && setting.getValue() > 0) {
+            if (setting.getId() == 7 && setting.getValue() > 0) {
                 UtilLog.logInfo(this, MyGson.toJson(setting));
                 return true;
             }
@@ -62,17 +60,31 @@ public class UploadAudioFile extends MyAction {
             Scanner scan = new Scanner(file);
             while (scan.hasNextLine()) {
                 String line = scan.nextLine();
-                String[] tokens = line.trim().split(delimiter);
+                String[] tokens = line.trim().split("\t");
 
-                long wordId = Long.parseLong(tokens[0]);
-                String soundName = tokens[2];
+                long sentenceId = Long.parseLong(tokens[0]);
+                String content = tokens[1];
 
-                WordAudio audio = new WordAudio(new WordAudioId(wordId, type), language, soundName);
-                s.save(audio);
-                UtilLog.logInfo(this, wordId + " " + tokens[1]);
+                Sentence sen = new Sentence(sentenceId, language, content, "<sentence></sentence>");
+                s.save(sen);
+                UtilLog.logInfo(this, "sentence " + sen.getSentenceId());
+
+                if (doParseBySpace) {
+                    String[] items = content.split(" ");
+                    for (int i = 0; i < items.length; i++) {
+                        SentenceItem it = new SentenceItem(sentenceId, i + 1, items[i], "test");
+                        s.save(it);
+                    }
+                } else {
+                    char[] items = content.toCharArray();
+                    for (int i = 0; i < items.length; i++) {
+                        SentenceItem it = new SentenceItem(sentenceId, i + 1, String.valueOf(items[i]), "test");
+                        s.save(it);
+                    }
+                }
             }
             s.beginTransaction().commit();
-            UtilLog.logInfo(this, "audio done");
+            UtilLog.logInfo(this, "sentence done");
         } catch (Exception e) {
             UtilLog.logError(this, e);
             sendError(e.toString());
@@ -85,16 +97,12 @@ public class UploadAudioFile extends MyAction {
         this.file = file;
     }
 
-    public void setType(int type) {
-        this.type = type;
-    }
-
     public void setLanguage(int language) {
         this.language = language;
     }
 
-    public void setDelimiter(String delimiter) {
-        this.delimiter = delimiter;
+    public void setDoParseBySpace(boolean doParseBySpace) {
+        this.doParseBySpace = doParseBySpace;
     }
 
     @Override

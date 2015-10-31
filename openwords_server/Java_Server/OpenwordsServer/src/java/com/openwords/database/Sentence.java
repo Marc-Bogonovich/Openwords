@@ -45,16 +45,15 @@ public class Sentence implements Serializable {
     public Sentence() {
     }
 
-    public Sentence(long userId, int languageId, String text, String meta) {
-        this.userId = userId;
+    public Sentence(long sentenceId, int languageId, String text, String meta) {
+        this.sentenceId = sentenceId;
         this.languageId = languageId;
         this.text = text;
         this.meta = meta;
     }
 
     @Id
-    @GeneratedValue
-    @Column(name = "set_id")
+    @Column(name = "sentence_id")
     public long getSentenceId() {
         return sentenceId;
     }

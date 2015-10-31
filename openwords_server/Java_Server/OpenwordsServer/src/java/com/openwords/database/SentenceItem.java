@@ -44,7 +44,8 @@ public class SentenceItem implements Serializable {
     public SentenceItem() {
     }
 
-    public SentenceItem(int itemIndex, String item, String type) {
+    public SentenceItem(long sentenceId, int itemIndex, String item, String type) {
+        this.sentenceId = sentenceId;
         this.itemIndex = itemIndex;
         this.item = item;
         this.type = type;
