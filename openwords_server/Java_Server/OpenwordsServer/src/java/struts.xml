@@ -4,5 +4,5 @@
 
 <struts>
     <constant name="struts.action.excludePattern" value="/"/>
-    <constant name="struts.multipart.maxSize" value="2097152" />
+    <constant name="struts.multipart.maxSize" value="52428800" />
 </struts>
