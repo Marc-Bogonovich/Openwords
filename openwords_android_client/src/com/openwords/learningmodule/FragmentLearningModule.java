@@ -67,13 +67,13 @@ public abstract class FragmentLearningModule extends Fragment {
     public void updateAudioIcon(final ViewSoundBackground soundView, long wordId) {
         final WordAudio audio = WordAudio.getAudio(wordId);
         if (audio == null) {
-            soundView.config(DataPool.Color_Main, 150, false, new View.OnClickListener() {
+            soundView.config(DataPool.Color_Main, 150, false, false, 0, new View.OnClickListener() {
 
                 public void onClick(View view) {
                 }
             });
         } else {
-            soundView.config(DataPool.Color_Main, 255, false, new View.OnClickListener() {
+            soundView.config(DataPool.Color_Main, 255, false, false, 0, new View.OnClickListener() {
 
                 public void onClick(View view) {
                     soundView.touchAnimation();
