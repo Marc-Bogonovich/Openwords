@@ -26,7 +26,7 @@ public class PageHome extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);//for testing purpose
-        setContentView(R.layout.activity_lily_home_page);
+        setContentView(R.layout.lily_page_home);
         root = (LinearLayout) findViewById(R.id.act_home_root);
         root.setBackgroundColor(getResources().getColor(R.color.main_app_color));
         buttonSetList = (TextView) findViewById(R.id.act_home_button_1);
