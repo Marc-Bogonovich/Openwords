@@ -7,19 +7,20 @@ import com.openwords.model.DataPool;
 import com.openwords.ui.lily.lm.PageHear;
 import com.openwords.ui.lily.lm.PageReview;
 import com.openwords.ui.lily.lm.PageSelf;
+import com.openwords.ui.lily.lm.PageSentence;
 import com.openwords.util.log.LogUtil;
+import java.util.LinkedList;
+import java.util.List;
 
 public class WordConnectionPagerAdapter extends FragmentPagerAdapter implements InterfaceLearningModule {
 
     private final ActivityLearning activityInstance;
-    private final Fragment[] allFragments;
-    private final int maxFragmentSize;
+    private final List<Fragment> allFragments;
 
-    public WordConnectionPagerAdapter(FragmentManager fm, ActivityLearning activityInstance, int maxFragmentSize) {
+    public WordConnectionPagerAdapter(FragmentManager fm, ActivityLearning activityInstance) {
         super(fm);
         this.activityInstance = activityInstance;
-        this.maxFragmentSize = maxFragmentSize;
-        allFragments = new Fragment[maxFragmentSize];
+        allFragments = new LinkedList<Fragment>();
     }
 
     @Override
@@ -40,32 +41,28 @@ public class WordConnectionPagerAdapter extends FragmentPagerAdapter implements 
     }
 
     private Fragment makePageFragment(int index) {
-        //seems ok so far......
+        LogUtil.logDeubg(this, "make fragment " + index);
+        //seems ok so far......try not reuse the reference
         switch (DataPool.LmType) {
             case Learning_Type_Review:
-                if (allFragments[index] == null) {
-                    allFragments[index] = new PageReview(index, activityInstance);
-                }
+                allFragments.add(index, new PageReview(index, activityInstance));
                 break;
             case Learning_Type_Self:
-                if (allFragments[index] == null) {
-                    allFragments[index] = new PageSelf(index, activityInstance);
-                }
+                allFragments.add(index, new PageSelf(index, activityInstance));
                 break;
             case Learning_Type_Type:
-                if (allFragments[index] == null) {
-                    allFragments[index] = new FragmentCardTypeEval(index, activityInstance);
-                }
+                allFragments.add(index, new FragmentCardTypeEval(index, activityInstance));
                 break;
             case Learning_Type_Hearing:
-                if (allFragments[index] == null) {
-                    allFragments[index] = new PageHear(index, activityInstance);
-                }
+                allFragments.add(index, new PageHear(index, activityInstance));
+                break;
+            case Learning_Type_Sentence:
+                allFragments.add(index, new PageSentence(index, activityInstance));
                 break;
             default:
                 break;
         }
-        return allFragments[index];
+        return allFragments.get(index);
     }
 
     public Fragment makePCFragment() {
@@ -85,10 +82,10 @@ public class WordConnectionPagerAdapter extends FragmentPagerAdapter implements 
     }
 
     public Fragment getRecentFragment(int index) {
-        if (index >= maxFragmentSize || index < 0) {
+        if (index < 0) {
             return null;
         }
         LogUtil.logDeubg(this, "getRecentFragment: " + index);
-        return allFragments[index];
+        return allFragments.get(index);
     }
 }
