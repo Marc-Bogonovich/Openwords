@@ -8,6 +8,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import com.openwords.R;
 import static com.openwords.learningmodule.InterfaceLearningModule.Learning_Type_Hearing;
+import static com.openwords.learningmodule.InterfaceLearningModule.Learning_Type_Sentence;
 import static com.openwords.learningmodule.InterfaceLearningModule.Learning_Type_Type;
 import com.openwords.model.DataPool;
 import com.openwords.model.LocalSettings;
@@ -17,6 +18,7 @@ import com.openwords.model.SetItem;
 import com.openwords.model.WordAudio;
 import com.openwords.model.WordConnection;
 import com.openwords.ui.lily.lm.PageHear;
+import com.openwords.ui.lily.lm.PageSentence;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.ui.MyDialogHelper;
 import com.openwords.util.ui.MyQuickToast;
@@ -113,6 +115,9 @@ public class ActivityLearning extends FragmentActivity implements InterfaceLearn
                             //f.updateChoiceView();
                             autoPlayAudio();
                         }
+                        if (DataPool.LmType == Learning_Type_Sentence) {
+                            buildSentenceUI();
+                        }
                     }
                 } else {
                     DataPool.LmCurrentCard = i;
@@ -124,6 +129,9 @@ public class ActivityLearning extends FragmentActivity implements InterfaceLearn
                             //f.updateChoiceView();
                             autoPlayAudio();
                         }
+                        if (DataPool.LmType == Learning_Type_Sentence) {
+                            buildSentenceUI();
+                        }
                     }
                 }
 
@@ -134,7 +142,7 @@ public class ActivityLearning extends FragmentActivity implements InterfaceLearn
             }
         });
 
-        adapter = new WordConnectionPagerAdapter(getSupportFragmentManager(), act, 20);
+        adapter = new WordConnectionPagerAdapter(getSupportFragmentManager(), act);
         pager.setAdapter(adapter);
         pager.setPageTransformer(true, new WordConnectionPageTransformer(DataPool.LmReverseNav));
 
@@ -158,6 +166,8 @@ public class ActivityLearning extends FragmentActivity implements InterfaceLearn
 
         if (DataPool.LmType == Learning_Type_Hearing) {
             PageHear.FirstSoundDone = false;
+        } else if (DataPool.LmType == Learning_Type_Sentence) {
+            PageSentence.FirstPageDone = false;
         }
     }
 
@@ -166,6 +176,11 @@ public class ActivityLearning extends FragmentActivity implements InterfaceLearn
             PageHear fh = (PageHear) adapter.getRecentFragment(DataPool.LmCurrentCard);
             fh.playAudio();
         }
+    }
+
+    private void buildSentenceUI() {
+        PageSentence fs = (PageSentence) adapter.getRecentFragment(DataPool.LmCurrentCard);
+        fs.buildUI();
     }
 
     /**
