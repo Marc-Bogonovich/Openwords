@@ -48,7 +48,6 @@ public class PageSelf extends FragmentLearningModule {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         LogUtil.logDeubg(this, "onCreateView for card: " + cardIndex);
         canTouch = true;
         optionReady = false;
