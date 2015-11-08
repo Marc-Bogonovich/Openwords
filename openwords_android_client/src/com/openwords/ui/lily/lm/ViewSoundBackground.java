@@ -4,7 +4,10 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.ColorFilter;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.util.AttributeSet;
 import android.view.View;
 import com.openwords.R;
@@ -18,7 +21,6 @@ public class ViewSoundBackground extends View {
 
     private Paint colorPaint, iconPaint;
     private float centerX, centerY, radius, initRadius, iconX, iconY;
-    private int color, alpha;
     private MyTweenComputer tween;
 
     public ViewSoundBackground(Context context) {
@@ -54,12 +56,6 @@ public class ViewSoundBackground extends View {
         }
     }
 
-    private void makeColor(int color, int alpha) {
-        this.color = color;
-        this.alpha = alpha;
-        makePaints();
-    }
-
     private void updateDimension(int viewWidth, int viewHeight) {
         if (viewWidth > viewHeight) {
             initRadius = viewHeight / 2;
@@ -75,19 +71,6 @@ public class ViewSoundBackground extends View {
             resizeIcon((int) (viewWidth * iconScale));
         }
         //LogUtil.logDeubg(this, "updateDimension: " + viewWidth + " " + viewHeight);
-    }
-
-    private void makePaints() {
-        colorPaint = new Paint();
-        colorPaint.setAntiAlias(true);
-        colorPaint.setStyle(Paint.Style.FILL);
-        colorPaint.setColor(color);
-        colorPaint.setAlpha(alpha);
-
-        iconPaint = new Paint();
-        iconPaint.setAntiAlias(true);
-        iconPaint.setFilterBitmap(true);
-        iconPaint.setDither(true);
     }
 
     @Override
@@ -120,8 +103,22 @@ public class ViewSoundBackground extends View {
         LogUtil.logDeubg(this, "resizeIcon(): side " + side);
     }
 
-    public void config(int color, int alpha, boolean soundEffects, View.OnClickListener onclick) {
-        makeColor(color, alpha);
+    public void config(int color, int alpha, boolean soundEffects, boolean changeIconColor, int iconColor, View.OnClickListener onclick) {
+        colorPaint = new Paint();
+        colorPaint.setAntiAlias(true);
+        colorPaint.setStyle(Paint.Style.FILL);
+        colorPaint.setColor(color);
+        colorPaint.setAlpha(alpha);
+
+        iconPaint = new Paint();
+        iconPaint.setAntiAlias(true);
+        iconPaint.setFilterBitmap(true);
+        iconPaint.setDither(true);
+        if (changeIconColor) {
+            ColorFilter filter = new PorterDuffColorFilter(iconColor, PorterDuff.Mode.MULTIPLY);
+            iconPaint.setColorFilter(filter);
+        }
+
         setSoundEffectsEnabled(soundEffects);
         setOnClickListener(onclick);
     }
