@@ -100,6 +100,7 @@ public class Sentence implements Serializable {
     }
 
     @Column(name = "meta_info")
+    @JSON(serialize = false, deserialize = false)
     public String getMeta() {
         return meta;
     }
@@ -125,7 +126,6 @@ public class Sentence implements Serializable {
     }
 
     @Transient
-    @JSON(serialize = false, deserialize = false)
     public SentenceMetaInfo getMetaInfo() {
         if (metaInfo == null && meta != null) {
             metaInfo = (SentenceMetaInfo) MyXStream.fromXml(meta);

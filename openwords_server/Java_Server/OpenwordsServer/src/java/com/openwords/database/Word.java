@@ -373,7 +373,7 @@ public class Word implements Serializable {
 
     @Transient
     public WordMetaInfo getWordMetaInfo() {
-        if (wordMetaInfo == null) {
+        if (wordMetaInfo == null && meta != null) {
             wordMetaInfo = (WordMetaInfo) MyXStream.fromXml(meta);
         }
         return wordMetaInfo;
