@@ -53,9 +53,9 @@ public class GetSentencePack extends MyAction {
     private void loadPack(Session s, int total) {
         int page = ran.nextInt((total + 10) / 10);
         UtilLog.logInfo(this, "page: " + page);
-        List<SentenceConnection> cs = SentenceConnection.getConnectionPage(s, page, 10, langTwo);
-        Set<Long> ids = new HashSet<>(cs.size());
-        for (SentenceConnection c : cs) {
+        connections = SentenceConnection.getConnectionPage(s, page, 10, langTwo);
+        Set<Long> ids = new HashSet<>(connections.size());
+        for (SentenceConnection c : connections) {
             ids.add(c.getUniId());
             ids.add(c.getSentenceId());
         }
