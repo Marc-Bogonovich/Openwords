@@ -1,5 +1,6 @@
 package com.openwords.utils;
 
+import com.openwords.database.SentenceMetaInfo;
 import com.openwords.database.SetMetaInfo;
 import com.openwords.database.UserLanguageMetaInfo;
 import com.openwords.database.WordMetaInfo;
@@ -15,6 +16,7 @@ public class MyXStream {
             instance.alias("word", WordMetaInfo.class);
             instance.alias("set", SetMetaInfo.class);
             instance.alias("ulang", UserLanguageMetaInfo.class);
+            instance.alias("sentence", SentenceMetaInfo.class);
         }
     }
 

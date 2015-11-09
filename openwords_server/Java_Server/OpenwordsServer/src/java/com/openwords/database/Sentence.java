@@ -1,17 +1,20 @@
 package com.openwords.database;
 
+import com.openwords.utils.MyXStream;
 import com.openwords.utils.UtilLog;
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.Transient;
 import org.apache.struts2.json.annotations.JSON;
 import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 
 @Entity
 @Table(name = "sentences")
@@ -37,10 +40,17 @@ public class Sentence implements Serializable {
         s.beginTransaction().commit();
     }
 
+    @SuppressWarnings("unchecked")
+    public static List<Sentence> getSentences(Session s, Collection<Long> ids) {
+        return s.createCriteria(Sentence.class)
+                .add(Restrictions.in("sentenceId", ids)).list();
+    }
+
     private long sentenceId, userId;
     private int languageId;
     private String text, meta;
     private Date updatedTime;
+    private SentenceMetaInfo metaInfo;
 
     public Sentence() {
     }
@@ -112,5 +122,14 @@ public class Sentence implements Serializable {
     @Transient
     public long getUpdatedTimeLong() {
         return updatedTime.getTime();
+    }
+
+    @Transient
+    @JSON(serialize = false, deserialize = false)
+    public SentenceMetaInfo getMetaInfo() {
+        if (metaInfo == null && meta != null) {
+            metaInfo = (SentenceMetaInfo) MyXStream.fromXml(meta);
+        }
+        return metaInfo;
     }
 }
