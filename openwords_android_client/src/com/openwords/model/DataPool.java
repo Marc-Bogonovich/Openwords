@@ -1,5 +1,6 @@
 package com.openwords.model;
 
+import static com.openwords.learningmodule.InterfaceLearningModule.Learning_Type_Sentence;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -23,11 +24,16 @@ public class DataPool {
     public final static SetInfo currentSet = new SetInfo();
     public final static List<SetItem> currentSetItems = new ArrayList<SetItem>(0);
     public final static List<Performance> currentPerformance = new LinkedList<Performance>();
+    public final static List<SentenceConnection> currentSentences = new LinkedList<SentenceConnection>();
     public static int Color_Main;
 
     public static int getPoolSize() {
         //return LmPool.size();
-        return currentSetItems.size();
+        if (LmType == Learning_Type_Sentence) {
+            return currentSentences.size();
+        } else {
+            return currentSetItems.size();
+        }
     }
 
     public static WordConnection getWordConnection(int index) {

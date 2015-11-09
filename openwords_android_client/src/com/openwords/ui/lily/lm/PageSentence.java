@@ -13,6 +13,10 @@ import android.widget.TextView;
 import com.openwords.R;
 import com.openwords.learningmodule.ActivityLearning;
 import com.openwords.learningmodule.FragmentLearningModule;
+import com.openwords.model.DataPool;
+import com.openwords.model.Sentence;
+import com.openwords.model.SentenceConnection;
+import com.openwords.model.SentenceItem;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.ui.MyQuickToast;
 import java.util.LinkedList;
@@ -35,6 +39,7 @@ public class PageSentence extends FragmentLearningModule {
     private List<LinearLayout> lines;
     private List<Integer> itemGoIndex;
     private ViewSoundBackground soundButton;
+    private SentenceConnection sentence;
 
     public PageSentence(int cardIndex, ActivityLearning lmActivity) {
         this.cardIndex = cardIndex;
@@ -50,6 +55,8 @@ public class PageSentence extends FragmentLearningModule {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         myFragmentView = inflater.inflate(R.layout.lily_page_lm_sentence, container, false);
+
+        sentence = DataPool.currentSentences.get(cardIndex);
 
         root = (LinearLayout) myFragmentView.findViewById(R.id.page_sentence_root);
         root.setBackgroundColor(getResources().getColor(R.color.main_app_color));
@@ -104,24 +111,14 @@ public class PageSentence extends FragmentLearningModule {
     }
 
     private void makeData() {
-        question.setText("She said she loves my dog a lot today, but I don't know why.");
-        addOptionItem("她", items);
-        addOptionItem("跟", items);
-        addOptionItem("我", items);
-        addOptionItem("说", items);
-        addOptionItem("她", items);
-        addOptionItem("今天", items);
-        addOptionItem("非常", items);
-        addOptionItem("爱", items);
-        addOptionItem("我", items);
-        addOptionItem("的", items);
-        addOptionItem("狗", items);
-        addOptionItem("，", items);
-        addOptionItem("但是", items);
-        addOptionItem("我", items);
-        addOptionItem("不知道", items);
-        addOptionItem("为什么", items);
-        addOptionItem("。", items);
+        Sentence s1 = Sentence.getSentence(sentence.uniId);
+        Sentence s2 = Sentence.getSentence(sentence.sentenceId);
+        question.setText(s1.text);
+
+        List<SentenceItem> its = SentenceItem.getItems(sentence.sentenceId);
+        for (SentenceItem i : its) {
+            addOptionItem(i.item, items);
+        }
     }
 
     private void clearUI() {

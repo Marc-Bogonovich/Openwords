@@ -1,6 +1,8 @@
 package com.openwords.model;
 
 import com.orm.SugarRecord;
+import com.orm.query.Condition;
+import com.orm.query.Select;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -15,6 +17,14 @@ public class SentenceItem extends SugarRecord<SentenceItem> {
         String sqlIds = ids.toString().replace("[", "(").replace("]", ")");
         SentenceItem.deleteAll(SentenceItem.class, "sentence_id in " + sqlIds);
         SentenceItem.saveInTx(items);
+    }
+
+    public static List<SentenceItem> getItems(long sentenceId) {
+        List<SentenceItem> r = Select.from(SentenceItem.class)
+                .where(Condition.prop("sentence_id").eq(sentenceId))
+                .orderBy("item_index asc")
+                .list();
+        return r;
     }
 
     public long sentenceId;

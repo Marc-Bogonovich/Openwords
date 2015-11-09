@@ -20,6 +20,10 @@ public class Sentence extends SugarRecord<Sentence> {
         Sentence.saveInTx(ss);
     }
 
+    public static Sentence getSentence(long sentenceId) {
+        return Sentence.find(Sentence.class, "sentence_id = ?", String.valueOf(sentenceId)).get(0);
+    }
+
     public long sentenceId, userId;
     public int languageId;
     public String text, meta;
