@@ -8,19 +8,24 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.openwords.R;
+import com.openwords.learningmodule.ActivityLearning;
+import com.openwords.learningmodule.InterfaceLearningModule;
 import com.openwords.model.DataPool;
 import com.openwords.model.Language;
 import com.openwords.model.LocalSettings;
+import com.openwords.model.ResultSentencePack;
+import com.openwords.model.SentenceConnection;
 import com.openwords.model.SetItem;
 import com.openwords.ui.common.BackButtonBehavior;
 import com.openwords.util.localization.LocalizationManager;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.ui.MyQuickToast;
+import java.util.List;
 
 public class PageHome extends Activity {
 
     private LinearLayout root;
-    private TextView buttonSetList, buttonNewSet, buttonResume;
+    private TextView buttonSetList, buttonNewSet, buttonResume, buttonTest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +37,7 @@ public class PageHome extends Activity {
         buttonSetList = (TextView) findViewById(R.id.act_home_button_1);
         buttonNewSet = (TextView) findViewById(R.id.act_home_button_2);
         buttonResume = (TextView) findViewById(R.id.act_home_button_3);
+        buttonTest = (TextView) findViewById(R.id.page_home_text_1);
         buttonSetList.setTextColor(getResources().getColor(R.color.main_app_color));
         buttonNewSet.setTextColor(getResources().getColor(R.color.main_app_color));
         buttonResume.setTextColor(getResources().getColor(R.color.main_app_color));
@@ -64,6 +70,25 @@ public class PageHome extends Activity {
 
             public void onClick(View view) {
                 MyQuickToast.showShort(PageHome.this, "Not supported yet");
+            }
+        });
+
+        buttonTest.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View v) {
+                SentenceConnection.loadSentencePack(LocalSettings.getLearningLanguage().langId, new ResultSentencePack() {
+
+                    public void result(List<SentenceConnection> connections) {
+                        DataPool.currentSentences.clear();
+                        DataPool.currentSentences.addAll(connections);
+                        DataPool.LmType = InterfaceLearningModule.Learning_Type_Sentence;
+                        startActivity(new Intent(PageHome.this, ActivityLearning.class));
+                    }
+
+                    public void error(String error) {
+                        MyQuickToast.showShort(PageHome.this, error);
+                    }
+                });
             }
         });
     }
