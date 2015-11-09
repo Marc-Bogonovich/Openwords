@@ -12,7 +12,6 @@ CREATE TABLE `sentence_connections` (
   `uni_sentence_id` bigint(20) NOT NULL,
   `sentence_id` bigint(20) NOT NULL,
   `connection_type` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
-  `lang_one` int(11) NOT NULL,
   `lang_two` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
