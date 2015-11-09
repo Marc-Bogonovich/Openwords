@@ -69,9 +69,9 @@ public class UploadAudioFile extends MyAction {
 
                 WordAudio audio = new WordAudio(new WordAudioId(wordId, type), language, soundName);
                 s.save(audio);
+                s.beginTransaction().commit();
                 UtilLog.logInfo(this, wordId + " " + tokens[1]);
             }
-            s.beginTransaction().commit();
             UtilLog.logInfo(this, "audio done");
         } catch (Exception e) {
             UtilLog.logError(this, e);
