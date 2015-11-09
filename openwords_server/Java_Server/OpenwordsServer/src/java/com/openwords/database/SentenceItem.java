@@ -37,6 +37,12 @@ public class SentenceItem implements Serializable {
                 .list();
     }
 
+    @SuppressWarnings("unchecked")
+    public static List<SentenceItem> getItems(Session s, Collection<Long> ids) {
+        return s.createCriteria(SentenceItem.class)
+                .add(Restrictions.in("sentenceId", ids)).list();
+    }
+
     private long sentenceId;
     private int itemIndex;
     private String item, type;
