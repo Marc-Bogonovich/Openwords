@@ -22,7 +22,7 @@ public class GetSentencePack extends MyAction {
     private static final long serialVersionUID = 1L;
     private static final Random ran = new Random();
     private String errorMessage;
-    private int langTwo;
+    private int langOne, langTwo, pageSize = 10;
     private List<Sentence> sentences;
     private List<SentenceItem> items;
     private List<SentenceConnection> connections;
@@ -32,10 +32,10 @@ public class GetSentencePack extends MyAction {
     })
     @Override
     public String execute() throws Exception {
-        UtilLog.logInfo(this, "/getSentencePack: " + langTwo);
+        UtilLog.logInfo(this, "/getSentencePack: " + langOne + " " + langTwo);
         Session s = DatabaseHandler.getSession();
         try {
-            int total = SentenceConnection.count(s, langTwo);
+            int total = SentenceConnection.count(s, langOne, langTwo);
             if (total <= 0) {
                 throw new Exception("we do not have sentence data for these languages yet");
             }
@@ -51,9 +51,9 @@ public class GetSentencePack extends MyAction {
     }
 
     private void loadPack(Session s, int total) {
-        int page = ran.nextInt((total + 10) / 10);
+        int page = ran.nextInt((total + pageSize) / pageSize);
         UtilLog.logInfo(this, "page: " + page);
-        connections = SentenceConnection.getConnectionPage(s, page, 10, langTwo);
+        connections = SentenceConnection.getConnectionPage(s, page, pageSize, langOne, langTwo);
         Set<Long> ids = new HashSet<>(connections.size());
         for (SentenceConnection c : connections) {
             ids.add(c.getUniId());
@@ -65,6 +65,14 @@ public class GetSentencePack extends MyAction {
 
     public void setLangTwo(int langTwo) {
         this.langTwo = langTwo;
+    }
+
+    public void setLangOne(int langOne) {
+        this.langOne = langOne;
+    }
+
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
     }
 
     public String getErrorMessage() {

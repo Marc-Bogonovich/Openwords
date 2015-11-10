@@ -1,5 +1,6 @@
 package com.openwords.database;
 
+import static com.openwords.database.Word.Universal_Language;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Column;
@@ -16,21 +17,61 @@ public class SentenceConnection implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public static int count(Session s, int langTwo) {
-        return ((Number) s.createCriteria(SentenceConnection.class)
-                .add(Restrictions.eq("langTwo", langTwo))
-                .setProjection(Projections.rowCount())
-                .uniqueResult()).intValue();
+    public static int count(Session s, int langOne, int langTwo) {
+        if (langOne == Universal_Language) {
+            return ((Number) s.createCriteria(SentenceConnection.class)
+                    .add(Restrictions.eq("langTwo", langTwo))
+                    .setProjection(Projections.rowCount())
+                    .uniqueResult()).intValue();
+
+        } else if (langTwo == Universal_Language) {
+            return ((Number) s.createCriteria(SentenceConnection.class)
+                    .add(Restrictions.eq("langTwo", langOne))
+                    .setProjection(Projections.rowCount())
+                    .uniqueResult()).intValue();
+        } else {
+            String sql = "SELECT count(lang_one.lang_one_uni) FROM \n"
+                    + "(SELECT uni_sentence_id as lang_two_uni FROM sentence_connections WHERE lang_two=@langTwo@) lang_two,\n"
+                    + "(SELECT uni_sentence_id as lang_one_uni FROM sentence_connections WHERE lang_two=@langOne@) lang_one\n"
+                    + "WHERE lang_two.lang_two_uni = lang_one.lang_one_uni";
+
+            sql = sql.replace("@langTwo@", String.valueOf(langTwo))
+                    .replace("@langOne@", String.valueOf(langOne));
+
+            return ((Number) s.createSQLQuery(sql).uniqueResult()).intValue();
+        }
     }
 
     @SuppressWarnings("unchecked")
-    public static List<SentenceConnection> getConnectionPage(Session s, int pageNumber, int pageSize, int langTwo) {
+    public static List<SentenceConnection> getConnectionPage(Session s, int pageNumber, int pageSize, int langOne, int langTwo) {
         int firstRecord = (pageNumber - 1) * pageSize;
-        return s.createCriteria(SentenceConnection.class)
-                .add(Restrictions.eq("langTwo", langTwo))
-                .setFirstResult(firstRecord)
-                .setMaxResults(pageSize)
-                .list();
+        if (langOne == Universal_Language) {
+            return s.createCriteria(SentenceConnection.class)
+                    .add(Restrictions.eq("langTwo", langTwo))
+                    .setFirstResult(firstRecord)
+                    .setMaxResults(pageSize)
+                    .list();
+
+        } else if (langTwo == Universal_Language) {
+            return s.createCriteria(SentenceConnection.class)
+                    .add(Restrictions.eq("langTwo", langOne))
+                    .setFirstResult(firstRecord)
+                    .setMaxResults(pageSize)
+                    .list();
+        } else {
+            String sql = "SELECT * FROM\n"
+                    + "(SELECT uni_sentence_id as lang_two_uni, sentence_id, lang_two, connection_type FROM sentence_connections WHERE lang_two=@langTwo@) lang_two,\n"
+                    + "(SELECT uni_sentence_id as lang_one_uni, sentence_id as uni_sentence_id FROM sentence_connections WHERE lang_two=@langOne@) lang_one\n"
+                    + "WHERE lang_two.lang_two_uni = lang_one.lang_one_uni "
+                    + "limit @firstRecord@,@pageSize@";
+
+            sql = sql.replace("@langTwo@", String.valueOf(langTwo))
+                    .replace("@langOne@", String.valueOf(langOne))
+                    .replace("@firstRecord@", String.valueOf(firstRecord))
+                    .replace("@pageSize@", String.valueOf(pageSize));
+
+            return s.createSQLQuery(sql).addEntity(SentenceConnection.class).list();
+        }
     }
 
     private long uniId, sentenceId;
