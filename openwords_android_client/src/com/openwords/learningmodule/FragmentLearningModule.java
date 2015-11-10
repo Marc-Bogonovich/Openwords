@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ScrollView;
@@ -24,11 +25,13 @@ import com.openwords.model.Performance;
 import com.openwords.model.Word;
 import com.openwords.model.WordAudio;
 import com.openwords.sound.SoundPlayer;
+import com.openwords.ui.common.DialogForSettingSelection;
 import com.openwords.ui.graphics.AnimationTimerBar;
 import com.openwords.ui.lily.lm.ViewSoundBackground;
 import com.openwords.util.WordComparsion;
 import com.openwords.util.file.LocalFileSystem;
 import com.openwords.util.log.LogUtil;
+import com.openwords.util.ui.MyQuickToast;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -46,6 +49,7 @@ public abstract class FragmentLearningModule extends Fragment {
     private Word w1;
     private Word w2;
     private ActivityLearning lmActivity;
+    private DialogForSettingSelection settingDialog;
 
     private int duration;
 
@@ -147,6 +151,37 @@ public abstract class FragmentLearningModule extends Fragment {
         this.duration = duration;
         advanceTimerAnimation = new AnimationTimerBar(0, 100, advanceTimerBar);
         advanceTimerAnimation.setDuration(duration);
+    }
+
+    public void updateOptionButton(final ImageView buttonOption, final Activity act) {
+        buttonOption.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View v) {
+                if (settingDialog != null) {
+                    settingDialog.cancel();
+                    settingDialog = null;
+                }
+                settingDialog = new DialogForSettingSelection(act)
+                        .addItem("Comment")
+                        .addItem("Stop")
+                        .build(new AdapterView.OnItemClickListener() {
+
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                switch (position) {
+                                    case 0:
+                                        MyQuickToast.showShort(act, "Comment is not supported yet.");
+                                        break;
+                                    case 1:
+                                        act.finish();
+                                        break;
+                                }
+                                settingDialog.cancel();
+                                settingDialog = null;
+                            }
+                        }, (int) buttonOption.getX(), (int) buttonOption.getY());
+                settingDialog.show();
+            }
+        });
     }
 
     public void formViewElementsForTypingUI(ActivityLearning lmActivity, final ScrollView scrollContainer,

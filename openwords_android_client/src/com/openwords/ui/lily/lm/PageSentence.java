@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -19,7 +18,6 @@ import com.openwords.model.DataPool;
 import com.openwords.model.Sentence;
 import com.openwords.model.SentenceConnection;
 import com.openwords.model.SentenceItem;
-import com.openwords.ui.common.DialogForSettingSelection;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.ui.MyDialogHelper;
 import com.openwords.util.ui.MyQuickToast;
@@ -38,7 +36,6 @@ public class PageSentence extends FragmentLearningModule {
     private LinearLayout itemsArea;
     private AutoResizeTextView itemsResultArea, question;
     private ImageView imageCheck, buttonOption;
-    private DialogForSettingSelection settingDialog;
     private Resources r;
     private int padding;
     private int margin;
@@ -77,36 +74,10 @@ public class PageSentence extends FragmentLearningModule {
         soundButton.config(Color.parseColor("#ffffff"), 255, false, true, getResources().getColor(R.color.main_app_color), null);
         imageCheck = (ImageView) myFragmentView.findViewById(R.id.page_sentence_image_check);
         buttonOption = (ImageView) myFragmentView.findViewById(R.id.page_sentence_image1);
+        updateOptionButton(buttonOption, lmActivity);
 
         imageCheck.setVisibility(View.INVISIBLE);
         setTimer(lmActivity, myFragmentView.findViewById(R.id.lm_frag_advance), 2000);
-        buttonOption.setOnClickListener(new View.OnClickListener() {
-
-            public void onClick(View v) {
-                if (settingDialog != null) {
-                    settingDialog.cancel();
-                }
-                settingDialog = new DialogForSettingSelection(lmActivity)
-                        .addItem("Comment")
-                        .addItem("Stop")
-                        .build(new AdapterView.OnItemClickListener() {
-
-                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                switch (position) {
-                                    case 0:
-                                        MyQuickToast.showShort(lmActivity, "Comment is not supported yet.");
-                                        break;
-                                    case 1:
-                                        lmActivity.finish();
-                                        break;
-                                }
-                                settingDialog.cancel();
-                                settingDialog = null;
-                            }
-                        }, (int) buttonOption.getX(), (int) buttonOption.getY());
-                settingDialog.show();
-            }
-        });
 
         r = getResources();
         padding = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, r.getDisplayMetrics());

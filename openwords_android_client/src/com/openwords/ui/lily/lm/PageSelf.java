@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import com.openwords.R;
 import com.openwords.learningmodule.ActivityLearning;
@@ -15,7 +14,6 @@ import com.openwords.learningmodule.FragmentLearningModule;
 import com.openwords.model.DataPool;
 import com.openwords.model.Performance;
 import com.openwords.model.SetItem;
-import com.openwords.ui.common.DialogForSettingSelection;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.ui.MyQuickToast;
 
@@ -32,7 +30,6 @@ public class PageSelf extends FragmentLearningModule {
     private SetItem item;
     private MyTweenComputer tween;
     private float optionDistance;
-    private DialogForSettingSelection settingDialog;
 
     public PageSelf(int cardIndex, ActivityLearning lmActivity) {
         this.cardIndex = cardIndex;
@@ -62,33 +59,7 @@ public class PageSelf extends FragmentLearningModule {
 
         buttonOption = (ImageView) myFragmentView.findViewById(R.id.page_self_image1);
         buttonOption.setColorFilter(DataPool.Color_Main, PorterDuff.Mode.MULTIPLY);
-        buttonOption.setOnClickListener(new View.OnClickListener() {
-
-            public void onClick(View v) {
-                if (settingDialog != null) {
-                    settingDialog.cancel();
-                }
-                settingDialog = new DialogForSettingSelection(lmActivity)
-                        .addItem("Comment")
-                        .addItem("Stop")
-                        .build(new AdapterView.OnItemClickListener() {
-
-                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                switch (position) {
-                                    case 0:
-                                        MyQuickToast.showShort(lmActivity, "Comment is not supported yet.");
-                                        break;
-                                    case 1:
-                                        lmActivity.finish();
-                                        break;
-                                }
-                                settingDialog.cancel();
-                                settingDialog = null;
-                            }
-                        }, (int) buttonOption.getX(), (int) buttonOption.getY());
-                settingDialog.show();
-            }
-        });
+        updateOptionButton(buttonOption, lmActivity);
 
         soundButton = (ViewSoundBackground) myFragmentView.findViewById(R.id.lily_button_sound_bg);
         updateAudioIcon(soundButton, item.wordTwoId);
