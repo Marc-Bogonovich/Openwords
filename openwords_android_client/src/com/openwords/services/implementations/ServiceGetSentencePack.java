@@ -17,10 +17,12 @@ public class ServiceGetSentencePack extends HttpServiceRequester implements Http
 
     private HttpResultHandler resultHandler;
 
-    public void doRequest(int langTwo, HttpResultHandler hrh) {
+    public void doRequest(int langOne, int langTwo, int pageSize, HttpResultHandler hrh) {
         resultHandler = hrh;
         request(ServiceURL, new RequestParamsBuilder()
+                .addParam("langOne", String.valueOf(langOne))
                 .addParam("langTwo", String.valueOf(langTwo))
+                .addParam("pageSize", String.valueOf(pageSize))
                 .getParams(), 0, this);
     }
 

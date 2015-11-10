@@ -208,6 +208,10 @@
         <item>View my words</item>
         <item>查看我的单词</item>
     </string-array>
+    <string-array name="button_sentence">
+        <item>Random Sentences</item>
+        <item>随机句子练习</item>
+    </string-array>
     <string name="logoImage_description">Openwords logo</string>
     <string name="loginPage">Please log in</string>
     <string name="title_activity_loginPage">LoginPage</string>

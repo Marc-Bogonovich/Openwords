@@ -25,7 +25,7 @@ public class LocalizationManager {
             textHintUser, textHintPass, textBye, textMoreLang, textSettingProfile, textSettingSetting, textSettingTutor, textSettingLogout,
             textPCNext, textPCEnd, textWordsNext, textWordsSearch, textWordsSets, textWordsView, textHintPassRe, textReg,
             TextHintEmail;
-    private static String buttonPractice, buttonCreate, buttonResume;
+    private static String buttonPractice, buttonCreate, buttonResume, buttonSentence;
     private static String titleWordSets, titlePractice;
     private static String hintSearchSets;
     private static String infoPractice;
@@ -107,6 +107,7 @@ public class LocalizationManager {
         nameHearing = getText(R.array.name_hearing);
         nameType = getText(R.array.name_type);
         nameSentence = getText(R.array.name_sentence);
+        buttonSentence = getText(R.array.button_sentence);
     }
 
     private static String getText(int id) {
@@ -303,6 +304,10 @@ public class LocalizationManager {
 
     public static String getNameSentence() {
         return nameSentence;
+    }
+
+    public static String getButtonSentence() {
+        return buttonSentence;
     }
 
     private LocalizationManager() {

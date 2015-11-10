@@ -57,6 +57,7 @@ public class ActivityLearning extends FragmentActivity implements InterfaceLearn
             for (SentenceConnection sen : DataPool.currentSentences) {
                 DataPool.currentPerformance.add(new Performance(sen.sentenceId, "test", "new", 1));
             }
+            wordIds.clear();
         }
 
         List<WordAudio> localAudios = WordAudio.getAudios(wordIds);

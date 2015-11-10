@@ -15,6 +15,7 @@ import com.openwords.R;
 import com.openwords.learningmodule.ActivityLearning;
 import com.openwords.learningmodule.FragmentLearningModule;
 import com.openwords.model.DataPool;
+import com.openwords.model.LocalSettings;
 import com.openwords.model.Performance;
 import com.openwords.model.Sentence;
 import com.openwords.model.SentenceConnection;
@@ -95,7 +96,7 @@ public class PageSentence extends FragmentLearningModule {
             public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
                 LogUtil.logDeubg(this, "onLayoutChange");
                 if (cardIndex == 0 && !FirstPageDone) {
-                    MyQuickToast.showShort(lmActivity, "lineWidth " + v.getWidth());
+                    //MyQuickToast.showShort(lmActivity, "lineWidth " + v.getWidth());
                     int lineWidth = v.getWidth();
                     if (lineWidth <= 0) {
                         return;
@@ -121,7 +122,12 @@ public class PageSentence extends FragmentLearningModule {
 
                     String result = (String) itemsResultArea.getText();
                     int itemSize = t.getText().length();
-                    itemsResultArea.setText(result.substring(0, result.length() - itemSize));
+                    if (s2.hasSpace) {
+                        itemsResultArea.setText(result.substring(0, result.length() - itemSize - 1));
+                    } else {
+                        itemsResultArea.setText(result.substring(0, result.length() - itemSize));
+                    }
+
                 }
             }
         });
@@ -130,8 +136,13 @@ public class PageSentence extends FragmentLearningModule {
     }
 
     private void makeData() {
-        s1 = Sentence.getSentence(sentence.uniId);
-        s2 = Sentence.getSentence(sentence.sentenceId);
+        if (LocalSettings.getLearningLanguage().langId == 1) {
+            s1 = Sentence.getSentence(sentence.sentenceId);
+            s2 = Sentence.getSentence(sentence.uniId);
+        } else {
+            s1 = Sentence.getSentence(sentence.uniId);
+            s2 = Sentence.getSentence(sentence.sentenceId);
+        }
         question.setText(s1.text);
         question.setOnClickListener(new View.OnClickListener() {
 
@@ -141,7 +152,12 @@ public class PageSentence extends FragmentLearningModule {
         });
         addClarificationTrigger(lmActivity, new View[]{question}, 50, s2.text);
 
-        answerItems = SentenceItem.getItems(sentence.sentenceId);
+        if (LocalSettings.getLearningLanguage().langId == 1) {
+            answerItems = SentenceItem.getItems(sentence.uniId);
+        } else {
+            answerItems = SentenceItem.getItems(sentence.sentenceId);
+        }
+
         Collections.shuffle(answerItems);
         for (SentenceItem i : answerItems) {
             addOptionItem(i.item, items);

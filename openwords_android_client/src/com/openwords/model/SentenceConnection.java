@@ -7,8 +7,8 @@ import java.util.List;
 
 public class SentenceConnection extends SugarRecord<SentenceConnection> {
 
-    public static void loadSentencePack(int langTwo, final ResultSentencePack resultHandler) {
-        new ServiceGetSentencePack().doRequest(langTwo, new HttpResultHandler() {
+    public static void loadSentencePack(int langOne, int langTwo, int pageSize, final ResultSentencePack resultHandler) {
+        new ServiceGetSentencePack().doRequest(langOne, langTwo, pageSize, new HttpResultHandler() {
 
             public void hasResult(Object resultObject) {
                 ServiceGetSentencePack.Result r = (ServiceGetSentencePack.Result) resultObject;

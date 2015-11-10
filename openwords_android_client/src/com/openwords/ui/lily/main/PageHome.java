@@ -23,10 +23,10 @@ import com.openwords.util.ui.MyQuickToast;
 import java.util.List;
 
 public class PageHome extends Activity {
-
+    
     private LinearLayout root;
     private TextView buttonSetList, buttonNewSet, buttonResume, buttonTest;
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,15 +44,16 @@ public class PageHome extends Activity {
         buttonSetList.setText(LocalizationManager.getButtonPractice());
         buttonNewSet.setText(LocalizationManager.getButtonCreate());
         buttonResume.setText(LocalizationManager.getButtonResume());
-
+        buttonTest.setText(LocalizationManager.getButtonSentence());
+        
         buttonSetList.setOnClickListener(new View.OnClickListener() {
-
+            
             public void onClick(View view) {
                 startActivity(new Intent(PageHome.this, PageSetsList.class));
             }
         });
         buttonNewSet.setOnClickListener(new View.OnClickListener() {
-
+            
             public void onClick(View view) {
                 if (DataPool.OffLine) {
                     MyQuickToast.showShort(PageHome.this, "Cannot create set in offline mode.");
@@ -67,24 +68,24 @@ public class PageHome extends Activity {
             }
         });
         buttonResume.setOnClickListener(new View.OnClickListener() {
-
+            
             public void onClick(View view) {
                 MyQuickToast.showShort(PageHome.this, "Not supported yet");
             }
         });
-
+        
         buttonTest.setOnClickListener(new View.OnClickListener() {
-
+            
             public void onClick(View v) {
-                SentenceConnection.loadSentencePack(LocalSettings.getLearningLanguage().langId, new ResultSentencePack() {
-
+                SentenceConnection.loadSentencePack(LocalSettings.getBaseLanguageId(), LocalSettings.getLearningLanguage().langId, 5, new ResultSentencePack() {
+                    
                     public void result(List<SentenceConnection> connections) {
                         DataPool.currentSentences.clear();
                         DataPool.currentSentences.addAll(connections);
                         DataPool.LmType = InterfaceLearningModule.Learning_Type_Sentence;
                         startActivity(new Intent(PageHome.this, ActivityLearning.class));
                     }
-
+                    
                     public void error(String error) {
                         MyQuickToast.showShort(PageHome.this, error);
                     }
@@ -92,7 +93,7 @@ public class PageHome extends Activity {
             }
         });
     }
-
+    
     @Override
     protected void onResume() {
         super.onResume();
@@ -104,11 +105,11 @@ public class PageHome extends Activity {
             MyQuickToast.showLong(this, "Current learning language is " + currentLearn.displayName);
         }
     }
-
+    
     @Override
     public void onBackPressed() {
         BackButtonBehavior.whenAtMainPages(this, new BackButtonBehavior.BackActionConfirmed() {
-
+            
             public void callback() {
                 PageHome.super.onBackPressed();
             }
