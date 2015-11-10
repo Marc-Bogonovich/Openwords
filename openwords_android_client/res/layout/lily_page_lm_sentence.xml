@@ -80,9 +80,13 @@
     
     </ScrollView>
     
-    <ImageView android:layout_width="match_parent"
+    <ImageView android:id="@+id/page_sentence_image_check"
+               android:layout_width="match_parent"
                android:layout_height="0dp"
                android:layout_weight="1"
+               android:contentDescription=""
                android:src="@drawable/ic_correct"/>
+    
+    <include layout="@layout/timer_bar"/>
     
 </LinearLayout>

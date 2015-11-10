@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.openwords.R;
@@ -17,8 +19,11 @@ import com.openwords.model.DataPool;
 import com.openwords.model.Sentence;
 import com.openwords.model.SentenceConnection;
 import com.openwords.model.SentenceItem;
+import com.openwords.ui.common.DialogForSettingSelection;
 import com.openwords.util.log.LogUtil;
+import com.openwords.util.ui.MyDialogHelper;
 import com.openwords.util.ui.MyQuickToast;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -32,6 +37,8 @@ public class PageSentence extends FragmentLearningModule {
     private LinearLayout root;
     private LinearLayout itemsArea;
     private AutoResizeTextView itemsResultArea, question;
+    private ImageView imageCheck, buttonOption;
+    private DialogForSettingSelection settingDialog;
     private Resources r;
     private int padding;
     private int margin;
@@ -40,6 +47,8 @@ public class PageSentence extends FragmentLearningModule {
     private List<Integer> itemGoIndex;
     private ViewSoundBackground soundButton;
     private SentenceConnection sentence;
+    private List<SentenceItem> answerItems;
+    private Sentence s1, s2;
 
     public PageSentence(int cardIndex, ActivityLearning lmActivity) {
         this.cardIndex = cardIndex;
@@ -66,6 +75,38 @@ public class PageSentence extends FragmentLearningModule {
         question = (AutoResizeTextView) myFragmentView.findViewById(R.id.page_sentence_question_text);
         soundButton = (ViewSoundBackground) myFragmentView.findViewById(R.id.lily_button_sound_bg);
         soundButton.config(Color.parseColor("#ffffff"), 255, false, true, getResources().getColor(R.color.main_app_color), null);
+        imageCheck = (ImageView) myFragmentView.findViewById(R.id.page_sentence_image_check);
+        buttonOption = (ImageView) myFragmentView.findViewById(R.id.page_sentence_image1);
+
+        imageCheck.setVisibility(View.INVISIBLE);
+        setTimer(lmActivity, myFragmentView.findViewById(R.id.lm_frag_advance), 2000);
+        buttonOption.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View v) {
+                if (settingDialog != null) {
+                    settingDialog.cancel();
+                }
+                settingDialog = new DialogForSettingSelection(lmActivity)
+                        .addItem("Comment")
+                        .addItem("Stop")
+                        .build(new AdapterView.OnItemClickListener() {
+
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                switch (position) {
+                                    case 0:
+                                        MyQuickToast.showShort(lmActivity, "Comment is not supported yet.");
+                                        break;
+                                    case 1:
+                                        lmActivity.finish();
+                                        break;
+                                }
+                                settingDialog.cancel();
+                                settingDialog = null;
+                            }
+                        }, (int) buttonOption.getX(), (int) buttonOption.getY());
+                settingDialog.show();
+            }
+        });
 
         r = getResources();
         padding = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, r.getDisplayMetrics());
@@ -111,12 +152,20 @@ public class PageSentence extends FragmentLearningModule {
     }
 
     private void makeData() {
-        Sentence s1 = Sentence.getSentence(sentence.uniId);
-        Sentence s2 = Sentence.getSentence(sentence.sentenceId);
+        s1 = Sentence.getSentence(sentence.uniId);
+        s2 = Sentence.getSentence(sentence.sentenceId);
         question.setText(s1.text);
+        question.setOnClickListener(new View.OnClickListener() {
 
-        List<SentenceItem> its = SentenceItem.getItems(sentence.sentenceId);
-        for (SentenceItem i : its) {
+            public void onClick(View v) {
+                MyDialogHelper.showMessageDialog(lmActivity, null, null, null);
+            }
+        });
+        addClarificationTrigger(lmActivity, new View[]{question}, 50, s2.text);
+
+        answerItems = SentenceItem.getItems(sentence.sentenceId);
+        Collections.shuffle(answerItems);
+        for (SentenceItem i : answerItems) {
             addOptionItem(i.item, items);
         }
     }
@@ -149,20 +198,30 @@ public class PageSentence extends FragmentLearningModule {
                 t.setVisibility(View.GONE);
                 addResultItem(text);
                 itemGoIndex.add(itemList.indexOf(t));
-                if (itemGoIndex.size() == items.size()) {
-                    checkAnswer();
-                }
+                checkAnswer();
             }
         });
         itemList.add(t);
     }
 
     private void addResultItem(String text) {
-        itemsResultArea.setText(itemsResultArea.getText() + text);
+        if (s2.hasSpace) {
+            itemsResultArea.setText(itemsResultArea.getText() + text + " ");
+        } else {
+            itemsResultArea.setText(itemsResultArea.getText() + text);
+        }
     }
 
     private void checkAnswer() {
-        MyQuickToast.showShort(lmActivity, "check");
+        if (itemGoIndex.size() == items.size()) {
+            String answer = ((String) itemsResultArea.getText()).trim();
+            if (answer.equals(s2.text.trim())) {
+                imageCheck.setVisibility(View.VISIBLE);
+                fireTimer();
+            } else {
+                MyQuickToast.showShort(lmActivity, "Try again...");
+            }
+        }
     }
 
     public void buildUI() {

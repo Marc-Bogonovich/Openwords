@@ -61,11 +61,12 @@ public class PageLMOption extends Activity {
                     DataPool.LmType = InterfaceLearningModule.Learning_Type_Hearing;
                     startActivity(new Intent(PageLMOption.this, ActivityLearning.class));
                     PageLMOption.this.finish();
-                } else if (position == 4) {
-                    DataPool.LmType = InterfaceLearningModule.Learning_Type_Sentence;
-                    startActivity(new Intent(PageLMOption.this, ActivityLearning.class));
-                    PageLMOption.this.finish();
-                } else {
+                } //                else if (position == 4) {
+                //                    DataPool.LmType = InterfaceLearningModule.Learning_Type_Sentence;
+                //                    startActivity(new Intent(PageLMOption.this, ActivityLearning.class));
+                //                    PageLMOption.this.finish();
+                //                } 
+                else {
                     MyQuickToast.showShort(PageLMOption.this, "Sorry, this learning module is not supported yet.");
                 }
             }
