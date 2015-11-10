@@ -15,6 +15,7 @@ import com.openwords.R;
 import com.openwords.learningmodule.ActivityLearning;
 import com.openwords.learningmodule.FragmentLearningModule;
 import com.openwords.model.DataPool;
+import com.openwords.model.Performance;
 import com.openwords.model.Sentence;
 import com.openwords.model.SentenceConnection;
 import com.openwords.model.SentenceItem;
@@ -46,6 +47,7 @@ public class PageSentence extends FragmentLearningModule {
     private SentenceConnection sentence;
     private List<SentenceItem> answerItems;
     private Sentence s1, s2;
+    private Performance perf;
 
     public PageSentence(int cardIndex, ActivityLearning lmActivity) {
         this.cardIndex = cardIndex;
@@ -63,6 +65,11 @@ public class PageSentence extends FragmentLearningModule {
         myFragmentView = inflater.inflate(R.layout.lily_page_lm_sentence, container, false);
 
         sentence = DataPool.currentSentences.get(cardIndex);
+        perf = DataPool.currentPerformance.get(cardIndex);
+        if (perf == null) {
+            MyQuickToast.showShort(lmActivity, "No performance data");
+            return null;
+        }
 
         root = (LinearLayout) myFragmentView.findViewById(R.id.page_sentence_root);
         root.setBackgroundColor(getResources().getColor(R.color.main_app_color));
@@ -188,9 +195,11 @@ public class PageSentence extends FragmentLearningModule {
             String answer = ((String) itemsResultArea.getText()).trim();
             if (answer.equals(s2.text.trim())) {
                 imageCheck.setVisibility(View.VISIBLE);
+                perf.performance = "good";
                 fireTimer();
             } else {
                 MyQuickToast.showShort(lmActivity, "Try again...");
+                perf.performance = "bad";
             }
         }
     }

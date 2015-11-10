@@ -14,6 +14,7 @@ import com.openwords.model.DataPool;
 import com.openwords.model.LocalSettings;
 import com.openwords.model.Performance;
 import com.openwords.model.ResultWordAudio;
+import com.openwords.model.SentenceConnection;
 import com.openwords.model.SetItem;
 import com.openwords.model.WordAudio;
 import com.openwords.model.WordConnection;
@@ -50,6 +51,12 @@ public class ActivityLearning extends FragmentActivity implements InterfaceLearn
         for (SetItem item : DataPool.currentSetItems) {
             DataPool.currentPerformance.add(new Performance(item.wordTwoId, "test", "new", 1));
             wordIds.add(item.wordTwoId);
+        }
+        if (DataPool.LmType == Learning_Type_Sentence) {
+            DataPool.currentPerformance.clear();
+            for (SentenceConnection sen : DataPool.currentSentences) {
+                DataPool.currentPerformance.add(new Performance(sen.sentenceId, "test", "new", 1));
+            }
         }
 
         List<WordAudio> localAudios = WordAudio.getAudios(wordIds);
