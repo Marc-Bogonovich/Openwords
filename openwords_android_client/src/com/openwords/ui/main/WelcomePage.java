@@ -15,8 +15,12 @@ public class WelcomePage extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_welcome);
+    }
 
-        setContentView(R.layout.activity_main);
+    @Override
+    protected void onResume() {
+        super.onResume();
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
