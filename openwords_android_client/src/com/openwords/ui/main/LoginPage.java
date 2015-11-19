@@ -11,23 +11,20 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 import com.openwords.R;
-import com.openwords.learningmodule.ActivityLearning;
-import com.openwords.learningmodule.InterfaceLearningModule;
 import com.openwords.model.DataPool;
 import com.openwords.model.Language;
 import com.openwords.model.LocalSettings;
 import com.openwords.model.Performance;
 import com.openwords.model.ResultLanguage;
 import com.openwords.model.ResultUserLanguage;
-import com.openwords.model.SetItem;
 import com.openwords.model.UserLanguage;
 import com.openwords.model.WordConnection;
 import com.openwords.services.implementations.ServiceLoginUser;
 import com.openwords.services.interfaces.HttpResultHandler;
 import com.openwords.sound.SoundPlayer;
-import com.openwords.tts.Speak;
 import com.openwords.ui.lily.main.PageHome;
 import com.openwords.ui.lily.main.PageSetsList;
 import com.openwords.util.InternetCheck;
@@ -35,18 +32,20 @@ import com.openwords.util.file.LocalFileSystem;
 import com.openwords.util.localization.LocalLanguage;
 import com.openwords.util.localization.LocalizationManager;
 import com.openwords.util.log.LogUtil;
-import com.openwords.util.preference.OpenwordsSharedPreferences;
+import com.openwords.util.ui.CallbackOkButton;
 import com.openwords.util.ui.MyDialogHelper;
 import com.openwords.util.ui.MyQuickToast;
-import java.util.LinkedList;
 import java.util.List;
 
 public class LoginPage extends Activity {
+
+    public static boolean showWelcome = true;
 
     private Button loginButton, registerButton;
     private CheckBox remember;
     private EditText usernameField;
     private EditText passwdField;
+    private ImageView logo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,12 +58,11 @@ public class LoginPage extends Activity {
 
         getUI();
 
-        if (!OpenwordsSharedPreferences.isAppStarted()) {
+        if (showWelcome) {
+            showWelcome = false;
             Intent i = new Intent(this, WelcomePage.class);
             startActivity(i);
         }
-        OpenwordsSharedPreferences.setAppStarted(true);
-
         //add word algorithm
 //        if (OpenwordsSharedPreferences.getWordSelectionAlgList().isEmpty()) {
 //            OpenwordsSharedPreferences.addSelectionAlg(new WordSelectionAlg());
@@ -91,19 +89,14 @@ public class LoginPage extends Activity {
         findViewById(R.id.loginPage_test4).setOnClickListener(new OnClickListener() {
 
             public void onClick(View view) {
-                DataPool.currentSetItems.clear();
-                List<SetItem> items = new LinkedList<SetItem>();
-                items.add(new SetItem());
-                items.add(new SetItem());
-                DataPool.currentSetItems.addAll(items);
-                DataPool.LmType = InterfaceLearningModule.Learning_Type_Self;
-                startActivity(new Intent(LoginPage.this, ActivityLearning.class));
+                startActivity(new Intent(LoginPage.this, WelcomePage.class));
             }
         });
         //findViewById(R.id.loginPage_test).setVisibility(View.INVISIBLE);
     }
 
     private void getUI() {
+        logo = (ImageView) findViewById(R.id.logoImage);
         usernameField = (EditText) findViewById(R.id.loginPage_EditText_username);
         passwdField = (EditText) findViewById(R.id.loginPage_EditText_password);
         passwdField.setTypeface(Typeface.DEFAULT);
@@ -124,6 +117,12 @@ public class LoginPage extends Activity {
             }
         });
         remember = (CheckBox) findViewById(R.id.loginPage_CheckBox_rememberMe);
+        logo.setOnClickListener(new OnClickListener() {
+
+            public void onClick(View v) {
+                startActivity(new Intent(LoginPage.this, WelcomePage.class));
+            }
+        });
     }
 
     private void fillUI() {
@@ -245,35 +244,41 @@ public class LoginPage extends Activity {
 
     private void initServices() {
         DataPool.Color_Main = getResources().getColor(R.color.main_app_color);
-        OpenwordsSharedPreferences.init(this);
-        Speak.getInstance(this);
         LocalFileSystem.makeFolders();
         LocalizationManager.init(this);
 
         LocalLanguage lang = LocalSettings.getLocalLanguage();
         if (lang == null) {
-            String current = getResources().getConfiguration().locale.getDisplayLanguage();
-            for (Object[] item : LocalizationManager.LanguageNamesTypesIdsLocales) {
-                String support = (String) item[3];
-                if (current.equals(support)) {
-                    LocalizationManager.setLocalLanguage((LocalLanguage) item[1]);
-                    LocalOptionPage.supported = true;
-                    break;
-                }
-            }
-            if (!LocalOptionPage.supported) {
-                LocalizationManager.setLocalLanguage(LocalLanguage.English);
-            }
-
-            startActivity(new Intent(this, LocalOptionPage.class));
+            chooseLocalLanguage();
         } else {
             LocalizationManager.setLocalLanguage(lang);
         }
     }
 
+    private void chooseLocalLanguage() {
+        MyDialogHelper.showMessageDialog(this, "Need local language", "We are going to help you setup your native language.",
+                new CallbackOkButton() {
+
+                    public void okPressed() {
+                        String current = getResources().getConfiguration().locale.getDisplayLanguage();
+                        for (Object[] item : LocalizationManager.LanguageNamesTypesIdsLocales) {
+                            String support = (String) item[3];
+                            if (current.equals(support)) {
+                                LocalizationManager.setLocalLanguage((LocalLanguage) item[1]);
+                                LocalOptionPage.supported = true;
+                                break;
+                            }
+                        }
+                        if (!LocalOptionPage.supported) {
+                            LocalizationManager.setLocalLanguage(LocalLanguage.English);
+                        }
+
+                        startActivity(new Intent(LoginPage.this, LocalOptionPage.class));
+                    }
+                });
+    }
+
     private void cleanServices() {
-        OpenwordsSharedPreferences.clean();
-        Speak.getInstance(null).clean();
         SoundPlayer.clean();
     }
 
@@ -281,8 +286,6 @@ public class LoginPage extends Activity {
     protected void onDestroy() {
         super.onDestroy();
         LogUtil.logDeubg(this, "onDestroy");
-        OpenwordsSharedPreferences.setAppStarted(false);
-
         cleanServices();
         Toast.makeText(this, LocalizationManager.getTextBye(), Toast.LENGTH_SHORT).show();
     }
