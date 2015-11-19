@@ -6,7 +6,6 @@ import android.os.Bundle;
 import com.openwords.R;
 import com.openwords.ui.common.BackButtonBehavior;
 import com.openwords.ui.other.ActionBarBuilder;
-import com.openwords.util.preference.OpenwordsSharedPreferences;
 
 public class PortalPage extends Activity {
 
@@ -22,10 +21,8 @@ public class PortalPage extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (OpenwordsSharedPreferences.getHidePortal()) {
-            finish();
-            startActivity(new Intent(this, HomePage.class));
-        }
+        finish();
+        startActivity(new Intent(this, HomePage.class));
         actionBar.checkSetting();
     }
 

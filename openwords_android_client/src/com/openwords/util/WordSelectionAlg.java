@@ -3,12 +3,6 @@ package com.openwords.util;
 /*
  * @author: Guan
  */
-import android.util.Log;
-import com.openwords.util.preference.OpenwordsSharedPreferences;
-import com.orm.SugarRecord;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 public class WordSelectionAlg  {
 	//Higher the weight more likely the word be selected

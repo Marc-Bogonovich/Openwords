@@ -12,7 +12,6 @@ import com.openwords.ui.main.PortalPage;
 import com.openwords.ui.main.StatsPage;
 import com.openwords.ui.main.WordsPage;
 import com.openwords.util.localization.LocalizationManager;
-import com.openwords.util.preference.OpenwordsSharedPreferences;
 
 public class ActionBarBuilder {
 
@@ -91,7 +90,7 @@ public class ActionBarBuilder {
     }
 
     public void checkSetting() {
-        if (OpenwordsSharedPreferences.getHidePortal()) {
+        if (true) {
             builder.hideItem(1);
         } else {
             builder.reshowItem(1);

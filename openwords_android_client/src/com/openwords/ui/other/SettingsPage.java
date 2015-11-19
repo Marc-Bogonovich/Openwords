@@ -19,7 +19,6 @@ import com.openwords.services.implementations.ServiceSetLanguagePage;
 import com.openwords.services.interfaces.HttpResultHandler;
 import com.openwords.ui.main.LocalOptionPage;
 import com.openwords.util.localization.LocalizationManager;
-import com.openwords.util.preference.OpenwordsSharedPreferences;
 import com.openwords.util.ui.CallbackCancelButton;
 import com.openwords.util.ui.CallbackOkButton;
 import com.openwords.util.ui.MyDialogHelper;
@@ -38,11 +37,6 @@ public class SettingsPage extends Activity {
         setContentView(R.layout.activity_settings_page);
         BackIcons.enable(this);
         portalPageRadioGroup = (RadioGroup) findViewById(R.id.settingsPage_RadioGroup_portalPage);
-        if (OpenwordsSharedPreferences.getHidePortal()) {
-            portalPageRadioGroup.check(R.id.settingsPage_RadioButton_hidePortalPage);
-        } else {
-            portalPageRadioGroup.check(R.id.settingsPage_RadioButton_displayPortalPage);
-        }
 
         addWSASpinner();
         addLeafCardSizeSpinner();
@@ -144,11 +138,9 @@ public class SettingsPage extends Activity {
     public void onRadioButtonClicked(View view) {
         switch (view.getId()) {
             case R.id.settingsPage_RadioButton_displayPortalPage:
-                OpenwordsSharedPreferences.setHidePortal(false);
                 Toast.makeText(SettingsPage.this, "Display portal page icon", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.settingsPage_RadioButton_hidePortalPage:
-                OpenwordsSharedPreferences.setHidePortal(true);
                 Toast.makeText(SettingsPage.this, "Hide portal page icon", Toast.LENGTH_SHORT).show();
                 break;
         }

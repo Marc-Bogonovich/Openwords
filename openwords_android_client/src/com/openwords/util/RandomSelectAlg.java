@@ -1,8 +1,5 @@
 package com.openwords.util;
 
-import android.util.Log;
-import com.openwords.util.preference.OpenwordsSharedPreferences;
-import java.util.ArrayList;
 import java.util.List;
 
 public class RandomSelectAlg implements WSAinterface {
