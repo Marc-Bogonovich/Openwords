@@ -12,6 +12,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.Transient;
 import org.apache.struts2.json.annotations.JSON;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
@@ -50,10 +51,14 @@ public class SetInfo implements Serializable {
     }
 
     @SuppressWarnings("unchecked")
-    public static List<SetInfo> getAllSets(Session s, int pageNumber, int pageSize) {
+    public static List<SetInfo> getAllSets(Session s, int pageNumber, int pageSize, int langOne, int langTwo) {
         int firstRecord = (pageNumber - 1) * pageSize;
-        return s.createCriteria(SetInfo.class)
-                .setFirstResult(firstRecord)
+        Criteria c = s.createCriteria(SetInfo.class);
+        if (langOne != 0 && langTwo != 0) {
+            c.add(Restrictions.eq("nativeLang", langOne))
+                    .add(Restrictions.eq("learningLang", langTwo));
+        }
+        return c.setFirstResult(firstRecord)
                 .setMaxResults(pageSize)
                 .list();
     }

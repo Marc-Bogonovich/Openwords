@@ -17,7 +17,7 @@ public class GetSets extends MyAction {
 
     private static final long serialVersionUID = 1L;
     private String errorMessage;
-    private int pageNumber, pageSize;
+    private int pageNumber, pageSize, langOne, langTwo;
     private List<SetInfo> result;
 
     @Action(value = "/getSets", results = {
@@ -26,10 +26,10 @@ public class GetSets extends MyAction {
     })
     @Override
     public String execute() throws Exception {
-        UtilLog.logInfo(this, "/getSets: " + pageNumber + " " + pageSize);
+        UtilLog.logInfo(this, "/getSets: " + pageNumber + " " + pageSize + " " + langOne + " " + langTwo);
         Session s = DatabaseHandler.getSession();
         try {
-            result = SetInfo.getAllSets(s, pageNumber, pageSize);
+            result = SetInfo.getAllSets(s, pageNumber, pageSize, langOne, langTwo);
         } catch (Exception e) {
             errorMessage = e.toString();
             UtilLog.logWarn(this, e);
@@ -63,6 +63,14 @@ public class GetSets extends MyAction {
 
     public String getErrorMessage() {
         return errorMessage;
+    }
+
+    public void setLangOne(int langOne) {
+        this.langOne = langOne;
+    }
+
+    public void setLangTwo(int langTwo) {
+        this.langTwo = langTwo;
     }
 
 }
