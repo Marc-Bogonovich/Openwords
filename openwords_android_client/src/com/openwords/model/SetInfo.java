@@ -96,8 +96,8 @@ public class SetInfo extends SugarRecord<SetInfo> {
         return Select.from(SetInfo.class).list();
     }
 
-    public static void getAllSets(int pageNumber, int pageSize, final ResultWordSets resultHandler) {
-        new ServiceGetSets().doRequest(pageNumber, pageSize, new HttpResultHandler() {
+    public static void getAllSets(int pageNumber, int pageSize, int langOne, int langTwo, final ResultWordSets resultHandler) {
+        new ServiceGetSets().doRequest(pageNumber, pageSize, langOne, langTwo, new HttpResultHandler() {
 
             public void hasResult(Object resultObject) {
                 ServiceGetSets.Result r = (ServiceGetSets.Result) resultObject;

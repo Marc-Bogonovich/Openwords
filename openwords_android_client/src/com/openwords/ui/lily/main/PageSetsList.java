@@ -215,7 +215,7 @@ public class PageSetsList extends Activity {
             }
             MyDialogHelper.tryDismissQuickProgressDialog();
         } else {
-            SetInfo.getAllSets(1, 50, new ResultWordSets() {
+            SetInfo.getAllSets(1, 50, LocalSettings.getBaseLanguageId(), LocalSettings.getCurrentLearningLanguage(), new ResultWordSets() {
 
                 public void result(List<SetInfo> result) {
                     if (result != null) {

@@ -15,12 +15,14 @@ public class ServiceGetSets extends HttpServiceRequester implements HttpResultHa
 
     private HttpResultHandler resultHandler;
 
-    public void doRequest(int pageNumber, int pageSize, HttpResultHandler resultHandler) {
+    public void doRequest(int pageNumber, int pageSize, int langOne, int langTwo, HttpResultHandler resultHandler) {
         this.resultHandler = resultHandler;
         request(ServiceURL,
                 new RequestParamsBuilder()
                 .addParam("pageNumber", String.valueOf(pageNumber))
                 .addParam("pageSize", String.valueOf(pageSize))
+                .addParam("langOne", String.valueOf(langOne))
+                .addParam("langTwo", String.valueOf(langTwo))
                 .getParams(), 30 * 1000, this);
     }
 
