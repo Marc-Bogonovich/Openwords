@@ -66,19 +66,21 @@ public class LocalizationManager {
         textLoginError = getText(R.array.error_login);
         textInternetError = getText(R.array.error_internet);
         textGo = getText(R.array.homePage_Button_testPageGo);
-
-        textExitContent = getText(R.array.dialog_Exit_content);
-        textYes = getText(R.array.confirm_yes);
-        textNo = getText(R.array.confirm_no);
-        textLogoutContent = getText(R.array.dialog_Logout_content);
+        textExitContent = getText(R.array.confirm_exit);
+        textLogoutContent = getText(R.array.confirm_logout);
+        textYes = getText(R.array.yes);
+        textNo = getText(R.array.no);
         textLangOptionGreet = getText(R.array.lang_option_greet);
         textLangOptionTitle = getText(R.array.lang_option_title);
         textAreYouSure = getText(R.array.are_you_sure);
         textLangOptionChange = getText(R.array.lang_option_change);
-        textHintUser = getText(R.array.username);
-        textHintPass = getText(R.array.password);
-        textHintPassRe = getText(R.array.password_re);
+        textHintUser = getText(R.array.info_username);
+        textHintPass = getText(R.array.info_password);
+        TextHintEmail = getText(R.array.info_email);
+        textHintPassRe = getText(R.array.info_password_re);
+        textReg = getText(R.array.info_reg_submit);
         textBye = getText(R.array.bye);
+
         textMoreLang = getText(R.array.add_more_lang);
         textSettingProfile = getText(R.array.setting_profile);
         textSettingSetting = getText(R.array.setting_setting);
@@ -90,8 +92,7 @@ public class LocalizationManager {
         textWordsSearch = getText(R.array.words_search);
         textWordsSets = getText(R.array.words_sets);
         textWordsView = getText(R.array.words_view);
-        textReg = getText(R.array.reg_submit);
-        TextHintEmail = getText(R.array.email);
+
         buttonPractice = getText(R.array.button_practice);
         buttonCreate = getText(R.array.button_create_set);
         buttonResume = getText(R.array.button_resume);

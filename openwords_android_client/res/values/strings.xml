@@ -87,28 +87,23 @@
         <item>Cannot get access to Internet</item>
         <item>无法连接网络</item>
     </string-array>
-
-    <string-array name="dialog_Exit_title">
-        <item>Really Exit</item>
-        <item>确认关闭</item>
+    <string-array name="are_you_sure">
+        <item>Are you sure?</item>
+        <item>您确定吗？</item>
     </string-array>
-    <string-array name="dialog_Exit_content">
+    <string-array name="confirm_exit">
         <item>Are you sure you want to exit</item>
         <item>您确定要关闭本程序吗</item>
     </string-array>
-    <string-array name="dialog_Logout_title">
-        <item>Really Logout</item>
-        <item>确认登出</item>
-    </string-array>
-    <string-array name="dialog_Logout_content">
+    <string-array name="confirm_logout">
         <item>Are you sure you want to log out</item>
         <item>您确定要登出当前用户吗</item>
     </string-array>
-    <string-array name="confirm_yes">
+    <string-array name="yes">
         <item>Yes</item>
         <item>是</item>
     </string-array>
-    <string-array name="confirm_no">
+    <string-array name="no">
         <item>No</item>
         <item>否</item>
     </string-array>
@@ -123,28 +118,24 @@
     <string-array name="lang_option_change">
         <item>Change your native language</item>
         <item>改变您的本地语言</item>
-    </string-array>
-    <string-array name="are_you_sure">
-        <item>Are you sure?</item>
-        <item>您确定吗？</item>
-    </string-array>
-    <string-array name="username">
+    </string-array>    
+    <string-array name="info_username">
         <item>Username</item>
         <item>用户名</item>
     </string-array>
-    <string-array name="email">
+    <string-array name="info_email">
         <item>Email</item>
         <item>电子邮件</item>
     </string-array>
-    <string-array name="password">
+    <string-array name="info_password">
         <item>Password</item>
         <item>密码</item>
     </string-array>
-    <string-array name="password_re">
+    <string-array name="info_password_re">
         <item>Re-enter Password</item>
         <item>再次输入密码</item>
     </string-array>
-    <string-array name="reg_submit">
+    <string-array name="info_reg_submit">
         <item>Submit</item>
         <item>提交</item>
     </string-array>
@@ -152,6 +143,7 @@
         <item>Bye Bye</item>
         <item>再见</item>
     </string-array>
+    
     <string-array name="add_more_lang">
         <item> + Add more languages</item>
         <item> + 添加更多的可学的语言</item>
