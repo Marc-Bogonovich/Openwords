@@ -35,7 +35,6 @@ public class SettingsPage extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings_page);
-        BackIcons.enable(this);
         portalPageRadioGroup = (RadioGroup) findViewById(R.id.settingsPage_RadioGroup_portalPage);
 
         addWSASpinner();

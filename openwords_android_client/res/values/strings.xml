@@ -273,12 +273,6 @@
     
     <string name="logoImage_description">Openwords logo</string>
     <string name="loginPage">Please log in</string>
-    <string name="title_activity_loginPage">LoginPage</string>
-    <string name="title_activity_NextWords">NextWords</string>
-    <string name="title_activity_main1">MainActivity</string>
-    <string name="title_activity_homePage">HomePage</string>
-    <string name="title_activity_registerPage">RegisterPage</string>
-    <string name="title_activity_languagePage">LanguagePage</string>
     <string name="paragraph1_text_languagePage">What language do you want to learn?</string>
     <string name="paragraph2_text_languagePage">Choose one</string>
     <string name="paragraph2_sub_text_languagePage">(you may choose more later)</string>
@@ -291,24 +285,12 @@
     <string name="languagePage_CheckBox_kannada">(Kannada)</string>
     <string name="languagePage_Button_chosenPage">submit</string>
     <string name="language_TextView_indicator">choose the language/s you want to learn</string>
-    <string name="title_activity_register_page">RegisterPage</string>
     <string name="registerPage_EditText_username">Enter User name</string>
     <string name="registerPage_EditText_password">Enter password</string>
     <string name="registerPage_EditText_password2">Re-enter password</string>
     <string name="registerPage_Button_registerSubmit">Submit</string>
-    <string name="title_activity_chosenPage">ChosenPage</string>
     <string name="wordsPage_ImageButton_syncButton_desc">Button for sync with server</string>
 
-    <string name="title_activity_profilePage">Profile</string>
-    <string name="title_activity_selfEvaluate">SelfEvaluate</string>
-    <string name="title_activity_wordsPage">WordsPage</string>
-    <string name="title_activity_statsPage">StatsPage</string>
-    <string name="title_activity_portalPage">PortalPage</string>
-    <string name="title_activity_review">Review</string>
-    <string name="title_activity_hearing">Hearing</string>
-    <string name="title_activity_typeEvaluate">TypeEvaluate</string>
-    <string name="title_activity_settingsPage">SettingsPage</string>
-    <string name="title_activity_tutorial_page">TutorialPage</string>
     <string name="wordsPage_TextView_wordsPageTitle">Get new words (below)</string>
     <string name="wordsPage_Button_getNextWords">Next words</string>
     <string name="wordsPage_Button_searchWords">Search words</string>

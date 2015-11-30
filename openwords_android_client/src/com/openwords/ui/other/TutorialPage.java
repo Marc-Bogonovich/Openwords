@@ -10,6 +10,5 @@ public class TutorialPage extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tutorial_page);
-        BackIcons.enable(this);
     }
 }

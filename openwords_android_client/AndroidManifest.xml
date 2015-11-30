@@ -48,7 +48,6 @@
         </activity>
         
         <activity android:name=".ui.other.ProfilePage"
-                  android:label="@string/title_activity_profilePage"
                   android:theme="@style/NoTitleTheme"
                   android:configChanges="orientation|screenSize">
         </activity>
@@ -69,31 +68,26 @@
         </activity>
         
         <activity android:name=".ui.main.WordsPage"
-                  android:label="@string/title_activity_wordsPage"
                   android:theme="@style/NoTitleTheme"
                   android:configChanges="orientation|screenSize">
         </activity>
         
         <activity android:name=".ui.main.StatsPage"
-                  android:label="@string/title_activity_statsPage"
                   android:theme="@style/NoTitleTheme"
                   android:configChanges="orientation|screenSize">
         </activity>
         
         <activity android:name=".ui.main.PortalPage"
-                  android:label="@string/title_activity_portalPage"
                   android:theme="@style/NoTitleTheme"
                   android:configChanges="orientation|screenSize">
         </activity>
                
         <activity android:name=".ui.other.SettingsPage"
-                  android:label="@string/title_activity_settingsPage"
                   android:theme="@style/NoTitleTheme"
                   android:configChanges="orientation|screenSize">
         </activity>
         
         <activity android:name=".ui.other.TutorialPage"
-                  android:label="@string/title_activity_tutorial_page"
                   android:theme="@style/NoTitleTheme"
                   android:configChanges="orientation|screenSize">
         </activity>
