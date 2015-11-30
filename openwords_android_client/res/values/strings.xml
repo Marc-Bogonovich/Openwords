@@ -59,47 +59,35 @@
         <item>Sentence</item>
         <item>语句练习</item>
     </string-array>
-    
-    <string-array name="pushMe_start_activity_button_loginPageGo">
+    <string-array name="button_login">
         <item>Log in</item>
         <item>登入</item>
     </string-array>
-    <string-array name="loginPage_Button_registerGo">
+    <string-array name="button_register">
         <item>Register</item>
         <item>注册新用户</item>
     </string-array>
-    <string-array name="loginPage_CheckBox_rememberMe">
+    <string-array name="button_sentence">
+        <item>Random Sentences</item>
+        <item>随机句子练习</item>
+    </string-array>
+    <string-array name="check_remember">
         <item>Remember me</item>
         <item>记住我的登入信息</item>
     </string-array>
-    <string-array name="loginPage_ProgressDialog_validating_user">
+    <string-array name="block_validating_user">
         <item>Validating user</item>
         <item>正在验证用户信息</item>
     </string-array>
-    <string-array name="loginPage_Toast_login_error">
+    <string-array name="error_login">
         <item>Username/Password incorrect</item>
         <item>用户名或密码错误</item>
     </string-array>
-    <string-array name="loginPage_Toast_internet_error">
-        <item>Cannot get access to internet</item>
+    <string-array name="error_internet">
+        <item>Cannot get access to Internet</item>
         <item>无法连接网络</item>
     </string-array>
-    <string-array name="homePage_Spinner_review">
-        <item>Review</item>
-        <item>简单回顾</item>
-    </string-array>
-    <string-array name="homePage_Spinner_self">
-        <item>Self Evaluation</item>
-        <item>自我评估</item>
-    </string-array>
-    <string-array name="homePage_Spinner_type">
-        <item>Type Evaluation</item>
-        <item>拼写评估</item>
-    </string-array>
-    <string-array name="homePage_Spinner_hear">
-        <item>Hearing</item>
-        <item>听词评估</item>
-    </string-array>
+
     <string-array name="dialog_Exit_title">
         <item>Really Exit</item>
         <item>确认关闭</item>
@@ -208,10 +196,7 @@
         <item>View my words</item>
         <item>查看我的单词</item>
     </string-array>
-    <string-array name="button_sentence">
-        <item>Random Sentences</item>
-        <item>随机句子练习</item>
-    </string-array>
+    
     <string name="logoImage_description">Openwords logo</string>
     <string name="loginPage">Please log in</string>
     <string name="title_activity_loginPage">LoginPage</string>

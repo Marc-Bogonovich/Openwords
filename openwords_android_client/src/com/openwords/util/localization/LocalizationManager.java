@@ -20,7 +20,7 @@ public class LocalizationManager {
     private static LocalLanguage lang;
     private static Resources res;
     private static String textLogin, textRegister, textRememberMe, textValidatingUser, textLoginError, textInternetError,
-            textGo, textOptionReview, textOptionSelf, textOptionType, textOptionHearing, textExitContent,
+            textGo, textExitContent,
             textYes, textNo, textLogoutContent, textLangOptionGreet, textLangOptionTitle, textAreYouSure, textLangOptionChange,
             textHintUser, textHintPass, textBye, textMoreLang, textSettingProfile, textSettingSetting, textSettingTutor, textSettingLogout,
             textPCNext, textPCEnd, textWordsNext, textWordsSearch, textWordsSets, textWordsView, textHintPassRe, textReg,
@@ -59,17 +59,14 @@ public class LocalizationManager {
         setBaseLanguage(localLanguage);
         res = c.getResources();
         lang = localLanguage;
-        textLogin = getText(R.array.pushMe_start_activity_button_loginPageGo);
-        textRegister = getText(R.array.loginPage_Button_registerGo);
-        textRememberMe = getText(R.array.loginPage_CheckBox_rememberMe);
-        textValidatingUser = getText(R.array.loginPage_ProgressDialog_validating_user);
-        textLoginError = getText(R.array.loginPage_Toast_login_error);
-        textInternetError = getText(R.array.loginPage_Toast_login_error);
+        textLogin = getText(R.array.button_login);
+        textRegister = getText(R.array.button_register);
+        textRememberMe = getText(R.array.check_remember);
+        textValidatingUser = getText(R.array.block_validating_user);
+        textLoginError = getText(R.array.error_login);
+        textInternetError = getText(R.array.error_internet);
         textGo = getText(R.array.homePage_Button_testPageGo);
-        textOptionReview = getText(R.array.homePage_Spinner_review);
-        textOptionSelf = getText(R.array.homePage_Spinner_self);
-        textOptionType = getText(R.array.homePage_Spinner_type);
-        textOptionHearing = getText(R.array.homePage_Spinner_hear);
+
         textExitContent = getText(R.array.dialog_Exit_content);
         textYes = getText(R.array.confirm_yes);
         textNo = getText(R.array.confirm_no);
@@ -192,22 +189,6 @@ public class LocalizationManager {
 
     public static String getTextGo() {
         return textGo;
-    }
-
-    public static String getTextOptionReview() {
-        return textOptionReview;
-    }
-
-    public static String getTextOptionSelf() {
-        return textOptionSelf;
-    }
-
-    public static String getTextOptionType() {
-        return textOptionType;
-    }
-
-    public static String getTextOptionHearing() {
-        return textOptionHearing;
     }
 
     public static String getTextExitContent() {
