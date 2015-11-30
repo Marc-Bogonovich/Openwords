@@ -60,7 +60,7 @@
         <item>语句练习</item>
     </string-array>
     <string-array name="button_login">
-        <item>Log in</item>
+        <item>Log In</item>
         <item>登入</item>
     </string-array>
     <string-array name="button_register">
@@ -143,27 +143,23 @@
         <item>Bye Bye</item>
         <item>再见</item>
     </string-array>
-    
-    <string-array name="add_more_lang">
-        <item> + Add more languages</item>
-        <item> + 添加更多的可学的语言</item>
-    </string-array>
-    <string-array name="setting_profile">
+    <string-array name="button_profile">
         <item>Profile</item>
         <item>个人信息</item>
     </string-array>
-    <string-array name="setting_setting">
+    <string-array name="button_setting">
         <item>Settings</item>
         <item>个人配置</item>
     </string-array>
-    <string-array name="setting_tutor">
+    <string-array name="button_tutor">
         <item>Tutorial</item>
         <item>使用指南</item>
     </string-array>
-    <string-array name="setting_logout">
+    <string-array name="button_logout">
         <item>Log Out</item>
         <item>登出本用户</item>
     </string-array>
+    
     <string-array name="pc_next">
         <item>Continue</item>
         <item>继续学习</item>

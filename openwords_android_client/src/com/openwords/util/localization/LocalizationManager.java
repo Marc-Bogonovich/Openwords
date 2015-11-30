@@ -22,7 +22,7 @@ public class LocalizationManager {
     private static String textLogin, textRegister, textRememberMe, textValidatingUser, textLoginError, textInternetError,
             textGo, textExitContent,
             textYes, textNo, textLogoutContent, textLangOptionGreet, textLangOptionTitle, textAreYouSure, textLangOptionChange,
-            textHintUser, textHintPass, textBye, textMoreLang, textSettingProfile, textSettingSetting, textSettingTutor, textSettingLogout,
+            textHintUser, textHintPass, textBye, textSettingProfile, textSettingSetting, textSettingTutor, textSettingLogout,
             textPCNext, textPCEnd, textWordsNext, textWordsSearch, textWordsSets, textWordsView, textHintPassRe, textReg,
             TextHintEmail;
     private static String buttonPractice, buttonCreate, buttonResume, buttonSentence;
@@ -80,12 +80,11 @@ public class LocalizationManager {
         textHintPassRe = getText(R.array.info_password_re);
         textReg = getText(R.array.info_reg_submit);
         textBye = getText(R.array.bye);
+        textSettingProfile = getText(R.array.button_profile);
+        textSettingSetting = getText(R.array.button_setting);
+        textSettingTutor = getText(R.array.button_tutor);
+        textSettingLogout = getText(R.array.button_logout);
 
-        textMoreLang = getText(R.array.add_more_lang);
-        textSettingProfile = getText(R.array.setting_profile);
-        textSettingSetting = getText(R.array.setting_setting);
-        textSettingTutor = getText(R.array.setting_tutor);
-        textSettingLogout = getText(R.array.setting_logout);
         textPCNext = getText(R.array.pc_next);
         textPCEnd = getText(R.array.pc_end);
         textWordsNext = getText(R.array.words_next);
@@ -158,10 +157,6 @@ public class LocalizationManager {
 
     public static String getTextSettingLogout() {
         return textSettingLogout;
-    }
-
-    public static String getTextMoreLang() {
-        return textMoreLang;
     }
 
     public static String getTextLogin() {
