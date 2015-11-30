@@ -8,7 +8,6 @@ import com.openwords.R;
 import com.openwords.ui.common.ActionBarBuilderForActivity;
 import com.openwords.ui.common.DialogForSettingSelection;
 import com.openwords.ui.main.StatsPage;
-import com.openwords.ui.main.WordsPage;
 import com.openwords.util.localization.LocalizationManager;
 
 public class ActionBarBuilder {
@@ -54,7 +53,7 @@ public class ActionBarBuilder {
 
                     public void clicked() {
                         if (ActionBarBuilder.this.currentPage != Words_Page) {
-                            wordsClicked();
+                            //wordsClicked();
                         }
                     }
                 })
@@ -93,14 +92,6 @@ public class ActionBarBuilder {
         } else {
             builder.reshowItem(1);
         }
-    }
-
-    private void wordsClicked() {
-        activity.finish();
-        activity.overridePendingTransition(0, 0);
-        Intent i = new Intent(activity, WordsPage.class);
-        i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-        activity.startActivity(i);
     }
 
     private void statsClicked() {

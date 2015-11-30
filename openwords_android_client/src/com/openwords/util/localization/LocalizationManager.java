@@ -23,7 +23,7 @@ public class LocalizationManager {
             textGo, textExitContent,
             textYes, textNo, textLogoutContent, textLangOptionGreet, textLangOptionTitle, textAreYouSure, textLangOptionChange,
             textHintUser, textHintPass, textBye, textSettingProfile, textSettingSetting, textSettingTutor, textSettingLogout,
-            textPCNext, textPCEnd, textWordsNext, textWordsSearch, textWordsSets, textWordsView, textHintPassRe, textReg,
+            textPCNext, textPCEnd, textHintPassRe, textReg,
             TextHintEmail;
     private static String buttonPractice, buttonCreate, buttonResume, buttonSentence;
     private static String titleWordSets, titlePractice;
@@ -84,14 +84,8 @@ public class LocalizationManager {
         textSettingSetting = getText(R.array.button_setting);
         textSettingTutor = getText(R.array.button_tutor);
         textSettingLogout = getText(R.array.button_logout);
-
-        textPCNext = getText(R.array.pc_next);
-        textPCEnd = getText(R.array.pc_end);
-        textWordsNext = getText(R.array.words_next);
-        textWordsSearch = getText(R.array.words_search);
-        textWordsSets = getText(R.array.words_sets);
-        textWordsView = getText(R.array.words_view);
-
+        textPCNext = getText(R.array.button_pc_next);
+        textPCEnd = getText(R.array.button_pc_end);
         buttonPractice = getText(R.array.button_practice);
         buttonCreate = getText(R.array.button_create_set);
         buttonResume = getText(R.array.button_resume);
@@ -117,22 +111,6 @@ public class LocalizationManager {
 
     public static String getTextReg() {
         return textReg;
-    }
-
-    public static String getTextWordsNext() {
-        return textWordsNext;
-    }
-
-    public static String getTextWordsSearch() {
-        return textWordsSearch;
-    }
-
-    public static String getTextWordsSets() {
-        return textWordsSets;
-    }
-
-    public static String getTextWordsView() {
-        return textWordsView;
     }
 
     public static String getTextPCNext() {
