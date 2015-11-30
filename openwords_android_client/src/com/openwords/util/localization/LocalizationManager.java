@@ -30,6 +30,8 @@ public class LocalizationManager {
     private static String hintSearchSets;
     private static String infoPractice;
     private static String nameReview, nameSelf, nameType, nameHearing, nameSentence;
+    private static String confirmNativeTitle, confirmNativeContent;
+    private static String ok, cancel;
 
     public static void init(Context context) {
         c = context;
@@ -99,6 +101,10 @@ public class LocalizationManager {
         nameType = getText(R.array.name_type);
         nameSentence = getText(R.array.name_sentence);
         buttonSentence = getText(R.array.button_sentence);
+        confirmNativeTitle = getText(R.array.confirm_native_title);
+        confirmNativeContent = getText(R.array.confirm_native_content);
+        ok = getText(R.array.ok);
+        cancel = getText(R.array.cancel);
     }
 
     private static String getText(int id) {
@@ -263,6 +269,22 @@ public class LocalizationManager {
 
     public static String getButtonSentence() {
         return buttonSentence;
+    }
+
+    public static String getConfirmNativeTitle() {
+        return confirmNativeTitle;
+    }
+
+    public static String getConfirmNativeContent() {
+        return confirmNativeContent;
+    }
+
+    public static String getOk() {
+        return ok;
+    }
+
+    public static String getCancel() {
+        return cancel;
     }
 
     private LocalizationManager() {

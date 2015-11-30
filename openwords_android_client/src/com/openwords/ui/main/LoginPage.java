@@ -249,30 +249,34 @@ public class LoginPage extends Activity {
 
         LocalLanguage lang = LocalSettings.getLocalLanguage();
         if (lang == null) {
+            checkDefaultLanguage();
             chooseLocalLanguage();
         } else {
             LocalizationManager.setLocalLanguage(lang);
         }
     }
 
+    private void checkDefaultLanguage() {
+        String current = getResources().getConfiguration().locale.getDisplayLanguage();
+        for (Object[] item : LocalizationManager.LanguageNamesTypesIdsLocales) {
+            String support = (String) item[3];
+            if (current.equals(support)) {
+                LocalizationManager.setLocalLanguage((LocalLanguage) item[1]);
+                LocalOptionPage.supported = true;
+                break;
+            }
+        }
+        if (!LocalOptionPage.supported) {
+            MyQuickToast.showShort(LoginPage.this, "No support local language.");
+            LocalizationManager.setLocalLanguage(LocalLanguage.English);
+        }
+    }
+
     private void chooseLocalLanguage() {
-        MyDialogHelper.showMessageDialog(this, "Need local language", "We are going to help you setup your native language.",
+        MyDialogHelper.showMessageDialog(this, LocalizationManager.getConfirmNativeTitle(), LocalizationManager.getConfirmNativeContent(),
                 new CallbackOkButton() {
 
                     public void okPressed() {
-                        String current = getResources().getConfiguration().locale.getDisplayLanguage();
-                        for (Object[] item : LocalizationManager.LanguageNamesTypesIdsLocales) {
-                            String support = (String) item[3];
-                            if (current.equals(support)) {
-                                LocalizationManager.setLocalLanguage((LocalLanguage) item[1]);
-                                LocalOptionPage.supported = true;
-                                break;
-                            }
-                        }
-                        if (!LocalOptionPage.supported) {
-                            LocalizationManager.setLocalLanguage(LocalLanguage.English);
-                        }
-
                         startActivity(new Intent(LoginPage.this, LocalOptionPage.class));
                     }
                 });

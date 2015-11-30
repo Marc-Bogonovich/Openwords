@@ -107,8 +107,8 @@
         <item>否</item>
     </string-array>
     <string-array name="lang_option_greet">
-        <item>Hi there, we detect that your phone is using English, do you want to use #ENGLISH$ as your native language?</item>
-        <item>您好，我们检测到您的手机用的是简体中文，您想要使用#简体中文$作为您的本地语言吗？</item>
+        <item>Hi there, we detect that your device is using English, do you want to use #ENGLISH$ as your native language?</item>
+        <item>您好，我们检测到您的设备用的是简体中文，您想要使用#简体中文$作为您的本地语言吗？</item>
     </string-array>
     <string-array name="lang_option_title">
         <item>Please choose your native language</item>
@@ -165,6 +165,22 @@
     <string-array name="button_pc_end">
         <item>Done</item>
         <item>结束本次学习</item>
+    </string-array>
+    <string-array name="confirm_native_title">
+        <item>Need local language</item>
+        <item>需要指定本地语言</item>
+    </string-array>
+    <string-array name="confirm_native_content">
+        <item>We are going to help you setup your native language.</item>
+        <item>您好,下面我们将带领您来设置本地语言.</item>
+    </string-array>
+    <string-array name="ok">
+        <item>OK</item>
+        <item>好的</item>
+    </string-array>
+    <string-array name="cancel">
+        <item>Cancel</item>
+        <item>取消</item>
     </string-array>
     
     <string name="logoImage_description">Openwords logo</string>

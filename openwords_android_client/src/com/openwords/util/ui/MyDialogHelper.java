@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import com.openwords.util.localization.LocalizationManager;
 
 public class MyDialogHelper {
 
@@ -34,7 +35,7 @@ public class MyDialogHelper {
         messageDialog = new AlertDialog.Builder(context)
                 .setTitle(title)
                 .setMessage(message)
-                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                .setPositiveButton(LocalizationManager.getOk(), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface arg0, int arg1) {
                         messageDialog.dismiss();
                         messageDialog = null;
@@ -63,7 +64,7 @@ public class MyDialogHelper {
         confirmDialog = new AlertDialog.Builder(context)
                 .setTitle(title)
                 .setMessage(message)
-                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                .setPositiveButton(LocalizationManager.getOk(), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface arg0, int arg1) {
                         confirmDialog.dismiss();
                         confirmDialog = null;
@@ -72,7 +73,7 @@ public class MyDialogHelper {
                         }
                     }
                 })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                .setNegativeButton(LocalizationManager.getCancel(), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface arg0, int arg1) {
                         confirmDialog.dismiss();
                         confirmDialog = null;
