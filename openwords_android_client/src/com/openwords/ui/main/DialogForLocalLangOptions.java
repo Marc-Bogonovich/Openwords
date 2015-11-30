@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class DialogForLocalLangOptions extends Dialog {
 
-    private ListView listView;
+    private final ListView listView;
 
     public DialogForLocalLangOptions(Context context, String title, List<String> options, OnItemClickListener onItemClickListener) {
         super(context);

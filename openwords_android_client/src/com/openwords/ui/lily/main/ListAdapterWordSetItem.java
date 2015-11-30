@@ -13,7 +13,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.openwords.R;
+import com.openwords.model.LocalSettings;
 import com.openwords.model.SetItem;
+import com.openwords.util.localization.LocalizationManager;
 import com.openwords.util.ui.MyDialogHelper;
 import java.util.List;
 
@@ -102,7 +104,9 @@ public class ListAdapterWordSetItem extends ArrayAdapter<SetItem> {
                 View.OnClickListener clickNative = new View.OnClickListener() {
 
                     public void onClick(View view) {
-                        enterSearch(viewHolder, "Search Word", true);
+                        String s = LocalizationManager.getButtonSearchWord();
+                        s = s.replace("@@", LocalSettings.getBaseLanguage().displayName);
+                        enterSearch(viewHolder, s, true);
                     }
                 };
                 viewHolder.a1.setOnClickListener(clickNative);
@@ -110,7 +114,9 @@ public class ListAdapterWordSetItem extends ArrayAdapter<SetItem> {
                 View.OnClickListener clickLearning = new View.OnClickListener() {
 
                     public void onClick(View view) {
-                        enterSearch(viewHolder, "搜索词", false);
+                        String s = LocalizationManager.getButtonSearchWord();
+                        s = s.replace("@@", LocalSettings.getLearningLanguage().displayName);
+                        enterSearch(viewHolder, s, false);
                     }
                 };
                 viewHolder.a2.setOnClickListener(clickLearning);

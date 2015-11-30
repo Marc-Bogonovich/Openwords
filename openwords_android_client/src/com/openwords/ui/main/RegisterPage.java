@@ -90,7 +90,7 @@ public class RegisterPage extends Activity {
                 new HttpResultHandler() {
 
                     public void hasResult(Object resultObject) {
-                        MyQuickToast.showShort(RegisterPage.this, "email is valid");
+                        MyQuickToast.showShort(RegisterPage.this, LocalizationManager.getErrorEmailOk());
                     }
 
                     public void noResult(String errorMessage) {
@@ -105,7 +105,7 @@ public class RegisterPage extends Activity {
                 new HttpResultHandler() {
 
                     public void hasResult(Object resultObject) {
-                        MyQuickToast.showShort(RegisterPage.this, "username is valid");
+                        MyQuickToast.showShort(RegisterPage.this, LocalizationManager.getErrorUsernameOk());
                     }
 
                     public void noResult(String errorMessage) {
@@ -116,7 +116,7 @@ public class RegisterPage extends Activity {
 
     private void register() {
         if (identicalPassword()) {
-            MyDialogHelper.tryShowQuickProgressDialog(this, "Connecting to server...");
+            MyDialogHelper.tryShowQuickProgressDialog(this, LocalizationManager.getBlockConnectServer() + "...");
 
             final String username = usernameField.getText().toString();
             final String password = passwdField.getText().toString();
@@ -141,7 +141,7 @@ public class RegisterPage extends Activity {
 
                         public void noResult(String errorMessage) {
                             MyDialogHelper.tryDismissQuickProgressDialog();
-                            MyQuickToast.showShort(RegisterPage.this, "Cannot sign up: " + errorMessage);
+                            MyQuickToast.showShort(RegisterPage.this, LocalizationManager.getError() + ": " + errorMessage);
                         }
                     });
         }
@@ -153,7 +153,7 @@ public class RegisterPage extends Activity {
         if (passwd1.equals(passwd2)) {
             return true;
         } else {
-            MyQuickToast.showShort(RegisterPage.this, "passwords are inconsistent");
+            MyQuickToast.showShort(RegisterPage.this, LocalizationManager.getErrorPassword());
         }
         return false;
     }

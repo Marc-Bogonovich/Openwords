@@ -105,7 +105,7 @@ public class LoginPage extends Activity {
         loginButton.setOnClickListener(new OnClickListener() {
 
             public void onClick(View view) {
-                MyDialogHelper.tryShowQuickProgressDialog(LoginPage.this, LocalizationManager.getTextValidatingUser() + "...");
+                MyDialogHelper.tryShowQuickProgressDialog(LoginPage.this, LocalizationManager.getBlockValidatingUser() + "...");
                 login(usernameField.getText().toString(), passwdField.getText().toString());
             }
         });

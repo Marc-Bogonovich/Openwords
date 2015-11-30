@@ -15,6 +15,7 @@ import com.openwords.model.ResultUserLanguage;
 import com.openwords.model.UserLanguage;
 import com.openwords.services.implementations.ServiceSetUserLanguages;
 import com.openwords.services.interfaces.HttpResultHandler;
+import com.openwords.util.localization.LocalizationManager;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.ui.MyDialogHelper;
 import com.openwords.util.ui.MyQuickToast;
@@ -53,7 +54,7 @@ public class LanguagePage extends Activity {
                         return;
                     }
 
-                    MyDialogHelper.tryShowQuickProgressDialog(LanguagePage.this, "Saving your preference to server...");
+                    MyDialogHelper.tryShowQuickProgressDialog(LanguagePage.this, LocalizationManager.getBlockConnectServer() + "...");
 
                     new ServiceSetUserLanguages().doRequest(LocalSettings.getUserId(), LocalSettings.getBaseLanguageId(), ChosenLangIds,
                             new HttpResultHandler() {
@@ -87,7 +88,7 @@ public class LanguagePage extends Activity {
     }
 
     private void refreshList() {
-        MyDialogHelper.tryShowQuickProgressDialog(this, "Refresh languages data...");
+        MyDialogHelper.tryShowQuickProgressDialog(this, LocalizationManager.getBlockRefreshLang() + "...");
         Language.syncLanguagesData(this, new ResultLanguage() {
 
             public void result(String resultObject) {
@@ -139,11 +140,11 @@ public class LanguagePage extends Activity {
             }
         }
         if (chosenLangNames.isEmpty()) {
-            MyQuickToast.showShort(LanguagePage.this, "You must select at least one language");
+            MyQuickToast.showShort(LanguagePage.this, LocalizationManager.getErrorOneLang());
             return;
         }
         topText.setText("You have chosen:");
-        doneButton.setText("Ok");
+        doneButton.setText(LocalizationManager.getOk());
         listView2 = (ListView) findViewById(R.id.act_language_list_view2);
         listView2.setDivider(null);
         listView2.setDividerHeight(0);

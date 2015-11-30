@@ -19,19 +19,21 @@ public class LocalizationManager {
     private static final Map<LocalLanguage, Integer> textIndexMapping = new HashMap<LocalLanguage, Integer>(100);
     private static LocalLanguage lang;
     private static Resources res;
-    private static String textLogin, textRegister, textRememberMe, textValidatingUser, textLoginError, textInternetError,
-            textGo, textExitContent,
+    private static String textLogin, textRegister, textRememberMe, textLoginError, textInternetError,
+            textExitContent,
             textYes, textNo, textLogoutContent, textLangOptionGreet, textLangOptionTitle, textAreYouSure, textLangOptionChange,
             textHintUser, textHintPass, textBye, textSettingProfile, textSettingSetting, textSettingTutor, textSettingLogout,
             textPCNext, textPCEnd, textHintPassRe, textReg,
             TextHintEmail;
-    private static String buttonPractice, buttonCreate, buttonResume, buttonSentence;
+    private static String buttonPractice, buttonCreate, buttonResume, buttonSentence, buttonSearchWord;
     private static String titleWordSets, titlePractice;
     private static String hintSearchSets;
     private static String infoPractice;
     private static String nameReview, nameSelf, nameType, nameHearing, nameSentence;
     private static String confirmNativeTitle, confirmNativeContent;
     private static String ok, cancel;
+    private static String blockValidatingUser, blockConnectServer, blockRefreshLang;
+    private static String error, errorEmailOk, errorUsernameOk, errorPassword, errorOneLang;
 
     public static void init(Context context) {
         c = context;
@@ -64,10 +66,9 @@ public class LocalizationManager {
         textLogin = getText(R.array.button_login);
         textRegister = getText(R.array.button_register);
         textRememberMe = getText(R.array.check_remember);
-        textValidatingUser = getText(R.array.block_validating_user);
+        blockValidatingUser = getText(R.array.block_validating_user);
         textLoginError = getText(R.array.error_login);
         textInternetError = getText(R.array.error_internet);
-        textGo = getText(R.array.homePage_Button_testPageGo);
         textExitContent = getText(R.array.confirm_exit);
         textLogoutContent = getText(R.array.confirm_logout);
         textYes = getText(R.array.yes);
@@ -105,6 +106,14 @@ public class LocalizationManager {
         confirmNativeContent = getText(R.array.confirm_native_content);
         ok = getText(R.array.ok);
         cancel = getText(R.array.cancel);
+        blockConnectServer = getText(R.array.block_connect_server);
+        blockRefreshLang = getText(R.array.block_refresh_lang);
+        error = getText(R.array.error);
+        errorEmailOk = getText(R.array.error_email_valid);
+        errorPassword = getText(R.array.error_password_invalid);
+        errorUsernameOk = getText(R.array.error_username_valid);
+        errorOneLang = getText(R.array.error_one_lang);
+        buttonSearchWord = getText(R.array.button_search_word);
     }
 
     private static String getText(int id) {
@@ -155,8 +164,8 @@ public class LocalizationManager {
         return textRememberMe;
     }
 
-    public static String getTextValidatingUser() {
-        return textValidatingUser;
+    public static String getBlockValidatingUser() {
+        return blockValidatingUser;
     }
 
     public static String getTextLoginError() {
@@ -165,10 +174,6 @@ public class LocalizationManager {
 
     public static String getTextInternetError() {
         return textInternetError;
-    }
-
-    public static String getTextGo() {
-        return textGo;
     }
 
     public static String getTextExitContent() {
@@ -285,6 +290,38 @@ public class LocalizationManager {
 
     public static String getCancel() {
         return cancel;
+    }
+
+    public static String getBlockConnectServer() {
+        return blockConnectServer;
+    }
+
+    public static String getError() {
+        return error;
+    }
+
+    public static String getErrorEmailOk() {
+        return errorEmailOk;
+    }
+
+    public static String getErrorUsernameOk() {
+        return errorUsernameOk;
+    }
+
+    public static String getErrorPassword() {
+        return errorPassword;
+    }
+
+    public static String getBlockRefreshLang() {
+        return blockRefreshLang;
+    }
+
+    public static String getErrorOneLang() {
+        return errorOneLang;
+    }
+
+    public static String getButtonSearchWord() {
+        return buttonSearchWord;
     }
 
     private LocalizationManager() {
