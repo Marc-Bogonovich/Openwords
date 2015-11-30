@@ -67,7 +67,7 @@ public class PageLMOption extends Activity {
                 //                    PageLMOption.this.finish();
                 //                } 
                 else {
-                    MyQuickToast.showShort(PageLMOption.this, "Sorry, this learning module is not supported yet.");
+                    MyQuickToast.showShort(PageLMOption.this, LocalizationManager.getErroModuleSupport());
                 }
             }
         });

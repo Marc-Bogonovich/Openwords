@@ -156,7 +156,7 @@ public class LoginPage extends Activity {
             if (LocalSettings.getUsername().equals(username)
                     && LocalSettings.getPassword().equals(password)) {
                 DataPool.OffLine = true;
-                MyQuickToast.showLong(this, "You are now in offline mode");
+                MyQuickToast.showLong(this, LocalizationManager.getInfoOffline());
                 goToHomePage();
                 return;
             }
@@ -200,7 +200,7 @@ public class LoginPage extends Activity {
 
                     public void noResult(String errorMessage) {
                         MyDialogHelper.tryDismissQuickProgressDialog();
-                        MyQuickToast.showShort(LoginPage.this, "Login fail: " + errorMessage);
+                        MyQuickToast.showShort(LoginPage.this, LocalizationManager.getErrorLoginFail());
                     }
                 });
     }

@@ -91,12 +91,12 @@
         <item>您确定吗？</item>
     </string-array>
     <string-array name="confirm_exit">
-        <item>Are you sure you want to exit</item>
-        <item>您确定要关闭本程序吗</item>
+        <item>Are you sure you want to exit?</item>
+        <item>您确定要关闭本程序吗？</item>
     </string-array>
     <string-array name="confirm_logout">
-        <item>Are you sure you want to log out</item>
-        <item>您确定要登出当前用户吗</item>
+        <item>Are you sure you want to log out?</item>
+        <item>您确定要登出当前用户吗？</item>
     </string-array>
     <string-array name="yes">
         <item>Yes</item>
@@ -203,8 +203,8 @@
         <item>抱歉,有错误</item>
     </string-array>
     <string-array name="error_one_lang">
-        <item>You must select at least one language</item>
-        <item>您必须至少选择一个语言来学习</item>
+        <item>You must select at least one language.</item>
+        <item>您必须至少选择一个语言来学习。</item>
     </string-array>
     <string-array name="block_refresh_lang">
         <item>Refreshing languages data</item>
@@ -213,6 +213,62 @@
     <string-array name="button_search_word">
         <item>Search in @@</item>
         <item>搜索@@</item>
+    </string-array>
+    <string-array name="error_login_fail">
+        <item>Login fail</item>
+        <item>登陆失败</item>
+    </string-array>
+    <string-array name="error_module_not_support">
+        <item>Sorry, this learning module is not supported yet.</item>
+        <item>抱歉,此学习模块还在建设中。</item>
+    </string-array>
+    <string-array name="info_offline">
+        <item>You are now in offline mode.</item>
+        <item>您现在已经进入线下模式。</item>
+    </string-array>
+    <string-array name="hint_set_name">
+        <item>Input Set Name</item>
+        <item>输入词集名称</item>
+    </string-array>
+    <string-array name="error_edit_offline">
+        <item>Editing set is not available in offline mode.</item>
+        <item>在线下模式中不能编辑词集。</item>
+    </string-array>
+    <string-array name="error_set_name_empty">
+        <item>Set name cannot be empty!</item>
+        <item>词集的名字不能为空！</item>
+    </string-array>
+    <string-array name="error_set_min_items">
+        <item>Set should have @@ items at least!</item>
+        <item>一个词集最少需要包含@@组词！</item>
+    </string-array>
+    <string-array name="confirm_set_title">
+        <item>Saving word set "@@"</item>
+        <item>存储此词组“@@”</item>
+    </string-array>
+    <string-array name="confirm_set_content">
+        <item>Do you want to save the change?</item>
+        <item>您确定已做的修改？</item>
+    </string-array>
+    <string-array name="error_done">
+        <item>Done</item>
+        <item>完成</item>
+    </string-array>
+    <string-array name="block_searching">
+        <item>Searching</item>
+        <item>搜索中</item>
+    </string-array>
+    <string-array name="error_word_exist">
+        <item>Word already exists in set!</item>
+        <item>此词已经在此词集了！</item>
+    </string-array>
+    <string-array name="confirm_set_not_change_title">
+        <item>Changes are not saved</item>
+        <item>修改还没有被存储</item>
+    </string-array>
+    <string-array name="confirm_set_not_change_content">
+        <item>Are you sure to discard the changes?</item>
+        <item>您确定放弃已做的修改吗？</item>
     </string-array>
     
     <string name="logoImage_description">Openwords logo</string>

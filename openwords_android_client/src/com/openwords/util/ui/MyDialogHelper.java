@@ -64,7 +64,7 @@ public class MyDialogHelper {
         confirmDialog = new AlertDialog.Builder(context)
                 .setTitle(title)
                 .setMessage(message)
-                .setPositiveButton(LocalizationManager.getOk(), new DialogInterface.OnClickListener() {
+                .setPositiveButton(LocalizationManager.getTextYes(), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface arg0, int arg1) {
                         confirmDialog.dismiss();
                         confirmDialog = null;
@@ -73,7 +73,7 @@ public class MyDialogHelper {
                         }
                     }
                 })
-                .setNegativeButton(LocalizationManager.getCancel(), new DialogInterface.OnClickListener() {
+                .setNegativeButton(LocalizationManager.getTextNo(), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface arg0, int arg1) {
                         confirmDialog.dismiss();
                         confirmDialog = null;

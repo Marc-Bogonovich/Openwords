@@ -19,7 +19,7 @@ public class LocalizationManager {
     private static final Map<LocalLanguage, Integer> textIndexMapping = new HashMap<LocalLanguage, Integer>(100);
     private static LocalLanguage lang;
     private static Resources res;
-    private static String textLogin, textRegister, textRememberMe, textLoginError, textInternetError,
+    private static String textLogin, textRegister, textRememberMe, textInternetError,
             textExitContent,
             textYes, textNo, textLogoutContent, textLangOptionGreet, textLangOptionTitle, textAreYouSure, textLangOptionChange,
             textHintUser, textHintPass, textBye, textSettingProfile, textSettingSetting, textSettingTutor, textSettingLogout,
@@ -27,13 +27,13 @@ public class LocalizationManager {
             TextHintEmail;
     private static String buttonPractice, buttonCreate, buttonResume, buttonSentence, buttonSearchWord;
     private static String titleWordSets, titlePractice;
-    private static String hintSearchSets;
-    private static String infoPractice;
+    private static String hintSearchSets, hintSetName;
+    private static String infoPractice, infoOffline;
     private static String nameReview, nameSelf, nameType, nameHearing, nameSentence;
-    private static String confirmNativeTitle, confirmNativeContent;
+    private static String confirmNativeTitle, confirmNativeContent, confirmSetTitle, confirmSetContent, confirmSetNotChangeTitle, confirmSetNotChangeContent;
     private static String ok, cancel;
-    private static String blockValidatingUser, blockConnectServer, blockRefreshLang;
-    private static String error, errorEmailOk, errorUsernameOk, errorPassword, errorOneLang;
+    private static String blockValidatingUser, blockConnectServer, blockRefreshLang, blockSearching;
+    private static String error, errorEmailOk, errorUsernameOk, errorPassword, errorOneLang, errorLoginFail, erroModuleSupport, errorEditOffline, errorSetNameEmpty, errorSetMinItems, errorDone, errorWordExist;
 
     public static void init(Context context) {
         c = context;
@@ -67,7 +67,6 @@ public class LocalizationManager {
         textRegister = getText(R.array.button_register);
         textRememberMe = getText(R.array.check_remember);
         blockValidatingUser = getText(R.array.block_validating_user);
-        textLoginError = getText(R.array.error_login);
         textInternetError = getText(R.array.error_internet);
         textExitContent = getText(R.array.confirm_exit);
         textLogoutContent = getText(R.array.confirm_logout);
@@ -114,6 +113,20 @@ public class LocalizationManager {
         errorUsernameOk = getText(R.array.error_username_valid);
         errorOneLang = getText(R.array.error_one_lang);
         buttonSearchWord = getText(R.array.button_search_word);
+        errorLoginFail = getText(R.array.error_login_fail);
+        infoOffline = getText(R.array.info_offline);
+        erroModuleSupport = getText(R.array.error_module_not_support);
+        hintSetName = getText(R.array.hint_set_name);
+        errorEditOffline = getText(R.array.error_edit_offline);
+        errorSetNameEmpty = getText(R.array.error_set_name_empty);
+        errorSetMinItems = getText(R.array.error_set_min_items);
+        confirmSetTitle = getText(R.array.confirm_set_title);
+        confirmSetContent = getText(R.array.confirm_set_content);
+        errorDone = getText(R.array.error_done);
+        blockSearching = getText(R.array.block_searching);
+        errorWordExist = getText(R.array.error_word_exist);
+        confirmSetNotChangeTitle = getText(R.array.confirm_set_not_change_title);
+        confirmSetNotChangeContent = getText(R.array.confirm_set_not_change_content);
     }
 
     private static String getText(int id) {
@@ -166,10 +179,6 @@ public class LocalizationManager {
 
     public static String getBlockValidatingUser() {
         return blockValidatingUser;
-    }
-
-    public static String getTextLoginError() {
-        return textLoginError;
     }
 
     public static String getTextInternetError() {
@@ -322,6 +331,62 @@ public class LocalizationManager {
 
     public static String getButtonSearchWord() {
         return buttonSearchWord;
+    }
+
+    public static String getErrorLoginFail() {
+        return errorLoginFail;
+    }
+
+    public static String getInfoOffline() {
+        return infoOffline;
+    }
+
+    public static String getErroModuleSupport() {
+        return erroModuleSupport;
+    }
+
+    public static String getHintSetName() {
+        return hintSetName;
+    }
+
+    public static String getConfirmSetTitle() {
+        return confirmSetTitle;
+    }
+
+    public static String getConfirmSetContent() {
+        return confirmSetContent;
+    }
+
+    public static String getConfirmSetNotChangeTitle() {
+        return confirmSetNotChangeTitle;
+    }
+
+    public static String getConfirmSetNotChangeContent() {
+        return confirmSetNotChangeContent;
+    }
+
+    public static String getBlockSearching() {
+        return blockSearching;
+    }
+
+    public static String getErrorEditOffline() {
+        return errorEditOffline;
+    }
+
+    public static String getErrorSetNameEmpty() {
+        return errorSetNameEmpty;
+    }
+
+    public static String getErrorSetMinItems() {
+        return errorSetMinItems;
+    }
+
+    public static String getErrorDone() {
+        return errorDone;
+    }
+
+    public static String getErrorWordExist() {
+        return errorWordExist;
     }
 
     private LocalizationManager() {

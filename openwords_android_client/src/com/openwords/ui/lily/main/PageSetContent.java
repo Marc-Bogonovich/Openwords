@@ -21,6 +21,7 @@ import com.openwords.model.Word;
 import com.openwords.services.implementations.ServiceSearchWords;
 import com.openwords.services.implementations.ServiceSearchWords.Result;
 import com.openwords.services.interfaces.HttpResultHandler;
+import com.openwords.util.localization.LocalizationManager;
 import com.openwords.util.ui.CallbackCancelButton;
 import com.openwords.util.ui.CallbackOkButton;
 import com.openwords.util.ui.MyDialogHelper;
@@ -85,7 +86,7 @@ public class PageSetContent extends Activity {
         setItems = new CopyOnWriteArrayList<SetItem>();
         listAdapter = new ListAdapterWordSetItem(this, setItems);
         itemList.setAdapter(listAdapter);
-        setTitleInput.setHint("Input Set Name");
+        setTitleInput.setHint(LocalizationManager.getHintSetName());
 
         if (isEditingMode) {
             applyEditUI();
@@ -102,12 +103,12 @@ public class PageSetContent extends Activity {
 
     private void buttonModeOnClick() {
         if (DataPool.OffLine) {
-            MyQuickToast.showShort(this, "Editing set is not available in offline mode.");
+            MyQuickToast.showShort(this, LocalizationManager.getErrorEditOffline());
             return;
         }
         if (isEditingMode) {
             if (setTitleInput.getText().toString().isEmpty()) {
-                MyQuickToast.showShort(this, "Set name cannot be empty!");
+                MyQuickToast.showShort(this, LocalizationManager.getErrorSetNameEmpty());
                 return;
             }
             int totalItems = 0;
@@ -117,14 +118,14 @@ public class PageSetContent extends Activity {
                 }
             }
             if (totalItems < 5) {
-                MyQuickToast.showShort(this, "Set should have 5 items at least!");
+                MyQuickToast.showShort(this, LocalizationManager.getErrorSetMinItems().replace("@@", "5"));
                 return;
             }
 
             String name = setTitleInput.getText().toString();
             checkTitleChange(name);
             if (contentHasJustChanged) {
-                MyDialogHelper.showConfirmDialog(this, "Saving word set '" + name + "'", "Do you want to save the change?",
+                MyDialogHelper.showConfirmDialog(this, LocalizationManager.getConfirmSetTitle().replace("@@", name), LocalizationManager.getConfirmSetContent(),
                         new CallbackOkButton() {
 
                             public void okPressed() {
@@ -154,19 +155,19 @@ public class PageSetContent extends Activity {
                 items.add(item);
             }
         }
-        MyDialogHelper.tryShowQuickProgressDialog(this, "Saving...");
+        MyDialogHelper.tryShowQuickProgressDialog(this, LocalizationManager.getBlockConnectServer());
         SetInfo.saveAll(DataPool.currentSet.setId, DataPool.currentSet.name, name, items, new ResultSetSaveAll() {
 
             public void ok() {
                 MyDialogHelper.tryDismissQuickProgressDialog();
-                MyQuickToast.showShort(PageSetContent.this, "Saved.");
+                MyQuickToast.showShort(PageSetContent.this, LocalizationManager.getErrorDone());
                 applyNonEditUI();
                 isEditingMode = false;
             }
 
             public void error(String errorMessage) {
                 MyDialogHelper.tryDismissQuickProgressDialog();
-                MyDialogHelper.showMessageDialog(PageSetContent.this, "Error", errorMessage, null);
+                MyDialogHelper.showMessageDialog(PageSetContent.this, LocalizationManager.getError(), errorMessage, null);
                 isEditingMode = true;
             }
         });
@@ -239,7 +240,7 @@ public class PageSetContent extends Activity {
             searchLang = LocalSettings.getCurrentLearningLanguage();
             targetLang = LocalSettings.getBaseLanguageId();
         }
-        MyDialogHelper.tryShowQuickProgressDialog(this, "Searching...");
+        MyDialogHelper.tryShowQuickProgressDialog(this, LocalizationManager.getBlockSearching());
         new ServiceSearchWords().doRequest(20, targetLang, searchLang, form, new HttpResultHandler() {
 
             public void hasResult(Object resultObject) {
@@ -356,8 +357,8 @@ public class PageSetContent extends Activity {
     @Override
     public void onBackPressed() {
         if (contentHasJustChanged) {
-            MyDialogHelper.showConfirmDialog(this, "Changes are not saved",
-                    "Are you sure to discard the changes?",
+            MyDialogHelper.showConfirmDialog(this, LocalizationManager.getConfirmSetNotChangeTitle(),
+                    LocalizationManager.getConfirmSetNotChangeContent(),
                     new CallbackOkButton() {
 
                         public void okPressed() {
