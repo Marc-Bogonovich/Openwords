@@ -98,7 +98,7 @@ public class PageHome extends Activity {
             }
         });
 
-        setting.setOnClickListener(new View.OnClickListener() {
+        langText.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
                 Dialog d = new DialogLearnLang(PageHome.this, new DialogLearnLang.LanguagePicked() {
