@@ -1,6 +1,7 @@
 package com.openwords.ui.main;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ import com.openwords.model.WordConnection;
 import com.openwords.services.implementations.ServiceLoginUser;
 import com.openwords.services.interfaces.HttpResultHandler;
 import com.openwords.sound.SoundPlayer;
+import com.openwords.ui.lily.main.DialogLearnLang;
 import com.openwords.ui.lily.main.PageHome;
 import com.openwords.ui.lily.main.PageSetsList;
 import com.openwords.util.InternetCheck;
@@ -185,15 +187,27 @@ public class LoginPage extends Activity {
                                 new ResultUserLanguage() {
 
                                     public void result(List<UserLanguage> result) {
+                                        MyDialogHelper.tryDismissQuickProgressDialog();
+
+                                        if (result.isEmpty()) {
+                                            MyQuickToast.showShort(LoginPage.this, "No language setting found.");
+                                            startActivity(new Intent(LoginPage.this, LanguagePage.class));
+                                            return;
+                                        }
                                         for (UserLanguage ul : result) {
-                                            if (ul.baseLang == LocalSettings.getBaseLanguageId()) {
-                                                loadLanguageDataAndGoHome(ul.baseLang, ul.learningLang);
+                                            if (ul.use) {
+                                                loadLanguageDataAndGoHome();
                                                 return;
                                             }
                                         }
-                                        MyQuickToast.showShort(LoginPage.this, "No language setting found.");
-                                        MyDialogHelper.tryDismissQuickProgressDialog();
-                                        startActivity(new Intent(LoginPage.this, LanguagePage.class));
+                                        //need to pick current learn
+                                        Dialog d = new DialogLearnLang(LoginPage.this, new DialogLearnLang.LanguagePicked() {
+
+                                            public void done() {
+                                                loadLanguageDataAndGoHome();
+                                            }
+                                        });
+                                        d.show();
                                     }
                                 });
                     }
@@ -205,18 +219,14 @@ public class LoginPage extends Activity {
                 });
     }
 
-    private void loadLanguageDataAndGoHome(final int baseLang, final int learningLang) {
+    private void loadLanguageDataAndGoHome() {
         if (Language.count(Language.class) > 0) {
-            LocalSettings.setBaseLanguageId(baseLang);
-            LocalSettings.setCurrentLearningLanguage(learningLang);
             goToHomePage();
         } else {
             Language.syncLanguagesData(this, new ResultLanguage() {
 
                 public void result(String result) {
                     if (result == null) {
-                        LocalSettings.setBaseLanguageId(baseLang);
-                        LocalSettings.setCurrentLearningLanguage(learningLang);
                         goToHomePage();
                     } else {
                         MyQuickToast.showShort(LoginPage.this, result);
@@ -227,6 +237,7 @@ public class LoginPage extends Activity {
     }
 
     private void goToHomePage() {
+        LocalSettings.setCurrentLearningLanguage(LocalSettings.getCurrentLearningLanguage());//for Language.getLanguageInfo() ready
         MyDialogHelper.tryDismissQuickProgressDialog();
         startActivity(new Intent(LoginPage.this, PageHome.class));
     }
