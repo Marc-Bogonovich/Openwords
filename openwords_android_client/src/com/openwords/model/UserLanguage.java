@@ -42,11 +42,6 @@ public class UserLanguage extends SugarRecord<UserLanguage> {
                     public void hasResult(Object resultObject) {
                         @SuppressWarnings("unchecked")
                         List<UserLanguage> langs = (List<UserLanguage>) resultObject;
-                        for (UserLanguage lang : langs) {
-                            if (!lang.use) {
-                                langs.remove(lang);
-                            }
-                        }
                         refreshAll(baseLang, langs);
                         resultHandler.result(langs);
                     }
@@ -86,8 +81,10 @@ public class UserLanguage extends SugarRecord<UserLanguage> {
 
     private static void refreshAll(int baseLang, List<UserLanguage> learningLangs) {
         UserLanguage.deleteAll(UserLanguage.class, "base_lang = ?", String.valueOf(baseLang));
+        int lastCurrentLearn = LocalSettings.getCurrentLearningLanguage();
         for (UserLanguage lang : learningLangs) {
             lang.baseLang = baseLang;
+            lang.use = lastCurrentLearn == lang.learningLang;
             lang.save();
         }
         LogUtil.logDeubg(UserLanguage.class, "UserLanguage:\n"
