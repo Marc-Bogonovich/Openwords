@@ -237,7 +237,10 @@ public class LoginPage extends Activity {
     }
 
     private void goToHomePage() {
-        LocalSettings.setCurrentLearningLanguage(LocalSettings.getCurrentLearningLanguage());//for Language.getLanguageInfo() ready
+        //make sure Language.getLanguageInfo() is called after data ready
+        LocalSettings.setCurrentLearningLanguage(LocalSettings.getCurrentLearningLanguage());
+        LocalSettings.setBaseLanguageId(LocalSettings.getBaseLanguageId());
+
         MyDialogHelper.tryDismissQuickProgressDialog();
         startActivity(new Intent(LoginPage.this, PageHome.class));
     }
