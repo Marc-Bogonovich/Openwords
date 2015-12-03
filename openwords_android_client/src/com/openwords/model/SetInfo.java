@@ -5,6 +5,7 @@ import com.openwords.services.implementations.ServiceSetWordSet;
 import com.openwords.services.implementations.ServiceUpdateSetItems;
 import com.openwords.services.interfaces.HttpResultHandler;
 import com.orm.SugarRecord;
+import com.orm.query.Condition;
 import com.orm.query.Select;
 import java.util.ArrayList;
 import java.util.List;
@@ -87,16 +88,18 @@ public class SetInfo extends SugarRecord<SetInfo> {
                 });
     }
 
-    private static void refreshAll(List<SetInfo> sets) {
-        SetInfo.deleteAll(SetInfo.class);
+    private static void refreshAll(List<SetInfo> sets, int langOne, int langTwo) {
+        SetInfo.deleteAll(SetInfo.class, "native_lang = ? and learning_lang = ?", String.valueOf(langOne), String.valueOf(langTwo));
         SetInfo.saveInTx(sets);
     }
 
-    public static List<SetInfo> loadAllSets() {
-        return Select.from(SetInfo.class).list();
+    public static List<SetInfo> loadAllSets(int langOne, int langTwo) {
+        return Select.from(SetInfo.class)
+                .where(Condition.prop("native_lang").eq(langOne), Condition.prop("learning_lang").eq(langTwo))
+                .list();
     }
 
-    public static void getAllSets(int pageNumber, int pageSize, int langOne, int langTwo, final ResultWordSets resultHandler) {
+    public static void getAllSets(int pageNumber, int pageSize, final int langOne, final int langTwo, final ResultWordSets resultHandler) {
         new ServiceGetSets().doRequest(pageNumber, pageSize, langOne, langTwo, new HttpResultHandler() {
 
             public void hasResult(Object resultObject) {
@@ -104,7 +107,7 @@ public class SetInfo extends SugarRecord<SetInfo> {
                 if (r.result.isEmpty()) {
                     resultHandler.result(null);
                 } else {
-                    refreshAll(r.result);
+                    refreshAll(r.result, langOne, langTwo);
                     resultHandler.result(r.result);
                 }
             }
