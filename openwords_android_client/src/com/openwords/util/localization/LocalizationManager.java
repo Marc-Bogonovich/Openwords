@@ -30,7 +30,9 @@ public class LocalizationManager {
     private static String hintSearchSets, hintSetName;
     private static String infoPractice, infoOffline;
     private static String nameReview, nameSelf, nameType, nameHearing, nameSentence;
-    private static String confirmNativeTitle, confirmNativeContent, confirmSetTitle, confirmSetContent, confirmSetNotChangeTitle, confirmSetNotChangeContent;
+    private static String confirmNativeTitle, confirmNativeContent, confirmSetTitle,
+            confirmSetContent, confirmSetNotChangeTitle, confirmSetNotChangeContent,
+            confirmLearnLang, confirmLearnLangTitle;
     private static String ok, cancel;
     private static String blockValidatingUser, blockConnectServer, blockRefreshLang, blockSearching;
     private static String error, errorEmailOk, errorUsernameOk, errorPassword, errorOneLang, errorLoginFail, erroModuleSupport, errorEditOffline, errorSetNameEmpty, errorSetMinItems, errorDone, errorWordExist;
@@ -127,6 +129,8 @@ public class LocalizationManager {
         errorWordExist = getText(R.array.error_word_exist);
         confirmSetNotChangeTitle = getText(R.array.confirm_set_not_change_title);
         confirmSetNotChangeContent = getText(R.array.confirm_set_not_change_content);
+        confirmLearnLang = getText(R.array.confirm_learn_lang);
+        confirmLearnLangTitle = getText(R.array.confirm_learn_lang_title);
     }
 
     private static String getText(int id) {
@@ -387,6 +391,14 @@ public class LocalizationManager {
 
     public static String getErrorWordExist() {
         return errorWordExist;
+    }
+
+    public static String getConfirmLearnLang() {
+        return confirmLearnLang;
+    }
+
+    public static String getConfirmLearnLangTitle() {
+        return confirmLearnLangTitle;
     }
 
     private LocalizationManager() {

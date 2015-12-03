@@ -207,7 +207,7 @@ public class PageSetsList extends Activity {
         super.onResume();
         MyDialogHelper.tryShowQuickProgressDialog(this, "Loading all word sets...");
         if (DataPool.OffLine) {
-            List<SetInfo> sets = SetInfo.loadAllSets();
+            List<SetInfo> sets = SetInfo.loadAllSets(LocalSettings.getBaseLanguageId(), LocalSettings.getCurrentLearningLanguage());
             if (sets.isEmpty()) {
                 MyQuickToast.showShort(PageSetsList.this, "No sets available.");
             } else {
