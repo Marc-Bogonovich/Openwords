@@ -270,6 +270,14 @@
         <item>Are you sure to discard the changes?</item>
         <item>您确定放弃已做的修改吗？</item>
     </string-array>
+    <string-array name="confirm_learn_lang">
+        <item>Pick the language to learn</item>
+        <item>选择一个您要学的语言</item>
+    </string-array>
+    <string-array name="confirm_learn_lang_title">
+        <item>Learning Language</item>
+        <item>要学的语言</item>
+    </string-array>
     
     <string name="logoImage_description">Openwords logo</string>
     <string name="loginPage">Please log in</string>
@@ -284,7 +292,7 @@
     <string name="languagePage_CheckBox_hebrew">(Hebrew)</string>
     <string name="languagePage_CheckBox_kannada">(Kannada)</string>
     <string name="languagePage_Button_chosenPage">submit</string>
-    <string name="language_TextView_indicator">choose the language/s you want to learn</string>
+    <string name="language_TextView_indicator">choose ALL the language/s you want to learn</string>
     <string name="registerPage_EditText_username">Enter User name</string>
     <string name="registerPage_EditText_password">Enter password</string>
     <string name="registerPage_EditText_password2">Re-enter password</string>

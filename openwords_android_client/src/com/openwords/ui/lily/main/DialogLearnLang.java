@@ -10,6 +10,7 @@ import com.openwords.R;
 import com.openwords.model.Language;
 import com.openwords.model.LocalSettings;
 import com.openwords.model.UserLanguage;
+import com.openwords.util.localization.LocalizationManager;
 import com.openwords.util.ui.CallbackOkButton;
 import com.openwords.util.ui.MyDialogHelper;
 import java.util.LinkedList;
@@ -23,7 +24,7 @@ public class DialogLearnLang extends Dialog {
         super(context);
         items = new LinkedList<String>();
         setContentView(R.layout.dialog_learn_lang);
-        setTitle("Pick the language to learn");
+        setTitle(LocalizationManager.getConfirmLearnLang());
 
         final List<UserLanguage> langs = UserLanguage.loadUserLanguageLocally(LocalSettings.getBaseLanguageId());
         for (UserLanguage lang : langs) {
@@ -36,7 +37,7 @@ public class DialogLearnLang extends Dialog {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-                MyDialogHelper.showConfirmDialog(context, "Learning Language", "Set " + items.get(position) + "?",
+                MyDialogHelper.showConfirmDialog(context, LocalizationManager.getConfirmLearnLangTitle(), items.get(position) + "?",
                         new CallbackOkButton() {
 
                             public void okPressed() {
