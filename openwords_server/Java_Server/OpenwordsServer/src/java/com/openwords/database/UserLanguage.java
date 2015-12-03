@@ -1,6 +1,5 @@
 package com.openwords.database;
 
-import com.openwords.utils.MyXStream;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Column;
@@ -30,9 +29,6 @@ public class UserLanguage implements Serializable {
 //            if (ul.getPage() >= nextPage) {
 //                throw new Exception("next page is not larger than current page");
 //            }
-            if (!ul.isUse()) {
-                throw new Exception("cannot advance user language that is not in use");
-            }
             ul.setPage(nextPage);
             s.beginTransaction().commit();
         }
@@ -44,21 +40,16 @@ public class UserLanguage implements Serializable {
                 .add(Restrictions.eq("id.userId", userId))
                 .add(Restrictions.eq("id.baseLang", baseLang)).list();
 
-        for (UserLanguage lang : all) {
-            lang.setUse(false);
-        }
-
         for (int uselang : learningLangs) {
             boolean exist = false;
             for (UserLanguage oldlang : all) {
                 if (uselang == oldlang.getId().getLearningLang()) {
-                    oldlang.setUse(true);
                     exist = true;
                     break;
                 }
             }
             if (!exist) {
-                s.save(new UserLanguage(userId, baseLang, uselang, 1, "", true));
+                s.save(new UserLanguage(userId, baseLang, uselang, 1, ""));
             }
         }
         s.beginTransaction().commit();
@@ -77,7 +68,6 @@ public class UserLanguage implements Serializable {
 
     private int page;
     private String meta;
-    private boolean use;
     private UserLanguageMetaInfo metaInfo;
 
     public UserLanguage() {
@@ -87,11 +77,10 @@ public class UserLanguage implements Serializable {
         this.id = new UserLanguageId(userId, baseLang, learningLang);
     }
 
-    public UserLanguage(long userId, int baseLang, int learningLang, int page, String meta, boolean use) {
+    public UserLanguage(long userId, int baseLang, int learningLang, int page, String meta) {
         this.id = new UserLanguageId(userId, baseLang, learningLang);
         this.page = page;
         this.meta = meta;
-        this.use = use;
     }
 
     @Id
@@ -120,15 +109,6 @@ public class UserLanguage implements Serializable {
 
     public void setMeta(String meta) {
         this.meta = meta;
-    }
-
-    @Column(name = "under_use")
-    public boolean isUse() {
-        return use;
-    }
-
-    public void setUse(boolean use) {
-        this.use = use;
     }
 
     @Transient
