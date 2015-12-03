@@ -54,13 +54,6 @@ public class ListAdapterLanguageItem extends ArrayAdapter<Language> {
                         MyQuickToast.showShort(context, "You cannot learn your native language with your native language.");
                         itemObj.setChecked(false);
                         LanguagePage.ChosenLangIds.remove(Integer.valueOf(lang.langId));
-                        return;
-                    }
-                    if (LanguagePage.ChosenLangIds.size() > 1) {
-                        MyQuickToast.showShort(context, "Sorry, we only support learning ONE language currently.");
-                        itemObj.setChecked(false);
-                        LanguagePage.ChosenLangIds.remove(Integer.valueOf(lang.langId));
-                        return;
                     }
                     //MyQuickToast.showShort(context, itemObj.isChecked() + " " + lang.langId + " " + lang.name);
                 }
