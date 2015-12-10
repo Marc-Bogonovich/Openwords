@@ -23,6 +23,7 @@ import com.openwords.model.ResultSetItems;
 import com.openwords.model.ResultWordSets;
 import com.openwords.model.SetInfo;
 import com.openwords.model.SetItem;
+import com.openwords.ui.common.DialogForSettingSelection;
 import com.openwords.util.localization.LocalizationManager;
 import com.openwords.util.ui.MyDialogHelper;
 import com.openwords.util.ui.MyQuickToast;
@@ -33,6 +34,9 @@ import java.util.TimerTask;
 
 public class PageSetsList extends Activity {
 
+    public static int mode;
+    public final static int Mode_Study = 1;
+    public final static int Mode_Manage = 2;
     private GridView listAllSets;
     private ViewDeckCircle buttonMake;
     private EditText searchInput;
@@ -42,6 +46,7 @@ public class PageSetsList extends Activity {
     private ImageView buttonBack;
     private List<SetInfo> allSets;
     private TextView title, buttonTextMake;
+    private DialogForSettingSelection settingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +55,11 @@ public class PageSetsList extends Activity {
         setContentView(R.layout.lily_page_setlist);
 
         title = (TextView) findViewById(R.id.act_sl_text1);
-        title.setText(LocalizationManager.getTitleWordSets());
+        if (mode == Mode_Study) {
+            title.setText(LocalizationManager.getButtonPractice());
+        } else if (mode == Mode_Manage) {
+            title.setText(LocalizationManager.getButtonCreate());
+        }
 
         buttonBack = (ImageView) findViewById(R.id.act_sl_image_1);
         buttonBack.setColorFilter(getResources().getColor(R.color.main_app_color), PorterDuff.Mode.MULTIPLY);
@@ -62,9 +71,42 @@ public class PageSetsList extends Activity {
         listAllSets.requestFocus();
         listAllSets.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                SetInfo set = allSets.get(position);
-                loadSet(set);
+            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+                switch (mode) {
+                    case Mode_Study:
+                        if (settingDialog != null) {
+                            settingDialog.cancel();
+                            settingDialog = null;
+                        }
+                        settingDialog = new DialogForSettingSelection(PageSetsList.this)
+                                .addItem("Overview")
+                                .addItem("Begin Study")
+                                .build(new AdapterView.OnItemClickListener() {
+
+                                    public void onItemClick(AdapterView<?> parent, View view, int optionPosition, long id) {
+                                        switch (optionPosition) {
+                                            case 0:
+                                                MyQuickToast.showShort(PageSetsList.this, "Overview");
+                                                break;
+                                            case 1:
+                                                SetInfo set = allSets.get(position);
+                                                loadSet(set, false);
+                                                startActivity(new Intent(PageSetsList.this, PageLMOption.class));
+                                                break;
+                                        }
+                                        settingDialog.cancel();
+                                        settingDialog = null;
+                                    }
+                                }, (int) view.getX(), (int) view.getY());
+                        settingDialog.show();
+                        break;
+                    case Mode_Manage:
+                        SetInfo set = allSets.get(position);
+                        loadSet(set, true);
+                        break;
+                    default:
+                        break;
+                }
             }
         });
 
@@ -165,7 +207,7 @@ public class PageSetsList extends Activity {
         listAdapter.notifyDataSetChanged();
     }
 
-    private void loadSet(final SetInfo set) {
+    private void loadSet(final SetInfo set, final boolean goEdit) {
         if (set.nativeLang != LocalSettings.getBaseLanguageId()
                 || set.learningLang != LocalSettings.getCurrentLearningLanguage()) {
             MyQuickToast.showShort(PageSetsList.this, "This set is not for your chosen languages.");
@@ -177,7 +219,7 @@ public class PageSetsList extends Activity {
             if (items.isEmpty()) {
                 MyQuickToast.showShort(PageSetsList.this, "This set is not available.");
             } else {
-                applySetAndGo(set, items);
+                applySetAndGo(set, items, goEdit);
             }
             MyDialogHelper.tryDismissQuickProgressDialog();
         } else {
@@ -187,7 +229,7 @@ public class PageSetsList extends Activity {
                     if (result == null) {
                         MyQuickToast.showShort(PageSetsList.this, "Cannot load content");
                     } else {
-                        applySetAndGo(set, result);
+                        applySetAndGo(set, result, goEdit);
                     }
                     MyDialogHelper.tryDismissQuickProgressDialog();
                 }
@@ -195,11 +237,13 @@ public class PageSetsList extends Activity {
         }
     }
 
-    private void applySetAndGo(SetInfo set, List<SetItem> items) {
+    private void applySetAndGo(SetInfo set, List<SetItem> items, boolean goEdit) {
         DataPool.currentSet.copyAllValues(set);
         DataPool.currentSetItems.clear();
         DataPool.currentSetItems.addAll(items);
-        PageSetsList.this.startActivity(new Intent(PageSetsList.this, PageSetContent.class));
+        if (goEdit) {
+            PageSetsList.this.startActivity(new Intent(PageSetsList.this, PageSetContent.class));
+        }
     }
 
     @Override
