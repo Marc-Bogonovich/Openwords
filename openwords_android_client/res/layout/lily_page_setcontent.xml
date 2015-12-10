@@ -47,7 +47,7 @@
         <ImageView  android:id="@+id/act_ws_image_3"
                     android:layout_width="44dp"
                     android:layout_height="match_parent"
-                    android:src="@drawable/ic_study"
+                    android:src="@drawable/ic_copy"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
                     android:contentDescription=""/>

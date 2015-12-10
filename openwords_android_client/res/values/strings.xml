@@ -18,9 +18,21 @@
         <item>Create Word Set</item>
         <item>建造你的词集</item>
     </string-array>
+    <string-array name="button_manage_set">
+        <item>Manage Word Set</item>
+        <item>管理词集</item>
+    </string-array>
     <string-array name="button_resume">
-        <item>Resume</item>
-        <item>继续上次的练习</item>
+        <item>Dictionary</item>
+        <item>字典</item>
+    </string-array>
+    <string-array name="button_study">
+        <item>Begin Study</item>
+        <item>开始学习</item>
+    </string-array>
+    <string-array name="button_overview">
+        <item>Overview</item>
+        <item>概览</item>
     </string-array>
     <string-array name="title_word_sets">
         <item>Word Sets</item>

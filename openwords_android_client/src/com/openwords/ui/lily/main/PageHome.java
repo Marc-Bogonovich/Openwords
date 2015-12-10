@@ -46,7 +46,7 @@ public class PageHome extends Activity {
         buttonManage.setTextColor(getResources().getColor(R.color.main_app_color));
         buttonDict.setTextColor(getResources().getColor(R.color.main_app_color));
         buttonStudy.setText(LocalizationManager.getButtonPractice());
-        buttonManage.setText(LocalizationManager.getButtonCreate());
+        buttonManage.setText(LocalizationManager.getButtonManageSets());
         buttonDict.setText(LocalizationManager.getButtonResume());
         buttonTest.setText(LocalizationManager.getButtonSentence());
 

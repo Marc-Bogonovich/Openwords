@@ -79,8 +79,8 @@ public class PageSetsList extends Activity {
                             settingDialog = null;
                         }
                         settingDialog = new DialogForSettingSelection(PageSetsList.this)
-                                .addItem("Overview")
-                                .addItem("Begin Study")
+                                .addItem(LocalizationManager.getButtonOverview())
+                                .addItem(LocalizationManager.getButtonStudy())
                                 .build(new AdapterView.OnItemClickListener() {
 
                                     public void onItemClick(AdapterView<?> parent, View view, int optionPosition, long id) {

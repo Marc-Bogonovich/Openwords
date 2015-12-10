@@ -38,7 +38,7 @@ public class PageSetContent extends Activity {
 
     private ListView itemList;
     private ListAdapterWordSetItem listAdapter;
-    private ImageView buttonMode, buttonBack, buttonStudy;
+    private ImageView buttonMode, buttonBack, buttonCopy;
     private EditText setTitleInput;
     private TextView setTitle;
     private boolean isEditingMode, contentHasJustChanged;
@@ -54,7 +54,7 @@ public class PageSetContent extends Activity {
         setTitleInput = (EditText) findViewById(R.id.act_ws_edit1);
         buttonMode = (ImageView) findViewById(R.id.act_ws_image_1);
         buttonBack = (ImageView) findViewById(R.id.act_ws_image_2);
-        buttonStudy = (ImageView) findViewById(R.id.act_ws_image_3);
+        buttonCopy = (ImageView) findViewById(R.id.act_ws_image_3);
 
         if (DataPool.currentSet.name == null) {
             isEditingMode = true;
@@ -76,12 +76,16 @@ public class PageSetContent extends Activity {
                 PageSetContent.super.onBackPressed();
             }
         });
-        buttonStudy.setOnClickListener(new View.OnClickListener() {
+        buttonCopy.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
-                study();
+                MyQuickToast.showShort(PageSetContent.this, "Copy this set");
             }
         });
+
+        if (DataPool.currentSet.userId == LocalSettings.getUserId() || isEditingMode) {
+            buttonCopy.setVisibility(View.GONE);
+        }
 
         setItems = new CopyOnWriteArrayList<SetItem>();
         listAdapter = new ListAdapterWordSetItem(this, setItems);
@@ -174,7 +178,6 @@ public class PageSetContent extends Activity {
     }
 
     private void applyNonEditUI() {
-        buttonStudy.setVisibility(View.VISIBLE);
         if (DataPool.currentSet.userId == LocalSettings.getUserId()) {
             buttonMode.setVisibility(View.VISIBLE);
         } else {
@@ -200,7 +203,6 @@ public class PageSetContent extends Activity {
     }
 
     private void applyEditUI() {
-        buttonStudy.setVisibility(View.GONE);
         for (SetItem item : setItems) {
             item.isModifying = true;
         }

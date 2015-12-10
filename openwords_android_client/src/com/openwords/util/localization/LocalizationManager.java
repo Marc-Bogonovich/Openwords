@@ -25,7 +25,8 @@ public class LocalizationManager {
             textHintUser, textHintPass, textBye, textSettingProfile, textSettingSetting, textSettingTutor, textSettingLogout,
             textPCNext, textPCEnd, textHintPassRe, textReg,
             TextHintEmail;
-    private static String buttonPractice, buttonCreate, buttonResume, buttonSentence, buttonSearchWord;
+    private static String buttonPractice, buttonCreate, buttonResume, buttonSentence,
+            buttonSearchWord, buttonManageSets, buttonStudy, buttonOverview;
     private static String titleWordSets, titlePractice;
     private static String hintSearchSets, hintSetName;
     private static String infoPractice, infoOffline;
@@ -131,6 +132,9 @@ public class LocalizationManager {
         confirmSetNotChangeContent = getText(R.array.confirm_set_not_change_content);
         confirmLearnLang = getText(R.array.confirm_learn_lang);
         confirmLearnLangTitle = getText(R.array.confirm_learn_lang_title);
+        buttonManageSets = getText(R.array.button_manage_set);
+        buttonStudy = getText(R.array.button_study);
+        buttonOverview = getText(R.array.button_overview);
     }
 
     private static String getText(int id) {
@@ -399,6 +403,18 @@ public class LocalizationManager {
 
     public static String getConfirmLearnLangTitle() {
         return confirmLearnLangTitle;
+    }
+
+    public static String getButtonManageSets() {
+        return buttonManageSets;
+    }
+
+    public static String getButtonStudy() {
+        return buttonStudy;
+    }
+
+    public static String getButtonOverview() {
+        return buttonOverview;
     }
 
     private LocalizationManager() {
