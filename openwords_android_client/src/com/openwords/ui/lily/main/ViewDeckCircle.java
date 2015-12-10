@@ -3,13 +3,14 @@ package com.openwords.ui.lily.main;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.View;
 
 public class ViewDeckCircle extends View {
 
     private Paint shadePaint, markerPaint;
-    private float centerX, centerY, radius;
+    private float centerX, centerY, radius, textX, textY;
     private int color, alpha, markerColor, markerAlpha;
     private boolean drawMarker;
     private String text;
@@ -47,7 +48,21 @@ public class ViewDeckCircle extends View {
 
     public void setText(String text) {
         this.text = text;
-        invalidate();
+        measureText();
+    }
+
+    private void measureText() {
+        if (text != null) {
+            markerPaint.setTextSize(radius / 3 * 2);
+            Rect textBounds = new Rect();
+            markerPaint.getTextBounds("A", 0, 1, textBounds);
+            float textWidth = textBounds.width();
+            float textHeight = textBounds.height();
+            textX = centerX - textWidth * text.length() / 2;
+            textY = centerY + textHeight / 2;
+            invalidate();
+            //LogUtil.logDeubg(this, "measureText()");
+        }
     }
 
     public void updateDimension(int viewWidth, int viewHeight) {
@@ -60,6 +75,7 @@ public class ViewDeckCircle extends View {
             centerX = viewWidth / 2;
             centerY = viewHeight / 2;
         }
+        measureText();
         //LogUtil.logDeubg(this, "updateDimension: " + viewWidth + " " + viewHeight);
     }
 
@@ -91,7 +107,7 @@ public class ViewDeckCircle extends View {
             canvas.drawLine(centerX - radius / 3, centerY, centerX + radius / 3, centerY, markerPaint);
         }
         if (text != null) {
-            canvas.drawText(text, centerX, centerY, markerPaint);
+            canvas.drawText(text, textX, textY, markerPaint);
         }
     }
 }
