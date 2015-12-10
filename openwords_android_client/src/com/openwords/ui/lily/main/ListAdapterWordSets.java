@@ -63,6 +63,9 @@ public class ListAdapterWordSets extends ArrayAdapter<SetInfo> {
 
     private void fillLayoutContent(final ViewHolder viewHolder, final SetInfo info) {
         viewHolder.deckName.setText(info.name);
+        if (info.setSize >= 0) {
+            viewHolder.deckCircle.setText(String.valueOf(info.setSize));
+        }
         if (info.userId == localUserId && info.setId != 0) {
             viewHolder.deckCircle.updateColor(Color.parseColor("#477368"));
         } else {
