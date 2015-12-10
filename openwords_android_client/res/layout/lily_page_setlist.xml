@@ -71,19 +71,78 @@
               android:stretchMode="columnWidth"
               android:gravity="center"/>
     
-    <com.openwords.ui.lily.main.ViewDeckCircle android:id="@+id/page_sl_button_make"
-                                               android:orientation="vertical"
-                                               android:layout_width="60dp"
-                                               android:layout_height="60dp"
-                                               android:layout_gravity="center_horizontal"/>
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="horizontal"
+                  android:paddingTop="10dp"
+                  android:baselineAligned="false">
+        
+        <LinearLayout android:id="@+id/page_sl_group_my"
+                      android:layout_width="0dp"
+                      android:layout_height="wrap_content"
+                      android:orientation="vertical"
+                      android:layout_weight="1"
+                      android:visibility="gone">
+             
+            <com.openwords.ui.lily.main.ViewDeckCircle android:id="@+id/page_sl_button_my"
+                                                       android:orientation="vertical"
+                                                       android:layout_width="60dp"
+                                                       android:layout_height="60dp"
+                                                       android:layout_gravity="center_horizontal"/>
 
-    <TextView android:id="@+id/page_sl_buttontext_make"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:gravity="center"
-              android:textSize="16sp"
-              android:textColor="@color/blue"
-              android:layout_gravity="center_horizontal"
-              android:singleLine="true"/>
+            <TextView android:id="@+id/page_sl_buttontext_my"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:gravity="center"
+                      android:textSize="16sp"
+                      android:layout_gravity="center_horizontal"
+                      android:singleLine="true"/>
+        </LinearLayout>
+        
+        <LinearLayout android:id="@+id/page_sl_group_all"
+                      android:layout_width="0dp"
+                      android:layout_height="wrap_content"
+                      android:orientation="vertical"
+                      android:layout_weight="1"
+                      android:visibility="gone">
+             
+            <com.openwords.ui.lily.main.ViewDeckCircle android:id="@+id/page_sl_button_all"
+                                                       android:orientation="vertical"
+                                                       android:layout_width="60dp"
+                                                       android:layout_height="60dp"
+                                                       android:layout_gravity="center_horizontal"/>
 
+            <TextView android:id="@+id/page_sl_buttontext_all"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:gravity="center"
+                      android:textSize="16sp"
+                      android:layout_gravity="center_horizontal"
+                      android:singleLine="true"/>
+        </LinearLayout>
+        
+        <LinearLayout android:id="@+id/page_sl_group_make"
+                      android:layout_width="0dp"
+                      android:layout_height="wrap_content"
+                      android:orientation="vertical"
+                      android:layout_weight="1"
+                      android:visibility="gone">
+             
+            <com.openwords.ui.lily.main.ViewDeckCircle android:id="@+id/page_sl_button_make"
+                                                       android:orientation="vertical"
+                                                       android:layout_width="60dp"
+                                                       android:layout_height="60dp"
+                                                       android:layout_gravity="center_horizontal"/>
+
+            <TextView android:id="@+id/page_sl_buttontext_make"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:gravity="center"
+                      android:textSize="16sp"
+                      android:layout_gravity="center_horizontal"
+                      android:singleLine="true"/>
+        </LinearLayout>
+        
+    </LinearLayout>
+    
 </LinearLayout>

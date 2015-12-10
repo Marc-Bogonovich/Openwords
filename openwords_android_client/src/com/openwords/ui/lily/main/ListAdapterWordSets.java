@@ -50,7 +50,8 @@ public class ListAdapterWordSets extends ArrayAdapter<SetInfo> {
         viewHolder.deckName = (TextView) view.findViewById(R.id.list_item_deck_info_1);
         viewHolder.deckHolder = (LinearLayout) view.findViewById(R.id.list_item_deck_info_deck);
         viewHolder.deckCircle = new ViewDeckCircle(context, DataPool.Color_Main, 200,
-                false, -1, -1);
+                0, 0,
+                context.getResources().getColor(R.color.white), 255);
         viewHolder.deckHolder.addView(viewHolder.deckCircle);
         viewHolder.deckHolder.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
 

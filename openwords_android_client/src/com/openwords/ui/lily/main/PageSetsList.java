@@ -2,6 +2,7 @@ package com.openwords.ui.lily.main;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.openwords.R;
 import com.openwords.model.DataPool;
@@ -38,14 +40,14 @@ public class PageSetsList extends Activity {
     public final static int Mode_Study = 1;
     public final static int Mode_Manage = 2;
     private GridView listAllSets;
-    private ViewDeckCircle buttonMake;
+    private ViewDeckCircle buttonMake, buttonMy, buttonAll;
     private EditText searchInput;
     private Timer searchInputTimer;
     private Handler finishInput;
     private ListAdapterWordSets listAdapter;
     private ImageView buttonBack;
     private List<SetInfo> allSets;
-    private TextView title, buttonTextMake;
+    private TextView title, buttonTextMake, buttonTextMy, buttonTextAll;
     private DialogForSettingSelection settingDialog;
 
     @Override
@@ -58,8 +60,11 @@ public class PageSetsList extends Activity {
         if (mode == Mode_Study) {
             title.setText(LocalizationManager.getButtonPractice());
         } else if (mode == Mode_Manage) {
-            title.setText(LocalizationManager.getButtonCreate());
+            title.setText(LocalizationManager.getButtonManageSets());
+            buildButtonMake();
         }
+        buildButtonMy();
+        buildButtonAll();
 
         buttonBack = (ImageView) findViewById(R.id.act_sl_image_1);
         buttonBack.setColorFilter(getResources().getColor(R.color.main_app_color), PorterDuff.Mode.MULTIPLY);
@@ -109,35 +114,6 @@ public class PageSetsList extends Activity {
                 }
             }
         });
-
-        View.OnClickListener clickCreate = new View.OnClickListener() {
-            public void onClick(View v) {
-                if (DataPool.OffLine) {
-                    MyQuickToast.showShort(PageSetsList.this, "Cannot create set in offline mode.");
-                    return;
-                }
-                DataPool.currentSet.setId = -1;
-                DataPool.currentSet.name = null;
-                DataPool.currentSetItems.clear();
-                DataPool.currentSetItems.add(new SetItem(0, LocalSettings.getBaseLanguage().displayName,
-                        LocalSettings.getLearningLanguage().displayName, true, true));
-                PageSetsList.this.startActivity(new Intent(PageSetsList.this, PageSetContent.class));
-            }
-        };
-        buttonMake = (ViewDeckCircle) findViewById(R.id.page_sl_button_make);
-        buttonMake.config(getResources().getColor(R.color.blue), 255,
-                true, getResources().getColor(R.color.white), 255);
-        buttonMake.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
-
-            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-                buttonMake.updateDimension(v.getWidth(), v.getHeight());
-            }
-        });
-        buttonMake.setOnClickListener(clickCreate);
-
-        buttonTextMake = (TextView) findViewById(R.id.page_sl_buttontext_make);
-        buttonTextMake.setText(LocalizationManager.getButtonCreate());
-        buttonTextMake.setOnClickListener(clickCreate);
 
         finishInput = new Handler(new Callback() {
 
@@ -199,6 +175,82 @@ public class PageSetsList extends Activity {
                 PageSetsList.super.onBackPressed();
             }
         });
+    }
+
+    private void buildButtonMy() {
+        buttonMy = (ViewDeckCircle) findViewById(R.id.page_sl_button_my);
+        buttonMy.config(Color.parseColor("#477368"), 255,
+                R.drawable.ic_study, 0,
+                0, 0);
+        buttonMy.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+
+            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                buttonMy.updateDimension(v.getWidth(), v.getHeight());
+            }
+        });
+
+        buttonTextMake = (TextView) findViewById(R.id.page_sl_buttontext_my);
+        buttonTextMake.setText("My Sets");
+        buttonTextMake.setTextColor(Color.parseColor("#477368"));
+
+        LinearLayout group = (LinearLayout) findViewById(R.id.page_sl_group_my);
+        group.setVisibility(View.VISIBLE);
+    }
+
+    private void buildButtonAll() {
+        buttonAll = (ViewDeckCircle) findViewById(R.id.page_sl_button_all);
+        buttonAll.config(DataPool.Color_Main, 255,
+                R.drawable.ic_global1, 0,
+                0, 0);
+        buttonAll.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+
+            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                buttonAll.updateDimension(v.getWidth(), v.getHeight());
+            }
+        });
+
+        buttonTextAll = (TextView) findViewById(R.id.page_sl_buttontext_all);
+        buttonTextAll.setText("All Sets");
+        buttonTextAll.setTextColor(DataPool.Color_Main);
+
+        LinearLayout group = (LinearLayout) findViewById(R.id.page_sl_group_all);
+        group.setVisibility(View.VISIBLE);
+    }
+
+    private void buildButtonMake() {
+        View.OnClickListener clickCreate = new View.OnClickListener() {
+            public void onClick(View v) {
+                if (DataPool.OffLine) {
+                    MyQuickToast.showShort(PageSetsList.this, "Cannot create set in offline mode.");
+                    return;
+                }
+                DataPool.currentSet.setId = -1;
+                DataPool.currentSet.name = null;
+                DataPool.currentSetItems.clear();
+                DataPool.currentSetItems.add(new SetItem(0, LocalSettings.getBaseLanguage().displayName,
+                        LocalSettings.getLearningLanguage().displayName, true, true));
+                PageSetsList.this.startActivity(new Intent(PageSetsList.this, PageSetContent.class));
+            }
+        };
+        buttonMake = (ViewDeckCircle) findViewById(R.id.page_sl_button_make);
+        buttonMake.config(getResources().getColor(R.color.blue), 255,
+                R.drawable.ic_plus, 0,
+                0, 0);
+        buttonMake.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+
+            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                buttonMake.updateDimension(v.getWidth(), v.getHeight());
+            }
+        });
+        buttonMake.setOnClickListener(clickCreate);
+
+        buttonTextMake = (TextView) findViewById(R.id.page_sl_buttontext_make);
+        buttonTextMake.setText(LocalizationManager.getButtonCreate());
+        buttonTextMake.setTextColor(getResources().getColor(R.color.blue));
+        buttonTextMake.setOnClickListener(clickCreate);
+
+        LinearLayout group = (LinearLayout) findViewById(R.id.page_sl_group_make);
+        group.setVisibility(View.VISIBLE);
     }
 
     private void refreshListView(List<SetInfo> sets) {
