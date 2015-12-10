@@ -17,7 +17,6 @@ import com.openwords.model.Language;
 import com.openwords.model.LocalSettings;
 import com.openwords.model.ResultSentencePack;
 import com.openwords.model.SentenceConnection;
-import com.openwords.model.SetItem;
 import com.openwords.ui.common.BackButtonBehavior;
 import com.openwords.util.localization.LocalizationManager;
 import com.openwords.util.log.LogUtil;
@@ -27,7 +26,7 @@ import java.util.List;
 public class PageHome extends Activity {
 
     private LinearLayout root;
-    private TextView buttonSetList, buttonNewSet, buttonResume, buttonTest, langText;
+    private TextView buttonStudy, buttonManage, buttonDict, buttonTest, langText;
     private ImageView setting;
 
     @Override
@@ -37,42 +36,39 @@ public class PageHome extends Activity {
         setContentView(R.layout.lily_page_home);
         root = (LinearLayout) findViewById(R.id.act_home_root);
         root.setBackgroundColor(getResources().getColor(R.color.main_app_color));
-        buttonSetList = (TextView) findViewById(R.id.act_home_button_1);
-        buttonNewSet = (TextView) findViewById(R.id.act_home_button_2);
-        buttonResume = (TextView) findViewById(R.id.act_home_button_3);
+        buttonStudy = (TextView) findViewById(R.id.act_home_button_1);
+        buttonManage = (TextView) findViewById(R.id.act_home_button_2);
+        buttonDict = (TextView) findViewById(R.id.act_home_button_3);
         buttonTest = (TextView) findViewById(R.id.page_home_text_1);
         setting = (ImageView) findViewById(R.id.page_home_image1);
         langText = (TextView) findViewById(R.id.page_home_text_2);
-        buttonSetList.setTextColor(getResources().getColor(R.color.main_app_color));
-        buttonNewSet.setTextColor(getResources().getColor(R.color.main_app_color));
-        buttonResume.setTextColor(getResources().getColor(R.color.main_app_color));
-        buttonSetList.setText(LocalizationManager.getButtonPractice());
-        buttonNewSet.setText(LocalizationManager.getButtonCreate());
-        buttonResume.setText(LocalizationManager.getButtonResume());
+        buttonStudy.setTextColor(getResources().getColor(R.color.main_app_color));
+        buttonManage.setTextColor(getResources().getColor(R.color.main_app_color));
+        buttonDict.setTextColor(getResources().getColor(R.color.main_app_color));
+        buttonStudy.setText(LocalizationManager.getButtonPractice());
+        buttonManage.setText(LocalizationManager.getButtonCreate());
+        buttonDict.setText(LocalizationManager.getButtonResume());
         buttonTest.setText(LocalizationManager.getButtonSentence());
 
-        buttonSetList.setOnClickListener(new View.OnClickListener() {
+        buttonStudy.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
+                PageSetsList.mode = PageSetsList.Mode_Study;
                 startActivity(new Intent(PageHome.this, PageSetsList.class));
             }
         });
-        buttonNewSet.setOnClickListener(new View.OnClickListener() {
+        buttonManage.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
                 if (DataPool.OffLine) {
-                    MyQuickToast.showShort(PageHome.this, "Cannot create set in offline mode.");
+                    MyQuickToast.showShort(PageHome.this, "Cannot manage set in offline mode.");
                     return;
                 }
-                DataPool.currentSet.setId = -1;
-                DataPool.currentSet.name = null;
-                DataPool.currentSetItems.clear();
-                DataPool.currentSetItems.add(new SetItem(0, LocalSettings.getBaseLanguage().displayName,
-                        LocalSettings.getLearningLanguage().displayName, true, true));
-                startActivity(new Intent(PageHome.this, PageSetContent.class));
+                PageSetsList.mode = PageSetsList.Mode_Manage;
+                startActivity(new Intent(PageHome.this, PageSetsList.class));
             }
         });
-        buttonResume.setOnClickListener(new View.OnClickListener() {
+        buttonDict.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
                 MyQuickToast.showShort(PageHome.this, "Not supported yet");
