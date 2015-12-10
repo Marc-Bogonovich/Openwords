@@ -119,7 +119,7 @@ public class SetInfo extends SugarRecord<SetInfo> {
     }
 
     public long setId, userId;
-    public int nativeLang, learningLang, setSize;
+    public int nativeLang, learningLang, setSize = -1;
     public String name;
     public long updatedTimeLong;
 
