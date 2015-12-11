@@ -18,6 +18,8 @@ public class GetSets extends MyAction {
     private static final long serialVersionUID = 1L;
     private String errorMessage;
     private int pageNumber, pageSize, langOne, langTwo;
+    private long searchUser;
+    private String searchName;
     private List<SetInfo> result;
 
     @Action(value = "/getSets", results = {
@@ -29,7 +31,7 @@ public class GetSets extends MyAction {
         UtilLog.logInfo(this, "/getSets: " + pageNumber + " " + pageSize + " " + langOne + " " + langTwo);
         Session s = DatabaseHandler.getSession();
         try {
-            result = SetInfo.getAllSets(s, pageNumber, pageSize, langOne, langTwo);
+            result = SetInfo.getAllSets(s, pageNumber, pageSize, langOne, langTwo, searchUser, searchName);
         } catch (Exception e) {
             errorMessage = e.toString();
             UtilLog.logWarn(this, e);
@@ -73,4 +75,11 @@ public class GetSets extends MyAction {
         this.langTwo = langTwo;
     }
 
+    public void setSearchUser(long searchUser) {
+        this.searchUser = searchUser;
+    }
+
+    public void setSearchName(String searchName) {
+        this.searchName = searchName;
+    }
 }
