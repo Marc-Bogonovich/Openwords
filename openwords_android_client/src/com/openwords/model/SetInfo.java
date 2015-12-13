@@ -99,8 +99,8 @@ public class SetInfo extends SugarRecord<SetInfo> {
                 .list();
     }
 
-    public static void getAllSets(int pageNumber, int pageSize, final int langOne, final int langTwo, final ResultWordSets resultHandler) {
-        new ServiceGetSets().doRequest(pageNumber, pageSize, langOne, langTwo, new HttpResultHandler() {
+    public static void getAllSets(int pageNumber, int pageSize, final int langOne, final int langTwo, long searchUser, String searchName, final ResultWordSets resultHandler) {
+        new ServiceGetSets().doRequest(pageNumber, pageSize, langOne, langTwo, searchUser, searchName, new HttpResultHandler() {
 
             public void hasResult(Object resultObject) {
                 ServiceGetSets.Result r = (ServiceGetSets.Result) resultObject;

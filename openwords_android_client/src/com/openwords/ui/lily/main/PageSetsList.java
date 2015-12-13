@@ -2,7 +2,6 @@ package com.openwords.ui.lily.main;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.Handler;
@@ -178,8 +177,25 @@ public class PageSetsList extends Activity {
     }
 
     private void buildButtonMy() {
+        View.OnClickListener click = new View.OnClickListener() {
+            public void onClick(View v) {
+                MyDialogHelper.tryShowQuickProgressDialog(PageSetsList.this, "Loading word sets...");
+                SetInfo.getAllSets(1, 50, LocalSettings.getBaseLanguageId(), LocalSettings.getCurrentLearningLanguage(), LocalSettings.getUserId(), null, new ResultWordSets() {
+
+                    public void result(List<SetInfo> result) {
+                        if (result != null) {
+                            refreshListView(result);
+                        } else {
+                            MyQuickToast.showShort(PageSetsList.this, "Cannot load sets.");
+                        }
+                        MyDialogHelper.tryDismissQuickProgressDialog();
+                    }
+                });
+            }
+        };
+
         buttonMy = (ViewDeckCircle) findViewById(R.id.page_sl_button_my);
-        buttonMy.config(Color.parseColor("#477368"), 255,
+        buttonMy.config(getResources().getColor(R.color.blue), 255,
                 R.drawable.ic_study, 0,
                 0, 0);
         buttonMy.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
@@ -188,10 +204,12 @@ public class PageSetsList extends Activity {
                 buttonMy.updateDimension(v.getWidth(), v.getHeight());
             }
         });
+        buttonMy.setOnClickListener(click);
 
-        buttonTextMake = (TextView) findViewById(R.id.page_sl_buttontext_my);
-        buttonTextMake.setText("My Sets");
-        buttonTextMake.setTextColor(Color.parseColor("#477368"));
+        buttonTextMy = (TextView) findViewById(R.id.page_sl_buttontext_my);
+        buttonTextMy.setText("My Sets");
+        buttonTextMy.setTextColor(getResources().getColor(R.color.blue));
+        buttonTextMy.setOnClickListener(click);
 
         LinearLayout group = (LinearLayout) findViewById(R.id.page_sl_group_my);
         group.setVisibility(View.VISIBLE);
@@ -199,7 +217,7 @@ public class PageSetsList extends Activity {
 
     private void buildButtonAll() {
         buttonAll = (ViewDeckCircle) findViewById(R.id.page_sl_button_all);
-        buttonAll.config(DataPool.Color_Main, 255,
+        buttonAll.config(getResources().getColor(R.color.blue), 255,
                 R.drawable.ic_global1, 0,
                 0, 0);
         buttonAll.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
@@ -211,7 +229,7 @@ public class PageSetsList extends Activity {
 
         buttonTextAll = (TextView) findViewById(R.id.page_sl_buttontext_all);
         buttonTextAll.setText("All Sets");
-        buttonTextAll.setTextColor(DataPool.Color_Main);
+        buttonTextAll.setTextColor(getResources().getColor(R.color.blue));
 
         LinearLayout group = (LinearLayout) findViewById(R.id.page_sl_group_all);
         group.setVisibility(View.VISIBLE);
@@ -311,7 +329,7 @@ public class PageSetsList extends Activity {
             }
             MyDialogHelper.tryDismissQuickProgressDialog();
         } else {
-            SetInfo.getAllSets(1, 50, LocalSettings.getBaseLanguageId(), LocalSettings.getCurrentLearningLanguage(), new ResultWordSets() {
+            SetInfo.getAllSets(1, 50, LocalSettings.getBaseLanguageId(), LocalSettings.getCurrentLearningLanguage(), 0, null, new ResultWordSets() {
 
                 public void result(List<SetInfo> result) {
                     if (result != null) {
