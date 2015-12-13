@@ -31,14 +31,16 @@ public class AddUser extends MyAction {
         UtilLog.logInfo(this, "/addUser");
         Session s = DatabaseHandler.getSession();
         try {
-            if (checkUserName(s, username) && checkEmail(s, email)) {
-                UserInfo user = new UserInfo(username, email, password, "", new Date());
-                UserInfo.addUser(s, user);
-                userId = user.getUserId();
-                result = true;
-            } else {
-                errorMessage = "username or email is already registered";
+            if (checkUserName(s, username)) {
+                throw new Exception("username is already registered");
             }
+            if (checkEmail(s, email)) {
+                throw new Exception("email is already registered");
+            }
+            UserInfo user = new UserInfo(username, email, password, "", new Date());
+            UserInfo.addUser(s, user);
+            userId = user.getUserId();
+            result = true;
         } catch (Exception e) {
             errorMessage = e.toString();
             UtilLog.logWarn(this, e);
