@@ -26,6 +26,7 @@ public class LoginUser extends MyAction {
     @Override
     public String execute() throws Exception {
         UtilLog.logInfo(this, "/loginUser");
+        UtilLog.logInfo(this, "session: " + getHttpSession().hashCode());
         Session s = DatabaseHandler.getSession();
         try {
             UserInfo user = UserInfo.loginUser(s, username, password);
@@ -34,6 +35,7 @@ public class LoginUser extends MyAction {
             } else {
                 userId = user.getUserId();
                 result = true;
+                getHttpSession().put(SessionKey_Login, true);
             }
         } catch (Exception e) {
             errorMessage = e.toString();
