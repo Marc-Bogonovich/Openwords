@@ -11,6 +11,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -48,6 +49,7 @@ public class PageSetsList extends Activity {
     private List<SetInfo> allSets;
     private TextView title, buttonTextMake, buttonTextMy, buttonTextAll;
     private DialogForSettingSelection settingDialog;
+    private int searchUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,18 +120,25 @@ public class PageSetsList extends Activity {
 
             public boolean handleMessage(Message msg) {
                 if (msg.what == 0) {
-                    MyQuickToast.showShort(PageSetsList.this, "Searching is not supported yet.");
-//                    View focus = getCurrentFocus();
-//                    if (focus != null) {
-//                        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-//                        inputMethodManager.hideSoftInputFromWindow(focus.getWindowToken(), 0);
-//                    }
-//                    listAdapter.clear();
-//                    String term = searchInput.getText().toString().trim();
-//                    //deckListDataModel = DeckInfo.searchDecks(term);
-//                    //listAdapter.addAll(deckListDataModel);
-//                    listAdapter.notifyDataSetChanged();
-//                    //MyQuickToast.showShort(PageSetsList.this, String.format("You got %s decks", deckListDataModel.size()));
+                    View focus = getCurrentFocus();
+                    if (focus != null) {
+                        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                        inputMethodManager.hideSoftInputFromWindow(focus.getWindowToken(), 0);
+                    }
+                    String term = searchInput.getText().toString().trim();
+
+                    MyDialogHelper.tryShowQuickProgressDialog(PageSetsList.this, "Searching word sets...");
+                    SetInfo.getAllSets(1, 50, LocalSettings.getBaseLanguageId(), LocalSettings.getCurrentLearningLanguage(), searchUser, term, new ResultWordSets() {
+
+                        public void result(List<SetInfo> result) {
+                            if (result != null) {
+                                refreshListView(result);
+                            } else {
+                                MyQuickToast.showShort(PageSetsList.this, "Cannot load sets.");
+                            }
+                            MyDialogHelper.tryDismissQuickProgressDialog();
+                        }
+                    });
                 }
                 return true;
             }
@@ -164,7 +173,7 @@ public class PageSetsList extends Activity {
                     public void run() {
                         finishInput.sendEmptyMessage(0);
                     }
-                }, 1000);
+                }, 1500);
             }
         });
 
@@ -180,7 +189,8 @@ public class PageSetsList extends Activity {
         View.OnClickListener click = new View.OnClickListener() {
             public void onClick(View v) {
                 MyDialogHelper.tryShowQuickProgressDialog(PageSetsList.this, "Loading word sets...");
-                SetInfo.getAllSets(1, 50, LocalSettings.getBaseLanguageId(), LocalSettings.getCurrentLearningLanguage(), LocalSettings.getUserId(), null, new ResultWordSets() {
+                searchUser = LocalSettings.getUserId();
+                SetInfo.getAllSets(1, 50, LocalSettings.getBaseLanguageId(), LocalSettings.getCurrentLearningLanguage(), searchUser, null, new ResultWordSets() {
 
                     public void result(List<SetInfo> result) {
                         if (result != null) {
@@ -216,6 +226,24 @@ public class PageSetsList extends Activity {
     }
 
     private void buildButtonAll() {
+        View.OnClickListener click = new View.OnClickListener() {
+            public void onClick(View v) {
+                MyDialogHelper.tryShowQuickProgressDialog(PageSetsList.this, "Loading word sets...");
+                searchUser = 0;
+                SetInfo.getAllSets(1, 50, LocalSettings.getBaseLanguageId(), LocalSettings.getCurrentLearningLanguage(), searchUser, null, new ResultWordSets() {
+
+                    public void result(List<SetInfo> result) {
+                        if (result != null) {
+                            refreshListView(result);
+                        } else {
+                            MyQuickToast.showShort(PageSetsList.this, "Cannot load sets.");
+                        }
+                        MyDialogHelper.tryDismissQuickProgressDialog();
+                    }
+                });
+            }
+        };
+
         buttonAll = (ViewDeckCircle) findViewById(R.id.page_sl_button_all);
         buttonAll.config(getResources().getColor(R.color.blue), 255,
                 R.drawable.ic_global1, 0,
@@ -226,10 +254,12 @@ public class PageSetsList extends Activity {
                 buttonAll.updateDimension(v.getWidth(), v.getHeight());
             }
         });
+        buttonAll.setOnClickListener(click);
 
         buttonTextAll = (TextView) findViewById(R.id.page_sl_buttontext_all);
         buttonTextAll.setText("All Sets");
         buttonTextAll.setTextColor(getResources().getColor(R.color.blue));
+        buttonTextAll.setOnClickListener(click);
 
         LinearLayout group = (LinearLayout) findViewById(R.id.page_sl_group_all);
         group.setVisibility(View.VISIBLE);
@@ -329,7 +359,8 @@ public class PageSetsList extends Activity {
             }
             MyDialogHelper.tryDismissQuickProgressDialog();
         } else {
-            SetInfo.getAllSets(1, 50, LocalSettings.getBaseLanguageId(), LocalSettings.getCurrentLearningLanguage(), 0, null, new ResultWordSets() {
+            searchUser = 0;
+            SetInfo.getAllSets(1, 50, LocalSettings.getBaseLanguageId(), LocalSettings.getCurrentLearningLanguage(), searchUser, null, new ResultWordSets() {
 
                 public void result(List<SetInfo> result) {
                     if (result != null) {
