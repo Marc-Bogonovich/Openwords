@@ -15,6 +15,7 @@ import org.apache.struts2.util.ServletContextAware;
 public abstract class MyAction extends ActionSupport implements SessionAware, ServletResponseAware, ServletContextAware, ServletRequestAware {
 
     private static final long serialVersionUID = 1L;
+    public static final String SessionKey_Login = "login";
     private HttpServletResponse httpResponse;
     private HttpServletRequest httpRequest;
     private Map<String, Object> httpSession;
@@ -83,5 +84,13 @@ public abstract class MyAction extends ActionSupport implements SessionAware, Se
     @Override
     public void setServletRequest(HttpServletRequest hsr) {
         httpRequest = hsr;
+    }
+
+    public boolean checkLogin() {
+        if (httpSession.containsKey(SessionKey_Login)) {
+            boolean login = (boolean) httpSession.get(SessionKey_Login);
+            return login;
+        }
+        return false;
     }
 }
