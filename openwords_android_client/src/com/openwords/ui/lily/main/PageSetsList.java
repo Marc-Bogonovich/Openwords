@@ -33,6 +33,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import org.apache.commons.lang3.time.DateFormatUtils;
 
 public class PageSetsList extends Activity {
 
@@ -85,17 +86,23 @@ public class PageSetsList extends Activity {
                             settingDialog = null;
                         }
                         settingDialog = new DialogForSettingSelection(PageSetsList.this)
-                                .addItem(LocalizationManager.getButtonOverview())
+                                .addItem("Details")
                                 .addItem(LocalizationManager.getButtonStudy())
                                 .build(new AdapterView.OnItemClickListener() {
 
                                     public void onItemClick(AdapterView<?> parent, View view, int optionPosition, long id) {
+                                        SetInfo set = allSets.get(position);
                                         switch (optionPosition) {
                                             case 0:
-                                                MyQuickToast.showShort(PageSetsList.this, "Overview");
+                                                DialogSetOverview d = new DialogSetOverview(PageSetsList.this,
+                                                        new SetDetails("This is ...",
+                                                                "han@han.com",
+                                                                DateFormatUtils.format(set.updatedTimeLong, "yyyy-MM-dd HH:mm"),
+                                                                "hello, good...",
+                                                                null));
+                                                d.show();
                                                 break;
                                             case 1:
-                                                SetInfo set = allSets.get(position);
                                                 loadSet(set, false);
                                                 startActivity(new Intent(PageSetsList.this, PageLMOption.class));
                                                 break;
