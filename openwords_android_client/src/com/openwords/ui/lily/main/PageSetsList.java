@@ -25,6 +25,8 @@ import com.openwords.model.ResultSetItems;
 import com.openwords.model.ResultWordSets;
 import com.openwords.model.SetInfo;
 import com.openwords.model.SetItem;
+import com.openwords.services.implementations.ServiceGetUserPublicInfo;
+import com.openwords.services.interfaces.HttpResultHandler;
 import com.openwords.ui.common.DialogForSettingSelection;
 import com.openwords.util.localization.LocalizationManager;
 import com.openwords.util.ui.MyDialogHelper;
@@ -91,16 +93,26 @@ public class PageSetsList extends Activity {
                                 .build(new AdapterView.OnItemClickListener() {
 
                                     public void onItemClick(AdapterView<?> parent, View view, int optionPosition, long id) {
-                                        SetInfo set = allSets.get(position);
+                                        final SetInfo set = allSets.get(position);
                                         switch (optionPosition) {
                                             case 0:
-                                                DialogSetOverview d = new DialogSetOverview(PageSetsList.this,
-                                                        new SetDetails("This is ...",
-                                                                "han@han.com",
-                                                                DateFormatUtils.format(set.updatedTimeLong, "yyyy-MM-dd HH:mm"),
-                                                                "hello, good...",
-                                                                null));
-                                                d.show();
+                                                new ServiceGetUserPublicInfo().doRequest(set.userId, new HttpResultHandler() {
+
+                                                    public void hasResult(Object resultObject) {
+                                                        ServiceGetUserPublicInfo.Result r = (ServiceGetUserPublicInfo.Result) resultObject;
+                                                        DialogSetOverview d = new DialogSetOverview(PageSetsList.this,
+                                                                new SetDetails("This is ...",
+                                                                        r.username,
+                                                                        DateFormatUtils.format(set.updatedTimeLong, "yyyy-MM-dd HH:mm"),
+                                                                        "xxx, yyy...",
+                                                                        null));
+                                                        d.show();
+                                                    }
+
+                                                    public void noResult(String errorMessage) {
+                                                        MyQuickToast.showShort(PageSetsList.this, "Cannot get user info: " + errorMessage);
+                                                    }
+                                                });
                                                 break;
                                             case 1:
                                                 loadSet(set, false);
