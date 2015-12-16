@@ -71,7 +71,7 @@ public class PageHome extends Activity {
         buttonDict.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
-                MyQuickToast.showShort(PageHome.this, "Not supported yet");
+                startActivity(new Intent(PageHome.this, PageDictionary.class));
             }
         });
 
