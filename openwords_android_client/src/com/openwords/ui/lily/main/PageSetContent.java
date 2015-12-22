@@ -39,7 +39,7 @@ import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class PageSetContent extends Activity {
-
+    
     private ListView itemList;
     private ListAdapterWordSetItem listAdapter;
     private ImageView buttonMode, buttonBack, buttonCopy;
@@ -47,7 +47,7 @@ public class PageSetContent extends Activity {
     private TextView setTitle;
     private boolean isEditingMode, contentHasJustChanged;
     private CopyOnWriteArrayList<SetItem> setItems;
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,7 +59,7 @@ public class PageSetContent extends Activity {
         buttonMode = (ImageView) findViewById(R.id.act_ws_image_1);
         buttonBack = (ImageView) findViewById(R.id.act_ws_image_2);
         buttonCopy = (ImageView) findViewById(R.id.act_ws_image_3);
-
+        
         if (DataPool.currentSet.name == null) {
             isEditingMode = true;
         } else {
@@ -67,53 +67,54 @@ public class PageSetContent extends Activity {
             setTitle.setText(DataPool.currentSet.name);
             setTitleInput.setText(DataPool.currentSet.name);
         }
-
+        
         buttonMode.setOnClickListener(new View.OnClickListener() {
-
+            
             public void onClick(View view) {
                 buttonModeOnClick();
             }
         });
         buttonBack.setOnClickListener(new View.OnClickListener() {
-
+            
             public void onClick(View view) {
                 PageSetContent.super.onBackPressed();
             }
         });
         buttonCopy.setOnClickListener(new View.OnClickListener() {
-
+            
             public void onClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(PageSetContent.this);
-                builder.setTitle("Copying Word Set");
+                builder.setTitle(LocalizationManager.getConfirmCopySetTitle());
                 final EditText input = new EditText(PageSetContent.this);
                 input.setInputType(InputType.TYPE_CLASS_TEXT);
-                input.setHint("Input a new name");
+                input.setHint(LocalizationManager.getHintSetName());
                 builder.setView(input);
-
+                
                 builder.setPositiveButton(LocalizationManager.getOk(), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         final String name = input.getText().toString();
                         if (name.isEmpty()) {
-                            MyQuickToast.showShort(PageSetContent.this, "Cannot be empty");
+                            MyQuickToast.showShort(PageSetContent.this, LocalizationManager.getErrorEmpty());
                             return;
                         }
                         dialog.dismiss();
+                        
                         MyDialogHelper.showConfirmDialog(PageSetContent.this,
-                                "Copying Word Set",
-                                String.format("Copy set \"%s\" to new set \"%s\"?", DataPool.currentSet.name, name),
+                                LocalizationManager.getConfirmCopySetTitle(),
+                                LocalizationManager.getConfirmCopySetContent().replace("@1@", DataPool.currentSet.name).replace("@2@", name),
                                 new CallbackOkButton() {
-
+                                    
                                     public void okPressed() {
                                         new ServiceCopySet().doRequest(LocalSettings.getUserId(), DataPool.currentSet.setId, name,
                                                 new HttpResultHandler() {
-
+                                                    
                                                     public void hasResult(Object resultObject) {
-                                                        MyQuickToast.showShort(PageSetContent.this, "Set is copied successfully");
+                                                        MyQuickToast.showShort(PageSetContent.this, LocalizationManager.getErrorCopySuccess());
                                                     }
-
+                                                    
                                                     public void noResult(String errorMessage) {
-                                                        MyQuickToast.showShort(PageSetContent.this, "Cannot copy set: " + errorMessage);
+                                                        MyQuickToast.showShort(PageSetContent.this, LocalizationManager.getErrorCopy() + ": " + errorMessage);
                                                     }
                                                 });
                                     }
@@ -123,29 +124,29 @@ public class PageSetContent extends Activity {
                 }).setNegativeButton(LocalizationManager.getCancel(), null).show();
             }
         });
-
+        
         if (DataPool.currentSet.userId == LocalSettings.getUserId() || isEditingMode) {
             buttonCopy.setVisibility(View.GONE);
         }
-
+        
         setItems = new CopyOnWriteArrayList<SetItem>();
         listAdapter = new ListAdapterWordSetItem(this, setItems);
         itemList.setAdapter(listAdapter);
         setTitleInput.setHint(LocalizationManager.getHintSetName());
-
+        
         if (isEditingMode) {
             applyEditUI();
         } else {
             applyNonEditUI();
         }
     }
-
+    
     private void refreshListView(List<SetItem> items) {
         listAdapter.clear();
         listAdapter.addAll(items);
         listAdapter.notifyDataSetChanged();
     }
-
+    
     private void buttonModeOnClick() {
         if (DataPool.OffLine) {
             MyQuickToast.showShort(this, LocalizationManager.getErrorEditOffline());
@@ -166,19 +167,19 @@ public class PageSetContent extends Activity {
                 MyQuickToast.showShort(this, LocalizationManager.getErrorSetMinItems().replace("@@", "5"));
                 return;
             }
-
+            
             String name = setTitleInput.getText().toString();
             checkTitleChange(name);
             if (contentHasJustChanged) {
                 MyDialogHelper.showConfirmDialog(this, LocalizationManager.getConfirmSetTitle().replace("@@", name), LocalizationManager.getConfirmSetContent(),
                         new CallbackOkButton() {
-
+                            
                             public void okPressed() {
                                 saveAll();
                             }
                         },
                         new CallbackCancelButton() {
-
+                            
                             public void cancelPressed() {
                                 isEditingMode = true;
                             }
@@ -191,7 +192,7 @@ public class PageSetContent extends Activity {
             applyEditUI();
         }
     }
-
+    
     private void saveAll() {
         String name = setTitleInput.getText().toString();
         List<SetItem> items = new LinkedList<SetItem>();
@@ -202,14 +203,14 @@ public class PageSetContent extends Activity {
         }
         MyDialogHelper.tryShowQuickProgressDialog(this, LocalizationManager.getBlockConnectServer());
         SetInfo.saveAll(DataPool.currentSet.setId, DataPool.currentSet.name, name, items, new ResultSetSaveAll() {
-
+            
             public void ok() {
                 MyDialogHelper.tryDismissQuickProgressDialog();
                 MyQuickToast.showShort(PageSetContent.this, LocalizationManager.getErrorDone());
                 applyNonEditUI();
                 isEditingMode = false;
             }
-
+            
             public void error(String errorMessage) {
                 MyDialogHelper.tryDismissQuickProgressDialog();
                 MyDialogHelper.showMessageDialog(PageSetContent.this, LocalizationManager.getError(), errorMessage, null);
@@ -217,7 +218,7 @@ public class PageSetContent extends Activity {
             }
         });
     }
-
+    
     private void applyNonEditUI() {
         if (DataPool.currentSet.userId == LocalSettings.getUserId()) {
             buttonMode.setVisibility(View.VISIBLE);
@@ -242,7 +243,7 @@ public class PageSetContent extends Activity {
             m.hideSoftInputFromWindow(itemList.getWindowToken(), 0);
         }
     }
-
+    
     private void applyEditUI() {
         for (SetItem item : setItems) {
             item.isModifying = true;
@@ -258,13 +259,13 @@ public class PageSetContent extends Activity {
         isEditingMode = true;
         itemList.smoothScrollToPosition(setItems.size() - 1);
     }
-
+    
     private void checkTitleChange(String newTitle) {
         if (!newTitle.equals(DataPool.currentSet.name)) {
             contentHasJustChanged = true;
         }
     }
-
+    
     public void search(boolean searchNative, String form) {
         for (SetItem item : setItems) {
             if (item.isNew) {
@@ -285,7 +286,7 @@ public class PageSetContent extends Activity {
         }
         MyDialogHelper.tryShowQuickProgressDialog(this, LocalizationManager.getBlockSearching());
         new ServiceSearchWords().doRequest(20, targetLang, searchLang, form, new HttpResultHandler() {
-
+            
             public void hasResult(Object resultObject) {
                 MyDialogHelper.tryDismissQuickProgressDialog();
                 Result r = (Result) resultObject;
@@ -296,7 +297,7 @@ public class PageSetContent extends Activity {
                 for (Word w : r.searchResult) {
                     allWords.put(w.wordId, w);
                 }
-
+                
                 for (Entry<Long, Set<Long>> e : r.linkedSearchWords.entrySet()) {
                     if (r.linkedTargetWords.containsKey(e.getKey())) {
                         long firstSearchWord = 0;
@@ -316,7 +317,7 @@ public class PageSetContent extends Activity {
                         if (i > 2) {
                             searchWord += ")";
                         }
-
+                        
                         if (searchLang == LocalSettings.getBaseLanguageId()) {
                             for (Long targetWordId : r.linkedTargetWords.get(e.getKey())) {
                                 setItems.add(new SetItem(
@@ -351,14 +352,14 @@ public class PageSetContent extends Activity {
                     MyQuickToast.showShort(PageSetContent.this, r.errorMessage);
                 }
             }
-
+            
             public void noResult(String errorMessage) {
                 MyDialogHelper.tryDismissQuickProgressDialog();
                 MyQuickToast.showShort(PageSetContent.this, errorMessage);
             }
         });
     }
-
+    
     public void addSetItemFromSearch(SetItem item) {
         int i = 0;
         int insertIndex = -1;
@@ -375,35 +376,35 @@ public class PageSetContent extends Activity {
             }
             i += 1;
         }
-
+        
         contentHasJustChanged = true;
         setItems.remove(item);
         item.isNew = false;
         setItems.add(insertIndex, item);
         listAdapter.notifyDataSetChanged();
     }
-
+    
     public void reportContentHasJustChanged() {
         contentHasJustChanged = true;
     }
-
+    
     public void study() {
         startActivity(new Intent(this, PageLMOption.class));
     }
-
+    
     @Override
     protected void onResume() {
         super.onResume();
         refreshListView(DataPool.currentSetItems);
     }
-
+    
     @Override
     public void onBackPressed() {
         if (contentHasJustChanged) {
             MyDialogHelper.showConfirmDialog(this, LocalizationManager.getConfirmSetNotChangeTitle(),
                     LocalizationManager.getConfirmSetNotChangeContent(),
                     new CallbackOkButton() {
-
+                        
                         public void okPressed() {
                             PageSetContent.super.onBackPressed();
                         }

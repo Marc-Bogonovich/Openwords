@@ -33,10 +33,14 @@ public class LocalizationManager {
     private static String nameReview, nameSelf, nameType, nameHearing, nameSentence;
     private static String confirmNativeTitle, confirmNativeContent, confirmSetTitle,
             confirmSetContent, confirmSetNotChangeTitle, confirmSetNotChangeContent,
-            confirmLearnLang, confirmLearnLangTitle;
+            confirmLearnLang, confirmLearnLangTitle, confirmCopySetTitle,
+            confirmCopySetContent;
     private static String ok, cancel;
     private static String blockValidatingUser, blockConnectServer, blockRefreshLang, blockSearching;
-    private static String error, errorEmailOk, errorUsernameOk, errorPassword, errorOneLang, errorLoginFail, erroModuleSupport, errorEditOffline, errorSetNameEmpty, errorSetMinItems, errorDone, errorWordExist;
+    private static String error, errorEmailOk, errorUsernameOk, errorPassword,
+            errorOneLang, errorLoginFail, erroModuleSupport, errorEditOffline,
+            errorSetNameEmpty, errorSetMinItems, errorDone, errorWordExist,
+            errorEmpty, errorCopy, errorCopySuccess;
 
     public static void init(Context context) {
         c = context;
@@ -135,6 +139,11 @@ public class LocalizationManager {
         buttonManageSets = getText(R.array.button_manage_set);
         buttonStudy = getText(R.array.button_study);
         buttonOverview = getText(R.array.button_overview);
+        confirmCopySetTitle = getText(R.array.confirm_copy_set_title);
+        confirmCopySetContent = getText(R.array.confirm_copy_set_content);
+        errorEmpty = getText(R.array.error_empty);
+        errorCopy = getText(R.array.error_copy);
+        errorCopySuccess = getText(R.array.error_copy_success);
     }
 
     private static String getText(int id) {
@@ -415,6 +424,26 @@ public class LocalizationManager {
 
     public static String getButtonOverview() {
         return buttonOverview;
+    }
+
+    public static String getConfirmCopySetTitle() {
+        return confirmCopySetTitle;
+    }
+
+    public static String getConfirmCopySetContent() {
+        return confirmCopySetContent;
+    }
+
+    public static String getErrorEmpty() {
+        return errorEmpty;
+    }
+
+    public static String getErrorCopy() {
+        return errorCopy;
+    }
+
+    public static String getErrorCopySuccess() {
+        return errorCopySuccess;
     }
 
     private LocalizationManager() {

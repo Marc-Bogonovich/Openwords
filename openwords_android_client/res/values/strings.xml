@@ -255,7 +255,7 @@
         <item>一个词集最少需要包含@@组词！</item>
     </string-array>
     <string-array name="confirm_set_title">
-        <item>Saving word set "@@"</item>
+        <item>Saving word set \"@@\"</item>
         <item>存储此词组“@@”</item>
     </string-array>
     <string-array name="confirm_set_content">
@@ -289,6 +289,26 @@
     <string-array name="confirm_learn_lang_title">
         <item>Learning Language</item>
         <item>要学的语言</item>
+    </string-array>
+    <string-array name="confirm_copy_set_title">
+        <item>Copying Word Set</item>
+        <item>复制词集</item>
+    </string-array>
+    <string-array name="confirm_copy_set_content">
+        <item>Copy set \"@1@\" to new set \"@2@\"?</item>
+        <item>复制词集“@1@"到新的词集“@2@”吗？</item>
+    </string-array>
+    <string-array name="error_empty">
+        <item>Cannot be empty!</item>
+        <item>不能为空！</item>
+    </string-array>
+    <string-array name="error_copy">
+        <item>Cannot copy</item>
+        <item>复制失败</item>
+    </string-array>
+    <string-array name="error_copy_success">
+        <item>The copy is made successfully</item>
+        <item>复制成功</item>
     </string-array>
     
     <string name="logoImage_description">Openwords logo</string>
