@@ -115,8 +115,12 @@ public class PageSetsList extends Activity {
                                                 });
                                                 break;
                                             case 1:
-                                                loadSet(set, false);
-                                                startActivity(new Intent(PageSetsList.this, PageLMOption.class));
+                                                loadSet(set, new SetLoadOk() {
+
+                                                    public void done() {
+                                                        startActivity(new Intent(PageSetsList.this, PageLMOption.class));
+                                                    }
+                                                });
                                                 break;
                                         }
                                         settingDialog.cancel();
@@ -127,7 +131,12 @@ public class PageSetsList extends Activity {
                         break;
                     case Mode_Manage:
                         SetInfo set = allSets.get(position);
-                        loadSet(set, true);
+                        loadSet(set, new SetLoadOk() {
+
+                            public void done() {
+                                startActivity(new Intent(PageSetsList.this, PageSetContent.class));
+                            }
+                        });
                         break;
                     default:
                         break;
@@ -326,7 +335,7 @@ public class PageSetsList extends Activity {
         listAdapter.notifyDataSetChanged();
     }
 
-    private void loadSet(final SetInfo set, final boolean goEdit) {
+    private void loadSet(final SetInfo set, final SetLoadOk ok) {
         if (set.nativeLang != LocalSettings.getBaseLanguageId()
                 || set.learningLang != LocalSettings.getCurrentLearningLanguage()) {
             MyQuickToast.showShort(PageSetsList.this, "This set is not for your chosen languages.");
@@ -338,7 +347,7 @@ public class PageSetsList extends Activity {
             if (items.isEmpty()) {
                 MyQuickToast.showShort(PageSetsList.this, "This set is not available.");
             } else {
-                applySetAndGo(set, items, goEdit);
+                applySetAndGo(set, items, ok);
             }
             MyDialogHelper.tryDismissQuickProgressDialog();
         } else {
@@ -348,7 +357,7 @@ public class PageSetsList extends Activity {
                     if (result == null) {
                         MyQuickToast.showShort(PageSetsList.this, "Cannot load content");
                     } else {
-                        applySetAndGo(set, result, goEdit);
+                        applySetAndGo(set, result, ok);
                     }
                     MyDialogHelper.tryDismissQuickProgressDialog();
                 }
@@ -356,12 +365,12 @@ public class PageSetsList extends Activity {
         }
     }
 
-    private void applySetAndGo(SetInfo set, List<SetItem> items, boolean goEdit) {
+    private void applySetAndGo(SetInfo set, List<SetItem> items, SetLoadOk ok) {
         DataPool.currentSet.copyAllValues(set);
         DataPool.currentSetItems.clear();
         DataPool.currentSetItems.addAll(items);
-        if (goEdit) {
-            PageSetsList.this.startActivity(new Intent(PageSetsList.this, PageSetContent.class));
+        if (ok != null) {
+            ok.done();
         }
     }
 
@@ -391,5 +400,10 @@ public class PageSetsList extends Activity {
                 }
             });
         }
+    }
+
+    private interface SetLoadOk {
+
+        public void done();
     }
 }

@@ -11,8 +11,8 @@ import java.util.Map;
 public class LocalizationManager {
 
     public static Object[][] LanguageNamesTypesIdsLocales = new Object[][]{
-        new Object[]{"English", LocalLanguage.English, 1, Locale.ENGLISH.getDisplayLanguage()},
-        new Object[]{"简体中文", LocalLanguage.Chinese, 98, Locale.CHINA.getDisplayLanguage()}
+        new Object[]{"English", LocalLanguage.English, 1, Locale.ENGLISH.getDisplayLanguage()},//index 0
+        new Object[]{"简体中文", LocalLanguage.Chinese, 98, Locale.CHINA.getDisplayLanguage()}//index 1
     };
 
     private static Context c;
