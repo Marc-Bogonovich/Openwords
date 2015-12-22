@@ -1,9 +1,12 @@
 package com.openwords.ui.lily.main;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
@@ -18,6 +21,7 @@ import com.openwords.model.ResultSetSaveAll;
 import com.openwords.model.SetInfo;
 import com.openwords.model.SetItem;
 import com.openwords.model.Word;
+import com.openwords.services.implementations.ServiceCopySet;
 import com.openwords.services.implementations.ServiceSearchWords;
 import com.openwords.services.implementations.ServiceSearchWords.Result;
 import com.openwords.services.interfaces.HttpResultHandler;
@@ -79,7 +83,44 @@ public class PageSetContent extends Activity {
         buttonCopy.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
-                MyQuickToast.showShort(PageSetContent.this, "Copy this set");
+                AlertDialog.Builder builder = new AlertDialog.Builder(PageSetContent.this);
+                builder.setTitle("Copying Word Set");
+                final EditText input = new EditText(PageSetContent.this);
+                input.setInputType(InputType.TYPE_CLASS_TEXT);
+                input.setHint("Input a new name");
+                builder.setView(input);
+
+                builder.setPositiveButton(LocalizationManager.getOk(), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        final String name = input.getText().toString();
+                        if (name.isEmpty()) {
+                            MyQuickToast.showShort(PageSetContent.this, "Cannot be empty");
+                            return;
+                        }
+                        dialog.dismiss();
+                        MyDialogHelper.showConfirmDialog(PageSetContent.this,
+                                "Copying Word Set",
+                                String.format("Copy set \"%s\" to new set \"%s\"?", DataPool.currentSet.name, name),
+                                new CallbackOkButton() {
+
+                                    public void okPressed() {
+                                        new ServiceCopySet().doRequest(LocalSettings.getUserId(), DataPool.currentSet.setId, name,
+                                                new HttpResultHandler() {
+
+                                                    public void hasResult(Object resultObject) {
+                                                        MyQuickToast.showShort(PageSetContent.this, "Set is copied successfully");
+                                                    }
+
+                                                    public void noResult(String errorMessage) {
+                                                        MyQuickToast.showShort(PageSetContent.this, "Cannot copy set: " + errorMessage);
+                                                    }
+                                                });
+                                    }
+                                },
+                                null);
+                    }
+                }).setNegativeButton(LocalizationManager.getCancel(), null).show();
             }
         });
 
