@@ -3,8 +3,6 @@ package com.openwords.actions.accounts;
 import static com.opensymphony.xwork2.Action.SUCCESS;
 import com.openwords.database.DatabaseHandler;
 import com.openwords.database.UserInfo;
-import static com.openwords.database.UserInfo.checkEmail;
-import static com.openwords.database.UserInfo.checkUserName;
 import com.openwords.interfaces.MyAction;
 import com.openwords.utils.MyFieldValidation;
 import com.openwords.utils.UtilLog;
@@ -28,13 +26,13 @@ public class AddUser extends MyAction {
     })
     @Override
     public String execute() throws Exception {
-        UtilLog.logInfo(this, "/addUser");
+        UtilLog.logInfo(this, "/addUser: " + username);
         Session s = DatabaseHandler.getSession();
         try {
-            if (checkUserName(s, username)) {
+            if (!UserInfo.checkUserName(s, username)) {
                 throw new Exception("username is already registered");
             }
-            if (checkEmail(s, email)) {
+            if (!UserInfo.checkEmail(s, email)) {
                 throw new Exception("email is already registered");
             }
             UserInfo user = new UserInfo(username, email, password, "", new Date());
@@ -43,7 +41,6 @@ public class AddUser extends MyAction {
             result = true;
         } catch (Exception e) {
             errorMessage = e.toString();
-            UtilLog.logWarn(this, e);
         } finally {
             DatabaseHandler.closeSession(s);
         }
