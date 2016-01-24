@@ -13,8 +13,7 @@ CREATE TABLE `user_languages` (
   `base_language` int(11) NOT NULL,
   `learning_language` int(11) NOT NULL,
   `page` int(11) NOT NULL,
-  `meta_info` text COLLATE utf8_unicode_ci NOT NULL,
-  `under_use` tinyint(1) NOT NULL
+  `meta_info` text COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
