@@ -86,6 +86,7 @@ public class Word implements Serializable {
         return wordsOut;
     }
 
+    @SuppressWarnings("unchecked")
     public static List<Word> getSimilarWords(Session s, String form, int pageNumber, int pageSize) {
         int firstRecord = (pageNumber - 1) * pageSize;
         return s.createCriteria(Word.class)
@@ -93,6 +94,33 @@ public class Word implements Serializable {
                 .setFirstResult(firstRecord)
                 .setMaxResults(pageSize)
                 .list();
+    }
+
+    @SuppressWarnings("unchecked")
+    public static List<Word> getSameWords(Session s, String form, int lang, int pageNumber, int pageSize) {
+        int firstRecord = (pageNumber - 1) * pageSize;
+        return s.createCriteria(Word.class)
+                .add(Restrictions.like("word", form, MatchMode.EXACT))
+                .add(Restrictions.eq("languageId", lang))
+                .setFirstResult(firstRecord)
+                .setMaxResults(pageSize)
+                .list();
+    }
+
+    @SuppressWarnings("unchecked")
+    public static List<Word> searchDefinition(Session s, String term, int lang, int pageNumber, int pageSize) {
+        int firstRecord = (pageNumber - 1) * pageSize;
+        String sql = "select * from words w\n"
+                + "where w.language_id=@lang@\n"
+                + "and\n"
+                + "ExtractValue(w.meta_info, '/word/commonTranslation') like \"%@term@%\"\n"
+                + "limit @firstRecord@,@pageSize@";
+        sql = sql.replace("@lang@", String.valueOf(lang))
+                .replace("@term@", term)
+                .replace("@firstRecord@", String.valueOf(firstRecord))
+                .replace("@pageSize@", String.valueOf(pageSize));
+
+        return s.createSQLQuery(sql).addEntity(Word.class).list();
     }
 
     public static void increaseRank(Session s, Word word, String rankName) {
