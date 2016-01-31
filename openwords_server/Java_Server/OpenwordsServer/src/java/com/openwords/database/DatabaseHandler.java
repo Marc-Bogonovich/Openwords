@@ -31,7 +31,7 @@ public class DatabaseHandler {
 
     private static DatabaseHandler instance;
 
-    public static DatabaseHandler getInstance() {
+    private static DatabaseHandler getInstance() {
         if (instance == null) {
             instance = new DatabaseHandler();
         }
@@ -51,6 +51,12 @@ public class DatabaseHandler {
 
     public static void closeSession(Session session) {
         session.close();
+    }
+
+    public static void cleanIt() {
+        if (instance != null) {
+            instance.clean();
+        }
     }
     private final SessionFactory sessionFactory;
 
@@ -90,7 +96,7 @@ public class DatabaseHandler {
         UtilLog.logInfo(DatabaseHandler.class, "SessionFactory created");
     }
 
-    public synchronized void clean() {
+    private synchronized void clean() {
         sessionFactory.close();
         instance = null;
         UtilLog.logInfo(this, "clean DatabaseHandler " + sessionFactory.isClosed());
@@ -100,4 +106,5 @@ public class DatabaseHandler {
         Session session = sessionFactory.openSession();
         return session;
     }
+
 }

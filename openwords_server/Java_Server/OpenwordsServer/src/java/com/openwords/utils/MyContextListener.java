@@ -29,13 +29,13 @@ public class MyContextListener implements ServletContextListener {
         }
         UtilLog.logInfo(this, "Servlet Context Path: " + contextPath);
 
-        DatabaseHandler.getInstance();
+        DatabaseHandler.getSession().close();
         UtilLog.logInfo(this, "contextInitialized");
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
-        DatabaseHandler.getInstance().clean();
+        DatabaseHandler.cleanIt();
         UtilLog.logInfo(this, "contextDestroyed");
     }
 }

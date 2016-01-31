@@ -313,6 +313,19 @@ public class Word implements Serializable {
                 .list();
     }
 
+    public static List<Word> getWordsBySameMD5(Session s, long wordIn, int langOut) {
+        Word w = (Word) s.get(Word.class, wordIn);
+        if (w == null) {
+            return null;
+        }
+        @SuppressWarnings("unchecked")
+        List<Word> words = s.createCriteria(Word.class)
+                .add(Restrictions.eq("languageId", langOut))
+                .add(Restrictions.eq("md5", w.getMd5()))
+                .list();
+        return words;
+    }
+
     private long wordId;
     private int languageId;
     private String word, meta, contributor;
