@@ -31,7 +31,7 @@ public class PageDictionary extends Activity {
     private LinearLayout root, result;
     private Button buttonSearchNative, buttonSearchLearn;
     private EditText inputNative, inputLearn;
-    private ImageView arrow;
+    private ImageView arrow, back;
     private int localLang, learningLang, padding, margin;
 
     @Override
@@ -51,6 +51,7 @@ public class PageDictionary extends Activity {
         inputLearn = (EditText) findViewById(R.id.page_dict_edit2);
         buttonSearchNative = (Button) findViewById(R.id.page_dict_button1);
         buttonSearchLearn = (Button) findViewById(R.id.page_dict_button2);
+        back = (ImageView) findViewById(R.id.page_dict_image1);
         arrow = (ImageView) findViewById(R.id.page_dict_image2);
         result = (LinearLayout) findViewById(R.id.page_dict_layout1);
         inputNative.setHint("Search in native language");
@@ -75,6 +76,13 @@ public class PageDictionary extends Activity {
                 inputNative.setText(null);
                 result.removeAllViews();
                 search(learningLang, localLang, inputLearn, inputNative);
+            }
+        });
+
+        back.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View view) {
+                PageDictionary.super.onBackPressed();
             }
         });
 
