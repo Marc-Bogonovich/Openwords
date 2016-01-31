@@ -7,6 +7,7 @@ import com.openwords.services.interfaces.HttpResultHandler;
 import com.openwords.services.interfaces.HttpServiceRequester;
 import com.openwords.services.interfaces.RequestParamsBuilder;
 import com.openwords.util.gson.MyGson;
+import java.util.Collection;
 import java.util.List;
 
 public class ServiceLookupWordSameMeaning extends HttpServiceRequester implements HttpResultHandler {
@@ -15,12 +16,12 @@ public class ServiceLookupWordSameMeaning extends HttpServiceRequester implement
 
     private HttpResultHandler resultHandler;
 
-    public void doRequest(long wordIn, int langOut, HttpResultHandler resultHandler) {
+    public void doRequest(Collection<Long> wordsIn, int langOut, HttpResultHandler resultHandler) {
         this.resultHandler = resultHandler;
         request(ServiceURL,
                 new RequestParamsBuilder()
-                .addParam("wordIn", String.valueOf(wordIn))
-                .addParam("pageSize", String.valueOf(langOut))
+                .addParam("wordsIn", MyGson.toJson(wordsIn))
+                .addParam("langOut", String.valueOf(langOut))
                 .getParams(), 30 * 1000, this);
     }
 
