@@ -8,6 +8,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -313,16 +314,25 @@ public class Word implements Serializable {
                 .list();
     }
 
-    public static List<Word> getWordsBySameMD5(Session s, long wordIn, int langOut) {
-        Word w = (Word) s.get(Word.class, wordIn);
-        if (w == null) {
+    public static List<Word> getWordsBySameMD5(Session s, Long[] wordsIn, int langOut) {
+        @SuppressWarnings("unchecked")
+        List<Word> in = s.createCriteria(Word.class)
+                .add(Restrictions.in("wordId", wordsIn))
+                .list();
+        if (in.isEmpty()) {
             return null;
         }
+
         @SuppressWarnings("unchecked")
-        List<Word> words = s.createCriteria(Word.class)
-                .add(Restrictions.eq("languageId", langOut))
-                .add(Restrictions.eq("md5", w.getMd5()))
-                .list();
+        List<Word> words = new LinkedList<>();
+        for (Word w : in) {
+            @SuppressWarnings("unchecked")
+            List<Word> same = s.createCriteria(Word.class)
+                    .add(Restrictions.eq("languageId", langOut))
+                    .add(Restrictions.eq("md5", w.getMd5()))
+                    .list();
+            words.addAll(same);
+        }
         return words;
     }
 

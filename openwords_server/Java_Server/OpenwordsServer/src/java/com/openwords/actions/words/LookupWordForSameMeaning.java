@@ -5,6 +5,7 @@ import com.openwords.database.DatabaseHandler;
 import com.openwords.database.Word;
 import com.openwords.interfaces.MyAction;
 import com.openwords.utils.MyFieldValidation;
+import com.openwords.utils.MyGson;
 import com.openwords.utils.UtilLog;
 import java.util.List;
 import org.apache.struts2.convention.annotation.Action;
@@ -19,7 +20,7 @@ public class LookupWordForSameMeaning extends MyAction {
     private List<Word> result;
     private String errorMessage;
     private int langOut;
-    private long wordIn;
+    private String wordsIn;
 
     @Action(value = "/lookupWordSameMeaning", results = {
         @Result(name = SUCCESS, type = "json"),
@@ -27,10 +28,11 @@ public class LookupWordForSameMeaning extends MyAction {
     })
     @Override
     public String execute() throws Exception {
-        UtilLog.logInfo(this, "/lookupWordSameMeaning: " + wordIn + " " + langOut);
+        UtilLog.logInfo(this, "/lookupWordSameMeaning: " + wordsIn + " " + langOut);
         Session s = DatabaseHandler.getSession();
         try {
-            result = Word.getWordsBySameMD5(s, wordIn, langOut);
+            Long[] ids = MyGson.fromJson(wordsIn, Long[].class);
+            result = Word.getWordsBySameMD5(s, ids, langOut);
         } catch (Exception e) {
             errorMessage = e.toString();
             UtilLog.logWarn(this, errorMessage);
@@ -40,8 +42,8 @@ public class LookupWordForSameMeaning extends MyAction {
         return SUCCESS;
     }
 
-    public void setWordIn(long wordIn) {
-        this.wordIn = wordIn;
+    public void setWordsIn(String wordsIn) {
+        this.wordsIn = wordsIn;
     }
 
     public List<Word> getResult() {
