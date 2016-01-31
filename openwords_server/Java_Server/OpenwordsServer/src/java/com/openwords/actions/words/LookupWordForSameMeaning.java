@@ -18,7 +18,7 @@ public class LookupWordForSameMeaning extends MyAction {
     private static final long serialVersionUID = 1L;
     private List<Word> result;
     private String errorMessage;
-    private int lang;
+    private int langOut;
     private long wordIn;
 
     @Action(value = "/lookupWordSameMeaning", results = {
@@ -27,10 +27,10 @@ public class LookupWordForSameMeaning extends MyAction {
     })
     @Override
     public String execute() throws Exception {
-        UtilLog.logInfo(this, "/lookupWordSameMeaning: " + wordIn + " " + lang);
+        UtilLog.logInfo(this, "/lookupWordSameMeaning: " + wordIn + " " + langOut);
         Session s = DatabaseHandler.getSession();
         try {
-            result = Word.getWordsBySameMD5(s, wordIn, lang);
+            result = Word.getWordsBySameMD5(s, wordIn, langOut);
         } catch (Exception e) {
             errorMessage = e.toString();
             UtilLog.logWarn(this, errorMessage);
@@ -52,8 +52,8 @@ public class LookupWordForSameMeaning extends MyAction {
         return errorMessage;
     }
 
-    public void setLang(int lang) {
-        this.lang = lang;
+    public void setLangOut(int langOut) {
+        this.langOut = langOut;
     }
 
     @Override
