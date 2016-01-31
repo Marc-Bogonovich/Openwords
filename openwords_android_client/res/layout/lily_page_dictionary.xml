@@ -18,36 +18,30 @@
                     android:contentDescription=""/>
     
     </LinearLayout>
+    
+    <LinearLayout android:orientation="horizontal"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:gravity="center_vertical">
         
-    <EditText android:id="@+id/page_dict_edit1"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:textSize="16sp"
-              android:maxLines="1"
-              android:singleLine="true"
-              android:hint="Search"
-              android:background="@drawable/bg_lily_input_fill_white"
-              android:layout_marginLeft="10dp"
-              android:layout_marginRight="10dp"
-              android:padding="5dp"/>
+        <EditText android:id="@+id/page_dict_edit1"
+                  android:layout_width="0dp"
+                  android:layout_weight="1"
+                  android:layout_height="wrap_content"
+                  android:textSize="16sp"
+                  android:maxLines="1"
+                  android:singleLine="true"
+                  android:hint=""
+                  android:background="@drawable/bg_lily_input_fill_white"
+                  android:layout_marginLeft="10dp"
+                  android:layout_marginRight="10dp"
+                  android:padding="5dp"/>
         
-    <ScrollView android:id="@+id/page_dict_scroll1"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:background="@drawable/bg_lily_input_fill_white">
-        
-        <LinearLayout android:id="@+id/page_dict_layout1"
-                      android:orientation="vertical"
-                      android:layout_width="match_parent"
-                      android:layout_height="wrap_content">  
-        
-        </LinearLayout>
-        
-    </ScrollView>
+        <Button android:id="@+id/page_dict_button1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+    
+    </LinearLayout>
     
     <ImageView  android:id="@+id/page_dict_image2"
                 android:layout_width="match_parent"
@@ -57,34 +51,46 @@
                 android:layout_margin="2dp"
                 android:rotation="180"
                 android:contentDescription=""/>
+    
+    <LinearLayout android:orientation="horizontal"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:gravity="center_vertical">
         
-    <EditText android:id="@+id/page_dict_edit2"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:textSize="16sp"
-              android:maxLines="1"
-              android:singleLine="true"
-              android:hint="搜索"
-              android:background="@drawable/bg_lily_input_fill_white"
-              android:layout_marginLeft="10dp"
-              android:layout_marginRight="10dp"
-              android:padding="5dp"/>
+        <EditText android:id="@+id/page_dict_edit2"
+                  android:layout_width="0dp"
+                  android:layout_weight="1"
+                  android:layout_height="wrap_content"
+                  android:textSize="16sp"
+                  android:maxLines="1"
+                  android:singleLine="true"
+                  android:hint=""
+                  android:background="@drawable/bg_lily_input_fill_white"
+                  android:layout_marginLeft="10dp"
+                  android:layout_marginRight="10dp"
+                  android:padding="5dp"/>
         
-    <ScrollView android:id="@+id/page_dict_scroll2"
+        <Button android:id="@+id/page_dict_button2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+    
+    </LinearLayout>
+        
+    <ScrollView android:id="@+id/page_dict_scroll1"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:layout_marginTop="5dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:layout_marginBottom="20dp"
+                android:layout_marginBottom="15dp"
                 android:background="@drawable/bg_lily_input_fill_white">
         
-        <LinearLayout android:id="@+id/page_dict_layout2"
+        <LinearLayout android:id="@+id/page_dict_layout1"
                       android:orientation="vertical"
                       android:layout_width="match_parent"
                       android:layout_height="wrap_content">  
-            
+        
         </LinearLayout>
         
     </ScrollView>
