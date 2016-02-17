@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+    
+    <LinearLayout android:orientation="vertical"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content">
+
+        <include layout="@layout/actionbar_common"/>
+    
+        <RadioGroup 
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/settingsPage_RadioGroup_portalPage"
+            android:orientation="vertical">
+            <RadioButton android:id="@+id/settingsPage_RadioButton_displayPortalPage"
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:text="@string/settingsPage_RadioButton_displayPortalPage"
+                         android:onClick="onRadioButtonClicked"/>
+            <RadioButton android:id="@+id/settingsPage_RadioButton_hidePortalPage"
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:text="@string/settingsPage_RadioButton_hidePortalPage"
+                         android:onClick="onRadioButtonClicked"/>
+        </RadioGroup>
+                
+        <Button android:id="@+id/settingsPage_button1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"/>
+        
+        <TextView android:id="@+id/settingsPage_TextView1"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_marginTop="20dp"/>
+        
+        <Spinner android:id="@+id/settingsPage_Spinner1"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/settingsPage_TextView_WSA"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/settingsPage_TextView_WSA"
+            android:visibility="gone"/>
+
+        <Spinner
+            android:id="@+id/settingsPage_Spinner_WSA"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        
+        <TextView
+            android:id="@+id/settingsPage_TextView_leafCardSize"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/settingsPage_TextView_leafCardSize"
+            android:visibility="gone"/>
+
+        <Spinner
+            android:id="@+id/settingsPage_Spinner_leafCardSize"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        
+        
+    </LinearLayout>
+</ScrollView>

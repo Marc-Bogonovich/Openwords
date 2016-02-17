@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    
+    <EditText android:id="@+id/dialog_create_deck_edit1"
+              android:hint="Deck Name"
+              android:textSize="18sp"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"/>
+    
+    <Button android:id="@+id/dialog_create_deck_button1"
+            android:text="OK"
+            android:textSize="16sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+</LinearLayout>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/list_item_deck_info_container"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="10dp"
+              android:layout_marginBottom="10dp">
+
+    <LinearLayout android:id="@+id/list_item_deck_info_deck"
+                  android:orientation="vertical"
+                  android:layout_width="match_parent"
+                  android:layout_height="100dp">
+    </LinearLayout>
+
+    <TextView android:id="@+id/list_item_deck_info_1"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:gravity="center"
+              android:textSize="16sp"
+              android:textColor="@color/main_app_color"
+              android:lines="2"/>
+
+</LinearLayout>

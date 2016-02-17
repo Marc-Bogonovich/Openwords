@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/list_item_ws_root"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="horizontal"
+              android:paddingTop="5dp"
+              android:paddingBottom="5dp"
+              android:gravity="center_vertical">
+    
+    <EditText android:id="@+id/list_item_ws_edit1"
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:layout_weight="1"
+              android:padding="10dp"
+              android:singleLine="true"
+              android:hint=""/>
+    
+    <ImageView  android:id="@+id/list_item_ws_image4"
+                android:layout_width="48dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_set_search"
+                android:paddingRight="10dp"
+                android:paddingLeft="10dp"
+                android:contentDescription=""/>
+    
+    <ImageView  android:id="@+id/list_item_ws_image1"
+                android:layout_width="28dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_set_add_item"
+                android:paddingLeft="10dp"
+                android:contentDescription=""/>
+
+    <TextView android:id="@+id/list_item_ws_text1"
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:layout_weight="1"
+              android:padding="10dp"
+              android:textSize="20sp"
+              android:textColor="@drawable/color_ws_text"/>
+    
+    <ImageView  android:id="@+id/list_item_ws_image2"
+                android:layout_width="28dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_set_add_item"
+                android:paddingLeft="10dp"
+                android:contentDescription=""/>
+    
+    <TextView android:id="@+id/list_item_ws_text2"
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:layout_weight="1"
+              android:padding="10dp"
+              android:textSize="20sp"/>
+    
+    <ImageView  android:id="@+id/list_item_ws_image3"
+                android:layout_width="44dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_set_remove"
+                android:paddingRight="10dp"
+                android:paddingLeft="10dp"
+                android:contentDescription=""/>
+          
+</LinearLayout>

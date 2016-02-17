@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Openwords</string>
+    <string name="action_settings">Settings</string>
+    <string name="flashword_string_homePageLift01">word</string>
+    <string name="flashword_string_homePageLift02">字</string>
+    <string name="flashword_string_homePageLift03">mot</string>
+    <string name="flashword_string_homePageLift04">palabra</string>
+    <string name="flashword_string_homePageLift05">शब्द</string>
+    <string name="flashword_string_homePageLift06">מלה</string>
+    <string name="flashword_string_homePageLift07">słowo</string>
+    <string name="flashword_string_homePageLift08">ಪದ</string>
+    <string-array name="button_practice">
+        <item>Practice</item>
+        <item>开始练习</item>
+    </string-array>
+    <string-array name="button_create_set">
+        <item>Create Word Set</item>
+        <item>建造你的词集</item>
+    </string-array>
+    <string-array name="button_manage_set">
+        <item>Manage Word Set</item>
+        <item>管理词集</item>
+    </string-array>
+    <string-array name="button_resume">
+        <item>Dictionary</item>
+        <item>字典</item>
+    </string-array>
+    <string-array name="button_study">
+        <item>Begin Study</item>
+        <item>开始学习</item>
+    </string-array>
+    <string-array name="button_overview">
+        <item>Overview</item>
+        <item>概览</item>
+    </string-array>
+    <string-array name="title_word_sets">
+        <item>Word Sets</item>
+        <item>大家的词集</item>
+    </string-array>
+    <string-array name="hint_search_wordsets">
+        <item>Search sets</item>
+        <item>搜索词集</item>
+    </string-array>
+    <string-array name="title_practice">
+        <item>Practice</item>
+        <item>练习</item>
+    </string-array>
+    <string-array name="info_practice">
+        <item>Select how you want to study</item>
+        <item>选择您的练习方法</item>
+    </string-array>
+    <string-array name="name_review">
+        <item>Review</item>
+        <item>简单回顾练习</item>
+    </string-array>
+    <string-array name="name_self">
+        <item>Self-Evaluation</item>
+        <item>自我评估练习</item>
+    </string-array>
+    <string-array name="name_hearing">
+        <item>Hearing</item>
+        <item>听辨练习</item>
+    </string-array>
+    <string-array name="name_type">
+        <item>Type-Evaluation</item>
+        <item>拼写练习</item>
+    </string-array>
+    <string-array name="name_sentence">
+        <item>Sentence</item>
+        <item>语句练习</item>
+    </string-array>
+    <string-array name="button_login">
+        <item>Log In</item>
+        <item>登入</item>
+    </string-array>
+    <string-array name="button_register">
+        <item>Register</item>
+        <item>注册新用户</item>
+    </string-array>
+    <string-array name="button_sentence">
+        <item>Random Sentences</item>
+        <item>随机句子练习</item>
+    </string-array>
+    <string-array name="check_remember">
+        <item>Remember me</item>
+        <item>记住我的登入信息</item>
+    </string-array>
+    <string-array name="block_validating_user">
+        <item>Validating user</item>
+        <item>正在验证用户信息</item>
+    </string-array>
+    <string-array name="error_login">
+        <item>Username/Password incorrect</item>
+        <item>用户名或密码错误</item>
+    </string-array>
+    <string-array name="error_internet">
+        <item>Cannot get access to Internet</item>
+        <item>无法连接网络</item>
+    </string-array>
+    <string-array name="are_you_sure">
+        <item>Are you sure?</item>
+        <item>您确定吗？</item>
+    </string-array>
+    <string-array name="confirm_exit">
+        <item>Are you sure you want to exit?</item>
+        <item>您确定要关闭本程序吗？</item>
+    </string-array>
+    <string-array name="confirm_logout">
+        <item>Are you sure you want to log out?</item>
+        <item>您确定要登出当前用户吗？</item>
+    </string-array>
+    <string-array name="yes">
+        <item>Yes</item>
+        <item>是</item>
+    </string-array>
+    <string-array name="no">
+        <item>No</item>
+        <item>否</item>
+    </string-array>
+    <string-array name="lang_option_greet">
+        <item>Hi there, we detect that your device is using English, do you want to use #ENGLISH$ as your native language?</item>
+        <item>您好，我们检测到您的设备用的是简体中文，您想要使用#简体中文$作为您的本地语言吗？</item>
+    </string-array>
+    <string-array name="lang_option_title">
+        <item>Please choose your native language</item>
+        <item>请选择您的本地语言</item>
+    </string-array>
+    <string-array name="lang_option_change">
+        <item>Change your native language</item>
+        <item>改变您的本地语言</item>
+    </string-array>    
+    <string-array name="info_username">
+        <item>Username</item>
+        <item>用户名</item>
+    </string-array>
+    <string-array name="info_email">
+        <item>Email</item>
+        <item>电子邮件</item>
+    </string-array>
+    <string-array name="info_password">
+        <item>Password</item>
+        <item>密码</item>
+    </string-array>
+    <string-array name="info_password_re">
+        <item>Re-enter Password</item>
+        <item>再次输入密码</item>
+    </string-array>
+    <string-array name="info_reg_submit">
+        <item>Submit</item>
+        <item>提交</item>
+    </string-array>
+    <string-array name="bye">
+        <item>Bye Bye</item>
+        <item>再见</item>
+    </string-array>
+    <string-array name="button_profile">
+        <item>Profile</item>
+        <item>个人信息</item>
+    </string-array>
+    <string-array name="button_setting">
+        <item>Settings</item>
+        <item>个人配置</item>
+    </string-array>
+    <string-array name="button_tutor">
+        <item>Tutorial</item>
+        <item>使用指南</item>
+    </string-array>
+    <string-array name="button_logout">
+        <item>Log Out</item>
+        <item>登出本用户</item>
+    </string-array>
+    <string-array name="button_pc_next">
+        <item>Continue</item>
+        <item>继续学习</item>
+    </string-array>
+    <string-array name="button_pc_end">
+        <item>Done</item>
+        <item>结束本次学习</item>
+    </string-array>
+    <string-array name="confirm_native_title">
+        <item>Need local language</item>
+        <item>需要指定本地语言</item>
+    </string-array>
+    <string-array name="confirm_native_content">
+        <item>We are going to help you setup your native language.</item>
+        <item>您好,下面我们将带领您来设置本地语言.</item>
+    </string-array>
+    <string-array name="ok">
+        <item>OK</item>
+        <item>好的</item>
+    </string-array>
+    <string-array name="cancel">
+        <item>Cancel</item>
+        <item>取消</item>
+    </string-array>
+    <string-array name="block_connect_server">
+        <item>Connecting to server</item>
+        <item>正与服务器交互</item>
+    </string-array>
+    <string-array name="error_email_valid">
+        <item>Email is valid</item>
+        <item>Email正确</item>
+    </string-array>
+    <string-array name="error_username_valid">
+        <item>Username is valid</item>
+        <item>用户名正确</item>
+    </string-array>
+    <string-array name="error_password_invalid">
+        <item>Passwords are inconsistent</item>
+        <item>密码不匹配</item>
+    </string-array>
+    <string-array name="error">
+        <item>Something wrong</item>
+        <item>抱歉,有错误</item>
+    </string-array>
+    <string-array name="error_one_lang">
+        <item>You must select at least one language.</item>
+        <item>您必须至少选择一个语言来学习。</item>
+    </string-array>
+    <string-array name="block_refresh_lang">
+        <item>Refreshing languages data</item>
+        <item>正与刷新语言数据</item>
+    </string-array>
+    <string-array name="button_search_word">
+        <item>Search in @@</item>
+        <item>搜索@@</item>
+    </string-array>
+    <string-array name="error_login_fail">
+        <item>Login fail</item>
+        <item>登陆失败</item>
+    </string-array>
+    <string-array name="error_module_not_support">
+        <item>Sorry, this learning module is not supported yet.</item>
+        <item>抱歉,此学习模块还在建设中。</item>
+    </string-array>
+    <string-array name="info_offline">
+        <item>You are now in offline mode.</item>
+        <item>您现在已经进入线下模式。</item>
+    </string-array>
+    <string-array name="hint_set_name">
+        <item>Input Set Name</item>
+        <item>输入词集名称</item>
+    </string-array>
+    <string-array name="error_edit_offline">
+        <item>Editing set is not available in offline mode.</item>
+        <item>在线下模式中不能编辑词集。</item>
+    </string-array>
+    <string-array name="error_set_name_empty">
+        <item>Set name cannot be empty!</item>
+        <item>词集的名字不能为空！</item>
+    </string-array>
+    <string-array name="error_set_min_items">
+        <item>Set should have @@ items at least!</item>
+        <item>一个词集最少需要包含@@组词！</item>
+    </string-array>
+    <string-array name="confirm_set_title">
+        <item>Saving word set \"@@\"</item>
+        <item>存储此词组“@@”</item>
+    </string-array>
+    <string-array name="confirm_set_content">
+        <item>Do you want to save the change?</item>
+        <item>您确定已做的修改？</item>
+    </string-array>
+    <string-array name="error_done">
+        <item>Done</item>
+        <item>完成</item>
+    </string-array>
+    <string-array name="block_searching">
+        <item>Searching</item>
+        <item>搜索中</item>
+    </string-array>
+    <string-array name="error_word_exist">
+        <item>Word already exists in set!</item>
+        <item>此词已经在此词集了！</item>
+    </string-array>
+    <string-array name="confirm_set_not_change_title">
+        <item>Changes are not saved</item>
+        <item>修改还没有被存储</item>
+    </string-array>
+    <string-array name="confirm_set_not_change_content">
+        <item>Are you sure to discard the changes?</item>
+        <item>您确定放弃已做的修改吗？</item>
+    </string-array>
+    <string-array name="confirm_learn_lang">
+        <item>Pick the language to learn</item>
+        <item>选择一个您要学的语言</item>
+    </string-array>
+    <string-array name="confirm_learn_lang_title">
+        <item>Learning Language</item>
+        <item>要学的语言</item>
+    </string-array>
+    <string-array name="confirm_copy_set_title">
+        <item>Copying Word Set</item>
+        <item>复制词集</item>
+    </string-array>
+    <string-array name="confirm_copy_set_content">
+        <item>Copy set \"@1@\" to new set \"@2@\"?</item>
+        <item>复制词集“@1@"到新的词集“@2@”吗？</item>
+    </string-array>
+    <string-array name="error_empty">
+        <item>Cannot be empty!</item>
+        <item>不能为空！</item>
+    </string-array>
+    <string-array name="error_copy">
+        <item>Cannot copy</item>
+        <item>复制失败</item>
+    </string-array>
+    <string-array name="error_copy_success">
+        <item>The copy is made successfully</item>
+        <item>复制成功</item>
+    </string-array>
+    
+    <string name="logoImage_description">Openwords logo</string>
+    <string name="loginPage">Please log in</string>
+    <string name="paragraph1_text_languagePage">What language do you want to learn?</string>
+    <string name="paragraph2_text_languagePage">Choose one</string>
+    <string name="paragraph2_sub_text_languagePage">(you may choose more later)</string>
+    <string name="button_languagePage_moreLanguage">Language not on the list?</string>
+    <string name="languagePage_CheckBox_franch">(French)</string>
+    <string name="languagePage_CheckBox_chinese">(Mandarian Chinese)</string>
+    <string name="languagePage_CheckBox_armenian">(Armenian)</string>
+    <string name="languagePage_CheckBox_latin">(Latin)</string>
+    <string name="languagePage_CheckBox_hebrew">(Hebrew)</string>
+    <string name="languagePage_CheckBox_kannada">(Kannada)</string>
+    <string name="languagePage_Button_chosenPage">submit</string>
+    <string name="language_TextView_indicator">choose ALL the language/s you want to learn</string>
+    <string name="registerPage_EditText_username">Enter User name</string>
+    <string name="registerPage_EditText_password">Enter password</string>
+    <string name="registerPage_EditText_password2">Re-enter password</string>
+    <string name="registerPage_Button_registerSubmit">Submit</string>
+    <string name="wordsPage_ImageButton_syncButton_desc">Button for sync with server</string>
+
+    <string name="wordsPage_TextView_wordsPageTitle">Get new words (below)</string>
+    <string name="wordsPage_Button_getNextWords">Next words</string>
+    <string name="wordsPage_Button_searchWords">Search words</string>
+    <string name="wordsPage_Button_searchWordSets">Search word sets</string>
+    <string name="wordsPage_Button_viewMyWords">View my words</string>
+    <string name="profilePage_TextView_profilePageTitle">Tell us about yourself. This will help us customize your learning experience </string>
+    <string name="profilePage_CheckBox_item1">Like to learn new stuff?</string>
+    <string name="profilePage_CheckBox_item2">A quick learner?</string>
+    <string name="profilePage_CheckBox_item3">A lot of free time?</string>
+    <string name="profilePage_CheckBox_item4">Have good long term memory?</string>
+    <string name="selfEvaluate_ImageView_audioPlay">Icon play audio</string>
+    <string name="languagePage_Button_submit">Submit</string>
+    <string name="hearing_EditText_input">Input what you hear</string>
+    <string name="hearing_ImageView_checkButton">Showing user input</string>
+    <string name="typeEvaluate_EditText_input">Input the translation</string>
+    <string name="profilePage_TextView_preknowledge">How many words do you already know?</string>
+    <string name="plateCompletion_Button_newWord">Get new words</string>
+    <string name="plateCompletion_Button_nextPlate">Next round</string>
+    <string name="plateCompletion_Button_home">Home</string>
+    <string name="WP_ok">Ok</string>
+    <string name="WP_Cancel">Cancel</string>
+    <string name="settingsPage_TextView_WSA">Select selection algorithm</string>
+    <string name="settingsPage_TextView_leafCardSize">Number of leaf-cards per round</string>
+    <string name="settingsPage_RadioButton_displayPortalPage">Display portal page icon</string>
+    <string name="settingsPage_RadioButton_hidePortalPage">Hide portal page icon</string>
+</resources>
