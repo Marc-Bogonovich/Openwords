@@ -1,173 +1,150 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.openwords"
-          android:versionCode="1"
-          android:versionName="1.0">
-    
-    <uses-sdk android:minSdkVersion="16"
-              android:targetSdkVersion="16"/>
+    package="com.openwords"
+    android:versionCode="1"
+    android:versionName="1.0">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-sdk
+        android:minSdkVersion="16"
+        android:targetSdkVersion="16" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    
-    <supports-screens android:resizeable="true"
-                      android:smallScreens="true"
-                      android:normalScreens="true"
-                      android:largeScreens="true"
-                      android:anyDensity="true"/> 
 
-    <application android:allowBackup="true"
-                 android:icon="@drawable/ic_launcher"
-                 android:label="@string/app_name"
-                 android:name="com.orm.SugarApp">
-        
-        <meta-data android:name="DATABASE" android:value="openwords_v1.db" />
-        <meta-data android:name="VERSION" android:value="6" />
-        <meta-data android:name="QUERY_LOG" android:value="true" />
-        <meta-data android:name="DOMAIN_PACKAGE_NAME" android:value="com.openwords.model" />
-        
-        <activity android:name=".ui.main.LoginPage"
-                  android:theme="@style/NoTitleTheme"
-                  android:configChanges="orientation|screenSize">
+    <supports-screens
+        android:anyDensity="true"
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:resizeable="true"
+        android:smallScreens="true" />
+
+    <application
+        android:name="com.orm.SugarApp"
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name">
+
+        <meta-data
+            android:name="DATABASE"
+            android:value="openwords_v1.db" />
+        <meta-data
+            android:name="VERSION"
+            android:value="6" />
+        <meta-data
+            android:name="QUERY_LOG"
+            android:value="true" />
+        <meta-data
+            android:name="DOMAIN_PACKAGE_NAME"
+            android:value="com.openwords.model" />
+
+        <activity
+            android:name=".ui.main.LoginPage"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/NoTitleTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
-        <activity android:name=".ui.main.WelcomePage"
-                  android:theme="@style/NoTitleTheme"
-                  android:configChanges="orientation|screenSize">
-        </activity>
-        
-        <activity android:name=".ui.main.HomePage"
-                  android:theme="@style/NoTitleTheme"
-                  android:configChanges="orientation|screenSize">
-        </activity>
-        
-        <activity android:name=".ui.other.ProfilePage"
-                  android:theme="@style/NoTitleTheme"
-                  android:configChanges="orientation|screenSize">
-        </activity>
-        
-        <activity android:name=".ui.main.RegisterPage"
-                  android:theme="@style/NoTitleTheme"
-                  android:configChanges="orientation|screenSize">
-        </activity>
-        
-        <activity android:name=".ui.main.LanguagePage"
-                  android:theme="@style/NoTitleTheme"
-                  android:configChanges="orientation|screenSize" >
-        </activity>
-        
-        <activity android:name=".ui.main.ChosenPage"
-                  android:theme="@style/NoTitleTheme"
-                  android:configChanges="orientation|screenSize">
-        </activity>
-        
-        <activity android:name=".ui.main.WordsPage"
-                  android:theme="@style/NoTitleTheme"
-                  android:configChanges="orientation|screenSize">
-        </activity>
-        
-        <activity android:name=".ui.main.StatsPage"
-                  android:theme="@style/NoTitleTheme"
-                  android:configChanges="orientation|screenSize">
-        </activity>
-        
-        <activity android:name=".ui.main.PortalPage"
-                  android:theme="@style/NoTitleTheme"
-                  android:configChanges="orientation|screenSize">
-        </activity>
-               
-        <activity android:name=".ui.other.SettingsPage"
-                  android:theme="@style/NoTitleTheme"
-                  android:configChanges="orientation|screenSize">
-        </activity>
-        
-        <activity android:name=".ui.other.TutorialPage"
-                  android:theme="@style/NoTitleTheme"
-                  android:configChanges="orientation|screenSize">
-        </activity>
-        
-        <activity android:name=".learningmodule.ActivityLearning"
-                  android:theme="@style/NoTitleTheme"
-                  android:configChanges="orientation|screenSize"
-                  android:windowSoftInputMode="adjustResize">
-        </activity>
-        
-        <activity android:name=".test.ActivityTest"
-                  android:configChanges="orientation|screenSize">
-        </activity>
-        
-        <activity android:name=".test.DialogSoundPlay"
-                  android:theme="@android:style/Theme.Holo.Dialog"
-                  android:configChanges="orientation|screenSize">
-        </activity>
-        
-        <activity android:name=".test.DialogSoundPlay2"
-                  android:theme="@android:style/Theme.Holo.Dialog"
-                  android:configChanges="orientation|screenSize">
-        </activity>
-        
-        <activity android:name=".test.ActivityTestAutofix"
-                  android:theme="@android:style/Theme.Holo"
-                  android:configChanges="orientation|screenSize">
-        </activity>
-        
-        <activity android:name=".ui.main.LocalOptionPage"
-                  android:theme="@style/NoTitleTheme"
-                  android:configChanges="orientation|screenSize">
-        </activity>       
-        
-        <activity android:name=".ui.lily.multiword.PageMultiwordDemo"
-                  android:theme="@style/NoTitleTheme"
-                  android:configChanges="orientation|screenSize">
-        </activity>
-        
-        <activity android:name=".ui.lily.lm.TestReviewFrags"
-                  android:theme="@style/NoTitleTheme"
-                  android:configChanges="orientation|screenSize">
-        </activity>
-        
-        <activity android:name=".ui.lily.lm.TestHearFrags"
-                  android:theme="@style/NoTitleTheme"
-                  android:configChanges="orientation|screenSize">
-        </activity>
-        
-        <activity android:name=".ui.lily.main.PageWords"
-                  android:theme="@style/NoTitleTheme"
-                  android:configChanges="orientation|screenSize">
-        </activity>
-        
-        <activity android:name=".ui.lily.main.PageHome"
-                  android:theme="@style/NoTitleTheme"
-                  android:configChanges="orientation|screenSize">
-        </activity>
-        
-        <activity android:name=".ui.lily.main.PageSetContent"
-                  android:theme="@style/NoTitleTheme"
-                  android:windowSoftInputMode="adjustPan"
-                  android:configChanges="orientation|screenSize">
-        </activity>
-        
-        <activity android:name=".ui.lily.main.PageSetsList"
-                  android:theme="@style/NoTitleTheme"
-                  android:windowSoftInputMode="stateHidden"
-                  android:configChanges="orientation|screenSize">
-        </activity>
-        
-        <activity android:name=".ui.lily.main.PageLMOption"
-                  android:theme="@style/NoTitleTheme"
-                  android:configChanges="orientation|screenSize">
-        </activity>
-        
-        <activity android:name=".ui.lily.main.PageDictionary"
-                  android:theme="@style/NoTitleTheme"
-                  android:configChanges="orientation|screenSize">
-        </activity>
+
+        <activity
+            android:name=".ui.main.WelcomePage"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/NoTitleTheme"></activity>
+
+        <activity
+            android:name=".ui.other.ProfilePage"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/NoTitleTheme"></activity>
+
+        <activity
+            android:name=".ui.main.RegisterPage"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/NoTitleTheme"></activity>
+
+        <activity
+            android:name=".ui.main.LanguagePage"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/NoTitleTheme"></activity>
+
+        <activity
+            android:name=".ui.other.SettingsPage"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/NoTitleTheme"></activity>
+
+        <activity
+            android:name=".ui.other.TutorialPage"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/NoTitleTheme"></activity>
+
+        <activity
+            android:name=".learningmodule.ActivityLearning"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/NoTitleTheme"
+            android:windowSoftInputMode="adjustResize"></activity>
+
+        <activity
+            android:name=".test.ActivityTest"
+            android:configChanges="orientation|screenSize"></activity>
+
+        <activity
+            android:name=".test.DialogSoundPlay"
+            android:configChanges="orientation|screenSize"
+            android:theme="@android:style/Theme.Holo.Dialog"></activity>
+
+        <activity
+            android:name=".test.DialogSoundPlay2"
+            android:configChanges="orientation|screenSize"
+            android:theme="@android:style/Theme.Holo.Dialog"></activity>
+
+        <activity
+            android:name=".test.ActivityTestAutofix"
+            android:configChanges="orientation|screenSize"
+            android:theme="@android:style/Theme.Holo"></activity>
+
+        <activity
+            android:name=".ui.main.LocalOptionPage"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/NoTitleTheme"></activity>
+
+        <activity
+            android:name=".ui.lily.multiword.PageMultiwordDemo"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/NoTitleTheme"></activity>
+
+        <activity
+            android:name=".ui.lily.main.PageWords"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/NoTitleTheme"></activity>
+
+        <activity
+            android:name=".ui.lily.main.PageHome"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/NoTitleTheme"></activity>
+
+        <activity
+            android:name=".ui.lily.main.PageSetContent"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/NoTitleTheme"
+            android:windowSoftInputMode="adjustPan"></activity>
+
+        <activity
+            android:name=".ui.lily.main.PageSetsList"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/NoTitleTheme"
+            android:windowSoftInputMode="stateHidden"></activity>
+
+        <activity
+            android:name=".ui.lily.main.PageLMOption"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/NoTitleTheme"></activity>
+
+        <activity
+            android:name=".ui.lily.main.PageDictionary"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/NoTitleTheme"></activity>
     </application>
 
 </manifest>
