@@ -14,6 +14,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+
 import com.openwords.R;
 import com.openwords.model.DataPool;
 import com.openwords.model.Language;
@@ -29,7 +30,6 @@ import com.openwords.sound.SoundPlayer;
 import com.openwords.ui.lily.main.DialogLearnLang;
 import com.openwords.ui.lily.main.PageHome;
 import com.openwords.ui.lily.main.PageSetsList;
-import com.openwords.ui.lily.main.PageWords;
 import com.openwords.util.InternetCheck;
 import com.openwords.util.file.LocalFileSystem;
 import com.openwords.util.localization.LocalLanguage;
@@ -38,6 +38,7 @@ import com.openwords.util.log.LogUtil;
 import com.openwords.util.ui.CallbackOkButton;
 import com.openwords.util.ui.MyDialogHelper;
 import com.openwords.util.ui.MyQuickToast;
+
 import java.util.List;
 
 public class LoginPage extends Activity {
@@ -202,13 +203,23 @@ public class LoginPage extends Activity {
                                             }
                                         }
                                         //need to pick current learn
-                                        Dialog d = new DialogLearnLang(LoginPage.this, new DialogLearnLang.LanguagePicked() {
+                                        Language.syncLanguagesData(LoginPage.this, new ResultLanguage() {
 
-                                            public void done() {
-                                                loadLanguageDataAndGoHome();
+                                            public void result(String result) {
+                                                if (result == null) {
+                                                    Dialog d = new DialogLearnLang(LoginPage.this, new DialogLearnLang.LanguagePicked() {
+
+                                                        public void done() {
+                                                            loadLanguageDataAndGoHome();
+                                                        }
+                                                    });
+                                                    d.show();
+                                                } else {
+                                                    MyQuickToast.showShort(LoginPage.this, result);
+                                                }
                                             }
                                         });
-                                        d.show();
+
                                     }
                                 });
                     }

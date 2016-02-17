@@ -1,6 +1,7 @@
 package com.openwords.model;
 
 import android.content.Context;
+
 import com.openwords.services.implementations.ServiceGetLanguages;
 import com.openwords.services.implementations.ServiceGetLanguagesForLearn;
 import com.openwords.services.implementations.ServiceGetLearnableLanguages;
@@ -12,6 +13,7 @@ import com.openwords.util.ui.MyQuickToast;
 import com.orm.SugarRecord;
 import com.orm.query.Condition;
 import com.orm.query.Select;
+
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -70,7 +72,7 @@ public class Language extends SugarRecord<Language> {
                     MyDialogHelper.tryDismissQuickProgressDialog();
                     MyDialogHelper.showMessageDialog(context, null,
                             "Sorry, seems we don't have learnable languages for your local language yet,\n"
-                            + "but please have a look round or change your native language",
+                                    + "but please have a look round or change your native language",
                             new CallbackOkButton() {
 
                                 public void okPressed() {
