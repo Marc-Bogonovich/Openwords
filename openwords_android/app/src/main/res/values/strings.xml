@@ -129,7 +129,7 @@
     <string-array name="lang_option_change">
         <item>Change your native language</item>
         <item>改变您的本地语言</item>
-    </string-array>    
+    </string-array>
     <string-array name="info_username">
         <item>Username</item>
         <item>用户名</item>
@@ -310,7 +310,7 @@
         <item>The copy is made successfully</item>
         <item>复制成功</item>
     </string-array>
-    
+
     <string name="logoImage_description">Openwords logo</string>
     <string name="loginPage">Please log in</string>
     <string name="paragraph1_text_languagePage">What language do you want to learn?</string>
