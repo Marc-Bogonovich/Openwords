@@ -115,11 +115,6 @@
             android:theme="@style/NoTitleTheme"></activity>
 
         <activity
-            android:name=".ui.lily.main.PageWords"
-            android:configChanges="orientation|screenSize"
-            android:theme="@style/NoTitleTheme"></activity>
-
-        <activity
             android:name=".ui.lily.main.PageHome"
             android:configChanges="orientation|screenSize"
             android:theme="@style/NoTitleTheme"></activity>

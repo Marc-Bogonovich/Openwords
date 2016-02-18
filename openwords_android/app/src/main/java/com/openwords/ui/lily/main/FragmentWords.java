@@ -23,7 +23,7 @@ import com.openwords.util.log.LogUtil;
 import com.openwords.util.ui.MyQuickToast;
 import java.util.List;
 
-public class PageWords extends Activity {
+public class FragmentWords extends Activity {
 
     private LinearLayout root;
     private TextView buttonStudy, buttonManage, buttonDict, buttonTest, langText;
@@ -54,24 +54,24 @@ public class PageWords extends Activity {
 
             public void onClick(View view) {
                 PageSetsList.mode = PageSetsList.Mode_Study;
-                startActivity(new Intent(PageWords.this, PageSetsList.class));
+                startActivity(new Intent(FragmentWords.this, PageSetsList.class));
             }
         });
         buttonManage.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
                 if (DataPool.OffLine) {
-                    MyQuickToast.showShort(PageWords.this, "Cannot manage set in offline mode.");
+                    MyQuickToast.showShort(FragmentWords.this, "Cannot manage set in offline mode.");
                     return;
                 }
                 PageSetsList.mode = PageSetsList.Mode_Manage;
-                startActivity(new Intent(PageWords.this, PageSetsList.class));
+                startActivity(new Intent(FragmentWords.this, PageSetsList.class));
             }
         });
         buttonDict.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
-                startActivity(new Intent(PageWords.this, PageDictionary.class));
+                startActivity(new Intent(FragmentWords.this, PageDictionary.class));
             }
         });
 
@@ -84,11 +84,11 @@ public class PageWords extends Activity {
                         DataPool.currentSentences.clear();
                         DataPool.currentSentences.addAll(connections);
                         DataPool.LmType = InterfaceLearningModule.Learning_Type_Sentence;
-                        startActivity(new Intent(PageWords.this, ActivityLearning.class));
+                        startActivity(new Intent(FragmentWords.this, ActivityLearning.class));
                     }
 
                     public void error(String error) {
-                        MyQuickToast.showShort(PageWords.this, error);
+                        MyQuickToast.showShort(FragmentWords.this, error);
                     }
                 });
             }
@@ -97,7 +97,7 @@ public class PageWords extends Activity {
         langText.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
-                Dialog d = new DialogLearnLang(PageWords.this, new DialogLearnLang.LanguagePicked() {
+                Dialog d = new DialogLearnLang(FragmentWords.this, new DialogLearnLang.LanguagePicked() {
 
                     public void done() {
                         Language currentLearn = LocalSettings.getLearningLanguage();
@@ -130,7 +130,7 @@ public class PageWords extends Activity {
         BackButtonBehavior.whenAtMainPages(this, new BackButtonBehavior.BackActionConfirmed() {
 
             public void callback() {
-                PageWords.super.onBackPressed();
+                FragmentWords.super.onBackPressed();
             }
         });
     }
