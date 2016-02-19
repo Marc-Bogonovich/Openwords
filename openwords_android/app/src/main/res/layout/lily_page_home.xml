@@ -4,24 +4,94 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/main_app_color">
+
+        <TextView
+            android:id="@+id/page_home_root_text1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:padding="10dp"
+            android:textColor="#f5f5f5"
+            android:textSize="24sp" />
+
+        <ImageView
+            android:id="@+id/page_home_root_image1"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:padding="10dp"
+            android:src="@drawable/ic_actionbar_others" />
+
+        <TextView
+            android:id="@+id/page_home_root_text2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/page_home_root_image1"
+            android:padding="10dp"
+            android:textColor="#ffffff"
+            android:textSize="16sp" />
+
+    </RelativeLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/my_orange"
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/page_home_root_button1"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Courses"
-            android:textSize="16sp" />
+            android:gravity="center"
+            android:paddingBottom="15dp"
+            android:paddingTop="12dp"
+            android:text="COURSES"
+            android:textColor="#f5f5f5"
+            android:textSize="18sp" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/page_home_root_button2"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Words"
-            android:textSize="16sp" />
+            android:gravity="center"
+            android:paddingBottom="15dp"
+            android:paddingTop="12dp"
+            android:text="WORDS"
+            android:textColor="#f5f5f5"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="@color/my_orange"
+        android:orientation="horizontal">
+
+        <View
+            android:id="@+id/page_home_root_view1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#ffffff" />
+
+        <View
+            android:id="@+id/page_home_root_view2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#ffffff"
+            android:visibility="invisible" />
 
     </LinearLayout>
 

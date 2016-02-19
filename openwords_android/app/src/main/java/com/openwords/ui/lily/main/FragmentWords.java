@@ -1,47 +1,49 @@
 package com.openwords.ui.lily.main;
 
-import android.app.Activity;
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.ImageView;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.openwords.R;
 import com.openwords.learningmodule.ActivityLearning;
 import com.openwords.learningmodule.InterfaceLearningModule;
 import com.openwords.model.DataPool;
-import com.openwords.model.Language;
 import com.openwords.model.LocalSettings;
 import com.openwords.model.ResultSentencePack;
 import com.openwords.model.SentenceConnection;
-import com.openwords.ui.common.BackButtonBehavior;
 import com.openwords.util.localization.LocalizationManager;
-import com.openwords.util.log.LogUtil;
 import com.openwords.util.ui.MyQuickToast;
+
 import java.util.List;
 
-public class FragmentWords extends Activity {
+public class FragmentWords extends Fragment {
 
     private LinearLayout root;
-    private TextView buttonStudy, buttonManage, buttonDict, buttonTest, langText;
-    private ImageView setting;
+    private TextView buttonStudy, buttonManage, buttonDict, buttonTest;
+    private View myFragmentView;
+
+    public FragmentWords() {
+    }
+
+    public static FragmentWords newInstance() {
+        return new FragmentWords();
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);//for testing purpose
-        setContentView(R.layout.lily_page_words);
-        root = (LinearLayout) findViewById(R.id.act_home_root);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        myFragmentView = inflater.inflate(R.layout.lily_page_words, container, false);
+
+        root = (LinearLayout) myFragmentView.findViewById(R.id.act_home_root);
         root.setBackgroundColor(getResources().getColor(R.color.main_app_color));
-        buttonStudy = (TextView) findViewById(R.id.act_home_button_1);
-        buttonManage = (TextView) findViewById(R.id.act_home_button_2);
-        buttonDict = (TextView) findViewById(R.id.act_home_button_3);
-        buttonTest = (TextView) findViewById(R.id.page_home_text_1);
-        setting = (ImageView) findViewById(R.id.page_home_image1);
-        langText = (TextView) findViewById(R.id.page_home_text_2);
+        buttonStudy = (TextView) myFragmentView.findViewById(R.id.act_home_button_1);
+        buttonManage = (TextView) myFragmentView.findViewById(R.id.act_home_button_2);
+        buttonDict = (TextView) myFragmentView.findViewById(R.id.act_home_button_3);
+        buttonTest = (TextView) myFragmentView.findViewById(R.id.page_home_text_1);
         buttonStudy.setTextColor(getResources().getColor(R.color.main_app_color));
         buttonManage.setTextColor(getResources().getColor(R.color.main_app_color));
         buttonDict.setTextColor(getResources().getColor(R.color.main_app_color));
@@ -54,24 +56,24 @@ public class FragmentWords extends Activity {
 
             public void onClick(View view) {
                 PageSetsList.mode = PageSetsList.Mode_Study;
-                startActivity(new Intent(FragmentWords.this, PageSetsList.class));
+                startActivity(new Intent(getActivity(), PageSetsList.class));
             }
         });
         buttonManage.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
                 if (DataPool.OffLine) {
-                    MyQuickToast.showShort(FragmentWords.this, "Cannot manage set in offline mode.");
+                    MyQuickToast.showShort(getActivity(), "Cannot manage set in offline mode.");
                     return;
                 }
                 PageSetsList.mode = PageSetsList.Mode_Manage;
-                startActivity(new Intent(FragmentWords.this, PageSetsList.class));
+                startActivity(new Intent(getActivity(), PageSetsList.class));
             }
         });
         buttonDict.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
-                startActivity(new Intent(FragmentWords.this, PageDictionary.class));
+                startActivity(new Intent(getActivity(), PageDictionary.class));
             }
         });
 
@@ -84,54 +86,16 @@ public class FragmentWords extends Activity {
                         DataPool.currentSentences.clear();
                         DataPool.currentSentences.addAll(connections);
                         DataPool.LmType = InterfaceLearningModule.Learning_Type_Sentence;
-                        startActivity(new Intent(FragmentWords.this, ActivityLearning.class));
+                        startActivity(new Intent(getActivity(), ActivityLearning.class));
                     }
 
                     public void error(String error) {
-                        MyQuickToast.showShort(FragmentWords.this, error);
+                        MyQuickToast.showShort(getActivity(), error);
                     }
                 });
             }
         });
 
-        langText.setOnClickListener(new View.OnClickListener() {
-
-            public void onClick(View v) {
-                Dialog d = new DialogLearnLang(FragmentWords.this, new DialogLearnLang.LanguagePicked() {
-
-                    public void done() {
-                        Language currentLearn = LocalSettings.getLearningLanguage();
-                        if (currentLearn.displayName.isEmpty()) {
-                            langText.setText(currentLearn.name);
-                        } else {
-                            langText.setText(currentLearn.displayName);
-                        }
-                    }
-                });
-                d.show();
-            }
-        });
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        LogUtil.logDeubg(this, "onResume");
-        Language currentLearn = LocalSettings.getLearningLanguage();
-        if (currentLearn.displayName.isEmpty()) {
-            langText.setText(currentLearn.name);
-        } else {
-            langText.setText(currentLearn.displayName);
-        }
-    }
-
-    @Override
-    public void onBackPressed() {
-        BackButtonBehavior.whenAtMainPages(this, new BackButtonBehavior.BackActionConfirmed() {
-
-            public void callback() {
-                FragmentWords.super.onBackPressed();
-            }
-        });
+        return myFragmentView;
     }
 }
