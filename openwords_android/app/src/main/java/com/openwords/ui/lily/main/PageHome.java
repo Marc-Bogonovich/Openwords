@@ -7,9 +7,11 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.h6ah4i.android.materialshadowninepatch.MaterialShadowContainerView;
 import com.openwords.R;
 import com.openwords.learningmodule.MyPager;
 import com.openwords.model.Language;
@@ -23,9 +25,11 @@ public class PageHome extends FragmentActivity {
     private TextView logo, languageName, buttonCourses, buttonWords;
     private ImageView setting;
     private View line1, line2;
+    private MaterialShadowContainerView toolbarShadow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);//for testing purpose
         super.onCreate(savedInstanceState);
         setContentView(R.layout.lily_page_home);
 
@@ -36,6 +40,7 @@ public class PageHome extends FragmentActivity {
         buttonWords = (TextView) findViewById(R.id.page_home_root_button2);
         line1 = findViewById(R.id.page_home_root_view1);
         line2 = findViewById(R.id.page_home_root_view2);
+        toolbarShadow = (MaterialShadowContainerView) findViewById(R.id.page_home_root_shadow1);
 
         languageName.setOnClickListener(new View.OnClickListener() {
 
@@ -85,9 +90,11 @@ public class PageHome extends FragmentActivity {
                 if (position == 0) {
                     line1.setVisibility(View.VISIBLE);
                     line2.setVisibility(View.INVISIBLE);
+                    toolbarShadow.setBackgroundColor(getResources().getColor(R.color.home_page_back));
                 } else if (position == 1) {
                     line2.setVisibility(View.VISIBLE);
                     line1.setVisibility(View.INVISIBLE);
+                    toolbarShadow.setBackgroundColor(getResources().getColor(R.color.main_app_color));
                 }
             }
 
