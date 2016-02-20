@@ -6,7 +6,6 @@ import android.view.WindowManager;
 import android.widget.ListView;
 
 import com.openwords.R;
-import com.openwords.learningmodule.MyPager;
 
 import java.util.LinkedList;
 import java.util.List;
