@@ -1,66 +1,55 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.github.ksoichiro.android.observablescrollview.ObservableScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/frag_words_scrollView"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <View
+        <include layout="@layout/material_view_pager_placeholder" />
+
+        <Button
+            android:id="@+id/frag_home_button1"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
-
-        <TextView
-            android:id="@+id/page_home_text_1"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="60dp"
-            android:textColor="#ffffff"
-            android:textSize="24sp" />
+            android:layout_marginBottom="40dp"
+            android:layout_marginTop="200dp"
+            android:gravity="center"
+            android:padding="5dp"
+            android:textColor="@color/main_app_color"
+            android:textSize="36sp" />
 
+
+        <Button
+            android:id="@+id/frag_home_button2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="40dp"
+            android:gravity="center"
+            android:padding="5dp"
+            android:textColor="@color/main_app_color"
+            android:textSize="36sp" />
+
+        <Button
+            android:id="@+id/frag_home_button3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="40dp"
+            android:gravity="center"
+            android:padding="5dp"
+            android:textColor="@color/main_app_color"
+            android:textSize="36sp" />
+
+        <Button
+            android:id="@+id/frag_home_button4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="40dp"
+            android:gravity="center"
+            android:padding="5dp"
+            android:textColor="@color/main_app_color"
+            android:textSize="36sp" />
     </LinearLayout>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/act_home_button_1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:background="#fff"
-            android:gravity="center"
-            android:padding="5dp"
-            android:textSize="36sp" />
-
-        <TextView
-            android:id="@+id/act_home_button_2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:background="#fff"
-            android:gravity="center"
-            android:padding="5dp"
-            android:textSize="36sp" />
-
-        <TextView
-            android:id="@+id/act_home_button_3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:background="#fff"
-            android:gravity="center"
-            android:padding="5dp"
-            android:textSize="36sp" />
-
-    </LinearLayout>
-
-</LinearLayout>
+</com.github.ksoichiro.android.observablescrollview.ObservableScrollView>

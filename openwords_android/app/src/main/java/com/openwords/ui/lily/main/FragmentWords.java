@@ -2,12 +2,16 @@ package com.openwords.ui.lily.main;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
+import com.github.florent37.materialviewpager.MaterialViewPagerHelper;
+import com.github.ksoichiro.android.observablescrollview.ObservableScrollView;
 import com.openwords.R;
 import com.openwords.learningmodule.ActivityLearning;
 import com.openwords.learningmodule.InterfaceLearningModule;
@@ -22,8 +26,9 @@ import java.util.List;
 
 public class FragmentWords extends Fragment {
 
-    private TextView buttonStudy, buttonManage, buttonDict, buttonTest;
+    private Button buttonStudy, buttonManage, buttonDict, buttonTest;
     private View myFragmentView;
+    private ObservableScrollView mScrollView;
 
     public FragmentWords() {
     }
@@ -36,13 +41,10 @@ public class FragmentWords extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         myFragmentView = inflater.inflate(R.layout.lily_frag_words, container, false);
 
-        buttonStudy = (TextView) myFragmentView.findViewById(R.id.act_home_button_1);
-        buttonManage = (TextView) myFragmentView.findViewById(R.id.act_home_button_2);
-        buttonDict = (TextView) myFragmentView.findViewById(R.id.act_home_button_3);
-        buttonTest = (TextView) myFragmentView.findViewById(R.id.page_home_text_1);
-        buttonStudy.setTextColor(getResources().getColor(R.color.main_app_color));
-        buttonManage.setTextColor(getResources().getColor(R.color.main_app_color));
-        buttonDict.setTextColor(getResources().getColor(R.color.main_app_color));
+        buttonStudy = (Button) myFragmentView.findViewById(R.id.frag_home_button2);
+        buttonManage = (Button) myFragmentView.findViewById(R.id.frag_home_button3);
+        buttonDict = (Button) myFragmentView.findViewById(R.id.frag_home_button4);
+        buttonTest = (Button) myFragmentView.findViewById(R.id.frag_home_button1);
         buttonStudy.setText(LocalizationManager.getButtonPractice());
         buttonManage.setText(LocalizationManager.getButtonManageSets());
         buttonDict.setText(LocalizationManager.getButtonResume());
@@ -93,5 +95,13 @@ public class FragmentWords extends Fragment {
         });
 
         return myFragmentView;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mScrollView = (ObservableScrollView) view.findViewById(R.id.frag_words_scrollView);
+
+        MaterialViewPagerHelper.registerScrollView(getActivity(), mScrollView, null);
     }
 }

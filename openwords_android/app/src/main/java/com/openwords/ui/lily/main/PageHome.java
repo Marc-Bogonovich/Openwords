@@ -25,7 +25,6 @@ public class PageHome extends FragmentActivity {
     private TextView logo, languageName, buttonCourses, buttonWords;
     private ImageView setting;
     private View line1, line2;
-    private MaterialShadowContainerView toolbarShadow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +39,6 @@ public class PageHome extends FragmentActivity {
         buttonWords = (TextView) findViewById(R.id.page_home_root_button2);
         line1 = findViewById(R.id.page_home_root_view1);
         line2 = findViewById(R.id.page_home_root_view2);
-        toolbarShadow = (MaterialShadowContainerView) findViewById(R.id.page_home_root_shadow1);
 
         languageName.setOnClickListener(new View.OnClickListener() {
 
@@ -90,11 +88,9 @@ public class PageHome extends FragmentActivity {
                 if (position == 0) {
                     line1.setVisibility(View.VISIBLE);
                     line2.setVisibility(View.INVISIBLE);
-                    toolbarShadow.setBackgroundColor(getResources().getColor(R.color.home_page_back));
                 } else if (position == 1) {
                     line2.setVisibility(View.VISIBLE);
                     line1.setVisibility(View.INVISIBLE);
-                    toolbarShadow.setBackgroundColor(getResources().getColor(R.color.main_app_color));
                 }
             }
 
