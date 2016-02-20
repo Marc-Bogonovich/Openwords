@@ -1,6 +1,7 @@
 package com.openwords.ui.lily.main;
 
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -9,16 +10,19 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.florent37.materialviewpager.MaterialViewPager;
 import com.github.florent37.materialviewpager.header.HeaderDesign;
 import com.openwords.R;
+import com.openwords.model.Language;
+import com.openwords.model.LocalSettings;
+import com.openwords.util.log.LogUtil;
 
 
 public class PageHomeNew extends AppCompatActivity {
@@ -28,6 +32,7 @@ public class PageHomeNew extends AppCompatActivity {
     private DrawerLayout mDrawer;
     private ActionBarDrawerToggle mDrawerToggle;
     private Toolbar toolbar;
+    private TextView languageName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,9 +42,9 @@ public class PageHomeNew extends AppCompatActivity {
         setTitle("");
 
         mViewPager = (MaterialViewPager) findViewById(R.id.materialViewPager);
-        toolbar = mViewPager.getToolbar();
         mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
+        toolbar = mViewPager.getToolbar();
         if (toolbar != null) {
             setSupportActionBar(toolbar);
 
@@ -54,6 +59,24 @@ public class PageHomeNew extends AppCompatActivity {
                 actionBar.setDisplayShowCustomEnabled(true);
                 actionBar.setCustomView(actionBarLayout);
 
+                languageName = (TextView) actionBarLayout.findViewById(R.id.bar_home_text1);
+                languageName.setOnClickListener(new View.OnClickListener() {
+
+                    public void onClick(View v) {
+                        Dialog d = new DialogLearnLang(PageHomeNew.this, new DialogLearnLang.LanguagePicked() {
+
+                            public void done() {
+                                Language currentLearn = LocalSettings.getLearningLanguage();
+                                if (currentLearn.displayName.isEmpty()) {
+                                    languageName.setText(currentLearn.name);
+                                } else {
+                                    languageName.setText(currentLearn.displayName);
+                                }
+                            }
+                        });
+                        d.show();
+                    }
+                });
             }
         }
 
@@ -135,5 +158,19 @@ public class PageHomeNew extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         return mDrawerToggle.onOptionsItemSelected(item) ||
                 super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        LogUtil.logDeubg(this, "onResume");
+        if (languageName != null) {
+            Language currentLearn = LocalSettings.getLearningLanguage();
+            if (currentLearn.displayName.isEmpty()) {
+                languageName.setText(currentLearn.name);
+            } else {
+                languageName.setText(currentLearn.displayName);
+            }
+        }
     }
 }

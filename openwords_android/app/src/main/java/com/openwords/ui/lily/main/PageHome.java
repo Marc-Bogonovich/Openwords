@@ -115,7 +115,6 @@ public class PageHome extends FragmentActivity {
         });
 
         logo.setText("Openwords");
-        languageName.setText("中文");
 
     }
 
