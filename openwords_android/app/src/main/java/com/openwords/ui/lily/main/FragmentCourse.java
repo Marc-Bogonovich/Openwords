@@ -15,7 +15,6 @@ import com.openwords.R;
 public class FragmentCourse extends Fragment {
 
     private View myFragmentView;
-    private CardView card;
     private ObservableScrollView mScrollView;
 
     public FragmentCourse() {
@@ -38,7 +37,6 @@ public class FragmentCourse extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         myFragmentView = inflater.inflate(R.layout.lily_frag_course, container, false);
-        card = (CardView) myFragmentView.findViewById(R.id.page_course_card_view);
 
         return myFragmentView;
     }
