@@ -10,10 +10,12 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,10 +31,11 @@ public class PageHomeNew extends AppCompatActivity {
 
     private MaterialViewPager mViewPager;
 
-    private DrawerLayout mDrawer;
+    private DrawerLayout myDrawer;
     private ActionBarDrawerToggle mDrawerToggle;
     private Toolbar toolbar;
     private TextView languageName;
+    private ImageView setting;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +45,7 @@ public class PageHomeNew extends AppCompatActivity {
         setTitle("");
 
         mViewPager = (MaterialViewPager) findViewById(R.id.materialViewPager);
-        mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        myDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         toolbar = mViewPager.getToolbar();
         if (toolbar != null) {
@@ -60,6 +63,8 @@ public class PageHomeNew extends AppCompatActivity {
                 actionBar.setCustomView(actionBarLayout);
 
                 languageName = (TextView) actionBarLayout.findViewById(R.id.bar_home_text1);
+                setting = (ImageView) actionBarLayout.findViewById(R.id.bar_home_image1);
+
                 languageName.setOnClickListener(new View.OnClickListener() {
 
                     public void onClick(View v) {
@@ -77,11 +82,20 @@ public class PageHomeNew extends AppCompatActivity {
                         d.show();
                     }
                 });
+
+                setting.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (myDrawer != null) {
+                            myDrawer.openDrawer(Gravity.RIGHT);
+                        }
+                    }
+                });
             }
         }
 
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawer, 0, 0);
-        mDrawer.setDrawerListener(mDrawerToggle);
+        mDrawerToggle = new ActionBarDrawerToggle(this, myDrawer, 0, 0);
+        myDrawer.setDrawerListener(mDrawerToggle);
 
         mViewPager.getViewPager().setAdapter(new FragmentStatePagerAdapter(getSupportFragmentManager()) {
 
