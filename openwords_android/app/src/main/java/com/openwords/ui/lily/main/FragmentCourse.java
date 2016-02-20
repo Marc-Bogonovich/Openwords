@@ -1,18 +1,22 @@
 package com.openwords.ui.lily.main;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.github.florent37.materialviewpager.MaterialViewPagerHelper;
+import com.github.ksoichiro.android.observablescrollview.ObservableScrollView;
 import com.openwords.R;
 
 public class FragmentCourse extends Fragment {
 
     private View myFragmentView;
     private CardView card;
+    private ObservableScrollView mScrollView;
 
     public FragmentCourse() {
     }
@@ -37,6 +41,14 @@ public class FragmentCourse extends Fragment {
         card = (CardView) myFragmentView.findViewById(R.id.page_course_card_view);
 
         return myFragmentView;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mScrollView = (ObservableScrollView) view.findViewById(R.id.frag_course_scrollView);
+
+        MaterialViewPagerHelper.registerScrollView(getActivity(), mScrollView, null);
     }
 
 }

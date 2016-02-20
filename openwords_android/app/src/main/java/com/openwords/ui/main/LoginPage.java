@@ -30,6 +30,7 @@ import com.openwords.sound.SoundPlayer;
 import com.openwords.ui.lily.main.DialogLearnLang;
 import com.openwords.ui.lily.main.PageHome;
 import com.openwords.ui.lily.main.PageSetsList;
+import com.openwords.ui.lily.main.PageHomeNew;
 import com.openwords.util.InternetCheck;
 import com.openwords.util.file.LocalFileSystem;
 import com.openwords.util.localization.LocalLanguage;
@@ -254,7 +255,11 @@ public class LoginPage extends Activity {
         LocalSettings.setBaseLanguageId(LocalSettings.getBaseLanguageId());
 
         MyDialogHelper.tryDismissQuickProgressDialog();
-        startActivity(new Intent(LoginPage.this, PageHome.class));
+        if (LocalSettings.getUsername().equals("test")) {
+            startActivity(new Intent(LoginPage.this, PageHome.class));
+            return;
+        }
+        startActivity(new Intent(LoginPage.this, PageHomeNew.class));
     }
 
     @Override

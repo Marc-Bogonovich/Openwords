@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.openwords.R;
@@ -23,7 +22,6 @@ import java.util.List;
 
 public class FragmentWords extends Fragment {
 
-    private LinearLayout root;
     private TextView buttonStudy, buttonManage, buttonDict, buttonTest;
     private View myFragmentView;
 
@@ -36,10 +34,8 @@ public class FragmentWords extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        myFragmentView = inflater.inflate(R.layout.lily_page_words, container, false);
+        myFragmentView = inflater.inflate(R.layout.lily_frag_words, container, false);
 
-        root = (LinearLayout) myFragmentView.findViewById(R.id.act_home_root);
-        root.setBackgroundColor(getResources().getColor(R.color.main_app_color));
         buttonStudy = (TextView) myFragmentView.findViewById(R.id.act_home_button_1);
         buttonManage = (TextView) myFragmentView.findViewById(R.id.act_home_button_2);
         buttonDict = (TextView) myFragmentView.findViewById(R.id.act_home_button_3);

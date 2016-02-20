@@ -2,7 +2,7 @@
 
 <resources>
     <color name="red">#ff0000</color>
-    <color name="blue">#4d94ff</color>
+    <color name="blue">#4a90e2</color>
     <color name="orange">#ff6600</color>
     <color name="violet">#9900ff</color>
     <color name="white">#FFFFFF</color>
@@ -19,4 +19,12 @@
     <color name="deep_sky_blue">#00BFFF</color>
     <color name="main_app_color">#cc6600</color>
     <color name="home_page_back">#eeeeee</color>
+
+
+    <color name="accent_color">@color/main_app_color</color>
+    <color name="colorPrimary">@color/main_app_color</color>
+    <color name="colorPrimaryDark">@color/main_app_color</color>
+    <color name="statusBarColor">@color/main_app_color</color>
+    <color name="navigationBarColor">@color/my_orange</color>
+    <color name="drawerArrowColor">@android:color/white</color>
 </resources>
