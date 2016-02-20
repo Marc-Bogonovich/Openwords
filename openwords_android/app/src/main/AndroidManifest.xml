@@ -145,6 +145,11 @@
             android:name=".ui.lily.main.PageHomeNew"
             android:configChanges="orientation|screenSize"
             android:theme="@style/MyMdPagerTheme"></activity>
+
+        <activity
+            android:name=".ui.lily.main.PageLesson"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/NoTitleTheme"></activity>
     </application>
 
 </manifest>

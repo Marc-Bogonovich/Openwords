@@ -1,5 +1,6 @@
 package com.openwords.ui.lily.main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -37,6 +38,14 @@ public class FragmentCourse extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         myFragmentView = inflater.inflate(R.layout.lily_frag_course, container, false);
+
+        CardView card = (CardView) myFragmentView.findViewById(R.id.frag_course_card1);
+        card.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(), PageLesson.class));
+            }
+        });
 
         return myFragmentView;
     }
