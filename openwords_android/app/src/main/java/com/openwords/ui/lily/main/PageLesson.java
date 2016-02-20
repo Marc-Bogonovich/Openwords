@@ -2,6 +2,7 @@ package com.openwords.ui.lily.main;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.ListView;
 
@@ -38,6 +39,13 @@ public class PageLesson extends FragmentActivity {
         listAdapter = new ListAdapterLessonItem(this, items);
         list.setAdapter(listAdapter);
         list.setDivider(null);
+
+        findViewById(R.id.page_lesson_text1).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PageLesson.super.onBackPressed();
+            }
+        });
     }
 
 
