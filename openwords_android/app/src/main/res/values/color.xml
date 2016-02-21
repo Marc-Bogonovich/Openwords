@@ -25,6 +25,6 @@
     <color name="colorPrimary">@color/main_app_color</color>
     <color name="colorPrimaryDark">@color/main_app_color</color>
     <color name="statusBarColor">@color/main_app_color</color>
-    <color name="navigationBarColor">@color/my_orange</color>
+    <color name="navigationBarColor">#32000000</color>
     <color name="drawerArrowColor">@android:color/white</color>
 </resources>

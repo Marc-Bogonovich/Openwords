@@ -25,6 +25,7 @@ import com.openwords.R;
 import com.openwords.model.Language;
 import com.openwords.model.LocalSettings;
 import com.openwords.util.log.LogUtil;
+import com.openwords.util.ui.MyDialogHelper;
 
 
 public class PageHomeNew extends AppCompatActivity {
@@ -40,6 +41,8 @@ public class PageHomeNew extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);//for testing purpose
+        getWindow().getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.md_page_home_new);
         setTitle("");
@@ -160,6 +163,8 @@ public class PageHomeNew extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Yes, the title is clickable", Toast.LENGTH_SHORT).show();
                 }
             });
+
+        MyDialogHelper.showMessageDialog(this, "Disclaimer", "This software is a non-commercial application only for personal demonstration purposes, all the data content in this software belong to the original distributors.", null);
     }
 
     @Override

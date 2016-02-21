@@ -29,7 +29,7 @@
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
 
-    <style name="MdPagerTheme" parent="@style/Theme.AppCompat.Light.NoActionBar"></style>
+    <style name="MdPagerTheme" parent="@style/Theme.AppCompat.NoActionBar"></style>
 
     <!-- Base application theme. -->
     <style name="MyMdPagerTheme" parent="MdPagerTheme">
@@ -50,6 +50,8 @@
         <item name="android:navigationBarColor" tools:targetApi="21">@color/navigationBarColor
         </item>
         <item name="android:windowDrawsSystemBarBackgrounds" tools:targetApi="21">true</item>
+
+        <item name="android:windowBackground">@color/primary_material_light</item>
 
 
     </style>

@@ -50,9 +50,9 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-
                         android:layout_marginLeft="20dp"
                         android:text="Mandarin Chinese"
+                        android:textColor="#333"
                         android:textSize="18sp" />
 
                     <View
@@ -119,9 +119,9 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-
                         android:layout_marginLeft="20dp"
                         android:text="Sports"
+                        android:textColor="#333"
                         android:textSize="18sp" />
 
                     <View
@@ -188,9 +188,9 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-
                         android:layout_marginLeft="20dp"
                         android:text="Chinese Days"
+                        android:textColor="#333"
                         android:textSize="18sp" />
 
                     <View
@@ -257,9 +257,9 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-
                         android:layout_marginLeft="20dp"
                         android:text="Family"
+                        android:textColor="#333"
                         android:textSize="18sp" />
 
                     <View
@@ -326,9 +326,9 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-
                         android:layout_marginLeft="20dp"
                         android:text="Math"
+                        android:textColor="#333"
                         android:textSize="18sp" />
 
                     <View
