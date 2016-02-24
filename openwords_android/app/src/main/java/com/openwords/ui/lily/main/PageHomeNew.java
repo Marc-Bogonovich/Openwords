@@ -24,6 +24,7 @@ import com.github.florent37.materialviewpager.header.HeaderDesign;
 import com.openwords.R;
 import com.openwords.model.Language;
 import com.openwords.model.LocalSettings;
+import com.openwords.util.graphics.MapImageColor;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.ui.MyDialogHelper;
 
@@ -49,6 +50,20 @@ public class PageHomeNew extends AppCompatActivity {
 
         mViewPager = (MaterialViewPager) findViewById(R.id.materialViewPager);
         myDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        MapImageColor.mapColor(myDrawer.findViewById(R.id.drawer_image1), getResources().getColor(R.color.black));
+        MapImageColor.mapColor(myDrawer.findViewById(R.id.drawer_image2), getResources().getColor(R.color.black));
+        MapImageColor.mapColor(myDrawer.findViewById(R.id.drawer_image3), getResources().getColor(R.color.black));
+        MapImageColor.mapColor(myDrawer.findViewById(R.id.drawer_image4), getResources().getColor(R.color.black));
+        MapImageColor.mapColor(myDrawer.findViewById(R.id.drawer_image5), getResources().getColor(R.color.black));
+        MapImageColor.mapColor(myDrawer.findViewById(R.id.drawer_image6), getResources().getColor(R.color.black));
+        MapImageColor.mapColor(myDrawer.findViewById(R.id.drawer_image7), getResources().getColor(R.color.black));
+        MapImageColor.mapColor(myDrawer.findViewById(R.id.drawer_image8), getResources().getColor(R.color.black));
+        myDrawer.findViewById(R.id.drawer_item8).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MyDialogHelper.showMessageDialog(PageHomeNew.this, "Disclaimer", "This software is a non-commercial application only for personal demonstration purposes, all the data content in this software belong to the original distributors.", null);
+            }
+        });
 
         toolbar = mViewPager.getToolbar();
         if (toolbar != null) {
