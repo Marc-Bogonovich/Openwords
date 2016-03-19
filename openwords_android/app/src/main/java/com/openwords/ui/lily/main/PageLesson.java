@@ -1,12 +1,15 @@
 package com.openwords.ui.lily.main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.openwords.R;
+import com.openwords.ui.lily.lm.ActLesson;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -39,6 +42,12 @@ public class PageLesson extends FragmentActivity {
         listAdapter = new ListAdapterLessonItem(this, items);
         list.setAdapter(listAdapter);
         list.setDivider(null);
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                startActivity(new Intent(PageLesson.this, ActLesson.class));
+            }
+        });
 
         findViewById(R.id.page_lesson_text1).setOnClickListener(new View.OnClickListener() {
             @Override

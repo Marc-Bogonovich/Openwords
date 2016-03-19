@@ -11,6 +11,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.openwords.R;
 import com.openwords.learningmodule.ActivityLearning;
 import com.openwords.learningmodule.FragmentLearningModule;
@@ -23,6 +24,7 @@ import com.openwords.model.SentenceItem;
 import com.openwords.util.log.LogUtil;
 import com.openwords.util.ui.MyDialogHelper;
 import com.openwords.util.ui.MyQuickToast;
+
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -31,8 +33,8 @@ public class PageSentence extends FragmentLearningModule {
 
     public static boolean FirstPageDone;
 
-    private final int cardIndex;
-    private final ActivityLearning lmActivity;
+    private int cardIndex;
+    private ActivityLearning lmActivity;
     private View myFragmentView;
     private LinearLayout root;
     private LinearLayout itemsArea;
@@ -50,6 +52,8 @@ public class PageSentence extends FragmentLearningModule {
     private Sentence s1, s2;
     private Performance perf;
 
+    public PageSentence() {
+    }
 
     public PageSentence(int cardIndex, ActivityLearning lmActivity) {
         this.cardIndex = cardIndex;

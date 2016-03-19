@@ -27,6 +27,7 @@ import com.openwords.model.WordConnection;
 import com.openwords.services.implementations.ServiceLoginUser;
 import com.openwords.services.interfaces.HttpResultHandler;
 import com.openwords.sound.SoundPlayer;
+import com.openwords.ui.lily.lm.ActLesson;
 import com.openwords.ui.lily.main.DialogLearnLang;
 import com.openwords.ui.lily.main.PageHome;
 import com.openwords.ui.lily.main.PageSetsList;
@@ -78,7 +79,7 @@ public class LoginPage extends Activity {
         findViewById(R.id.loginPage_test).setOnClickListener(new OnClickListener() {
 
             public void onClick(View view) {
-                startActivity(new Intent(LoginPage.this, PageSetsList.class));
+                //startActivity(new Intent(LoginPage.this, ActLesson.class));
             }
         });
         findViewById(R.id.loginPage_test2).setOnClickListener(new OnClickListener() {
