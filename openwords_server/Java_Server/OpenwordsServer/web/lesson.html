@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Openwords</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="js/jquery-2.1.1.min.js"></script>
+        <script src="ng/angular.min.1.5.js"></script>
+        <script src="ng-tags-input/ng-tags-input.min.js"></script>
+        <script>
+
+            var App = angular.module("RootPage", ["ngTagsInput"]);</script>
+        <script src="ng/control_lesson.js"></script>
+        <script src="file-saver/FileSaver.min.js"></script>
+        <script src="bootstrap-3.1.1/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="bootstrap-3.1.1/css/bootstrap.min.css" type="text/css">
+        <link rel="stylesheet" href="ng-tags-input/ng-tags-input.min.css" type="text/css">
+        <style>
+            .answer-item{
+                margin-left: 5px;
+                padding: 3px;
+                background-color: #0f9d58;
+                color: #ffffff;
+            }
+            .problem-item{
+                margin-left: 5px;
+                padding: 3px;
+                background-color: #03a9f4;
+                color: #ffffff;
+            }
+            .marplot-item{
+                margin-left: 5px;
+                padding: 3px;
+                background-color: #f8a724;
+                color: #ffffff;
+            }
+            .line{
+                margin: 5px;
+            }
+
+        </style>
+    </head>
+    <body>
+        <div ng-app="RootPage" ng-controller="RootControl"style="margin-top: 50px;">
+            <div class="row" style="width: 100%;">
+                <div class="col-xs-1 col-md-3"></div>
+                <div class="col-xs-10 col-md-6">
+                    <hr/>
+                    <div class="panel panel-info">
+                        <div class="panel-body">
+                            <p style="font-size: 32px; text-align: center;">
+                                Creating a Lesson
+                            </p>
+                            <hr/>
+                            <div ng-repeat="p in lesson">
+                                <div ng-show="p.done">
+                                    <h3 style="font-size: 24px;">
+                                        Problem {{$index + 1}}
+                                    </h3>
+                                    <p>Problem Type: Fill in Blank (we only support this type now)</p>
+                                    <div ng-repeat="lines in p.problemLines" class="line">
+                                        <span>
+                                            Problem-Line:
+                                        </span>
+                                        <span ng-repeat="item in lines.items"
+                                              class="problem-item">
+                                            {{item}}
+                                        </span>
+                                    </div>
+                                    <div ng-repeat="answer in p.answers" class="line">
+                                        <span>
+                                            Answer-for-Blank-{{$index + 1}}:
+                                        </span>
+                                        <span ng-repeat="item in answer.items"
+                                              class="answer-item">
+                                            {{item}}
+                                        </span>
+                                    </div>
+                                    <div class="line">
+                                        <span>
+                                            Marplots:
+                                        </span>
+                                        <span ng-repeat="item in p.marplots.items"
+                                              class="marplot-item">
+                                            {{item}}
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div ng-hide="p.done">
+                                    <p>Problem Type: Fill in Blank (we only support this type now)</p>
+                                    <div ng-repeat="lines in p.problemLines" class="line">
+                                        <span>
+                                            Problem-Line:
+                                        </span>
+                                        <tags-input ng-model="lines.tags" min-length="1" min-tags="1"
+                                                    placeholder="Add an item" replace-spaces-with-dashes="false"
+                                                    on-tag-added="problemItemAdded(p)"></tags-input>
+                                    </div>
+                                    <button ng-click="addProblemLine(p.problemLines)" class="btn btn-info">Add more problem line</button>
+                                    <div ng-repeat="answer in p.answers" class="line">
+                                        <span>
+                                            Answer-for-Blank-{{$index + 1}}:
+                                        </span>
+                                        <tags-input ng-model="answer.tags" min-length="1" min-tags="1"
+                                                    replace-spaces-with-dashes="false"
+                                                    placeholder="Add an item"></tags-input>
+                                    </div>
+                                    <div class="line">
+                                        <span>
+                                            Marplots:
+                                        </span>
+                                        <tags-input ng-model="p.marplots.tags" min-length="1" min-tags="1"
+                                                    replace-spaces-with-dashes="false"
+                                                    placeholder="Add an item"></tags-input>
+                                    </div>
+                                    <button ng-click="confirmProblem(p)" class="btn btn-warning">Save this problem</button>
+                                </div>
+
+                                <button class="btn btn-danger" style="margin-top: 10px;"
+                                        ng-show="p.done"
+                                        ng-click="deleteProblem($index)">Delete this problem</button>
+
+                                <hr/>
+
+                                <div ng-show="showLastAdd($index)">
+                                    <button class="btn" ng-click="addNextProblem()">Add next problem</button>
+                                    <hr/>
+                                </div>
+                            </div>
+                            <div>
+                                <button class="btn btn-success" ng-click="downloadLesson()">Download this Lesson to our format</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-xs-1 col-md-3"></div>
+            </div>
+
+        </div>
+    </body>
+</html>
