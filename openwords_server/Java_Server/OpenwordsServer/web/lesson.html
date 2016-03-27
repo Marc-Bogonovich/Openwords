@@ -5,11 +5,13 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="js/jquery-2.1.1.min.js"></script>
+        <script src="js/string.min.js"></script>
         <script src="ng/angular.min.1.5.js"></script>
+        <script src="ng/angular-sanitize.min.js"></script>
         <script src="ng-tags-input/ng-tags-input.min.js"></script>
         <script>
 
-            var App = angular.module("RootPage", ["ngTagsInput"]);</script>
+            var App = angular.module("RootPage", ["ngTagsInput", "ngSanitize"]);</script>
         <script src="ng/control_lesson.js"></script>
         <script src="file-saver/FileSaver.min.js"></script>
         <script src="bootstrap-3.1.1/js/bootstrap.min.js"></script>
@@ -53,37 +55,56 @@
                             </p>
                             <hr/>
                             <div ng-repeat="p in lesson">
-                                <div ng-show="p.done">
-                                    <h3 style="font-size: 24px;">
-                                        Problem {{$index + 1}}
-                                    </h3>
-                                    <p>Problem Type: Fill in Blank (we only support this type now)</p>
-                                    <div ng-repeat="lines in p.problemLines" class="line">
-                                        <span>
-                                            Problem-Line:
-                                        </span>
-                                        <span ng-repeat="item in lines.items"
-                                              class="problem-item">
-                                            {{item}}
-                                        </span>
+                                <div ng-show="p.done" class="row">
+                                    <div class="col-xs-12 col-md-6">
+                                        <h3 style="font-size: 24px;">
+                                            Problem {{$index + 1}}
+                                        </h3>
+                                        <p>Problem Type: Fill in Blank</p>
+                                        <div ng-repeat="lines in p.problemLines" class="line">
+                                            <span>
+                                                Problem-Line:
+                                            </span>
+                                            <span ng-repeat="item in lines.items"
+                                                  class="problem-item">
+                                                {{item}}
+                                            </span>
+                                        </div>
+                                        <div ng-repeat="answer in p.answers" class="line">
+                                            <span>
+                                                Answer-for-Blank-{{$index + 1}}:
+                                            </span>
+                                            <span ng-repeat="item in answer.items"
+                                                  class="answer-item">
+                                                {{item}}
+                                            </span>
+                                        </div>
+                                        <div class="line">
+                                            <span>
+                                                Marplots:
+                                            </span>
+                                            <span ng-repeat="item in p.marplots.items"
+                                                  class="marplot-item">
+                                                {{item}}
+                                            </span>
+                                        </div>
                                     </div>
-                                    <div ng-repeat="answer in p.answers" class="line">
-                                        <span>
-                                            Answer-for-Blank-{{$index + 1}}:
-                                        </span>
-                                        <span ng-repeat="item in answer.items"
-                                              class="answer-item">
-                                            {{item}}
-                                        </span>
-                                    </div>
-                                    <div class="line">
-                                        <span>
-                                            Marplots:
-                                        </span>
-                                        <span ng-repeat="item in p.marplots.items"
-                                              class="marplot-item">
-                                            {{item}}
-                                        </span>
+                                    <div class="col-xs-12 col-md-5" style="margin: 5px;">
+                                        <h4 style="font-size: 16px;">"Problem UI Preview"</h4>
+                                        <h4 style="font-size: 14px;">(only a suggestion)</h4>
+                                        <div style="background-color: #33ac71; color: #ffffff; padding: 5px;">
+                                            <div ng-repeat="line in p.problemLines" class="line">
+                                                <div ng-bind-html="displayProblemLine(line)"></div>
+                                            </div>
+
+                                            <div style="background-color: #ffffff; margin-top: 10px; margin-left: 5px; margin-right: 5px; margin-bottom: 10px;">
+                                                <span ng-repeat="answer in p.answerDisplay"
+                                                      class="badge btn-success" 
+                                                      style="margin: 5px;">
+                                                    {{answer}}
+                                                </span>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -93,11 +114,14 @@
                                         <span>
                                             Problem-Line:
                                         </span>
-                                        <tags-input ng-model="lines.tags" min-length="1" min-tags="1"
-                                                    placeholder="Add an item" replace-spaces-with-dashes="false"
-                                                    on-tag-added="problemItemAdded(p)"></tags-input>
+                                        <div style="margin: 10px; margin-bottom: 20px;" class="row">
+                                            <tags-input ng-model="lines.tags" min-length="1" min-tags="1"
+                                                        placeholder="Add an item" replace-spaces-with-dashes="false"
+                                                        on-tag-added="problemItemAdded(p)" class="col-xs-12 col-md-7"></tags-input>
+                                            <button ng-click="addBlankItem(p, lines)" class="btn col-xs-12 col-md-3">Insert a blank item</button>
+                                        </div>
                                     </div>
-                                    <button ng-click="addProblemLine(p.problemLines)" class="btn btn-info">Add more problem line</button>
+                                    <button ng-click="addProblemLine(p.problemLines)" class="btn btn-info" style="margin-bottom: 15px;">Add an additional problem line</button>
                                     <div ng-repeat="answer in p.answers" class="line">
                                         <span>
                                             Answer-for-Blank-{{$index + 1}}:
@@ -108,7 +132,7 @@
                                     </div>
                                     <div class="line">
                                         <span>
-                                            Marplots:
+                                            Marplots (the incorrect answers that you want the learner to see):
                                         </span>
                                         <tags-input ng-model="p.marplots.tags" min-length="1" min-tags="1"
                                                     replace-spaces-with-dashes="false"
