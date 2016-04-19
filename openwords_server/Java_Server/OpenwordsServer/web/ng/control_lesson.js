@@ -2,6 +2,7 @@ App.controller("RootControl", function($scope, $sce) {
 
     $scope.lesson = [
         {
+            pType: "fb",
             problemLines: [
                 {items: ["Today is Monday."], tags: []},
                 {items: ["@1", "是", "@2", "。"], tags: []}
@@ -15,6 +16,7 @@ App.controller("RootControl", function($scope, $sce) {
             answerDisplay: ["星期日", "星期一", "昨天", "今天", "明天", "今日"]
         },
         {
+            pType: "fb",
             problemLines: [
                 {items: ["I am a cat."], tags: []},
                 {items: ["@1", "@2", "@3", "@4"], tags: []}
@@ -30,6 +32,18 @@ App.controller("RootControl", function($scope, $sce) {
             answerDisplay: ["猫。", "一支", "我", "是", "一只", "狗。", "你", "不是"]
         },
         {
+            pType: "fb",
+            problemLines: [
+                {items: ["Je", "@", "au travail."], tags: []}
+            ],
+            answers: [
+                {items: ["marche"], tags: []}
+            ],
+            marplots: {items: ["marchons", "marchent", "marchais"], tags: []},
+            done: true,
+            answerDisplay: ["marchons", "marche", "marchent", "marchais"]
+        },
+        {
             problemLines: [
                 {items: [], tags: []}
             ],
@@ -39,6 +53,20 @@ App.controller("RootControl", function($scope, $sce) {
             done: false
         }
     ];
+
+    $scope.updateType = function(p) {
+        if (p.pType === "sm") {
+            p.problemLines = [{items: [], tags: [{text: ""}]}];
+            p.answers = [{items: [], tags: [{text: ""}]}];
+            p.marplots = {items: [], tags: []};
+            p.done = false;
+        } else if (p.pType === "fb") {
+            p.problemLines = [];
+            p.answers = [];
+            p.marplots = {items: [], tags: []};
+            p.done = false;
+        }
+    };
 
     $scope.addNextProblem = function() {
         $scope.lesson.push({
@@ -150,7 +178,7 @@ App.controller("RootControl", function($scope, $sce) {
     $scope.downloadLesson = function() {
         var out = "";
         $scope.lesson.forEach(function(problem) {
-            out += "=fb\r\n";
+            out += "=" + problem.pType + "\r\n";
 
             problem.problemLines.forEach(function(line) {
                 out += "*";

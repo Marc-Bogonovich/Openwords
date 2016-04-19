@@ -60,7 +60,7 @@
                                         <h3 style="font-size: 24px;">
                                             Problem {{$index + 1}}
                                         </h3>
-                                        <p>Problem Type: Fill in Blank</p>
+                                        <p>Problem Type: {{p.pType}}</p>
                                         <div ng-repeat="lines in p.problemLines" class="line">
                                             <span>
                                                 Problem-Line:
@@ -81,7 +81,7 @@
                                         </div>
                                         <div class="line">
                                             <span>
-                                                Marplots:
+                                                Wrong-Answer/s
                                             </span>
                                             <span ng-repeat="item in p.marplots.items"
                                                   class="marplot-item">
@@ -109,36 +109,55 @@
                                 </div>
 
                                 <div ng-hide="p.done">
-                                    <p>Problem Type: Fill in Blank (we only support this type now)</p>
+                                    <div>
+                                        Problem Type:&nbsp;
+                                        <select ng-model="p.pType" ng-change="updateType(p)">
+                                            <option value="sm">Simple Multiple Choice</option>
+                                            <option value="fb">Advanced Fill in Blank</option>
+                                        </select>
+                                    </div>
                                     <div ng-repeat="lines in p.problemLines" class="line">
-                                        <span>
+                                        <span ng-if="p.pType === 'fb'">
                                             Problem-Line:
                                         </span>
-                                        <div style="margin: 10px; margin-bottom: 20px;" class="row">
+                                        <span ng-if="p.pType === 'sm'">
+                                            Native Language:
+                                        </span>
+                                        <div ng-if="p.pType === 'fb'" style="margin: 10px; margin-bottom: 20px;" class="row">
                                             <tags-input ng-model="lines.tags" min-length="1" min-tags="1"
                                                         placeholder="Add an item" replace-spaces-with-dashes="false"
                                                         on-tag-added="problemItemAdded(p)" class="col-xs-12 col-md-7"></tags-input>
                                             <button ng-click="addBlankItem(p, lines)" class="btn col-xs-12 col-md-3">Insert a blank item</button>
                                         </div>
                                     </div>
-                                    <button ng-click="addProblemLine(p.problemLines)" class="btn btn-info" style="margin-bottom: 15px;">Add an additional problem line</button>
+                                    <input type="text" ng-if="p.pType === 'sm'" ng-model="p.problemLines[0].tags[0].text" class="line"/>
+
+                                    <button ng-click="addProblemLine(p.problemLines)" class="btn btn-info" style="margin-bottom: 15px;"
+                                            ng-if="p.pType === 'fb'">Add an additional problem line</button>
                                     <div ng-repeat="answer in p.answers" class="line">
-                                        <span>
+                                        <span ng-if="p.pType === 'fb'">
                                             Answer-for-Blank-{{$index + 1}}:
                                         </span>
-                                        <tags-input ng-model="answer.tags" min-length="1" min-tags="1"
+                                        <span ng-if="p.pType === 'sm'">
+                                            Learning Language:
+                                        </span>
+                                        <tags-input ng-if="p.pType === 'fb'" ng-model="answer.tags" min-length="1" min-tags="1"
                                                     replace-spaces-with-dashes="false"
                                                     placeholder="Add an item"></tags-input>
                                     </div>
+                                    <input type="text" ng-if="p.pType === 'sm'" ng-model="p.answers[0].tags[0].text" class="line"/>
+
                                     <div class="line">
                                         <span>
-                                            Marplots (the incorrect answers that you want the learner to see):
+                                            Wrong-Answer/s (enter key for new item):<br/>
+                                            (the incorrect answers that you want the learner to see)
                                         </span>
                                         <tags-input ng-model="p.marplots.tags" min-length="1" min-tags="1"
                                                     replace-spaces-with-dashes="false"
                                                     placeholder="Add an item"></tags-input>
                                     </div>
                                     <button ng-click="confirmProblem(p)" class="btn btn-warning">Save this problem</button>
+                                    <p>{{p}}</p>
                                 </div>
 
                                 <button class="btn btn-danger" style="margin-top: 10px;"
