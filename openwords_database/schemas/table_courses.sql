@@ -4,7 +4,7 @@ CREATE TABLE `courses` (
   `course_name` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `language_one` int(11) NOT NULL,
   `language_two` int(11) NOT NULL,
-  `updated_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_time` bigint NOT NULL,
   `content` text COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 

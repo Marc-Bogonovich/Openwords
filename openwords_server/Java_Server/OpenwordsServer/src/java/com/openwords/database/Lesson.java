@@ -14,10 +14,9 @@ public class Lesson implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private long userId;
+    private long userId, updated;
     private int langOne, langTwo;
     private String name, content;
-    private Date updated;
 
     public Lesson() {
     }
@@ -76,12 +75,11 @@ public class Lesson implements Serializable {
     }
 
     @Column(name = "updated_time")
-    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
-    public Date getUpdated() {
+    public long getUpdated() {
         return updated;
     }
 
-    public void setUpdated(Date updated) {
+    public void setUpdated(long updated) {
         this.updated = updated;
     }
 
