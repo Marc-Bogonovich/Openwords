@@ -65,6 +65,11 @@ App.controller("RootControl", function($scope, $sce) {
             p.answers = [];
             p.marplots = {items: [], tags: []};
             p.done = false;
+        } else if (p.pType === "ss") {
+            p.problemLines = [{items: [], tags: [{text: ""}]}];
+            p.answers = [{items: [], tags: []}];
+            p.marplots = {items: [], tags: []};
+            p.done = false;
         }
     };
 
@@ -132,6 +137,19 @@ App.controller("RootControl", function($scope, $sce) {
     };
 
     $scope.confirmProblem = function(problem) {
+        if (problem.pType === "ss") {
+            var tags = [];
+            var answers = [];
+            var i;
+            for (i = 0; i < problem.answers[0].tags.length; i++) {
+                tags.push({text: "@" + i});//make the blanks
+                answers.push({items: [], tags: [problem.answers[0].tags[i]]});//remake answers 
+            }
+
+            problem.problemLines.push({items: [], tags: tags});//add the second line
+            problem.answers = answers;
+        }
+
         problem.problemLines.forEach(function(line) {
             line.tags.forEach(function(tag) {
                 line.items.push(tag.text);
