@@ -11,7 +11,7 @@
         <script src="ng-tags-input/ng-tags-input.min.js"></script>
         <script>
 
-            var App = angular.module("RootPage", ["ngTagsInput", "ngSanitize"]);</script>
+                    var App = angular.module("RootPage", ["ngTagsInput", "ngSanitize"]);</script>
         <script src="ng/control_lesson.js"></script>
         <script src="file-saver/FileSaver.min.js"></script>
         <script src="bootstrap-3.1.1/js/bootstrap.min.js"></script>
@@ -65,7 +65,7 @@
                                             <span>
                                                 Problem-Line:
                                             </span>
-                                            <span ng-repeat="item in lines.items"
+                                            <span ng-repeat="item in lines.items track by $index"
                                                   class="problem-item">
                                                 {{item}}
                                             </span>
@@ -98,7 +98,7 @@
                                             </div>
 
                                             <div style="background-color: #ffffff; margin-top: 10px; margin-left: 5px; margin-right: 5px; margin-bottom: 10px;">
-                                                <span ng-repeat="answer in p.answerDisplay"
+                                                <span ng-repeat="answer in p.answerDisplay track by $index"
                                                       class="badge btn-success" 
                                                       style="margin: 5px;">
                                                     {{answer}}
@@ -109,6 +109,9 @@
                                 </div>
 
                                 <div ng-hide="p.done">
+                                    <h3 style="font-size: 24px;">
+                                        New Problem
+                                    </h3>
                                     <div>
                                         Problem Type:&nbsp;
                                         <select ng-model="p.pType" ng-change="updateType(p)">
@@ -121,12 +124,16 @@
                                         <span ng-if="p.pType === 'fb'">
                                             Problem-Line:
                                         </span>
-                                        <span ng-if="p.pType === 'sm' || p.pType === 'ss'">
-                                            Native Language:
+                                        <span ng-if="p.pType === 'sm'">
+                                            Native Language (question):
+                                        </span>
+                                        <span ng-if="p.pType === 'ss'">
+                                            Sentence in native language (problem):
                                         </span>
                                         <div ng-if="p.pType === 'fb'" style="margin: 10px; margin-bottom: 20px;" class="row">
                                             <tags-input ng-model="lines.tags" min-length="1" min-tags="1" add-on-comma="false"
                                                         placeholder="Add an item" replace-spaces-with-dashes="false"
+                                                        key-property="id" display-property="text"
                                                         on-tag-added="problemItemAdded(p)" class="col-xs-12 col-md-7"></tags-input>
                                             <button ng-click="addBlankItem(p, lines)" class="btn col-xs-12 col-md-3">Insert a blank item</button>
                                         </div>
@@ -140,10 +147,10 @@
                                             Answer-for-Blank-{{$index + 1}}:
                                         </span>
                                         <span ng-if="p.pType === 'sm'">
-                                            Learning Language:
+                                            Second Language (answer):
                                         </span>
                                         <span ng-if="p.pType === 'ss'">
-                                            Learning Language (enter key for new item):
+                                            Sentence in second language (answer) (enter key for new item):
                                         </span>
                                         <tags-input ng-if="p.pType === 'fb'" ng-model="answer.tags" min-length="1" min-tags="1" add-on-comma="false"
                                                     replace-spaces-with-dashes="false"

@@ -105,7 +105,8 @@ App.controller("RootControl", function($scope, $sce) {
     $scope.problemItemAdded = function(problem) {
         problem.answers = [];
         problem.problemLines.forEach(function(line) {
-            line.tags.forEach(function(tag) {
+            line.tags.forEach(function(tag, index) {
+                tag.id = index;
                 if (tag.text.indexOf("@") > -1) {
                     problem.answers.push({
                         items: [], tags: []
@@ -116,13 +117,7 @@ App.controller("RootControl", function($scope, $sce) {
     };
 
     $scope.addBlankItem = function(problem, line) {
-        var blankOrder = 1;
-        line.tags.forEach(function(tag) {
-            if (tag.text.indexOf("@") > -1) {
-                blankOrder += 1;
-            }
-        });
-        line.tags.push({text: "@" + blankOrder});
+        line.tags.push({text: "@", id: line.tags.length});
 
         problem.answers = [];
         problem.problemLines.forEach(function(line) {
@@ -142,7 +137,7 @@ App.controller("RootControl", function($scope, $sce) {
             var answers = [];
             var i;
             for (i = 0; i < problem.answers[0].tags.length; i++) {
-                tags.push({text: "@" + i});//make the blanks
+                tags.push({text: "@", id: i});//make the blanks
                 answers.push({items: [], tags: [problem.answers[0].tags[i]]});//remake answers 
             }
 
