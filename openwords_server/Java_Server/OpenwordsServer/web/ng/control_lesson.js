@@ -5,7 +5,7 @@ App.controller("RootControl", function($scope, $sce) {
             pType: "fb",
             problemLines: [
                 {items: ["Today is Monday."], tags: []},
-                {items: ["@1", "是", "@2", "。"], tags: []}
+                {items: ["@", "是", "@", "。"], tags: []}
             ],
             answers: [
                 {items: ["今天", "今日"], tags: []},
@@ -19,7 +19,7 @@ App.controller("RootControl", function($scope, $sce) {
             pType: "fb",
             problemLines: [
                 {items: ["I am a cat."], tags: []},
-                {items: ["@1", "@2", "@3", "@4"], tags: []}
+                {items: ["@", "@", "@", "@"], tags: []}
             ],
             answers: [
                 {items: ["我"], tags: []},
@@ -113,6 +113,12 @@ App.controller("RootControl", function($scope, $sce) {
                     });
                 }
             });
+        });
+    };
+
+    $scope.sentenceItemAdded = function(tags) {
+        tags.forEach(function(tag, index) {
+            tag.id = index;
         });
     };
 

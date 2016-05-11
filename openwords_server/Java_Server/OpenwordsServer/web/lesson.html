@@ -160,6 +160,8 @@
                                     <div>
                                         <tags-input ng-if="p.pType === 'ss'" ng-model="p.answers[0].tags" min-length="1" min-tags="1" add-on-comma="false"
                                                     replace-spaces-with-dashes="false"
+                                                    key-property="id" display-property="text"
+                                                    on-tag-added="sentenceItemAdded(p.answers[0].tags)"
                                                     placeholder="Enter the sentence by items"></tags-input>
                                     </div>
 
