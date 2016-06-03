@@ -18,8 +18,9 @@ public class Lesson implements Serializable {
     public Lesson() {
     }
 
-    public Lesson(long userId, String name, String langOne, String langTwo) {
+    public Lesson(long userId, String name, String langOne, String langTwo, long updated) {
         this.userId = userId;
+        this.updated = updated;
         this.name = name;
         this.langOne = langOne;
         this.langTwo = langTwo;
