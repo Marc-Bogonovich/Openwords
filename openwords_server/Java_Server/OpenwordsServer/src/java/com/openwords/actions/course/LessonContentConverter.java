@@ -11,7 +11,7 @@ public class LessonContentConverter {
 
     public static List<StepContent> getStepsFromText(List<String> lines) {
         List<StepContent> steps = new LinkedList<>();
-        StepContent content = null;
+        StepContent stepContent = null;
         Queue<StepContentItem> answerWaitQueue = new LinkedList<>();
 
         for (String line : lines) {
@@ -20,36 +20,48 @@ public class LessonContentConverter {
                 continue;
             }
             if (betterLine.startsWith("=")) {
-                if (content != null) {
-                    insertAnswerItem(content, answerWaitQueue);
-                    steps.add(content);
+                if (stepContent != null) {
+                    if (!stepContent.lines.isEmpty()) {
+                        insertAnswerItem(stepContent, answerWaitQueue);
+                        steps.add(stepContent);
+                    }
+                    answerWaitQueue.clear();
+                    stepContent = null;
                 }
-                content = new StepContent();
+                stepContent = new StepContent();
 
             } else if (betterLine.startsWith("*")) {
-                List<StepContentItem> newLine = new LinkedList<>();
+                final List<StepContentItem> newLine = new LinkedList<>();
 
-                String[] proItems = betterLine.replace("*", "").trim().split("]");
-                for (int i = 0; i < proItems.length; i++) {
-                    proItems[i] = proItems[i].replace("[", "").trim();
-                    newLine.add(new StepContentItem(new String[]{proItems[i]}, StepContentItem.Item_Type_Problem));
+                readOneLineItems(betterLine, new GotOneItem() {
+
+                    @Override
+                    public void gotOne(String item) {
+                        newLine.add(new StepContentItem(new String[]{item}, StepContentItem.Item_Type_Problem));
+                    }
+                });
+                if (!newLine.isEmpty()) {
+                    stepContent.lines.add(newLine);
                 }
-                content.lines.add(newLine);
 
             } else if (betterLine.startsWith("#")) {
-                String[] ansItems = betterLine.replace("#", "").trim().split("]");
-                for (int i = 0; i < ansItems.length; i++) {
-                    ansItems[i] = ansItems[i].replace("[", "").trim();
+                String[] items = readOneLineItems(betterLine, null);
+                if (items != null) {
+                    answerWaitQueue.add(new StepContentItem(items, StepContentItem.Item_Type_Answer));
                 }
-                answerWaitQueue.add(new StepContentItem(ansItems, StepContentItem.Item_Type_Answer));
 
             } else if (betterLine.startsWith("%")) {
-                String[] marItems = betterLine.replace("%", "").trim().split("]");
-                for (int i = 0; i < marItems.length; i++) {
-                    marItems[i] = marItems[i].replace("[", "").trim();
+                String[] items = readOneLineItems(betterLine, null);
+                if (items != null) {
+                    stepContent.marplots.add(new StepContentItem(items, StepContentItem.Item_Type_Marplot));
                 }
-                content.marplots.add(new StepContentItem(marItems, StepContentItem.Item_Type_Marplot));
 
+            }
+        }
+        if (stepContent != null) {
+            if (!stepContent.lines.isEmpty()) {
+                insertAnswerItem(stepContent, answerWaitQueue);
+                steps.add(stepContent);
             }
         }
 
@@ -70,9 +82,37 @@ public class LessonContentConverter {
         if (!answerWaitQueue.isEmpty() && hasBlank) {
             UtilLog.logWarn(LessonContentConverter.class, "answer items are more than blanks?");
         }
-        answerWaitQueue.clear();
+    }
+
+    private static String[] readOneLineItems(String line, GotOneItem callback) {
+        List<String> items = new LinkedList<>();
+        String s = "";
+
+        for (int i = 0; i < line.length(); i++) {
+            char c = line.charAt(i);
+            if (c == '[') {
+                s = "";
+                continue;
+            }
+            if (c == ']') {
+                if (!s.isEmpty()) {
+                    items.add(s);
+                    if (callback != null) {
+                        callback.gotOne(s);
+                    }
+                }
+                continue;
+            }
+            s += c;
+        }
+        if (items.isEmpty()) {
+            return null;
+        } else {
+            return items.toArray(new String[items.size()]);
+        }
     }
 
     private LessonContentConverter() {
     }
+
 }
