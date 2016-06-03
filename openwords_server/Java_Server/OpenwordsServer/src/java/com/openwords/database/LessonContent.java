@@ -9,7 +9,6 @@ import java.util.List;
  */
 public class LessonContent {
 
-    public List<LessonContentItem[]> lines = new LinkedList<>();
-    public LessonContentItem[] marplots;
+    public List<StepContent> steps = new LinkedList<>();
     public String description;
 }
