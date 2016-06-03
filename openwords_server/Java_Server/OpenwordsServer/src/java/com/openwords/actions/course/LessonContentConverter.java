@@ -25,10 +25,9 @@ public class LessonContentConverter {
                         insertAnswerItem(stepContent, answerWaitQueue);
                         steps.add(stepContent);
                     }
-                    answerWaitQueue.clear();
-                    stepContent = null;
                 }
                 stepContent = new StepContent();
+                answerWaitQueue.clear();
 
             } else if (betterLine.startsWith("*")) {
                 final List<StepContentItem> newLine = new LinkedList<>();
