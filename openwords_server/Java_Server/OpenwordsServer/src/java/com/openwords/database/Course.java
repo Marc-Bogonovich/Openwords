@@ -1,13 +1,11 @@
 package com.openwords.database;
 
 import java.io.Serializable;
-import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
 
 @Entity
 @Table(name = "courses")
@@ -16,8 +14,7 @@ public class Course implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private long courseId, userId, updated;
-    private int langOne, langTwo;
-    private String name, content;
+    private String name, content, fileCover, langOne, langTwo;
 
     public Course() {
     }
@@ -43,20 +40,20 @@ public class Course implements Serializable {
     }
 
     @Column(name = "language_one")
-    public int getLangOne() {
+    public String getLangOne() {
         return langOne;
     }
 
-    public void setLangOne(int langOne) {
+    public void setLangOne(String langOne) {
         this.langOne = langOne;
     }
 
     @Column(name = "language_two")
-    public int getLangTwo() {
+    public String getLangTwo() {
         return langTwo;
     }
 
-    public void setLangTwo(int langTwo) {
+    public void setLangTwo(String langTwo) {
         this.langTwo = langTwo;
     }
 
@@ -76,6 +73,15 @@ public class Course implements Serializable {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    @Column(name = "file_cover")
+    public String getFileCover() {
+        return fileCover;
+    }
+
+    public void setFileCover(String fileCover) {
+        this.fileCover = fileCover;
     }
 
     @Column(name = "updated_time")

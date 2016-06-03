@@ -1,12 +1,10 @@
 package com.openwords.database;
 
 import java.io.Serializable;
-import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
 
 @Entity
 @Table(name = "lessons")
@@ -15,8 +13,7 @@ public class Lesson implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private long userId, updated;
-    private int langOne, langTwo;
-    private String name, content;
+    private String name, content, langOne, langTwo;
 
     public Lesson() {
     }
@@ -48,20 +45,20 @@ public class Lesson implements Serializable {
     }
 
     @Column(name = "language_one")
-    public int getLangOne() {
+    public String getLangOne() {
         return langOne;
     }
 
-    public void setLangOne(int langOne) {
+    public void setLangOne(String langOne) {
         this.langOne = langOne;
     }
 
     @Column(name = "language_two")
-    public int getLangTwo() {
+    public String getLangTwo() {
         return langTwo;
     }
 
-    public void setLangTwo(int langTwo) {
+    public void setLangTwo(String langTwo) {
         this.langTwo = langTwo;
     }
 
