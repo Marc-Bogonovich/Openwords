@@ -19,7 +19,7 @@ myNg.controller("LoginControl", function($scope, $http) {
             var r = res.data;
             console.log(r);
             if (r.result) {
-                mainView.router.loadPage("home.html");
+                mainView.router.load({pageName: "home"});
             } else {
                 myApp.alert(r.errorMessage, "Login fail");
             }
@@ -31,8 +31,6 @@ myNg.controller("LoginControl", function($scope, $http) {
                 myApp.alert("No response from server", "Error");
             }
         }, 10000);
-
-        console.log(JSON.stringify(loginData));
     };
 });
 
