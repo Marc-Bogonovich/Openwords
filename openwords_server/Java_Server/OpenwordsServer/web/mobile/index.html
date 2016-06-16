@@ -16,7 +16,7 @@
         <link rel="stylesheet" href="my-css.css">
         <script type="text/javascript" src="ng/angular.min.1.5.6.js"></script>
     </head>
-    <body ng-app="OpenwordsApp" ng-controller="RootControl">
+    <body ng-app="OpenwordsApp" ng-controller="RootControl" id="RootControl">
         <!-- Status bar overlay for full screen mode (PhoneGap) -->
         <div class="statusbar-overlay"></div>
         <!-- Panels overlay-->
@@ -38,8 +38,7 @@
                         <div class="center sliding">Openwords (Alpha)</div>
                     </div>
 
-                    <!-- Home page navbar -->
-                    <div class="navbar-inner cached" data-page="home">
+                    <div class="navbar-inner cached" data-page="course_list">
                         <div class="center">Openwords - Learn from Courses</div>
                         <div class="right">
                             <!-- 
@@ -50,9 +49,8 @@
                         </div>
 
                         <div class="subnavbar">
-                            <!-- Sub navbar content, for example tabs buttons -->
                             <div class="buttons-row">
-                                <a href="#home" class="button active">Courses</a>
+                                <a href="#course_list" class="button active">Courses</a>
                                 <a href="#words" class="button">Words</a>
                             </div>
                         </div>
@@ -61,72 +59,39 @@
                     <div class="navbar-inner cached" data-page="words">
                         <div class="center">Openwords - Learn from Words</div>
                         <div class="right">
-                            <!-- 
-                              Right link contains only icon - additional "icon-only" class
-                              Additional "open-panel" class tells app to open panel when we click on this link
-                            -->
                             <a href="#" class="link icon-only open-panel"><i class="icon icon-bars"></i></a>
                         </div>
 
                         <div class="subnavbar">
-                            <!-- Sub navbar content, for example tabs buttons -->
                             <div class="buttons-row">
-                                <a href="#home" class="button">Courses</a>
+                                <a href="#course_list" class="button">Courses</a>
                                 <a href="#words" class="button active">Words</a>
                             </div>
                         </div>
                     </div>
 
                     <div class="navbar-inner cached" data-page="steps">
+                        <div class="left">
+                            <a href="#course_lessons" class="link"><i class="icon icon-back"></i><span>Back to Lessons</span></a>
+                        </div>
+                    </div>
+
+                    <div class="navbar-inner cached" data-page="course_lessons">
+                        <div class="left">
+                            <a href="#course_list" class="link"><i class="icon icon-back"></i><span>Back to Courses</span></a>
+                        </div>
                     </div>
                 </div>
 
                 <div class="pages">
                     <!-- Page, "data-page" contains page name -->
-                    <div data-page="index" class="page navbar-fixed" ng-controller="LoginControl">
-                        <!-- Scrollable page content -->
-                        <div class="page-content">
-                            <div class="row">
-                                <div class="col-10"></div>
-                                <div class="col-80"><img src="img/openwords_logo_c_horizontal_squish_transparent_background_2016-06-04.png" style="width: 100%;"/></div>
-                                <div class="col-10"></div>
-                            </div>
-
-                            <form id="my-login-form" class="list-block" style="margin-top: 30%;">
-                                <ul>
-                                    <li>
-                                        <div class="item-content">
-                                            <div class="item-media"><i class="icon icon-form-name"></i></div>
-                                            <div class="item-inner">
-                                                <div class="item-title label">Account</div>
-                                                <div class="item-input">
-                                                    <input type="text" placeholder="Account" name="username">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="item-content">
-                                            <div class="item-media"><i class="icon icon-form-password"></i></div>
-                                            <div class="item-inner">
-                                                <div class="item-title label">Password</div>
-                                                <div class="item-input">
-                                                    <input type="password" placeholder="Password" name="pass">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </form>
-
-                            <div class="content-block row">
-                                <div class="col-50"></div>
-                                <a href="#" class="button button-login col-50" ng-click="login()">Log In</a>
-                            </div>
-                        </div>
+                    <div data-page="index" class="page navbar-fixed" ng-controller="LoginControl" ng-include="'login.html'">                        
                     </div>
 
-                    <div data-page="home" class="page cached navbar-fixed" ng-controller="HomeControl" ng-include="'home.html'">
+                    <div data-page="course_list" class="page cached navbar-fixed" 
+                         ng-controller="CourseListControl" 
+                         ng-include="'course_list.html'"
+                         id="CourseListControl">
                     </div>
 
                     <div data-page="words" class="page cached navbar-fixed">
@@ -137,7 +102,15 @@
                         </div>
                     </div>
 
-                    <div data-page="steps" class="page cached navbar-fixed" ng-include="'steps.html'">
+                    <div data-page="steps" class="page cached navbar-fixed" 
+                         ng-controller="StepsControl" 
+                         ng-include="'steps.html'">
+                    </div>
+
+                    <div data-page="course_lessons" class="page cached navbar-fixed" 
+                         ng-controller="LessonListControl" 
+                         ng-include="'course_lessons.html'" 
+                         id="LessonListControl">
                     </div>
 
                 </div>
@@ -149,6 +122,8 @@
         <script type="text/javascript" src="my-app.js"></script>
         <script type="text/javascript" src="ng/control_root.js"></script>
         <script type="text/javascript" src="ng/control_login.js"></script>
-        <script type="text/javascript" src="ng/control_home.js"></script>
+        <script type="text/javascript" src="ng/control_course_list.js"></script>
+        <script type="text/javascript" src="ng/control_steps.js"></script>
+        <script type="text/javascript" src="ng/control_lesson_list.js"></script>
     </body>
 </html>              
