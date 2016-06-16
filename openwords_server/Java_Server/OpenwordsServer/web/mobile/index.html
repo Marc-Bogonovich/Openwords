@@ -14,8 +14,9 @@
         <link rel="stylesheet" href="bower_components/Framework7/dist/css/framework7.ios.colors.min.css">
 
         <link rel="stylesheet" href="my-css.css">
+        <script type="text/javascript" src="ng/angular.min.1.5.6.js"></script>
     </head>
-    <body>
+    <body ng-app="OpenwordsApp" ng-controller="RootControl" id="RootControl">
         <!-- Status bar overlay for full screen mode (PhoneGap) -->
         <div class="statusbar-overlay"></div>
         <!-- Panels overlay-->
@@ -83,46 +84,33 @@
                 </div>
 
                 <div class="pages">
-                    <div data-page="index" class="page navbar-fixed">    
-                        <div class="page-content">
-                            <div class="row">
-                                <div class="col-10"></div>
-                                <div class="col-80"><img src="img/openwords_logo_c_horizontal_squish_transparent_background_2016-06-04.png" style="width: 100%;"/></div>
-                                <div class="col-10"></div>
-                            </div>
+                    <!-- Page, "data-page" contains page name -->
+                    <div data-page="index" class="page navbar-fixed" ng-controller="LoginControl" ng-include="'login.html'">                        
+                    </div>
 
-                            <form id="my-login-form" class="list-block" style="margin-top: 30%;">
-                                <ul>
-                                    <li>
-                                        <div class="item-content">
-                                            <div class="item-media"><i class="icon icon-form-name"></i></div>
-                                            <div class="item-inner">
-                                                <div class="item-title label">Account</div>
-                                                <div class="item-input">
-                                                    <input type="text" placeholder="Account" name="username">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="item-content">
-                                            <div class="item-media"><i class="icon icon-form-password"></i></div>
-                                            <div class="item-inner">
-                                                <div class="item-title label">Password</div>
-                                                <div class="item-input">
-                                                    <input type="password" placeholder="Password" name="password">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </form>
+                    <div data-page="course_list" class="page cached navbar-fixed" 
+                         ng-controller="CourseListControl" 
+                         ng-include="'course_list.html'"
+                         id="CourseListControl">
+                    </div>
 
-                            <div class="content-block row">
-                                <div class="col-50"></div>
-                                <a href="#" class="button button-login col-50" id="button_login">Log In</a>
+                    <div data-page="words" class="page cached navbar-fixed">
+                        <div class="page-content with-subnavbar">
+                            <div class="content-block">
+                                <p>Coming soon...</p>
                             </div>
                         </div>
+                    </div>
+
+                    <div data-page="steps" class="page cached navbar-fixed" 
+                         ng-controller="StepsControl" 
+                         ng-include="'steps.html'">
+                    </div>
+
+                    <div data-page="course_lessons" class="page cached navbar-fixed" 
+                         ng-controller="LessonListControl" 
+                         ng-include="'course_lessons.html'" 
+                         id="LessonListControl">
                     </div>
 
                 </div>
@@ -132,5 +120,10 @@
         <script type="text/javascript" src="bower_components/Framework7/dist/js/framework7.min.js"></script>
         <!-- Path to your app js-->
         <script type="text/javascript" src="my-app.js"></script>
+        <script type="text/javascript" src="ng/control_root.js"></script>
+        <script type="text/javascript" src="ng/control_login.js"></script>
+        <script type="text/javascript" src="ng/control_course_list.js"></script>
+        <script type="text/javascript" src="ng/control_steps.js"></script>
+        <script type="text/javascript" src="ng/control_lesson_list.js"></script>
     </body>
 </html>              
