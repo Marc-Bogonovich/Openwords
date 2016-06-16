@@ -1,4 +1,4 @@
-myNg.controller("RootControl", function($scope, $http) {
+myNg.controller("RootControl", function($scope, $http, $compile) {
     $scope.logOut = function() {
         mainView.router.load({pageName: "index"});
     };

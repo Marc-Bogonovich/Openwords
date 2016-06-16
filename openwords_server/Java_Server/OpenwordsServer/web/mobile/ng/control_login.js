@@ -1,4 +1,17 @@
 myNg.controller("LoginControl", function($scope, $http) {
+    $scope.full = function() {
+        var elem = document.getElementById("RootControl");
+        if (elem.requestFullscreen) {
+            elem.requestFullscreen();
+        } else if (elem.msRequestFullscreen) {
+            elem.msRequestFullscreen();
+        } else if (elem.mozRequestFullScreen) {
+            elem.mozRequestFullScreen();
+        } else if (elem.webkitRequestFullscreen) {
+            elem.webkitRequestFullscreen();
+        }
+    };
+
     $scope.login = function() {
         var loginData = myApp.formToJSON("#my-login-form");
 
@@ -19,7 +32,7 @@ myNg.controller("LoginControl", function($scope, $http) {
             var r = res.data;
             console.log(r);
             if (r.result) {
-                mainView.router.load({pageName: "home"});
+                mainView.router.load({pageName: "course_list"});
             } else {
                 myApp.alert(r.errorMessage, "Login fail");
             }
