@@ -1,11 +1,15 @@
 package com.openwords.database;
 
+import com.openwords.utils.MyGson;
 import java.io.Serializable;
+import java.util.Map;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+import org.apache.struts2.json.annotations.JSON;
 
 @Entity
 @Table(name = "courses")
@@ -15,6 +19,7 @@ public class Course implements Serializable {
 
     private long courseId, userId, updated;
     private String name, content, fileCover, langOne, langTwo;
+    private Map<String, Object> json;
 
     public Course() {
     }
@@ -67,6 +72,7 @@ public class Course implements Serializable {
     }
 
     @Column(name = "content")
+    @JSON(serialize = false, deserialize = false)
     public String getContent() {
         return content;
     }
@@ -91,6 +97,14 @@ public class Course implements Serializable {
 
     public void setUpdated(long updated) {
         this.updated = updated;
+    }
+
+    @Transient
+    public Map<String, Object> getJson() {
+        if (json == null) {
+            json = MyGson.fromJson(content, Map.class);
+        }
+        return json;
     }
 
 }
