@@ -10,5 +10,5 @@ import java.util.List;
 public class CourseContent {
 
     public List<Lesson> Lessons = new LinkedList<>();
-    public String description, authorName;
+    public String comment, authorName;
 }

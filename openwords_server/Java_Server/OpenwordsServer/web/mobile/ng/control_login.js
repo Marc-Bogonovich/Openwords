@@ -31,6 +31,8 @@ myNg.controller("LoginControl", function($scope, $http) {
 
             var r = res.data;
             console.log(r);
+            userInfo = r;
+            userInfo.username = loginData.username;
             if (r.result) {
                 mainView.router.load({pageName: "course_list"});
             } else {
