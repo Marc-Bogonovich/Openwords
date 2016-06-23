@@ -60,6 +60,16 @@ myNg.controller("CourseManagerControl", function($scope, $http, FileUploader) {
         });
     };
 
+    $scope.courseListPack = {
+        pageNumber: 1,
+        pageSize: 5
+    };
+
+    $scope.listMyCourses = function(page) {
+        $scope.courseListPack.pageNumer = page;
+        listCourse($scope.courseListPack, $http);
+    };
+
 });
 
 
