@@ -34,6 +34,10 @@ myNg.controller("LoginControl", function($scope, $http) {
             userInfo = r;
             userInfo.username = loginData.username;
             if (r.result) {
+                var CourseManagerControl = getScope("CourseManagerControl");
+                CourseManagerControl.courseListPack.userId = userInfo.userId;
+                CourseManagerControl.listMyCourses(1);
+
                 mainView.router.load({pageName: "course_list"});
             } else {
                 myApp.alert(r.errorMessage, "Login fail");
