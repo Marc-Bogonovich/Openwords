@@ -16,7 +16,7 @@ import org.hibernate.Session;
 public class CreateCourse extends MyAction {
 
     private static final long serialVersionUID = 1L;
-    private String name, userName, langOne, langTwo, errorMessage;
+    private String name, userName, langOne, langTwo, comment, errorMessage;
     private long userId;
 
     @Action(value = "/createCourse", results = {
@@ -37,6 +37,7 @@ public class CreateCourse extends MyAction {
 
             CourseContent content = new CourseContent();
             content.authorName = userName;
+            content.comment = comment;
             c.setContent(MyGson.toJson(content));
 
             s.save(c);
@@ -69,6 +70,10 @@ public class CreateCourse extends MyAction {
 
     public void setLangTwo(String langTwo) {
         this.langTwo = langTwo;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
     public String getErrorMessage() {

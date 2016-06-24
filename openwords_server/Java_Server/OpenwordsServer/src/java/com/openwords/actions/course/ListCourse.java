@@ -29,7 +29,7 @@ public class ListCourse extends MyAction {
     @Override
     @SuppressWarnings("unchecked")
     public String execute() throws Exception {
-        UtilLog.logInfo(this, "/listCourse: ");
+        UtilLog.logInfo(this, "/listCourse: " + userId);
         Session s = DatabaseHandler.getSession();
         try {
             int firstRecord = (pageNumber - 1) * pageSize;
