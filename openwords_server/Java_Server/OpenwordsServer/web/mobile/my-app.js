@@ -10,7 +10,7 @@ var myApp = new Framework7({
 // We need to use custom DOM library, let's save it to $$ variable:
 var $$ = Dom7;
 
-var myNg = angular.module("OpenwordsApp", []);
+var myNg = angular.module("OpenwordsApp", ["angularFileUpload"]);
 
 // Add view
 var mainView = myApp.addView(".view-main", {
@@ -22,6 +22,8 @@ var mainView = myApp.addView(".view-main", {
 function getScope(id) {
     return angular.element(document.getElementById(id)).scope();
 }
+
+var userInfo;
 
 myApp.onPageInit("course_list", function(page) {
     console.log("course_list init");
