@@ -15,6 +15,7 @@
 
         <link rel="stylesheet" href="my-css.css">
         <script type="text/javascript" src="ng/angular.min.1.5.6.js"></script>
+        <script type="text/javascript" src="ng/angular-file-upload.min.js"></script>
     </head>
     <body ng-app="OpenwordsApp" ng-controller="RootControl" id="RootControl">
         <!-- Status bar overlay for full screen mode (PhoneGap) -->
@@ -24,7 +25,13 @@
         <!-- Left panel with reveal effect-->
         <div class="panel panel-right panel-reveal">
             <div class="content-block">
-                <a href="#" ng-click="logOut()">Log Out</a>
+                <a href="#index" class="close-panel">Log Out</a>
+            </div>
+            <div class="content-block">
+                <a href="#course_manager" class="close-panel">Manage Your Courses</a>
+            </div>
+            <div class="content-block">
+                <a href="#lesson_manager" class="close-panel">Manage Your Lessons</a>
             </div>
         </div>
         <!-- Views -->
@@ -81,6 +88,20 @@
                             <a href="#course_list" class="link"><i class="icon icon-back"></i><span>Back to Courses</span></a>
                         </div>
                     </div>
+
+                    <div class="navbar-inner cached" data-page="course_manager">
+                        <div class="left">
+                            <a href="#course_list" class="link icon-only"><i class="icon icon-back"></i></a>
+                        </div>
+                        <div class="center">Manage Course</div>
+                    </div>
+
+                    <div class="navbar-inner cached" data-page="lesson_manager">
+                        <div class="left">
+                            <a href="#course_list" class="link icon-only"><i class="icon icon-back"></i></a>
+                        </div>
+                        <div class="center">Manage Lesson</div>
+                    </div>
                 </div>
 
                 <div class="pages">
@@ -112,6 +133,18 @@
                          id="LessonListControl">
                     </div>
 
+                    <div data-page="course_manager" class="page cached navbar-fixed"
+                         ng-controller="CourseManagerControl"
+                         ng-include="'course_manager.html'" 
+                         id="CourseManagerControl">
+                    </div>
+
+                    <div data-page="lesson_manager" class="page cached navbar-fixed"
+                         ng-controller="LessonManagerControl"
+                         ng-include="'lesson_manager.html'" 
+                         id="LessonManagerControl">
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -119,10 +152,13 @@
         <script type="text/javascript" src="bower_components/Framework7/dist/js/framework7.min.js"></script>
         <!-- Path to your app js-->
         <script type="text/javascript" src="my-app.js"></script>
+        <script type="text/javascript" src="ng/util_list.js"></script>
         <script type="text/javascript" src="ng/control_root.js"></script>
         <script type="text/javascript" src="ng/control_login.js"></script>
         <script type="text/javascript" src="ng/control_course_list.js"></script>
         <script type="text/javascript" src="ng/control_steps.js"></script>
         <script type="text/javascript" src="ng/control_lesson_list.js"></script>
+        <script type="text/javascript" src="ng/control_course_manager.js"></script>
+        <script type="text/javascript" src="ng/control_lesson_manager.js"></script>
     </body>
 </html>              
