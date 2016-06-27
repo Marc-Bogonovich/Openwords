@@ -1,44 +1,36 @@
 myNg.controller("LessonManagerControl", function($scope, $http, FileUploader) {
     var uploader = $scope.uploader = new FileUploader({
-        url: 'upload.php'
+        url: "uploadLesson",
+        queueLimit: 1
     });
 
-    uploader.onWhenAddingFileFailed = function(item /*{File|FileLikeObject}*/, filter, options) {
-        console.info('onWhenAddingFileFailed', item, filter, options);
+    var name;
+
+    $scope.doUpload = function() {
+        myApp.prompt("Please enter a name for the lesson", "Uploading Lesson", function(v) {
+            name = v;
+            if (name) {
+                uploader.uploadAll();
+            } else {
+                myApp.alert(null, "You've provided invalid information");
+            }
+
+        });
     };
-    uploader.onAfterAddingFile = function(fileItem) {
-        console.info('onAfterAddingFile', fileItem);
-    };
-    uploader.onAfterAddingAll = function(addedFileItems) {
-        console.info('onAfterAddingAll', addedFileItems);
-    };
+
     uploader.onBeforeUploadItem = function(item) {
-        console.info('onBeforeUploadItem', item);
-    };
-    uploader.onProgressItem = function(fileItem, progress) {
-        console.info('onProgressItem', fileItem, progress);
-    };
-    uploader.onProgressAll = function(progress) {
-        console.info('onProgressAll', progress);
+        item.formData.push({userId: userInfo.userId});
+        item.formData.push({name: name});
     };
     uploader.onSuccessItem = function(fileItem, response, status, headers) {
-        console.info('onSuccessItem', fileItem, response, status, headers);
+        uploader.clearQueue();
+        myApp.alert(null, "Upload success", function() {
+            console.log("refresh");
+        });
     };
     uploader.onErrorItem = function(fileItem, response, status, headers) {
-        console.info('onErrorItem', fileItem, response, status, headers);
+        myApp.alert(null, "Upload fail");
     };
-    uploader.onCancelItem = function(fileItem, response, status, headers) {
-        console.info('onCancelItem', fileItem, response, status, headers);
-    };
-    uploader.onCompleteItem = function(fileItem, response, status, headers) {
-        console.info('onCompleteItem', fileItem, response, status, headers);
-    };
-    uploader.onCompleteAll = function() {
-        console.info('onCompleteAll');
-    };
-
-    console.info('uploader', uploader);
-
 
 });
 
