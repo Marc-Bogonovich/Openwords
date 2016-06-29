@@ -55,7 +55,7 @@ public class UploadLesson extends MyAction {
                 sendBadRequest("No valid content");
                 return null;
             }
-            Lesson le = new Lesson(uid, "name", "", "", now);
+            Lesson le = new Lesson(uid, name, "", "", now);
             LessonContent content = new LessonContent();
             content.steps = steps;
             le.setContent(MyGson.toJson(content));
