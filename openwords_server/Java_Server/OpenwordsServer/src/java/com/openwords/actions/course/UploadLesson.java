@@ -1,6 +1,8 @@
 package com.openwords.actions.course;
 
 import com.openwords.database.DatabaseHandler;
+import com.openwords.database.Lesson;
+import com.openwords.database.LessonContent;
 import com.openwords.database.StepContent;
 import com.openwords.interfaces.MyAction;
 import com.openwords.utils.MyGson;
@@ -37,17 +39,29 @@ public class UploadLesson extends MyAction {
 
         Session s = DatabaseHandler.getSession();
         try {
+            long uid = Long.parseLong(userId);
             long now = System.currentTimeMillis();
 
-            Scanner scan = new Scanner(file);
-            List<String> lines = new LinkedList<>();
-            while (scan.hasNextLine()) {
-                lines.add(scan.nextLine().trim());
+            List<String> lines;
+            try (Scanner scan = new Scanner(file)) {
+                lines = new LinkedList<>();
+                while (scan.hasNextLine()) {
+                    lines.add(scan.nextLine().trim());
+                }
             }
-            scan.close();
 
             List<StepContent> steps = LessonContentConverter.getStepsFromText(lines);
-            System.out.println(MyGson.toPrettyJson(steps));
+            if (steps.isEmpty()) {
+                sendBadRequest("No valid content");
+                return null;
+            }
+            Lesson le = new Lesson(uid, "name", "", "", now);
+            LessonContent content = new LessonContent();
+            content.steps = steps;
+            le.setContent(MyGson.toJson(content));
+
+            s.save(le);
+            s.beginTransaction().commit();
 
         } catch (Exception e) {
             UtilLog.logError(this, e);
