@@ -78,8 +78,17 @@ public class LessonContentConverter {
                 }
             }
         }
-        if (!answerWaitQueue.isEmpty() && hasBlank) {
+        if (!answerWaitQueue.isEmpty()) {
             UtilLog.logWarn(LessonContentConverter.class, "answer items are more than blanks?");
+        }
+        if (!hasBlank) {
+            UtilLog.logWarn(LessonContentConverter.class, "no blanks?");
+            if (answerWaitQueue.size() == 1) {
+                UtilLog.logInfo(LessonContentConverter.class, "sm");
+                List<StepContentItem> line = new LinkedList<>();
+                line.add(answerWaitQueue.remove());
+                content.lines.add(line);
+            }
         }
     }
 
