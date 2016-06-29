@@ -24,14 +24,47 @@ myNg.controller("LessonManagerControl", function($scope, $http, FileUploader) {
     };
     uploader.onSuccessItem = function(fileItem, response, status, headers) {
         uploader.clearQueue();
-        myApp.alert(null, "Upload success", function() {
-            console.log("refresh");
-        });
+        myApp.alert(null, "Upload success");
+        $scope.listMyLessons(1);
     };
     uploader.onErrorItem = function(fileItem, response, status, headers) {
         myApp.alert(null, "Upload fail");
     };
 
+    $scope.lessonListPack = {
+        page: 1,
+        pageSize: 100
+    };
+
+    $scope.listMyLessons = function(page) {
+        $scope.lessonListPack.page = page;
+        $scope.lessonListPack.userId = userInfo.userId;
+        listLesson($scope.lessonListPack, $http);
+    };
+
+    var chosenLesson = null;
+    var actionButtons = [
+        {
+            text: "Preview",
+            onClick: function() {
+                console.log(chosenLesson);
+                STEPS = chosenLesson.json.steps;
+                mainView.router.load({pageName: "steps"});
+            }
+        },
+        {
+            text: "Delete",
+            color: "red"
+        },
+        {
+            text: "Cancel"
+        }
+    ];
+
+    $scope.lessonAction = function(le) {
+        chosenLesson = le;
+        myApp.actions(actionButtons);
+    };
 });
 
 

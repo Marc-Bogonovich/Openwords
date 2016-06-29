@@ -5,19 +5,20 @@
         <div class="content-block-inner">
             <input type="file" nv-file-select="" uploader="uploader"/>
 
-            <div ng-show="uploader.queue.length > 0">
-                <div>Name: {{ uploader.queue[0].file.name}}</div>
-                <div>Size: {{ uploader.queue[0].file.size / 1024 / 1024|number:2 }} Mb</div>
-                <div ng-show="uploader.isHTML5">
-                    Progress: {{ uploader.queue[0].progress}}
-                    <div class="item-progress-box">
-                        <div class="item-progress" ng-style="{ 'width': item.progress + '%' }"></div>
+            <div ng-repeat="item in uploader.queue" ng-show="uploader.queue.length > 0">
+                <div>{{item.file.name}}</div>
+                <div>{{ uploader.queue[0].file.size / 1024 / 1024|number:2 }} MB</div>
+                <div class="row">
+                    <div class="col-50">
+                        <a href="#" class="button button-fill color-green"
+                           ng-click="doUpload()"
+                           ng-disabled="!uploader.getNotUploadedItems().length">Upload</a>
                     </div>
-                </div>
-                <div>
-                    <button ng-click="uploader.queue[0].upload()" ng-disabled="uploader.queue[0].isReady || uploader.queue[0].isUploading || uploader.queue[0].isSuccess">Upload</button>
-                    <button ng-click="uploader.queue[0].cancel()" ng-disabled="!uploader.queue[0].isUploading">Cancel</button>
-                    <button ng-click="uploader.queue[0].remove()">Remove</button>
+                    <div class="col-50">
+                        <a href="#" class="button button-fill color-red"
+                           ng-click="uploader.clearQueue()"
+                           ng-disabled="!uploader.queue.length">Cancel</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -26,26 +27,14 @@
     <div class="content-block-title">Your Lessons</div>
     <div class="list-block">
         <ul>
-            <li class="item-content">
-                <div class="item-media"><i class="icon icon-form-comment"></i></div>
-                <div class="item-inner">
-                    <div class="item-title">Item title</div>
-                    <div class="item-after">Label</div>
-                </div>
-            </li>
-            <li class="item-content">
-                <div class="item-media"><i class="icon icon-f7"></i></div>
-                <div class="item-inner">
-                    <div class="item-title">Item with badge</div>
-                    <div class="item-after"><span class="badge">5</span></div>
-                </div>
-            </li>
-            <li class="item-content">
-                <div class="item-media"><i class="icon icon-f7"></i></div>
-                <div class="item-inner">
-                    <div class="item-title">Another item</div>
-                    <div class="item-after">Another label</div>
-                </div>
+            <li ng-repeat="le in lessonListPack.list">
+                <a href="#" class="item-link item-content" ng-click="lessonAction(le)">
+                    <div class="item-media"></div>
+                    <div class="item-inner">
+                        <div class="item-title">{{le.name}}</div>
+                        <div class="item-after"><span class="badge">{{le.json.steps.length}}</span></div>
+                    </div>
+                </a>
             </li>
         </ul>
     </div>
