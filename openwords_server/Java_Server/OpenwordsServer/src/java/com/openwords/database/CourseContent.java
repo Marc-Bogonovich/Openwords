@@ -9,6 +9,6 @@ import java.util.List;
  */
 public class CourseContent {
 
-    public List<Lesson> Lessons = new LinkedList<>();
+    public List<Lesson> lessons = new LinkedList<>();
     public String comment, authorName;
 }
