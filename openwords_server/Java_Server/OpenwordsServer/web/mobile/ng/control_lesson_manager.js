@@ -54,7 +54,29 @@ myNg.controller("LessonManagerControl", function($scope, $http, FileUploader) {
         },
         {
             text: "Delete",
-            color: "red"
+            color: "red",
+            onClick: function() {
+                myApp.confirm("Are you sure to delete lesson \"" + chosenLesson.name + "\"?",
+                        "Deleting Lesson",
+                        function() {
+                            $http({
+                                url: "deleteLesson",
+                                method: "get",
+                                params: {
+                                    userId: userInfo.userId,
+                                    name: chosenLesson.name
+                                }
+                            }).then(function(res) {
+                                var r = res.data;
+                                if (!r.errorMessage) {
+                                    $scope.listMyLessons(1);
+                                    myApp.alert(null, "Lesson deleted");
+                                }
+
+                            });
+                        }
+                );
+            }
         },
         {
             text: "Cancel"
