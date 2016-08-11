@@ -1,9 +1,35 @@
-<div class="swiper-slide">
+<div class="swiper-slide" id="step_page_id" ng-controller="StepPageControl" ng-init="init()" 
+     style="height: 100%;">
     <span style="text-align:center;
           margin-top: 200px;
           display:block;
           margin:20px;
           font-size:21px;">
-        Slide {{step}}
+        Slide {{myIndex}}
     </span>
+    <div style="height: 50%;">
+        <div ng-repeat="line in step.lines" style="margin-bottom: 10px;">
+            <span ng-repeat="item in line" style="font-size: 0px;">
+                <span ng-if="item.type === 'pro'" 
+                      ng-repeat="t in item.text" 
+                      style="font-size: 16px; display: inline-block;">
+                    {{t}}
+                </span>
+                <a href="#"
+                   ng-if="item.type === 'ans'" class="button"
+                   style="display: inline;">
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                </a>
+            </span>
+        </div>
+    </div>
+    <div class="content-block inset" style="height: 50%;">
+        <div class="content-block-inner">
+            <a href="#" ng-repeat="a in answerPool" 
+               style="display: inline; white-space: normal; margin-right: 10px;"
+               class="button button-fill color-green">
+                {{a}}
+            </a>
+        </div>
+    </div>
 </div>
