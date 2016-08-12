@@ -123,8 +123,10 @@
                         </div>
                     </div>
 
-                    <div data-page="steps" class="page cached navbar-fixed" 
-                         ng-include="'steps.html'">
+                    <div data-page="steps" class="page cached navbar-fixed"
+                         ng-controller="StepsControl" 
+                         ng-include="'steps.html'"
+                         id="StepsControl">
                     </div>
 
                     <div data-page="course_lessons" class="page cached navbar-fixed" 
