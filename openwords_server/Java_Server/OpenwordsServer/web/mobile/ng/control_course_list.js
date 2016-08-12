@@ -11,7 +11,7 @@ myNg.controller("CourseListControl", function($scope, $http) {
     };
 
     //load data before page show
-    $scope.listCourses(5);
+    $scope.listCourses(10000);
 
     $scope.goToCourseContent = function(c) {
         getScope("LessonListControl").setCourse(c);
