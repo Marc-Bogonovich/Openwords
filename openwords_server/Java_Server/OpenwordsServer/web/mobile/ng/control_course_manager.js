@@ -37,6 +37,48 @@ myNg.controller("CourseManagerControl", function($scope, $http, FileUploader) {
         listCourse($scope.courseListPack, $http);
     };
 
+    var chosenCourse;
+    var actionButtons = [
+        {
+            text: "Preview",
+            onClick: function() {
+            }
+        },
+        {
+            text: "Delete",
+            color: "red",
+            onClick: function() {
+                myApp.confirm("Are you sure to delete Course \"" + chosenCourse.name + "\"?",
+                        "Deleting Course",
+                        function() {
+//                            $http({
+//                                url: "deleteLesson",
+//                                method: "get",
+//                                params: {
+//                                    userId: userInfo.userId,
+//                                    name: chosenLesson.name
+//                                }
+//                            }).then(function(res) {
+//                                var r = res.data;
+//                                if (!r.errorMessage) {
+//                                    $scope.listMyLessons(1);
+//                                    myApp.alert(null, "Lesson deleted");
+//                                }
+//                            });
+                        }
+                );
+            }
+        },
+        {
+            text: "Cancel"
+        }
+    ];
+
+    $scope.courseAction = function(c) {
+        console.log(c);
+        chosenCourse = c;
+        myApp.actions(actionButtons);
+    };
 });
 
 

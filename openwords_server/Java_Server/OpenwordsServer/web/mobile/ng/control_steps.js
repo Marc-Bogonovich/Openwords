@@ -8,8 +8,6 @@ myNg.controller("StepPageControl", function($scope) {
     $scope.step;
     $scope.init = function(index) {
         $scope.myIndex = index;
-        console.log("hi im " + index);
-        console.log("mode " + $scope.mode);
         $scope.step = STEPS[index];
 
         $scope.step.lines.forEach(function(line) {

@@ -61,7 +61,7 @@ myNg.controller("LessonManagerControl", function($scope, $http, FileUploader) {
             text: "Delete",
             color: "red",
             onClick: function() {
-                myApp.confirm("Are you sure to delete lesson \"" + chosenLesson.name + "\"?",
+                myApp.confirm("Are you sure to delete Lesson \"" + chosenLesson.name + "\"?",
                         "Deleting Lesson",
                         function() {
                             $http({
