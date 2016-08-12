@@ -1,6 +1,5 @@
 // Initialize app and store it to myApp variable for futher access to its methods
 var myApp = new Framework7({
-    swipePanel: "right",
     showBarsOnPageScrollEnd: false,
     showBarsOnPageScrollTop: false,
     hideNavbarOnPageScroll: true,
@@ -44,12 +43,24 @@ myApp.onPageInit("steps", function(page) {
     $$.ajax({
         url: "slide.html",
         success: function(data) {
-            for (var i = 0; i < STEPS.length; i++) {
-                stepsUI.appendSlide(data.replace("{{step}}", STEPS[i].toString()));
-            }
+            buildStepPage(data);
         }
     });
 });
+
+function buildStepPage(html) {
+    for (var i = 0; i < STEPS.length; i++) {
+        stepsUI.appendSlide(html.replace("id=\"step_page_id\"", "id=\"step_page_" + i + "\"")
+                .replace("ng-init=\"init()\"", "ng-init=\"init(" + i + ")\""));
+
+        var content = $$("#step_page_" + i);
+        angular.element(document.getElementById("StepsControl")).injector().invoke(function($compile) {
+            var scope = angular.element(content).scope();
+            $compile(content)(scope);
+            scope.$apply();
+        });
+    }
+}
 
 myApp.onPageReinit("steps", function(page) {
     console.log("steps re");
@@ -57,9 +68,7 @@ myApp.onPageReinit("steps", function(page) {
     $$.ajax({
         url: "slide.html",
         success: function(data) {
-            for (var i = 0; i < STEPS.length; i++) {
-                stepsUI.appendSlide(data.replace("{{step}}", STEPS[i].toString()));
-            }
+            buildStepPage(data);
         }
     });
 });
