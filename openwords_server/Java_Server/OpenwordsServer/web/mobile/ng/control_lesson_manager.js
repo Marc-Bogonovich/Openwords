@@ -33,7 +33,7 @@ myNg.controller("LessonManagerControl", function($scope, $http, FileUploader) {
 
     $scope.lessonListPack = {
         page: 1,
-        pageSize: 100
+        pageSize: 10000
     };
 
     $scope.listMyLessons = function(page) {

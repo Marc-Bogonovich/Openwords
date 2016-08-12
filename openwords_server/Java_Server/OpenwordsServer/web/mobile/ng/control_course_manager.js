@@ -28,12 +28,12 @@ myNg.controller("CourseManagerControl", function($scope, $http, FileUploader) {
     };
 
     $scope.courseListPack = {
-        pageNumber: 1,
-        pageSize: 5
+        page: 1,
+        pageSize: 10000
     };
 
     $scope.listMyCourses = function(page) {
-        $scope.courseListPack.pageNumer = page;
+        $scope.courseListPack.page = page;
         listCourse($scope.courseListPack, $http);
     };
 
