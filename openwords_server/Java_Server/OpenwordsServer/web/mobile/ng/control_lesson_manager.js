@@ -47,8 +47,13 @@ myNg.controller("LessonManagerControl", function($scope, $http, FileUploader) {
         {
             text: "Preview",
             onClick: function() {
-                console.log(chosenLesson);
                 STEPS = chosenLesson.json.steps;
+                var StepsControl = getScope("StepsControl");
+                StepsControl.lesson = chosenLesson;
+                StepsControl.mode = "preview";
+                $$("#back_button_in_steps").on("click", function() {
+                    mainView.router.load({pageName: "lesson_manager"});
+                });
                 mainView.router.load({pageName: "steps"});
             }
         },
@@ -72,7 +77,6 @@ myNg.controller("LessonManagerControl", function($scope, $http, FileUploader) {
                                     $scope.listMyLessons(1);
                                     myApp.alert(null, "Lesson deleted");
                                 }
-
                             });
                         }
                 );
