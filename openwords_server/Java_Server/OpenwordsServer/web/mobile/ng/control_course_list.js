@@ -1,13 +1,8 @@
 myNg.controller("CourseListControl", function($scope, $http) {
 
-    $scope.courseListPack = {
-        pageNumber: 1,
-        pageSize: 10000
-    };
-
     $scope.listCourses = function(page) {
-        $scope.courseListPack.page = page;
-        listCourse($scope.courseListPack, $http);
+        $scope.rootAllCourse.page = page;
+        listCourse($scope.rootAllCourse, $http);
     };
 
     //load data before page show

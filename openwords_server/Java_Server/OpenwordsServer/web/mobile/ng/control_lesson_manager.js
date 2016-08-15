@@ -31,15 +31,10 @@ myNg.controller("LessonManagerControl", function($scope, $http, FileUploader) {
         myApp.alert(null, "Upload fail");
     };
 
-    $scope.lessonListPack = {
-        page: 1,
-        pageSize: 10000
-    };
-
     $scope.listMyLessons = function(page) {
-        $scope.lessonListPack.page = page;
-        $scope.lessonListPack.userId = userInfo.userId;
-        listLesson($scope.lessonListPack, $http);
+        $scope.rootMyLessonList.page = page;
+        $scope.rootMyLessonList.userId = userInfo.userId;
+        listLesson($scope.rootMyLessonList, $http);
     };
 
     var chosenLesson = null;

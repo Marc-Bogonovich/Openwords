@@ -35,7 +35,6 @@ myNg.controller("LoginControl", function($scope, $http) {
             userInfo.username = loginData.username;
             if (r.result) {
                 var CourseManagerControl = getScope("CourseManagerControl");
-                CourseManagerControl.courseListPack.userId = userInfo.userId;
                 CourseManagerControl.listMyCourses(1);
 
                 var LessonManagerControl = getScope("LessonManagerControl");

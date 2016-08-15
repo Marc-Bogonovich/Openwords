@@ -27,21 +27,21 @@ myNg.controller("CourseManagerControl", function($scope, $http, FileUploader) {
         });
     };
 
-    $scope.courseListPack = {
-        page: 1,
-        pageSize: 10000
-    };
-
     $scope.listMyCourses = function(page) {
-        $scope.courseListPack.page = page;
-        listCourse($scope.courseListPack, $http);
+        $scope.rootMyCourseList.page = page;
+        $scope.rootMyCourseList.userId = userInfo.userId;
+        listCourse($scope.rootMyCourseList, $http);
     };
 
     var chosenCourse;
     var actionButtons = [
         {
-            text: "Preview",
+            text: "Edit",
             onClick: function() {
+                var CourseEditControl = getScope("CourseEditControl");
+                CourseEditControl.course = chosenCourse;
+                CourseEditControl.$apply();
+                mainView.router.load({pageName: "course_edit"});
             }
         },
         {
