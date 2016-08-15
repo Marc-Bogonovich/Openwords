@@ -1,0 +1,14 @@
+<div class="content-block-title">Choose a lesson</div>
+<div class="list-block">
+    <ul>
+        <li ng-repeat="le in rootMyLessonList.list">
+            <a href="#" class="item-link item-content" ng-click="lessonAction(le)">
+                <div class="item-inner">
+                    <div class="item-title">{{le.name}}</div>
+                    <div class="item-after"><span class="badge">{{le.json.steps.length}}</span></div>
+                </div>
+            </a>
+        </li>
+    </ul>
+</div>
+<p><a href="#" class="close-popup">Close popup</a></p>
