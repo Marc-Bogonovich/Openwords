@@ -3,7 +3,6 @@ package com.openwords.actions.course;
 import static com.opensymphony.xwork2.Action.SUCCESS;
 import com.openwords.database.Course;
 import com.openwords.database.DatabaseHandler;
-import com.openwords.database.Lesson;
 import com.openwords.interfaces.MyAction;
 import com.openwords.utils.UtilLog;
 import org.apache.struts2.convention.annotation.Action;
@@ -45,6 +44,10 @@ public class DeleteCourse extends MyAction {
             s.close();
         }
         return SUCCESS;
+    }
+
+    public void setPass(String pass) {
+        this.pass = pass;
     }
 
     public void setCourseId(long courseId) {

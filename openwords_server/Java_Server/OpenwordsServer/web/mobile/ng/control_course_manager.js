@@ -51,20 +51,21 @@ myNg.controller("CourseManagerControl", function($scope, $http, FileUploader) {
                 myApp.confirm("Are you sure to delete Course \"" + chosenCourse.name + "\"?",
                         "Deleting Course",
                         function() {
-//                            $http({
-//                                url: "deleteLesson",
-//                                method: "get",
-//                                params: {
-//                                    userId: userInfo.userId,
-//                                    name: chosenLesson.name
-//                                }
-//                            }).then(function(res) {
-//                                var r = res.data;
-//                                if (!r.errorMessage) {
-//                                    $scope.listMyLessons(1);
-//                                    myApp.alert(null, "Lesson deleted");
-//                                }
-//                            });
+                            $http({
+                                url: "deleteCourse",
+                                method: "get",
+                                params: {
+                                    pass: "别瞎删昂!",
+                                    userId: chosenCourse.userId,
+                                    courseId: chosenCourse.courseId
+                                }
+                            }).then(function(res) {
+                                var r = res.data;
+                                if (!r.errorMessage) {
+                                    $scope.listMyCourses(1);
+                                    myApp.alert(null, "Course deleted");
+                                }
+                            });
                         }
                 );
             }
