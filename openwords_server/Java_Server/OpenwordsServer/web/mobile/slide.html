@@ -1,15 +1,18 @@
 <div class="swiper-slide" id="step_page_id" ng-controller="StepPageControl" ng-init="init()">
     <div style="height: 50%; overflow-y: scroll; padding: 20px;">
-        <div ng-repeat="line in step.lines" style="margin-bottom: 10px;">
+        <div ng-repeat="line in step.lines" style="margin-bottom: 10px;
+             display: flex;
+             align-items: center;
+             flex-wrap: wrap;">
             <span ng-repeat="item in line" style="font-size: 0px;">
                 <span ng-if="item.type === 'pro'" 
                       ng-repeat="t in item.text" 
-                      style="font-size: 18px; display: inline-block;">
+                      style="font-size: 16pt; display: inline-block;">
                     {{t}}
                 </span>
                 <a href="#"
                    ng-if="item.type === 'ans'" class="button color-green"
-                   style="display: inline; font-size: 18px;">
+                   style="display: inline-block; font-size: 16pt;">
                     <span ng-if="mode === 'exam'">&nbsp;&nbsp;&nbsp;&nbsp;</span>
                     <span ng-if="mode === 'preview'">{{item.text[0]}}</span>
                 </a>
@@ -19,7 +22,7 @@
     <div class="content-block inset" style="height: 50%; overflow-y: scroll;">
         <div class="content-block-inner">
             <a href="#" ng-repeat="a in answerPool" 
-               style="display: inline; white-space: normal; margin-right: 10px; font-size: 18px;"
+               style="display: inline-block; white-space: normal; margin-right: 10px; font-size: 16pt;"
                class="button button-fill color-green">
                 {{a}}
             </a>
