@@ -6,7 +6,6 @@ import com.openwords.database.DatabaseHandler;
 import com.openwords.interfaces.MyAction;
 import com.openwords.utils.MyGson;
 import com.openwords.utils.UtilLog;
-import java.util.List;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
@@ -37,7 +36,7 @@ public class SaveCourse extends MyAction {
                     .add(Restrictions.eq("userId", c.getUserId()))
                     .list().get(0);
             old.setName(c.getName().trim());
-            old.setContent(MyGson.toJson(c.getJson()));
+            old.setContent(c.getContent());
             old.setUpdated(System.currentTimeMillis());
 
             s.beginTransaction().commit();
