@@ -32,12 +32,12 @@ public class SaveCourse extends MyAction {
             }
 
             Course old = (Course) s.createCriteria(Course.class)
-                    .add(Restrictions.eq("courseId", c.getCourseId()))
-                    .add(Restrictions.eq("userId", c.getUserId()))
+                    .add(Restrictions.eq("makeTime", c.getMakeTime()))
+                    .add(Restrictions.eq("authorId", c.getAuthorId()))
+                    .add(Restrictions.eq("userId", 0l))
                     .list().get(0);
             old.setName(c.getName().trim());
             old.setContent(c.getContent());
-            old.setUpdated(System.currentTimeMillis());
 
             s.beginTransaction().commit();
         } catch (Exception e) {

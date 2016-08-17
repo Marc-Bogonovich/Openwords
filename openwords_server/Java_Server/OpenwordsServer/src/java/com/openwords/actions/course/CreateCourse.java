@@ -17,7 +17,7 @@ public class CreateCourse extends MyAction {
 
     private static final long serialVersionUID = 1L;
     private String name, userName, langOne, langTwo, comment, errorMessage;
-    private long userId;
+    private long authorId;
 
     @Action(value = "/createCourse", results = {
         @Result(name = SUCCESS, type = "json")
@@ -29,11 +29,12 @@ public class CreateCourse extends MyAction {
         try {
             Course c = new Course();
             c.setName(name);
-            c.setUserId(userId);
+            c.setAuthorId(authorId);
+            c.setUserId(0l);
             c.setFileCover("");
             c.setLangOne("");
             c.setLangTwo("");
-            c.setUpdated(System.currentTimeMillis());
+            c.setMakeTime(System.currentTimeMillis());
 
             CourseContent content = new CourseContent();
             content.authorName = userName;
@@ -56,8 +57,8 @@ public class CreateCourse extends MyAction {
         this.name = name;
     }
 
-    public void setUserId(long userId) {
-        this.userId = userId;
+    public void setAuthorId(long authorId) {
+        this.authorId = authorId;
     }
 
     public void setUserName(String userName) {

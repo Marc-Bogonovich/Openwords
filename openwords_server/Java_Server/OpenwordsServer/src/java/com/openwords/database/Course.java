@@ -17,7 +17,7 @@ public class Course implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private long courseId, userId, updated;
+    private long authorId, userId, makeTime;
     private String name, content, fileCover, langOne, langTwo;
     private Map<String, Object> json;
 
@@ -25,16 +25,26 @@ public class Course implements Serializable {
     }
 
     @Id
-    @GeneratedValue
-    @Column(name = "course_id")
-    public long getCourseId() {
-        return courseId;
+    @Column(name = "author_id")
+    public long getAuthorId() {
+        return authorId;
     }
 
-    public void setCourseId(long courseId) {
-        this.courseId = courseId;
+    public void setAuthorId(long authorId) {
+        this.authorId = authorId;
     }
 
+    @Id
+    @Column(name = "make_time")
+    public long getMakeTime() {
+        return makeTime;
+    }
+
+    public void setMakeTime(long makeTime) {
+        this.makeTime = makeTime;
+    }
+
+    @Id
     @Column(name = "user_id")
     public long getUserId() {
         return userId;
@@ -88,15 +98,6 @@ public class Course implements Serializable {
 
     public void setFileCover(String fileCover) {
         this.fileCover = fileCover;
-    }
-
-    @Column(name = "updated_time")
-    public long getUpdated() {
-        return updated;
-    }
-
-    public void setUpdated(long updated) {
-        this.updated = updated;
     }
 
     @Transient

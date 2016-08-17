@@ -20,8 +20,8 @@ public class ListCourse extends MyAction {
     private static final long serialVersionUID = 1L;
     private List<Course> result;
     private String errorMessage;
-    private int langOne, langTwo, pageNumber = 1, pageSize = 5;
-    private long userId;
+    private int pageNumber = 1, pageSize = 5;
+    private long userId, authorId;
 
     @Action(value = "/listCourse", results = {
         @Result(name = SUCCESS, type = "json")
@@ -29,7 +29,7 @@ public class ListCourse extends MyAction {
     @Override
     @SuppressWarnings("unchecked")
     public String execute() throws Exception {
-        UtilLog.logInfo(this, "/listCourse: " + userId);
+        UtilLog.logInfo(this, "/listCourse: " + authorId + " " + userId);
         Session s = DatabaseHandler.getSession();
         try {
             int firstRecord = (pageNumber - 1) * pageSize;
@@ -40,6 +40,8 @@ public class ListCourse extends MyAction {
 
             if (userId > 0) {
                 c.add(Restrictions.eq("userId", userId));
+            } else if (authorId > 0) {
+                c.add(Restrictions.eq("authorId", authorId));
             }
 
             result = c.list();
@@ -52,12 +54,8 @@ public class ListCourse extends MyAction {
         return SUCCESS;
     }
 
-    public void setLangOne(int langOne) {
-        this.langOne = langOne;
-    }
-
-    public void setLangTwo(int langTwo) {
-        this.langTwo = langTwo;
+    public void setAuthorId(long authorId) {
+        this.authorId = authorId;
     }
 
     public void setPageNumber(int pageNumber) {
