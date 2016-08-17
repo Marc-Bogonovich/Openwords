@@ -8,12 +8,12 @@
                          class="card-header color-white no-border lazy lazy-fadeIn">{{c.name}}</div>
                     <div class="card-content">
                         <div class="card-content-inner">
-                            <p class="color-gray">Posted on {{c.updated| date:"MMMM d, yyyy"}}</p>
+                            <p class="color-gray">Posted on {{c.makeTime| date:"MMMM d, yyyy"}}</p>
                             <p>{{c.json.comment}}</p>
                         </div>
                     </div>
                     <div class="card-footer">
-                        <a href="#" class="link" ng-click="goToCourseContent(c)">Learn</a>
+                        <a href="#" class="link" ng-click="learnCourse(c)">Learn</a>
                     </div>
                 </li>
             </ul>
