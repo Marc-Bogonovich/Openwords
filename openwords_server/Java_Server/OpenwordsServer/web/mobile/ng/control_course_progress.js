@@ -6,7 +6,10 @@ myNg.controller("CourseProgressControl", function($scope, $http) {
 
     $scope.learnLesson = function(les) {
         STEPS = les.json.steps;
-        STEPS.push({lines: [], marplots: []});
+        if (!STEPS[STEPS.length - 1].final) {
+            STEPS.push({final: true});
+        }
+
         var StepsControl = getScope("StepsControl");
         StepsControl.lesson = les;
         StepsControl.mode = "exam";
