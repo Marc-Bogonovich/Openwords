@@ -36,7 +36,7 @@ public class ListCourse extends MyAction {
             Criteria c = s.createCriteria(Course.class)
                     .setFirstResult(firstRecord)
                     .setMaxResults(pageSize + 1)
-                    .addOrder(Order.desc("updated"));
+                    .addOrder(Order.desc("makeTime"));
 
             if (userId > 0) {
                 c.add(Restrictions.eq("userId", userId));
