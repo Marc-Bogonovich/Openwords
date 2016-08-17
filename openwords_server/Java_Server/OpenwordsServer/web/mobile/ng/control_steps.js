@@ -14,7 +14,7 @@ myNg.controller("StepPageControl", function($scope) {
             line.forEach(function(item) {
                 if (item.type === "ans") {
                     item.text.forEach(function(answer) {
-                        $scope.answerPool.push(answer);
+                        $scope.answerPool.push({type: "ans", text: answer});
                     });
                 }
             });
@@ -22,7 +22,7 @@ myNg.controller("StepPageControl", function($scope) {
 
         $scope.step.marplots.forEach(function(group) {
             group.text.forEach(function(mar) {
-                $scope.answerPool.push(mar);
+                $scope.answerPool.push({type: "mar", text: mar});
             });
         });
     };

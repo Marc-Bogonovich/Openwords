@@ -23,8 +23,9 @@
         <div class="content-block-inner">
             <a href="#" ng-repeat="a in answerPool" 
                style="display: inline-block; white-space: normal; margin-right: 10px; font-size: 16pt;  margin-bottom: 5px;"
-               class="button button-fill color-green">
-                {{a}}
+               class="button button-fill"
+               ng-class="{'color-green': a.type === 'ans','color-red': a.type === 'mar'}">
+                {{a.text}}
             </a>
         </div>
     </div>
