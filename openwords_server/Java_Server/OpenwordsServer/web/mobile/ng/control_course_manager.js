@@ -1,4 +1,4 @@
-myNg.controller("CourseManagerControl", function($scope, $http, FileUploader) {
+myNg.controller("CourseManagerControl", function($scope, $http) {
 
     $scope.createCourse = function() {
         myApp.prompt("Please enter a name for the course", "Creating Course", function(v) {
@@ -10,7 +10,7 @@ myNg.controller("CourseManagerControl", function($scope, $http, FileUploader) {
                     method: "get",
                     params: {
                         name: name,
-                        userId: userInfo.userId,
+                        authorId: userInfo.userId,
                         userName: userInfo.username,
                         comment: comment
                     }
@@ -29,7 +29,7 @@ myNg.controller("CourseManagerControl", function($scope, $http, FileUploader) {
 
     $scope.listMyCourses = function(page) {
         $scope.rootMyCourseList.page = page;
-        $scope.rootMyCourseList.userId = userInfo.userId;
+        $scope.rootMyCourseList.authorId = userInfo.userId;
         listCourse($scope.rootMyCourseList, $http);
     };
 
