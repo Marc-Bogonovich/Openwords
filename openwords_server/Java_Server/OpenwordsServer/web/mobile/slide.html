@@ -1,5 +1,5 @@
 <div class="swiper-slide" id="step_page_id" ng-controller="StepPageControl" ng-init="init()">
-    <div style="height: 50%; overflow-y: auto; padding: 20px;">
+    <div style="height: 50%; overflow-y: auto; padding: 20px;" ng-if="!step.final">
         <div ng-repeat="line in step.lines" style="margin-bottom: 10px;
              display: flex;
              align-items: center;
@@ -11,20 +11,34 @@
                     {{t}}
                 </span>
                 <a href="#"
-                   ng-if="item.type === 'ans'" class="button color-green"
+                   ng-if="item.type === 'ans' && !item.userInput" class="button color-green"
                    style="display: inline-block; font-size: 16pt;">
                     <span ng-if="mode === 'exam'">&nbsp;&nbsp;&nbsp;&nbsp;</span>
                     <span ng-if="mode === 'preview'">{{item.text[0]}}</span>
                 </a>
+                <a href="#"
+                   ng-if="item.userInput" class="color-green"
+                   style="display: inline-block; font-size: 16pt;"
+                   ng-click="removeInput(item)">
+                    <span>{{item.userInput}}</span>
+                </a>
             </span>
         </div>
     </div>
-    <div class="content-block inset" style="height: 50%; overflow-y: auto;">
-        <div class="content-block-inner">
+    <div class="content-block inset" style="height: 50%; overflow-y: auto;" ng-if="!step.final">
+        <div class="content-block-inner" ng-if="mode === 'preview'">
             <a href="#" ng-repeat="a in answerPool" 
                style="display: inline-block; white-space: normal; margin-right: 10px; font-size: 16pt;  margin-bottom: 5px;"
                class="button button-fill"
                ng-class="{'color-green': a.type === 'ans','color-red': a.type === 'mar'}">
+                {{a.text}}
+            </a>
+        </div>
+        <div class="content-block-inner" ng-if="mode === 'exam'">
+            <a href="#" ng-repeat="a in answerPool" 
+               style="display: inline-block; white-space: normal; margin-right: 10px; font-size: 16pt;  margin-bottom: 5px;"
+               class="button button-fill color-green"
+               ng-click="pickAnswer(a)">
                 {{a.text}}
             </a>
         </div>
