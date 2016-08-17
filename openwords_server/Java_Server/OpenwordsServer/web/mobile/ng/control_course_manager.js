@@ -38,9 +38,9 @@ myNg.controller("CourseManagerControl", function($scope, $http, FileUploader) {
         {
             text: "Edit",
             onClick: function() {
-                var CourseEditControl = getScope("CourseEditControl");
-                CourseEditControl.course = chosenCourse;
-                CourseEditControl.$apply();
+                var copy = JSON.parse(angular.toJson(chosenCourse));
+                $scope.rootTargetCourse.target = copy;
+                $scope.$apply();
                 mainView.router.load({pageName: "course_edit"});
             }
         },
