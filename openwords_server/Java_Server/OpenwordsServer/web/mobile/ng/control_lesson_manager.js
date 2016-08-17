@@ -46,7 +46,7 @@ myNg.controller("LessonManagerControl", function($scope, $http, FileUploader) {
                 var StepsControl = getScope("StepsControl");
                 StepsControl.lesson = chosenLesson;
                 StepsControl.mode = "preview";
-                $$("#back_button_in_steps").on("click", function() {
+                $$("#back_button_in_steps").once("click", function() {
                     mainView.router.load({pageName: "lesson_manager"});
                 });
                 mainView.router.load({pageName: "steps"});

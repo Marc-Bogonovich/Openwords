@@ -8,9 +8,9 @@ myNg.controller("CourseListControl", function($scope, $http) {
     //load data before page show
     $scope.listCourses(1);
 
-    $scope.goToCourseContent = function(c) {
-        getScope("LessonListControl").setCourse(c);
-        mainView.router.load({pageName: "course_lessons"});
+    $scope.learnCourse = function(c) {
+        getScope("CourseProgressControl").setCourse(c);
+        mainView.router.load({pageName: "course_progress"});
     };
 });
 
