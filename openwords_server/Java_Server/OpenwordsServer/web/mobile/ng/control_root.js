@@ -32,7 +32,6 @@ myNg.controller("RootControl", function($scope, $http, $httpParamSerializerJQLik
             myApp.alert(null, "Course must have a name!");
             return;
         }
-        console.log($scope.rootTargetCourse.target);
         $scope.rootTargetCourse.target.content = angular.toJson($scope.rootTargetCourse.target.json);
         $scope.rootTargetCourse.target.json = null;
         $http({
