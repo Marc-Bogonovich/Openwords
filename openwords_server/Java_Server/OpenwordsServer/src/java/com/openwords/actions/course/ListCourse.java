@@ -29,7 +29,9 @@ public class ListCourse extends MyAction {
     @Override
     @SuppressWarnings("unchecked")
     public String execute() throws Exception {
-        UtilLog.logInfo(this, "/listCourse: " + authorId + " " + userId);
+        UtilLog.logInfo(this, String.format("/listCourse\n"
+                + "authorId: %s\n"
+                + "userId: %s\n", authorId, userId));
         Session s = DatabaseHandler.getSession();
         try {
             int firstRecord = (pageNumber - 1) * pageSize;
@@ -42,6 +44,7 @@ public class ListCourse extends MyAction {
                 c.add(Restrictions.eq("userId", userId));
             } else if (authorId > 0) {
                 c.add(Restrictions.eq("authorId", authorId));
+                c.add(Restrictions.eq("userId", 0l));
             }
 
             result = c.list();
