@@ -17,7 +17,7 @@ public class DeleteCourse extends MyAction {
 
     private static final long serialVersionUID = 1L;
     private String errorMessage, pass;
-    private long courseId, userId;
+    private long authorId, userId, makeTime;
 
     @Action(value = "/deleteCourse", results = {
         @Result(name = SUCCESS, type = "json")
@@ -25,7 +25,10 @@ public class DeleteCourse extends MyAction {
     @Override
     @SuppressWarnings("unchecked")
     public String execute() throws Exception {
-        UtilLog.logInfo(this, "/deleteCourse: " + courseId);
+        UtilLog.logInfo(this, String.format("/deleteCourse\n"
+                + "makeTime: %s\n"
+                + "authorId: %s\n"
+                + "userId: %s\n", makeTime, authorId, userId));
         if (!pass.equals("别瞎删昂!")) {
             errorMessage = "Wrong pass";
             return SUCCESS;
@@ -33,7 +36,8 @@ public class DeleteCourse extends MyAction {
         Session s = DatabaseHandler.getSession();
         try {
             Criteria c = s.createCriteria(Course.class)
-                    .add(Restrictions.eq("courseId", courseId))
+                    .add(Restrictions.eq("makeTime", makeTime))
+                    .add(Restrictions.eq("authorId", authorId))
                     .add(Restrictions.eq("userId", userId));
             s.delete(c.list().get(0));
             s.beginTransaction().commit();
@@ -50,8 +54,12 @@ public class DeleteCourse extends MyAction {
         this.pass = pass;
     }
 
-    public void setCourseId(long courseId) {
-        this.courseId = courseId;
+    public void setAuthorId(long authorId) {
+        this.authorId = authorId;
+    }
+
+    public void setMakeTime(long makeTime) {
+        this.makeTime = makeTime;
     }
 
     public void setUserId(long userId) {

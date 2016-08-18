@@ -56,8 +56,9 @@ myNg.controller("CourseManagerControl", function($scope, $http) {
                                 method: "get",
                                 params: {
                                     pass: "别瞎删昂!",
+                                    makeTime: chosenCourse.makeTime,
                                     userId: chosenCourse.userId,
-                                    courseId: chosenCourse.courseId
+                                    authorId: chosenCourse.authorId
                                 }
                             }).then(function(res) {
                                 var r = res.data;
