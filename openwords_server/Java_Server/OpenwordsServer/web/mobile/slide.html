@@ -43,4 +43,19 @@
             </a>
         </div>
     </div>
+    <div ng-if="step.final">
+        <div class="content-block-title">Lesson Result</div>
+        <div class="content-block">
+            <div class="content-block-inner" style="font-size: 24pt;">
+                <a href="#" ng-repeat="s in steps" ng-if="!$last"
+                   style="margin-right: 20px;">
+                    <span ng-if="s.check" class="color-green">&#x2714;</span>
+                    <span ng-if="!s.check" class="color-red">&#x2718;</span>
+                </a>
+            </div>
+        </div>
+        <div class="content-block-title">Comment</div>
+        <div class="content-block">
+        </div>
+    </div>
 </div>
