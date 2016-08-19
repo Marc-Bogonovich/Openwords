@@ -37,7 +37,13 @@ var stepsUI = null;
 myApp.onPageInit("steps", function(page) {
     console.log("steps init");
     stepsUI = myApp.swiper(".swiper-container", {
-        pagination: ".swiper-pagination"
+        pagination: ".swiper-pagination",
+        preventClicks: true,
+        grabCursor: true
+    });
+    stepsUI.on("onSlideChangeEnd", function() {
+        console.log("onSlideChangeEnd");
+        console.log("activeIndex: " + stepsUI.activeIndex);
     });
 
     $$.ajax({
