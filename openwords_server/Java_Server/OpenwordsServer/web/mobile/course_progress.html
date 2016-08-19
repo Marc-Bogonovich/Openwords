@@ -14,8 +14,14 @@
                 style="width: 100%; margin: 0px;">
                 <a href="#" ng-click="learnLesson(les)">
                     <div class="card-content">
-                        <div class="card-content-inner">
-                            <p><span style="margin-right: 20px;">{{$index + 1}}</span><span>{{les.name}}</span></p>
+                        <div class="card-content-inner" ng-class="{'lesson-done': les.ok}">
+                            <p>
+                                <span style="margin-right: 20px;">
+                                    <span>{{$index + 1}}</span>
+                                </span>
+                                <span>{{les.name}}</span>
+                                <span ng-if="les.ok" style="float: right;">&#x2714;</span>
+                            </p>
                         </div>
                     </div>
                 </a>
@@ -26,5 +32,6 @@
                 </div>
             </li>
         </ul>
+        <a href="#" class="color-red" ng-click="forfeitCourse()">Forfeit</a>
     </div>
 </div>
