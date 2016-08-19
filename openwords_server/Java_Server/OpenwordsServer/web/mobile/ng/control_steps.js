@@ -13,15 +13,20 @@ myNg.controller("StepPageControl", function($scope) {
         $scope.step = STEPS[index];
 
         if (!$scope.step.final) {
+            var noAnswer = true;
             $scope.step.lines.forEach(function(line) {
                 line.forEach(function(item) {
                     if (item.type === "ans") {
+                        noAnswer = false;
                         item.text.forEach(function(answer) {
                             $scope.answerPool.push({type: "ans", text: answer});
                         });
                     }
                 });
             });
+            if (noAnswer) {
+                $scope.step.check = true;
+            }
 
             $scope.step.marplots.forEach(function(group) {
                 group.text.forEach(function(mar) {
@@ -32,6 +37,8 @@ myNg.controller("StepPageControl", function($scope) {
             if ($scope.mode === "exam") {
                 shuffle($scope.answerPool);
             }
+        } else {
+            $scope.steps = STEPS;
         }
     };
 
@@ -45,25 +52,38 @@ myNg.controller("StepPageControl", function($scope) {
 
     $scope.pickAnswer = function(a) {
         var found = false;
+        var allOk = true;
         $scope.step.lines.forEach(function(line) {
             line.forEach(function(item) {
-                if (found) {
-                    return;
-                }
                 if (item.type === "ans") {
-                    if (!item.userInput) {
+                    if (!item.userInput && !found) {
                         found = true;
                         item.userInput = a.text;
                         removeAnswerFromPool(a);
                     }
+                    if (!checkAnswerText(item.text, item.userInput)) {
+                        allOk = false;
+                    }
                 }
             });
         });
+
+        $scope.step.check = allOk;
     };
+
+    function checkAnswerText(all, incoming) {
+        for (var i = 0; i < all.length; i++) {
+            if (all[i] === incoming) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     $scope.removeInput = function(item) {
         $scope.answerPool.push({text: item.userInput});
         item.userInput = null;
+        $scope.step.check = false;
     };
 });
 
