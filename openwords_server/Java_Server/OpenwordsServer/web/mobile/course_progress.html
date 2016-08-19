@@ -1,10 +1,11 @@
 <div class="page-content">
-    <div class="card" style="margin: 0px;" id="my_card">
+    <div class="card demo-card-header-pic" style="margin: 0px;">
+        <div style="background-image:url(img/test6.jpg)" valign="bottom" class="card-header color-white no-border">
+            {{course.name}}
+        </div>
         <div class="card-content">
-            <div style="height: 30vw;
-                 background-image: url(img/test6.jpg);
-                 background-position: center;"></div>
-            <div class="card-content-inner">{{course.json.comment}}
+            <div class="card-content-inner">
+                <p>{{course.json.comment}}</p>
             </div>
         </div>
     </div>
