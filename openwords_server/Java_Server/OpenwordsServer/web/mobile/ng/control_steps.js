@@ -1,8 +1,25 @@
-myNg.controller("StepsControl", function($scope, $http) {
+myNg.controller("StepsControl", function($scope, $http, $httpParamSerializerJQLike) {
     $scope.lesson = null;
     $scope.mode = null;
     $scope.studyState = {
         reachFinal: false
+    };
+
+    $scope.saveStudyState = function(course) {
+        $scope.studyState.reachFinal = true;
+        course.content = angular.toJson(course.json);//total client content control
+        $http({
+            url: "saveCourseProgress",
+            method: "post",
+            headers: {"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"},
+            data: $httpParamSerializerJQLike({
+                course: angular.toJson(course)
+            })
+        }).then(function(res) {
+            $scope.studyState.reachFinal = true;
+            course.content = null;
+            console.log(res.data.errorMessage);
+        });
     };
 });
 
