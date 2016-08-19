@@ -18,7 +18,9 @@ myNg.controller("StepsControl", function($scope, $http, $httpParamSerializerJQLi
         }).then(function(res) {
             $scope.studyState.reachFinal = true;
             course.content = null;
-            console.log(res.data.errorMessage);
+            if (res.data.errorMessage) {
+                myApp.alert(null, res.data.errorMessage);
+            }
         });
     };
 });

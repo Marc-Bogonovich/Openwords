@@ -7,7 +7,8 @@ function listCourse(pack, http) {
         params: {pageNumber: pack.page,
             pageSize: pack.pageSize,
             userId: pack.userId,
-            authorId: pack.authorId}
+            authorId: pack.authorId,
+            all: pack.all}
     }).then(function(res) {
         var r = res.data;
         if (r.errorMessage) {

@@ -22,6 +22,7 @@ public class ListCourse extends MyAction {
     private String errorMessage;
     private int pageNumber = 1, pageSize = 5;
     private long userId, authorId;
+    private boolean all;
 
     @Action(value = "/listCourse", results = {
         @Result(name = SUCCESS, type = "json")
@@ -31,7 +32,8 @@ public class ListCourse extends MyAction {
     public String execute() throws Exception {
         UtilLog.logInfo(this, String.format("/listCourse\n"
                 + "authorId: %s\n"
-                + "userId: %s\n", authorId, userId));
+                + "userId: %s\n"
+                + "all: %s\n", authorId, userId, all));
         Session s = DatabaseHandler.getSession();
         try {
             int firstRecord = (pageNumber - 1) * pageSize;
@@ -40,11 +42,15 @@ public class ListCourse extends MyAction {
                     .setMaxResults(pageSize + 1)
                     .addOrder(Order.desc("makeTime"));
 
-            if (userId > 0) {
-                c.add(Restrictions.eq("userId", userId));
-            } else if (authorId > 0) {
-                c.add(Restrictions.eq("authorId", authorId));
+            if (all) {
                 c.add(Restrictions.eq("userId", 0l));
+            } else {
+                if (userId > 0) {
+                    c.add(Restrictions.eq("userId", userId));
+                } else if (authorId > 0) {
+                    c.add(Restrictions.eq("authorId", authorId));
+                    c.add(Restrictions.eq("userId", 0l));
+                }
             }
 
             result = c.list();
@@ -71,6 +77,10 @@ public class ListCourse extends MyAction {
 
     public void setUserId(long userId) {
         this.userId = userId;
+    }
+
+    public void setAll(boolean all) {
+        this.all = all;
     }
 
     public List<Course> getResult() {

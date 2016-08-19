@@ -15,7 +15,8 @@ myNg.controller("RootControl", function($scope, $http, $httpParamSerializerJQLik
 
     $scope.rootAllCourse = {
         page: 1,
-        pageSize: 10000
+        pageSize: 10000,
+        all: true
     };
 
     $scope.rootTargetCourse = {
