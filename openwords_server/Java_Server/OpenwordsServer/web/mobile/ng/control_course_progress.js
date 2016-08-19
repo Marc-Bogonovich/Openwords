@@ -15,7 +15,6 @@ myNg.controller("CourseProgressControl", function($scope, $http) {
                 return;
             }
             $scope.course = r.result;
-            console.log($scope.course);
         });
 
     };
@@ -33,6 +32,31 @@ myNg.controller("CourseProgressControl", function($scope, $http) {
             mainView.router.load({pageName: "course_progress"});
         });
         mainView.router.load({pageName: "steps"});
+    };
+
+    $scope.forfeitCourse = function() {
+        myApp.confirm("Are you sure to forfeit this course? Study progress will be discarded.",
+                "Forfeit Course",
+                function() {
+                    $http({
+                        url: "deleteCourse",
+                        method: "get",
+                        params: {
+                            pass: "别瞎删昂!",
+                            makeTime: $scope.course.makeTime,
+                            userId: $scope.course.userId,
+                            authorId: $scope.course.authorId
+                        }
+                    }).then(function(res) {
+                        var r = res.data;
+                        if (!r.errorMessage) {
+                            myApp.alert(null, "Course progress deleted");
+                            getScope("CourseListControl").listCourses(1);
+                            mainView.router.load({pageName: "course_list"});
+                        }
+                    });
+                }
+        );
     };
 });
 

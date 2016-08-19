@@ -74,7 +74,6 @@ myNg.controller("StepPageControl", function($scope) {
 
         $scope.step.check = allOk;
         $scope.lesson.ok = checkLesson(STEPS);
-        console.log($scope.lesson);
     };
 
     function checkAnswerText(all, incoming) {
