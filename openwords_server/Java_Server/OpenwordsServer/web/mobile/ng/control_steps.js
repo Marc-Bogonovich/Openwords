@@ -89,6 +89,10 @@ myNg.controller("StepPageControl", function($scope) {
         item.userInput = null;
         $scope.step.check = false;
     };
+
+    $scope.slideTo = function(index) {
+        stepsUI.slideTo(index);
+    };
 });
 
 
