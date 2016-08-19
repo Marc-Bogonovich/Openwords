@@ -1,6 +1,9 @@
 myNg.controller("StepsControl", function($scope, $http) {
-    $scope.lesson;
-    $scope.mode;
+    $scope.lesson = null;
+    $scope.mode = null;
+    $scope.studyState = {
+        reachFinal: false
+    };
 });
 
 myNg.controller("StepPageControl", function($scope) {
@@ -61,7 +64,8 @@ myNg.controller("StepPageControl", function($scope) {
                         item.userInput = a.text;
                         removeAnswerFromPool(a);
                     }
-                    if (!checkAnswerText(item.text, item.userInput)) {
+                    item.ok = checkAnswerText(item.text, item.userInput);
+                    if (!item.ok) {
                         allOk = false;
                     }
                 }

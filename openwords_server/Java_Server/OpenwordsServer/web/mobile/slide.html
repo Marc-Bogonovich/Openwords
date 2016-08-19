@@ -17,7 +17,9 @@
                     <span ng-if="mode === 'preview'">{{item.text[0]}}</span>
                 </a>
                 <a href="#"
-                   ng-if="item.userInput" class="color-green"
+                   ng-if="item.userInput" 
+                   ng-class="{'color-green': !studyState.reachFinal || item.ok,
+                               'color-red': studyState.reachFinal && !item.ok}"
                    style="display: inline-block; font-size: 16pt;"
                    ng-click="removeInput(item)">
                     <span>{{item.userInput}}</span>
