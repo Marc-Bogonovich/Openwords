@@ -42,8 +42,11 @@ myApp.onPageInit("steps", function(page) {
         grabCursor: true
     });
     stepsUI.on("onSlideChangeEnd", function() {
-        console.log("onSlideChangeEnd");
-        console.log("activeIndex: " + stepsUI.activeIndex);
+        var StepsControl = getScope("StepsControl");
+        if (stepsUI.activeIndex === StepsControl.lesson.json.steps.length - 1) {
+            StepsControl.studyState.reachFinal = true;
+            StepsControl.$apply();
+        }
     });
 
     $$.ajax({
