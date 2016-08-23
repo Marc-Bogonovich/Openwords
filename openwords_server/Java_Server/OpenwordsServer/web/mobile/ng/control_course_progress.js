@@ -28,6 +28,7 @@ myNg.controller("CourseProgressControl", function($scope, $http) {
         var StepsControl = getScope("StepsControl");
         StepsControl.lesson = les;
         StepsControl.mode = "exam";
+        StepsControl.studyState.reachFinal = false;
         $$("#back_button_in_steps").once("click", function() {
             mainView.router.load({pageName: "course_progress"});
         });
