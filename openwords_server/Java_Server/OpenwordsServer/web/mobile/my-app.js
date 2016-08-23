@@ -38,8 +38,10 @@ myApp.onPageInit("steps", function(page) {
     console.log("steps init");
     stepsUI = myApp.swiper(".swiper-container", {
         pagination: ".swiper-pagination",
-        preventClicks: true,
-        grabCursor: true
+        grabCursor: true,
+        keyboardControl: true,
+        mousewheelControl: true,
+        spaceBetween: 80
     });
     stepsUI.on("onSlideChangeEnd", function() {
         var StepsControl = getScope("StepsControl");
