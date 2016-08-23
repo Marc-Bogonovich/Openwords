@@ -1,15 +1,9 @@
 .demo-card-header-pic .card-header {
-    height: 40vw;
+    height: 30vw;
     background-size: cover;
     background-position: center;
 }
 
 .lesson-done{
     background-color: #dddddd;
-}
-
-.demo-card-header-pic .card-header {
-    height: 25vw;
-    background-size: cover;
-    background-position: center;
 }

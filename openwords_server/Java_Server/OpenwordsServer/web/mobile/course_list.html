@@ -2,7 +2,7 @@
     <div class="content-block">
         <div class="list-block cards-list">
             <ul>
-                <li class="card demo-card-header-pic" ng-repeat="c in rootAllCourse.list">
+                <li class="card demo-card-header-pic" ng-repeat="c in rootAllCourse.list" ng-click="learnCourse(c)">
                     <div data-background="{{c.fileCover}}"
                          valign="bottom" 
                          class="card-header color-white no-border lazy lazy-fadeIn">{{c.name}}</div>
@@ -13,7 +13,7 @@
                         </div>
                     </div>
                     <div class="card-footer">
-                        <a href="#" class="link" ng-click="learnCourse(c)">Learn</a>
+                        <a href="#" class="link">Learn</a>
                     </div>
                 </li>
             </ul>
