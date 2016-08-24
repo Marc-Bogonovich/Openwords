@@ -50,10 +50,10 @@
         <div class="content-block">
             <div class="content-block-inner" style="font-size: 24pt;">
                 <a href="#" ng-repeat="s in steps" ng-if="!$last"
-                   style="margin-right: 20px;"
+                   style="margin-right: 10px;"
                    ng-click="slideTo($index)">
-                    <span ng-if="s.check" class="color-green">&#x2714;</span>
-                    <span ng-if="!s.check" class="color-red">&#x2718;</span>
+                    <img ng-if="s.check" src="img/green-t.png" style="width: 32pt;">
+                    <img ng-if="!s.check" src="img/red-c.png" style="width: 32pt;">
                 </a>
             </div>
         </div>
