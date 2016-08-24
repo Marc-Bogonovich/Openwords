@@ -30,6 +30,7 @@ myApp.onPageInit("course_list", function(page) {
 
 myApp.onPageReinit("course_list", function(page) {
     console.log("course_list re");
+    getScope("CourseListControl").listCourses(1);
 });
 
 var STEPS;

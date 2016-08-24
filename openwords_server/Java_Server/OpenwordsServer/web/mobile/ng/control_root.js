@@ -19,6 +19,10 @@ myNg.controller("RootControl", function($scope, $http, $httpParamSerializerJQLik
         all: true
     };
 
+    $scope.refreshCourseList = function() {
+        listCourse($scope.rootAllCourse, $http);
+    };
+
     $scope.rootTargetCourse = {
         target: null
     };
