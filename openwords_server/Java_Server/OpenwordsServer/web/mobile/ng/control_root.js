@@ -19,6 +19,16 @@ myNg.controller("RootControl", function($scope, $http, $httpParamSerializerJQLik
         all: true
     };
 
+    $scope.rootMyStudyList = {
+        page: 1,
+        pageSize: 10000
+    };
+
+    $scope.goToCourseStudy = function() {
+        getScope("CourseStudyControl").listMyStudy(1);
+        mainView.router.load({pageName: "course_study"});
+    };
+
     $scope.refreshCourseList = function() {
         listCourse($scope.rootAllCourse, $http);
     };
