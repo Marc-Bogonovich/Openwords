@@ -1,4 +1,4 @@
-function listCourse(pack, http) {
+function listCourse(pack, http, done) {
     pack.canLookAfter = false;
 
     http({
@@ -32,6 +32,10 @@ function listCourse(pack, http) {
             var i = Math.floor(Math.random() * 9) + 1;
             c.fileCover = "img/test" + i + ".jpg";
         });
+
+        if (done) {
+            done(pack.list);
+        }
     });
 }
 
