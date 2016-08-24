@@ -30,9 +30,11 @@ myNg.controller("CourseProgressControl", function($scope, $http) {
         StepsControl.mode = "exam";
         StepsControl.studyState.reachFinal = false;
         $$("#back_button_in_steps").once("click", function() {
+            stepOn = false;
             mainView.router.load({pageName: "course_progress"});
         });
         mainView.router.load({pageName: "steps"});
+        stepOn = true;
     };
 
     $scope.forfeitCourse = function() {

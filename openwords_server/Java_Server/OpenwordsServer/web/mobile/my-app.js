@@ -34,13 +34,12 @@ myApp.onPageReinit("course_list", function(page) {
 
 var STEPS;
 var stepsUI = null;
+var stepOn = false;
 myApp.onPageInit("steps", function(page) {
     console.log("steps init");
     stepsUI = myApp.swiper(".swiper-container", {
         pagination: ".swiper-pagination",
         grabCursor: true,
-        keyboardControl: true,
-        mousewheelControl: true,
         spaceBetween: 80
     });
     stepsUI.on("onSlideChangeEnd", function() {
@@ -54,6 +53,17 @@ myApp.onPageInit("steps", function(page) {
         url: "slide.html",
         success: function(data) {
             buildStepPage(data);
+        }
+    });
+
+    $$(document).keydown(function(event) {
+        if (stepOn) {
+            if (event.keyCode === 37) {
+                stepsUI.slidePrev();
+            } else if (event.keyCode === 39) {
+                stepsUI.slideNext();
+            }
+            console.log("keydown");
         }
     });
 });
