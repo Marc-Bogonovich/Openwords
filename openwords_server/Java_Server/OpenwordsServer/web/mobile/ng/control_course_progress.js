@@ -1,22 +1,25 @@
 myNg.controller("CourseProgressControl", function($scope, $http) {
-    $scope.setCourse = function(c) {
-        $http({
-            url: "copyCourse",
-            method: "get",
-            params: {
-                makeTime: c.makeTime,
-                userId: userInfo.userId,
-                authorId: c.authorId
-            }
-        }).then(function(res) {
-            var r = res.data;
-            if (r.errorMessage) {
-                myApp.alert(null, "Cannot load course");
-                return;
-            }
-            $scope.course = r.result;
-        });
-
+    $scope.setCourse = function(c, local) {
+        if (local) {
+            $scope.course = c;
+        } else {
+            $http({
+                url: "copyCourse",
+                method: "get",
+                params: {
+                    makeTime: c.makeTime,
+                    userId: userInfo.userId,
+                    authorId: c.authorId
+                }
+            }).then(function(res) {
+                var r = res.data;
+                if (r.errorMessage) {
+                    myApp.alert(null, "Cannot load course");
+                    return;
+                }
+                $scope.course = r.result;
+            });
+        }
     };
 
     $scope.learnLesson = function(les) {

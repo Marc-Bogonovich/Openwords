@@ -20,7 +20,7 @@ myNg.controller("CourseStudyControl", function($scope, $http) {
     };
 
     $scope.courseAction = function(c) {
-        getScope("CourseProgressControl").setCourse(c);
+        getScope("CourseProgressControl").setCourse(c, true);
         mainView.router.load({pageName: "course_progress"});
     };
 });
