@@ -46,7 +46,7 @@ public class UploadLesson extends MyAction {
             try (Scanner scan = new Scanner(file)) {
                 lines = new LinkedList<>();
                 while (scan.hasNextLine()) {
-                    lines.add(scan.nextLine().trim());
+                    lines.add(scan.nextLine().trim().replaceAll("\uFEFF", ""));
                 }
             }
 
