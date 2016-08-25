@@ -48,17 +48,34 @@
     <div ng-if="step.final">
         <div class="content-block-title">Lesson Result</div>
         <div class="content-block">
-            <div class="content-block-inner" style="font-size: 24pt;">
+            <div class="content-block-inner" style="font-size: 26pt;">
                 <a href="#" ng-repeat="s in steps" ng-if="!$last"
-                   style="margin-right: 10px;"
+                   style="margin-right: 20px;"
                    ng-click="slideTo($index)">
-                    <img ng-if="s.check" src="img/green-t.png" style="width: 32pt;">
-                    <img ng-if="!s.check" src="img/red-c.png" style="width: 32pt;">
+                    <span ng-if="s.check" class="color-green">&#x2713;</span>
+                    <span ng-if="!s.check" class="color-red">&#x2717;</span>
                 </a>
             </div>
         </div>
         <div class="content-block-title">Comment</div>
-        <div class="content-block">
+        <div class="list-block">
+            <ul>
+                <li class="align-top">
+                    <div class="item-content">
+                        <div class="item-inner">
+                            <div class="item-input">
+                                <textarea ng-model="lessonComment.text" 
+                                          placeholder="It will be great if you have any comment to this lesson!"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="content-block row">
+            <div class="col-20"></div>
+            <a href="#" class="button button-fill" ng-click="sendComment()" ng-disabled="lessonComment.done">Submit Comment</a>
+            <div class="col-20"></div>
         </div>
     </div>
 </div>
