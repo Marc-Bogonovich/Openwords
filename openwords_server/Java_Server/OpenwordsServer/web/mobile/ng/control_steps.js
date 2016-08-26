@@ -25,7 +25,7 @@ myNg.controller("StepsControl", function($scope, $http, $httpParamSerializerJQLi
     };
 });
 
-myNg.controller("StepPageControl", function($scope) {
+myNg.controller("StepPageControl", function($scope, $http, $httpParamSerializerJQLike) {
     $scope.myIndex;
     $scope.step;
     $scope.answerPool = [];
@@ -122,6 +122,38 @@ myNg.controller("StepPageControl", function($scope) {
 
     $scope.slideTo = function(index) {
         stepsUI.slideTo(index);
+    };
+
+    $scope.lessonComment = {
+        done: false
+    };
+    $scope.sendComment = function() {
+        $scope.lessonComment.done = true;
+        var pack = JSON.parse(angular.toJson($scope.lesson));
+        delete pack.content;
+        delete pack.json;
+        delete pack.langOne;
+        delete pack.langTwo;
+        delete pack.ok;
+        pack.comment = $scope.lessonComment.text;
+
+        $scope.lessonComment.content = angular.toJson(pack);
+        $scope.lessonComment.userId = userInfo.userId;
+        $http({
+            url: "postComment",
+            method: "post",
+            headers: {"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"},
+            data: $httpParamSerializerJQLike({
+                comment: angular.toJson($scope.lessonComment)
+            })
+        }).then(function(res) {
+            if (res.data.errorMessage) {
+                myApp.alert(null, res.data.errorMessage);
+            } else {
+                myApp.alert(null, "Comment Sent");
+            }
+        });
+
     };
 });
 
