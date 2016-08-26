@@ -46,7 +46,9 @@ myApp.onPageInit("steps", function(page) {
     stepsUI.on("onSlideChangeEnd", function() {
         var StepsControl = getScope("StepsControl");
         if (stepsUI.activeIndex === StepsControl.lesson.json.steps.length - 1) {
-            StepsControl.saveStudyState(getScope("CourseProgressControl").course);
+            if (StepsControl.lesson.json.steps[stepsUI.activeIndex].final) {
+                StepsControl.saveStudyState(getScope("CourseProgressControl").course);
+            }
         }
     });
 
