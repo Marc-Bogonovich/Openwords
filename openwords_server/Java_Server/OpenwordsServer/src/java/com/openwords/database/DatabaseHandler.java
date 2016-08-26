@@ -90,7 +90,8 @@ public class DatabaseHandler {
                 .addAnnotatedClass(SentenceConnection.class)
                 .addAnnotatedClass(SystemSetting.class)
                 .addAnnotatedClass(Lesson.class)
-                .addAnnotatedClass(Course.class);
+                .addAnnotatedClass(Course.class)
+                .addAnnotatedClass(Comment.class);
 
         sessionFactory = configuration.buildSessionFactory(new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build());
         sessionFactory.getStatistics().setStatisticsEnabled(true);
