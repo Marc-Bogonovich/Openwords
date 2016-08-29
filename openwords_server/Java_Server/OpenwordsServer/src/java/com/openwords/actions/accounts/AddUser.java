@@ -40,7 +40,7 @@ public class AddUser extends MyAction {
             userId = user.getUserId();
             result = true;
         } catch (Exception e) {
-            errorMessage = e.toString();
+            errorMessage = e.getMessage();
         } finally {
             DatabaseHandler.closeSession(s);
         }
