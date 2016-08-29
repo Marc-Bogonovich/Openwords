@@ -1,6 +1,7 @@
 myNg.controller("RootControl", function($scope, $http, $httpParamSerializerJQLike) {
     $scope.logOut = function() {
         mainView.router.load({pageName: "index"});
+        myApp.alert("Don't forget to add this web app to your phone's home screen!", "See you^_^");
     };
 
     $scope.rootMyLessonList = {
