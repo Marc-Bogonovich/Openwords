@@ -126,6 +126,13 @@
                         </div>
                         <div class="center">Progress</div>
                     </div>
+
+                    <div class="navbar-inner cached" data-page="registration">
+                        <div class="left">
+                            <a href="#index" class="link icon-only"><i class="icon icon-back"></i></a>
+                        </div>
+                        <div class="center">Create Account</div>
+                    </div>
                 </div>
 
                 <div class="pages">
@@ -183,6 +190,12 @@
                          id="CourseStudyControl">
                     </div>
 
+                    <div data-page="registration" class="page cached navbar-fixed"
+                         ng-controller="RegistrationControl"
+                         ng-include="'registration.html'" 
+                         id="RegistrationControl">
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -204,5 +217,6 @@
         <script type="text/javascript" src="ng/control_lesson_manager.js"></script>
         <script type="text/javascript" src="ng/control_course_edit.js"></script>
         <script type="text/javascript" src="ng/control_course_study.js"></script>
+        <script type="text/javascript" src="ng/control_registration.js"></script>
     </body>
 </html>              
