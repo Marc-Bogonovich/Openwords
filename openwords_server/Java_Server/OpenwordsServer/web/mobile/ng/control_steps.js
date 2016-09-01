@@ -104,15 +104,6 @@ myNg.controller("StepPageControl", function($scope, $http, $httpParamSerializerJ
         return false;
     }
 
-    function checkLesson(steps) {
-        for (var i = 0; i < steps.length - 1; i++) {
-            if (!steps[i].check) {
-                return false;
-            }
-        }
-        return true;
-    }
-
     $scope.removeInput = function(item) {
         $scope.answerPool.push({text: item.userInput});
         item.userInput = null;

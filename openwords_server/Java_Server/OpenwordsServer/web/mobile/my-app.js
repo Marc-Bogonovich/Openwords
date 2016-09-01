@@ -47,6 +47,7 @@ myApp.onPageInit("steps", function(page) {
         var StepsControl = getScope("StepsControl");
         if (stepsUI.activeIndex === StepsControl.lesson.json.steps.length - 1) {
             if (StepsControl.lesson.json.steps[stepsUI.activeIndex].final) {
+                StepsControl.lesson.ok = checkLesson(STEPS);
                 StepsControl.saveStudyState(getScope("CourseProgressControl").course);
             }
         }
@@ -100,4 +101,13 @@ myApp.onPageReinit("course_lessons", function(page) {
     console.log("course_lessons");
     var scope = getScope("LessonListControl");
 });
+
+function checkLesson(steps) {
+    for (var i = 0; i < steps.length - 1; i++) {
+        if (!steps[i].check) {
+            return false;
+        }
+    }
+    return true;
+}
 
