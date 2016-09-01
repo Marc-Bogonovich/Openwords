@@ -59,9 +59,9 @@ myNg.controller("RootControl", function($scope, $http, $httpParamSerializerJQLik
             })
         }).then(function(res) {
             if (res.data.errorMessage) {
-                myApp.alert(null, "Change made failed");
+                myApp.alert(null, "Save failed");
             } else {
-                myApp.alert(null, "Change made success");
+                myApp.alert(null, "Save successful");
                 $scope.rootTargetCourse.target = null;
 
                 getScope("CourseManagerControl").listMyCourses(1);
