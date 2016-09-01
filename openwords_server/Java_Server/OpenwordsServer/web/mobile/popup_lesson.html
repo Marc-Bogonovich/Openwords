@@ -5,7 +5,11 @@
             <a href="#" class="item-link item-content" ng-click="addLessonFromPool(le)">
                 <div class="item-inner">
                     <div class="item-title">{{le.name}}</div>
-                    <div class="item-after"><span class="badge">{{le.json.steps.length}}</span></div>
+                    <div class="item-after">
+                        <span ng-if="le.imf" class="badge" style="margin-right: 5px;">I</span>
+                        <span ng-if="!le.imf" class="badge" style="margin-right: 5px;">E</span>
+                        <span class="badge">{{le.json.steps.length}}</span>
+                    </div>
                 </div>
             </a>
         </li>

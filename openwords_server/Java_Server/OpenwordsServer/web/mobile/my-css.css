@@ -9,5 +9,6 @@
 }
 
 .incorrect-choice{
+    color: #ff3b30;
     text-decoration: underline;
 }
