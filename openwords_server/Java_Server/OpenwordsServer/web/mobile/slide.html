@@ -37,13 +37,18 @@
                 {{a.text}}
             </a>
         </div>
-        <div class="content-block-inner" ng-if="mode === 'exam'">
+        <div class="content-block-inner" ng-if="(mode === 'exam' && !lesson.imf) || (mode === 'exam' && !step.check && lesson.imf)">
             <a href="#" ng-repeat="a in answerPool" 
                style="display: inline-block; white-space: normal; margin-right: 10px; font-size: 16pt;  margin-bottom: 5px;"
                class="button button-fill color-green"
                ng-click="pickAnswer(a)">
                 {{a.text}}
             </a>
+        </div>
+        <div class="content-block-inner" 
+             style="text-align: center;"
+             ng-if="mode === 'exam' && step.check && lesson.imf">
+            <span class="color-green" style="font-size: 36pt;">&#x2713;</span>
         </div>
     </div>
     <div ng-if="step.final">
