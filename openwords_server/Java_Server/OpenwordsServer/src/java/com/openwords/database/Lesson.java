@@ -33,6 +33,7 @@ public class Lesson implements Serializable {
     private long userId, updated;
     private String name, content, langOne, langTwo;
     private Map<String, Object> json;
+    private boolean imf;
 
     public Lesson() {
     }
@@ -100,6 +101,15 @@ public class Lesson implements Serializable {
 
     public void setUpdated(long updated) {
         this.updated = updated;
+    }
+
+    @Column(name = "imf")
+    public boolean isImf() {
+        return imf;
+    }
+
+    public void setImf(boolean imf) {
+        this.imf = imf;
     }
 
     @Transient
