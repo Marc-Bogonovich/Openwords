@@ -28,7 +28,11 @@ myNg.controller("LessonManagerControl", function($scope, $http, FileUploader) {
         $scope.listMyLessons(1);
     };
     uploader.onErrorItem = function(fileItem, response, status, headers) {
-        myApp.alert(null, "Upload fail");
+        var m = "";
+        if (status === 901) {
+            m = "Lessons cannot have the same name";
+        }
+        myApp.alert(m, "Upload fail");
     };
 
     $scope.listMyLessons = function(page) {
@@ -52,6 +56,18 @@ myNg.controller("LessonManagerControl", function($scope, $http, FileUploader) {
                 });
                 mainView.router.load({pageName: "steps"});
                 stepOn = true;
+            }
+        },
+        {
+            text: "Immediate Feedback Mode",
+            onClick: function() {
+                chosenLesson.imf = true;
+            }
+        },
+        {
+            text: "End Feedback Mode",
+            onClick: function() {
+                chosenLesson.imf = false;
             }
         },
         {

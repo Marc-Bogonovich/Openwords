@@ -42,6 +42,12 @@ public class UploadLesson extends MyAction {
             long uid = Long.parseLong(userId);
             long now = System.currentTimeMillis();
 
+            Lesson le = Lesson.getLesson(s, uid, name);
+            if (le != null) {
+                getHttpResponse().sendError(901, "Lessons cannot have the same name");
+                return null;
+            }
+
             List<String> lines;
             try (Scanner scan = new Scanner(file)) {
                 lines = new LinkedList<>();
@@ -55,7 +61,7 @@ public class UploadLesson extends MyAction {
                 sendBadRequest("No valid content");
                 return null;
             }
-            Lesson le = new Lesson(uid, name, "", "", now);
+            le = new Lesson(uid, name, "", "", now);
             LessonContent content = new LessonContent();
             content.steps = steps;
             le.setContent(MyGson.toJson(content));
@@ -65,7 +71,7 @@ public class UploadLesson extends MyAction {
 
         } catch (Exception e) {
             UtilLog.logError(this, e);
-            sendError(e.toString());
+            sendError(e.getMessage());
         } finally {
             s.close();
         }
