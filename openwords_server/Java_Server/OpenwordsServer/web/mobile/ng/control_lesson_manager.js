@@ -61,13 +61,40 @@ myNg.controller("LessonManagerControl", function($scope, $http, FileUploader) {
         {
             text: "Immediate Feedback Mode",
             onClick: function() {
-                chosenLesson.imf = true;
+                $http({
+                    url: "changeLessonMode",
+                    method: "get",
+                    params: {
+                        userId: userInfo.userId,
+                        name: chosenLesson.name,
+                        imf: true
+                    }
+                }).then(function(res) {
+                    var r = res.data;
+                    if (!r.errorMessage) {
+                        chosenLesson.imf = true;
+                    }
+                });
             }
         },
         {
             text: "End Feedback Mode",
             onClick: function() {
                 chosenLesson.imf = false;
+                $http({
+                    url: "changeLessonMode",
+                    method: "get",
+                    params: {
+                        userId: userInfo.userId,
+                        name: chosenLesson.name,
+                        imf: false
+                    }
+                }).then(function(res) {
+                    var r = res.data;
+                    if (!r.errorMessage) {
+                        chosenLesson.imf = false;
+                    }
+                });
             }
         },
         {
