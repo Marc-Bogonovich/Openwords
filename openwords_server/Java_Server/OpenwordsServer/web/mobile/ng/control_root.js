@@ -75,6 +75,16 @@ myNg.controller("RootControl", function($scope, $http, $httpParamSerializerJQLik
     $scope.goToLessonManager = function() {
         mainView.router.load({pageName: "lesson_manager"});
     };
+
+    $scope.backFromCourseEdit = function() {
+        var CourseEditControl = getScope("CourseEditControl");
+        if (CourseEditControl.courseContentChanged[0]) {
+            myApp.alert(null, "Don't forget to save your intended changes");
+            CourseEditControl.courseContentChanged[0] = false;
+            return;
+        }
+        mainView.router.load({pageName: "course_manager"});
+    };
 });
 
 

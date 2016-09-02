@@ -42,6 +42,7 @@ myNg.controller("CourseManagerControl", function($scope, $http) {
                 $scope.rootTargetCourse.target = copy;
                 $scope.$apply();
                 mainView.router.load({pageName: "course_edit"});
+                getScope("CourseEditControl").courseContentChanged[0] = false;
             }
         },
         {
@@ -77,7 +78,6 @@ myNg.controller("CourseManagerControl", function($scope, $http) {
     ];
 
     $scope.courseAction = function(c) {
-        console.log(c);
         chosenCourse = c;
         myApp.actions(actionButtons);
     };

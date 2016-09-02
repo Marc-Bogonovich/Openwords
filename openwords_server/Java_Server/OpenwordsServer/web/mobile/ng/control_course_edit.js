@@ -1,6 +1,9 @@
 myNg.controller("CourseEditControl", function($scope, $http) {
+    $scope.courseContentChanged = [false];
+
     $scope.addLesson = function() {
         myApp.popup(".popup-choose-lesson");
+        $scope.courseContentChanged[0] = true;
     };
 
     var chosenLesson = null;
@@ -15,6 +18,7 @@ myNg.controller("CourseEditControl", function($scope, $http) {
                     lessonArray[chosenLesson - 1] = les;
                     lessonArray[chosenLesson] = itemGoDown;
                     $scope.$apply();
+                    $scope.courseContentChanged[0] = true;
                 }
             }
         },
@@ -27,6 +31,7 @@ myNg.controller("CourseEditControl", function($scope, $http) {
                     lessonArray[chosenLesson + 1] = les;
                     lessonArray[chosenLesson] = itemGoUp;
                     $scope.$apply();
+                    $scope.courseContentChanged[0] = true;
                 }
             }
         },
@@ -36,6 +41,7 @@ myNg.controller("CourseEditControl", function($scope, $http) {
             onClick: function() {
                 lessonArray.splice(chosenLesson, 1);
                 $scope.$apply();
+                $scope.courseContentChanged[0] = true;
             }
         },
         {
