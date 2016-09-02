@@ -72,6 +72,9 @@ myNg.controller("RootControl", function($scope, $http, $httpParamSerializerJQLik
         });
     };
 
+    $scope.goToLessonManager = function() {
+        mainView.router.load({pageName: "lesson_manager"});
+    };
 });
 
 

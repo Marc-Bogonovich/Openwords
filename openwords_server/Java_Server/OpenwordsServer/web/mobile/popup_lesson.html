@@ -15,6 +15,9 @@
         </li>
     </ul>
 </div>
+<div class="content-block" ng-if="!rootMyLessonList.list.length">
+    <p>You don't have any lesson yet, go to <a href="#" class="close-popup" ng-click="goToLessonManager()">Lesson Manager</a> to upload your lessons.</p>
+</div>
 <div class="content-block">
     <p><a href="#" class="close-popup">Cancel</a></p>
 </div>
