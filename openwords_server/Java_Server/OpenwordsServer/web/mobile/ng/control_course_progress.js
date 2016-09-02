@@ -3,6 +3,8 @@ myNg.controller("CourseProgressControl", function($scope, $http) {
         if (local) {
             $scope.course = c;
         } else {
+            $scope.course = null;
+            myApp.showPreloader("Checking progress...");
             $http({
                 url: "copyCourse",
                 method: "get",
@@ -12,6 +14,7 @@ myNg.controller("CourseProgressControl", function($scope, $http) {
                     authorId: c.authorId
                 }
             }).then(function(res) {
+                myApp.hidePreloader();
                 var r = res.data;
                 if (r.errorMessage) {
                     myApp.alert(null, "Cannot load course");
