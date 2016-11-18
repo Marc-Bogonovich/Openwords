@@ -37,14 +37,22 @@ public class ListCourse extends MyAction {
         Session s = DatabaseHandler.getSession();
         try {
             int firstRecord = (pageNumber - 1) * pageSize;
-            Criteria c = s.createCriteria(Course.class)
-                    .setFirstResult(firstRecord)
-                    .setMaxResults(pageSize + 1)
-                    .addOrder(Order.desc("makeTime"));
 
             if (all) {
-                c.add(Restrictions.eq("userId", 0l));
+                String sql = "SELECT * FROM courses\n"
+                        + "where JSON_LENGTH(content, '$.lessons')>0\n"
+                        + "and user_id=0\n"
+                        + "order by make_time desc\n"
+                        + "limit @pageSize@ OFFSET @firstRecord@"
+                        .replace("@pageSize@", String.valueOf(pageSize + 1))
+                        .replace("@firstRecord@", String.valueOf(firstRecord));
+                result = s.createSQLQuery(sql).addEntity(Course.class).list();
             } else {
+                Criteria c = s.createCriteria(Course.class)
+                        .setFirstResult(firstRecord)
+                        .setMaxResults(pageSize + 1)
+                        .addOrder(Order.desc("makeTime"));
+
                 if (userId > 0) {
                     c.add(Restrictions.eq("userId", userId));
                 } else if (authorId > 0) {
@@ -53,7 +61,6 @@ public class ListCourse extends MyAction {
                 }
             }
 
-            result = c.list();
         } catch (Exception e) {
             errorMessage = e.toString();
             UtilLog.logWarn(this, errorMessage);

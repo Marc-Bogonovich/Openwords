@@ -7,6 +7,7 @@ myNg.controller("StepsControl", function($scope, $http, $httpParamSerializerJQLi
 
     $scope.saveStudyState = function(course) {
         $scope.studyState.reachFinal = true;
+        course.json.learnTime = new Date().getTime();
         course.content = angular.toJson(course.json);//total client content control
         $http({
             url: "saveCourseProgress",
