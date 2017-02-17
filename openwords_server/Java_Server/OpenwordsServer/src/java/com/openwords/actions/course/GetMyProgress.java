@@ -53,6 +53,10 @@ public class GetMyProgress extends MyAction {
         this.userId = userId;
     }
 
+    public void setRecent(boolean recent) {
+        this.recent = recent;
+    }
+
     public List<Course> getResult() {
         return result;
     }
