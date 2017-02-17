@@ -1,11 +1,11 @@
-myNg.controller("StepsControl", function($scope, $http, $httpParamSerializerJQLike) {
+myNg.controller("StepsControl", function ($scope, $http, $httpParamSerializerJQLike) {
     $scope.lesson = null;
     $scope.mode = null;
     $scope.studyState = {
         reachFinal: false
     };
 
-    $scope.saveStudyState = function(course) {
+    $scope.saveStudyState = function (course) {
         $scope.studyState.reachFinal = true;
         course.json.learnTime = new Date().getTime();
         course.content = angular.toJson(course.json);//total client content control
@@ -16,7 +16,7 @@ myNg.controller("StepsControl", function($scope, $http, $httpParamSerializerJQLi
             data: $httpParamSerializerJQLike({
                 course: angular.toJson(course)
             })
-        }).then(function(res) {
+        }).then(function (res) {
             $scope.studyState.reachFinal = true;
             course.content = null;
             if (res.data.errorMessage) {
@@ -26,22 +26,22 @@ myNg.controller("StepsControl", function($scope, $http, $httpParamSerializerJQLi
     };
 });
 
-myNg.controller("StepPageControl", function($scope, $http, $httpParamSerializerJQLike) {
+myNg.controller("StepPageControl", function ($scope, $http, $httpParamSerializerJQLike) {
     $scope.myIndex;
     $scope.step;
     $scope.answerPool = [];
 
-    $scope.init = function(index) {
+    $scope.init = function (index) {
         $scope.myIndex = index;
         $scope.step = STEPS[index];
 
         if (!$scope.step.final) {
             var noAnswer = true;
-            $scope.step.lines.forEach(function(line) {
-                line.forEach(function(item) {
+            $scope.step.lines.forEach(function (line) {
+                line.forEach(function (item) {
                     if (item.type === "ans") {
                         noAnswer = false;
-                        item.text.forEach(function(answer) {
+                        item.text.forEach(function (answer) {
                             $scope.answerPool.push({type: "ans", text: answer});
                         });
                     }
@@ -51,8 +51,8 @@ myNg.controller("StepPageControl", function($scope, $http, $httpParamSerializerJ
                 $scope.step.check = true;
             }
 
-            $scope.step.marplots.forEach(function(group) {
-                group.text.forEach(function(mar) {
+            $scope.step.marplots.forEach(function (group) {
+                group.text.forEach(function (mar) {
                     $scope.answerPool.push({type: "mar", text: mar});
                 });
             });
@@ -73,11 +73,11 @@ myNg.controller("StepPageControl", function($scope, $http, $httpParamSerializerJ
         }
     }
 
-    $scope.pickAnswer = function(a) {
+    $scope.pickAnswer = function (a) {
         var found = false;
         var allOk = true;
-        $scope.step.lines.forEach(function(line) {
-            line.forEach(function(item) {
+        $scope.step.lines.forEach(function (line) {
+            line.forEach(function (item) {
                 if (item.type === "ans") {
                     if (!item.userInput && !found) {
                         found = true;
@@ -105,21 +105,21 @@ myNg.controller("StepPageControl", function($scope, $http, $httpParamSerializerJ
         return false;
     }
 
-    $scope.removeInput = function(item) {
+    $scope.removeInput = function (item) {
         $scope.answerPool.push({text: item.userInput});
         item.userInput = null;
         $scope.step.check = false;
         $scope.lesson.ok = false;
     };
 
-    $scope.slideTo = function(index) {
+    $scope.slideTo = function (index) {
         stepsUI.slideTo(index);
     };
 
     $scope.lessonComment = {
         done: false
     };
-    $scope.sendComment = function() {
+    $scope.sendComment = function () {
         $scope.lessonComment.done = true;
         var pack = JSON.parse(angular.toJson($scope.lesson));
         delete pack.content;
@@ -138,7 +138,7 @@ myNg.controller("StepPageControl", function($scope, $http, $httpParamSerializerJ
             data: $httpParamSerializerJQLike({
                 comment: angular.toJson($scope.lessonComment)
             })
-        }).then(function(res) {
+        }).then(function (res) {
             if (res.data.errorMessage) {
                 myApp.alert(null, res.data.errorMessage);
             } else {
