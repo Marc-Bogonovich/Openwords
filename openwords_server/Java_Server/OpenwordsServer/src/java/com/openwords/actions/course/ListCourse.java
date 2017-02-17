@@ -44,8 +44,8 @@ public class ListCourse extends MyAction {
                         + "and user_id=0\n"
                         + "order by make_time desc\n"
                         + "limit @pageSize@ OFFSET @firstRecord@"
-                        .replace("@pageSize@", String.valueOf(pageSize + 1))
-                        .replace("@firstRecord@", String.valueOf(firstRecord));
+                                .replace("@pageSize@", String.valueOf(pageSize + 1))
+                                .replace("@firstRecord@", String.valueOf(firstRecord));
                 result = s.createSQLQuery(sql).addEntity(Course.class).list();
             } else {
                 Criteria c = s.createCriteria(Course.class)
@@ -59,6 +59,7 @@ public class ListCourse extends MyAction {
                     c.add(Restrictions.eq("authorId", authorId));
                     c.add(Restrictions.eq("userId", 0l));
                 }
+                result = c.list();
             }
 
         } catch (Exception e) {
